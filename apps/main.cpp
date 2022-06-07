@@ -1,4 +1,5 @@
 #include <le3_application.h>
+#include <le3_shader.h>
 
 class LE3Demo : public LE3Application
 {
@@ -8,6 +9,7 @@ public:
         defaultWidth = settings.windowWidth, defaultHeight = settings.windowHeight;
     }
 
+    LE3Shader shader;
     GLuint m_vao;
     int defaultWidth, defaultHeight;
 
@@ -32,6 +34,11 @@ public:
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        shader.CompileShader(
+            "../../resources/shaders/basic/basic.vs",
+            "../../resources/shaders/basic/basic.fs"
+        );
         
         return 0;
     }
@@ -58,6 +65,7 @@ public:
 
     virtual void Render()
     {
+        shader.Use();
         glBindVertexArray(m_vao);
         glDrawArrays(GL_TRIANGLES, 0, 3);
     }
