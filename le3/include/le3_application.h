@@ -4,20 +4,29 @@
 #include <gl/glew.h>
 #include <iostream>
 
+#include "le3_application_settings.h"
+
 // Base abstract class for any LE3 based application.
 // User should implement all abstract functions (they may be empty).
 // Usage:
-//      class AppName : public LE3Application {...} // Override any functionality
+//      class AppName : public LE3Application
+//      {
+//          AppName(LE3ApplicationSettings settings) : LE3Application(settings) {}
+//
+//          ... // Override all other functionality
+//
+//      }
 //      
 //      int main(int argc, char** argv)
 //      {
-//          AppName app;
+//          LE3ApplicationSettings settings;
+//          AppName app(settings);
 //          return app.Run();
 //      }
 class LE3Application
 {
 public:
-    LE3Application();
+    LE3Application(LE3ApplicationSettings settings);
 
     // Initialized all user data. Called only once, at the beginning of the program.
     virtual int Init() = 0;
@@ -39,6 +48,19 @@ public:
 protected:
     bool m_bShouldRun;
     double m_deltaTime;
+    LE3ApplicationSettings m_settings;
+
+
+    // Updates only the title of the window (and also in the settings)
+    // This is seperate from `ApplyWindowSettings` since this might be called
+    // once in a few frames, and we don't want to change the size of the window
+    // and other settings so often.
+    void UpdateWindowTitle(std::string windowTitle);
+    // Applies all window settings. This should be called if
+    // the window settings in the LE3ApplicationSettings were modified.
+    void ApplyWindowSettings();
+    // Applies all OpenGL settings.
+    void ApplyOpenGLSettings();
 
 private:
     // Initialized internal structures of the application.

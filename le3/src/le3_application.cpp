@@ -1,6 +1,6 @@
 #include "le3_application.h"
 
-LE3Application::LE3Application() : m_bShouldRun(true), m_deltaTime(0)
+LE3Application::LE3Application(LE3ApplicationSettings settings) : m_bShouldRun(true), m_deltaTime(0), m_settings(settings)
 {
 
 }
@@ -9,8 +9,16 @@ int LE3Application::_Init()
 {
     SDL_Init(SDL_INIT_VIDEO);
 
+    Uint32 flags = 0;
+    flags |= SDL_WINDOW_OPENGL;
+    if (m_settings.bIsResizable && !m_settings.bIsFullscreen)
+        flags |= SDL_WINDOW_RESIZABLE;
+
     m_pWindow = SDL_CreateWindow(
-        "LightEngine3", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL
+        m_settings.windowTitle.c_str(), 
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+        m_settings.windowWidth, m_settings.windowHeight, 
+        flags
     );
 
     if (!m_pWindow)
@@ -21,6 +29,11 @@ int LE3Application::_Init()
 
     m_glcontext = SDL_GL_CreateContext(m_pWindow);
     glewInit();
+
+    if (m_settings.bIsFullscreen)
+        SDL_SetWindowFullscreen(m_pWindow, SDL_WINDOW_FULLSCREEN);
+
+    this->ApplyOpenGLSettings();
 
 
     return this->Init();
@@ -60,7 +73,10 @@ int LE3Application::_Run()
        /*
         * Render the frame
         */
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(
+            m_settings.defaultBackgroundR, 
+            m_settings.defaultBackgroundG, 
+            m_settings.defaultBackgroundB, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         this->Render();
@@ -84,4 +100,35 @@ int LE3Application::Run()
     if (this->_Run() < 0) return -1;
     this->_Shutdown();
     return 0;
+}
+
+void LE3Application::ApplyOpenGLSettings()
+{
+    if (m_settings.bEnableDepthTest)
+        glEnable(GL_DEPTH_TEST);
+    else
+        glDisable(GL_DEPTH_TEST);
+}
+
+void LE3Application::ApplyWindowSettings()
+{
+    this->UpdateWindowTitle(m_settings.windowTitle);
+    if (m_settings.bIsFullscreen)
+    {
+        SDL_SetWindowSize(m_pWindow, m_settings.windowWidth, m_settings.windowHeight);
+        SDL_SetWindowFullscreen(m_pWindow, SDL_WINDOW_FULLSCREEN);
+        SDL_SetWindowResizable(m_pWindow, SDL_FALSE);
+    }
+    else
+    {   
+        SDL_SetWindowFullscreen(m_pWindow, 0);
+        SDL_SetWindowResizable(m_pWindow, (SDL_bool)m_settings.bIsResizable);
+        SDL_SetWindowSize(m_pWindow, m_settings.windowWidth, m_settings.windowHeight);
+    }
+}
+
+void LE3Application::UpdateWindowTitle(std::string windowTitle)
+{
+    m_settings.windowTitle = windowTitle;
+    SDL_SetWindowTitle(m_pWindow, m_settings.windowTitle.c_str());
 }
