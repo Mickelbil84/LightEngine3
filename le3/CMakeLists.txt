@@ -12,6 +12,9 @@ add_library(
     src/le3_application.cpp
     src/le3_shader.cpp
     src/le3_print.cpp
+    src/le3_vertex.cpp
+    src/le3_mesh.cpp
+    src/le3_primitives.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)

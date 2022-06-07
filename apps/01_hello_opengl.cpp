@@ -5,30 +5,31 @@
 
 #include <vector>
 
-class LE3Demo : public LE3Application
+class App01_Hello_OpenGL : public LE3Application
 {
 public:
-    LE3Demo(LE3ApplicationSettings settings) : LE3Application(settings)
+    App01_Hello_OpenGL(LE3ApplicationSettings settings) : LE3Application(settings)
     {
         defaultWidth = settings.windowWidth, defaultHeight = settings.windowHeight;
     }
 
     LE3Shader shader;
-    LE3Mesh<LE3Vertex3p> mesh;
-    GLuint m_vao;
+    LE3Mesh<LE3Vertex3p3c> mesh;
     int defaultWidth, defaultHeight;
 
     virtual int Init() 
     {
-        std::vector<LE3Vertex3p> triangle;
-        AddIsoscelesTriangle(triangle, 0.f, 0.f, 0.f, 1.f, 1.f);
+        std::vector<LE3Vertex3p3c> triangle;
+        AddHelloOpenGLTriangle(triangle);
         mesh.LoadMeshData(triangle);
 
 
         shader.CompileShader(
-            "../../resources/shaders/basic/basic.vs",
-            "../../resources/shaders/basic/basic.fs"
+            "../../resources/shaders/hello_opengl/hello_opengl.vs",
+            "../../resources/shaders/hello_opengl/hello_opengl.fs"
         );
+
+        UpdateWindowTitle("LightEngine3 - (01) \"Hello OpenGL\" Demo");
         
         return 0;
     }
@@ -61,7 +62,6 @@ public:
 
     virtual void Shutdown() 
     {
-        glDeleteVertexArrays(1, &m_vao);
     }
 
     void ToggleFullscreen()
@@ -88,6 +88,6 @@ int main() {
     settings.windowWidth = 1024;
     settings.windowHeight = 786;
 
-    LE3Demo app(settings);
+    App01_Hello_OpenGL app(settings);
     return app.Run();
 }
