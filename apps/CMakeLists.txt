@@ -4,7 +4,8 @@ project(main)
 
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
+find_package(glm REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS})
 link_libraries(${GLEW_LIBRARIES})
 
 add_executable(

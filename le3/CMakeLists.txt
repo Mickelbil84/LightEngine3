@@ -5,7 +5,8 @@ project(le3)
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
+find_package(glm REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS})
 
 add_library(
     le3 
