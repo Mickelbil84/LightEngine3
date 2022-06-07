@@ -5,7 +5,7 @@
 LightEngine3 is a lightweight OpenGL rendering engine (which also contains some elements of a game engine),
 and should be used for rapid development of experimental projects as well as games.
 
-This framework is built mostly on SDL2 and glew
+This framework is built mostly on SDL2 and glew.
 
 
 ### Why 3? What happened to 1 and 2?
