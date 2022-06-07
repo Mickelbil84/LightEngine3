@@ -16,6 +16,8 @@ add_library(
     src/le3_vertex.cpp
     src/le3_mesh.cpp
     src/le3_primitives.cpp
+    src/le3_object.cpp
+    src/le3_camera.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)

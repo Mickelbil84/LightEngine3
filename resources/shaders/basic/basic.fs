@@ -2,7 +2,9 @@
 
 out vec4 fColor;
 
+in vec4 normalColor;
+
 void main()
 {
-    fColor = vec4(0.9, 0.6, 0.0, 1.0);
+    fColor = (normalColor + 2) / 3;
 }

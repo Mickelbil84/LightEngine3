@@ -88,3 +88,26 @@ void LE3Shader::Delete()
 {
     glDeleteProgram(m_program);
 }
+
+GLint LE3Shader::GetUniformLocation(std::string uniformName)
+{
+    // If this a new uniform, ask the shader program and update internaly
+    if (m_uniformLocation.find(uniformName) == m_uniformLocation.end())
+    {
+        GLint loc = glGetUniformLocation(m_program, uniformName.c_str());
+        m_uniformLocation[uniformName] = loc;
+    }
+    return m_uniformLocation[uniformName];
+}
+
+void LE3Shader::Uniform(std::string uniformName, glm::vec4 v)
+{
+    GLint loc = GetUniformLocation(uniformName);
+    glUniform4f(loc, v.x, v.y, v.z, v.w);
+}
+
+void LE3Shader::Uniform(std::string uniformName, glm::mat4 m)
+{
+    GLint loc = GetUniformLocation(uniformName);
+    glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(m));
+}

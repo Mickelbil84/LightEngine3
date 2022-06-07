@@ -34,19 +34,13 @@ public:
         return 0;
     }
 
-    virtual void HandleInput(SDL_Event e) 
+    virtual void HandleInput(LE3Input input) 
     {   
-        if (e.type == SDL_KEYDOWN)
-        {
-            if (e.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-            {
-                m_bShouldRun = false;
-            }
-            if (e.key.keysym.scancode == SDL_SCANCODE_F11)
-            {
-                ToggleFullscreen();
-            }
-        }
+        if (input.keyboard[SDL_SCANCODE_ESCAPE])
+            m_bShouldRun = false;
+        
+        if (input.keyboard[SDL_SCANCODE_F11])
+            ToggleFullscreen();
     }
 
     virtual void Update(double deltaTime)

@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "le3_application_settings.h"
+#include "le3_input.h"
 
 // Base abstract class for any LE3 based application.
 // User should implement all abstract functions (they may be empty).
@@ -31,7 +32,7 @@ public:
     // Initialized all user data. Called only once, at the beginning of the program.
     virtual int Init() = 0;
     // Handles the input (or any other event). Runs each frame, if some user event occured.
-    virtual void HandleInput(SDL_Event e) = 0;
+    virtual void HandleInput(LE3Input input) = 0;
     // Updates the application/game state. Runs each frame. The argument `deltaTime` is
     // the time (in seconds) that took to process the last frame and can be used to update/move entities 
     // in a speed that is independant from the running speed of the application.

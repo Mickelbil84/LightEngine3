@@ -20,6 +20,8 @@ int LE3Application::_Init()
         m_settings.windowWidth, m_settings.windowHeight, 
         flags
     );
+    // SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "1", SDL_HINT_OVERRIDE);
+    std::cout << SDL_SetRelativeMouseMode(SDL_TRUE) << std::endl;
 
     if (!m_pWindow)
     {
@@ -56,14 +58,18 @@ int LE3Application::_Run()
         * Process the event queue
         */
         SDL_Event e;
+        LE3Input input;
+        input.xrel = 0; input.yrel  = 0;
         while (SDL_PollEvent(&e))
         {
             if (e.type == SDL_QUIT)
             {
                 m_bShouldRun = false;
             }
-            this->HandleInput(e);
         }
+        SDL_GetRelativeMouseState(&input.xrel, &input.yrel);
+        input.keyboard = SDL_GetKeyboardState(NULL);
+        this->HandleInput(input);
 
         /*
         * Update application logic
