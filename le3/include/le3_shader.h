@@ -26,9 +26,10 @@ public:
     // Deletes the shader
     void Delete();
 
+    void Uniform(std::string uniformName, glm::vec3 v);
     void Uniform(std::string uniformName, glm::vec4 v);
     void Uniform(std::string uniformName, glm::mat4 m);
-    void Uniform(std::string uniformName, GLuint id);
+    void Uniform(std::string uniformName, GLuint i);
 
 
 private:

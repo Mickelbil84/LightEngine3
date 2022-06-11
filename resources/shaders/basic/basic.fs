@@ -1,6 +1,12 @@
 #version 430 core
 
-uniform sampler2D diffuseTexture;
+struct Material
+{
+    vec4 diffuseColor;
+    sampler2D diffuseTexture;
+    bool bUseDiffuseTexture;
+};
+uniform Material material;
 
 out vec4 fColor;
 
@@ -9,8 +15,10 @@ in vec4 normalColor;
 
 void main()
 {
-    // fColor = (normalColor + 2) / 3;
+    // Diffuse color
+    vec4 diffuseColor = material.diffuseColor;
+    if (material.bUseDiffuseTexture)
+        diffuseColor = texture(material.diffuseTexture, texCoord);
 
-    fColor = texture(diffuseTexture, texCoord);
-    // fColor = vec4(texCoord.xy, 1, 1);
+    fColor = diffuseColor;
 }

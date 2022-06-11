@@ -100,6 +100,11 @@ GLint LE3Shader::GetUniformLocation(std::string uniformName)
     return m_uniformLocation[uniformName];
 }
 
+void LE3Shader::Uniform(std::string uniformName, glm::vec3 v)
+{
+    GLint loc = GetUniformLocation(uniformName);
+    glUniform3f(loc, v.x, v.y, v.z);
+}
 void LE3Shader::Uniform(std::string uniformName, glm::vec4 v)
 {
     GLint loc = GetUniformLocation(uniformName);
@@ -112,8 +117,8 @@ void LE3Shader::Uniform(std::string uniformName, glm::mat4 m)
     glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(m));
 }
 
-void LE3Shader::Uniform(std::string uniformName, GLuint id)
+void LE3Shader::Uniform(std::string uniformName, GLuint i)
 {
     GLint loc = GetUniformLocation(uniformName);
-    glUniform1i(loc, id);
+    glUniform1i(loc, i);
 }

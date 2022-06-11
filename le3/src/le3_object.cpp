@@ -14,6 +14,11 @@ void LE3Object::Update(double deltaTime)
     UpdateGlobalModelMatrix();
 }
 
+void LE3Object::Draw()
+{
+
+}
+
 void LE3Object::UpdateLocalModelMatrix()
 {
     m_localModelMatrix = 
@@ -35,14 +40,28 @@ glm::mat4 LE3Object::GetModelMatrix() const
 
 void LE3Object::Reparent(LE3Object* parent)
 {
+    if (m_pParent == parent)
+        return;
+    if (m_pParent)
+    {
+        m_pParent->RemoveChild(this);
+        m_pParent = nullptr;
+    }
+    if (parent)
+    {
+        parent->AppendChild(this);
+        m_pParent = parent;
+    }
 }
 
 void LE3Object::AppendChild(LE3Object* child)
 {
+    m_children.push_back(child);
 }
 
 void LE3Object::RemoveChild(LE3Object* child)
 {
+    std::erase(m_children, child);
 }
 
 void LE3Object::AddRotationX(float rot)

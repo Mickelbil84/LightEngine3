@@ -15,6 +15,7 @@ public:
     LE3Object(glm::vec3 position = glm::vec3(0.f), glm::vec3 rotation = glm::vec3(0.f), float scale = 1.f);
 
     virtual void Update(double deltaTime);
+    virtual void Draw();
 
     glm::mat4 GetModelMatrix() const;
 

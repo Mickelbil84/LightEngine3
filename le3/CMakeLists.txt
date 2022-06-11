@@ -19,6 +19,9 @@ add_library(
     src/le3_object.cpp
     src/le3_camera.cpp
     src/le3_texture.cpp
+    src/le3_material.cpp
+    src/le3_scene_root.cpp
+    src/le3_static_mesh.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
