@@ -28,6 +28,7 @@ public:
 
     void Uniform(std::string uniformName, glm::vec4 v);
     void Uniform(std::string uniformName, glm::mat4 m);
+    void Uniform(std::string uniformName, GLuint id);
 
 
 private:

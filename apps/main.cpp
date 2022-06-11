@@ -3,6 +3,7 @@
 #include <le3_mesh.h>
 #include <le3_primitives.h>
 #include <le3_camera.h>
+#include <le3_texture.h>
 
 #include <vector>
 #include <glm/gtx/transform.hpp>
@@ -20,6 +21,7 @@ public:
 
     LE3Shader shader;
     LE3Mesh<LE3Vertex> mesh;
+    LE3Texture texture;
 
     LE3Camera camera;
     glm::vec2 cameraVelocity;
@@ -37,6 +39,8 @@ public:
         AddBox(box, 0.f, 0.f, 0.f, 20.f, 1.f, 20.f);
         AddBox(box, 0.f, 0.f, -5.f, 1.f, 1.f, 1.f);
         mesh.LoadMeshData(box);
+
+        texture.Load("../../resources/textures/woodparquet_59-2K/woodparquet_59_basecolor-2K-2K.png");
 
 
         shader.CompileShader(
@@ -112,6 +116,8 @@ public:
         shader.Uniform("model", modelMatrix);
         shader.Uniform("view", viewMatrix);
         shader.Uniform("projection", projMatrix);
+        shader.Uniform("diffuseTexture", 0);
+        texture.Use();
         mesh.Draw();
     }
 

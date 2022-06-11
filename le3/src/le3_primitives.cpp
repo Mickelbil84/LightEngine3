@@ -57,51 +57,56 @@ void AddBox(std::vector<LE3Vertex>& buffer,
     glm::vec2 t3(1.f, 1.f);
     glm::vec2 t4(1.f, 0.f);
 
+    // Define the 3 tex coord multipliers
+    glm::vec2 m1(width, depth);
+    glm::vec2 m2(depth, height);
+    glm::vec2 m3(width, height);
+
     // Top Face
-    buffer.push_back(VertexFromGLM(v1, t1, n3));
-    buffer.push_back(VertexFromGLM(v2, t2, n3));
-    buffer.push_back(VertexFromGLM(v3, t3, n3));
-    buffer.push_back(VertexFromGLM(v1, t1, n3));
-    buffer.push_back(VertexFromGLM(v3, t3, n3));
-    buffer.push_back(VertexFromGLM(v4, t4, n3));
+    buffer.push_back(VertexFromGLM(v1, t1 * m1, n3));
+    buffer.push_back(VertexFromGLM(v2, t2 * m1, n3));
+    buffer.push_back(VertexFromGLM(v3, t3 * m1, n3));
+    buffer.push_back(VertexFromGLM(v1, t1 * m1, n3));
+    buffer.push_back(VertexFromGLM(v3, t3 * m1, n3));
+    buffer.push_back(VertexFromGLM(v4, t4 * m1, n3));
 
     // Bottom Face
-    buffer.push_back(VertexFromGLM(v5, t1, n4));
-    buffer.push_back(VertexFromGLM(v6, t2, n4));
-    buffer.push_back(VertexFromGLM(v7, t3, n4));
-    buffer.push_back(VertexFromGLM(v5, t1, n4));
-    buffer.push_back(VertexFromGLM(v7, t3, n4));
-    buffer.push_back(VertexFromGLM(v8, t4, n4));
+    buffer.push_back(VertexFromGLM(v5, t1 * m1, n4));
+    buffer.push_back(VertexFromGLM(v6, t2 * m1, n4));
+    buffer.push_back(VertexFromGLM(v7, t3 * m1, n4));
+    buffer.push_back(VertexFromGLM(v5, t1 * m1, n4));
+    buffer.push_back(VertexFromGLM(v7, t3 * m1, n4));
+    buffer.push_back(VertexFromGLM(v8, t4 * m1, n4));
 
     // Right Face
-    buffer.push_back(VertexFromGLM(v8, t1, n1));
-    buffer.push_back(VertexFromGLM(v4, t2, n1));
-    buffer.push_back(VertexFromGLM(v3, t3, n1));
-    buffer.push_back(VertexFromGLM(v8, t1, n1));
-    buffer.push_back(VertexFromGLM(v3, t3, n1));
-    buffer.push_back(VertexFromGLM(v7, t4, n1));
+    buffer.push_back(VertexFromGLM(v8, t1 * m2, n1));
+    buffer.push_back(VertexFromGLM(v4, t2 * m2, n1));
+    buffer.push_back(VertexFromGLM(v3, t3 * m2, n1));
+    buffer.push_back(VertexFromGLM(v8, t1 * m2, n1));
+    buffer.push_back(VertexFromGLM(v3, t3 * m2, n1));
+    buffer.push_back(VertexFromGLM(v7, t4 * m2, n1));
 
     // Left Face
-    buffer.push_back(VertexFromGLM(v5, t1, n2));
-    buffer.push_back(VertexFromGLM(v1, t2, n2));
-    buffer.push_back(VertexFromGLM(v2, t3, n2));
-    buffer.push_back(VertexFromGLM(v5, t1, n2));
-    buffer.push_back(VertexFromGLM(v2, t3, n2));
-    buffer.push_back(VertexFromGLM(v6, t4, n2));
+    buffer.push_back(VertexFromGLM(v5, t1 * m2, n2));
+    buffer.push_back(VertexFromGLM(v1, t2 * m2, n2));
+    buffer.push_back(VertexFromGLM(v2, t3 * m2, n2));
+    buffer.push_back(VertexFromGLM(v5, t1 * m2, n2));
+    buffer.push_back(VertexFromGLM(v2, t3 * m2, n2));
+    buffer.push_back(VertexFromGLM(v6, t4 * m2, n2));
 
     // Front Face
-    buffer.push_back(VertexFromGLM(v5, t1, n5));
-    buffer.push_back(VertexFromGLM(v1, t2, n5));
-    buffer.push_back(VertexFromGLM(v4, t3, n5));
-    buffer.push_back(VertexFromGLM(v5, t1, n5));
-    buffer.push_back(VertexFromGLM(v4, t3, n5));
-    buffer.push_back(VertexFromGLM(v8, t4, n5));
+    buffer.push_back(VertexFromGLM(v5, t1 * m3, n5));
+    buffer.push_back(VertexFromGLM(v1, t2 * m3, n5));
+    buffer.push_back(VertexFromGLM(v4, t3 * m3, n5));
+    buffer.push_back(VertexFromGLM(v5, t1 * m3, n5));
+    buffer.push_back(VertexFromGLM(v4, t3 * m3, n5));
+    buffer.push_back(VertexFromGLM(v8, t4 * m3, n5));
 
     // Back Face
-    buffer.push_back(VertexFromGLM(v6, t1, n6));
-    buffer.push_back(VertexFromGLM(v2, t2, n6));
-    buffer.push_back(VertexFromGLM(v3, t3, n6));
-    buffer.push_back(VertexFromGLM(v6, t1, n6));
-    buffer.push_back(VertexFromGLM(v3, t3, n6));
-    buffer.push_back(VertexFromGLM(v7, t4, n6));
+    buffer.push_back(VertexFromGLM(v6, t1 * m3, n6));
+    buffer.push_back(VertexFromGLM(v2, t2 * m3, n6));
+    buffer.push_back(VertexFromGLM(v3, t3 * m3, n6));
+    buffer.push_back(VertexFromGLM(v6, t1 * m3, n6));
+    buffer.push_back(VertexFromGLM(v3, t3 * m3, n6));
+    buffer.push_back(VertexFromGLM(v7, t4 * m3, n6));
 }
