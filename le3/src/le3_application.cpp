@@ -9,6 +9,8 @@ int LE3Application::_Init()
 {
     SDL_Init(SDL_INIT_VIDEO);
 
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
+
     Uint32 flags = 0;
     flags |= SDL_WINDOW_OPENGL;
     if (m_settings.bIsResizable && !m_settings.bIsFullscreen)

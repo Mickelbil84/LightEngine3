@@ -20,3 +20,13 @@ Also the first game engine I have seriously learned was the Unreal Engine 3 henc
 
 TODO: Write detailed installation guide.
 Installation is done simply with CMake.
+
+### Installation for MacOS (Tested in Intel, Monterey 12.4)
+
+1. Make sure that you have the "Command Line Tools for XCode" installed: https://developer.apple.com/download/all/ (for the AppleClang compiler)
+2. Install Homebrew: https://brew.sh
+3. Install CMake: https://cmake.org/download/
+4. Recommended: Install Visual Studio Code with the "C/C++ Extension Pack" as an IDE
+5. Run: `brew install sdl2`
+6. Run: `brew install glew`
+7. Run: `brew install glm`
