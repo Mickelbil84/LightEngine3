@@ -20,7 +20,8 @@ public:
     bool bUseDiffuseTexture = false;
 
     // Sends material information to a given shader, and binds all relevant textures
-    void Apply();
+    void Apply(glm::mat4 modelMatrix);
+    LE3Shader* GetShader() const;
 
 protected:
     LE3Shader* pShader;

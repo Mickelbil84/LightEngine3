@@ -54,14 +54,21 @@ void LE3Object::Reparent(LE3Object* parent)
     }
 }
 
+std::vector<LE3Object*> LE3Object::GetChildren() const
+{
+    return m_children;
+}
+
 void LE3Object::AppendChild(LE3Object* child)
 {
     m_children.push_back(child);
+    child->m_pParent = this;
 }
 
 void LE3Object::RemoveChild(LE3Object* child)
 {
     std::erase(m_children, child);
+    child->m_pParent = nullptr;
 }
 
 void LE3Object::AddRotationX(float rot)

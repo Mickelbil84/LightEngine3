@@ -25,6 +25,7 @@ public:
     void AppendChild(LE3Object* child);
     // Removes an existing child
     void RemoveChild(LE3Object* child);
+    std::vector<LE3Object*> GetChildren() const;
 
     void AddRotationX(float rot);
     void AddRotationY(float rot);
