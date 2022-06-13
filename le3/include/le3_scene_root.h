@@ -5,6 +5,7 @@
 class LE3SceneRoot : public LE3Object
 {
 public:
+    LE3SceneRoot();
     virtual void Update(double deltaTime);
     virtual void Draw();
 

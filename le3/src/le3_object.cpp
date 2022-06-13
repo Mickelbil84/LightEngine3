@@ -1,6 +1,7 @@
 #include "le3_object.h"
 
-LE3Object::LE3Object(glm::vec3 position, glm::vec3 rotation, float scale):
+LE3Object::LE3Object(std::string name, glm::vec3 position, glm::vec3 rotation, float scale):
+    m_name(name),
     m_position(position), m_rotation(rotation), m_scale(scale),
     m_pParent(nullptr)
 {
@@ -110,3 +111,11 @@ float LE3Object::GetScale() const
     return m_scale;
 }
 
+void LE3Object::SetName(std::string name)
+{
+    m_name = name;
+}
+std::string LE3Object::GetName() const
+{
+    return m_name;
+}

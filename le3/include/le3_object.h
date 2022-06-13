@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
@@ -12,7 +13,7 @@
 class LE3Object
 {
 public:
-    LE3Object(glm::vec3 position = glm::vec3(0.f), glm::vec3 rotation = glm::vec3(0.f), float scale = 1.f);
+    LE3Object(std::string name = "", glm::vec3 position = glm::vec3(0.f), glm::vec3 rotation = glm::vec3(0.f), float scale = 1.f);
 
     virtual void Update(double deltaTime);
     virtual void Draw();
@@ -36,6 +37,8 @@ public:
     glm::vec3 GetPosition() const;
     glm::vec3 GetRotation() const;
     float GetScale() const;
+    void SetName(std::string name);
+    std::string GetName() const;
 
 protected:
     
@@ -59,6 +62,7 @@ protected:
 
     LE3Object* m_pParent;
     std::vector<LE3Object*> m_children;
+    std::string m_name;
 
 private:
     // Updates the local model matrix of the object (based on the transform vectors)

@@ -1,5 +1,10 @@
 #include "le3_scene_root.h"
 
+LE3SceneRoot::LE3SceneRoot() : LE3Object("Root")
+{
+
+}
+
 void LE3SceneRoot::UpdateRecurse(double deltaTime, LE3Object* object)
 {
     for (auto child : object->GetChildren())   
