@@ -12,6 +12,7 @@ public:
 
     void SetMesh(LE3Mesh<LE3Vertex>* mesh);
     void SetMaterial(LE3Material* material);
+
 protected:
     LE3Mesh<LE3Vertex>* m_mesh;
     LE3Material* m_material;

@@ -57,10 +57,8 @@ public:
 
         std::vector<LE3Vertex> box;
         AddBox(box, 0.f, 0.f, 0.f, .5f, .5f, .3f);
-        assets.LoadMesh("wheel", box);
-        std::vector<LE3Vertex> carBody;
-        AddBox(carBody, 0.f, 0.5f, 0.f, 2.2f, .5f, 1.6f);
-        assets.LoadMesh("carBody", carBody);
+        assets.LoadMesh("wheel", resource_prefix + "resources/models/cars/Audi R8 Wheel.fbx");
+        assets.LoadMesh("carBody", resource_prefix + "resources/models/cars/Audi R8 Body.fbx");
 
         assets.CreateMaterial("red", "basic");
         assets.GetMaterial("red")->diffuseColor = glm::vec4(1.f, 0.f, 0.f, 1.f);
@@ -74,40 +72,51 @@ public:
         assets.CreateMaterial("carBody", "basic");
         assets.LoadTexture("wood", resource_prefix + "resources/textures/woodparquet_59-2K/woodparquet_59_basecolor-2K-2K.png");
         assets.GetMaterial("carBody")->diffuseTexture = assets.GetTexture("wood");
-        assets.GetMaterial("carBody")->bUseDiffuseTexture = true;
+        assets.GetMaterial("carBody")->bUseDiffuseTexture = false;
         
-        // ---------------------------
+        // ---------------------s------
         //   Create game objects
         // ---------------------------
         root.AppendChild(&car);
+        car.AddRotationY(-3.14159265f);
 
         carBodyMesh.SetMesh(assets.GetMesh("carBody"));
         carBodyMesh.SetMaterial(assets.GetMaterial("carBody"));
+        carBodyMesh.SetScale(0.3f);
+        carBodyMesh.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f));
         car.AppendChild(&carBodyMesh);
 
-        wheelsFront.SetPosition(glm::vec3(-1.f, 0.f, 0.f));
+        wheelsFront.SetPosition(glm::vec3(-.705f, 0.175f, 0.f));
         car.AppendChild(&wheelsFront);
-        wheelsBack.SetPosition(glm::vec3(1.f, 0.f, 0.f));
+        wheelsBack.SetPosition(glm::vec3(.935f, 0.175f, 0.f));
         car.AppendChild(&wheelsBack);
 
         wheel1.SetMesh(assets.GetMesh("wheel"));
         wheel1.SetMaterial(assets.GetMaterial("red"));
-        wheel1.SetPosition(glm::vec3(0.f, 0.f, -.75f));
+        wheel1.SetPosition(glm::vec3(0.f, 0.f, -.5f));
+        wheel1.SetScale(0.33f);
+        wheel1.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f));
         wheelsFront.AppendChild(&wheel1);
 
         wheel2.SetMesh(assets.GetMesh("wheel"));
         wheel2.SetMaterial(assets.GetMaterial("green"));
-        wheel2.SetPosition(glm::vec3(0.f, 0.f, .75f));
+        wheel2.SetPosition(glm::vec3(0.f, 0.f, .5f));
+        wheel2.SetScale(0.33f);
+        wheel2.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f));
         wheelsFront.AppendChild(&wheel2);
 
         wheel3.SetMesh(assets.GetMesh("wheel"));
         wheel3.SetMaterial(assets.GetMaterial("blue"));
-        wheel3.SetPosition(glm::vec3(0.f, 0.f, -.75f));
+        wheel3.SetPosition(glm::vec3(0.f, 0.f, -.5f));
+        wheel3.SetScale(0.33f);
+        wheel3.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f));
         wheelsBack.AppendChild(&wheel3);
 
         wheel4.SetMesh(assets.GetMesh("wheel"));
         wheel4.SetMaterial(assets.GetMaterial("yellow"));
-        wheel4.SetPosition(glm::vec3(0.f, 0.f, .75f));
+        wheel4.SetPosition(glm::vec3(0.f, 0.f, .55f));
+        wheel4.SetScale(0.33f);
+        wheel4.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f));
         wheelsBack.AppendChild(&wheel4);
 
 
@@ -119,7 +128,7 @@ public:
 
         projMatrix = glm::perspective(glm::radians(45.f), (float)defaultWidth / (float)defaultHeight, 0.1f, 100.f);
         
-        walkSpeed = 1.2f;
+        walkSpeed = 2.2f;
         sensitivity = 0.005f;
 
         return 0;
@@ -182,8 +191,10 @@ public:
         if (carPos.x > 2.f)
             carPos.x = -2.f;
         car.SetPosition(carPos);
-        wheelsFront.AddRotationZ((float)deltaTime * 0.9f);
-        wheelsBack.AddRotationZ((float)deltaTime * 0.9f);
+        wheel1.AddRotationY((float)deltaTime * -1.9f);
+        wheel2.AddRotationY((float)deltaTime * -1.9f);
+        wheel3.AddRotationY((float)deltaTime * -1.9f);
+        wheel4.AddRotationY((float)deltaTime * -1.9f);
 
         root.Update(deltaTime);
     }
@@ -224,6 +235,7 @@ int main() {
     LE3ApplicationSettings settings;
     settings.windowWidth = 1024;
     settings.windowHeight = 786;
+    // settings.bWireframe = true;
 
     LE3Demo app(settings);
     return app.Run();

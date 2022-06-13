@@ -16,11 +16,12 @@ void LE3Mesh<LE3VertexType>::LoadMeshData(GLsizeiptr size, LE3VertexType* data, 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     m_count = count;
+    m_bIndexed = false;
 }
 
 template<typename LE3VertexType>
 void LE3Mesh<LE3VertexType>::LoadMeshDataIndexed(GLsizeiptr size, LE3VertexType* data, 
-        GLsizeiptr indexBufferSize, GLushort* indexBufferData,
+        GLsizeiptr indexBufferSize, GLuint* indexBufferData,
         GLsizei count)
 {
     glGenVertexArrays(1, &m_vao);
@@ -41,6 +42,7 @@ void LE3Mesh<LE3VertexType>::LoadMeshDataIndexed(GLsizeiptr size, LE3VertexType*
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     m_count = count;
+    m_bIndexed = true;
 }
 
 template<typename LE3VertexType>
@@ -54,12 +56,12 @@ void LE3Mesh<LE3VertexType>::LoadMeshData(std::vector<LE3VertexType> data)
 }
 
 template<typename LE3VertexType>
-void LE3Mesh<LE3VertexType>::LoadMeshDataIndexed(std::vector<LE3VertexType> data, std::vector<GLushort> indices)
+void LE3Mesh<LE3VertexType>::LoadMeshDataIndexed(std::vector<LE3VertexType> data, std::vector<GLuint> indices)
 {
     this->LoadMeshDataIndexed(
         static_cast<GLsizeiptr>(data.size() * sizeof(LE3VertexType)), 
         &data[0], 
-        static_cast<GLsizeiptr>(indices.size() * sizeof(GLushort)), 
+        static_cast<GLsizeiptr>(indices.size() * sizeof(GLuint)), 
         &indices[0],
         static_cast<GLsizei>(indices.size())
     );
@@ -69,16 +71,11 @@ template<typename LE3VertexType>
 void LE3Mesh<LE3VertexType>::Draw(GLenum mode)
 {
     glBindVertexArray(m_vao);
-    glDrawArrays(mode, 0, m_count);
+    if (!m_bIndexed)
+        glDrawArrays(mode, 0, m_count);
+    else
+        glDrawElements(mode, m_count, GL_UNSIGNED_INT, NULL);
 }
-
-template<typename LE3VertexType>
-void LE3Mesh<LE3VertexType>::DrawIndexed(GLenum mode)
-{
-    glBindVertexArray(m_vao);
-    glDrawElements(mode, m_count, GL_UNSIGNED_SHORT, NULL);
-}
-
 
 template class LE3Mesh<LE3Vertex3p>;
 template class LE3Mesh<LE3Vertex3p3c>;

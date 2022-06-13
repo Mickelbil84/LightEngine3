@@ -19,4 +19,5 @@ struct LE3ApplicationSettings
     GLclampf defaultBackgroundG = 149.f/255.f;
     GLclampf defaultBackgroundB = 237.f/255.f;
     bool bEnableDepthTest = true;
+    bool bWireframe = false;
 };

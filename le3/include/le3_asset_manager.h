@@ -12,6 +12,7 @@ class LE3AssetManager
 {
 public:
     void LoadMesh(std::string name, std::vector<LE3Vertex> data);
+    void LoadMesh(std::string name, std::string meshPath);
     LE3Mesh<LE3Vertex>* GetMesh(std::string name);
 
     void LoadShader(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);

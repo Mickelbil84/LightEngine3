@@ -30,3 +30,4 @@ Installation is done simply with CMake.
 5. Run: `brew install sdl2`
 6. Run: `brew install glew`
 7. Run: `brew install glm`
+8. Run: `brew install assimp`

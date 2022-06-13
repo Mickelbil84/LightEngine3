@@ -23,7 +23,7 @@ int LE3Application::_Init()
         flags
     );
     // SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "1", SDL_HINT_OVERRIDE);
-    std::cout << SDL_SetRelativeMouseMode(SDL_TRUE) << std::endl;
+    SDL_SetRelativeMouseMode(SDL_TRUE);
 
     if (!m_pWindow)
     {
@@ -116,6 +116,11 @@ void LE3Application::ApplyOpenGLSettings()
         glEnable(GL_DEPTH_TEST);
     else
         glDisable(GL_DEPTH_TEST);
+
+    if (m_settings.bWireframe)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    else
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void LE3Application::ApplyWindowSettings()
