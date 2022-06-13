@@ -38,6 +38,11 @@ glm::mat4 LE3Camera::GetViewMatrix() const
     return glm::lookAt(m_position, m_position + m_forward, m_up);
 }
 
+glm::mat4 LE3Camera::GetProjectionMatrix(float aspectRatio) const
+{
+    return glm::perspective(glm::radians(45.f), aspectRatio, 0.1f, 100.f);
+}
+
 glm::vec3 LE3Camera::GetForward() const
 {
     return m_forward;
@@ -51,4 +56,43 @@ glm::vec3 LE3Camera::GetRight() const
 glm::vec3 LE3Camera::GetUp() const
 {
     return m_up;
+}
+
+LE3FPSCamera::LE3FPSCamera(float walkSpeed, float lookSensitivity) : 
+    LE3Camera(),
+    m_walkSpeed(walkSpeed),
+    m_lookSensitivity(lookSensitivity),
+    m_moveVelocity(glm::vec2(0.f)),
+    m_lookVelocity(glm::vec2(0.f))
+{
+}
+
+void LE3FPSCamera::Update(double deltaTime)
+{
+    glm::vec3 floorForward = m_forward;
+    floorForward.y = 0.f;
+    floorForward = glm::normalize(floorForward);
+    m_position += (float)deltaTime * m_walkSpeed * m_moveVelocity.y * floorForward;
+    m_position += (float)deltaTime * m_walkSpeed * m_moveVelocity.x * m_right;
+    AddRotationY(m_lookSensitivity * m_lookVelocity.x);
+    AddRotationX(m_lookSensitivity * m_lookVelocity.y);
+
+    LE3Camera::Update(deltaTime);
+}
+
+void LE3FPSCamera::SetMoveVelocityX(float x)
+{
+    m_moveVelocity.x = x;
+}
+void LE3FPSCamera::SetMoveVelocityY(float y)
+{
+    m_moveVelocity.y = y;
+}
+void LE3FPSCamera::SetLookVelocityX(float x)
+{
+    m_lookVelocity.x = x;
+}
+void LE3FPSCamera::SetLookVelocityY(float y)
+{
+    m_lookVelocity.y = y;
 }

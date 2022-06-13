@@ -37,12 +37,7 @@ public:
     LE3StaticMesh carBodyMesh;
     LE3StaticMesh wheel1, wheel2, wheel3, wheel4;
 
-    LE3Camera camera;
-    glm::vec2 cameraVelocity;
-    glm::vec2 cameraRotation;
-    float walkSpeed, sensitivity;
-
-    glm::mat4 viewMatrix, projMatrix;
+    LE3FPSCamera camera;
 
     int defaultWidth, defaultHeight;
 
@@ -77,6 +72,8 @@ public:
         // ---------------------s------
         //   Create game objects
         // ---------------------------
+        root.AppendChild(&camera);
+
         root.AppendChild(&car);
         car.AddRotationY(-3.14159265f);
 
@@ -126,11 +123,6 @@ public:
         
         camera.SetPosition(glm::vec3(0.f, 1.f, 5.f));
 
-        projMatrix = glm::perspective(glm::radians(45.f), (float)defaultWidth / (float)defaultHeight, 0.1f, 100.f);
-        
-        walkSpeed = 2.2f;
-        sensitivity = 0.005f;
-
         return 0;
     }
 
@@ -147,21 +139,21 @@ public:
         // Camera Movement
         ////////////////////////
         if (input.keyboard[SDL_SCANCODE_W])
-            cameraVelocity.y = 1.f;
+            camera.SetMoveVelocityY(1.f);
         else if (input.keyboard[SDL_SCANCODE_S])
-            cameraVelocity.y = -1.f;
+            camera.SetMoveVelocityY(-1.f);
         else
-            cameraVelocity.y = 0.f;
+            camera.SetMoveVelocityY(0.f);
 
         if (input.keyboard[SDL_SCANCODE_D])
-            cameraVelocity.x = 1.f;
+            camera.SetMoveVelocityX(1.f);
         else if (input.keyboard[SDL_SCANCODE_A])
-            cameraVelocity.x = -1.f;
+            camera.SetMoveVelocityX(-1.f);
         else
-            cameraVelocity.x = 0.f;
+            camera.SetMoveVelocityX(0.f);
         
-        cameraRotation.x = (float)input.xrel;
-        cameraRotation.y = -(float)input.yrel;
+        camera.SetLookVelocityX((float)input.xrel);
+        camera.SetLookVelocityY(-(float)input.yrel);
     }
 
     virtual void Update(double deltaTime)
@@ -169,22 +161,6 @@ public:
         runTime += deltaTime;
         if (runTime < 0.05)
             return;
-
-
-        glm::vec3 cameraPos = camera.GetPosition();
-        glm::vec3 forward = camera.GetForward();
-        forward.y = 0.f;
-        forward = glm::normalize(forward);
-        cameraPos += (float)deltaTime * walkSpeed * cameraVelocity.y * forward;
-        cameraPos += (float)deltaTime * walkSpeed * cameraVelocity.x * camera.GetRight();
-        camera.SetPosition(cameraPos);
-
-        // std::cout << xRel << std::endl;
-        camera.AddRotationY(sensitivity * cameraRotation.x);
-        camera.AddRotationX(sensitivity * cameraRotation.y);
-
-        camera.Update(deltaTime);
-        viewMatrix = camera.GetViewMatrix();
 
         glm::vec3 carPos = car.GetPosition();
         carPos.x += 1.f * (float)deltaTime;
@@ -202,8 +178,8 @@ public:
     virtual void Render()
     {
         assets.GetShader("basic")->Use();
-        assets.GetShader("basic")->Uniform("view", viewMatrix);
-        assets.GetShader("basic")->Uniform("projection", projMatrix);
+        assets.GetShader("basic")->Uniform("view", camera.GetViewMatrix());
+        assets.GetShader("basic")->Uniform("projection", camera.GetProjectionMatrix((float)defaultWidth / (float)defaultHeight));
 
         root.Draw();
     }
