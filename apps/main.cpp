@@ -37,7 +37,7 @@ public:
     LE3StaticMesh carBodyMesh;
     LE3StaticMesh wheel1, wheel2, wheel3, wheel4;
 
-    LE3FPSCamera camera;
+    LE3FreeCamera camera;
 
     int defaultWidth, defaultHeight;
 
@@ -75,7 +75,8 @@ public:
         root.AppendChild(&camera);
 
         root.AppendChild(&car);
-        car.AddRotationY(-3.14159265f);
+        // car.AddRotationY(-3.14159265f);
+        car.SetPosition(glm::vec3(0.f, 0.f, 2.f));
 
         carBodyMesh.SetMesh(assets.GetMesh("carBody"));
         carBodyMesh.SetMaterial(assets.GetMaterial("carBody"));
@@ -151,6 +152,13 @@ public:
             camera.SetMoveVelocityX(-1.f);
         else
             camera.SetMoveVelocityX(0.f);
+
+        if (input.keyboard[SDL_SCANCODE_E])
+            camera.SetMoveVelocityZ(1.f);
+        else if (input.keyboard[SDL_SCANCODE_Q])
+            camera.SetMoveVelocityZ(-1.f);
+        else
+            camera.SetMoveVelocityZ(0.f);
         
         camera.SetLookVelocityX((float)input.xrel);
         camera.SetLookVelocityY(-(float)input.yrel);
@@ -163,14 +171,16 @@ public:
             return;
 
         glm::vec3 carPos = car.GetPosition();
-        carPos.x += 1.f * (float)deltaTime;
-        if (carPos.x > 2.f)
-            carPos.x = -2.f;
-        car.SetPosition(carPos);
-        wheel1.AddRotationY((float)deltaTime * -1.9f);
-        wheel2.AddRotationY((float)deltaTime * -1.9f);
-        wheel3.AddRotationY((float)deltaTime * -1.9f);
-        wheel4.AddRotationY((float)deltaTime * -1.9f);
+        glm::vec3 tangent = glm::vec3(-carPos.z, 0.f, carPos.x);
+        // carPos.x += 1.f * (float)deltaTime;
+        // if (carPos.x > 2.f)
+        //     carPos.x = -2.f;
+        // car.SetPosition(carPos + (float)deltaTime * tangent);
+        // car.SetRotation(glm::vec3(0.f, atan2(tangent.x, tangent.z) + 3.14159265f / 2.f, 0.f));
+        // wheel1.AddRotationY((float)deltaTime * -1.9f);
+        // wheel2.AddRotationY((float)deltaTime * -1.9f);
+        // wheel3.AddRotationY((float)deltaTime * -1.9f);
+        // wheel4.AddRotationY((float)deltaTime * -1.9f);
 
         root.Update(deltaTime);
     }

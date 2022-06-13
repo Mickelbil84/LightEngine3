@@ -17,14 +17,14 @@ target_compile_features(main PUBLIC cxx_std_20)
 
 add_executable(
     01_hello_opengl
-    01_hello_opengl.cpp
+    demos/01_hello_opengl.cpp
 )
 target_link_libraries(01_hello_opengl PRIVATE le3 GLEW::glew)
 target_compile_features(01_hello_opengl PUBLIC cxx_std_20)
 
 add_executable(
     02_moving_car
-    02_moving_car.cpp
+    demos/02_moving_car.cpp
 )
 target_link_libraries(02_moving_car PRIVATE le3 GLEW::glew)
 target_compile_features(02_moving_car PUBLIC cxx_std_20)

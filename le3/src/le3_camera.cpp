@@ -96,3 +96,44 @@ void LE3FPSCamera::SetLookVelocityY(float y)
 {
     m_lookVelocity.y = y;
 }
+
+LE3FreeCamera::LE3FreeCamera(float walkSpeed, float lookSensitivity) : 
+    LE3Camera(),
+    m_walkSpeed(walkSpeed),
+    m_lookSensitivity(lookSensitivity),
+    m_moveVelocity(glm::vec3(0.f)),
+    m_lookVelocity(glm::vec2(0.f))
+{
+}
+
+void LE3FreeCamera::Update(double deltaTime)
+{
+    m_position += (float)deltaTime * m_walkSpeed * m_moveVelocity.y * m_forward;
+    m_position += (float)deltaTime * m_walkSpeed * m_moveVelocity.x * m_right;
+    m_position += (float)deltaTime * m_walkSpeed * m_moveVelocity.z * m_up;
+    AddRotationY(m_lookSensitivity * m_lookVelocity.x);
+    AddRotationX(m_lookSensitivity * m_lookVelocity.y);
+
+    LE3Camera::Update(deltaTime);
+}
+
+void LE3FreeCamera::SetMoveVelocityX(float x)
+{
+    m_moveVelocity.x = x;
+}
+void LE3FreeCamera::SetMoveVelocityY(float y)
+{
+    m_moveVelocity.y = y;
+}
+void LE3FreeCamera::SetMoveVelocityZ(float z)
+{
+    m_moveVelocity.z = z;
+}
+void LE3FreeCamera::SetLookVelocityX(float x)
+{
+    m_lookVelocity.x = x;
+}
+void LE3FreeCamera::SetLookVelocityY(float y)
+{
+    m_lookVelocity.y = y;
+}

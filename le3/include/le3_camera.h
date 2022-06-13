@@ -48,3 +48,24 @@ protected:
     float m_walkSpeed, m_lookSensitivity;
     glm::vec2 m_moveVelocity, m_lookVelocity;
 };
+
+class LE3FreeCamera : public LE3Camera
+{
+public:
+    LE3FreeCamera(float walkSpeed = 2.2f, float lookSensitivity = 0.005f);
+
+    // Update method, called once every frame
+    virtual void Update(double deltaTime);
+
+    void SetMoveVelocityX(float x);
+    void SetMoveVelocityY(float y);
+    void SetMoveVelocityZ(float z);
+    void SetLookVelocityX(float x);
+    void SetLookVelocityY(float y);
+
+
+protected:
+    float m_walkSpeed, m_lookSensitivity;
+    glm::vec3 m_moveVelocity;
+    glm::vec2 m_lookVelocity;
+};
