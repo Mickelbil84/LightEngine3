@@ -5,7 +5,7 @@ project(main)
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glm REQUIRED)
-find_package(wxWidgets REQUIRED COMPONENTS net core base)
+find_package(wxWidgets REQUIRED COMPONENTS net core base aui propgrid gl)
 include_directories(${SDL2_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS})
 include(${wxWidgets_USE_FILE})
 
@@ -15,6 +15,7 @@ add_executable(
     editor
     editor.cpp
     noname.cpp
+    editor_glpanel.cpp
 )
 target_link_libraries(editor PRIVATE le3 GLEW::glew ${wxWidgets_LIBRARIES})
 target_compile_features(editor PUBLIC cxx_std_20)

@@ -16,6 +16,7 @@
 #include <glm/gtx/transform.hpp>
 
 #include "noname.h"
+#include "editor_glpanel.h"
 
 #include <wx/wxprec.h>
  
@@ -34,9 +35,20 @@ wxIMPLEMENT_APP(LE3Editor);
 bool LE3Editor::OnInit()
 {
     LE3EditorWindow* window = new LE3EditorWindow(nullptr);
+    
+    wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
+    int args[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0};
+
+    LE3wxOpenGLPanel* glPane = new LE3wxOpenGLPanel((wxFrame*) window->m_OpenGLContainer, args);
+    sizer->Add(glPane, 1, wxEXPAND);
+    
+    window->m_OpenGLContainer->SetSizer(sizer);
+    window->m_OpenGLContainer->SetAutoLayout(true);
+    
+    
     window->Show(true);
 
-    window->m_treeCtrl6->AddRoot(wxT("Root node test"));
+    // window->m_treeCtrl6->AddRoot(wxT("Root node test"));
 
     return true;
 }

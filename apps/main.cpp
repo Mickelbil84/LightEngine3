@@ -69,7 +69,7 @@ public:
         assets.GetMaterial("carBody")->diffuseTexture = assets.GetTexture("wood");
         assets.GetMaterial("carBody")->bUseDiffuseTexture = false;
         
-        // ---------------------s------
+        // ---------------------------
         //   Create game objects
         // ---------------------------
         root.AppendChild(&camera);
