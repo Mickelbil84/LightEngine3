@@ -16,6 +16,7 @@
 #include <glm/gtx/transform.hpp>
 
 #include "noname.h"
+#include "editor.h"
 #include "editor_glpanel.h"
 
 #include <wx/wxprec.h>
@@ -24,15 +25,17 @@
     #include <wx/wx.h>
 #endif
  
-class LE3Editor : public wxApp
+class LE3EditorApp : public wxApp
 {
 public:
     virtual bool OnInit();
+
+    LE3Editor m_editor;
 };
 
-wxIMPLEMENT_APP(LE3Editor);
+wxIMPLEMENT_APP(LE3EditorApp);
 
-bool LE3Editor::OnInit()
+bool LE3EditorApp::OnInit()
 {
     LE3EditorWindow* window = new LE3EditorWindow(nullptr);
     
@@ -40,10 +43,13 @@ bool LE3Editor::OnInit()
     int args[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0};
 
     LE3wxOpenGLPanel* glPane = new LE3wxOpenGLPanel((wxFrame*) window->m_OpenGLContainer, args);
+    glPane->m_editor = &m_editor;
     sizer->Add(glPane, 1, wxEXPAND);
     
     window->m_OpenGLContainer->SetSizer(sizer);
     window->m_OpenGLContainer->SetAutoLayout(true);
+
+    m_editor.Init();
     
     
     window->Show(true);

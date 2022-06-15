@@ -12,22 +12,27 @@
 #include <le3_static_mesh.h>
 #include <le3_asset_manager.h>
 
+#include "editor.h"
+
 #include "wx/wx.h"
+#include "wx/time.h"
 #include "wx/glcanvas.h"
 
 
 class LE3wxOpenGLPanel : public wxGLCanvas
 {
+public:
+	LE3Editor* m_editor;
+	LE3EditorInput m_input;
+
+private:
     wxGLContext* m_context;
     wxGLContextAttrs m_contextAttribs;
-
-	////////////
-	LE3SceneRoot root;
-    LE3AssetManager assets;
-
-	LE3StaticMesh car;
-	LE3FreeCamera camera;
-	////////////
+	wxTimer m_timer;
+	wxLongLong m_prevTime;
+	wxLongLong m_currTime;
+	float m_deltaTime;
+	wxPoint m_lastMouse;
 
 public:
     LE3wxOpenGLPanel(wxFrame* parent, int* args);
@@ -38,6 +43,7 @@ public:
     int getWidth();
     int getHeight();
 
+	void update(wxTimerEvent& evt);
     void render(wxPaintEvent& evt);
     
 	// events

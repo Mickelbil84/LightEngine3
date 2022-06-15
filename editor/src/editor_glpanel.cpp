@@ -13,20 +13,28 @@ EVT_MOUSEWHEEL(LE3wxOpenGLPanel::mouseWheelMoved)
 EVT_PAINT(LE3wxOpenGLPanel::render)
 END_EVENT_TABLE()
 
-void LE3wxOpenGLPanel::mouseMoved(wxMouseEvent& event) {}
-void LE3wxOpenGLPanel::mouseDown(wxMouseEvent& event) {}
+void LE3wxOpenGLPanel::mouseMoved(wxMouseEvent& event) 
+{
+}
+void LE3wxOpenGLPanel::mouseDown(wxMouseEvent& event) 
+{
+    // m_input.bLeftMouse = true;
+}
 void LE3wxOpenGLPanel::mouseWheelMoved(wxMouseEvent& event) {}
-void LE3wxOpenGLPanel::mouseReleased(wxMouseEvent& event) {}
+void LE3wxOpenGLPanel::mouseReleased(wxMouseEvent& event)
+{
+    //  m_input.bLeftMouse = false;
+}
 void LE3wxOpenGLPanel::rightClick(wxMouseEvent& event) {}
 void LE3wxOpenGLPanel::mouseLeftWindow(wxMouseEvent& event) {}
-void LE3wxOpenGLPanel::keyPressed(wxKeyEvent& event) {}
-void LE3wxOpenGLPanel::keyReleased(wxKeyEvent& event) {}
-
-#ifndef __APPLE__
-const std::string resource_prefix = std::string("../../");
-#else
-const std::string resource_prefix = std::string("../");
-#endif
+void LE3wxOpenGLPanel::keyPressed(wxKeyEvent& event) 
+{
+    m_input.keyboard[event.GetKeyCode()] = true;
+}
+void LE3wxOpenGLPanel::keyReleased(wxKeyEvent& event) 
+{
+    m_input.keyboard[event.GetKeyCode()] = false;
+}
 
  
 LE3wxOpenGLPanel::LE3wxOpenGLPanel(wxFrame* parent, int* args) :
@@ -45,29 +53,42 @@ LE3wxOpenGLPanel::LE3wxOpenGLPanel(wxFrame* parent, int* args) :
     glEnable(GL_DEPTH_TEST);
 
     // ---------------------------
-    //   Load Assets
+    //   Initialize keys
     // ---------------------------
-    assets.LoadShader("basic", 
-        resource_prefix + "resources/shaders/basic/basic.vs", 
-        resource_prefix + "resources/shaders/basic/basic.fs");
-    assets.LoadMesh("car", resource_prefix + "resources/models/cars/Audi R8.fbx");
-    assets.CreateMaterial("car", "basic");
+    m_input.keyboard['W'] = false;
+    m_input.keyboard['S'] = false;
+    m_input.keyboard['A'] = false;
+    m_input.keyboard['D'] = false;
 
     // ---------------------------
-    //   Create game objects
+    //   Setup timer
     // ---------------------------
-    camera.SetPosition(glm::vec3(0.f, 0.5f, 5.f));
-    root.AppendChild(&camera);
+    m_timer.Bind(wxEVT_TIMER, &LE3wxOpenGLPanel::update, this);
+    m_timer.Start(1);
 
-    car.SetPosition(glm::vec3(0.f, 0.f, 2.f));
-    car.SetMesh(assets.GetMesh("car"));
-    car.SetMaterial(assets.GetMaterial("car"));
-    car.SetScale(0.3f);
-    car.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f));
-    root.AppendChild(&car);
-
+    m_prevTime = m_currTime = wxGetLocalTimeMillis();
+    m_lastMouse = wxGetMousePosition();
 }
  
+void LE3wxOpenGLPanel::update(wxTimerEvent& evt)
+{
+    wxPoint newPos = wxGetMousePosition();
+    m_input.xrel = newPos.x - m_lastMouse.x;
+    m_input.yrel = newPos.y - m_lastMouse.y;
+    m_lastMouse = newPos;
+    wxMouseState mouseState = wxGetMouseState();
+    m_input.bLeftMouse = mouseState.LeftIsDown();
+
+    m_currTime = wxGetLocalTimeMillis();
+    wxLongLong delta = m_currTime - m_prevTime;
+    m_deltaTime = (float)delta.ToDouble() / 1000.0;
+    m_prevTime = m_currTime;
+
+    m_editor->HandleInput(m_input);
+    m_editor->Update(m_deltaTime);
+    Refresh();
+}
+
 LE3wxOpenGLPanel::~LE3wxOpenGLPanel()
 {
 	delete m_context;
@@ -104,12 +125,7 @@ void LE3wxOpenGLPanel::render( wxPaintEvent& evt )
             237.f/255.f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    root.Update(0);
-
-    assets.GetShader("basic")->Use();
-    assets.GetShader("basic")->Uniform("view", camera.GetViewMatrix());
-    assets.GetShader("basic")->Uniform("projection", camera.GetProjectionMatrix((float)getWidth() / (float)getHeight()));
-    root.Draw();
+    m_editor->Render(getWidth(), getHeight());
     
     SwapBuffers();
 }
