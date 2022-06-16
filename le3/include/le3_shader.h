@@ -31,13 +31,14 @@ public:
     void Uniform(std::string uniformName, glm::mat4 m);
     void Uniform(std::string uniformName, GLuint i);
 
+    std::string m_vertexShaderPath, m_fragmentShaderPath;
 
 private:
     // Reads shader file into an `std::string`
     static std::string ReadShaderFile(std::string filePath);
     
-    // Creates and compiles a sahder of a given type. 
-    // Prints verbosely any errors that may ocurr in DEBUG builds.
+    // Creates and compiles a shader of a given type. 
+    // Prints verbosely any errors that may occur in DEBUG builds.
     GLuint CreateShader(std::string filePath, GLenum type);
     
     // Returns the given uniform's location

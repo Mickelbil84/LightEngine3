@@ -16,6 +16,7 @@ add_executable(
     ui/noname.cpp
     src/editor_main.cpp
     src/editor_glpanel.cpp
+    src/editor_ui.cpp
     src/editor.cpp
 )
 target_include_directories(editor PUBLIC ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/ui)

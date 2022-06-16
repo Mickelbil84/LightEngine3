@@ -8,6 +8,9 @@ LE3Shader::LE3Shader() : m_program(0)
 
 void LE3Shader::CompileShader(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
+    m_vertexShaderPath = vertexShaderPath;
+    m_fragmentShaderPath = fragmentShaderPath;
+
     GLuint vertexShader = CreateShader(vertexShaderPath, GL_VERTEX_SHADER);
     GLuint fragmentShader = CreateShader(fragmentShaderPath, GL_FRAGMENT_SHADER);
 
@@ -25,7 +28,7 @@ void LE3Shader::CompileShader(std::string vertexShaderPath, std::string fragment
         glGetProgramInfoLog(m_program, SHADER_ERROR_BUFFER_SIZE, nullptr, infoLog);
         #ifndef NDEBUG
         PrintTitle("Shader Linking Error");
-        std::cout << "An error occuured while linking shader." << std::endl;
+        std::cout << "An error occurred while linking shader." << std::endl;
         std::cout << "The following message was returned:" << std::endl;
         std::cout << infoLog << std::endl;
         #endif
@@ -62,7 +65,7 @@ GLuint LE3Shader::CreateShader(std::string filePath, GLenum type)
         glGetShaderInfoLog(shader, SHADER_ERROR_BUFFER_SIZE, nullptr, infoLog);
         #ifndef NDEBUG
         PrintTitle("Shader Compile Error");
-        std::cout << "An error occuured while compiling shader:\t" << filePath << std::endl;
+        std::cout << "An error occurred while compiling shader:\t" << filePath << std::endl;
         std::cout << "The following message was returned:" << std::endl;
         std::cout << infoLog << std::endl;
         #endif
@@ -91,7 +94,7 @@ void LE3Shader::Delete()
 
 GLint LE3Shader::GetUniformLocation(std::string uniformName)
 {
-    // If this a new uniform, ask the shader program and update internaly
+    // If this a new uniform, ask the shader program and update internally
     if (m_uniformLocation.find(uniformName) == m_uniformLocation.end())
     {
         GLint loc = glGetUniformLocation(m_program, uniformName.c_str());

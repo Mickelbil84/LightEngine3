@@ -12,6 +12,7 @@
 #include <le3_scene_root.h>
 #include <le3_static_mesh.h>
 #include <le3_asset_manager.h>
+#include <le3_scene_manager.h>
 
 struct LE3EditorInput
 {
@@ -23,12 +24,12 @@ struct LE3EditorInput
 class LE3Editor
 {
     LE3SceneRoot root;
-    LE3AssetManager assets;
 
 	LE3StaticMesh car;
 	LE3FreeCamera camera;
 
 public:
+    LE3SceneManager scene;
     int paneWidth, paneHeight;
 
 public:

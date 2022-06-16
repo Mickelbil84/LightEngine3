@@ -21,9 +21,11 @@
 #include <wx/settings.h>
 #include <wx/panel.h>
 #include <wx/treelist.h>
+#include <wx/sizer.h>
+#include <wx/button.h>
+#include <wx/notebook.h>
 #include <wx/propgrid/propgrid.h>
 #include <wx/propgrid/advprops.h>
-#include <wx/sizer.h>
 #include <wx/statusbr.h>
 #include <wx/menu.h>
 #include <wx/frame.h>
@@ -43,11 +45,36 @@ class LE3EditorWindow : public wxFrame
 		wxAuiToolBarItem* m_tool5;
 		wxAuiToolBarItem* m_tool6;
 		wxAuiToolBarItem* m_tool7;
-		wxTreeListCtrl* m_treeListCtrl4;
-		wxPropertyGrid* m_propertyGrid6;
+		wxNotebook* m_notebook1;
+		wxPanel* m_panel2;
+		wxTreeListCtrl* m_treeListCtrl2;
+		wxPanel* m_panel3;
+		wxNotebook* m_assetsNotebook;
+		wxPanel* m_shadersPanel;
+		wxButton* m_loadShaderButton;
+		wxButton* m_newShaderButton;
+		wxTreeListCtrl* m_treeListShaders;
+		wxPanel* m_materialsPanel;
+		wxButton* m_newMaterialButton;
+		wxButton* m_deleteMaterialButton;
+		wxTreeListCtrl* m_treeListMaterials;
+		wxPanel* m_texturesPanel;
+		wxButton* m_loadTextureButton;
+		wxButton* m_deleteTextureButton;
+		wxTreeListCtrl* m_treeListTextures;
+		wxPanel* m_panel7;
+		wxButton* m_loadMeshButton;
+		wxButton* m_deleteMeshButton;
+		wxTreeListCtrl* m_treeListMeshes;
+		wxPropertyGrid* m_propertyGrid;
 		wxStatusBar* m_statusBar2;
 		wxMenuBar* m_menubar2;
 		wxMenu* m_menu2;
+
+		// Virtual event handlers, override them in your derived class
+		virtual void OnSelectShader( wxTreeListEvent& event ) { event.Skip(); }
+		virtual void OnPropertyChange( wxPropertyGridEvent& event ) { event.Skip(); }
+
 
 	public:
 		wxPanel* m_OpenGLContainer;

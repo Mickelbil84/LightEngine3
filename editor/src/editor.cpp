@@ -12,11 +12,11 @@ void LE3Editor::Init()
     // ---------------------------
     //   Load Assets
     // ---------------------------
-    assets.LoadShader("basic", 
+    scene.assets.LoadShader("basic", 
         resource_prefix + "resources/shaders/basic/basic.vs", 
         resource_prefix + "resources/shaders/basic/basic.fs");
-    assets.LoadMesh("car", resource_prefix + "resources/models/cars/Audi R8.fbx");
-    assets.CreateMaterial("car", "basic");
+    scene.assets.AddMeshPath("car", resource_prefix + "resources/models/cars/Audi R8.fbx");
+    scene.assets.CreateMaterial("car", "basic");
 
     // ---------------------------
     //   Create game objects
@@ -25,8 +25,8 @@ void LE3Editor::Init()
     root.AppendChild(&camera);
 
     car.SetPosition(glm::vec3(0.f, 0.f, 2.f));
-    car.SetMesh(assets.GetMesh("car"));
-    car.SetMaterial(assets.GetMaterial("car"));
+    car.SetMesh(scene.assets.GetMesh("car"));
+    car.SetMaterial(scene.assets.GetMaterial("car"));
     car.SetScale(0.3f);
     car.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f));
     root.AppendChild(&car);
@@ -75,10 +75,13 @@ void LE3Editor::HandleInput(LE3EditorInput input)
 
 void LE3Editor::Render(int width, int height)
 {
-    root.Update(0);
+    LE3Shader* shader = scene.assets.GetShader("basic");
 
-    assets.GetShader("basic")->Use();
-    assets.GetShader("basic")->Uniform("view", camera.GetViewMatrix());
-    assets.GetShader("basic")->Uniform("projection", camera.GetProjectionMatrix((float)width / (float)height));
-    root.Draw();
+    if (shader)
+    {
+        shader ->Use();
+        shader ->Uniform("view", camera.GetViewMatrix());
+        shader->Uniform("projection", camera.GetProjectionMatrix((float)width / (float)height));
+        root.Draw();
+    }
 }

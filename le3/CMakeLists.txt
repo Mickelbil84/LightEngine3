@@ -24,6 +24,7 @@ add_library(
     src/le3_scene_root.cpp
     src/le3_static_mesh.cpp
     src/le3_asset_manager.cpp
+    src/le3_scene_manager.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)

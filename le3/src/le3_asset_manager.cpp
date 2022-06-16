@@ -7,6 +7,14 @@
 
 void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene);
 
+void LE3AssetManager::AddMeshPath(std::string name, std::string meshPath)
+{
+    LE3AssetPath ap;
+    ap.path = meshPath;
+    ap.bIsLoaded = false;
+    m_meshesPaths[name] = ap;
+}
+
 void LE3AssetManager::LoadMesh(std::string name, std::vector<LE3Vertex> data)
 {
     LE3Mesh<LE3Vertex> mesh;
@@ -37,6 +45,9 @@ void LE3AssetManager::LoadMesh(std::string name, std::string meshPath)
     LE3Mesh<LE3Vertex> mesh;
     mesh.LoadMeshDataIndexed(buffer, indices);
     m_meshes[name] = mesh;
+
+    AddMeshPath(name, meshPath);
+    m_meshesPaths[name].bIsLoaded = true;
 }
 
 void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene)
@@ -79,7 +90,15 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
 
 LE3Mesh<LE3Vertex>* LE3AssetManager::GetMesh(std::string name)
 {
+    LE3AssetPath& ap = m_meshesPaths[name];
+    if (!ap.bIsLoaded)
+    {
+        LoadMesh(name, ap.path);
+        ap.bIsLoaded = true;
+    }
+
     return &m_meshes[name];
+    
 }
 
 void LE3AssetManager::LoadShader(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath)
@@ -90,7 +109,18 @@ void LE3AssetManager::LoadShader(std::string name, std::string vertexShaderPath,
 }
 LE3Shader* LE3AssetManager::GetShader(std::string name)
 {
+    if (m_shaders.find(name) == m_shaders.end())
+        return nullptr;
+
     return &m_shaders[name];
+}
+
+void LE3AssetManager::AddTexturePath(std::string name, std::string texturePath)
+{
+    LE3AssetPath ap;
+    ap.path = texturePath;
+    ap.bIsLoaded = false;
+    m_texturesPaths[name] = ap;
 }
 
 void LE3AssetManager::LoadTexture(std::string name, std::string texturePath)
@@ -98,9 +128,18 @@ void LE3AssetManager::LoadTexture(std::string name, std::string texturePath)
     LE3Texture texture;
     texture.Load(texturePath);
     m_textures[name] = texture;
+    AddTexturePath(name, texturePath);
+    m_texturesPaths[name].bIsLoaded = true;
 }
 LE3Texture* LE3AssetManager::GetTexture(std::string name)
 {
+    LE3AssetPath& ap = m_texturesPaths[name];
+    if (!ap.bIsLoaded)
+    {
+        LoadTexture(name, ap.path);
+        ap.bIsLoaded = true;
+    }
+
     return &m_textures[name];
 }
 

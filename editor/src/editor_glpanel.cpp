@@ -64,7 +64,7 @@ LE3wxOpenGLPanel::LE3wxOpenGLPanel(wxFrame* parent, int* args) :
     //   Setup timer
     // ---------------------------
     m_timer.Bind(wxEVT_TIMER, &LE3wxOpenGLPanel::update, this);
-    m_timer.Start(1);
+    m_timer.Start(5);
 
     m_prevTime = m_currTime = wxGetLocalTimeMillis();
     m_lastMouse = wxGetMousePosition();
@@ -76,8 +76,17 @@ void LE3wxOpenGLPanel::update(wxTimerEvent& evt)
     m_input.xrel = newPos.x - m_lastMouse.x;
     m_input.yrel = newPos.y - m_lastMouse.y;
     m_lastMouse = newPos;
-    wxMouseState mouseState = wxGetMouseState();
-    m_input.bLeftMouse = mouseState.LeftIsDown();
+
+    if (GetRect().Contains(ScreenToClient(newPos)))
+    {
+        // Register mouse click events only inside the viewport
+        wxMouseState mouseState = wxGetMouseState();
+        m_input.bLeftMouse = mouseState.LeftIsDown();
+    }
+    else
+    {
+        m_input.bLeftMouse = false;
+    }
 
     m_currTime = wxGetLocalTimeMillis();
     wxLongLong delta = m_currTime - m_prevTime;

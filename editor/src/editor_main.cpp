@@ -15,8 +15,8 @@
 #include <vector>
 #include <glm/gtx/transform.hpp>
 
-#include "noname.h"
 #include "editor.h"
+#include "editor_ui.h"
 #include "editor_glpanel.h"
 
 #include <wx/wxprec.h>
@@ -37,7 +37,8 @@ wxIMPLEMENT_APP(LE3EditorApp);
 
 bool LE3EditorApp::OnInit()
 {
-    LE3EditorWindow* window = new LE3EditorWindow(nullptr);
+    LE3EditorUI* window = new LE3EditorUI(nullptr);
+    window->m_editor = &m_editor;
     
     wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
     int args[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0};
@@ -50,7 +51,8 @@ bool LE3EditorApp::OnInit()
     window->m_OpenGLContainer->SetAutoLayout(true);
 
     m_editor.Init();
-    
+    // After loading refresh assets (as there are at least some new shaders)
+    window->RefreshAssets();
     
     window->Show(true);
 
