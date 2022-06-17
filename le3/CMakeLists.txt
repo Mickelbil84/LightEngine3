@@ -6,7 +6,7 @@ find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(glm REQUIRED)
-find_package(assimp REQUIRED)
+find_package(assimp CONFIG REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/../thirdparty/include)
 
 add_library(
@@ -28,5 +28,5 @@ add_library(
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(le3 PRIVATE ${SDL2_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES} ${ASSIMP_LIBRARIES} GLEW::glew)
+target_link_libraries(le3 PRIVATE ${SDL2_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES} ${ASSIMP_LIBRARIES} GLEW::glew assimp::assimp)
 target_compile_features(le3 PUBLIC cxx_std_20)

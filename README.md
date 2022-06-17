@@ -21,6 +21,21 @@ Also the first game engine I have seriously learned was the Unreal Engine 3 henc
 TODO: Write detailed installation guide.
 Installation is done simply with CMake.
 
+### Installation for Windows
+
+1. Install vcpkg: https://vcpkg.io/en/index.html
+2. Install CMake: https://cmake.org/download/
+3. Recommended: Install Visual Studio Code with the "C/C++ Extension Pack" as an IDE
+4. Set the CMAKE toolchain to vcpkg:
+    1. In Visual Studio Code, press: Ctrl + Shift + P and type: "Preferences: Open Settings (JSON)"
+    2. Append to the JSON file the follwing (replace {vcpkg_install_path} with your actual install path): `"cmake.configureSettings": { "CMAKE_TOOLCHAIN_FILE": "{vcpkg_install_path}/scripts/buildsystems/vcpkg.cmake" }}`
+    3. If exists, delete the project's build folder
+5. Run: `vcpkg install sdl2:x64-windows`
+6. Run: `vcpkg install glew:x64-windows`
+7. Run: `vcpkg install glm:x64-windows`
+8. Run: `vcpkg install assimp:x64-windows`
+9. Run: `vcpkg install wxwidgets:x64-windows`
+
 ### Installation for MacOS (Tested in Intel, Monterey 12.4)
 
 1. Make sure that you have the "Command Line Tools for XCode" installed: https://developer.apple.com/download/all/ (for the AppleClang compiler)
@@ -31,3 +46,4 @@ Installation is done simply with CMake.
 6. Run: `brew install glew`
 7. Run: `brew install glm`
 8. Run: `brew install assimp`
+9. Run: `brew install wxwidgets`

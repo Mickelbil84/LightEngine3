@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.11-3.25)
 
 project(editor)
 
+if(MSVC)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+endif()
+
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glm REQUIRED)

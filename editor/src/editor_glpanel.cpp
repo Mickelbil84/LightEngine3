@@ -15,21 +15,25 @@ END_EVENT_TABLE()
 
 void LE3wxOpenGLPanel::mouseMoved(wxMouseEvent& event) 
 {
+    event.Skip();
 }
 void LE3wxOpenGLPanel::mouseDown(wxMouseEvent& event) 
 {
     // m_input.bLeftMouse = true;
+    event.Skip();
 }
-void LE3wxOpenGLPanel::mouseWheelMoved(wxMouseEvent& event) {}
+void LE3wxOpenGLPanel::mouseWheelMoved(wxMouseEvent& event) {event.Skip();}
 void LE3wxOpenGLPanel::mouseReleased(wxMouseEvent& event)
 {
     //  m_input.bLeftMouse = false;
+    event.Skip();
 }
-void LE3wxOpenGLPanel::rightClick(wxMouseEvent& event) {}
-void LE3wxOpenGLPanel::mouseLeftWindow(wxMouseEvent& event) {}
+void LE3wxOpenGLPanel::rightClick(wxMouseEvent& event) {event.Skip();}
+void LE3wxOpenGLPanel::mouseLeftWindow(wxMouseEvent& event) {event.Skip();}
 void LE3wxOpenGLPanel::keyPressed(wxKeyEvent& event) 
 {
     m_input.keyboard[event.GetKeyCode()] = true;
+    std::cout << event.GetKeyCode() << std::endl;
 }
 void LE3wxOpenGLPanel::keyReleased(wxKeyEvent& event) 
 {
@@ -128,6 +132,7 @@ void LE3wxOpenGLPanel::render( wxPaintEvent& evt )
     wxGLCanvas::SetCurrent(*m_context);
     wxPaintDC(this); // only to be used in paint events. use wxClientDC to paint outside the paint event
 	
+    glViewport(0, 0, getWidth(), getHeight());
     glClearColor(
             100.f/255.f, 
             149.f/255.f, 
