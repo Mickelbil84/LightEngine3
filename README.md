@@ -36,7 +36,7 @@ Installation is done simply with CMake.
 8. Run: `vcpkg install assimp:x64-windows`
 9. Run: `vcpkg install wxwidgets:x64-windows`
 
-### Installation for MacOS (Tested in Intel, Monterey 12.4)
+### Installation for MacOS (Tested in Intel and Apple Silicon, Monterey 12.4)
 
 1. Make sure that you have the "Command Line Tools for XCode" installed: https://developer.apple.com/download/all/ (for the AppleClang compiler)
 2. Install Homebrew: https://brew.sh
