@@ -43,8 +43,8 @@ class LE3EditorWindow : public wxFrame
 	protected:
 		wxAuiToolBar* m_auiToolBar4;
 		wxAuiToolBarItem* m_tool5;
-		wxAuiToolBarItem* m_tool6;
 		wxAuiToolBarItem* m_tool7;
+		wxAuiToolBarItem* m_tool6;
 		wxNotebook* m_notebook1;
 		wxPanel* m_panel2;
 		wxTreeListCtrl* m_treeListCtrl2;

@@ -62,11 +62,11 @@
                 <property name="name">bSizer9</property>
                 <property name="orient">wxVERTICAL</property>
                 <property name="permission">none</property>
-                <object class="sizeritem" expanded="0">
+                <object class="sizeritem" expanded="1">
                     <property name="border">5</property>
                     <property name="flag">wxALL|wxEXPAND</property>
                     <property name="proportion">0</property>
-                    <object class="wxAuiToolBar" expanded="0">
+                    <object class="wxAuiToolBar" expanded="1">
                         <property name="BottomDockable">1</property>
                         <property name="LeftDockable">1</property>
                         <property name="RightDockable">1</property>
@@ -126,7 +126,7 @@
                         <property name="window_name"></property>
                         <property name="window_style"></property>
                         <object class="tool" expanded="1">
-                            <property name="bitmap"></property>
+                            <property name="bitmap">Load From Art Provider; wxART_FILE_OPEN; wxART_FRAME_ICON</property>
                             <property name="context_menu">0</property>
                             <property name="id">wxID_ANY</property>
                             <property name="kind">wxITEM_NORMAL</property>
@@ -137,23 +137,23 @@
                             <property name="tooltip"></property>
                         </object>
                         <object class="tool" expanded="1">
-                            <property name="bitmap"></property>
-                            <property name="context_menu">0</property>
-                            <property name="id">wxID_ANY</property>
-                            <property name="kind">wxITEM_NORMAL</property>
-                            <property name="label">tool</property>
-                            <property name="name">m_tool6</property>
-                            <property name="permission">protected</property>
-                            <property name="statusbar"></property>
-                            <property name="tooltip"></property>
-                        </object>
-                        <object class="tool" expanded="1">
-                            <property name="bitmap"></property>
+                            <property name="bitmap">Load From Art Provider; wxART_FILE_SAVE; wxART_FRAME_ICON</property>
                             <property name="context_menu">0</property>
                             <property name="id">wxID_ANY</property>
                             <property name="kind">wxITEM_NORMAL</property>
                             <property name="label">tool</property>
                             <property name="name">m_tool7</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar"></property>
+                            <property name="tooltip"></property>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap">Load From Art Provider; wxART_NEW; wxART_FRAME_ICON</property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">tool</property>
+                            <property name="name">m_tool6</property>
                             <property name="permission">protected</property>
                             <property name="statusbar"></property>
                             <property name="tooltip"></property>
