@@ -14,6 +14,8 @@
 #include <le3_asset_manager.h>
 #include <le3_scene_manager.h>
 
+#include "editor_gizmo.h"
+
 struct LE3EditorInput
 {
     std::map<int, bool> keyboard;
@@ -24,8 +26,10 @@ struct LE3EditorInput
 class LE3Editor
 {
     LE3SceneRoot root;
+    LE3EditorGizmo gizmo;
 
-	LE3StaticMesh car;
+    LE3Object car, wheelsFront, wheelsBack;
+	LE3StaticMesh carBodyMesh, wheel1, wheel2, wheel3, wheel4;
 	LE3FreeCamera camera;
 
 public:
@@ -37,4 +41,7 @@ public:
     void Update(float deltaTime);
     void HandleInput(LE3EditorInput input);
     void Render(int width, int height);
+
+    LE3Object* GetRoot() const;
+    LE3EditorGizmo* GetGizmo() const;
 };

@@ -4,6 +4,26 @@ LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selected
 {
 }
 
+void LE3EditorUI::RefreshSceneGraph()
+{
+    this->m_sceneGraphMap.clear();
+    this->m_sceneGraphTree->DeleteAllItems();
+    this->m_sceneGraphTree->AppendColumn(wxT("Name"));
+    this->RefreshSceneGraph(m_editor->GetRoot(), m_sceneGraphTree->GetRootItem());
+}
+
+void LE3EditorUI::RefreshSceneGraph(LE3Object* node, wxTreeListItem treeItem)
+{
+    if (node->GetHiddenInSceneGraph())
+        return;
+    wxTreeListItem newItem = this->m_sceneGraphTree->AppendItem(treeItem, node->GetName().c_str());
+    this->m_sceneGraphMap[newItem] = node;
+    this->m_sceneGraphTree->Expand(newItem);
+    this->m_sceneGraphTree->SetColumnWidth(0, 300);
+    for (auto child : node->GetChildren())
+        this->RefreshSceneGraph(child, newItem);
+}
+
 void LE3EditorUI::RefreshAssets()
 {
     this->m_treeListShaders->DeleteAllItems();
@@ -70,6 +90,24 @@ void LE3EditorUI::OnPropertyChangeShader(wxPropertyGridEvent& event)
         shader->m_fragmentShaderPath = event.GetPropertyValue().GetString().ToStdString();
         shader->CompileShader(shader->m_vertexShaderPath, shader->m_fragmentShaderPath);
     }
+}
+
+void LE3EditorUI::OnSelectObjectInGraph( wxTreeListEvent& event )
+{
+    // Check if this is a deselect event
+    wxString name = this->m_treeListShaders->GetItemText(event.GetItem());
+    if (name.IsEmpty())
+    {
+        std::cout << "--Deselect--" << std::endl;
+        m_editor->GetGizmo()->SetHidden(true);
+        return;
+    }
+
+    m_editor->GetGizmo()->SetHidden(false);
+    LE3Object* obj = this->m_sceneGraphMap[event.GetItem()];
+    std::cout << obj->GetName() << std::endl;
+    std::cout << obj->GetGlobalPosition().x << " " << std::endl;
+    m_editor->GetGizmo()->SetPosition(obj->GetGlobalPosition());
 }
 
 void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )

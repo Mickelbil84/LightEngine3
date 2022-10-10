@@ -53,6 +53,7 @@ bool LE3EditorApp::OnInit()
     m_editor.Init();
     // After loading refresh assets (as there are at least some new shaders)
     window->RefreshAssets();
+    window->RefreshSceneGraph();
     
     window->Show(true);
 

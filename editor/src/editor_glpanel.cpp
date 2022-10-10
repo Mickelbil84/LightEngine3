@@ -33,7 +33,6 @@ void LE3wxOpenGLPanel::mouseLeftWindow(wxMouseEvent& event) {event.Skip();}
 void LE3wxOpenGLPanel::keyPressed(wxKeyEvent& event) 
 {
     m_input.keyboard[event.GetKeyCode()] = true;
-    std::cout << event.GetKeyCode() << std::endl;
 }
 void LE3wxOpenGLPanel::keyReleased(wxKeyEvent& event) 
 {

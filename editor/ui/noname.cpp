@@ -41,15 +41,15 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizer91;
 	bSizer91 = new wxBoxSizer( wxVERTICAL );
 
-	m_treeListCtrl2 = new wxTreeListCtrl( m_panel2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTL_DEFAULT_STYLE );
+	m_sceneGraphTree = new wxTreeListCtrl( m_panel2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTL_DEFAULT_STYLE );
 
-	bSizer91->Add( m_treeListCtrl2, 1, wxEXPAND | wxALL, 5 );
+	bSizer91->Add( m_sceneGraphTree, 1, wxEXPAND | wxALL, 5 );
 
 
 	m_panel2->SetSizer( bSizer91 );
 	m_panel2->Layout();
 	bSizer91->Fit( m_panel2 );
-	m_notebook1->AddPage( m_panel2, wxT("Scene"), false );
+	m_notebook1->AddPage( m_panel2, wxT("Scene"), true );
 	m_panel3 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer10;
 	bSizer10 = new wxBoxSizer( wxVERTICAL );
@@ -162,7 +162,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	m_panel3->SetSizer( bSizer10 );
 	m_panel3->Layout();
 	bSizer10->Fit( m_panel3 );
-	m_notebook1->AddPage( m_panel3, wxT("Assets"), true );
+	m_notebook1->AddPage( m_panel3, wxT("Assets"), false );
 
 	bSizer12->Add( m_notebook1, 1, wxEXPAND | wxALL, 5 );
 
@@ -193,6 +193,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	this->Centre( wxBOTH );
 
 	// Connect Events
+	m_sceneGraphTree->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectObjectInGraph ), NULL, this );
 	m_treeListShaders->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectShader ), NULL, this );
 	m_propertyGrid->Connect( wxEVT_PG_CHANGED, wxPropertyGridEventHandler( LE3EditorWindow::OnPropertyChange ), NULL, this );
 }
@@ -200,6 +201,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 LE3EditorWindow::~LE3EditorWindow()
 {
 	// Disconnect Events
+	m_sceneGraphTree->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectObjectInGraph ), NULL, this );
 	m_treeListShaders->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectShader ), NULL, this );
 	m_propertyGrid->Disconnect( wxEVT_PG_CHANGED, wxPropertyGridEventHandler( LE3EditorWindow::OnPropertyChange ), NULL, this );
 

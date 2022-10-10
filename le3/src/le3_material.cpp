@@ -18,6 +18,7 @@ void LE3Material::SetShader(LE3Shader* shader)
 
 void LE3Material::Apply(glm::mat4 modelMatrix)
 {
+    pShader->Use();
     pShader->Uniform("model", modelMatrix);
     pShader->Uniform("material.diffuseColor", diffuseColor);
     pShader->Uniform("material.bUseDiffuseTexture", bUseDiffuseTexture);

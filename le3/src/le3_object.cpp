@@ -3,7 +3,9 @@
 LE3Object::LE3Object(std::string name, glm::vec3 position, glm::vec3 rotation, float scale):
     m_name(name),
     m_position(position), m_rotation(rotation), m_scale(scale),
-    m_pParent(nullptr)
+    m_pParent(nullptr),
+    m_bHiddenInSceneGraph(false),
+    m_bHidden(false)
 {
     UpdateLocalModelMatrix();
     UpdateGlobalModelMatrix();
@@ -41,8 +43,8 @@ glm::mat4 LE3Object::GetModelMatrix() const
 
 void LE3Object::Reparent(LE3Object* parent)
 {
-    if (m_pParent == parent)
-        return;
+    // if (m_pParent == parent)
+    //     return;
     if (m_pParent)
     {
         m_pParent->RemoveChild(this);
@@ -119,3 +121,33 @@ std::string LE3Object::GetName() const
 {
     return m_name;
 }
+
+void LE3Object::SetHiddenInSceneGraph(bool hidden)
+{
+    m_bHiddenInSceneGraph = hidden;
+}
+bool LE3Object::GetHiddenInSceneGraph() const
+{
+    return m_bHiddenInSceneGraph;
+}
+
+void LE3Object::SetHidden(bool hidden)
+{
+    m_bHidden = hidden;
+}
+bool LE3Object::GetHidden() const
+{
+    return m_bHidden;
+}
+
+glm::vec3 LE3Object::GetGlobalPosition() const
+{
+    glm::vec3 scale;
+    glm::quat rotation;
+    glm::vec3 translation;
+    glm::vec3 skew;
+    glm::vec4 perspective;
+    glm::decompose(m_globalModelMatrix, scale, rotation, translation, skew, perspective);
+    return translation;
+}
+

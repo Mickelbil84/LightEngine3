@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 
 // The most basic entity in the framework. Each element in the scene is an object.
 // An object has a local transform (which is in relation to its parent).
@@ -39,6 +40,12 @@ public:
     float GetScale() const;
     void SetName(std::string name);
     std::string GetName() const;
+    void SetHiddenInSceneGraph(bool hidden);
+    bool GetHiddenInSceneGraph() const;
+    void SetHidden(bool hidden);
+    bool GetHidden() const;
+
+    glm::vec3 GetGlobalPosition() const;
 
 protected:
     
@@ -63,6 +70,8 @@ protected:
     LE3Object* m_pParent;
     std::vector<LE3Object*> m_children;
     std::string m_name;
+    bool m_bHiddenInSceneGraph;
+    bool m_bHidden;
 
 private:
     // Updates the local model matrix of the object (based on the transform vectors)

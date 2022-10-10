@@ -22,6 +22,7 @@ add_executable(
     src/editor_glpanel.cpp
     src/editor_ui.cpp
     src/editor.cpp
+    src/editor_gizmo.cpp
 )
 target_include_directories(editor PUBLIC ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/ui)
 target_link_libraries(editor PRIVATE le3 GLEW::glew ${wxWidgets_LIBRARIES})

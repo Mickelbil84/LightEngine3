@@ -292,11 +292,11 @@
                                         <property name="window_extra_style"></property>
                                         <property name="window_name"></property>
                                         <property name="window_style"></property>
-                                        <object class="notebookpage" expanded="0">
+                                        <object class="notebookpage" expanded="1">
                                             <property name="bitmap"></property>
                                             <property name="label">Scene</property>
-                                            <property name="select">0</property>
-                                            <object class="wxPanel" expanded="0">
+                                            <property name="select">1</property>
+                                            <object class="wxPanel" expanded="1">
                                                 <property name="BottomDockable">1</property>
                                                 <property name="LeftDockable">1</property>
                                                 <property name="RightDockable">1</property>
@@ -391,7 +391,7 @@
                                                             <property name="minimize_button">0</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="moveable">1</property>
-                                                            <property name="name">m_treeListCtrl2</property>
+                                                            <property name="name">m_sceneGraphTree</property>
                                                             <property name="pane_border">1</property>
                                                             <property name="pane_position"></property>
                                                             <property name="pane_size"></property>
@@ -408,6 +408,7 @@
                                                             <property name="window_extra_style"></property>
                                                             <property name="window_name"></property>
                                                             <property name="window_style"></property>
+                                                            <event name="OnTreelistSelectionChanged">OnSelectObjectInGraph</event>
                                                         </object>
                                                     </object>
                                                 </object>
@@ -416,7 +417,7 @@
                                         <object class="notebookpage" expanded="1">
                                             <property name="bitmap"></property>
                                             <property name="label">Assets</property>
-                                            <property name="select">1</property>
+                                            <property name="select">0</property>
                                             <object class="wxPanel" expanded="1">
                                                 <property name="BottomDockable">1</property>
                                                 <property name="LeftDockable">1</property>

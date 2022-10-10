@@ -16,6 +16,9 @@ void LE3SceneRoot::UpdateRecurse(double deltaTime, LE3Object* object)
 
 void LE3SceneRoot::DrawRecurse(LE3Object* object)
 {
+    if (object->GetHidden())
+        return;
+
     for (auto child : object->GetChildren())   
     {
         child->Draw();

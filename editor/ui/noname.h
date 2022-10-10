@@ -47,7 +47,7 @@ class LE3EditorWindow : public wxFrame
 		wxAuiToolBarItem* m_tool6;
 		wxNotebook* m_notebook1;
 		wxPanel* m_panel2;
-		wxTreeListCtrl* m_treeListCtrl2;
+		wxTreeListCtrl* m_sceneGraphTree;
 		wxPanel* m_panel3;
 		wxNotebook* m_assetsNotebook;
 		wxPanel* m_shadersPanel;
@@ -72,6 +72,7 @@ class LE3EditorWindow : public wxFrame
 		wxMenu* m_menu2;
 
 		// Virtual event handlers, override them in your derived class
+		virtual void OnSelectObjectInGraph( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnSelectShader( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnPropertyChange( wxPropertyGridEvent& event ) { event.Skip(); }
 

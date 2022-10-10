@@ -16,3 +16,15 @@ void AddHelloOpenGLTriangle(std::vector<LE3Vertex3p3c>& buffer);
 void AddBox(std::vector<LE3Vertex>& buffer,
     GLfloat x0, GLfloat y0, GLfloat z0,
     GLfloat width, GLfloat height, GLfloat depth);
+
+// Appends a cylinder to a given vector vertex buffer
+// TODO: Setup tex coords
+void AddCylinder(std::vector<LE3Vertex>& buffer,
+    GLfloat x0, GLfloat y0, GLfloat z0,
+    GLfloat radius, GLfloat height, GLushort resolution);
+
+// Appends a cone to a given vector vertex buffer
+// TODO: Setup tex coords
+void AddCone(std::vector<LE3Vertex>& buffer,
+    GLfloat x0, GLfloat y0, GLfloat z0,
+    GLfloat radius, GLfloat height, GLushort resolution);
