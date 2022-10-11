@@ -13,6 +13,8 @@
 #include <le3_static_mesh.h>
 #include <le3_asset_manager.h>
 #include <le3_scene_manager.h>
+#include <le3_physics.h>
+#include <le3_visual_debug.h>
 
 #include "editor_gizmo.h"
 
@@ -20,6 +22,9 @@ struct LE3EditorInput
 {
     std::map<int, bool> keyboard;
 	int xrel, yrel;
+    int mouseX, mouseY;
+    int screenWidth, screenHeight;
+    float relativeMouseX, relativeMouseY;
     bool bLeftMouse;
 };
 
@@ -27,6 +32,7 @@ class LE3Editor
 {
     LE3SceneRoot root;
     LE3EditorGizmo gizmo;
+    LE3PhysicsComponent physics;
 
     LE3Object car, wheelsFront, wheelsBack;
 	LE3StaticMesh carBodyMesh, wheel1, wheel2, wheel3, wheel4;

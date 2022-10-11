@@ -39,6 +39,8 @@ int LE3Application::_Init()
 
     this->ApplyOpenGLSettings();
 
+    m_physics.Init();
+
 
     return this->Init();
 }

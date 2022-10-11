@@ -20,6 +20,7 @@ public:
 
     // Compiles the shader given source files. Vertex and fragment shaders are mandatory.
     void CompileShader(std::string vertexShaderPath, std::string fragmentShaderPath);
+    void CompileShaderFromSource(std::string vertexShaderSource, std::string fragmentShaderSource);
 
     // Activates the shader
     void Use();
@@ -39,7 +40,7 @@ private:
     
     // Creates and compiles a shader of a given type. 
     // Prints verbosely any errors that may occur in DEBUG builds.
-    GLuint CreateShader(std::string filePath, GLenum type);
+    GLuint CreateShader(std::string shaderSourceString, std::string filePath, GLenum type);
     
     // Returns the given uniform's location
     GLint GetUniformLocation(std::string uniformName);

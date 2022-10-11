@@ -4,6 +4,7 @@
 #include <gl/glew.h>
 
 #include "le3_vertex.h"
+#include "le3_physics.h"
 
 template<typename LE3VertexType>
 class LE3Mesh
@@ -24,8 +25,14 @@ public:
     // Draws the mesh to the screen (we assume a shader is already bound)
     void Draw(GLenum mode = GL_TRIANGLES);
 
+    LE3BoxCollision GetBoxCollision() const;
+
 protected:
+public:
+    void ComputeAABB(GLsizeiptr size, LE3VertexType* data);
+
     GLuint m_vao, m_vbo, m_ibo;
     GLsizei m_count;
     bool m_bIndexed;
+    LE3BoxCollision m_boxCollision;
 };

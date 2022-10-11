@@ -9,32 +9,14 @@ const std::string resource_prefix = std::string("../");
 
 void LE3Editor::Init()
 {
-    // // ---------------------------
-    // //   Load Assets
-    // // ---------------------------
-    // scene.assets.LoadShader("basic", 
-    //     resource_prefix + "resources/shaders/basic/basic.vs", 
-    //     resource_prefix + "resources/shaders/basic/basic.fs");
-    // scene.assets.AddMeshPath("car", resource_prefix + "resources/models/cars/Audi R8.fbx");
-    // scene.assets.CreateMaterial("car", "basic");
+    //
+    // Manually start the physics engine
+    //
+    this->physics.Init();
 
-    // // ---------------------------
-    // //   Create game objects
-    // // ---------------------------
-    // camera.SetPosition(glm::vec3(0.f, 0.5f, 5.f));
-    // root.AppendChild(&camera);
-
-    // car.SetPosition(glm::vec3(0.f, 0.f, 2.f));
-    // car.SetName("Car");
-    // car.SetMesh(scene.assets.GetMesh("car"));
-    // car.SetMaterial(scene.assets.GetMaterial("car"));
-    // car.SetScale(0.3f);
-    // car.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f));
-    // root.AppendChild(&car);
-
-    // ---------------------------
-    //   Load Assets
-    // ---------------------------
+    //
+    // Setup Gizmo and Camera
+    //
     scene.assets.LoadShader("gizmo",
         resource_prefix + "resources/shaders/editor/gizmo.vs", 
         resource_prefix + "resources/shaders/editor/gizmo.fs");
@@ -45,6 +27,25 @@ void LE3Editor::Init()
     scene.assets.GetMaterial("gizmoY")->diffuseColor = glm::vec4(0.f, 1.f, 0.f, 1.f);
     scene.assets.CreateMaterial("gizmoZ", "gizmo");
     scene.assets.GetMaterial("gizmoZ")->diffuseColor = glm::vec4(0.f, 0.f, 1.f, 1.f);
+
+    gizmo.Init(
+        scene.assets.GetMaterial("gizmoX"),
+        scene.assets.GetMaterial("gizmoY"),
+        scene.assets.GetMaterial("gizmoZ"));
+    gizmo.SetHiddenInSceneGraph(true);
+    gizmo.SetHidden(true);
+    root.AppendChild(&gizmo);
+
+    camera.SetPosition(glm::vec3(0.f, 0.5f, 5.f));
+    camera.SetHiddenInSceneGraph(true);
+    root.AppendChild(&camera);
+
+    LE3VisualDebug::Init(&camera);
+
+    // ---------------------------
+    //   Load Assets
+    // ---------------------------
+    
 
     scene.assets.LoadShader("basic", 
         resource_prefix + "resources/shaders/moving_car/moving_car.vs", 
@@ -72,17 +73,7 @@ void LE3Editor::Init()
     // ---------------------s------
     //   Create game objects
     // ---------------------------
-    gizmo.Init(
-        scene.assets.GetMaterial("gizmoX"),
-        scene.assets.GetMaterial("gizmoY"),
-        scene.assets.GetMaterial("gizmoZ"));
-    gizmo.SetHiddenInSceneGraph(true);
-    gizmo.SetHidden(true);
-    root.AppendChild(&gizmo);
-
-    camera.SetPosition(glm::vec3(0.f, 0.5f, 5.f));
-    camera.SetHiddenInSceneGraph(true);
-    root.AppendChild(&camera);
+    
 
     car.SetName("Car");
     // car.SetPosition(glm::vec3(0.f, 0.f, -5.f));
@@ -93,7 +84,8 @@ void LE3Editor::Init()
     carBodyMesh.SetMaterial(scene.assets.GetMaterial("carBody"));
     carBodyMesh.SetScale(0.3f);
     carBodyMesh.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f));
-    car.AppendChild(&carBodyMesh);
+    carBodyMesh.RegisterCollision(&physics);
+    // car.AppendChild(&carBodyMesh);
 
     wheelsFront.SetName("WheelsFront");
     wheelsFront.SetPosition(glm::vec3(-.705f, 0.175f, 0.f));
@@ -144,12 +136,52 @@ void LE3Editor::Update(float deltaTime)
     // Update gizmo size
     float gizmoSize = 1.f + glm::length(camera.GetPosition()) * gGizmoScaleFactor;
     gizmo.SetScale(gizmoSize);
-    gizmo.Reparent(&root);
-    
+    gizmo.Reparent(&root);    
 }
 
 void LE3Editor::HandleInput(LE3EditorInput input)
 {
+    // Get pointed object
+    glm::vec4 rayStartScreen(
+        input.relativeMouseX,
+        input.relativeMouseY,
+        -1.f, 1.f
+    );
+    glm::vec4 rayEndScreen(
+        input.relativeMouseX,
+        input.relativeMouseY,
+        0.f, 1.f
+    );
+    glm::mat4 inv = glm::inverse(camera.GetProjectionMatrix((float)input.screenWidth / (float)input.screenHeight) * camera.GetViewMatrix());
+    glm::vec4 rayStartWorld = inv * rayStartScreen; rayStartWorld /= rayStartWorld.w;
+    glm::vec4 rayEndWorld = inv * rayEndScreen; rayEndWorld /= rayEndWorld.w;
+    
+    glm::vec3 rayDir = glm::normalize(glm::vec3(rayEndWorld - rayStartWorld));
+    glm::vec3 rayOrigin = glm::vec3(rayStartWorld);
+    glm::vec3 rayEndpoint = rayOrigin + rayDir * 1000.f;
+    btCollisionWorld::ClosestRayResultCallback RayCallback(
+        btVector3(rayOrigin.x, rayOrigin.y, rayOrigin.z),
+        btVector3(rayEndpoint.x, rayEndpoint.y, rayEndpoint.z)
+    );
+    physics.GetWorld()->rayTest(
+        btVector3(rayOrigin.x, rayOrigin.y, rayOrigin.z),
+        btVector3(rayEndpoint.x, rayEndpoint.y, rayEndpoint.z),
+        RayCallback
+    );
+
+    // if (RayCallback.hasHit())
+    // {
+    //     LE3Object* obj = (LE3Object*) RayCallback.m_collisionObject->getUserPointer();
+    //     std::cout << obj->GetName() << std::endl;
+    // }
+    // else
+    // {
+    //     std::cout << "NONE" << std::endl;
+    // }
+
+
+
+    ///////
     if (!input.bLeftMouse)
     {
         camera.SetMoveVelocityX(0.f);
@@ -186,15 +218,18 @@ void LE3Editor::HandleInput(LE3EditorInput input)
 
 void LE3Editor::Render(int width, int height)
 {
+    camera.SetAspectRatio((float)width / (float)height);
     for (const auto& [key, value] : scene.assets.m_shaders)
     {
         LE3Shader* shader = scene.assets.GetShader(key);
         shader->Use();
         shader ->Uniform("view", camera.GetViewMatrix());
-        shader->Uniform("projection", camera.GetProjectionMatrix((float)width / (float)height));
+        shader->Uniform("projection", camera.GetProjectionMatrix());
     }
 
     root.Draw();
+
+    LE3VisualDebug::DrawDebugCube(glm::vec3(0.f, 1.f, 0.f));
 }
 
 LE3Object* LE3Editor::GetRoot() const

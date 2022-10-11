@@ -17,6 +17,8 @@ void LE3Mesh<LE3VertexType>::LoadMeshData(GLsizeiptr size, LE3VertexType* data, 
 
     m_count = count;
     m_bIndexed = false;
+
+    ComputeAABB(size, data);
 }
 
 template<typename LE3VertexType>
@@ -43,6 +45,8 @@ void LE3Mesh<LE3VertexType>::LoadMeshDataIndexed(GLsizeiptr size, LE3VertexType*
 
     m_count = count;
     m_bIndexed = true;
+
+    ComputeAABB(size, data);
 }
 
 template<typename LE3VertexType>
@@ -76,6 +80,50 @@ void LE3Mesh<LE3VertexType>::Draw(GLenum mode)
     else
         glDrawElements(mode, m_count, GL_UNSIGNED_INT, NULL);
 }
+
+template<typename LE3VertexType>
+void LE3Mesh<LE3VertexType>::ComputeAABB(GLsizeiptr size, LE3VertexType* data)
+{
+    GLsizei count = static_cast<GLsizeiptr>(size / sizeof(LE3VertexType));
+    glm::vec3 lowerBound;
+    glm::vec3 upperBound;
+
+    lowerBound.x = data[0].position[0];
+    lowerBound.y = data[0].position[1];
+    lowerBound.z = data[0].position[2];
+    upperBound.x = data[0].position[0];
+    upperBound.y = data[0].position[1];
+    upperBound.z = data[0].position[2];
+
+
+    for (GLsizei i = 0; i < count; i++)
+    {
+        if (data[i].position[0] < lowerBound.x)
+            lowerBound.x = data[i].position[0];
+        if (data[i].position[0] > upperBound.x)
+            upperBound.x = data[i].position[0];
+        
+        if (data[i].position[1] < lowerBound.y)
+            lowerBound.y = data[i].position[1];
+        if (data[i].position[1] > upperBound.y)
+            upperBound.y = data[i].position[1];
+
+        if (data[i].position[2] < lowerBound.z)
+            lowerBound.z = data[i].position[2];
+        if (data[i].position[2] > upperBound.z)
+            upperBound.z = data[i].position[2];
+    }
+
+    m_boxCollision.lowerBound = lowerBound;
+    m_boxCollision.upperBound = upperBound;
+}
+
+template<typename LE3VertexType>
+LE3BoxCollision LE3Mesh<LE3VertexType>::GetBoxCollision() const
+{
+    return m_boxCollision;
+}
+
 
 template class LE3Mesh<LE3Vertex3p>;
 template class LE3Mesh<LE3Vertex3p3c>;

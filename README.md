@@ -47,3 +47,4 @@ Installation is done simply with CMake.
 7. Run: `brew install glm`
 8. Run: `brew install assimp`
 9. Run: `brew install wxwidgets`
+10. Run: `brew install bullet`

@@ -41,6 +41,8 @@ glm::mat4 LE3Camera::GetViewMatrix() const
 
 glm::mat4 LE3Camera::GetProjectionMatrix(float aspectRatio) const
 {
+    if (aspectRatio < 0)
+        aspectRatio = m_aspectRatio;
     return glm::perspective(glm::radians(45.f), aspectRatio, 0.1f, 100.f);
 }
 
@@ -57,6 +59,15 @@ glm::vec3 LE3Camera::GetRight() const
 glm::vec3 LE3Camera::GetUp() const
 {
     return m_up;
+}
+
+float LE3Camera::GetAspectRatio() const
+{
+    return m_aspectRatio;
+}
+void LE3Camera::SetAspectRatio(float aspectRatio)
+{
+    m_aspectRatio = aspectRatio;
 }
 
 LE3FPSCamera::LE3FPSCamera(float walkSpeed, float lookSensitivity) : 

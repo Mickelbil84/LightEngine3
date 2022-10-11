@@ -59,3 +59,12 @@ LE3Vertex VertexFromGLM(glm::vec3 position, glm::vec2 uv, glm::vec3 normal)
     v.normal[2] = normal.z;
     return v;
 }
+
+LE3Vertex3p VertexFromGLM(glm::vec3 position)
+{
+    LE3Vertex3p v;
+    v.position[0] = position.x;
+    v.position[1] = position.y;
+    v.position[2] = position.z;
+    return v;
+}

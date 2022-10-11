@@ -16,6 +16,7 @@ void AddHelloOpenGLTriangle(std::vector<LE3Vertex3p3c>& buffer);
 void AddBox(std::vector<LE3Vertex>& buffer,
     GLfloat x0, GLfloat y0, GLfloat z0,
     GLfloat width, GLfloat height, GLfloat depth);
+void AddDebugBox(std::vector<LE3Vertex3p>& buffer);
 
 // Appends a cylinder to a given vector vertex buffer
 // TODO: Setup tex coords

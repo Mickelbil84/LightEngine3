@@ -6,6 +6,7 @@
 
 #include "le3_application_settings.h"
 #include "le3_input.h"
+#include "le3_physics.h"
 
 // Base abstract class for any LE3 based application.
 // User should implement all abstract functions (they may be empty).
@@ -51,6 +52,7 @@ protected:
     double m_deltaTime;
     LE3ApplicationSettings m_settings;
 
+    LE3PhysicsComponent m_physics;
 
     // Updates only the title of the window (and also in the settings)
     // This is seperate from `ApplyWindowSettings` since this might be called

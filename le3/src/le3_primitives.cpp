@@ -111,6 +111,28 @@ void AddBox(std::vector<LE3Vertex>& buffer,
     buffer.push_back(VertexFromGLM(v7, t4 * m3, n6));
 }
 
+void AddDebugBox(std::vector<LE3Vertex3p>& buffer)
+{
+    // Define the 8 vertices of the cube
+    std::vector<glm::vec3> vertices;
+    vertices.push_back(glm::vec3(-.5f, .5f, .5f));
+    vertices.push_back(glm::vec3(-.5f, .5f, -.5f));
+    vertices.push_back(glm::vec3(.5f, .5f, -.5f));
+    vertices.push_back(glm::vec3(.5f, .5f, .5f));
+    vertices.push_back(glm::vec3(-.5f, -.5f, .5f));
+    vertices.push_back(glm::vec3(-.5f, -.5f, -.5f));
+    vertices.push_back(glm::vec3(.5f, -.5f, -.5f));
+    vertices.push_back(glm::vec3(.5f, -.5f, .5f));
+    char indices[] = {
+        1,2 ,2,3, 3,4, 4,1,
+        5,6, 6,7, 7,8, 8,5,
+        1,5, 2,6, 3,7, 4,8
+    };
+    for (int i = 0; i < 24; i++)
+        buffer.push_back(VertexFromGLM(vertices[indices[i]-1]));
+    
+}
+
 void AddCylinder(std::vector<LE3Vertex>& buffer,
     GLfloat x0, GLfloat y0, GLfloat z0,
     GLfloat radius, GLfloat height, GLushort resolution)

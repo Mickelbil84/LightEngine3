@@ -11,8 +11,28 @@ void LE3Shader::CompileShader(std::string vertexShaderPath, std::string fragment
     m_vertexShaderPath = vertexShaderPath;
     m_fragmentShaderPath = fragmentShaderPath;
 
-    GLuint vertexShader = CreateShader(vertexShaderPath, GL_VERTEX_SHADER);
-    GLuint fragmentShader = CreateShader(fragmentShaderPath, GL_FRAGMENT_SHADER);
+    if (!std::filesystem::exists(m_vertexShaderPath))
+    {
+        #ifndef NDEBUG
+        PrintTitle("Shader Compile Error");
+        std::cout << "File does not exists:\t" << m_vertexShaderPath << std::endl;
+        #endif
+        return;
+    }
+    std::string vertexShaderSource = LE3Shader::ReadShaderFile(m_vertexShaderPath);
+
+    if (!std::filesystem::exists(m_fragmentShaderPath))
+    {
+        #ifndef NDEBUG
+        PrintTitle("Shader Compile Error");
+        std::cout << "File does not exists:\t" << m_fragmentShaderPath << std::endl;
+        #endif
+        return;
+    }
+    std::string fragmentShaderSource = LE3Shader::ReadShaderFile(m_fragmentShaderPath);
+
+    GLuint vertexShader = CreateShader(vertexShaderSource, vertexShaderPath, GL_VERTEX_SHADER);
+    GLuint fragmentShader = CreateShader(fragmentShaderSource, fragmentShaderPath, GL_FRAGMENT_SHADER);
 
     m_program = glCreateProgram();
     glAttachShader(m_program, vertexShader);
@@ -39,17 +59,8 @@ void LE3Shader::CompileShader(std::string vertexShaderPath, std::string fragment
     glDeleteShader(fragmentShader);
 }
 
-GLuint LE3Shader::CreateShader(std::string filePath, GLenum type)
+GLuint LE3Shader::CreateShader(std::string shaderSourceString, std::string filePath, GLenum type)
 {
-    if (!std::filesystem::exists(filePath))
-    {
-        #ifndef NDEBUG
-        PrintTitle("Shader Compile Error");
-        std::cout << "File does not exists:\t" << filePath << std::endl;
-        #endif
-        return 0;
-    }
-    std::string shaderSourceString = LE3Shader::ReadShaderFile(filePath);
     const char* shaderSource = shaderSourceString.c_str();
 
     GLuint shader = glCreateShader(type);
@@ -72,6 +83,36 @@ GLuint LE3Shader::CreateShader(std::string filePath, GLenum type)
     }
 
     return shader;
+}
+
+void LE3Shader::CompileShaderFromSource(std::string vertexShaderSource, std::string fragmentShaderSource)
+{
+    GLuint vertexShader = CreateShader(vertexShaderSource, "vertexShader", GL_VERTEX_SHADER);
+    GLuint fragmentShader = CreateShader(fragmentShaderSource, "fragmentShader", GL_FRAGMENT_SHADER);
+
+    m_program = glCreateProgram();
+    glAttachShader(m_program, vertexShader);
+    glAttachShader(m_program, fragmentShader);
+    glLinkProgram(m_program);
+
+    // Check if linking succeeded
+    GLint status;
+    glGetProgramiv(m_program, GL_LINK_STATUS, &status);
+    if (status != GL_TRUE)
+    {
+        char infoLog[SHADER_ERROR_BUFFER_SIZE];
+        glGetProgramInfoLog(m_program, SHADER_ERROR_BUFFER_SIZE, nullptr, infoLog);
+        #ifndef NDEBUG
+        PrintTitle("Shader Linking Error");
+        std::cout << "An error occurred while linking shader." << std::endl;
+        std::cout << "The following message was returned:" << std::endl;
+        std::cout << infoLog << std::endl;
+        #endif
+    }
+
+    // Mark shaders for deletion
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
 }
 
 std::string LE3Shader::ReadShaderFile(std::string filePath)

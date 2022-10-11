@@ -18,7 +18,7 @@ public:
     // Returns the view matrix for the given camera
     glm::mat4 GetViewMatrix() const;
     // Returns the projection matrix for the given camera
-    glm::mat4 GetProjectionMatrix(float aspectRatio) const;
+    glm::mat4 GetProjectionMatrix(float aspectRatio=-1.f) const;
     // Returns camera's forward vector
     glm::vec3 GetForward() const;
     // Returns camera's right vector
@@ -26,8 +26,12 @@ public:
     // Returns camera's up vector
     glm::vec3 GetUp() const;
 
+    float GetAspectRatio() const;
+    void SetAspectRatio(float aspectRatio);
+
 protected:
     glm::vec3 m_forward, m_up, m_right;
+    float m_aspectRatio;
 };
 
 class LE3FPSCamera : public LE3Camera

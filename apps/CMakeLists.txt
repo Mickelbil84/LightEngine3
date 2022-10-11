@@ -5,7 +5,8 @@ project(main)
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glm REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS})
+find_package(Bullet REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${BULLET_INCLUDE_DIRS})
 link_libraries(${GLEW_LIBRARIES})
 
 add_executable(
@@ -19,12 +20,12 @@ add_executable(
     01_hello_opengl
     demos/01_hello_opengl.cpp
 )
-target_link_libraries(01_hello_opengl PRIVATE le3 GLEW::glew)
+target_link_libraries(01_hello_opengl PRIVATE le3 GLEW::glew ${BULLET_LIBRARIES})
 target_compile_features(01_hello_opengl PUBLIC cxx_std_20)
 
 add_executable(
     02_moving_car
     demos/02_moving_car.cpp
 )
-target_link_libraries(02_moving_car PRIVATE le3 GLEW::glew)
+target_link_libraries(02_moving_car PRIVATE le3 GLEW::glew ${BULLET_LIBRARIES})
 target_compile_features(02_moving_car PUBLIC cxx_std_20)

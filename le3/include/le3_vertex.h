@@ -38,6 +38,7 @@ struct LE3Vertex3p2t3n3c
 using LE3Vertex = LE3Vertex3p2t3n; 
 // Create a default vertex using glm vectors
 LE3Vertex VertexFromGLM(glm::vec3 position, glm::vec2 uv, glm::vec3 normal);
+LE3Vertex3p VertexFromGLM(glm::vec3 position);
 
 
 // Register the type of `LE3Vertex3p` as the current vertex type, argument `v` is example for type.
