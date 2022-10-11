@@ -42,9 +42,11 @@ void LE3VisualDebug::Init(LE3Camera* camera)
 
 }
 
-void LE3VisualDebug::DrawDebugCube(glm::vec3 color)
+void LE3VisualDebug::DrawDebugCube(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color)
 {
-    glm::mat4 model(1.f);
+    glm::mat4 model = glm::translate(position) *
+        glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z) * 
+        glm::scale(scale);
 
     m_pDebugShader->Use();
     m_pDebugShader->Uniform("view", m_pCamera->GetViewMatrix());
@@ -52,5 +54,4 @@ void LE3VisualDebug::DrawDebugCube(glm::vec3 color)
     m_pDebugShader->Uniform("model", model);
     m_pDebugShader->Uniform("debugColor", color);
     m_pDebugCube->Draw(GL_LINES);
-
 }

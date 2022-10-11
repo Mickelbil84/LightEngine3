@@ -229,7 +229,9 @@ void LE3Editor::Render(int width, int height)
 
     root.Draw();
 
-    LE3VisualDebug::DrawDebugCube(glm::vec3(0.f, 1.f, 0.f));
+    LE3VisualDebug::DrawDebugCube(
+        glm::vec3(), glm::vec3(), glm::vec3(1.f),
+        glm::vec3(0.f, 1.f, 0.f));
 }
 
 LE3Object* LE3Editor::GetRoot() const

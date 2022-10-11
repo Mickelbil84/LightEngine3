@@ -13,7 +13,7 @@ public:
     // Should only be called once, at the initialization of the program
     static void Init(LE3Camera* camera);
 
-    static void DrawDebugCube(glm::vec3 color);
+    static void DrawDebugCube(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color);
 private:
     static LE3Mesh<LE3Vertex3p> *m_pDebugCube, *m_pDebugCylinder, *m_pDebugCone;
     static LE3Shader* m_pDebugShader;
