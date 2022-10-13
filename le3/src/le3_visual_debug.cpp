@@ -72,3 +72,13 @@ void LE3VisualDebug::DrawDebugCube(glm::vec3 position, glm::vec3 rotation, glm::
     m_pDebugShader->Uniform("debugColor", color);
     m_pDebugCube->Draw(GL_LINES);
 }
+
+void LE3VisualDebug::DrawDebugCube(glm::mat4 modelMatrix, glm::vec3 color)
+{
+    m_pDebugShader->Use();
+    m_pDebugShader->Uniform("view", m_pCamera->GetViewMatrix());
+    m_pDebugShader->Uniform("projection", m_pCamera->GetProjectionMatrix());
+    m_pDebugShader->Uniform("model", modelMatrix);
+    m_pDebugShader->Uniform("debugColor", color);
+    m_pDebugCube->Draw(GL_LINES);
+}

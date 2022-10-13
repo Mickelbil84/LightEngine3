@@ -39,19 +39,14 @@ void LE3StaticMesh::Draw()
         );
 
 
-        glm::vec3 lowerBound = m_mesh->GetBoxCollision().lowerBound * m_scale;
-        glm::vec3 upperBound = m_mesh->GetBoxCollision().upperBound * m_scale;
+        glm::vec3 lowerBound = m_mesh->GetBoxCollision().lowerBound;
+        glm::vec3 upperBound = m_mesh->GetBoxCollision().upperBound;
 
         glm::vec3 relative_position = 0.5f * (upperBound + lowerBound);
         glm::vec3 extent = upperBound - lowerBound;
 
-        glm::mat4 rotation = glm::eulerAngleXYZ(m_rotation.x, m_rotation.y, m_rotation.z);
-        relative_position = glm::vec3(rotation * glm::vec4(relative_position, 1.f));
-
         LE3VisualDebug::DrawDebugCube(
-            GetGlobalPosition() + relative_position,
-            m_rotation, 
-            extent,
+            GetModelMatrix() * glm::translate(relative_position) * glm::scale(extent),
             glm::vec3(0.f, 1.f, 0.f)
         );
     }

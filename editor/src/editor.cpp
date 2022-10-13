@@ -78,13 +78,14 @@ void LE3Editor::Init()
     scene.assets.GetMaterial("carBody")->diffuseTexture = scene.assets.GetTexture("wood");
     scene.assets.GetMaterial("carBody")->bUseDiffuseTexture = false;
     
-    // ---------------------s------
+    // ---------------------------
     //   Create game objects
     // ---------------------------
     
 
     car.SetName("Car");
     // car.SetPosition(glm::vec3(0.f, 5.f, -5.f));
+    car.SetRotation(glm::vec3(0.f, 3.14159265f / 4.f, 0.f));
     root.AppendChild(&car);
 
     carBodyMesh.SetName("CarBodyMesh");

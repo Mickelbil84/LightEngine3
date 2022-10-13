@@ -2,7 +2,7 @@
 
 #include "wx/wx.h"
 
-const int gEditorLookAroundKey = wxKeyCode::WXK_CONTROL;
+const int gEditorLookAroundKey = wxKeyCode::WXK_SHIFT;
 
 //-----------------
 // Gizmo settings
