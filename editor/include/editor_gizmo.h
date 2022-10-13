@@ -20,7 +20,4 @@ public:
     void Init(LE3Material* gizmoMaterial);
 
     virtual void Draw();
-
-    // virtual void Update(double deltaTime);
-    // virtual void Draw();
 };
