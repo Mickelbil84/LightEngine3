@@ -1,13 +1,60 @@
 #include "le3_static_mesh.h"
+#include "le3_visual_debug.h"
+
+LE3StaticMesh::LE3StaticMesh(std::string name, glm::vec3 position, glm::vec3 rotation, float scale) :
+    LE3Object(name, position, rotation, scale),
+    m_pRigidBody(nullptr)
+{
+
+}
 
 void LE3StaticMesh::Update(double deltaTime)
 {
     LE3Object::Update(deltaTime);
+
+    if (m_pRigidBody)
+    {
+        btTransform transform;
+        transform.setFromOpenGLMatrix(glm::value_ptr(GetModelMatrix() * glm::scale(glm::vec3(1/m_scale))));
+        m_pRigidBody->setCenterOfMassTransform(transform);
+    }
 }
 void LE3StaticMesh::Draw()
 {
     m_material->Apply(m_globalModelMatrix);
     m_mesh->Draw();
+
+    if (m_pRigidBody)
+    {
+        // Draw bullet AABB
+        btVector3 aabbMin, aabbMax;
+        m_pRigidBody->getAabb(aabbMin, aabbMax);
+        btVector3 bulletExtent = aabbMax - aabbMin;
+        btVector3 bulletPosition = 0.5f * (aabbMin + aabbMax);
+        LE3VisualDebug::DrawDebugCube(
+            glm::vec3(bulletPosition.x(), bulletPosition.y(), bulletPosition.z()),
+            glm::vec3(),
+            glm::vec3(bulletExtent.x(), bulletExtent.y(), bulletExtent.z()),
+            glm::vec3(1.f, 1.f, 0.f)
+        );
+
+
+        glm::vec3 lowerBound = m_mesh->GetBoxCollision().lowerBound * m_scale;
+        glm::vec3 upperBound = m_mesh->GetBoxCollision().upperBound * m_scale;
+
+        glm::vec3 relative_position = 0.5f * (upperBound + lowerBound);
+        glm::vec3 extent = upperBound - lowerBound;
+
+        glm::mat4 rotation = glm::eulerAngleXYZ(m_rotation.x, m_rotation.y, m_rotation.z);
+        relative_position = glm::vec3(rotation * glm::vec4(relative_position, 1.f));
+
+        LE3VisualDebug::DrawDebugCube(
+            GetGlobalPosition() + relative_position,
+            m_rotation, 
+            extent,
+            glm::vec3(0.f, 1.f, 0.f)
+        );
+    }
 }
 
 void LE3StaticMesh::SetMesh(LE3Mesh<LE3Vertex>* mesh)
@@ -21,16 +68,12 @@ void LE3StaticMesh::SetMaterial(LE3Material* material)
 
 void LE3StaticMesh::RegisterCollision(LE3PhysicsComponent* physics)
 {
-    btQuaternion bulletRotation;
-    std::cout << m_rotation[0] << " " << m_rotation[1] << " " << m_rotation[2] << std::endl;
-    bulletRotation.setEuler(m_rotation[1], m_rotation[0], m_rotation[2]);
-    btDefaultMotionState* motionstate = new btDefaultMotionState(btTransform(
-        bulletRotation, 
-        btVector3(m_position[0], m_position[1], m_position[2])
-    ));
+    btTransform transform;
+    transform.setFromOpenGLMatrix(glm::value_ptr(GetModelMatrix()));
+    btDefaultMotionState* motionstate = new btDefaultMotionState(transform);
 
     btCollisionShape* boxCollisionShape = m_mesh->GetBoxCollision().ToBullet();
-    // boxCollisionShape->setLocalScaling(btVector3(m_scale, m_scale, m_scale));
+    boxCollisionShape->setLocalScaling(btVector3(m_scale, m_scale, m_scale));
     btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
         0, // zero mass
         motionstate,

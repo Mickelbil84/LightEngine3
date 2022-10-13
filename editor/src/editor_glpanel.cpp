@@ -82,7 +82,7 @@ void LE3wxOpenGLPanel::update(wxTimerEvent& evt)
     m_input.screenWidth = getWidth();
     m_input.screenHeight = getHeight();
     m_input.relativeMouseX = ((float) m_input.mouseX  / (float) m_input.screenWidth - 0.5f) * 2.f;
-    m_input.relativeMouseY = ((float) m_input.mouseY  / (float) m_input.screenHeight - 0.5f) * 2.f;
+    m_input.relativeMouseY = -((float) m_input.mouseY  / (float) m_input.screenHeight - 0.5f) * 2.f;
     m_input.xrel = newPos.x - m_lastMouse.x;
     m_input.yrel = newPos.y - m_lastMouse.y;
     m_lastMouse = newPos;

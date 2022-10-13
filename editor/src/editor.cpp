@@ -76,7 +76,7 @@ void LE3Editor::Init()
     
 
     car.SetName("Car");
-    // car.SetPosition(glm::vec3(0.f, 0.f, -5.f));
+    // car.SetPosition(glm::vec3(0.f, 5.f, -5.f));
     root.AppendChild(&car);
 
     carBodyMesh.SetName("CarBodyMesh");
@@ -85,7 +85,7 @@ void LE3Editor::Init()
     carBodyMesh.SetScale(0.3f);
     carBodyMesh.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f));
     carBodyMesh.RegisterCollision(&physics);
-    // car.AppendChild(&carBodyMesh);
+    car.AppendChild(&carBodyMesh);
 
     wheelsFront.SetName("WheelsFront");
     wheelsFront.SetPosition(glm::vec3(-.705f, 0.175f, 0.f));
@@ -100,6 +100,7 @@ void LE3Editor::Init()
     wheel1.SetPosition(glm::vec3(0.f, 0.f, -.5f));
     wheel1.SetScale(0.33f);
     wheel1.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f));
+    wheel1.RegisterCollision(&physics);
     wheelsFront.AppendChild(&wheel1);
 
     wheel2.SetName("Wheel2");
@@ -108,6 +109,7 @@ void LE3Editor::Init()
     wheel2.SetPosition(glm::vec3(0.f, 0.f, .5f));
     wheel2.SetScale(0.33f);
     wheel2.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f));
+    wheel2.RegisterCollision(&physics);
     wheelsFront.AppendChild(&wheel2);
 
     wheel3.SetName("Wheel3");
@@ -116,6 +118,7 @@ void LE3Editor::Init()
     wheel3.SetPosition(glm::vec3(0.f, 0.f, -.5f));
     wheel3.SetScale(0.33f);
     wheel3.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f));
+    wheel3.RegisterCollision(&physics);
     wheelsBack.AppendChild(&wheel3);
 
     wheel4.SetName("Wheel4");
@@ -124,6 +127,7 @@ void LE3Editor::Init()
     wheel4.SetPosition(glm::vec3(0.f, 0.f, .55f));
     wheel4.SetScale(0.33f);
     wheel4.SetRotation(glm::vec3(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f));
+    wheel4.RegisterCollision(&physics);
     wheelsBack.AppendChild(&wheel4);
 
     gizmo.Reparent(&root);
@@ -132,6 +136,7 @@ void LE3Editor::Init()
 void LE3Editor::Update(float deltaTime)
 {
     root.Update(deltaTime);
+    physics.StepSimulation(deltaTime);
 
     // Update gizmo size
     float gizmoSize = 1.f + glm::length(camera.GetPosition()) * gGizmoScaleFactor;
@@ -152,7 +157,7 @@ void LE3Editor::HandleInput(LE3EditorInput input)
         input.relativeMouseY,
         0.f, 1.f
     );
-    glm::mat4 inv = glm::inverse(camera.GetProjectionMatrix((float)input.screenWidth / (float)input.screenHeight) * camera.GetViewMatrix());
+    glm::mat4 inv = glm::inverse(camera.GetProjectionMatrix() * camera.GetViewMatrix());
     glm::vec4 rayStartWorld = inv * rayStartScreen; rayStartWorld /= rayStartWorld.w;
     glm::vec4 rayEndWorld = inv * rayEndScreen; rayEndWorld /= rayEndWorld.w;
     
@@ -169,17 +174,15 @@ void LE3Editor::HandleInput(LE3EditorInput input)
         RayCallback
     );
 
-    // if (RayCallback.hasHit())
-    // {
-    //     LE3Object* obj = (LE3Object*) RayCallback.m_collisionObject->getUserPointer();
-    //     std::cout << obj->GetName() << std::endl;
-    // }
-    // else
-    // {
-    //     std::cout << "NONE" << std::endl;
-    // }
-
-
+    if (RayCallback.hasHit())
+    {
+        LE3Object* obj = (LE3Object*) RayCallback.m_collisionObject->getUserPointer();
+        std::cout << obj->GetName() << std::endl;
+    }
+    else
+    {
+        std::cout << "NONE" << std::endl;
+    }
 
     ///////
     if (!input.bLeftMouse)
@@ -228,10 +231,6 @@ void LE3Editor::Render(int width, int height)
     }
 
     root.Draw();
-
-    LE3VisualDebug::DrawDebugCube(
-        glm::vec3(), glm::vec3(), glm::vec3(1.f),
-        glm::vec3(0.f, 1.f, 0.f));
 }
 
 LE3Object* LE3Editor::GetRoot() const

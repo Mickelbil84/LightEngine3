@@ -14,6 +14,7 @@ class LE3PhysicsComponent
 {
 public:
     void Init();
+    void StepSimulation(float deltaTime);
 
     btDiscreteDynamicsWorld* GetWorld() const;
 

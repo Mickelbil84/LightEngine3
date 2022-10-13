@@ -8,6 +8,8 @@
 class LE3StaticMesh : public LE3Object
 {
 public:
+    LE3StaticMesh(std::string name = "", glm::vec3 position = glm::vec3(0.f), glm::vec3 rotation = glm::vec3(0.f), float scale = 1.f);
+
     virtual void Update(double deltaTime);
     virtual void Draw();
 

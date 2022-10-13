@@ -14,16 +14,19 @@ btCollisionShape* LE3BoxCollision::ToBullet()
         0.5f * (upperBound.y - lowerBound.y),
         0.5f * (upperBound.z - lowerBound.z)
     ));
+    // return (btCollisionShape*)pBoxShape;
     btCompoundShape* pOffsetBoxShape = new btCompoundShape();
     btTransform localCoords;
     localCoords.setIdentity();
     localCoords.setOrigin(btVector3(
-        upperBound.x - 0.5f * (upperBound.x - lowerBound.x),
-        upperBound.y - 0.5f * (upperBound.y - lowerBound.y),
-        upperBound.z - 0.5f * (upperBound.z - lowerBound.z)
+        0.5f * (upperBound.x + lowerBound.x),
+        0.5f * (upperBound.y + lowerBound.y),
+        0.5f * (upperBound.z + lowerBound.z)
     ));
     pOffsetBoxShape->addChildShape(localCoords, pBoxShape);
     return (btCollisionShape*)pOffsetBoxShape;
+
+    
 }
 
 void LE3PhysicsComponent::Init()
@@ -41,4 +44,10 @@ void LE3PhysicsComponent::Init()
 btDiscreteDynamicsWorld* LE3PhysicsComponent::GetWorld() const
 {
     return m_pWorld;
+}
+
+void LE3PhysicsComponent::StepSimulation(float deltaTime)
+{
+    m_pWorld->updateAabbs();
+    m_pWorld->stepSimulation(deltaTime);
 }
