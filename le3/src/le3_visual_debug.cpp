@@ -3,6 +3,7 @@
 LE3Mesh<LE3Vertex3p>* LE3VisualDebug::m_pDebugCube = nullptr;
 LE3Mesh<LE3Vertex3p>* LE3VisualDebug::m_pDebugCylinder = nullptr;
 LE3Mesh<LE3Vertex3p>* LE3VisualDebug::m_pDebugCone = nullptr;
+LE3Mesh<LE3Vertex3p>* LE3VisualDebug::m_pDebugLine = nullptr;
 LE3Shader* LE3VisualDebug::m_pDebugShader = nullptr;
 LE3Camera* LE3VisualDebug::m_pCamera = nullptr;
 
@@ -36,10 +37,26 @@ void LE3VisualDebug::Init(LE3Camera* camera)
     tmpData.clear();
     AddDebugBox(tmpData);
     m_pDebugCube->LoadMeshData(tmpData);
-    std::cout << m_pDebugCube->m_count << std::endl;
+
+    m_pDebugLine = new LE3Mesh<LE3Vertex3p>();
+    tmpData.clear();
+    tmpData.push_back(VertexFromGLM(glm::vec3(0.f)));
+    tmpData.push_back(VertexFromGLM(glm::vec3(1.f)));
+    m_pDebugLine->LoadMeshData(tmpData);
 
     m_pCamera = camera;
+}
 
+void LE3VisualDebug::DrawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 color)
+{
+    glm::mat4 model = glm::translate(start) * glm::scale(end - start);
+
+    m_pDebugShader->Use();
+    m_pDebugShader->Uniform("view", m_pCamera->GetViewMatrix());
+    m_pDebugShader->Uniform("projection", m_pCamera->GetProjectionMatrix());
+    m_pDebugShader->Uniform("model", model);
+    m_pDebugShader->Uniform("debugColor", color);
+    m_pDebugLine->Draw(GL_LINES);
 }
 
 void LE3VisualDebug::DrawDebugCube(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color)
