@@ -7,6 +7,14 @@ const std::string resource_prefix = std::string("../../");
 const std::string resource_prefix = std::string("../");
 #endif
 
+LE3Editor::LE3Editor() :
+    hoveredObject(nullptr),
+    selectCallback(nullptr),
+    bClickUp(true)
+{
+
+}
+
 void LE3Editor::Init()
 {
     //
@@ -177,11 +185,13 @@ void LE3Editor::HandleInput(LE3EditorInput input)
     if (RayCallback.hasHit())
     {
         LE3Object* obj = (LE3Object*) RayCallback.m_collisionObject->getUserPointer();
-        std::cout << obj->GetName() << std::endl;
+        // std::cout << obj->GetName() << std::endl;
+        hoveredObject = obj;
     }
     else
     {
-        std::cout << "NONE" << std::endl;
+        // std::cout << "NONE" << std::endl;
+        hoveredObject = nullptr;
     }
 
     ///////
@@ -192,8 +202,17 @@ void LE3Editor::HandleInput(LE3EditorInput input)
         camera.SetMoveVelocityZ(0.f);
         camera.SetLookVelocityX(0.f);
         camera.SetLookVelocityY(0.f);
+
+        bClickUp = true;
         return;
     }
+
+    if (selectCallback && bClickUp)
+    {
+        selectCallback->callback();
+        bClickUp = false;
+    }
+
     if (input.keyboard['W'])
             camera.SetMoveVelocityY(1.f);
     else if (input.keyboard['S'])
@@ -241,4 +260,14 @@ LE3Object* LE3Editor::GetRoot() const
 LE3EditorGizmo* LE3Editor::GetGizmo() const
 {
     return (LE3EditorGizmo*)&gizmo;
+}
+
+LE3Object* LE3Editor::GetHoveredObject() const
+{
+    return hoveredObject;
+}
+
+void LE3Editor::SetSelectCallback(LE3SelectCallback* callback)
+{
+    selectCallback = callback;
 }

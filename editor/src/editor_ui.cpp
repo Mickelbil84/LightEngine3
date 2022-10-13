@@ -1,6 +1,6 @@
 #include "editor_ui.h"
 
-LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selectedType(LE3_SELECTED_NONE)
+LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selectedType(LE3_SELECTED_NONE), selectCallback(this)
 {
 }
 
@@ -18,6 +18,7 @@ void LE3EditorUI::RefreshSceneGraph(LE3Object* node, wxTreeListItem treeItem)
         return;
     wxTreeListItem newItem = this->m_sceneGraphTree->AppendItem(treeItem, node->GetName().c_str());
     this->m_sceneGraphMap[newItem] = node;
+    this->m_sceneGraphMapInverse[node] = newItem;
     this->m_sceneGraphTree->Expand(newItem);
     this->m_sceneGraphTree->SetColumnWidth(0, 300);
     for (auto child : node->GetChildren())
@@ -123,4 +124,23 @@ void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )
          event.Skip(); 
          break;
     }
+}
+
+void LE3EditorUI::OnMouseClick( wxMouseEvent& event )
+{
+    std::cout << "CLICK!" << std::endl;
+}
+
+LE3EditorUI::LE3EditorUI_SelectCallback::LE3EditorUI_SelectCallback(LE3EditorUI* parent)
+{
+    this->parent = parent;
+}
+
+void LE3EditorUI::LE3EditorUI_SelectCallback::callback()
+{
+    std::cout << "CLICK!" << std::endl;
+    if (parent->m_editor->GetHoveredObject())
+        parent->m_sceneGraphTree->Select(parent->m_sceneGraphMapInverse[parent->m_editor->GetHoveredObject()]);
+    else
+        parent->m_sceneGraphTree->UnselectAll();
 }

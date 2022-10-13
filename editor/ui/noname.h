@@ -72,6 +72,7 @@ class LE3EditorWindow : public wxFrame
 		wxMenu* m_menu2;
 
 		// Virtual event handlers, override them in your derived class
+		virtual void OnMouseClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void OnSelectObjectInGraph( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnSelectShader( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnPropertyChange( wxPropertyGridEvent& event ) { event.Skip(); }

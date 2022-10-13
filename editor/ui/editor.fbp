@@ -224,6 +224,7 @@
                                 <property name="window_extra_style"></property>
                                 <property name="window_name"></property>
                                 <property name="window_style">wxTAB_TRAVERSAL</property>
+                                <event name="OnLeftDown">OnMouseClick</event>
                             </object>
                         </object>
                         <object class="sizeritem" expanded="1">

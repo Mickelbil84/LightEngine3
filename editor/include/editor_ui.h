@@ -24,6 +24,7 @@ protected:
     std::string m_selectedName;
 
     std::map<wxTreeListItem, LE3Object*> m_sceneGraphMap;
+    std::map<LE3Object*, wxTreeListItem> m_sceneGraphMapInverse;
 
     virtual void OnSelectShader( wxTreeListEvent& event );
     void OnPropertyChangeShader(wxPropertyGridEvent& event);
@@ -35,4 +36,17 @@ protected:
 
     virtual void OnSelectObjectInGraph( wxTreeListEvent& event );
 
+    virtual void OnMouseClick( wxMouseEvent& event );
+
+public:
+    class LE3EditorUI_SelectCallback : public LE3SelectCallback
+    {
+    public:
+        LE3EditorUI_SelectCallback(LE3EditorUI* parent);
+        virtual void callback();
+
+        LE3EditorUI* parent;
+    };
+
+    LE3EditorUI_SelectCallback selectCallback;
 };

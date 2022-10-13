@@ -193,6 +193,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	this->Centre( wxBOTH );
 
 	// Connect Events
+	m_OpenGLContainer->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );
 	m_sceneGraphTree->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectObjectInGraph ), NULL, this );
 	m_treeListShaders->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectShader ), NULL, this );
 	m_propertyGrid->Connect( wxEVT_PG_CHANGED, wxPropertyGridEventHandler( LE3EditorWindow::OnPropertyChange ), NULL, this );
@@ -201,6 +202,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 LE3EditorWindow::~LE3EditorWindow()
 {
 	// Disconnect Events
+	m_OpenGLContainer->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );
 	m_sceneGraphTree->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectObjectInGraph ), NULL, this );
 	m_treeListShaders->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectShader ), NULL, this );
 	m_propertyGrid->Disconnect( wxEVT_PG_CHANGED, wxPropertyGridEventHandler( LE3EditorWindow::OnPropertyChange ), NULL, this );
