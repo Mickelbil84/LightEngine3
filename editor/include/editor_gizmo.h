@@ -4,11 +4,7 @@
 #include <le3_static_mesh.h>
 #include <le3_primitives.h>
 
-const float gGizmoAxisThickness = 0.01f;
-const float gGizmoAxisLength = 0.3f;
-const float gGizmoConeThicnkess = 1.5f * gGizmoAxisThickness;
-const float gGizmoConeLength = 3.f * gGizmoAxisThickness;
-const float gGizmoScaleFactor = 0.5f;
+#include "editor_consts.h"
 
 class LE3EditorGizmo : public LE3Object
 {
