@@ -16,17 +16,9 @@
 #include <le3_physics.h>
 #include <le3_visual_debug.h>
 
+#include "editor_input.h"
+#include "editor_modes.h"
 #include "editor_gizmo.h"
-
-struct LE3EditorInput
-{
-    std::map<int, bool> keyboard;
-	int xrel, yrel;
-    int mouseX, mouseY;
-    int screenWidth, screenHeight;
-    float relativeMouseX, relativeMouseY;
-    bool bLeftMouse;
-};
 
 class LE3SelectCallback
 {
@@ -36,6 +28,10 @@ public:
 
 class LE3Editor
 {
+    // Editor input modes and states
+    LE3EditorModeState m_editorState;
+    LE3EditorInput m_lastInput;
+
     LE3SceneRoot root;
     LE3EditorGizmo gizmo;
     LE3PhysicsComponent physics;
@@ -63,4 +59,10 @@ public:
     LE3EditorGizmo* GetGizmo() const;
     LE3Object* GetHoveredObject() const;
     void SetSelectCallback(LE3SelectCallback* callback);
+
+    void ModeIdle();
+    void ModeSelect();
+    void ModeCamera(LE3EditorInput input);
+
+    void UpdateHoveredObject(LE3EditorInput input);
 };

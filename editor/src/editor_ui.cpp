@@ -99,15 +99,12 @@ void LE3EditorUI::OnSelectObjectInGraph( wxTreeListEvent& event )
     wxString name = this->m_treeListShaders->GetItemText(event.GetItem());
     if (name.IsEmpty())
     {
-        std::cout << "--Deselect--" << std::endl;
         m_editor->GetGizmo()->SetHidden(true);
         return;
     }
 
     m_editor->GetGizmo()->SetHidden(false);
     LE3Object* obj = this->m_sceneGraphMap[event.GetItem()];
-    std::cout << obj->GetName() << std::endl;
-    std::cout << obj->GetGlobalPosition().x << " " << std::endl;
     m_editor->GetGizmo()->SetPosition(obj->GetGlobalPosition());
 }
 
@@ -128,7 +125,6 @@ void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )
 
 void LE3EditorUI::OnMouseClick( wxMouseEvent& event )
 {
-    std::cout << "CLICK!" << std::endl;
 }
 
 LE3EditorUI::LE3EditorUI_SelectCallback::LE3EditorUI_SelectCallback(LE3EditorUI* parent)
@@ -138,7 +134,6 @@ LE3EditorUI::LE3EditorUI_SelectCallback::LE3EditorUI_SelectCallback(LE3EditorUI*
 
 void LE3EditorUI::LE3EditorUI_SelectCallback::callback()
 {
-    std::cout << "CLICK!" << std::endl;
     if (parent->m_editor->GetHoveredObject())
         parent->m_sceneGraphTree->Select(parent->m_sceneGraphMapInverse[parent->m_editor->GetHoveredObject()]);
     else

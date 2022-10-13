@@ -149,93 +149,32 @@ void LE3Editor::Update(float deltaTime)
     // Update gizmo size
     float gizmoSize = 1.f + glm::length(camera.GetPosition()) * gGizmoScaleFactor;
     gizmo.SetScale(gizmoSize);
-    gizmo.Reparent(&root);    
+    gizmo.Reparent(&root);  
+
+    // Handle editor modes
+    switch (m_editorState.mode)
+    {
+    case LE3EditorModes::LE3EDITOR_IDLE:
+        ModeIdle();
+        break;
+    case LE3EditorModes::LE3EDITOR_SELECT:
+        ModeSelect();
+        break;
+    case LE3EditorModes::LE3EDITOR_CAMERA:
+        ModeCamera(m_lastInput);
+        break;
+    
+    default:
+        break;
+    }
 }
 
 void LE3Editor::HandleInput(LE3EditorInput input)
 {
-    // Get pointed object
-    glm::vec4 rayStartScreen(
-        input.relativeMouseX,
-        input.relativeMouseY,
-        -1.f, 1.f
-    );
-    glm::vec4 rayEndScreen(
-        input.relativeMouseX,
-        input.relativeMouseY,
-        0.f, 1.f
-    );
-    glm::mat4 inv = glm::inverse(camera.GetProjectionMatrix() * camera.GetViewMatrix());
-    glm::vec4 rayStartWorld = inv * rayStartScreen; rayStartWorld /= rayStartWorld.w;
-    glm::vec4 rayEndWorld = inv * rayEndScreen; rayEndWorld /= rayEndWorld.w;
-    
-    glm::vec3 rayDir = glm::normalize(glm::vec3(rayEndWorld - rayStartWorld));
-    glm::vec3 rayOrigin = glm::vec3(rayStartWorld);
-    glm::vec3 rayEndpoint = rayOrigin + rayDir * 1000.f;
-    btCollisionWorld::ClosestRayResultCallback RayCallback(
-        btVector3(rayOrigin.x, rayOrigin.y, rayOrigin.z),
-        btVector3(rayEndpoint.x, rayEndpoint.y, rayEndpoint.z)
-    );
-    physics.GetWorld()->rayTest(
-        btVector3(rayOrigin.x, rayOrigin.y, rayOrigin.z),
-        btVector3(rayEndpoint.x, rayEndpoint.y, rayEndpoint.z),
-        RayCallback
-    );
+    UpdateHoveredObject(input);
+    UpdateEditorMode(m_editorState, input);
 
-    if (RayCallback.hasHit())
-    {
-        LE3Object* obj = (LE3Object*) RayCallback.m_collisionObject->getUserPointer();
-        // std::cout << obj->GetName() << std::endl;
-        hoveredObject = obj;
-    }
-    else
-    {
-        // std::cout << "NONE" << std::endl;
-        hoveredObject = nullptr;
-    }
-
-    ///////
-    if (!input.bLeftMouse)
-    {
-        camera.SetMoveVelocityX(0.f);
-        camera.SetMoveVelocityY(0.f);
-        camera.SetMoveVelocityZ(0.f);
-        camera.SetLookVelocityX(0.f);
-        camera.SetLookVelocityY(0.f);
-
-        bClickUp = true;
-        return;
-    }
-
-    if (selectCallback && bClickUp)
-    {
-        selectCallback->callback();
-        bClickUp = false;
-    }
-
-    if (input.keyboard['W'])
-            camera.SetMoveVelocityY(1.f);
-    else if (input.keyboard['S'])
-        camera.SetMoveVelocityY(-1.f);
-    else
-        camera.SetMoveVelocityY(0.f);
-
-    if (input.keyboard['D'])
-        camera.SetMoveVelocityX(1.f);
-    else if (input.keyboard['A'])
-        camera.SetMoveVelocityX(-1.f);
-    else
-        camera.SetMoveVelocityX(0.f);
-
-    if (input.keyboard['E'])
-        camera.SetMoveVelocityZ(1.f);
-    else if (input.keyboard['Q'])
-        camera.SetMoveVelocityZ(-1.f);
-    else
-        camera.SetMoveVelocityZ(0.f);
-
-    camera.SetLookVelocityX((float)input.xrel);
-    camera.SetLookVelocityY(-(float)input.yrel);
+    m_lastInput = input;
 }
 
 void LE3Editor::Render(int width, int height)
@@ -270,4 +209,84 @@ LE3Object* LE3Editor::GetHoveredObject() const
 void LE3Editor::SetSelectCallback(LE3SelectCallback* callback)
 {
     selectCallback = callback;
+}
+
+void LE3Editor::UpdateHoveredObject(LE3EditorInput input)
+{
+    // Get pointed object
+    glm::vec4 rayStartScreen(
+        input.relativeMouseX,
+        input.relativeMouseY,
+        -1.f, 1.f
+    );
+    glm::vec4 rayEndScreen(
+        input.relativeMouseX,
+        input.relativeMouseY,
+        0.f, 1.f
+    );
+    glm::mat4 inv = glm::inverse(camera.GetProjectionMatrix() * camera.GetViewMatrix());
+    glm::vec4 rayStartWorld = inv * rayStartScreen; rayStartWorld /= rayStartWorld.w;
+    glm::vec4 rayEndWorld = inv * rayEndScreen; rayEndWorld /= rayEndWorld.w;
+    
+    glm::vec3 rayDir = glm::normalize(glm::vec3(rayEndWorld - rayStartWorld));
+    glm::vec3 rayOrigin = glm::vec3(rayStartWorld);
+    glm::vec3 rayEndpoint = rayOrigin + rayDir * 1000.f;
+    btCollisionWorld::ClosestRayResultCallback RayCallback(
+        btVector3(rayOrigin.x, rayOrigin.y, rayOrigin.z),
+        btVector3(rayEndpoint.x, rayEndpoint.y, rayEndpoint.z)
+    );
+    physics.GetWorld()->rayTest(
+        btVector3(rayOrigin.x, rayOrigin.y, rayOrigin.z),
+        btVector3(rayEndpoint.x, rayEndpoint.y, rayEndpoint.z),
+        RayCallback
+    );
+
+    if (RayCallback.hasHit())
+    {
+        LE3Object* obj = (LE3Object*) RayCallback.m_collisionObject->getUserPointer();
+        hoveredObject = obj;
+    }
+    else
+    {
+        hoveredObject = nullptr;
+    }
+}
+
+void LE3Editor::ModeIdle()
+{
+    camera.SetMoveVelocityX(0.f);
+    camera.SetMoveVelocityY(0.f);
+    camera.SetMoveVelocityZ(0.f);
+    camera.SetLookVelocityX(0.f);
+    camera.SetLookVelocityY(0.f);
+}
+void LE3Editor::ModeSelect()
+{
+    selectCallback->callback();
+}
+void LE3Editor::ModeCamera(LE3EditorInput input)
+{
+    if (input.keyboard['W'])
+        camera.SetMoveVelocityY(1.f);
+    else if (input.keyboard['S'])
+        camera.SetMoveVelocityY(-1.f);
+    else
+        camera.SetMoveVelocityY(0.f);
+
+    if (input.keyboard['D'])
+        camera.SetMoveVelocityX(1.f);
+    else if (input.keyboard['A'])
+        camera.SetMoveVelocityX(-1.f);
+    else
+        camera.SetMoveVelocityX(0.f);
+
+    if (input.keyboard['E'])
+        camera.SetMoveVelocityZ(1.f);
+    else if (input.keyboard['Q'])
+        camera.SetMoveVelocityZ(-1.f);
+    else
+        camera.SetMoveVelocityZ(0.f);
+
+    camera.SetLookVelocityX((float)input.xrel);
+    camera.SetLookVelocityY(-(float)input.yrel);
 }

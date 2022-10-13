@@ -92,10 +92,12 @@ void LE3wxOpenGLPanel::update(wxTimerEvent& evt)
         // Register mouse click events only inside the viewport
         wxMouseState mouseState = wxGetMouseState();
         m_input.bLeftMouse = mouseState.LeftIsDown();
+        m_input.bRightMouse = mouseState.RightIsDown();
     }
     else
     {
         m_input.bLeftMouse = false;
+        m_input.bRightMouse = false;
     }
 
     m_currTime = wxGetLocalTimeMillis();
