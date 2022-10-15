@@ -379,25 +379,41 @@ void LE3Editor::ModeGizmoDrag(LE3EditorInput input)
         m_draggedGizmoAxis = (LE3EditorGizmoAxis*)hoveredObject;
     
     m_draggedGizmoAxis->SetIsHovered(true);
+
+    // Get axis delta screen coords
+    glm::mat4 projView = camera.GetProjectionMatrix() * camera.GetViewMatrix();
+    glm::vec3 pWorld = glm::vec3(m_draggedGizmoAxis->GetModelMatrix() * glm::vec4(0.f, 0.f, 0.f, 1.f));
+    glm::vec3 qWorld = glm::vec3(m_draggedGizmoAxis->GetModelMatrix() * glm::vec4(0.f, gGizmoAxisLength, 0.f, 1.f));
+    glm::vec4 tmp = projView * glm::vec4(pWorld, 1.f);
+    glm::vec2 pScreen = glm::vec2(tmp.x / tmp.z, tmp.y / tmp.z);
+    tmp = projView * glm::vec4(qWorld, 1.f);
+    glm::vec2 qScreen = glm::vec2(tmp.x / tmp.z, tmp.y / tmp.z);
+
+    float deltaX = input.relativeMouseX - m_editorState.dragInitialPos.x;
+    float deltaY = input.relativeMouseY - m_editorState.dragInitialPos.y;
+    // if (qScreen.x - pScreen.x < 0.f)
+    //     deltaX *= -1.f;
+    // if (qScreen.y - pScreen.y < 0.f)
+    //     deltaY *= -1.f;
+
     
     // Compute delta mouse
     // Z axis corresponds to the mouse Y axis
-    
-    // glm::vec3 deltaDrag = glm::vec3(glm::translate(glm::vec3(0.f)) * glm::vec4(
+    // glm::vec3 deltaDrag =
     //             glm::vec3(input.relativeMouseX, input.relativeMouseY, -input.relativeMouseY) -
-    //             glm::vec3(m_editorState.dragInitialPos.x, m_editorState.dragInitialPos.y, -m_editorState.dragInitialPos.y),
-    //         0.f));
+    //             glm::vec3(m_editorState.dragInitialPos.x, m_editorState.dragInitialPos.y, -m_editorState.dragInitialPos.y);
+    glm::vec3 deltaDrag(deltaX, deltaY, deltaY);
 
-    float initialMouse = (m_editorState.dragInitialPos.x + m_editorState.dragInitialPos.y) / 2.f;
-    float currentMouse = (input.relativeMouseX + input.relativeMouseY) / 2.f;
-    float delta = currentMouse - initialMouse;
-    glm::vec3 deltaDrag = glm::vec3(camera.GetModelMatrix() * glm::vec4(delta, delta, -delta, 0.f));
+    // float initialMouse = (m_editorState.dragInitialPos.x + m_editorState.dragInitialPos.y) / 2.f;
+    // float currentMouse = (input.relativeMouseX + input.relativeMouseY) / 2.f;
+    // float delta = currentMouse - initialMouse;
+    // glm::vec3 deltaDrag = glm::vec3(camera.GetModelMatrix() * glm::vec4(delta, delta, -delta, 0.f));
 
     // Project delta to correct axis
-    glm::mat4 gizmoRotationMatrix = glm::eulerAngleXYZ(gizmo.GetRotation().x, gizmo.GetRotation().y, gizmo.GetRotation().z);
+    // glm::mat4 gizmoRotationMatrix = glm::eulerAngleXYZ(gizmo.GetRotation().x, gizmo.GetRotation().y, gizmo.GetRotation().z);
     glm::vec3 axisLine = m_draggedGizmoAxis->GetAxisLine();
-    glm::vec3 rotatedAxisLine = glm::vec3(gizmoRotationMatrix * glm::vec4(axisLine, 0.f));
-    float t = glm::dot(deltaDrag, axisLine);
+    glm::vec3 rotatedAxisLine = glm::vec3(camera.GetModelMatrix() * gizmo.GetModelMatrix() *  glm::vec4(axisLine, 0.f));
+    float t = glm::dot(glm::vec2(deltaX, deltaY), qScreen - pScreen);
     glm::vec3 projection = t * axisLine;
     m_editorState.deltaPos = gGizmoDragSpeed * projection;
 
