@@ -383,14 +383,22 @@ void LE3Editor::ModeGizmoDrag(LE3EditorInput input)
     // Compute delta mouse
     // Z axis corresponds to the mouse Y axis
     
-    glm::vec3 deltaDrag = glm::vec3(glm::translate(glm::vec3(0.f)) * glm::vec4(
-                glm::vec3(input.relativeMouseX, input.relativeMouseY, -input.relativeMouseY) -
-                glm::vec3(m_editorState.dragInitialPos.x, m_editorState.dragInitialPos.y, -m_editorState.dragInitialPos.y),
-            0.f));
+    // glm::vec3 deltaDrag = glm::vec3(glm::translate(glm::vec3(0.f)) * glm::vec4(
+    //             glm::vec3(input.relativeMouseX, input.relativeMouseY, -input.relativeMouseY) -
+    //             glm::vec3(m_editorState.dragInitialPos.x, m_editorState.dragInitialPos.y, -m_editorState.dragInitialPos.y),
+    //         0.f));
+
+    float initialMouse = (m_editorState.dragInitialPos.x + m_editorState.dragInitialPos.y) / 2.f;
+    float currentMouse = (input.relativeMouseX + input.relativeMouseY) / 2.f;
+    float delta = currentMouse - initialMouse;
+    glm::vec3 deltaDrag = glm::vec3(camera.GetModelMatrix() * glm::vec4(delta, delta, -delta, 0.f));
 
     // Project delta to correct axis
-    float t = glm::dot(deltaDrag, m_draggedGizmoAxis->GetAxisLine());
-    glm::vec3 projection = t * m_draggedGizmoAxis->GetAxisLine();
+    glm::mat4 gizmoRotationMatrix = glm::eulerAngleXYZ(gizmo.GetRotation().x, gizmo.GetRotation().y, gizmo.GetRotation().z);
+    glm::vec3 axisLine = m_draggedGizmoAxis->GetAxisLine();
+    glm::vec3 rotatedAxisLine = glm::vec3(gizmoRotationMatrix * glm::vec4(axisLine, 0.f));
+    float t = glm::dot(deltaDrag, axisLine);
+    glm::vec3 projection = t * axisLine;
     m_editorState.deltaPos = gGizmoDragSpeed * projection;
 
     m_selectedObject->SetPosition(m_editorState.selectedInitialPos + m_editorState.deltaPos);
@@ -409,5 +417,19 @@ void LE3Editor::SetSelectedObject(LE3Object* obj)
 {
     m_selectedObject = obj;
     if (m_selectedObject)
+    {
         m_editorState.selectedInitialPos = m_selectedObject->GetPosition();
+
+        // Update gizmo
+        gizmo.SetHidden(false);
+        gizmo.SetPosition(m_selectedObject->GetGlobalPosition());
+        glm::vec3 gizmoRotation(0.f);
+        if (m_selectedObject->GetParent())
+            gizmoRotation = m_selectedObject->GetParent()->GetGlobalRotation();
+        gizmo.SetRotation(gizmoRotation);
+    }
+    else
+    {
+        gizmo.SetHidden(true);
+    }
 }

@@ -28,6 +28,7 @@ public:
     // Removes an existing child
     void RemoveChild(LE3Object* child);
     std::vector<LE3Object*> GetChildren() const;
+    LE3Object* GetParent() const;
 
     void AddRotationX(float rot);
     void AddRotationY(float rot);
@@ -46,6 +47,7 @@ public:
     bool GetHidden() const;
 
     glm::vec3 GetGlobalPosition() const;
+    glm::vec3 GetGlobalRotation() const;
 
 protected:
     
@@ -56,6 +58,9 @@ protected:
     glm::vec3 m_position;
     glm::vec3 m_rotation;
     float m_scale;
+
+    glm::vec3 m_globalPosition;
+    glm::vec3 m_globalRotation;
 
     //////////////////
     // Model Matrices

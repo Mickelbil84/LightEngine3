@@ -100,14 +100,9 @@ void LE3EditorUI::OnSelectObjectInGraph( wxTreeListEvent& event )
     // Check if this is a deselect event
     wxString name = this->m_treeListShaders->GetItemText(event.GetItem());
     if (name.IsEmpty())
-    {
-        m_editor->GetGizmo()->SetHidden(true);
         return;
-    }
 
-    m_editor->GetGizmo()->SetHidden(false);
     LE3Object* obj = this->m_sceneGraphMap[event.GetItem()];
-    m_editor->GetGizmo()->SetPosition(obj->GetGlobalPosition());
     m_editor->SetSelectedObject(obj);
 }
 

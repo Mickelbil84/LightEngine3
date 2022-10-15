@@ -34,6 +34,14 @@ void LE3Object::UpdateGlobalModelMatrix()
     glm::mat4 parentMatrix = glm::mat4(1.f);
     if (m_pParent) parentMatrix = m_pParent->m_globalModelMatrix;
     m_globalModelMatrix = parentMatrix * m_localModelMatrix;
+
+    // Update also global vectors
+    glm::vec3 scale; // dummy
+    glm::vec3 skew; // dummy
+    glm::vec4 perspective; // dummy
+    glm::quat rotation;
+    glm::decompose(m_globalModelMatrix, scale, rotation, m_globalPosition, skew, perspective);
+    m_globalRotation = glm::eulerAngles(rotation);
 }
 
 glm::mat4 LE3Object::GetModelMatrix() const
@@ -60,6 +68,11 @@ void LE3Object::Reparent(LE3Object* parent)
 std::vector<LE3Object*> LE3Object::GetChildren() const
 {
     return m_children;
+}
+
+LE3Object* LE3Object::GetParent() const
+{
+    return m_pParent;
 }
 
 void LE3Object::AppendChild(LE3Object* child)
@@ -142,12 +155,10 @@ bool LE3Object::GetHidden() const
 
 glm::vec3 LE3Object::GetGlobalPosition() const
 {
-    glm::vec3 scale;
-    glm::quat rotation;
-    glm::vec3 translation;
-    glm::vec3 skew;
-    glm::vec4 perspective;
-    glm::decompose(m_globalModelMatrix, scale, rotation, translation, skew, perspective);
-    return translation;
+    return m_globalPosition;
 }
 
+glm::vec3 LE3Object::GetGlobalRotation() const
+{
+    return m_globalRotation;
+}
