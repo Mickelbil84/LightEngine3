@@ -6,18 +6,34 @@
 
 #include "editor_consts.h"
 
-class LE3EditorGizmo : public LE3Object
-{
-public:
-    LE3EditorGizmo();
-
-    void Init(LE3Material* materialX, LE3Material* materialY, LE3Material* materialZ);
-};
-
 class LE3EditorGizmoAxis : public LE3StaticMesh
 {
 public:
     void Init(LE3Material* gizmoMaterial);
 
     virtual void Draw();
+
+    bool GetIsHovered() const;
+    void SetIsHovered(bool isHovered);
+
+    glm::vec3 GetAxisLine() const;
+    void SetAxisLine(glm::vec3 line);
+
+private:
+    bool m_bIsHovered;
+    glm::vec3 m_axisLine;
+};
+
+class LE3EditorGizmo : public LE3Object
+{
+public:
+    LE3EditorGizmo();
+
+    void Init(LE3Material* materialX, LE3Material* materialY, LE3Material* materialZ);
+
+    LE3EditorGizmoAxis *xAxis, *yAxis, *zAxis;
+
+    // Reset bIsHovered for all axes
+    void UnhoverAxes();
+
 };

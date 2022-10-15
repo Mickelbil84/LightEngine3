@@ -29,6 +29,7 @@ add_executable(
     src/editor.cpp
     src/editor_gizmo.cpp
     src/editor_modes.cpp
+    src/editor_math.cpp
 )
 target_include_directories(editor PUBLIC ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/ui)
 target_link_libraries(editor PRIVATE le3 GLEW::glew ${wxWidgets_LIBRARIES} ${BULLET_LIBRARIES})

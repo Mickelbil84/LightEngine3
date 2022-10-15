@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <math.h>
 
 #include <le3_application.h>
 #include <le3_shader.h>
@@ -18,6 +19,7 @@
 
 #include "editor_input.h"
 #include "editor_modes.h"
+#include "editor_math.h"
 #include "editor_gizmo.h"
 
 class LE3SelectCallback
@@ -32,12 +34,19 @@ class LE3Editor
     LE3EditorModeState m_editorState;
     LE3EditorInput m_lastInput;
 
+    LE3Object* m_selectedObject;
+    LE3EditorGizmoAxis* m_draggedGizmoAxis;
+
+
     LE3SceneRoot root;
     LE3EditorGizmo gizmo;
     LE3PhysicsComponent physics;
     LE3Object* hoveredObject;
     LE3SelectCallback* selectCallback;
+
     bool bClickUp;
+
+    glm::vec3 p, q;
 
     LE3Object car, wheelsFront, wheelsBack;
 	LE3StaticMesh carBodyMesh, wheel1, wheel2, wheel3, wheel4;
@@ -59,10 +68,14 @@ public:
     LE3EditorGizmo* GetGizmo() const;
     LE3Object* GetHoveredObject() const;
     void SetSelectCallback(LE3SelectCallback* callback);
+    void SetSelectedObject(LE3Object* obj);
 
     void ModeIdle();
     void ModeSelect();
     void ModeCamera(LE3EditorInput input);
+    void ModeGizmoDrag(LE3EditorInput input);
+    void ModeGizmoDragRelease();
 
+    bool UpdateHoveredGizmo(LE3EditorInput input); // return true if gizmo is hovered
     void UpdateHoveredObject(LE3EditorInput input);
 };

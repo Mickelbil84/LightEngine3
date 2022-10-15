@@ -1,7 +1,11 @@
 #include "editor_ui.h"
 
+#include "icons/box_icon.xbm"
+
 LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selectedType(LE3_SELECTED_NONE), selectCallback(this)
 {
+    // wxBitmap testIcons((const char*)box_icon_bits, box_icon_width, box_icon_height);
+    // m_tool6->SetBitmap(testIcons);
 }
 
 void LE3EditorUI::RefreshSceneGraph()
@@ -106,6 +110,7 @@ void LE3EditorUI::OnSelectObjectInGraph( wxTreeListEvent& event )
     m_editor->GetGizmo()->SetHidden(false);
     LE3Object* obj = this->m_sceneGraphMap[event.GetItem()];
     m_editor->GetGizmo()->SetPosition(obj->GetGlobalPosition());
+    m_editor->SetSelectedObject(obj);
 }
 
 void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )

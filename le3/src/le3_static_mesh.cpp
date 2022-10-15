@@ -31,12 +31,12 @@ void LE3StaticMesh::Draw()
         m_pRigidBody->getAabb(aabbMin, aabbMax);
         btVector3 bulletExtent = aabbMax - aabbMin;
         btVector3 bulletPosition = 0.5f * (aabbMin + aabbMax);
-        LE3VisualDebug::DrawDebugCube(
-            glm::vec3(bulletPosition.x(), bulletPosition.y(), bulletPosition.z()),
-            glm::vec3(),
-            glm::vec3(bulletExtent.x(), bulletExtent.y(), bulletExtent.z()),
-            glm::vec3(1.f, 1.f, 0.f)
-        );
+        // LE3VisualDebug::DrawDebugCube(
+        //     glm::vec3(bulletPosition.x(), bulletPosition.y(), bulletPosition.z()),
+        //     glm::vec3(),
+        //     glm::vec3(bulletExtent.x(), bulletExtent.y(), bulletExtent.z()),
+        //     glm::vec3(1.f, 1.f, 0.f)
+        // );
 
 
         glm::vec3 lowerBound = m_mesh->GetBoxCollision().lowerBound;

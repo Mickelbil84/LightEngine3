@@ -10,6 +10,8 @@ const std::string resource_prefix = std::string("../");
 LE3Editor::LE3Editor() :
     hoveredObject(nullptr),
     selectCallback(nullptr),
+    m_selectedObject(nullptr),
+    m_draggedGizmoAxis(nullptr),
     bClickUp(true)
 {
 
@@ -164,6 +166,12 @@ void LE3Editor::Update(float deltaTime)
     case LE3EditorModes::LE3EDITOR_CAMERA:
         ModeCamera(m_lastInput);
         break;
+    case LE3EditorModes::LE3EDITOR_GIZMO_DRAG:
+        ModeGizmoDrag(m_lastInput);
+        break;
+    case LE3EditorModes::LE3EDITOR_GIZMO_DRAG_RELEASE:
+        ModeGizmoDragRelease();
+        break;
     
     default:
         break;
@@ -212,8 +220,78 @@ void LE3Editor::SetSelectCallback(LE3SelectCallback* callback)
     selectCallback = callback;
 }
 
+bool LE3Editor::UpdateHoveredGizmo(LE3EditorInput input)
+{
+    gizmo.UnhoverAxes();
+    m_editorState.bHoversGizmo = false;
+    if (gizmo.GetHidden())
+        return false;
+
+    glm::vec3 pWorld, qWorld;
+    glm::vec2 pScreen, qScreen;
+    glm::vec2 cursorScreen(input.relativeMouseX, input.relativeMouseY);
+    glm::mat4 projView = camera.GetProjectionMatrix() * camera.GetViewMatrix();
+    glm::vec4 tmp;
+    float dist;
+
+    // X axis
+    pWorld = glm::vec3(gizmo.xAxis->GetModelMatrix() * glm::vec4(0.f, 0.f, 0.f, 1.f));
+    qWorld = glm::vec3(gizmo.xAxis->GetModelMatrix() * glm::vec4(0.f, gGizmoAxisLength, 0.f, 1.f));
+    tmp = projView * glm::vec4(pWorld, 1.f);
+    pScreen = glm::vec2(tmp.x / tmp.z, tmp.y / tmp.z);
+    tmp = projView * glm::vec4(qWorld, 1.f);
+    qScreen = glm::vec2(tmp.x / tmp.z, tmp.y / tmp.z);
+
+    dist = minimum_distance(pScreen, qScreen, cursorScreen);
+    if (dist < gGizmoSelectionDist)
+    {
+        hoveredObject = gizmo.xAxis;
+        gizmo.xAxis->SetIsHovered(true);
+        m_editorState.bHoversGizmo = true;
+        return true;
+    }
+
+    // Y axis
+    pWorld = glm::vec3(gizmo.yAxis->GetModelMatrix() * glm::vec4(0.f, 0.f, 0.f, 1.f));
+    qWorld = glm::vec3(gizmo.yAxis->GetModelMatrix() * glm::vec4(0.f, gGizmoAxisLength, 0.f, 1.f));
+    tmp = projView * glm::vec4(pWorld, 1.f);
+    pScreen = glm::vec2(tmp.x / tmp.z, tmp.y / tmp.z);
+    tmp = projView * glm::vec4(qWorld, 1.f);
+    qScreen = glm::vec2(tmp.x / tmp.z, tmp.y / tmp.z);
+
+    dist = minimum_distance(pScreen, qScreen, cursorScreen);
+    if (dist < gGizmoSelectionDist)
+    {
+        hoveredObject = gizmo.yAxis;
+        gizmo.yAxis->SetIsHovered(true);
+        m_editorState.bHoversGizmo = true;
+        return true;
+    }
+
+    // Z axis
+    pWorld = glm::vec3(gizmo.zAxis->GetModelMatrix() * glm::vec4(0.f, 0.f, 0.f, 1.f));
+    qWorld = glm::vec3(gizmo.zAxis->GetModelMatrix() * glm::vec4(0.f, gGizmoAxisLength, 0.f, 1.f));
+    tmp = projView * glm::vec4(pWorld, 1.f);
+    pScreen = glm::vec2(tmp.x / tmp.z, tmp.y / tmp.z);
+    tmp = projView * glm::vec4(qWorld, 1.f);
+    qScreen = glm::vec2(tmp.x / tmp.z, tmp.y / tmp.z);
+
+    dist = minimum_distance(pScreen, qScreen, cursorScreen);
+    if (dist < gGizmoSelectionDist)
+    {
+        hoveredObject = gizmo.zAxis;
+        gizmo.zAxis->SetIsHovered(true);
+        m_editorState.bHoversGizmo = true;
+        return true;
+    }
+
+    return false;
+}  
+
 void LE3Editor::UpdateHoveredObject(LE3EditorInput input)
 {
+    if (this->UpdateHoveredGizmo(input))
+        return;
     // Get pointed object
     glm::vec4 rayStartScreen(
         input.relativeMouseX,
@@ -260,10 +338,13 @@ void LE3Editor::ModeIdle()
     camera.SetMoveVelocityZ(0.f);
     camera.SetLookVelocityX(0.f);
     camera.SetLookVelocityY(0.f);
+
+    m_draggedGizmoAxis = nullptr;
 }
 void LE3Editor::ModeSelect()
 {
     selectCallback->callback();
+    this->SetSelectedObject(hoveredObject);
 }
 void LE3Editor::ModeCamera(LE3EditorInput input)
 {
@@ -290,4 +371,43 @@ void LE3Editor::ModeCamera(LE3EditorInput input)
 
     camera.SetLookVelocityX((float)input.xrel);
     camera.SetLookVelocityY(-(float)input.yrel);
+}
+
+void LE3Editor::ModeGizmoDrag(LE3EditorInput input)
+{
+    if (!m_draggedGizmoAxis)
+        m_draggedGizmoAxis = (LE3EditorGizmoAxis*)hoveredObject;
+    
+    m_draggedGizmoAxis->SetIsHovered(true);
+    
+    // Compute delta mouse
+    // Z axis corresponds to the mouse Y axis
+    
+    glm::vec3 deltaDrag = glm::vec3(glm::translate(glm::vec3(0.f)) * glm::vec4(
+                glm::vec3(input.relativeMouseX, input.relativeMouseY, -input.relativeMouseY) -
+                glm::vec3(m_editorState.dragInitialPos.x, m_editorState.dragInitialPos.y, -m_editorState.dragInitialPos.y),
+            0.f));
+
+    // Project delta to correct axis
+    float t = glm::dot(deltaDrag, m_draggedGizmoAxis->GetAxisLine());
+    glm::vec3 projection = t * m_draggedGizmoAxis->GetAxisLine();
+    m_editorState.deltaPos = gGizmoDragSpeed * projection;
+
+    m_selectedObject->SetPosition(m_editorState.selectedInitialPos + m_editorState.deltaPos);
+    gizmo.SetPosition(m_selectedObject->GetGlobalPosition());
+}
+
+void LE3Editor::ModeGizmoDragRelease()
+{
+    m_editorState.bReleaseGizmoFinished = true;
+
+    // If we re-drag the object, then at least update the new position
+    this->SetSelectedObject(m_selectedObject);
+}
+
+void LE3Editor::SetSelectedObject(LE3Object* obj)
+{
+    m_selectedObject = obj;
+    if (m_selectedObject)
+        m_editorState.selectedInitialPos = m_selectedObject->GetPosition();
 }
