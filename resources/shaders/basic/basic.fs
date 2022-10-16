@@ -17,9 +17,10 @@ void main()
 {
     // Diffuse color
     vec4 diffuseColor = material.diffuseColor;
+    diffuseColor = normalColor;
     if (material.bUseDiffuseTexture)
         diffuseColor = texture(material.diffuseTexture, texCoord);
 
     fColor = diffuseColor;
-    fColor = normalColor;
+    //fColor = normalColor;
 }

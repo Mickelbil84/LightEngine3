@@ -58,13 +58,17 @@ void LE3Editor::Init()
     
 
     scene.assets.LoadShader("basic", 
-        resource_prefix + "resources/shaders/moving_car/moving_car.vs", 
-        resource_prefix + "resources/shaders/moving_car/moving_car.fs");
+        resource_prefix + "resources/shaders/basic/basic.vs", 
+        resource_prefix + "resources/shaders/basic/basic.fs");
 
     std::vector<LE3Vertex> box;
-    AddBox(box, 0.f, 0.f, 0.f, .5f, .5f, .3f);
+    AddBox(box, 0.f, 0.f, 0.f, 10.f, .0f, 10.f);
+    scene.assets.LoadMesh("floor", box);
+    
     scene.assets.LoadMesh("wheel", resource_prefix + "resources/models/cars/Audi R8 Wheel.fbx");
     scene.assets.LoadMesh("carBody", resource_prefix + "resources/models/cars/Audi R8 Body.fbx");
+    scene.assets.LoadMesh("barrel", resource_prefix + "resources/models/gahan/barrel.obj");
+    
 
     scene.assets.CreateMaterial("red", "basic");
     scene.assets.GetMaterial("red")->diffuseColor = glm::vec4(1.f, 0.f, 0.f, 1.f);
@@ -79,10 +83,35 @@ void LE3Editor::Init()
     scene.assets.LoadTexture("wood", resource_prefix + "resources/textures/woodparquet_59-2K/woodparquet_59_basecolor-2K-2K.png");
     scene.assets.GetMaterial("carBody")->diffuseTexture = scene.assets.GetTexture("wood");
     scene.assets.GetMaterial("carBody")->bUseDiffuseTexture = false;
+
+    scene.assets.CreateMaterial("barrelMat", "basic");
+    scene.assets.LoadTexture("barrelDiffuse", resource_prefix + "resources/textures/gahan/barrel_diffuse.tga");
+    scene.assets.GetMaterial("barrelMat")->diffuseTexture = scene.assets.GetTexture("barrelDiffuse");
+    scene.assets.GetMaterial("barrelMat")->bUseDiffuseTexture = true;
+
+    scene.assets.CreateMaterial("floorMat", "basic");
+    scene.assets.LoadTexture("floorDiffuse", resource_prefix + "resources/textures/tile_floor.jpg");
+    scene.assets.GetMaterial("floorMat")->diffuseTexture = scene.assets.GetTexture("floorDiffuse");
+    scene.assets.GetMaterial("floorMat")->bUseDiffuseTexture = true;
+
     
     // ---------------------------
     //   Create game objects
     // ---------------------------
+
+    LE3StaticMesh* floor = new LE3StaticMesh("floor");
+    floor->SetMesh(scene.assets.GetMesh("floor"));
+    floor->SetMaterial(scene.assets.GetMaterial("floorMat"));
+    floor->RegisterCollision(&physics);
+    root.AppendChild(floor);
+
+    LE3StaticMesh* barrel = new LE3StaticMesh("barrel");
+    barrel->SetPosition(glm::vec3(0.f, 0.f, -5.f));
+    barrel->SetMesh(scene.assets.GetMesh("barrel"));
+    barrel->SetMaterial(scene.assets.GetMaterial("barrelMat"));
+    barrel->RegisterCollision(&physics);
+    barrel->SetScale(0.3f);
+    root.AppendChild(barrel);
     
 
     car.SetName("Car");
@@ -340,8 +369,11 @@ void LE3Editor::ModeGizmoDrag(LE3EditorInput input)
     // Get axis delta screen coords
     glm::mat4 projView = camera.GetProjectionMatrix() * camera.GetViewMatrix();
     
-    glm::vec3 pWorld = glm::vec3(gizmo.GetModelMatrix() * m_draggedGizmoAxis->GetModelMatrix() * glm::vec4(0.f, 0.f, 0.f, 0.f));
-    glm::vec3 qWorld = glm::vec3(gizmo.GetModelMatrix() * m_draggedGizmoAxis->GetModelMatrix() * glm::vec4(0.f, gGizmoAxisLength, 0.f, 0.f));
+    // NOTE: ignoring the gizmo rotation seems to yield better results
+    // glm::vec3 pWorld = glm::vec3(gizmo.GetModelMatrix() * m_draggedGizmoAxis->GetModelMatrix() * glm::vec4(0.f, 0.f, 0.f, 0.f));
+    // glm::vec3 qWorld = glm::vec3(gizmo.GetModelMatrix() * m_draggedGizmoAxis->GetModelMatrix() * glm::vec4(0.f, gGizmoAxisLength, 0.f, 0.f));
+    glm::vec3 pWorld = glm::vec3(m_draggedGizmoAxis->GetModelMatrix() * glm::vec4(0.f, 0.f, 0.f, 0.f));
+    glm::vec3 qWorld = glm::vec3(m_draggedGizmoAxis->GetModelMatrix() * glm::vec4(0.f, gGizmoAxisLength, 0.f, 0.f));
     glm::vec2 pScreen = WorldToScreen(projView, pWorld);
     glm::vec2 qScreen = WorldToScreen(projView, qWorld);
 
