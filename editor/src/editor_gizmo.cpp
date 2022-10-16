@@ -84,3 +84,19 @@ void LE3EditorGizmoAxis::SetAxisLine(glm::vec3 line)
 {
     this->m_axisLine = line;
 }
+
+bool LE3EditorGizmoAxis::CheckIfHoveredByMouse(glm::mat4 projViewMatrix, glm::vec2 cursorPosition)
+{
+    glm::vec3 pWorld = glm::vec3(GetModelMatrix() * glm::vec4(0.f, 0.f, 0.f, 1.f));
+    glm::vec3 qWorld = glm::vec3(GetModelMatrix() * glm::vec4(0.f, gGizmoAxisLength, 0.f, 1.f));
+    glm::vec2 pScreen = WorldToScreen(projViewMatrix, pWorld);
+    glm::vec2 qScreen = WorldToScreen(projViewMatrix, qWorld);
+
+    float dist = minimum_distance(pScreen, qScreen, cursorPosition);
+    if (dist < gGizmoSelectionDist)
+    {
+        SetIsHovered(true);
+        return true;
+    }
+    return false;
+}

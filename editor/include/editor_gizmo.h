@@ -5,6 +5,7 @@
 #include <le3_primitives.h>
 
 #include "editor_consts.h"
+#include "editor_math.h"
 
 class LE3EditorGizmoAxis : public LE3StaticMesh
 {
@@ -15,6 +16,8 @@ public:
 
     bool GetIsHovered() const;
     void SetIsHovered(bool isHovered);
+
+    bool CheckIfHoveredByMouse(glm::mat4 projViewMatrix, glm::vec2 cursorPosition);
 
     glm::vec3 GetAxisLine() const;
     void SetAxisLine(glm::vec3 line);

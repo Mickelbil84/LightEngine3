@@ -10,3 +10,5 @@ float distance(glm::vec2 p, glm::vec2 q);
 float square_distance(glm::vec2 p, glm::vec2 q);
 float dot(glm::vec2 p, glm::vec2 q);
 float minimum_distance(glm::vec2 a, glm::vec2 b, glm::vec2 p);
+
+glm::vec2 WorldToScreen(glm::mat4 projViewMatrix, glm::vec3 p);

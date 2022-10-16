@@ -29,3 +29,9 @@ float minimum_distance(glm::vec2 a, glm::vec2 b, glm::vec2 p)
     const glm::vec2 projection = a + t * (b - a);
     return distance(p, projection);
 }
+
+glm::vec2 WorldToScreen(glm::mat4 projViewMatrix, glm::vec3 p)
+{
+    glm::vec4 res = projViewMatrix * glm::vec4(p, 1.f);
+    return glm::vec2(res.x / res.z, res.y / res.z);
+}
