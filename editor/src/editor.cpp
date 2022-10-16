@@ -106,11 +106,11 @@ void LE3Editor::Init()
     root.AppendChild(floor);
 
     LE3StaticMesh* barrel = new LE3StaticMesh("barrel");
-    barrel->SetPosition(glm::vec3(0.f, 0.f, -5.f));
+    barrel->SetPosition(glm::vec3(1.f, 0.3f, 1.2f));
     barrel->SetMesh(scene.assets.GetMesh("barrel"));
     barrel->SetMaterial(scene.assets.GetMaterial("barrelMat"));
+    barrel->SetScale(0.15f);
     barrel->RegisterCollision(&physics);
-    barrel->SetScale(0.3f);
     root.AppendChild(barrel);
     
 

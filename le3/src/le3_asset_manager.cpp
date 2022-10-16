@@ -91,7 +91,7 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
 LE3Mesh<LE3Vertex>* LE3AssetManager::GetMesh(std::string name)
 {
     LE3AssetPath& ap = m_meshesPaths[name];
-    if (!ap.bIsLoaded)
+    if (!ap.bIsLoaded && ap.path.size() > 0)
     {
         LoadMesh(name, ap.path);
         ap.bIsLoaded = true;
