@@ -51,3 +51,12 @@ GLuint LE3Texture::GetTextureID() const
 {
     return m_texture;
 }
+
+void LE3Texture::SetName(std::string name)
+{
+    this->m_name = name;
+}
+std::string LE3Texture::GetName() const
+{
+    return this->m_name;
+}

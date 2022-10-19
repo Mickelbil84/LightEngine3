@@ -15,6 +15,12 @@
 #include <vector>
 #include <glm/gtx/transform.hpp>
 
+#include <cereal/cereal.hpp>
+#include <cereal/archives/binary.hpp>
+#include <cereal/archives/json.hpp>
+#include <sstream>
+#include <fstream>
+
 #include "editor.h"
 #include "editor_ui.h"
 #include "editor_glpanel.h"
@@ -34,6 +40,24 @@ public:
 };
 
 wxIMPLEMENT_APP(LE3EditorApp);
+
+
+
+
+struct MyClass
+{
+  int x, y, z;
+
+  // This method lets cereal know which data members to serialize
+  template<class Archive>
+  void serialize(Archive & archive)
+  {
+    archive( x, y, z ); // serialize things by passing them to the archive
+  }
+};
+
+
+
 
 bool LE3EditorApp::OnInit()
 {
@@ -58,7 +82,7 @@ bool LE3EditorApp::OnInit()
     
     window->Show(true);
 
-    // window->m_treeCtrl6->AddRoot(wxT("Root node test"));
+    // m_editor.scene.SaveAssets("demo_assets.json");
 
     return true;
 }

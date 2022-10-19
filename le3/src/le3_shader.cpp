@@ -133,6 +133,15 @@ void LE3Shader::Delete()
     glDeleteProgram(m_program);
 }
 
+void LE3Shader::SetName(std::string name)
+{
+    this->m_name = name;
+}
+std::string LE3Shader::GetName() const
+{
+    return this->m_name;
+}
+
 GLint LE3Shader::GetUniformLocation(std::string uniformName)
 {
     // If this a new uniform, ask the shader program and update internally
@@ -166,3 +175,4 @@ void LE3Shader::Uniform(std::string uniformName, GLuint i)
     GLint loc = GetUniformLocation(uniformName);
     glUniform1i(loc, i);
 }
+

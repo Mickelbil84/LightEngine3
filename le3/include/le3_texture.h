@@ -11,6 +11,10 @@ public:
 
     GLuint GetTextureID() const;
 
+    void SetName(std::string name);
+    std::string GetName() const;
+
 private:
     GLuint m_texture;
+    std::string m_name;
 };

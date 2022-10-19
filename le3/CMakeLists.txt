@@ -8,6 +8,7 @@ find_package(OpenGL REQUIRED)
 find_package(glm REQUIRED)
 find_package(assimp CONFIG REQUIRED)
 find_package(Bullet REQUIRED)
+find_package(Cereal REQUIRED)
 include_directories(
     ${SDL2_INCLUDE_DIRS} 
     ${GLEW_INCLUDE_DIRS} 
@@ -44,5 +45,7 @@ target_link_libraries(
     ${OPENGL_LIBRARIES} 
     ${ASSIMP_LIBRARIES} 
     ${BULLET_LIBRARIES} 
-    GLEW::glew assimp::assimp)
+    GLEW::glew assimp::assimp
+    PUBLIC
+    cereal::cereal)
 target_compile_features(le3 PUBLIC cxx_std_20)

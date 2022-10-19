@@ -10,6 +10,7 @@ find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glm REQUIRED)
 find_package(Bullet REQUIRED)
+find_package(Cereal REQUIRED)
 find_package(wxWidgets REQUIRED COMPONENTS net core base aui propgrid gl)
 include_directories(
     ${SDL2_INCLUDE_DIRS} 
@@ -32,7 +33,7 @@ add_executable(
     src/editor_math.cpp
 )
 target_include_directories(editor PUBLIC ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/ui)
-target_link_libraries(editor PRIVATE le3 GLEW::glew ${wxWidgets_LIBRARIES} ${BULLET_LIBRARIES})
+target_link_libraries(editor PRIVATE le3 GLEW::glew ${wxWidgets_LIBRARIES} ${BULLET_LIBRARIES} PUBLIC cereal::cereal)
 target_compile_features(editor PUBLIC cxx_std_20)
 set_target_properties(editor PROPERTIES
     WIN32_EXECUTABLE ON

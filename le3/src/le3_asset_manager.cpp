@@ -5,6 +5,21 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+LE3AssetPath::LE3AssetPath() :
+    path(""),
+    bIsLoaded(false)
+{
+
+}
+
+LE3ShaderPath::LE3ShaderPath() :
+    vertexShaderPath(""),
+    fragmentShaderPath(""),
+    bIsLoaded(false)
+{
+
+}
+
 void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene);
 
 void LE3AssetManager::AddMeshPath(std::string name, std::string meshPath)
@@ -101,16 +116,31 @@ LE3Mesh<LE3Vertex>* LE3AssetManager::GetMesh(std::string name)
     
 }
 
+void LE3AssetManager::AddShaderPath(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath)
+{
+    LE3ShaderPath sp;
+    sp.vertexShaderPath = vertexShaderPath;
+    sp.fragmentShaderPath = fragmentShaderPath;
+    sp.bIsLoaded = false;
+    m_shadersPaths[name] = sp;
+}
 void LE3AssetManager::LoadShader(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath)
 {
     LE3Shader shader;
     shader.CompileShader(vertexShaderPath, fragmentShaderPath);
+    shader.SetName(name);
     m_shaders[name] = shader;
+    AddShaderPath(name, vertexShaderPath, fragmentShaderPath);
+    m_shadersPaths[name].bIsLoaded = true;
 }
 LE3Shader* LE3AssetManager::GetShader(std::string name)
 {
-    if (m_shaders.find(name) == m_shaders.end())
-        return nullptr;
+    LE3ShaderPath& sp = m_shadersPaths[name];
+    if (!sp.bIsLoaded)
+    {
+        LoadShader(name, sp.vertexShaderPath, sp.fragmentShaderPath);
+        sp.bIsLoaded = true;
+    }
 
     return &m_shaders[name];
 }
@@ -127,12 +157,15 @@ void LE3AssetManager::LoadTexture(std::string name, std::string texturePath)
 {
     LE3Texture texture;
     texture.Load(texturePath);
+    texture.SetName(name);
     m_textures[name] = texture;
     AddTexturePath(name, texturePath);
     m_texturesPaths[name].bIsLoaded = true;
 }
 LE3Texture* LE3AssetManager::GetTexture(std::string name)
 {
+    if (!name.size())
+        return nullptr;
     LE3AssetPath& ap = m_texturesPaths[name];
     if (!ap.bIsLoaded)
     {

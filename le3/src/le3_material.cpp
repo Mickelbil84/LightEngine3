@@ -14,6 +14,13 @@ LE3Material::LE3Material(LE3Shader* shader)
 void LE3Material::SetShader(LE3Shader* shader)
 {
     this->pShader = shader;
+    this->shaderName = shader->GetName();
+}
+
+void LE3Material::SetDiffuseTexture(LE3Texture* texture)
+{
+    this->diffuseTexture = texture;
+    this->diffuseTextureName = texture->GetName();
 }
 
 void LE3Material::Apply(glm::mat4 modelMatrix)

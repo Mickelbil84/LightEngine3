@@ -24,19 +24,21 @@ void LE3Editor::Init()
     //
     this->physics.Init();
 
+    scene.LoadAssets("demo_assets.json");
+
     //
     // Setup Gizmo and Camera
     //
-    scene.assets.LoadShader("gizmo",
-        resource_prefix + "resources/shaders/editor/gizmo.vs", 
-        resource_prefix + "resources/shaders/editor/gizmo.fs");
+    // scene.assets.LoadShader("gizmo",
+    //     resource_prefix + "resources/shaders/editor/gizmo.vs", 
+    //     resource_prefix + "resources/shaders/editor/gizmo.fs");
 
-    scene.assets.CreateMaterial("gizmoX", "gizmo");
-    scene.assets.GetMaterial("gizmoX")->diffuseColor = glm::vec4(1.f, 0.f, 0.f, 1.f);
-    scene.assets.CreateMaterial("gizmoY", "gizmo");
-    scene.assets.GetMaterial("gizmoY")->diffuseColor = glm::vec4(0.f, 1.f, 0.f, 1.f);
-    scene.assets.CreateMaterial("gizmoZ", "gizmo");
-    scene.assets.GetMaterial("gizmoZ")->diffuseColor = glm::vec4(0.f, 0.f, 1.f, 1.f);
+    // scene.assets.CreateMaterial("gizmoX", "gizmo");
+    // scene.assets.GetMaterial("gizmoX")->diffuseColor = glm::vec4(1.f, 0.f, 0.f, 1.f);
+    // scene.assets.CreateMaterial("gizmoY", "gizmo");
+    // scene.assets.GetMaterial("gizmoY")->diffuseColor = glm::vec4(0.f, 1.f, 0.f, 1.f);
+    // scene.assets.CreateMaterial("gizmoZ", "gizmo");
+    // scene.assets.GetMaterial("gizmoZ")->diffuseColor = glm::vec4(0.f, 0.f, 1.f, 1.f);
 
     gizmo.Init(
         scene.assets.GetMaterial("gizmoX"),
@@ -57,48 +59,51 @@ void LE3Editor::Init()
     // ---------------------------
     
 
-    scene.assets.LoadShader("basic", 
-        resource_prefix + "resources/shaders/basic/basic.vs", 
-        resource_prefix + "resources/shaders/basic/basic.fs");
+    // scene.assets.LoadShader("basic", 
+    //     resource_prefix + "resources/shaders/basic/basic.vs", 
+    //     resource_prefix + "resources/shaders/basic/basic.fs");
 
     std::vector<LE3Vertex> box;
     AddBox(box, 0.f, 0.f, 0.f, 10.f, .0f, 10.f);
     scene.assets.LoadMesh("floor", box);
     
-    scene.assets.LoadMesh("wheel", resource_prefix + "resources/models/cars/Audi R8 Wheel.fbx");
-    scene.assets.LoadMesh("carBody", resource_prefix + "resources/models/cars/Audi R8 Body.fbx");
-    scene.assets.LoadMesh("barrel", resource_prefix + "resources/models/gahan/barrel.obj");
-    scene.assets.LoadMesh("buffer", resource_prefix + "resources/models/gahan/buffer.obj");
+    // scene.assets.LoadMesh("wheel", resource_prefix + "resources/models/cars/Audi R8 Wheel.fbx");
+    // scene.assets.LoadMesh("carBody", resource_prefix + "resources/models/cars/Audi R8 Body.fbx");
+    // scene.assets.LoadMesh("barrel", resource_prefix + "resources/models/gahan/barrel.obj");
+    // scene.assets.LoadMesh("buffer", resource_prefix + "resources/models/gahan/buffer.obj");
     
 
-    scene.assets.CreateMaterial("red", "basic");
-    scene.assets.GetMaterial("red")->diffuseColor = glm::vec4(1.f, 0.f, 0.f, 1.f);
-    scene.assets.CreateMaterial("green", "basic");
-    scene.assets.GetMaterial("green")->diffuseColor = glm::vec4(0.f, 1.f, 0.f, 1.f);
-    scene.assets.CreateMaterial("blue", "basic");
-    scene.assets.GetMaterial("blue")->diffuseColor = glm::vec4(0.f, 0.f, 1.f, 1.f);
-    scene.assets.CreateMaterial("yellow", "basic");
-    scene.assets.GetMaterial("yellow")->diffuseColor = glm::vec4(1.f, 1.f, 0.f, 1.f);
+    // scene.assets.CreateMaterial("red", "basic");
+    // scene.assets.GetMaterial("red")->diffuseColor = glm::vec4(1.f, 0.f, 0.f, 1.f);
+    // scene.assets.CreateMaterial("green", "basic");
+    // scene.assets.GetMaterial("green")->diffuseColor = glm::vec4(0.f, 1.f, 0.f, 1.f);
+    // scene.assets.CreateMaterial("blue", "basic");
+    // scene.assets.GetMaterial("blue")->diffuseColor = glm::vec4(0.f, 0.f, 1.f, 1.f);
+    // scene.assets.CreateMaterial("yellow", "basic");
+    // scene.assets.GetMaterial("yellow")->diffuseColor = glm::vec4(1.f, 1.f, 0.f, 1.f);
 
-    scene.assets.CreateMaterial("carBody", "basic");
-    scene.assets.LoadTexture("wood", resource_prefix + "resources/textures/woodparquet_59-2K/woodparquet_59_basecolor-2K-2K.png");
-    scene.assets.GetMaterial("carBody")->diffuseTexture = scene.assets.GetTexture("wood");
-    scene.assets.GetMaterial("carBody")->bUseDiffuseTexture = false;
+    // scene.assets.CreateMaterial("carBody", "basic");
+    // scene.assets.LoadTexture("wood", resource_prefix + "resources/textures/woodparquet_59-2K/woodparquet_59_basecolor-2K-2K.png");
+    // scene.assets.GetMaterial("carBody")->SetDiffuseTexture(scene.assets.GetTexture("wood"));
+    // scene.assets.GetMaterial("carBody")->bUseDiffuseTexture = false;
 
-    scene.assets.CreateMaterial("barrelMat", "basic");
-    scene.assets.LoadTexture("barrelDiffuse", resource_prefix + "resources/textures/gahan/barrel_diffuse.tga");
-    scene.assets.GetMaterial("barrelMat")->diffuseTexture = scene.assets.GetTexture("barrelDiffuse");
-    scene.assets.GetMaterial("barrelMat")->bUseDiffuseTexture = true;
+    // scene.assets.CreateMaterial("barrelMat", "basic");
+    // scene.assets.LoadTexture("barrelDiffuse", resource_prefix + "resources/textures/gahan/barrel_diffuse.tga");
+    // scene.assets.GetMaterial("barrelMat")->SetDiffuseTexture(scene.assets.GetTexture("barrelDiffuse"));
+    // scene.assets.GetMaterial("barrelMat")->bUseDiffuseTexture = true;
 
-    scene.assets.CreateMaterial("bufferMat", "basic");
-    scene.assets.LoadTexture("bufferDiffuse", resource_prefix + "resources/textures/gahan/buffer_diffuse.tga");
-    scene.assets.GetMaterial("bufferMat")->diffuseTexture = scene.assets.GetTexture("bufferDiffuse");
-    scene.assets.GetMaterial("bufferMat")->bUseDiffuseTexture = true;
+    // scene.assets.CreateMaterial("bufferMat", "basic");
+    // scene.assets.LoadTexture("bufferDiffuse", resource_prefix + "resources/textures/gahan/buffer_diffuse.tga");
+    // scene.assets.GetMaterial("bufferMat")->SetDiffuseTexture(scene.assets.GetTexture("bufferDiffuse"));
+    // scene.assets.GetMaterial("bufferMat")->bUseDiffuseTexture = true;
 
-    scene.assets.CreateMaterial("floorMat", "basic");
-    scene.assets.LoadTexture("floorDiffuse", resource_prefix + "resources/textures/tile_floor.jpg");
-    scene.assets.GetMaterial("floorMat")->diffuseTexture = scene.assets.GetTexture("floorDiffuse");
-    scene.assets.GetMaterial("floorMat")->bUseDiffuseTexture = true;
+    // scene.assets.CreateMaterial("floorMat", "basic");
+    // scene.assets.LoadTexture("floorDiffuse", resource_prefix + "resources/textures/tile_floor.jpg");
+    // scene.assets.GetMaterial("floorMat")->SetDiffuseTexture(scene.assets.GetTexture("floorDiffuse"));
+    // scene.assets.GetMaterial("floorMat")->bUseDiffuseTexture = true;
+
+
+    
 
     
     // ---------------------------

@@ -34,6 +34,9 @@ public:
 
     std::string m_vertexShaderPath, m_fragmentShaderPath;
 
+    void SetName(std::string name);
+    std::string GetName() const;
+
 private:
     // Reads shader file into an `std::string`
     static std::string ReadShaderFile(std::string filePath);
@@ -47,4 +50,5 @@ private:
 
     GLuint m_program;
     std::map<std::string, GLint> m_uniformLocation;
+    std::string m_name;
 };
