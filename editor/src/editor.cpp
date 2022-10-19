@@ -68,6 +68,7 @@ void LE3Editor::Init()
     scene.assets.LoadMesh("wheel", resource_prefix + "resources/models/cars/Audi R8 Wheel.fbx");
     scene.assets.LoadMesh("carBody", resource_prefix + "resources/models/cars/Audi R8 Body.fbx");
     scene.assets.LoadMesh("barrel", resource_prefix + "resources/models/gahan/barrel.obj");
+    scene.assets.LoadMesh("buffer", resource_prefix + "resources/models/gahan/buffer.obj");
     
 
     scene.assets.CreateMaterial("red", "basic");
@@ -88,6 +89,11 @@ void LE3Editor::Init()
     scene.assets.LoadTexture("barrelDiffuse", resource_prefix + "resources/textures/gahan/barrel_diffuse.tga");
     scene.assets.GetMaterial("barrelMat")->diffuseTexture = scene.assets.GetTexture("barrelDiffuse");
     scene.assets.GetMaterial("barrelMat")->bUseDiffuseTexture = true;
+
+    scene.assets.CreateMaterial("bufferMat", "basic");
+    scene.assets.LoadTexture("bufferDiffuse", resource_prefix + "resources/textures/gahan/buffer_diffuse.tga");
+    scene.assets.GetMaterial("bufferMat")->diffuseTexture = scene.assets.GetTexture("bufferDiffuse");
+    scene.assets.GetMaterial("bufferMat")->bUseDiffuseTexture = true;
 
     scene.assets.CreateMaterial("floorMat", "basic");
     scene.assets.LoadTexture("floorDiffuse", resource_prefix + "resources/textures/tile_floor.jpg");
@@ -112,6 +118,14 @@ void LE3Editor::Init()
     barrel->SetScale(0.15f);
     barrel->RegisterCollision(&physics);
     root.AppendChild(barrel);
+
+    LE3StaticMesh* buffer = new LE3StaticMesh("buffer");
+    buffer->SetPosition(glm::vec3(-2.f, 0.025f, 1.2f));
+    buffer->SetMesh(scene.assets.GetMesh("buffer"));
+    buffer->SetMaterial(scene.assets.GetMaterial("bufferMat"));
+    buffer->SetScale(0.15f);
+    buffer->RegisterCollision(&physics);
+    root.AppendChild(buffer);
     
 
     car.SetName("Car");

@@ -21,6 +21,10 @@ void main()
     if (material.bUseDiffuseTexture)
         diffuseColor = texture(material.diffuseTexture, texCoord);
 
-    fColor = diffuseColor;
+    // Lambert light
+    vec3 dir = normalize(vec3(1, 0.5, 1));
+    float light = max(0, dot(dir, normalize(vec3(normalColor)))) + 0.5f;
+
+    fColor = light * diffuseColor;
     //fColor = normalColor;
 }
