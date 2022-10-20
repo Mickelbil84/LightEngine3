@@ -124,12 +124,12 @@ void LE3wxOpenGLPanel::resized(wxSizeEvent& evt)
  
 int LE3wxOpenGLPanel::getWidth()
 {
-    return GetSize().x;
+    return GetSize().x * GetContentScaleFactor();
 }
  
 int LE3wxOpenGLPanel::getHeight()
 {
-    return GetSize().y;
+    return GetSize().y * GetContentScaleFactor();
 }
  
  
@@ -140,7 +140,8 @@ void LE3wxOpenGLPanel::render( wxPaintEvent& evt )
     wxGLCanvas::SetCurrent(*m_context);
     wxPaintDC(this); // only to be used in paint events. use wxClientDC to paint outside the paint event
 	
-    glViewport(0, 0, getWidth()*2, getHeight()*2);
+    // glViewport(0, 0, getWidth()*2, getHeight()*2);
+    glViewport(0, 0, getWidth(), getHeight());
     // glClearColor(
     //         100.f/255.f, 
     //         149.f/255.f, 
