@@ -40,10 +40,7 @@ void LE3Editor::Init()
     // scene.assets.CreateMaterial("gizmoZ", "gizmo");
     // scene.assets.GetMaterial("gizmoZ")->diffuseColor = glm::vec4(0.f, 0.f, 1.f, 1.f);
 
-    gizmo.Init(
-        scene.assets.GetMaterial("gizmoX"),
-        scene.assets.GetMaterial("gizmoY"),
-        scene.assets.GetMaterial("gizmoZ"));
+    gizmo.Init();
     gizmo.SetHiddenInSceneGraph(true);
     gizmo.SetHidden(true);
     root.AppendChild(&gizmo);
@@ -244,6 +241,11 @@ void LE3Editor::Render(int width, int height)
         shader ->Uniform("view", camera.GetViewMatrix());
         shader->Uniform("projection", camera.GetProjectionMatrix());
     }
+
+    // Update also the gizmo shaders
+    gizmo.GetGizmoShader()->Use();
+    gizmo.GetGizmoShader()->Uniform("view", camera.GetViewMatrix());
+    gizmo.GetGizmoShader()->Uniform("projection", camera.GetProjectionMatrix());
 
     root.Draw();
 }

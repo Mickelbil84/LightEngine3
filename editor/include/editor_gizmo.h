@@ -7,6 +7,7 @@
 #include "editor_consts.h"
 #include "editor_math.h"
 
+
 class LE3EditorGizmoAxis : public LE3StaticMesh
 {
 public:
@@ -32,11 +33,19 @@ class LE3EditorGizmo : public LE3Object
 public:
     LE3EditorGizmo();
 
-    void Init(LE3Material* materialX, LE3Material* materialY, LE3Material* materialZ);
+    void Init();
 
     LE3EditorGizmoAxis *xAxis, *yAxis, *zAxis;
 
     // Reset bIsHovered for all axes
     void UnhoverAxes();
 
+    LE3Shader* GetGizmoShader() const;
+
+private:
+
+    void InitMaterials();
+
+    LE3Shader* gizmoShader;
+    LE3Material materialX, materialY, materialZ;
 };
