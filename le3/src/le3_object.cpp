@@ -53,6 +53,7 @@ void LE3Object::Reparent(LE3Object* parent)
 {
     // if (m_pParent == parent)
     //     return;
+    m_parentName = "";
     if (m_pParent)
     {
         m_pParent->RemoveChild(this);
@@ -62,6 +63,7 @@ void LE3Object::Reparent(LE3Object* parent)
     {
         parent->AppendChild(this);
         m_pParent = parent;
+        m_parentName = parent->GetName();
     }
 }
 

@@ -7,6 +7,7 @@
 
 #include "le3_shader.h"
 #include "le3_texture.h"
+#include "le3_utils.h"
 
 #define DIFFUSE_TEXTURE_INDEX 0
 
@@ -32,31 +33,33 @@ public:
     LE3Shader* GetShader() const;
 
     template <class Archive>
-    void save( Archive & ar ) const
+    void serialize( Archive & ar )
     {
         ar(CEREAL_NVP(shaderName));
 
-        float diffuse_x = diffuseColor.x, diffuse_y = diffuseColor.y, diffuse_z = diffuseColor.z, diffuse_w = diffuseColor.w;
-        ar(CEREAL_NVP(diffuse_x), CEREAL_NVP(diffuse_y), CEREAL_NVP(diffuse_z), CEREAL_NVP(diffuse_w));
+        // float diffuse_x = diffuseColor.x, diffuse_y = diffuseColor.y, diffuse_z = diffuseColor.z, diffuse_w = diffuseColor.w;
+        // ar(CEREAL_NVP(diffuse_x), CEREAL_NVP(diffuse_y), CEREAL_NVP(diffuse_z), CEREAL_NVP(diffuse_w));
         // diffuseColor = glm::vec4(diffuse_x, diffuse_y, diffuse_z, diffuse_w);
 
-        ar(CEREAL_NVP(diffuseTextureName));
-        ar(CEREAL_NVP(bUseDiffuseTexture));
-    }
-
-    template <class Archive>
-    void load( Archive & ar )
-    {
-        ar(CEREAL_NVP(shaderName));
-
-        float diffuse_x, diffuse_y, diffuse_z, diffuse_w;
-        ar(CEREAL_NVP(diffuse_x), CEREAL_NVP(diffuse_y), CEREAL_NVP(diffuse_z), CEREAL_NVP(diffuse_w));
-        std::cout << diffuse_x << " " << diffuse_y << " " << diffuse_z << " " << diffuse_w << std::endl;
-        diffuseColor = glm::vec4(diffuse_x, diffuse_y, diffuse_z, diffuse_w);
+        ar(CEREAL_NVP(diffuseColor));
 
         ar(CEREAL_NVP(diffuseTextureName));
         ar(CEREAL_NVP(bUseDiffuseTexture));
     }
+
+    // template <class Archive>
+    // void load( Archive & ar )
+    // {
+    //     ar(CEREAL_NVP(shaderName));
+
+    //     float diffuse_x, diffuse_y, diffuse_z, diffuse_w;
+    //     ar(CEREAL_NVP(diffuse_x), CEREAL_NVP(diffuse_y), CEREAL_NVP(diffuse_z), CEREAL_NVP(diffuse_w));
+    //     std::cout << diffuse_x << " " << diffuse_y << " " << diffuse_z << " " << diffuse_w << std::endl;
+    //     diffuseColor = glm::vec4(diffuse_x, diffuse_y, diffuse_z, diffuse_w);
+
+    //     ar(CEREAL_NVP(diffuseTextureName));
+    //     ar(CEREAL_NVP(bUseDiffuseTexture));
+    // }
 
 protected:
     LE3Shader* pShader;

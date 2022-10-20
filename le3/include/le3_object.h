@@ -2,6 +2,10 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+
+#include <cereal/cereal.hpp>
+
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/euler_angles.hpp>
@@ -49,6 +53,16 @@ public:
     glm::vec3 GetGlobalPosition() const;
     glm::vec3 GetGlobalRotation() const;
 
+    template <class Archive>
+    void serialize( Archive & ar )
+    {
+        ar(CEREAL_NVP(m_position), CEREAL_NVP(m_rotation), CEREAL_NVP(m_scale));
+        ar(CEREAL_NVP(m_globalPosition), CEREAL_NVP(m_globalRotation));
+        ar(CEREAL_NVP(m_localModelMatrix), CEREAL_NVP(m_globalModelMatrix));
+
+
+    }
+
 protected:
     
     /////////////////////
@@ -75,6 +89,7 @@ protected:
     LE3Object* m_pParent;
     std::vector<LE3Object*> m_children;
     std::string m_name;
+    std::string m_parentName;
     bool m_bHiddenInSceneGraph;
     bool m_bHidden;
 

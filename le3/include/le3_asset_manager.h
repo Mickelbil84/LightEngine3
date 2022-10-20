@@ -7,10 +7,16 @@
 #include <cereal/types/map.hpp>
 #include <cereal/types/string.hpp>
 
+#include "le3_utils.h"
 #include "le3_mesh.h"
 #include "le3_shader.h"
 #include "le3_texture.h"
 #include "le3_material.h"
+#include "le3_primitives.h"
+
+const char gPrimitivePathPrefix = '$';
+const char gPrimitivePathDelimiter = '_';
+extern const char* gTokenBox;
 
 struct LE3AssetPath
 {
@@ -47,6 +53,7 @@ public:
     void AddMeshPath(std::string name, std::string meshPath);
     void LoadMesh(std::string name, std::vector<LE3Vertex> data);
     void LoadMesh(std::string name, std::string meshPath);
+    void LoadMeshPrimitive(std::string name, std::string primitiveDescription);
     LE3Mesh<LE3Vertex>* GetMesh(std::string name);
 
     void AddTexturePath(std::string name, std::string texturePath);

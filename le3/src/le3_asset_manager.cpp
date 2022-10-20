@@ -5,6 +5,8 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+const char* gTokenBox = "BOX";
+
 LE3AssetPath::LE3AssetPath() :
     path(""),
     bIsLoaded(false)
@@ -39,6 +41,12 @@ void LE3AssetManager::LoadMesh(std::string name, std::vector<LE3Vertex> data)
 
 void LE3AssetManager::LoadMesh(std::string name, std::string meshPath)
 {
+    if (meshPath[0] == gPrimitivePathPrefix)
+    {
+        LoadMeshPrimitive(name, meshPath);
+        return;
+    }
+
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(meshPath, 
         aiProcess_FlipUVs |
@@ -62,6 +70,58 @@ void LE3AssetManager::LoadMesh(std::string name, std::string meshPath)
     m_meshes[name] = mesh;
 
     AddMeshPath(name, meshPath);
+    m_meshesPaths[name].bIsLoaded = true;
+}
+
+void LE3AssetManager::LoadMeshPrimitive(std::string name, std::string primitiveDescription)
+{
+    std::vector<LE3Vertex> data;
+    
+    int i = 1;
+    std::vector<float> params;
+    std::string token, tmp;
+    bool bTokenDone = false;
+    while (i < primitiveDescription.size())
+    {
+        if (primitiveDescription[i] == gPrimitivePathDelimiter)
+        {
+            if (!bTokenDone)
+            {
+                token = tmp;
+                bTokenDone = true;
+                std::cout << "TKN: " << token << std::endl;
+            }
+            else
+            {
+                params.push_back(std::stof(tmp));
+                std::cout << "PRM: " << params[params.size()-1] << std::endl;
+            }
+            tmp = "";
+        }
+        else
+        {
+            tmp += primitiveDescription[i];
+        }
+        i++;
+    }
+
+    if (token == gTokenBox)
+    {
+        AddBox(data, params[0], params[1], params[2], params[3], params[4], params[5]);
+    }
+    else
+    {
+        #ifndef NDEBUG
+        PrintTitle("Primitive mesh error");
+        std::cout << "Could not find token '" << token << "'." << std::endl;
+        #endif
+    }
+
+    LE3Mesh<LE3Vertex> mesh;
+    mesh.LoadMeshData(data);
+    m_meshes[name] = mesh;
+
+    AddMeshPath(name, primitiveDescription);
     m_meshesPaths[name].bIsLoaded = true;
 }
 
