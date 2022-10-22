@@ -38,9 +38,7 @@ class LE3Editor
     LE3EditorGizmoAxis* m_draggedGizmoAxis;
 
 
-    LE3SceneRoot root;
     LE3EditorGizmo gizmo;
-    LE3PhysicsComponent physics;
     LE3Object* hoveredObject;
     LE3SelectCallback* selectCallback;
 
@@ -50,7 +48,6 @@ class LE3Editor
 
     LE3Object car, wheelsFront, wheelsBack;
 	LE3StaticMesh carBodyMesh, wheel1, wheel2, wheel3, wheel4;
-	LE3FreeCamera camera;
 
 public:
     LE3Editor();
@@ -64,7 +61,6 @@ public:
     void HandleInput(LE3EditorInput input);
     void Render(int width, int height);
 
-    LE3Object* GetRoot() const;
     LE3EditorGizmo* GetGizmo() const;
     LE3Object* GetHoveredObject() const;
     void SetSelectCallback(LE3SelectCallback* callback);

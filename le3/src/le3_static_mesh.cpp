@@ -78,4 +78,16 @@ void LE3StaticMesh::RegisterCollision(LE3PhysicsComponent* physics)
     m_pRigidBody = new btRigidBody(rigidBodyCI);
     m_pRigidBody->setUserPointer((void*)this);
     physics->GetWorld()->addRigidBody(m_pRigidBody);
+    m_bHasCollision = true;
+}
+
+void LE3StaticMesh::UpdateAssets(LE3AssetManager& assets)
+{
+    SetMesh(assets.GetMesh(meshName));
+    SetMaterial(assets.GetMaterial(materialName));
+}
+
+void LE3StaticMesh::UpdatePhysics(LE3PhysicsComponent& physics)
+{
+    RegisterCollision(&physics);
 }

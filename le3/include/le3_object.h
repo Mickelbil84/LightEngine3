@@ -5,11 +5,18 @@
 #include <memory>
 
 #include <cereal/cereal.hpp>
+#include <cereal/types/polymorphic.hpp>
+#include <cereal/archives/binary.hpp>
+#include <cereal/archives/xml.hpp>
+#include <cereal/archives/json.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
+
+#include "le3_physics.h"
+#include "le3_asset_manager.h"
 
 // The most basic entity in the framework. Each element in the scene is an object.
 // An object has a local transform (which is in relation to its parent).
@@ -53,13 +60,16 @@ public:
     glm::vec3 GetGlobalPosition() const;
     glm::vec3 GetGlobalRotation() const;
 
+    virtual void UpdateAssets(LE3AssetManager& assets);
+    virtual void UpdatePhysics(LE3PhysicsComponent& physics);
+
     template <class Archive>
     void serialize( Archive & ar )
     {
         ar(CEREAL_NVP(m_position), CEREAL_NVP(m_rotation), CEREAL_NVP(m_scale));
         ar(CEREAL_NVP(m_globalPosition), CEREAL_NVP(m_globalRotation));
         ar(CEREAL_NVP(m_localModelMatrix), CEREAL_NVP(m_globalModelMatrix));
-
+        ar(CEREAL_NVP(m_name), CEREAL_NVP(m_bHiddenInSceneGraph), CEREAL_NVP(m_bHidden));
 
     }
 
@@ -89,7 +99,6 @@ protected:
     LE3Object* m_pParent;
     std::vector<LE3Object*> m_children;
     std::string m_name;
-    std::string m_parentName;
     bool m_bHiddenInSceneGraph;
     bool m_bHidden;
 
@@ -99,3 +108,5 @@ private:
     // Updates the global model matrix, with respect to the parent object
     void UpdateGlobalModelMatrix();
 };
+
+CEREAL_REGISTER_TYPE(LE3Object);

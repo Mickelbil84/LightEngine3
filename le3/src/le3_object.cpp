@@ -53,7 +53,6 @@ void LE3Object::Reparent(LE3Object* parent)
 {
     // if (m_pParent == parent)
     //     return;
-    m_parentName = "";
     if (m_pParent)
     {
         m_pParent->RemoveChild(this);
@@ -63,7 +62,6 @@ void LE3Object::Reparent(LE3Object* parent)
     {
         parent->AppendChild(this);
         m_pParent = parent;
-        m_parentName = parent->GetName();
     }
 }
 
@@ -163,4 +161,14 @@ glm::vec3 LE3Object::GetGlobalPosition() const
 glm::vec3 LE3Object::GetGlobalRotation() const
 {
     return m_globalRotation;
+}
+
+void LE3Object::UpdateAssets(LE3AssetManager& assets)
+{
+
+}
+
+void LE3Object::UpdatePhysics(LE3PhysicsComponent& physics)
+{
+
 }

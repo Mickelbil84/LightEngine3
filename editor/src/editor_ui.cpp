@@ -11,7 +11,7 @@ void LE3EditorUI::RefreshSceneGraph()
     this->m_sceneGraphMap.clear();
     this->m_sceneGraphTree->DeleteAllItems();
     this->m_sceneGraphTree->AppendColumn(wxT("Name"));
-    this->RefreshSceneGraph(m_editor->GetRoot(), m_sceneGraphTree->GetRootItem());
+    this->RefreshSceneGraph(m_editor->scene.GetRoot().get(), m_sceneGraphTree->GetRootItem());
 }
 
 void LE3EditorUI::RefreshSceneGraph(LE3Object* node, wxTreeListItem treeItem)

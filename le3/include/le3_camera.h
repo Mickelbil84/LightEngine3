@@ -73,3 +73,8 @@ protected:
     glm::vec3 m_moveVelocity;
     glm::vec2 m_lookVelocity;
 };
+
+CEREAL_REGISTER_TYPE(LE3Camera);
+CEREAL_REGISTER_TYPE(LE3FreeCamera);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(LE3Object, LE3Camera);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(LE3Camera, LE3FreeCamera);

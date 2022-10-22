@@ -13,3 +13,6 @@ private:
     void UpdateRecurse(double deltaTime, LE3Object* object);
     void DrawRecurse(LE3Object* object);
 };
+
+CEREAL_REGISTER_TYPE(LE3SceneRoot);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(LE3Object, LE3SceneRoot);
