@@ -38,7 +38,6 @@ void LE3PhysicsComponent::Init()
     m_pConstraintSolver = new btSequentialImpulseConstraintSolver;
     m_pWorld = new btDiscreteDynamicsWorld(m_pCollisionDispatcher, m_pBroadphase, m_pConstraintSolver, m_pCollisionConfiguration);
     m_pWorld->setGravity(btVector3(0, -9.81f, 0));
-    std::cout << "Initiallized Bullet!" << std::endl;
 }
 
 btDiscreteDynamicsWorld* LE3PhysicsComponent::GetWorld() const

@@ -89,12 +89,10 @@ void LE3AssetManager::LoadMeshPrimitive(std::string name, std::string primitiveD
             {
                 token = tmp;
                 bTokenDone = true;
-                std::cout << "TKN: " << token << std::endl;
             }
             else
             {
                 params.push_back(std::stof(tmp));
-                std::cout << "PRM: " << params[params.size()-1] << std::endl;
             }
             tmp = "";
         }
@@ -155,7 +153,6 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
             aiFace face = mesh->mFaces[j];
             for (unsigned int k = 0; k < face.mNumIndices; ++k)
                 indices.push_back(face.mIndices[k]);
-            // std::cout << indices[indices.size()-1] << std::endl;
         }
     }
 
