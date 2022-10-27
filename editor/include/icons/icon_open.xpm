@@ -1,0 +1,34 @@
+/* XPM */
+static char* icon_open[] = {
+/* columns rows colors chars-per-pixel */
+"24 24 4 1 ",
+"  c None",
+". c black",
+"X c #B6AC69",
+"o c #FFE846",
+/* pixels */
+"                        ",
+"                        ",
+"                        ",
+"                 ....   ",
+"                ..  ..  ",
+"                     .  ",
+"  .............    .....",
+"  .oooooooooooo.    ... ",
+"  .ooooooooooooo..   .  ",
+"  .ooooooooooooooo.     ",
+"  .ooo................  ",
+"  .ooo.XXXXXXXXXXXXXX.  ",
+"  .oo.XXXXXXXXXXXXXX.   ",
+"  .oo.XXXXXXXXXXXXXX.   ",
+"  .o.XXXXXXXXXXXXXX.    ",
+"  .o.XXXXXXXXXXXXXX.    ",
+"  ..XXXXXXXXXXXXXX.     ",
+"  ..XXXXXXXXXXXXXX.     ",
+"  .XXXXXXXXXXXXXX.      ",
+"  ................      ",
+"                        ",
+"                        ",
+"                        ",
+"                        "
+};

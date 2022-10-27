@@ -16,12 +16,36 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizer9;
 	bSizer9 = new wxBoxSizer( wxVERTICAL );
 
-	m_auiToolBar4 = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT|wxAUI_TB_PLAIN_BACKGROUND );
-	m_tool5 = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_FRAME_ICON ), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_auiToolBar4 = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT );
+	m_newTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_tool7 = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_FRAME_ICON ), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_loadTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_tool6 = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxArtProvider::GetBitmap( wxART_NEW, wxART_FRAME_ICON ), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_saveTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
+	m_saveAsTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
+	m_auiToolBar4->AddSeparator();
+
+	m_undoTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
+	m_redoTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
+	m_auiToolBar4->AddSeparator();
+
+	m_gizmoSelectTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
+	m_gizmoMoveTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
+	m_gizmoRotateTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
+	m_gizmoScaleTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
+	m_auiToolBar4->AddSeparator();
+
+	m_collisionTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
+	m_bulletCollisionTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
 	m_auiToolBar4->Realize();
 

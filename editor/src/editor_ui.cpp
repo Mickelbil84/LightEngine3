@@ -1,11 +1,29 @@
 #include "editor_ui.h"
 
+#include "icons/icon_none.xpm"
+#include "icons/icon_new.xpm"
+#include "icons/icon_open.xpm"
+
 LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selectedType(LE3_SELECTED_NONE), selectCallback(this), refreshPropertiesCallback(this)
 {
-    // wxBitmap testIcons((const char*)box_icon_bits, box_icon_width, box_icon_height);
-    // m_tool6->SetBitmap(testIcons);
-    // m_propertyGridRefresh.Bind(wxEVT_TIMER, &LE3EditorUI::RefreshPropertyGrid, this);
-    // m_propertyGridRefresh.Start(10);
+    m_auiToolBar4->SetToolBitmapSize(wxSize(24, 24));    
+    m_newTool->SetBitmap({icon_new});
+    m_loadTool->SetBitmap({icon_open});
+
+    // m_saveTool->SetBitmap({icon_none});
+    // m_saveAsTool->SetBitmap({icon_none});
+    // m_undoTool->SetBitmap({icon_none});
+    // m_redoTool->SetBitmap({icon_none});
+    // m_gizmoSelectTool->SetBitmap({icon_none});
+    // m_gizmoMoveTool->SetBitmap({icon_none});
+    // m_gizmoRotateTool->SetBitmap({icon_none});
+    // m_gizmoScaleTool->SetBitmap({icon_none});
+    // m_collisionTool->SetBitmap({icon_none});
+    // m_bulletCollisionTool->SetBitmap({icon_none});
+
+    m_auiToolBar4->Realize();
+
+
 }
 
 void LE3EditorUI::RefreshSceneGraph()

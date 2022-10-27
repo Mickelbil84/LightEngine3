@@ -42,9 +42,18 @@ class LE3EditorWindow : public wxFrame
 
 	protected:
 		wxAuiToolBar* m_auiToolBar4;
-		wxAuiToolBarItem* m_tool5;
-		wxAuiToolBarItem* m_tool7;
-		wxAuiToolBarItem* m_tool6;
+		wxAuiToolBarItem* m_newTool;
+		wxAuiToolBarItem* m_loadTool;
+		wxAuiToolBarItem* m_saveTool;
+		wxAuiToolBarItem* m_saveAsTool;
+		wxAuiToolBarItem* m_undoTool;
+		wxAuiToolBarItem* m_redoTool;
+		wxAuiToolBarItem* m_gizmoSelectTool;
+		wxAuiToolBarItem* m_gizmoMoveTool;
+		wxAuiToolBarItem* m_gizmoRotateTool;
+		wxAuiToolBarItem* m_gizmoScaleTool;
+		wxAuiToolBarItem* m_collisionTool;
+		wxAuiToolBarItem* m_bulletCollisionTool;
 		wxNotebook* m_notebook1;
 		wxPanel* m_panel2;
 		wxTreeListCtrl* m_sceneGraphTree;

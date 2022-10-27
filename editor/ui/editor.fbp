@@ -116,7 +116,7 @@
                         <property name="separation">5</property>
                         <property name="show">1</property>
                         <property name="size"></property>
-                        <property name="style">wxAUI_TB_HORZ_LAYOUT|wxAUI_TB_PLAIN_BACKGROUND</property>
+                        <property name="style">wxAUI_TB_HORZ_LAYOUT</property>
                         <property name="subclass">; ; forward_declare</property>
                         <property name="toolbar_label">label</property>
                         <property name="toolbar_pane">0</property>
@@ -126,34 +126,142 @@
                         <property name="window_name"></property>
                         <property name="window_style"></property>
                         <object class="tool" expanded="1">
-                            <property name="bitmap">Load From Art Provider; wxART_FILE_OPEN; wxART_FRAME_ICON</property>
+                            <property name="bitmap">Load From File; </property>
                             <property name="context_menu">0</property>
                             <property name="id">wxID_ANY</property>
                             <property name="kind">wxITEM_NORMAL</property>
                             <property name="label">tool</property>
-                            <property name="name">m_tool5</property>
+                            <property name="name">m_newTool</property>
                             <property name="permission">protected</property>
                             <property name="statusbar"></property>
                             <property name="tooltip"></property>
                         </object>
                         <object class="tool" expanded="1">
-                            <property name="bitmap">Load From Art Provider; wxART_FILE_SAVE; wxART_FRAME_ICON</property>
+                            <property name="bitmap">Load From File; </property>
                             <property name="context_menu">0</property>
                             <property name="id">wxID_ANY</property>
                             <property name="kind">wxITEM_NORMAL</property>
                             <property name="label">tool</property>
-                            <property name="name">m_tool7</property>
+                            <property name="name">m_loadTool</property>
                             <property name="permission">protected</property>
                             <property name="statusbar"></property>
                             <property name="tooltip"></property>
                         </object>
                         <object class="tool" expanded="1">
-                            <property name="bitmap">Load From Art Provider; wxART_NEW; wxART_FRAME_ICON</property>
+                            <property name="bitmap">Load From File; </property>
                             <property name="context_menu">0</property>
                             <property name="id">wxID_ANY</property>
                             <property name="kind">wxITEM_NORMAL</property>
                             <property name="label">tool</property>
-                            <property name="name">m_tool6</property>
+                            <property name="name">m_saveTool</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar"></property>
+                            <property name="tooltip"></property>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap"></property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">tool</property>
+                            <property name="name">m_saveAsTool</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar"></property>
+                            <property name="tooltip"></property>
+                        </object>
+                        <object class="toolSeparator" expanded="1">
+                            <property name="permission">protected</property>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap"></property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">tool</property>
+                            <property name="name">m_undoTool</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar"></property>
+                            <property name="tooltip"></property>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap"></property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">tool</property>
+                            <property name="name">m_redoTool</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar"></property>
+                            <property name="tooltip"></property>
+                        </object>
+                        <object class="toolSeparator" expanded="1">
+                            <property name="permission">protected</property>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap"></property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">tool</property>
+                            <property name="name">m_gizmoSelectTool</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar"></property>
+                            <property name="tooltip"></property>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap"></property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">tool</property>
+                            <property name="name">m_gizmoMoveTool</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar"></property>
+                            <property name="tooltip"></property>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap"></property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">tool</property>
+                            <property name="name">m_gizmoRotateTool</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar"></property>
+                            <property name="tooltip"></property>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap"></property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">tool</property>
+                            <property name="name">m_gizmoScaleTool</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar"></property>
+                            <property name="tooltip"></property>
+                        </object>
+                        <object class="toolSeparator" expanded="1">
+                            <property name="permission">protected</property>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap"></property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">tool</property>
+                            <property name="name">m_collisionTool</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar"></property>
+                            <property name="tooltip"></property>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap"></property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">tool</property>
+                            <property name="name">m_bulletCollisionTool</property>
                             <property name="permission">protected</property>
                             <property name="statusbar"></property>
                             <property name="tooltip"></property>
