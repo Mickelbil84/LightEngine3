@@ -46,6 +46,7 @@ protected:
     std::map<std::string, std::shared_ptr<LE3Object>> objectPool;
     std::map<std::string, std::string> parentLinks;
 
+public:
     // Use parent links to fix the scene graph
     void UpdateSceneGraph();
     void UpdateAssets();

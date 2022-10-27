@@ -1,9 +1,11 @@
 #include "editor_ui.h"
 
-LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selectedType(LE3_SELECTED_NONE), selectCallback(this)
+LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selectedType(LE3_SELECTED_NONE), selectCallback(this), refreshPropertiesCallback(this)
 {
     // wxBitmap testIcons((const char*)box_icon_bits, box_icon_width, box_icon_height);
     // m_tool6->SetBitmap(testIcons);
+    // m_propertyGridRefresh.Bind(wxEVT_TIMER, &LE3EditorUI::RefreshPropertyGrid, this);
+    // m_propertyGridRefresh.Start(10);
 }
 
 void LE3EditorUI::RefreshSceneGraph()
@@ -104,6 +106,7 @@ void LE3EditorUI::OnSelectObjectInGraph( wxTreeListEvent& event )
 
     LE3Object* obj = this->m_sceneGraphMap[event.GetItem()];
     m_editor->SetSelectedObject(obj);
+    refreshPropertiesCallback.callback();
 }
 
 void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )
@@ -112,6 +115,13 @@ void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )
     {
     case LE3_SELECTED_SHADER:
         OnPropertyChangeShader(event);
+        break;
+
+    case LE3_SELECTED_OBJECT:
+        ObjectPropertyGridChanged(m_editor->GetSelectedObject(), m_propertyGrid, event);
+        m_editor->SetSelectedObject(m_editor->GetSelectedObject());
+        RefreshSceneGraph();
+        m_editor->scene.UpdateAssets();
         break;
 
     case LE3_SELECTED_NONE:
@@ -125,6 +135,25 @@ void LE3EditorUI::OnMouseClick( wxMouseEvent& event )
 {
 }
 
+void LE3EditorUI::RefreshPropertyGrid()
+{
+    if (m_editor->GetSelectedObject())
+    {
+        UpdateObjectPropertyGrid(m_editor->GetSelectedObject(), m_propertyGrid);
+        m_selectedType = LE3_SELECTED_OBJECT;
+    }
+    else
+    {
+        m_propertyGrid->Clear();
+        m_selectedType = LE3_SELECTED_NONE;
+    }
+}
+
+void LE3EditorUI::RefreshPropertyGrid(wxTimerEvent& evt)
+{
+    this->RefreshPropertyGrid();
+}
+
 LE3EditorUI::LE3EditorUI_SelectCallback::LE3EditorUI_SelectCallback(LE3EditorUI* parent)
 {
     this->parent = parent;
@@ -133,7 +162,21 @@ LE3EditorUI::LE3EditorUI_SelectCallback::LE3EditorUI_SelectCallback(LE3EditorUI*
 void LE3EditorUI::LE3EditorUI_SelectCallback::callback()
 {
     if (parent->m_editor->GetHoveredObject())
+    {
         parent->m_sceneGraphTree->Select(parent->m_sceneGraphMapInverse[parent->m_editor->GetHoveredObject()]);
+    }
     else
+    {
         parent->m_sceneGraphTree->UnselectAll();
+    }
+}
+
+LE3EditorUI::LE3EditorUI_RefreshPropertiesCallback::LE3EditorUI_RefreshPropertiesCallback(LE3EditorUI* parent)
+{
+    this->parent = parent;
+}
+
+void LE3EditorUI::LE3EditorUI_RefreshPropertiesCallback::callback()
+{
+    parent->RefreshPropertyGrid();
 }

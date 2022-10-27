@@ -64,6 +64,7 @@ bool LE3EditorApp::OnInit()
     LE3EditorUI* window = new LE3EditorUI(nullptr);
     window->m_editor = &m_editor;
     m_editor.SetSelectCallback((LE3SelectCallback*) &window->selectCallback);
+    m_editor.SetRefreshPropertiesCallback((LE3RefreshPropertiesCallback*) &window->refreshPropertiesCallback);
     
     wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
     int args[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0};

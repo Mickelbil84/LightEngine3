@@ -90,29 +90,79 @@ void LE3Object::RemoveChild(LE3Object* child)
 void LE3Object::AddRotationX(float rot)
 {
     m_rotation.x += rot;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
 }
 void LE3Object::AddRotationY(float rot)
 {
     m_rotation.y += rot;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
 }
 void LE3Object::AddRotationZ(float rot)
 {
     m_rotation.z += rot;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
 }
 
 
 void LE3Object::SetPosition(glm::vec3 position)
 {
     m_position = position;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
 }
 void LE3Object::SetRotation(glm::vec3 rotation)
 {
     m_rotation = rotation;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
 }
 void LE3Object::SetScale(float scale)
 {
     m_scale = scale;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
 }
+
+void LE3Object::SetPositionX(float x)
+{
+    m_position.x = x;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
+}
+void LE3Object::SetPositionY(float y)
+{
+    m_position.y = y;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
+}
+void LE3Object::SetPositionZ(float z)
+{
+    m_position.z = z;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
+}
+void LE3Object::SetRotationX(float x)
+{
+    m_rotation.x = x;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
+}
+void LE3Object::SetRotationY(float y)
+{
+    m_rotation.y = y;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
+}
+void LE3Object::SetRotationZ(float z)
+{
+    m_rotation.z = z;
+    UpdateLocalModelMatrix();
+    UpdateGlobalModelMatrix();
+}
+
 glm::vec3 LE3Object::GetPosition() const
 {
     return m_position;

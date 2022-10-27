@@ -10,6 +10,7 @@ const std::string resource_prefix = std::string("../");
 LE3Editor::LE3Editor() :
     hoveredObject(nullptr),
     selectCallback(nullptr),
+    refreshPropertiesCallback(nullptr),
     m_selectedObject(nullptr),
     m_draggedGizmoAxis(nullptr),
     bClickUp(true)
@@ -111,9 +112,19 @@ LE3Object* LE3Editor::GetHoveredObject() const
     return hoveredObject;
 }
 
+LE3Object* LE3Editor::GetSelectedObject() const
+{
+    return m_selectedObject;
+}
+
 void LE3Editor::SetSelectCallback(LE3SelectCallback* callback)
 {
     selectCallback = callback;
+}
+
+void LE3Editor::SetRefreshPropertiesCallback(LE3RefreshPropertiesCallback* callback)
+{
+    refreshPropertiesCallback = callback;
 }
 
 bool LE3Editor::UpdateHoveredGizmo(LE3EditorInput input)
@@ -197,8 +208,11 @@ void LE3Editor::ModeIdle()
 }
 void LE3Editor::ModeSelect()
 {
-    selectCallback->callback();
+    if (selectCallback)
+        selectCallback->callback();
     this->SetSelectedObject(hoveredObject);
+    if (refreshPropertiesCallback)
+        refreshPropertiesCallback->callback();
 }
 void LE3Editor::ModeCamera(LE3EditorInput input)
 {
@@ -255,6 +269,9 @@ void LE3Editor::ModeGizmoDrag(LE3EditorInput input)
 
     m_selectedObject->SetPosition(m_editorState.selectedInitialPos + m_editorState.deltaPos);
     gizmo.SetPosition(m_selectedObject->GetGlobalPosition());
+
+    if (refreshPropertiesCallback)
+        refreshPropertiesCallback->callback();
 }
 
 void LE3Editor::ModeGizmoDragRelease()

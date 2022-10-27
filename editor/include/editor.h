@@ -28,6 +28,12 @@ public:
     virtual void callback() = 0;
 };
 
+class LE3RefreshPropertiesCallback
+{
+public:
+    virtual void callback() = 0;
+};
+
 class LE3Editor
 {
     // Editor input modes and states
@@ -41,6 +47,7 @@ class LE3Editor
     LE3EditorGizmo gizmo;
     LE3Object* hoveredObject;
     LE3SelectCallback* selectCallback;
+    LE3RefreshPropertiesCallback* refreshPropertiesCallback;
 
     bool bClickUp;
 
@@ -65,6 +72,8 @@ public:
     LE3Object* GetHoveredObject() const;
     void SetSelectCallback(LE3SelectCallback* callback);
     void SetSelectedObject(LE3Object* obj);
+    LE3Object* GetSelectedObject() const;
+    void SetRefreshPropertiesCallback(LE3RefreshPropertiesCallback* callback);
 
     void ModeIdle();
     void ModeSelect();

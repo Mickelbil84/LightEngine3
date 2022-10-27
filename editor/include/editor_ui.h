@@ -2,9 +2,12 @@
 #include "editor.h"
 #include "noname.h"
 
+#include "editor_object_properties.h"
+
 enum LE3SelectedObjectType
 {
     LE3_SELECTED_NONE,
+    LE3_SELECTED_OBJECT,
     LE3_SELECTED_SHADER,
 };
 
@@ -22,9 +25,13 @@ public:
 protected:
     LE3SelectedObjectType m_selectedType;
     std::string m_selectedName;
+    wxTimer m_propertyGridRefresh;
 
     std::map<wxTreeListItem, LE3Object*> m_sceneGraphMap;
     std::map<LE3Object*, wxTreeListItem> m_sceneGraphMapInverse;
+
+    void RefreshPropertyGrid();
+    void RefreshPropertyGrid(wxTimerEvent& evt);
 
     virtual void OnSelectShader( wxTreeListEvent& event );
     void OnPropertyChangeShader(wxPropertyGridEvent& event);
@@ -48,5 +55,15 @@ public:
         LE3EditorUI* parent;
     };
 
+    class LE3EditorUI_RefreshPropertiesCallback : public LE3RefreshPropertiesCallback
+    {
+    public:
+        LE3EditorUI_RefreshPropertiesCallback(LE3EditorUI* parent);
+        virtual void callback();
+
+        LE3EditorUI* parent;
+    };
+
     LE3EditorUI_SelectCallback selectCallback;
+    LE3EditorUI_RefreshPropertiesCallback refreshPropertiesCallback;
 };

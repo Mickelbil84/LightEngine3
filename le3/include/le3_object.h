@@ -45,7 +45,13 @@ public:
     void AddRotationY(float rot);
     void AddRotationZ(float rot);
     void SetPosition(glm::vec3 position);
+    void SetPositionX(float x);
+    void SetPositionY(float y);
+    void SetPositionZ(float z);
     void SetRotation(glm::vec3 rotation);
+    void SetRotationX(float x);
+    void SetRotationY(float y);
+    void SetRotationZ(float z);
     void SetScale(float scale);
     glm::vec3 GetPosition() const;
     glm::vec3 GetRotation() const;
