@@ -1,5 +1,5 @@
 /* XPM */
-static char *icon_new[] = {
+static constexpr const  char *icon_new[] = {
 /* Values */
 "24 24 4 1",
 /* Colors */
