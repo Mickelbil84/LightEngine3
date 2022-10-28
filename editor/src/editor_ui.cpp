@@ -207,3 +207,12 @@ void LE3EditorUI::LE3EditorUI_RefreshPropertiesCallback::callback()
 {
     parent->RefreshPropertyGrid();
 }
+
+void LE3EditorUI::OnCollisionToolToggle( wxCommandEvent& event )
+{
+    LE3VisualDebug::g_bDrawCollision = event.IsChecked();
+}
+void LE3EditorUI::OnBulletCollisionToolToggle( wxCommandEvent& event )
+{
+    LE3VisualDebug::g_bDrawBulletCollision = event.IsChecked();
+}

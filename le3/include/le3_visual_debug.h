@@ -16,6 +16,9 @@ public:
     static void DrawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 color);
     static void DrawDebugCube(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color);
     static void DrawDebugCube(glm::mat4 modelMatrix, glm::vec3 color);
+
+    static bool g_bDrawCollision;
+    static bool g_bDrawBulletCollision;
 private:
     static LE3Mesh<LE3Vertex3p> *m_pDebugCube, *m_pDebugCylinder, *m_pDebugCone, *m_pDebugLine;
     static LE3Shader* m_pDebugShader;

@@ -284,6 +284,10 @@ void LE3Editor::ModeGizmoDragRelease()
 
 void LE3Editor::SetSelectedObject(LE3Object* obj)
 {
+    // Update last object
+    if (m_selectedObject)
+        m_selectedObject->SetSelected(false);
+
     m_selectedObject = obj;
     if (m_selectedObject)
     {
@@ -296,6 +300,7 @@ void LE3Editor::SetSelectedObject(LE3Object* obj)
         if (m_selectedObject->GetParent())
             gizmoRotation = m_selectedObject->GetParent()->GetGlobalRotation();
         gizmo.SetRotation(gizmoRotation);
+        m_selectedObject->SetSelected(true);
     }
     else
     {

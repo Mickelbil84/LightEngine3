@@ -4,6 +4,8 @@
 
 #include "editor_object_properties.h"
 
+#include <le3_visual_debug.h>
+
 enum LE3SelectedObjectType
 {
     LE3_SELECTED_NONE,
@@ -45,7 +47,13 @@ protected:
 
     virtual void OnMouseClick( wxMouseEvent& event );
 
+    virtual void OnCollisionToolToggle( wxCommandEvent& event );
+    virtual void OnBulletCollisionToolToggle( wxCommandEvent& event );
+
 public:
+    ///////////////
+    // Callbacks //
+    ///////////////
     class LE3EditorUI_SelectCallback : public LE3SelectCallback
     {
     public:

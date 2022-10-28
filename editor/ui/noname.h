@@ -54,6 +54,15 @@ class LE3EditorWindow : public wxFrame
 		wxAuiToolBarItem* m_gizmoScaleTool;
 		wxAuiToolBarItem* m_collisionTool;
 		wxAuiToolBarItem* m_bulletCollisionTool;
+		wxAuiToolBar* m_auiToolBar2;
+		wxAuiToolBarItem* m_tool22;
+		wxAuiToolBarItem* m_tool23;
+		wxAuiToolBarItem* m_tool24;
+		wxAuiToolBarItem* m_tool25;
+		wxAuiToolBarItem* m_tool26;
+		wxAuiToolBarItem* m_tool27;
+		wxAuiToolBarItem* m_tool28;
+		wxAuiToolBarItem* m_tool29;
 		wxNotebook* m_notebook1;
 		wxPanel* m_panel2;
 		wxTreeListCtrl* m_sceneGraphTree;
@@ -81,6 +90,8 @@ class LE3EditorWindow : public wxFrame
 		wxMenu* m_menu2;
 
 		// Virtual event handlers, override them in your derived class
+		virtual void OnCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnBulletCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMouseClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void OnSelectObjectInGraph( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnSelectShader( wxTreeListEvent& event ) { event.Skip(); }

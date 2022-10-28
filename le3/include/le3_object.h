@@ -62,6 +62,8 @@ public:
     bool GetHiddenInSceneGraph() const;
     void SetHidden(bool hidden);
     bool GetHidden() const;
+    void SetSelected(bool selected);
+    bool GetSelected() const;
 
     glm::vec3 GetGlobalPosition() const;
     glm::vec3 GetGlobalRotation() const;
@@ -107,6 +109,7 @@ protected:
     std::string m_name;
     bool m_bHiddenInSceneGraph;
     bool m_bHidden;
+    bool m_bSelected; // Used to draw debug outline
 
 private:
     // Updates the local model matrix of the object (based on the transform vectors)

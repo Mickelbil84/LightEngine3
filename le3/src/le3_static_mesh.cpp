@@ -26,29 +26,42 @@ void LE3StaticMesh::Draw()
 
     if (m_pRigidBody)
     {
-        // Draw bullet AABB
-        btVector3 aabbMin, aabbMax;
-        m_pRigidBody->getAabb(aabbMin, aabbMax);
-        btVector3 bulletExtent = aabbMax - aabbMin;
-        btVector3 bulletPosition = 0.5f * (aabbMin + aabbMax);
-        // LE3VisualDebug::DrawDebugCube(
-        //     glm::vec3(bulletPosition.x(), bulletPosition.y(), bulletPosition.z()),
-        //     glm::vec3(),
-        //     glm::vec3(bulletExtent.x(), bulletExtent.y(), bulletExtent.z()),
-        //     glm::vec3(1.f, 1.f, 0.f)
-        // );
-
-
         glm::vec3 lowerBound = m_mesh->GetBoxCollision().lowerBound;
         glm::vec3 upperBound = m_mesh->GetBoxCollision().upperBound;
 
         glm::vec3 relative_position = 0.5f * (upperBound + lowerBound);
         glm::vec3 extent = upperBound - lowerBound;
+        
+        if (m_bSelected)
+        {
+            LE3VisualDebug::DrawDebugCube(
+                GetModelMatrix() * glm::translate(relative_position) * glm::scale(extent),
+                glm::vec3(1.f, 1.f, 1.f)
+            );
+        }
+        else if (LE3VisualDebug::g_bDrawCollision)
+        {
+            LE3VisualDebug::DrawDebugCube(
+                GetModelMatrix() * glm::translate(relative_position) * glm::scale(extent),
+                glm::vec3(0.f, 1.f, 0.f)
+            );
+        }
 
-        LE3VisualDebug::DrawDebugCube(
-            GetModelMatrix() * glm::translate(relative_position) * glm::scale(extent),
-            glm::vec3(0.f, 1.f, 0.f)
-        );
+        if (LE3VisualDebug::g_bDrawBulletCollision)
+        {
+            // Draw bullet AABB
+            btVector3 aabbMin, aabbMax;
+            m_pRigidBody->getAabb(aabbMin, aabbMax);
+            btVector3 bulletExtent = aabbMax - aabbMin;
+            btVector3 bulletPosition = 0.5f * (aabbMin + aabbMax);
+            LE3VisualDebug::DrawDebugCube(
+                glm::vec3(bulletPosition.x(), bulletPosition.y(), bulletPosition.z()),
+                glm::vec3(),
+                glm::vec3(bulletExtent.x(), bulletExtent.y(), bulletExtent.z()),
+                glm::vec3(1.f, 1.f, 0.f)
+            );
+        }
+
     }
 }
 

@@ -5,7 +5,8 @@ LE3Object::LE3Object(std::string name, glm::vec3 position, glm::vec3 rotation, f
     m_position(position), m_rotation(rotation), m_scale(scale),
     m_pParent(nullptr),
     m_bHiddenInSceneGraph(false),
-    m_bHidden(false)
+    m_bHidden(false),
+    m_bSelected(false)
 {
     UpdateLocalModelMatrix();
     UpdateGlobalModelMatrix();
@@ -201,6 +202,15 @@ void LE3Object::SetHidden(bool hidden)
 bool LE3Object::GetHidden() const
 {
     return m_bHidden;
+}
+
+void LE3Object::SetSelected(bool selected)
+{
+    m_bSelected = selected;
+}
+bool LE3Object::GetSelected() const
+{
+    return m_bSelected;
 }
 
 glm::vec3 LE3Object::GetGlobalPosition() const
