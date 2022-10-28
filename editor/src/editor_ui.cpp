@@ -3,23 +3,32 @@
 #include "icons/icon_none.xpm"
 #include "icons/icon_new.xpm"
 #include "icons/icon_open.xpm"
+#include "icons/icon_save.xpm"
+#include "icons/icon_saveas.xpm"
+#include "icons/icon_undo.xpm"
+#include "icons/icon_redo.xpm"
+#include "icons/icon_gizmo_select.xpm"
+#include "icons/icon_gizmo_move.xpm"
+#include "icons/icon_gizmo_rotate.xpm"
+#include "icons/icon_gizmo_scale.xpm"
+#include "icons/icon_collision.xpm"
+#include "icons/icon_bulletcollision.xpm"
 
 LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selectedType(LE3_SELECTED_NONE), selectCallback(this), refreshPropertiesCallback(this)
 {
     m_auiToolBar4->SetToolBitmapSize(wxSize(24, 24));    
     m_newTool->SetBitmap({icon_new});
     m_loadTool->SetBitmap({icon_open});
-
-    // m_saveTool->SetBitmap({icon_none});
-    // m_saveAsTool->SetBitmap({icon_none});
-    // m_undoTool->SetBitmap({icon_none});
-    // m_redoTool->SetBitmap({icon_none});
-    // m_gizmoSelectTool->SetBitmap({icon_none});
-    // m_gizmoMoveTool->SetBitmap({icon_none});
-    // m_gizmoRotateTool->SetBitmap({icon_none});
-    // m_gizmoScaleTool->SetBitmap({icon_none});
-    // m_collisionTool->SetBitmap({icon_none});
-    // m_bulletCollisionTool->SetBitmap({icon_none});
+    m_saveTool->SetBitmap({icon_save});
+    m_saveAsTool->SetBitmap({icon_saveas});
+    m_undoTool->SetBitmap({icon_undo});
+    m_redoTool->SetBitmap({icon_redo});
+    m_gizmoSelectTool->SetBitmap({icon_gizmo_select});
+    m_gizmoMoveTool->SetBitmap({icon_gizmo_move});
+    m_gizmoRotateTool->SetBitmap({icon_gizmo_rotate});
+    m_gizmoScaleTool->SetBitmap({icon_gizmo_scale});
+    m_collisionTool->SetBitmap({icon_collision});
+    m_bulletCollisionTool->SetBitmap({icon_bulletcollision});
 
     m_auiToolBar4->Realize();
 
