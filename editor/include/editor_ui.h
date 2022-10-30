@@ -2,6 +2,7 @@
 #include "editor.h"
 #include "noname.h"
 
+#include "editor_asset_properties.h"
 #include "editor_object_properties.h"
 
 #include <wx/msgdlg.h>

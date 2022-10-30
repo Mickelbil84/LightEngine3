@@ -32,6 +32,7 @@ add_executable(
     src/editor_modes.cpp
     src/editor_math.cpp
     src/editor_object_properties.cpp
+    src/editor_asset_properties.cpp
 )
 target_include_directories(editor PUBLIC ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/ui)
 target_link_libraries(editor PRIVATE le3 GLEW::glew ${wxWidgets_LIBRARIES} ${BULLET_LIBRARIES} PUBLIC cereal::cereal)

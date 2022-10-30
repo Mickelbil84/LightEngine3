@@ -63,8 +63,8 @@
                 {
                     "key": "basic",
                     "value": {
-                        "vertexShaderPath": "../resources/shaders/basic/basic.vs",
-                        "fragmentShaderPath": "../resources/shaders/basic/basic.fs"
+                        "vertexShaderPath": "/Users/michaelbilevich/Projects/LightEngine3/resources/shaders/hello_opengl/hello_opengl.vs",
+                        "fragmentShaderPath": "/Users/michaelbilevich/Projects/LightEngine3/resources/shaders/moving_car/moving_car.fs"
                     }
                 }
             ],

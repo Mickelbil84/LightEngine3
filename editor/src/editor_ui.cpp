@@ -81,47 +81,22 @@ void LE3EditorUI::RefreshAssets()
 
 void LE3EditorUI::OnSelectShader( wxTreeListEvent& event )
 {
-    m_propertyGrid->Clear();
-    wxString name = this->m_treeListShaders->GetItemText(event.GetItem());
-
-    if (name.IsEmpty())
+    bool res = UpdateShaderPropertyGrid(m_propertyGrid, m_treeListShaders, event, m_editor->scene.assets);
+    if (res)
+    {
+        m_selectedType = LE3_SELECTED_SHADER;
+        m_selectedName = this->m_treeListShaders->GetItemText(event.GetItem());
+    }
+    else
     {
         m_selectedType = LE3_SELECTED_NONE;
         m_selectedName = std::string("");
-        return;
     }
-    
-    m_propertyGrid->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, name));
-    m_propertyGrid->Append(new wxFileProperty(wxT("Vertex Shader Path"), wxPG_LABEL, this->m_editor->scene.assets.m_shaders[name.ToStdString()].m_vertexShaderPath));
-    m_propertyGrid->Append(new wxFileProperty(wxT("Fragment Shader Path"), wxPG_LABEL, this->m_editor->scene.assets.m_shaders[name.ToStdString()].m_fragmentShaderPath));
-
-    m_selectedType = LE3_SELECTED_SHADER;
-    m_selectedName = name.ToStdString();
 }
 void LE3EditorUI::OnPropertyChangeShader(wxPropertyGridEvent& event)
 {
-    if (event.GetPropertyName() == wxT("Name"))
-    {
-        std::string newName = event.GetPropertyValue().GetString().ToStdString();
-        auto nh = m_editor->scene.assets.m_shaders.extract(m_selectedName);
-        nh.key() = newName;
-        m_editor->scene.assets.m_shaders.insert(std::move(nh));
-
-        // Refresh the assets pane
-        RefreshAssets();
-    }
-    else if (event.GetPropertyName() == wxT("Vertex Shader Path"))
-    {
-        LE3Shader* shader = m_editor->scene.assets.GetShader(m_selectedName);
-        shader->m_vertexShaderPath = event.GetPropertyValue().GetString().ToStdString();
-        shader->CompileShader(shader->m_vertexShaderPath, shader->m_fragmentShaderPath);
-    }
-    else if (event.GetPropertyName() == wxT("Fragment Shader Path"))
-    {
-        LE3Shader* shader = m_editor->scene.assets.GetShader(m_selectedName);
-        shader->m_fragmentShaderPath = event.GetPropertyValue().GetString().ToStdString();
-        shader->CompileShader(shader->m_vertexShaderPath, shader->m_fragmentShaderPath);
-    }
+    ShaderPropertyGridChanged(m_propertyGrid, m_treeListShaders, event, m_editor->scene.assets, m_selectedName);
+    RefreshAssets();
 }
 
 void LE3EditorUI::OnSelectObjectInGraph( wxTreeListEvent& event )
