@@ -113,7 +113,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizerShadersToolbar;
 	bSizerShadersToolbar = new wxBoxSizer( wxHORIZONTAL );
 
-	m_loadShaderButton = new wxButton( m_shadersPanel, wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_loadShaderButton = new wxButton( m_shadersPanel, wxID_ANY, wxT("New"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizerShadersToolbar->Add( m_loadShaderButton, 1, wxALL|wxEXPAND, 5 );
 
 	m_newShaderButton = new wxButton( m_shadersPanel, wxID_ANY, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -163,7 +163,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizerTexturesToolbar;
 	bSizerTexturesToolbar = new wxBoxSizer( wxHORIZONTAL );
 
-	m_loadTextureButton = new wxButton( m_texturesPanel, wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_loadTextureButton = new wxButton( m_texturesPanel, wxID_ANY, wxT("New"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizerTexturesToolbar->Add( m_loadTextureButton, 1, wxALL|wxEXPAND, 5 );
 
 	m_deleteTextureButton = new wxButton( m_texturesPanel, wxID_ANY, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -188,7 +188,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizerMeshesToolbar;
 	bSizerMeshesToolbar = new wxBoxSizer( wxHORIZONTAL );
 
-	m_loadMeshButton = new wxButton( m_panel7, wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_loadMeshButton = new wxButton( m_panel7, wxID_ANY, wxT("New"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizerMeshesToolbar->Add( m_loadMeshButton, 1, wxALL|wxEXPAND, 5 );
 
 	m_deleteMeshButton = new wxButton( m_panel7, wxID_ANY, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -244,6 +244,10 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	this->Centre( wxBOTH );
 
 	// Connect Events
+	this->Connect( m_newTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewScene ) );
+	this->Connect( m_loadTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnLoadScene ) );
+	this->Connect( m_saveTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveScene ) );
+	this->Connect( m_saveAsTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveSceneAs ) );
 	this->Connect( m_collisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnCollisionToolToggle ) );
 	this->Connect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
 	m_OpenGLContainer->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );
@@ -255,6 +259,10 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 LE3EditorWindow::~LE3EditorWindow()
 {
 	// Disconnect Events
+	this->Disconnect( m_newTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewScene ) );
+	this->Disconnect( m_loadTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnLoadScene ) );
+	this->Disconnect( m_saveTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveScene ) );
+	this->Disconnect( m_saveAsTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveSceneAs ) );
 	this->Disconnect( m_collisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnCollisionToolToggle ) );
 	this->Disconnect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
 	m_OpenGLContainer->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );

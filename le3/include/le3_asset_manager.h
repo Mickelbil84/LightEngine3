@@ -50,6 +50,8 @@ struct LE3ShaderPath
 class LE3AssetManager
 {
 public:
+    void Clear();
+
     void AddMeshPath(std::string name, std::string meshPath);
     void LoadMesh(std::string name, std::vector<LE3Vertex> data);
     void LoadMesh(std::string name, std::string meshPath);

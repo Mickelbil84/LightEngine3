@@ -23,6 +23,15 @@ void LE3SceneManager::Init()
     root = std::shared_ptr<LE3SceneRoot>(new LE3SceneRoot());
 }
 
+void LE3SceneManager::Clear()
+{
+    assets.Clear();
+    objectPool.clear();
+    parentLinks.clear();
+
+    this->Init();
+}
+
 void LE3SceneManager::UpdateSceneGraph()
 {
     for (auto& [name, obj]: objectPool)

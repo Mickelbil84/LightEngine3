@@ -9,6 +9,8 @@ void LE3SceneRoot::UpdateRecurse(double deltaTime, LE3Object* object)
 {
     for (auto child : object->GetChildren())   
     {
+        if (!child)
+            continue;
         child->Update(deltaTime);
         UpdateRecurse(deltaTime, child);
     }
@@ -21,6 +23,8 @@ void LE3SceneRoot::DrawRecurse(LE3Object* object)
 
     for (auto child : object->GetChildren())   
     {
+        if (!child)
+            continue;
         child->Draw();
         DrawRecurse(child);
     }

@@ -13,7 +13,9 @@ LE3Editor::LE3Editor() :
     refreshPropertiesCallback(nullptr),
     m_selectedObject(nullptr),
     m_draggedGizmoAxis(nullptr),
-    bClickUp(true)
+    bClickUp(true),
+    scenePath(""),
+    bPauseEngine(false)
 {
 
 }
@@ -36,12 +38,14 @@ void LE3Editor::Init()
 
     // gizmo.Reparent(&root);
 
-    LoadScene(scene, "scene.json");
+    // LoadScene(scene, "scene.json");
     
 }
 
 void LE3Editor::Update(float deltaTime)
 {
+    if (bPauseEngine)
+        return;
     scene.GetRoot()->Update(deltaTime);
     scene.GetPhysics()->StepSimulation(deltaTime);
 
@@ -84,6 +88,8 @@ void LE3Editor::HandleInput(LE3EditorInput input)
 
 void LE3Editor::Render(int width, int height)
 {
+    if (bPauseEngine)
+        return;
     scene.GetCamera()->SetAspectRatio((float)width / (float)height);
     for (const auto& [key, value] : scene.assets.m_shaders)
     {

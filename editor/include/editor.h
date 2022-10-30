@@ -60,7 +60,9 @@ public:
     LE3Editor();
 
     LE3SceneManager scene;
+    std::string scenePath;
     int paneWidth, paneHeight;
+    bool bPauseEngine;
 
 public:
     void Init();

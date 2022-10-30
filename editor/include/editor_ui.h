@@ -4,7 +4,12 @@
 
 #include "editor_object_properties.h"
 
+#include <wx/msgdlg.h>
+#include <wx/filedlg.h>
+
 #include <le3_visual_debug.h>
+
+#define LE3EDITOR_WINDOW_TITLE "LightEngine3 Editor"
 
 enum LE3SelectedObjectType
 {
@@ -29,8 +34,15 @@ protected:
     std::string m_selectedName;
     wxTimer m_propertyGridRefresh;
 
+    bool bPauseEngine;
+
     std::map<wxTreeListItem, LE3Object*> m_sceneGraphMap;
     std::map<LE3Object*, wxTreeListItem> m_sceneGraphMapInverse;
+
+    virtual void OnNewScene( wxCommandEvent& event );
+    virtual void OnLoadScene( wxCommandEvent& event );
+    virtual void OnSaveScene( wxCommandEvent& event );
+    virtual void OnSaveSceneAs( wxCommandEvent& event );
 
     void RefreshPropertyGrid();
     void RefreshPropertyGrid(wxTimerEvent& evt);

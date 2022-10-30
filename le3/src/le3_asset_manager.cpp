@@ -242,3 +242,15 @@ LE3Material* LE3AssetManager::GetMaterial(std::string name)
 {
     return &m_materials[name];
 }
+
+void LE3AssetManager::Clear()
+{
+    m_meshesPaths.clear();
+    m_texturesPaths.clear();
+    m_shadersPaths.clear();
+
+    m_meshes.clear();
+    m_shaders.clear();
+    m_textures.clear();
+    m_materials.clear();
+}

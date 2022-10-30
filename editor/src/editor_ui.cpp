@@ -216,3 +216,59 @@ void LE3EditorUI::OnBulletCollisionToolToggle( wxCommandEvent& event )
 {
     LE3VisualDebug::g_bDrawBulletCollision = event.IsChecked();
 }
+
+void LE3EditorUI::OnNewScene( wxCommandEvent& event )
+{
+    m_editor->scene.Clear();
+    m_editor->Init();
+    m_editor->scenePath = "";
+    
+    RefreshAssets();
+    RefreshSceneGraph();
+
+    wxTopLevelWindow::SetTitle(LE3EDITOR_WINDOW_TITLE);
+}
+void LE3EditorUI::OnLoadScene( wxCommandEvent& event )
+{
+    wxFileDialog openFileDialog(this, _("Open LE3S file"), "", "", "LE3S files (*.json)|*.json", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+    m_editor->bPauseEngine = true;
+    if (openFileDialog.ShowModal() == wxID_CANCEL)
+    {
+        m_editor->bPauseEngine = false;
+        return;
+    }
+    this->OnNewScene(event);
+    m_editor->scenePath = openFileDialog.GetPath().ToStdString();
+    LoadScene(m_editor->scene, m_editor->scenePath);
+    m_editor->bPauseEngine = false;
+
+    RefreshAssets();
+    RefreshSceneGraph();
+    
+    wxTopLevelWindow::SetTitle(std::string(LE3EDITOR_WINDOW_TITLE) + std::string(" - ") + m_editor->scenePath);
+}
+void LE3EditorUI::OnSaveScene( wxCommandEvent& event )
+{
+    if (m_editor->scenePath == "")
+    {
+        this->OnSaveSceneAs(event);
+        return;
+    }
+
+    SaveScene(m_editor->scene, m_editor->scenePath);
+
+    wxMessageBox(wxT("Save successful."), wxT("Save Scene"), wxICON_INFORMATION);
+}
+void LE3EditorUI::OnSaveSceneAs( wxCommandEvent& event )
+{
+    wxFileDialog saveFileDialog(this, _("Save LE3S file"), "", "", "LE3S files (*.json)|*.json", wxFD_SAVE);
+
+    if (saveFileDialog.ShowModal() == wxID_CANCEL)
+        return;
+    
+    m_editor->scenePath = saveFileDialog.GetPath().ToStdString();
+    SaveScene(m_editor->scene, m_editor->scenePath);
+
+    wxTopLevelWindow::SetTitle(std::string(LE3EDITOR_WINDOW_TITLE) + std::string(" - ") + m_editor->scenePath);
+}
