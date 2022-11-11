@@ -38,6 +38,7 @@ LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selected
 void LE3EditorUI::RefreshSceneGraph()
 {
     this->m_sceneGraphMap.clear();
+    this->m_sceneGraphTree->ClearColumns();
     this->m_sceneGraphTree->DeleteAllItems();
     this->m_sceneGraphTree->AppendColumn(wxT("Name"));
     this->RefreshSceneGraph(m_editor->scene.GetRoot().get(), m_sceneGraphTree->GetRootItem());
@@ -58,23 +59,31 @@ void LE3EditorUI::RefreshSceneGraph(LE3Object* node, wxTreeListItem treeItem)
 
 void LE3EditorUI::RefreshAssets()
 {
+    this->m_treeListShaders->ClearColumns();
     this->m_treeListShaders->DeleteAllItems();
     this->m_treeListShaders->AppendColumn(wxT("Name"));
+    this->m_treeListShaders->SetColumnWidth(0, 300);
     for (const auto& [key, value] : m_editor->scene.assets.m_shaders)
         this->m_treeListShaders->AppendItem(m_treeListShaders->GetRootItem(), key.c_str());
 
+    this->m_treeListMaterials->ClearColumns();
     this->m_treeListMaterials->DeleteAllItems();
     this->m_treeListMaterials->AppendColumn(wxT("Name"));
+    this->m_treeListMaterials->SetColumnWidth(0, 300);
     for (const auto& [key, value] : m_editor->scene.assets.m_materials)
         this->m_treeListMaterials->AppendItem(m_treeListMaterials->GetRootItem(), key.c_str());
     
+    this->m_treeListTextures->ClearColumns();
     this->m_treeListTextures->DeleteAllItems();
     this->m_treeListTextures->AppendColumn(wxT("Name"));
+    this->m_treeListTextures->SetColumnWidth(0, 300);
     for (const auto& [key, value] : m_editor->scene.assets.m_textures)
         this->m_treeListTextures->AppendItem(m_treeListTextures->GetRootItem(), key.c_str());
-    
+
+    this->m_treeListMeshes->ClearColumns();
     this->m_treeListMeshes->DeleteAllItems();
     this->m_treeListMeshes->AppendColumn(wxT("Name"));
+    this->m_treeListMeshes->SetColumnWidth(0, 300);
     for (const auto& [key, value] : m_editor->scene.assets.m_meshes)
         this->m_treeListMeshes->AppendItem(m_treeListMeshes->GetRootItem(), key.c_str());
 }
