@@ -17,6 +17,9 @@ enum LE3SelectedObjectType
     LE3_SELECTED_NONE,
     LE3_SELECTED_OBJECT,
     LE3_SELECTED_SHADER,
+    LE3_SELECTED_MATERIAL,
+    LE3_SELECTED_TEXTURE,
+    LE3_SELECTED_MESH
 };
 
 class LE3EditorUI : public LE3EditorWindow
@@ -49,10 +52,9 @@ protected:
     void RefreshPropertyGrid(wxTimerEvent& evt);
 
     virtual void OnSelectShader( wxTreeListEvent& event );
-    void OnPropertyChangeShader(wxPropertyGridEvent& event);
-
-    // virtual void OnSelectShader( wxTreeListEvent& event );
-    // void OnPropertyChangeShader(wxPropertyGridEvent& event);
+    virtual void OnSelectMaterial( wxTreeListEvent& event );
+    virtual void OnSelectTexture( wxTreeListEvent& event );
+	virtual void OnSelectMesh( wxTreeListEvent& event );
 
     virtual void OnPropertyChange( wxPropertyGridEvent& event );
 

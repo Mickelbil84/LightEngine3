@@ -100,6 +100,8 @@ class LE3EditorWindow : public wxFrame
 		virtual void OnSelectObjectInGraph( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnSelectShader( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnSelectMaterial( wxTreeListEvent& event ) { event.Skip(); }
+		virtual void OnSelectTexture( wxTreeListEvent& event ) { event.Skip(); }
+		virtual void OnSelectMesh( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnPropertyChange( wxPropertyGridEvent& event ) { event.Skip(); }
 
 
