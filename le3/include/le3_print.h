@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 
+#include <glm/glm.hpp>
+
 #define TITLE_SPACE ' '
 #define TITLE_CHAR '-'
 #define TITLE_PAD 2
@@ -13,3 +15,5 @@
 //      -  test  -
 //      ----------
 void PrintTitle(std::string title);
+
+void printMatrix(glm::mat4 m);

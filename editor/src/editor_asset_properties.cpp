@@ -62,6 +62,8 @@ bool UpdateMaterialPropertyGrid(wxPropertyGrid* pg, wxTreeListCtrl* treeList, wx
     pg->Append(new wxFloatProperty(wxT("Diffuse B"), wxPG_LABEL, assets.m_materials[name.ToStdString()].diffuseColor.b));
     pg->Append(new wxStringProperty(wxT("Diffuse Texture"), wxPG_LABEL, assets.m_materials[name.ToStdString()].diffuseTextureName));
     pg->Append(new wxBoolProperty(wxT("Use Diffuse Texture"), wxPG_LABEL, assets.m_materials[name.ToStdString()].bUseDiffuseTexture));
+    pg->Append(new wxFloatProperty(wxT("Tiling X"), wxPG_LABEL, assets.m_materials[name.ToStdString()].tilingX));
+    pg->Append(new wxFloatProperty(wxT("Tiling Y"), wxPG_LABEL, assets.m_materials[name.ToStdString()].tilingY));
 
     return true;
 }
@@ -108,6 +110,14 @@ void MaterialPropertyGridChanged(wxPropertyGrid* pg, wxTreeListCtrl* treeList, w
     else if (event.GetPropertyName() == wxT("Use Diffuse Texture"))
     {
         material->bUseDiffuseTexture = event.GetPropertyValue().GetBool();
+    }
+    else if (event.GetPropertyName() == wxT("Tiling X"))
+    {
+        material->tilingX = event.GetPropertyValue().GetDouble();
+    }
+    else if (event.GetPropertyName() == wxT("Tiling Y"))
+    {
+        material->tilingY = event.GetPropertyValue().GetDouble();
     }
 
 

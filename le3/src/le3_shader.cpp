@@ -176,3 +176,8 @@ void LE3Shader::Uniform(std::string uniformName, GLuint i)
     glUniform1i(loc, i);
 }
 
+void LE3Shader::Uniform(std::string uniformName, float i)
+{
+    GLint loc = GetUniformLocation(uniformName);
+    glUniform1f(loc, i);
+}

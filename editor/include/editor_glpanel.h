@@ -1,6 +1,8 @@
 #pragma once
 #include <gl/glew.h>
 
+#define PS1GRAPHICS
+
 #include <le3_application.h>
 #include <le3_shader.h>
 #include <le3_mesh.h>
@@ -18,7 +20,6 @@
 #include "wx/time.h"
 #include "wx/glcanvas.h"
 
-
 class LE3wxOpenGLPanel : public wxGLCanvas
 {
 public:
@@ -33,6 +34,8 @@ private:
 	wxLongLong m_currTime;
 	float m_deltaTime;
 	wxPoint m_lastMouse;
+
+	GLuint m_outFramebuffer;
 
 public:
     LE3wxOpenGLPanel(wxFrame* parent, int* args);

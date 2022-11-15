@@ -1,10 +1,11 @@
 #include "le3_camera.h"
 
 LE3Camera::LE3Camera() : 
-    LE3Object("Camera"),
+    LE3Object("camera"),
     m_forward(glm::vec3(0.f, 0.f, -1.f)),
     m_up(glm::vec3(0.f, 1.f, 0.f)),
-    m_right(glm::vec3(1.f, 0.f, 0.f))
+    m_right(glm::vec3(1.f, 0.f, 0.f)),
+    b_lastModelMatrixValid(false)
 {
     // Look forward by default
     m_rotation.y = glm::radians(-90.f);
@@ -32,6 +33,34 @@ void LE3Camera::Update(double deltaTime)
 
     // Finally update the camera up vector
     m_up = glm::cross(m_right, m_forward);
+}
+
+void LE3Camera::UpdateLocalModelMatrix()
+{
+    m_localModelMatrix = glm::inverse(GetViewMatrix());
+    // Inverse by hand - NOT more efficient + NOT more stable
+    // glm::mat4 viewMatrix = GetViewMatrix();
+    
+    // glm::mat4 R_ = GetViewMatrix();
+    // R_[3] = glm::vec4(0.f, 0.f, 0.f, 1.f);
+    // R_ = glm::transpose(R_);
+
+    // glm::mat4 T_ = glm::mat4(1.f);
+    // T_[3] = -viewMatrix[3];
+    // T_[3][3] = 1.f;
+
+    // m_localModelMatrix = R_ * T_;
+
+    // if (!b_lastModelMatrixValid)
+    // {
+    //     b_lastModelMatrixValid = true;
+    //     m_lastModelMatrix = m_localModelMatrix;
+    //     return;
+    // }
+
+    // glm::mat4 newModelMatrix = 0.5f * (m_localModelMatrix + m_lastModelMatrix);
+    // m_lastModelMatrix = m_localModelMatrix;
+    // m_localModelMatrix = newModelMatrix;
 }
 
 glm::mat4 LE3Camera::GetViewMatrix() const

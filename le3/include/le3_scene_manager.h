@@ -28,6 +28,7 @@ public:
     void Clear();
 
     void AddFreeCamera(glm::vec3 position=glm::vec3(0.f));
+    void AddFPSCamera(glm::vec3 position=glm::vec3(0.f));
 
     void AddObject(std::string name, std::string parent="");
     void AddStaticMesh(std::string name, std::string meshName, std::string materialName, float scale=1.f, bool registerCollision=true, std::string parent="");

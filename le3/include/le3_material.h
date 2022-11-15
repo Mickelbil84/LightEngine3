@@ -25,6 +25,7 @@ public:
     glm::vec4 diffuseColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.f);
     std::string diffuseTextureName;
     bool bUseDiffuseTexture = false;
+    float tilingX=1.f, tilingY=1.f;
 
     LE3Texture* diffuseTexture;
 
@@ -41,6 +42,8 @@ public:
 
         ar(CEREAL_NVP(diffuseTextureName));
         ar(CEREAL_NVP(bUseDiffuseTexture));
+
+        ar(CEREAL_NVP(tilingX), CEREAL_NVP(tilingY));
     }
 
 protected:

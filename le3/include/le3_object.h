@@ -111,11 +111,11 @@ protected:
     bool m_bHidden;
     bool m_bSelected; // Used to draw debug outline
 
-private:
+protected:
     // Updates the local model matrix of the object (based on the transform vectors)
-    void UpdateLocalModelMatrix();
+    virtual void UpdateLocalModelMatrix();
     // Updates the global model matrix, with respect to the parent object
-    void UpdateGlobalModelMatrix();
+    virtual void UpdateGlobalModelMatrix();
 };
 
 CEREAL_REGISTER_TYPE(LE3Object);

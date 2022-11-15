@@ -117,7 +117,7 @@ void LE3EditorGizmoAxis::Draw()
     // glDisable(GL_DEPTH_TEST);
     glClear(GL_DEPTH_BUFFER_BIT);
     m_material->GetShader()->Use();
-    m_material->GetShader()->Uniform("hovered", m_bIsHovered);
+    m_material->GetShader()->Uniform("hovered", (GLuint)m_bIsHovered);
     LE3StaticMesh::Draw();
     // glEnable(GL_DEPTH_TEST);
 }

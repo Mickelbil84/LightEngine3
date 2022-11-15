@@ -89,6 +89,16 @@ void LE3SceneManager::AddFreeCamera(glm::vec3 position)
     UpdateSceneGraph();
 }
 
+void LE3SceneManager::AddFPSCamera(glm::vec3 position)
+{
+    camera = std::shared_ptr<LE3Camera>(new LE3FPSCamera());
+    camera->SetPosition(position);
+    camera->SetHiddenInSceneGraph(true);
+    objectPool["camera"] = std::static_pointer_cast<LE3Object>(camera);
+    parentLinks["camera"] = "";
+    UpdateSceneGraph();
+}
+
 void LE3SceneManager::AddStaticMesh(std::string name, std::string meshName, std::string materialName, float scale, bool registerCollision, std::string parent)
 {
     std::shared_ptr<LE3StaticMesh> obj(new LE3StaticMesh(name));

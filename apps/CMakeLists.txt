@@ -29,3 +29,10 @@ add_executable(
 )
 target_link_libraries(02_moving_car PRIVATE le3 GLEW::glew ${BULLET_LIBRARIES})
 target_compile_features(02_moving_car PUBLIC cxx_std_20)
+
+add_executable(
+    03_ps1_shooter
+    demos/03_ps1_shooter.cpp
+)
+target_link_libraries(03_ps1_shooter PRIVATE le3 GLEW::glew ${BULLET_LIBRARIES})
+target_compile_features(03_ps1_shooter PUBLIC cxx_std_20)

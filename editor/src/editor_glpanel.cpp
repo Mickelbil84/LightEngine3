@@ -71,6 +71,53 @@ LE3wxOpenGLPanel::LE3wxOpenGLPanel(wxFrame* parent, int* args) :
 
     m_prevTime = m_currTime = wxGetLocalTimeMillis();
     m_lastMouse = wxGetMousePosition();
+
+    // ---------------------------
+    //   Create framebuffer
+    // ---------------------------
+    glGenFramebuffers(1, &m_outFramebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_outFramebuffer);
+
+    GLuint bufferTexture, depthTexture;
+    glGenTextures(1, &bufferTexture);
+    glBindTexture(GL_TEXTURE_2D, bufferTexture);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 320, 240, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);  
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bufferTexture, 0);  
+
+    glGenTextures(1, &depthTexture);
+    glBindTexture(GL_TEXTURE_2D, depthTexture);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 320, 240, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); 
+    glTexImage2D(
+        GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, 320, 240, 0, 
+        GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL
+    );
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthTexture, 0);  
+
+    // glTexImage2D(
+    //     GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, 320, 240, 0, 
+    //     GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL
+    // );
+    // glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, bufferTexture, 0);  
+
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
+        std::cout << "FB Complete@!!" << std::endl;
+    else
+        std::cout << glCheckFramebufferStatus(GL_FRAMEBUFFER) << m_outFramebuffer << std::endl;
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    #ifdef PS1GRAPHICS
+    LE3Texture::g_bPS1TextureMode = true;
+    #endif
+
 }
  
 void LE3wxOpenGLPanel::update(wxTimerEvent& evt)
@@ -139,16 +186,32 @@ void LE3wxOpenGLPanel::render( wxPaintEvent& evt )
     
     wxGLCanvas::SetCurrent(*m_context);
     wxPaintDC(this); // only to be used in paint events. use wxClientDC to paint outside the paint event
-	
-    glViewport(0, 0, getWidth() * GetContentScaleFactor(), getHeight() * GetContentScaleFactor());
-    // glClearColor(
-    //         100.f/255.f, 
-    //         149.f/255.f, 
-    //         237.f/255.f, 1.0f);
-    glClearColor(0.1f, 0.1f, 0.1f, 1.f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    m_editor->Render(getWidth(), getHeight());
+    #ifndef PS1GRAPHICS
+    
+        glViewport(0, 0, getWidth() * GetContentScaleFactor(), getHeight() * GetContentScaleFactor());
+        glClearColor(0.1f, 0.1f, 0.1f, 1.f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        m_editor->Render(getWidth(), getHeight());
+
+    #else
+        glBindFramebuffer(GL_FRAMEBUFFER, m_outFramebuffer);
+        glViewport(0, 0, 320, 240);
+        glClearColor(0.1f, 0.1f, 0.1f, 1.f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            m_editor->Render(getWidth(), getHeight());
+
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        glViewport(0, 0, getWidth() * GetContentScaleFactor(), getHeight() * GetContentScaleFactor());
+        glClearColor(0.7f, 0.7f, 0.7f, 1.f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glBlitFramebuffer(0, 0, 320, 240, 0, 0, getWidth() * GetContentScaleFactor(), getHeight() * GetContentScaleFactor(), 
+            GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+
+    #endif
     
     SwapBuffers();
 }

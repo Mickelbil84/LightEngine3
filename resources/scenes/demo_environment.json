@@ -80,7 +80,9 @@
                             "v.w": 1.0
                         },
                         "diffuseTextureName": "barrelDiffuse",
-                        "bUseDiffuseTexture": true
+                        "bUseDiffuseTexture": true,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
                     }
                 },
                 {
@@ -94,7 +96,9 @@
                             "v.w": 1.0
                         },
                         "diffuseTextureName": "bufferDiffuse",
-                        "bUseDiffuseTexture": true
+                        "bUseDiffuseTexture": true,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
                     }
                 },
                 {
@@ -108,7 +112,9 @@
                             "v.w": 1.0
                         },
                         "diffuseTextureName": "wood",
-                        "bUseDiffuseTexture": false
+                        "bUseDiffuseTexture": false,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
                     }
                 },
                 {
@@ -122,7 +128,9 @@
                             "v.w": 1.0
                         },
                         "diffuseTextureName": "floorDiffuse",
-                        "bUseDiffuseTexture": true
+                        "bUseDiffuseTexture": true,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
                     }
                 }
             ]

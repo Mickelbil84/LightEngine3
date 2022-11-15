@@ -14,6 +14,8 @@ public:
     void SetName(std::string name);
     std::string GetName() const;
 
+    static bool g_bPS1TextureMode;
+
 private:
     GLuint m_texture;
     std::string m_name;

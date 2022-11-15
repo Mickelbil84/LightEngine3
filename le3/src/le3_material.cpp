@@ -14,7 +14,8 @@ LE3Material::LE3Material(LE3Shader* shader)
 void LE3Material::SetShader(LE3Shader* shader)
 {
     this->pShader = shader;
-    this->shaderName = shader->GetName();
+    if (shader)
+        this->shaderName = shader->GetName();
 }
 
 void LE3Material::SetDiffuseTexture(LE3Texture* texture)
@@ -25,13 +26,17 @@ void LE3Material::SetDiffuseTexture(LE3Texture* texture)
 
 void LE3Material::Apply(glm::mat4 modelMatrix)
 {
+    if (!pShader)
+        return;
     pShader->Use();
     pShader->Uniform("model", modelMatrix);
     pShader->Uniform("material.diffuseColor", diffuseColor);
-    pShader->Uniform("material.bUseDiffuseTexture", bUseDiffuseTexture);
+    pShader->Uniform("material.bUseDiffuseTexture", (GLuint)bUseDiffuseTexture);
+    pShader->Uniform("material.tilingX", tilingX);
+    pShader->Uniform("material.tilingY", tilingY);
     if (bUseDiffuseTexture)
     {
-        pShader->Uniform("material.diffuseTexture", DIFFUSE_TEXTURE_INDEX);
+        pShader->Uniform("material.diffuseTexture", (GLuint)DIFFUSE_TEXTURE_INDEX);
         diffuseTexture->Use(DIFFUSE_TEXTURE_INDEX);
     }
 }

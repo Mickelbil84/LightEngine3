@@ -30,6 +30,10 @@ public:
     void SetAspectRatio(float aspectRatio);
 
 protected:
+    void UpdateLocalModelMatrix();
+    glm::mat4 m_lastModelMatrix;
+    bool b_lastModelMatrixValid;
+
     glm::vec3 m_forward, m_up, m_right;
     float m_aspectRatio;
 };
