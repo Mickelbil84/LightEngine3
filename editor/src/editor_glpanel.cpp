@@ -82,7 +82,7 @@ LE3wxOpenGLPanel::LE3wxOpenGLPanel(wxFrame* parent, int* args) :
     glGenTextures(1, &bufferTexture);
     glBindTexture(GL_TEXTURE_2D, bufferTexture);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 320, 240, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, PS1_RESOLUTION_WIDTH, PS1_RESOLUTION_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);  
 
@@ -91,21 +91,15 @@ LE3wxOpenGLPanel::LE3wxOpenGLPanel(wxFrame* parent, int* args) :
     glGenTextures(1, &depthTexture);
     glBindTexture(GL_TEXTURE_2D, depthTexture);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 320, 240, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, PS1_RESOLUTION_WIDTH, PS1_RESOLUTION_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); 
     glTexImage2D(
-        GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, 320, 240, 0, 
+        GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, PS1_RESOLUTION_WIDTH, PS1_RESOLUTION_HEIGHT, 0, 
         GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL
     );
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthTexture, 0);  
-
-    // glTexImage2D(
-    //     GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, 320, 240, 0, 
-    //     GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL
-    // );
-    // glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, bufferTexture, 0);  
 
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
         std::cout << "FB Complete@!!" << std::endl;
@@ -197,7 +191,7 @@ void LE3wxOpenGLPanel::render( wxPaintEvent& evt )
 
     #else
         glBindFramebuffer(GL_FRAMEBUFFER, m_outFramebuffer);
-        glViewport(0, 0, 320, 240);
+        glViewport(0, 0, PS1_RESOLUTION_WIDTH, PS1_RESOLUTION_HEIGHT);
         glClearColor(0.1f, 0.1f, 0.1f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -207,7 +201,7 @@ void LE3wxOpenGLPanel::render( wxPaintEvent& evt )
         glViewport(0, 0, getWidth() * GetContentScaleFactor(), getHeight() * GetContentScaleFactor());
         glClearColor(0.7f, 0.7f, 0.7f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glBlitFramebuffer(0, 0, 320, 240, 0, 0, getWidth() * GetContentScaleFactor(), getHeight() * GetContentScaleFactor(), 
+        glBlitFramebuffer(0, 0, PS1_RESOLUTION_WIDTH, PS1_RESOLUTION_HEIGHT, 0, 0, getWidth() * GetContentScaleFactor(), getHeight() * GetContentScaleFactor(), 
             GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 

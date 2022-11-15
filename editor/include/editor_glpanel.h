@@ -20,6 +20,9 @@
 #include "wx/time.h"
 #include "wx/glcanvas.h"
 
+#define PS1_RESOLUTION_WIDTH 320 * 2
+#define PS1_RESOLUTION_HEIGHT 240 * 2
+
 class LE3wxOpenGLPanel : public wxGLCanvas
 {
 public:
