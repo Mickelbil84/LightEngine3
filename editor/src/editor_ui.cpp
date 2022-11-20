@@ -221,10 +221,6 @@ void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )
     m_editor->bPauseEngine = false;
 }
 
-void LE3EditorUI::OnMouseClick( wxMouseEvent& event )
-{
-}
-
 void LE3EditorUI::RefreshPropertyGrid()
 {
     if (m_editor->GetSelectedObject())

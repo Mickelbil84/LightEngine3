@@ -43,19 +43,33 @@ protected:
     std::map<wxTreeListItem, LE3Object*> m_sceneGraphMap;
     std::map<LE3Object*, wxTreeListItem> m_sceneGraphMapInverse;
 
+    ////////////////////////////////
+    // Scene management (Load/Save)
+    ////////////////////////////////
     virtual void OnNewScene( wxCommandEvent& event );
     virtual void OnLoadScene( wxCommandEvent& event );
     virtual void OnSaveScene( wxCommandEvent& event );
     virtual void OnSaveSceneAs( wxCommandEvent& event );
 
+    ////////////////////////////////
+    // Updating Properties
+    ////////////////////////////////
     void RefreshPropertyGrid();
     void RefreshPropertyGrid(wxTimerEvent& evt);
+    virtual void OnPropertyChange( wxPropertyGridEvent& event );
 
+    ///////////////////////////////////
+    // Asset & Object selection Events
+    ///////////////////////////////////
     virtual void OnSelectShader( wxTreeListEvent& event );
     virtual void OnSelectMaterial( wxTreeListEvent& event );
     virtual void OnSelectTexture( wxTreeListEvent& event );
 	virtual void OnSelectMesh( wxTreeListEvent& event );
+    virtual void OnSelectObjectInGraph( wxTreeListEvent& event );
 
+    //////////////////////////////////
+    // Asset creation/deletion events
+    //////////////////////////////////
     virtual void OnNewShader( wxCommandEvent& event );
 	virtual void OnDeleteShader( wxCommandEvent& event );
     virtual void OnNewMaterial( wxCommandEvent& event );
@@ -65,17 +79,21 @@ protected:
     virtual void OnNewMesh( wxCommandEvent& event );
 	virtual void OnDeleteMesh( wxCommandEvent& event );
 
-    virtual void OnPropertyChange( wxPropertyGridEvent& event );
-
-    virtual void OnSelectObjectInGraph( wxTreeListEvent& event );
-
-    virtual void OnMouseClick( wxMouseEvent& event );
-
+    ////////////////////////////////
+    // Debug toggles event
+    ////////////////////////////////
     virtual void OnCollisionToolToggle( wxCommandEvent& event );
     virtual void OnBulletCollisionToolToggle( wxCommandEvent& event );
 
+    ////////////////////////////////
+    // Scene management (Load/Save)
+    ////////////////////////////////
     virtual void OnAddCube( wxCommandEvent& event );
+    virtual void OnAddCylinder( wxCommandEvent& event );
 
+    ////////////////////////////////
+    // Numbered names generation
+    ////////////////////////////////
     std::string GetObjectNumberPrefix(std::string objectName);
     int GetObjectNumberSuffix(std::string objectName);
     std::string GetValidObjectName(std::string objectName);
