@@ -1,6 +1,6 @@
 #include "editor_object_properties.h"
 
-void UpdateObjectPropertyGrid(LE3Object* obj, wxPropertyGrid* pg)
+void UpdateObjectPropertyGrid(LE3Object* obj, wxPropertyGrid* pg, LE3AssetManager& assets)
 {
     pg->Clear();
 
@@ -21,7 +21,7 @@ void UpdateObjectPropertyGrid(LE3Object* obj, wxPropertyGrid* pg)
     pg->Append(new wxFloatProperty(wxT("Scale"), wxPG_LABEL, obj->GetScale()));
 
     if (dynamic_cast<LE3StaticMesh*>(obj))
-        UpdateStaticMeshPropertyGrid(dynamic_cast<LE3StaticMesh*>(obj), pg);
+        UpdateStaticMeshPropertyGrid(dynamic_cast<LE3StaticMesh*>(obj), pg, assets);
 }
 
 void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets)
@@ -48,9 +48,10 @@ void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGri
 
 }
 
-void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg)
+void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg, LE3AssetManager& assets)
 {
-    if (obj->meshName[0] != gPrimitivePathPrefix)
+    std::string primitiveDescription = assets.m_meshesPaths[obj->meshName].path;
+    if (primitiveDescription[0] != gPrimitivePathPrefix)
     {
         pg->Append(new wxPropertyCategory(wxT("LE3StaticMesh")));
         pg->Append(new wxStringProperty(wxT("Mesh Name"), wxPG_LABEL, obj->meshName));
@@ -58,7 +59,7 @@ void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg)
     }
     else
     {
-        LE3PrimitiveTokens tokens = ParsePrimitivePath(obj->meshName);
+        LE3PrimitiveTokens tokens = ParsePrimitivePath(primitiveDescription);
 
         if (tokens.token == gTokenBox)
         {
@@ -78,9 +79,10 @@ void StaticMeshPropertyGridChanged(LE3StaticMesh* obj, wxPropertyGrid* pg, wxPro
     if (event.GetPropertyName() == wxT("Material Name"))
         obj->materialName = event.GetPropertyValue().GetString().ToStdString();
 
-    if (obj->meshName[0] == gPrimitivePathPrefix)
+    std::string primitiveDescription = assets.m_meshesPaths[obj->meshName].path;
+    if (primitiveDescription[0] == gPrimitivePathPrefix)
     {
-        LE3PrimitiveTokens tokens = ParsePrimitivePath(obj->meshName);
+        LE3PrimitiveTokens tokens = ParsePrimitivePath(primitiveDescription);
 
         if (tokens.token == gTokenBox)
         {
@@ -106,8 +108,7 @@ void StaticMeshPropertyGridChanged(LE3StaticMesh* obj, wxPropertyGrid* pg, wxPro
                 
                 assets.m_meshes.erase(obj->meshName);
                 assets.m_meshesPaths.erase(obj->meshName);
-                assets.LoadMeshPrimitive(newPrimitiveDescription, newPrimitiveDescription);
-                obj->meshName = newPrimitiveDescription;
+                assets.LoadMeshPrimitive(obj->meshName, newPrimitiveDescription);
             }
         }
     }

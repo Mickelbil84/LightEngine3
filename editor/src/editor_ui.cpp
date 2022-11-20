@@ -229,7 +229,7 @@ void LE3EditorUI::RefreshPropertyGrid()
 {
     if (m_editor->GetSelectedObject())
     {
-        UpdateObjectPropertyGrid(m_editor->GetSelectedObject(), m_propertyGrid);
+        UpdateObjectPropertyGrid(m_editor->GetSelectedObject(), m_propertyGrid, m_editor->scene.assets);
         m_selectedType = LE3_SELECTED_OBJECT;
     }
     else
@@ -583,8 +583,8 @@ void LE3EditorUI::OnAddCube( wxCommandEvent& event )
                 width + del +
                 height + del +
                 depth + del;
-        m_editor->scene.assets.AddMeshPath(meshName, meshName);
-        m_editor->scene.AddStaticMesh(name, meshName, materialName);
+        m_editor->scene.assets.AddMeshPath(name, meshName);
+        m_editor->scene.AddStaticMesh(name, name, materialName);
 
         RefreshAssets();
         RefreshSceneGraph();
