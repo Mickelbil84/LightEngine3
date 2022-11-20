@@ -14,6 +14,10 @@
 #include "icons/icon_collision.xpm"
 #include "icons/icon_bulletcollision.xpm"
 #include "icons/icon_newcube.xpm"
+#include "icons/icon_newsphere.xpm"
+#include "icons/icon_newcylinder.xpm"
+#include "icons/icon_newcone.xpm"
+#include "icons/icon_newstaticmesh.xpm"
 
 LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selectedType(LE3_SELECTED_NONE), selectCallback(this), refreshPropertiesCallback(this)
 {
@@ -34,6 +38,10 @@ LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selected
 
     m_sideToolbar->SetToolBitmapSize(wxSize(24, 24));
     m_addCubeTool->SetBitmap({icon_newcube});
+    m_addSphereTool->SetBitmap({icon_newsphere});
+    m_addCylinderTool->SetBitmap({icon_newcylinder});
+    m_addConeTool->SetBitmap({icon_newcone});
+    m_addStaticMeshTool->SetBitmap({icon_newstaticmesh});
     m_sideToolbar->Realize();
 
 }

@@ -59,10 +59,10 @@ class LE3EditorWindow : public wxFrame
 		wxAuiToolBarItem* m_bulletCollisionTool;
 		wxAuiToolBar* m_sideToolbar;
 		wxAuiToolBarItem* m_addCubeTool;
-		wxAuiToolBarItem* m_tool23;
-		wxAuiToolBarItem* m_tool24;
-		wxAuiToolBarItem* m_tool25;
-		wxAuiToolBarItem* m_tool26;
+		wxAuiToolBarItem* m_addSphereTool;
+		wxAuiToolBarItem* m_addCylinderTool;
+		wxAuiToolBarItem* m_addConeTool;
+		wxAuiToolBarItem* m_addStaticMeshTool;
 		wxAuiToolBarItem* m_tool27;
 		wxAuiToolBarItem* m_tool28;
 		wxAuiToolBarItem* m_tool29;
@@ -100,6 +100,10 @@ class LE3EditorWindow : public wxFrame
 		virtual void OnCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBulletCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddCube( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAddSphere( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAddCylinder( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAddCone( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAddStaticMesh( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMouseClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void OnSelectObjectInGraph( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnNewShader( wxCommandEvent& event ) { event.Skip(); }

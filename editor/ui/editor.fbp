@@ -364,10 +364,11 @@
                                     <property name="id">wxID_ANY</property>
                                     <property name="kind">wxITEM_NORMAL</property>
                                     <property name="label">tool</property>
-                                    <property name="name">m_tool23</property>
+                                    <property name="name">m_addSphereTool</property>
                                     <property name="permission">protected</property>
                                     <property name="statusbar"></property>
                                     <property name="tooltip"></property>
+                                    <event name="OnToolClicked">OnAddSphere</event>
                                 </object>
                                 <object class="tool" expanded="0">
                                     <property name="bitmap"></property>
@@ -375,10 +376,11 @@
                                     <property name="id">wxID_ANY</property>
                                     <property name="kind">wxITEM_NORMAL</property>
                                     <property name="label">tool</property>
-                                    <property name="name">m_tool24</property>
+                                    <property name="name">m_addCylinderTool</property>
                                     <property name="permission">protected</property>
                                     <property name="statusbar"></property>
                                     <property name="tooltip"></property>
+                                    <event name="OnToolClicked">OnAddCylinder</event>
                                 </object>
                                 <object class="tool" expanded="0">
                                     <property name="bitmap"></property>
@@ -386,10 +388,11 @@
                                     <property name="id">wxID_ANY</property>
                                     <property name="kind">wxITEM_NORMAL</property>
                                     <property name="label">tool</property>
-                                    <property name="name">m_tool25</property>
+                                    <property name="name">m_addConeTool</property>
                                     <property name="permission">protected</property>
                                     <property name="statusbar"></property>
                                     <property name="tooltip"></property>
+                                    <event name="OnToolClicked">OnAddCone</event>
                                 </object>
                                 <object class="tool" expanded="0">
                                     <property name="bitmap"></property>
@@ -397,10 +400,11 @@
                                     <property name="id">wxID_ANY</property>
                                     <property name="kind">wxITEM_NORMAL</property>
                                     <property name="label">tool</property>
-                                    <property name="name">m_tool26</property>
+                                    <property name="name">m_addStaticMeshTool</property>
                                     <property name="permission">protected</property>
                                     <property name="statusbar"></property>
                                     <property name="tooltip"></property>
+                                    <event name="OnToolClicked">OnAddStaticMesh</event>
                                 </object>
                                 <object class="toolSeparator" expanded="0">
                                     <property name="permission">protected</property>
