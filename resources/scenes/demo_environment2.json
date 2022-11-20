@@ -91,6 +91,38 @@
                     }
                 },
                 {
+                    "key": "M_cube",
+                    "value": {
+                        "shaderName": "S_ps1",
+                        "diffuseColor": {
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "T_DIF_floor",
+                        "bUseDiffuseTexture": true,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
+                    }
+                },
+                {
+                    "key": "M_default",
+                    "value": {
+                        "shaderName": "S_ps1",
+                        "diffuseColor": {
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "",
+                        "bUseDiffuseTexture": false,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
+                    }
+                },
+                {
                     "key": "M_floor",
                     "value": {
                         "shaderName": "S_ps1",
@@ -252,7 +284,7 @@
                             "m_bHiddenInSceneGraph": false,
                             "m_bHidden": false,
                             "meshName": "SM_buffer",
-                            "materialName": "M_buffer",
+                            "materialName": "M_default",
                             "m_bHasCollision": true
                         }
                     }

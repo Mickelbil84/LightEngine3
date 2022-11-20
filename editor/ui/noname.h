@@ -44,7 +44,7 @@ class LE3EditorWindow : public wxFrame
 	private:
 
 	protected:
-		wxAuiToolBar* m_auiToolBar4;
+		wxAuiToolBar* m_topToolbar;
 		wxAuiToolBarItem* m_newTool;
 		wxAuiToolBarItem* m_loadTool;
 		wxAuiToolBarItem* m_saveTool;
@@ -57,8 +57,8 @@ class LE3EditorWindow : public wxFrame
 		wxAuiToolBarItem* m_gizmoScaleTool;
 		wxAuiToolBarItem* m_collisionTool;
 		wxAuiToolBarItem* m_bulletCollisionTool;
-		wxAuiToolBar* m_auiToolBar2;
-		wxAuiToolBarItem* m_tool22;
+		wxAuiToolBar* m_sideToolbar;
+		wxAuiToolBarItem* m_addCubeTool;
 		wxAuiToolBarItem* m_tool23;
 		wxAuiToolBarItem* m_tool24;
 		wxAuiToolBarItem* m_tool25;
@@ -99,6 +99,7 @@ class LE3EditorWindow : public wxFrame
 		virtual void OnSaveSceneAs( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBulletCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAddCube( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMouseClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void OnSelectObjectInGraph( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnNewShader( wxCommandEvent& event ) { event.Skip(); }
@@ -216,6 +217,35 @@ class LE3NewMeshDialog : public wxDialog
 		LE3NewMeshDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("New Mesh"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,140 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~LE3NewMeshDialog();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LE3AddCubeDialog
+///////////////////////////////////////////////////////////////////////////////
+class LE3AddCubeDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText10;
+		wxStaticText* m_staticText14;
+		wxStaticText* m_staticText11;
+		wxStaticText* m_staticText12;
+		wxStaticText* m_staticText13;
+		wxButton* m_cancelBtn;
+		wxButton* m_addBtn;
+
+	public:
+		wxTextCtrl* m_nameText;
+		wxTextCtrl* m_materialText;
+		wxTextCtrl* m_widthText;
+		wxTextCtrl* m_heightText;
+		wxTextCtrl* m_depthText;
+
+		LE3AddCubeDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Cube"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,230 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LE3AddCubeDialog();
 
 };
 

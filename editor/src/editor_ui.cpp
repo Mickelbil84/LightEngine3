@@ -13,10 +13,11 @@
 #include "icons/icon_gizmo_scale.xpm"
 #include "icons/icon_collision.xpm"
 #include "icons/icon_bulletcollision.xpm"
+#include "icons/icon_newcube.xpm"
 
 LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selectedType(LE3_SELECTED_NONE), selectCallback(this), refreshPropertiesCallback(this)
 {
-    m_auiToolBar4->SetToolBitmapSize(wxSize(24, 24));    
+    m_topToolbar->SetToolBitmapSize(wxSize(24, 24));    
     m_newTool->SetBitmap({icon_new});
     m_loadTool->SetBitmap({icon_open});
     m_saveTool->SetBitmap({icon_save});
@@ -29,9 +30,11 @@ LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selected
     m_gizmoScaleTool->SetBitmap({icon_gizmo_scale});
     m_collisionTool->SetBitmap({icon_collision});
     m_bulletCollisionTool->SetBitmap({icon_bulletcollision});
+    m_topToolbar->Realize();
 
-    m_auiToolBar4->Realize();
-
+    m_sideToolbar->SetToolBitmapSize(wxSize(24, 24));
+    m_addCubeTool->SetBitmap({icon_newcube});
+    m_sideToolbar->Realize();
 
 }
 
@@ -470,5 +473,33 @@ void LE3EditorUI::OnDeleteMesh( wxCommandEvent& event )
 
         RefreshAssets();
         m_editor->bPauseEngine = false;
+    }
+}
+
+void LE3EditorUI::OnAddCube( wxCommandEvent& event )
+{
+    LE3AddCubeDialog dialog(this);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        std::string name = dialog.m_nameText->GetValue().ToStdString();
+        std::string materialName = dialog.m_materialText->GetValue().ToStdString();
+        std::string width = dialog.m_widthText->GetValue().ToStdString();
+        std::string height = dialog.m_heightText->GetValue().ToStdString();
+        std::string depth = dialog.m_depthText->GetValue().ToStdString();
+
+        std::string del(1, gPrimitivePathDelimiter);
+        std::string zero("0");
+
+        m_editor->scene.assets.AddMeshPath(name, 
+            std::string(1, gPrimitivePathPrefix) + std::string(gTokenBox) + del +
+                zero + del + zero + del + zero + del +
+                width + del +
+                height + del +
+                depth + del
+            );
+        m_editor->scene.AddStaticMesh(name, name, materialName);
+
+        RefreshAssets();
+        RefreshSceneGraph();
     }
 }

@@ -18,68 +18,68 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizer9;
 	bSizer9 = new wxBoxSizer( wxVERTICAL );
 
-	m_auiToolBar4 = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT|wxAUI_TB_PLAIN_BACKGROUND );
-	m_newTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_topToolbar = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT|wxAUI_TB_PLAIN_BACKGROUND );
+	m_newTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_loadTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_loadTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_saveTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_saveTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_saveAsTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_saveAsTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_auiToolBar4->AddSeparator();
+	m_topToolbar->AddSeparator();
 
-	m_undoTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_undoTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_redoTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_redoTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_auiToolBar4->AddSeparator();
+	m_topToolbar->AddSeparator();
 
-	m_gizmoSelectTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
+	m_gizmoSelectTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
 
-	m_gizmoMoveTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
+	m_gizmoMoveTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
 
-	m_gizmoRotateTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
+	m_gizmoRotateTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
 
-	m_gizmoScaleTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
+	m_gizmoScaleTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
 
-	m_auiToolBar4->AddSeparator();
+	m_topToolbar->AddSeparator();
 
-	m_collisionTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
+	m_collisionTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
 
-	m_bulletCollisionTool = m_auiToolBar4->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
+	m_bulletCollisionTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
 
-	m_auiToolBar4->Realize();
+	m_topToolbar->Realize();
 
-	bSizer9->Add( m_auiToolBar4, 0, wxALL|wxEXPAND, 5 );
+	bSizer9->Add( m_topToolbar, 0, wxALL|wxEXPAND, 5 );
 
 	wxBoxSizer* bSizer11;
 	bSizer11 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_auiToolBar2 = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT|wxAUI_TB_PLAIN_BACKGROUND|wxAUI_TB_VERTICAL );
-	m_tool22 = m_auiToolBar2->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_sideToolbar = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT|wxAUI_TB_PLAIN_BACKGROUND|wxAUI_TB_VERTICAL );
+	m_addCubeTool = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_tool23 = m_auiToolBar2->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_tool23 = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_tool24 = m_auiToolBar2->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_tool24 = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_tool25 = m_auiToolBar2->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_tool25 = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_tool26 = m_auiToolBar2->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_tool26 = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_auiToolBar2->AddSeparator();
+	m_sideToolbar->AddSeparator();
 
-	m_tool27 = m_auiToolBar2->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_tool27 = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_tool28 = m_auiToolBar2->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_tool28 = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_tool29 = m_auiToolBar2->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_tool29 = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_auiToolBar2->AddSeparator();
+	m_sideToolbar->AddSeparator();
 
-	m_auiToolBar2->Realize();
+	m_sideToolbar->Realize();
 
-	bSizer11->Add( m_auiToolBar2, 0, wxALL, 5 );
+	bSizer11->Add( m_sideToolbar, 0, wxALL, 5 );
 
 	m_OpenGLContainer = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	bSizer11->Add( m_OpenGLContainer, 5, wxEXPAND | wxALL, 5 );
@@ -250,6 +250,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	this->Connect( m_saveAsTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveSceneAs ) );
 	this->Connect( m_collisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnCollisionToolToggle ) );
 	this->Connect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
+	this->Connect( m_addCubeTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCube ) );
 	m_OpenGLContainer->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );
 	m_sceneGraphTree->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectObjectInGraph ), NULL, this );
 	m_loadShaderButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewShader ), NULL, this );
@@ -276,6 +277,7 @@ LE3EditorWindow::~LE3EditorWindow()
 	this->Disconnect( m_saveAsTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveSceneAs ) );
 	this->Disconnect( m_collisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnCollisionToolToggle ) );
 	this->Disconnect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
+	this->Disconnect( m_addCubeTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCube ) );
 	m_OpenGLContainer->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );
 	m_sceneGraphTree->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectObjectInGraph ), NULL, this );
 	m_loadShaderButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewShader ), NULL, this );
@@ -546,5 +548,102 @@ LE3NewMeshDialog::LE3NewMeshDialog( wxWindow* parent, wxWindowID id, const wxStr
 }
 
 LE3NewMeshDialog::~LE3NewMeshDialog()
+{
+}
+
+LE3AddCubeDialog::LE3AddCubeDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer31;
+	bSizer31 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer32;
+	bSizer32 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText10 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxSize( 55,-1 ), 0 );
+	m_staticText10->Wrap( -1 );
+	bSizer32->Add( m_staticText10, 0, wxALL, 5 );
+
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer32->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer31->Add( bSizer32, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer37;
+	bSizer37 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText14 = new wxStaticText( this, wxID_ANY, wxT("Material:"), wxDefaultPosition, wxSize( 55,-1 ), 0 );
+	m_staticText14->Wrap( -1 );
+	bSizer37->Add( m_staticText14, 0, wxALL, 5 );
+
+	m_materialText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer37->Add( m_materialText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer31->Add( bSizer37, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer33;
+	bSizer33 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText11 = new wxStaticText( this, wxID_ANY, wxT("Width:"), wxDefaultPosition, wxSize( 55,-1 ), 0 );
+	m_staticText11->Wrap( -1 );
+	bSizer33->Add( m_staticText11, 0, wxALL, 5 );
+
+	m_widthText = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer33->Add( m_widthText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer31->Add( bSizer33, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer34;
+	bSizer34 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText12 = new wxStaticText( this, wxID_ANY, wxT("Height:"), wxDefaultPosition, wxSize( 55,-1 ), 0 );
+	m_staticText12->Wrap( -1 );
+	bSizer34->Add( m_staticText12, 0, wxALL, 5 );
+
+	m_heightText = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer34->Add( m_heightText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer31->Add( bSizer34, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer35;
+	bSizer35 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText13 = new wxStaticText( this, wxID_ANY, wxT("Depth:"), wxDefaultPosition, wxSize( 55,-1 ), 0 );
+	m_staticText13->Wrap( -1 );
+	bSizer35->Add( m_staticText13, 0, wxALL, 5 );
+
+	m_depthText = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer35->Add( m_depthText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer31->Add( bSizer35, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer36;
+	bSizer36 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_cancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer36->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
+
+	m_addBtn = new wxButton( this, wxID_OK, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_addBtn->SetDefault();
+	bSizer36->Add( m_addBtn, 0, wxALL, 5 );
+
+
+	bSizer31->Add( bSizer36, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer31 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3AddCubeDialog::~LE3AddCubeDialog()
 {
 }

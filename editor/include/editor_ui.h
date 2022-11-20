@@ -74,6 +74,8 @@ protected:
     virtual void OnCollisionToolToggle( wxCommandEvent& event );
     virtual void OnBulletCollisionToolToggle( wxCommandEvent& event );
 
+    virtual void OnAddCube( wxCommandEvent& event );
+
 
 public:
     ///////////////
