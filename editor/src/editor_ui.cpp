@@ -168,25 +168,25 @@ void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )
     {
     case LE3_SELECTED_SHADER:
         // OnPropertyChangeShader(event);
-        ShaderPropertyGridChanged(m_propertyGrid, m_treeListShaders, event, m_editor->scene.assets, m_selectedName);
+        ShaderPropertyGridChanged(m_propertyGrid, m_treeListShaders, event, m_editor->scene.assets, m_editor->scene, m_selectedName);
         if (event.GetPropertyName() == wxT("Name"))
             RefreshAssets();
         break;
     
     case LE3_SELECTED_MATERIAL:
-        MaterialPropertyGridChanged(m_propertyGrid, m_treeListMaterials, event, m_editor->scene.assets, m_selectedName);
+        MaterialPropertyGridChanged(m_propertyGrid, m_treeListMaterials, event, m_editor->scene.assets, m_editor->scene, m_selectedName);
         if (event.GetPropertyName() == wxT("Name"))
             RefreshAssets();
         break;
 
     case LE3_SELECTED_TEXTURE:
-        TexturePropertyGridChanged(m_propertyGrid, m_treeListTextures, event, m_editor->scene.assets, m_selectedName);
+        TexturePropertyGridChanged(m_propertyGrid, m_treeListTextures, event, m_editor->scene.assets, m_editor->scene, m_selectedName);
         if (event.GetPropertyName() == wxT("Name"))
             RefreshAssets();
         break;
 
     case LE3_SELECTED_MESH:
-        MeshPropertyGridChanged(m_propertyGrid, m_treeListMeshes, event, m_editor->scene.assets, m_selectedName);
+        MeshPropertyGridChanged(m_propertyGrid, m_treeListMeshes, event, m_editor->scene.assets, m_editor->scene, m_selectedName);
         if (event.GetPropertyName() == wxT("Name"))
             RefreshAssets();
         break;

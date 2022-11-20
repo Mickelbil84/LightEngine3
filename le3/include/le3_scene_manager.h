@@ -44,7 +44,8 @@ protected:
     std::shared_ptr<LE3SceneRoot> root;
     std::shared_ptr<LE3Camera> camera;
     LE3PhysicsComponent physics;
-    
+
+public:
     std::map<std::string, std::shared_ptr<LE3Object>> objectPool;
     std::map<std::string, std::string> parentLinks;
 

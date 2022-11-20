@@ -28,3 +28,33 @@ void UpdateTextureBookkeeping(LE3AssetManager& assets, std::string oldTexture, s
         }
     }
 }
+
+void UpdateMeshBookkeeping(LE3SceneManager& scene, std::string oldMesh, std::string newMesh)
+{
+    for (auto [key, pObject] : scene.objectPool)
+    {
+        std::shared_ptr<LE3StaticMesh> pStaticMesh = std::dynamic_pointer_cast<LE3StaticMesh>(pObject);
+        if (!pStaticMesh)
+            continue;
+        
+        if (pStaticMesh->meshName != oldMesh)
+            continue;
+        pStaticMesh->meshName = newMesh;
+        pStaticMesh->UpdateAssets(scene.assets);
+    }
+}
+
+void UpdateMaterialBookkeeping(LE3SceneManager& scene, std::string oldMaterial, std::string newMaterial)
+{
+    for (auto [key, pObject] : scene.objectPool)
+    {
+        std::shared_ptr<LE3StaticMesh> pStaticMesh = std::dynamic_pointer_cast<LE3StaticMesh>(pObject);
+        if (!pStaticMesh)
+            continue;
+        
+        if (pStaticMesh->materialName != oldMaterial)
+            continue;
+        pStaticMesh->materialName = newMaterial;
+        pStaticMesh->UpdateAssets(scene.assets);
+    }
+}

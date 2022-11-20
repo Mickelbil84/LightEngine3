@@ -1,7 +1,7 @@
 #pragma once
 #include <gl/glew.h>
 
-#define PS1GRAPHICS
+// #define PS1GRAPHICS
 
 #include <le3_application.h>
 #include <le3_shader.h>
