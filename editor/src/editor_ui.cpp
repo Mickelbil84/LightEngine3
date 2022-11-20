@@ -315,3 +315,47 @@ void LE3EditorUI::OnSaveSceneAs( wxCommandEvent& event )
 
     wxTopLevelWindow::SetTitle(std::string(LE3EDITOR_WINDOW_TITLE) + std::string(" - ") + m_editor->scenePath);
 }
+
+void LE3EditorUI::OnNewShader( wxCommandEvent& event )
+{
+    LE3NewShaderDialog dialog(this);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        std::string name = dialog.m_nameText->GetValue().ToStdString();
+        std::string vertexShaderPath = dialog.m_vertexShaderText->GetValue().ToStdString();
+        std::string fragmentShaderPath = dialog.m_fragmentShaderText->GetValue().ToStdString();
+        
+        m_editor->scene.assets.AddShaderPath(name, vertexShaderPath, fragmentShaderPath);
+        m_editor->scene.assets.GetShader(name);
+
+        RefreshAssets();
+    }
+}
+void LE3EditorUI::OnDeleteShader( wxCommandEvent& event )
+{
+    if (m_selectedType != LE3_SELECTED_SHADER)
+        return;
+    
+    m_editor->bPauseEngine = true;
+    int answer = wxMessageBox(
+        std::string("Are you sure you want to delete the shader [") + m_selectedName + std::string("]?"),
+        "Delete Shader",
+        wxYES_NO | wxCANCEL, this);
+    if (answer == wxYES)
+    {
+        m_editor->scene.assets.m_shaders.extract(m_selectedName);
+        m_editor->scene.assets.m_shadersPaths.extract(m_selectedName);
+
+        for (auto [name, material] : m_editor->scene.assets.m_materials)
+        {
+            if (material.shaderName != m_selectedName)
+                continue;
+            std::cout << name << std::endl;
+            material.shaderName = std::string("");
+            material.SetShader(nullptr);
+            std::cout << "Lolz" << std::endl;
+        }
+        RefreshAssets();
+    }
+    m_editor->bPauseEngine = false;
+}

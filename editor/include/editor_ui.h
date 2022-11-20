@@ -56,6 +56,9 @@ protected:
     virtual void OnSelectTexture( wxTreeListEvent& event );
 	virtual void OnSelectMesh( wxTreeListEvent& event );
 
+    virtual void OnNewShader( wxCommandEvent& event );
+	virtual void OnDeleteShader( wxCommandEvent& event );
+
     virtual void OnPropertyChange( wxPropertyGridEvent& event );
 
     virtual void OnSelectObjectInGraph( wxTreeListEvent& event );
@@ -64,6 +67,7 @@ protected:
 
     virtual void OnCollisionToolToggle( wxCommandEvent& event );
     virtual void OnBulletCollisionToolToggle( wxCommandEvent& event );
+
 
 public:
     ///////////////

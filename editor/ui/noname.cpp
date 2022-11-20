@@ -100,7 +100,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	m_panel2->SetSizer( bSizer91 );
 	m_panel2->Layout();
 	bSizer91->Fit( m_panel2 );
-	m_notebook1->AddPage( m_panel2, wxT("Scene"), true );
+	m_notebook1->AddPage( m_panel2, wxT("Scene"), false );
 	m_panel3 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer10;
 	bSizer10 = new wxBoxSizer( wxVERTICAL );
@@ -213,7 +213,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	m_panel3->SetSizer( bSizer10 );
 	m_panel3->Layout();
 	bSizer10->Fit( m_panel3 );
-	m_notebook1->AddPage( m_panel3, wxT("Assets"), false );
+	m_notebook1->AddPage( m_panel3, wxT("Assets"), true );
 
 	bSizer12->Add( m_notebook1, 1, wxEXPAND | wxALL, 5 );
 
@@ -252,6 +252,8 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	this->Connect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
 	m_OpenGLContainer->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );
 	m_sceneGraphTree->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectObjectInGraph ), NULL, this );
+	m_loadShaderButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewShader ), NULL, this );
+	m_newShaderButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDeleteShader ), NULL, this );
 	m_treeListShaders->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectShader ), NULL, this );
 	m_treeListMaterials->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectMaterial ), NULL, this );
 	m_treeListTextures->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectTexture ), NULL, this );
@@ -270,10 +272,87 @@ LE3EditorWindow::~LE3EditorWindow()
 	this->Disconnect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
 	m_OpenGLContainer->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );
 	m_sceneGraphTree->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectObjectInGraph ), NULL, this );
+	m_loadShaderButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewShader ), NULL, this );
+	m_newShaderButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDeleteShader ), NULL, this );
 	m_treeListShaders->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectShader ), NULL, this );
 	m_treeListMaterials->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectMaterial ), NULL, this );
 	m_treeListTextures->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectTexture ), NULL, this );
 	m_treeListMeshes->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectMesh ), NULL, this );
 	m_propertyGrid->Disconnect( wxEVT_PG_CHANGED, wxPropertyGridEventHandler( LE3EditorWindow::OnPropertyChange ), NULL, this );
 
+}
+
+LE3NewShaderDialog::LE3NewShaderDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer14;
+	bSizer14 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer161;
+	bSizer161 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText1 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText1->Wrap( -1 );
+	m_staticText1->SetMinSize( wxSize( 120,-1 ) );
+
+	bSizer161->Add( m_staticText1, 0, wxALL, 5 );
+
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer161->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer14->Add( bSizer161, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer17;
+	bSizer17 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText3 = new wxStaticText( this, wxID_ANY, wxT("Vertex Shader:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText3->Wrap( -1 );
+	m_staticText3->SetMinSize( wxSize( 120,-1 ) );
+
+	bSizer17->Add( m_staticText3, 0, wxALL, 5 );
+
+	m_vertexShaderText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer17->Add( m_vertexShaderText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer14->Add( bSizer17, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer18;
+	bSizer18 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText4 = new wxStaticText( this, wxID_ANY, wxT("Fragment Shader:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText4->Wrap( -1 );
+	m_staticText4->SetMinSize( wxSize( 120,-1 ) );
+
+	bSizer18->Add( m_staticText4, 0, wxALL, 5 );
+
+	m_fragmentShaderText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer18->Add( m_fragmentShaderText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer14->Add( bSizer18, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer16;
+	bSizer16 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_cancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer16->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
+
+	m_createBtn = new wxButton( this, wxID_OK, wxT("Create"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer16->Add( m_createBtn, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer14->Add( bSizer16, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer14 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3NewShaderDialog::~LE3NewShaderDialog()
+{
 }

@@ -29,6 +29,9 @@
 #include <wx/statusbr.h>
 #include <wx/menu.h>
 #include <wx/frame.h>
+#include <wx/stattext.h>
+#include <wx/textctrl.h>
+#include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -98,6 +101,8 @@ class LE3EditorWindow : public wxFrame
 		virtual void OnBulletCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMouseClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void OnSelectObjectInGraph( wxTreeListEvent& event ) { event.Skip(); }
+		virtual void OnNewShader( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDeleteShader( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectShader( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnSelectMaterial( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnSelectTexture( wxTreeListEvent& event ) { event.Skip(); }
@@ -108,9 +113,34 @@ class LE3EditorWindow : public wxFrame
 	public:
 		wxPanel* m_OpenGLContainer;
 
-		LE3EditorWindow( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("LightEngine3 Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1360,768 ), long style = wxDEFAULT_FRAME_STYLE|wxSTAY_ON_TOP|wxTAB_TRAVERSAL );
+		LE3EditorWindow( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("LightEngine3 Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1360,768 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~LE3EditorWindow();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LE3NewShaderDialog
+///////////////////////////////////////////////////////////////////////////////
+class LE3NewShaderDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText1;
+		wxStaticText* m_staticText3;
+		wxStaticText* m_staticText4;
+		wxButton* m_cancelBtn;
+		wxButton* m_createBtn;
+
+	public:
+		wxTextCtrl* m_nameText;
+		wxTextCtrl* m_vertexShaderText;
+		wxTextCtrl* m_fragmentShaderText;
+
+		LE3NewShaderDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("New Shader"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,170 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LE3NewShaderDialog();
 
 };
 
