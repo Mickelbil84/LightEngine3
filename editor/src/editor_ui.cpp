@@ -341,26 +341,22 @@ void LE3EditorUI::OnDeleteShader( wxCommandEvent& event )
     if (m_selectedType != LE3_SELECTED_SHADER)
         return;
     
-    m_editor->bPauseEngine = true;
     int answer = wxMessageBox(
         std::string("Are you sure you want to delete the shader [") + m_selectedName + std::string("]?"),
         "Delete Shader",
         wxYES_NO | wxCANCEL, this);
     if (answer == wxYES)
     {
+        // A bit of voodoo: to make sure everything is safe, break the rendering loop before breaking stuff
+        m_editor->bPauseEngine = true;
+        wxMilliSleep(10);
+        
+        UpdateShaderBookkeeping(m_editor->scene.assets, m_selectedName);
+        
         m_editor->scene.assets.m_shaders.extract(m_selectedName);
         m_editor->scene.assets.m_shadersPaths.extract(m_selectedName);
 
-        for (auto [name, material] : m_editor->scene.assets.m_materials)
-        {
-            if (material.shaderName != m_selectedName)
-                continue;
-            std::cout << name << std::endl;
-            material.shaderName = std::string("");
-            material.SetShader(nullptr);
-            std::cout << "Lolz" << std::endl;
-        }
         RefreshAssets();
+        m_editor->bPauseEngine = false;
     }
-    m_editor->bPauseEngine = false;
 }

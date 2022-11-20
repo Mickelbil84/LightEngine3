@@ -3,19 +3,19 @@
         "assets": {
             "m_meshesPaths": [
                 {
-                    "key": "barrel",
+                    "key": "SM_barrel",
                     "value": {
                         "path": "../resources/models/gahan/barrel.obj"
                     }
                 },
                 {
-                    "key": "buffer",
+                    "key": "SM_buffer",
                     "value": {
                         "path": "../resources/models/gahan/buffer.obj"
                     }
                 },
                 {
-                    "key": "floor",
+                    "key": "SM_floor",
                     "value": {
                         "path": "../resources/models/floor.obj"
                     }
@@ -23,19 +23,19 @@
             ],
             "m_texturesPaths": [
                 {
-                    "key": "barrelDiffuse",
+                    "key": "T_DIF_barrel",
                     "value": {
                         "path": "../resources/textures/gahan/barrel_diffuse.tga"
                     }
                 },
                 {
-                    "key": "bufferDiffuse",
+                    "key": "T_DIF_buffer",
                     "value": {
                         "path": "../resources/textures/gahan/buffer_diffuse.tga"
                     }
                 },
                 {
-                    "key": "floorDiffuse",
+                    "key": "T_DIF_floor",
                     "value": {
                         "path": "../resources/textures/tile_floor.jpg"
                     }
@@ -49,7 +49,14 @@
             ],
             "m_shadersPaths": [
                 {
-                    "key": "basic",
+                    "key": "S_moving_car",
+                    "value": {
+                        "vertexShaderPath": "../resources/shaders/moving_car/moving_car.vs",
+                        "fragmentShaderPath": "../resources/shaders/moving_car/moving_car.fs"
+                    }
+                },
+                {
+                    "key": "S_ps1",
                     "value": {
                         "vertexShaderPath": "../resources/shaders/ps1/ps1.vs",
                         "fragmentShaderPath": "../resources/shaders/ps1/ps1.fs"
@@ -65,48 +72,48 @@
             ],
             "m_materials": [
                 {
-                    "key": "barrelMat",
+                    "key": "M_barrel",
                     "value": {
-                        "shaderName": "basic",
+                        "shaderName": "S_ps1",
                         "diffuseColor": {
                             "v.x": 0.800000011920929,
                             "v.y": 0.800000011920929,
                             "v.z": 0.800000011920929,
                             "v.w": 1.0
                         },
-                        "diffuseTextureName": "barrelDiffuse",
+                        "diffuseTextureName": "T_DIF_barrel",
                         "bUseDiffuseTexture": true,
                         "tilingX": 1.0,
                         "tilingY": 1.0
                     }
                 },
                 {
-                    "key": "bufferMat",
+                    "key": "M_buffer",
                     "value": {
-                        "shaderName": "basic",
+                        "shaderName": "S_moving_car",
                         "diffuseColor": {
                             "v.x": 0.800000011920929,
                             "v.y": 0.800000011920929,
                             "v.z": 0.800000011920929,
                             "v.w": 1.0
                         },
-                        "diffuseTextureName": "bufferDiffuse",
-                        "bUseDiffuseTexture": true,
+                        "diffuseTextureName": "T_DIF_buffer",
+                        "bUseDiffuseTexture": false,
                         "tilingX": 1.0,
                         "tilingY": 1.0
                     }
                 },
                 {
-                    "key": "floorMat",
+                    "key": "M_floor",
                     "value": {
-                        "shaderName": "basic",
+                        "shaderName": "S_ps1",
                         "diffuseColor": {
                             "v.x": 0.800000011920929,
                             "v.y": 0.800000011920929,
                             "v.z": 0.800000011920929,
                             "v.w": 1.0
                         },
-                        "diffuseTextureName": "floorDiffuse",
+                        "diffuseTextureName": "T_DIF_floor",
                         "bUseDiffuseTexture": true,
                         "tilingX": 10.0,
                         "tilingY": 10.0
@@ -183,8 +190,8 @@
                             "m_name": "barrel",
                             "m_bHiddenInSceneGraph": false,
                             "m_bHidden": false,
-                            "meshName": "barrel",
-                            "materialName": "barrelMat",
+                            "meshName": "SM_barrel",
+                            "materialName": "M_barrel",
                             "m_bHasCollision": true
                         }
                     }
@@ -257,8 +264,8 @@
                             "m_name": "buffer",
                             "m_bHiddenInSceneGraph": false,
                             "m_bHidden": false,
-                            "meshName": "buffer",
-                            "materialName": "bufferMat",
+                            "meshName": "SM_buffer",
+                            "materialName": "M_buffer",
                             "m_bHasCollision": true
                         }
                     }
@@ -331,8 +338,8 @@
                             "m_name": "floor",
                             "m_bHiddenInSceneGraph": false,
                             "m_bHidden": false,
-                            "meshName": "floor",
-                            "materialName": "floorMat",
+                            "meshName": "SM_floor",
+                            "materialName": "M_floor",
                             "m_bHasCollision": true
                         }
                     }

@@ -21,6 +21,8 @@ void LE3StaticMesh::Update(double deltaTime)
 }
 void LE3StaticMesh::Draw()
 {
+    if (!m_material->GetShader())
+        return;
     m_material->Apply(m_globalModelMatrix);
     m_mesh->Draw();
 
