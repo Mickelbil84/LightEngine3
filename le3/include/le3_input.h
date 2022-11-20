@@ -7,4 +7,5 @@ struct LE3Input
 {
     const Uint8* keyboard;
 	Sint32 xrel, yrel;
+    bool bLeftMouseDown, bRightMouseDown;
 };

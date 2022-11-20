@@ -5,7 +5,8 @@ LE3Camera::LE3Camera() :
     m_forward(glm::vec3(0.f, 0.f, -1.f)),
     m_up(glm::vec3(0.f, 1.f, 0.f)),
     m_right(glm::vec3(1.f, 0.f, 0.f)),
-    b_lastModelMatrixValid(false)
+    b_lastModelMatrixValid(false),
+    m_fov(glm::radians(45.f))
 {
     // Look forward by default
     m_rotation.y = glm::radians(-90.f);
@@ -72,7 +73,7 @@ glm::mat4 LE3Camera::GetProjectionMatrix(float aspectRatio) const
 {
     if (aspectRatio < 0)
         aspectRatio = m_aspectRatio;
-    return glm::perspective(glm::radians(45.f), aspectRatio, 0.1f, 100.f);
+    return glm::perspective(m_fov, aspectRatio, 0.1f, 100.f);
 }
 
 glm::vec3 LE3Camera::GetForward() const
@@ -97,6 +98,10 @@ float LE3Camera::GetAspectRatio() const
 void LE3Camera::SetAspectRatio(float aspectRatio)
 {
     m_aspectRatio = aspectRatio;
+}
+void LE3Camera::SetFOV(float fov)
+{
+    m_fov = fov;
 }
 
 LE3FPSCamera::LE3FPSCamera(float walkSpeed, float lookSensitivity) : 

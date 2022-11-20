@@ -28,6 +28,7 @@ public:
 
     float GetAspectRatio() const;
     void SetAspectRatio(float aspectRatio);
+    void SetFOV(float fov);
 
 protected:
     void UpdateLocalModelMatrix();
@@ -35,7 +36,7 @@ protected:
     bool b_lastModelMatrixValid;
 
     glm::vec3 m_forward, m_up, m_right;
-    float m_aspectRatio;
+    float m_aspectRatio, m_fov;
 };
 
 class LE3FPSCamera : public LE3Camera

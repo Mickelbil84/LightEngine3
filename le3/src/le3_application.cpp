@@ -40,6 +40,8 @@ int LE3Application::_Init()
     this->ApplyOpenGLSettings();
 
     m_physics.Init();
+    m_lastInput.xrel = m_lastInput.yrel = 0;
+    m_lastInput.bLeftMouseDown = false; m_lastInput.bRightMouseDown = false;
 
 
     return this->Init();
@@ -64,16 +66,32 @@ int LE3Application::_Run()
         SDL_Event e;
         LE3Input input;
         input.xrel = 0; input.yrel  = 0;
+        input.bLeftMouseDown = m_lastInput.bLeftMouseDown; input.bRightMouseDown = m_lastInput.bRightMouseDown;
         while (SDL_PollEvent(&e))
         {
             if (e.type == SDL_QUIT)
             {
                 m_bShouldRun = false;
             }
+            if (e.type == SDL_MOUSEBUTTONDOWN)
+            {
+                if (e.button.button == SDL_BUTTON_LEFT)
+                    input.bLeftMouseDown = true;
+                if (e.button.button == SDL_BUTTON_RIGHT)
+                    input.bRightMouseDown = true;
+            }
+            if (e.type == SDL_MOUSEBUTTONUP)
+            {
+                if (e.button.button == SDL_BUTTON_LEFT)
+                    input.bLeftMouseDown = false;
+                if (e.button.button == SDL_BUTTON_RIGHT)
+                    input.bRightMouseDown = false;
+            }
         }
         SDL_GetRelativeMouseState(&input.xrel, &input.yrel);
         input.keyboard = SDL_GetKeyboardState(NULL);
         this->HandleInput(input);
+        m_lastInput = input;
 
         /*
         * Update application logic

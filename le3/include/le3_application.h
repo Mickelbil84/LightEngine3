@@ -52,6 +52,7 @@ protected:
     double m_deltaTime;
     LE3ApplicationSettings m_settings;
 
+    LE3Input m_lastInput;
     LE3PhysicsComponent m_physics;
 
     // Updates only the title of the window (and also in the settings)

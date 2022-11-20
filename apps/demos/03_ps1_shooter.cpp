@@ -40,6 +40,9 @@ public:
     glm::vec2 cameraRotation;
     float walkSpeed, sensitivity;
 
+    bool bCanShoot, bIsShooting, bAimDownSights;
+    double shotBeginTime;
+
     glm::mat4 viewMatrix, projMatrix;
 
     int defaultWidth, defaultHeight;
@@ -143,6 +146,25 @@ public:
         
         cameraRotation.x = (float)input.xrel;
         cameraRotation.y = -(float)input.yrel;
+
+        ////////////////////////
+        // Shooting
+        ////////////////////////
+        if (input.bLeftMouseDown && bCanShoot)
+        {
+            bCanShoot = false;
+            bIsShooting = true;
+            shotBeginTime = runTime;
+        }
+
+        if (input.bRightMouseDown)
+        {
+            bAimDownSights = true;
+        }
+        else
+        {
+            bAimDownSights = false;
+        }
     }
 
     virtual void Update(double deltaTime)
@@ -166,8 +188,36 @@ public:
         // Update Gun
         ///////////////
         glm::vec3 deltaRotation = 0.00005f * glm::vec3(cosf(runTime) + sinf(runTime), 4.f * sinf(runTime + 2.f) * cosf(runTime + 2.f), 0.f);
-        scene.GetObject("gun")->SetRotation(glm::vec3(8.f * 3.14159265 / 180.f, -3.14159265f + 8.f * 3.14159265 / 180.f, 0.f) + deltaRotation * 100.f);
-        scene.GetObject("gun")->SetPosition(glm::vec3(0.10f, -.1f, -0.4f));
+
+        scene.GetObject("gun")->SetRotation(glm::vec3(8.f * 3.14159265 / 180.f, -3.14159265f + 5.f * 3.14159265 / 180.f, 0.f) + deltaRotation * 100.f);
+        scene.GetObject("gun")->SetPosition(glm::vec3(0.12f, -.1f, -0.4f));
+
+        if (bAimDownSights)
+        {
+            scene.GetObject("gun")->SetRotation(glm::vec3(4.f * 3.14159265 / 180.f, -3.14159265f + 0.f * 3.14159265 / 180.f, 0.f) + deltaRotation * 70.f);
+            scene.GetObject("gun")->SetPosition(glm::vec3(0.0f, -.1f, -0.3f));
+            scene.GetCamera()->SetFOV(glm::radians(35.f));
+        }
+        else
+        {
+            scene.GetCamera()->SetFOV(glm::radians(45.f));
+        }
+
+        float shotDuration = 0.1f;
+        if (bIsShooting)
+        {
+            float gunSine = sinf((runTime - shotBeginTime) * (2 * 3.14159265f) / shotDuration);
+            deltaRotation.x += 0.005f * gunSine;
+
+            scene.GetObject("gun")->SetPosition(scene.GetObject("gun")->GetPosition() + glm::vec3(0.0f, 0.01f * gunSine, 0.f));
+            scene.GetObject("gun")->SetRotation(scene.GetObject("gun")->GetRotation() + glm::vec3(0.05f * gunSine, 0.f, 0.f));
+            if (runTime - shotBeginTime > shotDuration)
+            {
+                bIsShooting = false;
+            }
+        }
+        else if (!bCanShoot && (runTime - shotBeginTime > 2 * shotDuration))
+            bCanShoot = true;
 
         // Head bobble while moving
         if (cameraVelocity.y * cameraVelocity.y + cameraVelocity.x * cameraVelocity.x > 0.01f)
