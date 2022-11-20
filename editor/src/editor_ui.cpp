@@ -160,6 +160,10 @@ void LE3EditorUI::OnSelectObjectInGraph( wxTreeListEvent& event )
 
 void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )
 {
+    // A bit of voodoo: to make sure everything is safe, break the rendering loop before breaking stuff
+    m_editor->bPauseEngine = true;
+    wxMilliSleep(10);
+    
     switch(m_selectedType)
     {
     case LE3_SELECTED_SHADER:
@@ -199,6 +203,7 @@ void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )
          event.Skip(); 
          break;
     }
+    m_editor->bPauseEngine = false;
 }
 
 void LE3EditorUI::OnMouseClick( wxMouseEvent& event )

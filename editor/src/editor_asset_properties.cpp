@@ -19,9 +19,15 @@ void ShaderPropertyGridChanged(wxPropertyGrid* pg, wxTreeListCtrl* treeList, wxP
     if (event.GetPropertyName() == wxT("Name"))
     {
         std::string newName = event.GetPropertyValue().GetString().ToStdString();
-        auto nh = assets.m_shaders.extract(selectedName);
-        nh.key() = newName;
-        assets.m_shaders.insert(std::move(nh));
+        std::string vertexShaderPath = assets.m_shaders[selectedName].m_vertexShaderPath;
+        std::string fragmentShaderPath = assets.m_shaders[selectedName].m_fragmentShaderPath;
+
+        assets.m_shadersPaths.erase(selectedName);
+        assets.AddShaderPath(newName, vertexShaderPath, fragmentShaderPath);
+        
+        UpdateShaderBookkeeping(assets, selectedName, newName);
+
+        assets.m_shaders.erase(selectedName);
     }
     else if (event.GetPropertyName() == wxT("Vertex Shader Path"))
     {
@@ -144,12 +150,14 @@ void TexturePropertyGridChanged(wxPropertyGrid* pg, wxTreeListCtrl* treeList, wx
     if (event.GetPropertyName() == wxT("Name"))
     {
         std::string newName = event.GetPropertyValue().GetString().ToStdString();
-        auto nh = assets.m_textures.extract(selectedName);
-        nh.key() = newName;
-        assets.m_textures.insert(std::move(nh));
-        auto nh2 = assets.m_texturesPaths.extract(selectedName);
-        nh2.key() = newName;
-        assets.m_texturesPaths.insert(std::move(nh2));
+        std::string path = assets.m_texturesPaths[selectedName].path;
+
+        assets.m_texturesPaths.erase(selectedName);
+        assets.AddTexturePath(newName, path);
+        
+        UpdateTextureBookkeeping(assets, selectedName, newName);
+
+        assets.m_textures.erase(selectedName);
     }
     else if (event.GetPropertyName() == wxT("Path"))
     {

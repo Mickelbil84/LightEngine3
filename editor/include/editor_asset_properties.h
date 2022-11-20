@@ -12,6 +12,8 @@
 #include <le3_shader.h>
 #include <le3_asset_manager.h>
 
+#include "editor_bookkeeping.h"
+
 bool UpdateShaderPropertyGrid(wxPropertyGrid* pg, wxTreeListCtrl* treeList, wxTreeListEvent& event, LE3AssetManager& assets);
 void ShaderPropertyGridChanged(wxPropertyGrid* pg, wxTreeListCtrl* treeList, wxPropertyGridEvent& event, LE3AssetManager& assets, std::string selectedName);
 
