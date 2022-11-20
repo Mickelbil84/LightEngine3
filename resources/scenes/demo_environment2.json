@@ -39,12 +39,6 @@
                     "value": {
                         "path": "../resources/textures/tile_floor.jpg"
                     }
-                },
-                {
-                    "key": "wood",
-                    "value": {
-                        "path": "../resources/textures/woodparquet_59-2K/woodparquet_59_basecolor-2K-2K.png"
-                    }
                 }
             ],
             "m_shadersPaths": [
@@ -59,13 +53,6 @@
                     "key": "S_ps1",
                     "value": {
                         "vertexShaderPath": "../resources/shaders/ps1/ps1.vs",
-                        "fragmentShaderPath": "../resources/shaders/ps1/ps1.fs"
-                    }
-                },
-                {
-                    "key": "basic_no_jitter",
-                    "value": {
-                        "vertexShaderPath": "../resources/shaders/ps1/ps1_no_jitter.vs",
                         "fragmentShaderPath": "../resources/shaders/ps1/ps1.fs"
                     }
                 }
