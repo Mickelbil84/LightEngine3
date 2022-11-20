@@ -10,11 +10,12 @@
 
 #include <le3_object.h>
 #include <le3_static_mesh.h>
+#include <le3_asset_manager.h>
 
 // LE3Object Properties
 void UpdateObjectPropertyGrid(LE3Object* obj, wxPropertyGrid* pg);
-void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event);
+void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets);
 
 // LE3StaticMesh Properties
 void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg);
-void StaticMeshPropertyGridChanged(LE3StaticMesh* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event);
+void StaticMeshPropertyGridChanged(LE3StaticMesh* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets);

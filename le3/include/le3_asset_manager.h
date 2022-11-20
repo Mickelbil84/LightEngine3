@@ -18,6 +18,13 @@ const char gPrimitivePathPrefix = '$';
 const char gPrimitivePathDelimiter = '_';
 extern const char* gTokenBox;
 
+struct LE3PrimitiveTokens
+{
+    std::string token;
+    std::vector<float> params;
+};
+LE3PrimitiveTokens ParsePrimitivePath(std::string primitiveDescription);
+
 struct LE3AssetPath
 {
     LE3AssetPath();

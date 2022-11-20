@@ -199,7 +199,7 @@ void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )
         break;
 
     case LE3_SELECTED_OBJECT:
-        ObjectPropertyGridChanged(m_editor->GetSelectedObject(), m_propertyGrid, event);
+        ObjectPropertyGridChanged(m_editor->GetSelectedObject(), m_propertyGrid, event, m_editor->scene.assets);
         m_editor->SetSelectedObject(m_editor->GetSelectedObject());
         RefreshSceneGraph();
         m_editor->scene.UpdateAssets();
@@ -570,14 +570,13 @@ void LE3EditorUI::OnAddCube( wxCommandEvent& event )
         std::string del(1, gPrimitivePathDelimiter);
         std::string zero("0");
 
-        m_editor->scene.assets.AddMeshPath(name, 
-            std::string(1, gPrimitivePathPrefix) + std::string(gTokenBox) + del +
+        std::string meshName = std::string(1, gPrimitivePathPrefix) + std::string(gTokenBox) + del +
                 zero + del + zero + del + zero + del +
                 width + del +
                 height + del +
-                depth + del
-            );
-        m_editor->scene.AddStaticMesh(name, name, materialName);
+                depth + del;
+        m_editor->scene.assets.AddMeshPath(meshName, meshName);
+        m_editor->scene.AddStaticMesh(name, meshName, materialName);
 
         RefreshAssets();
         RefreshSceneGraph();

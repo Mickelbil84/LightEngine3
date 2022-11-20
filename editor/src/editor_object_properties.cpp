@@ -24,7 +24,7 @@ void UpdateObjectPropertyGrid(LE3Object* obj, wxPropertyGrid* pg)
         UpdateStaticMeshPropertyGrid(dynamic_cast<LE3StaticMesh*>(obj), pg);
 }
 
-void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event)
+void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets)
 {
     if (event.GetPropertyName() == wxT("Name"))
         obj->SetName(event.GetPropertyValue().GetString().ToStdString());
@@ -44,21 +44,71 @@ void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGri
         obj->SetScale(event.GetPropertyValue().GetDouble());
 
     if (dynamic_cast<LE3StaticMesh*>(obj))
-        StaticMeshPropertyGridChanged(dynamic_cast<LE3StaticMesh*>(obj), pg, event);
+        StaticMeshPropertyGridChanged(dynamic_cast<LE3StaticMesh*>(obj), pg, event, assets);
 
 }
 
 void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg)
 {
-    pg->Append(new wxPropertyCategory(wxT("LE3StaticMesh")));
-    pg->Append(new wxStringProperty(wxT("Mesh Name"), wxPG_LABEL, obj->meshName));
-    pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+    if (obj->meshName[0] != gPrimitivePathPrefix)
+    {
+        pg->Append(new wxPropertyCategory(wxT("LE3StaticMesh")));
+        pg->Append(new wxStringProperty(wxT("Mesh Name"), wxPG_LABEL, obj->meshName));
+        pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+    }
+    else
+    {
+        LE3PrimitiveTokens tokens = ParsePrimitivePath(obj->meshName);
+
+        if (tokens.token == gTokenBox)
+        {
+            pg->Append(new wxPropertyCategory(wxT("LE3Cube")));
+            pg->Append(new wxFloatProperty(wxT("Width"), wxPG_LABEL, tokens.params[3]));
+            pg->Append(new wxFloatProperty(wxT("Height"), wxPG_LABEL, tokens.params[4]));
+            pg->Append(new wxFloatProperty(wxT("Depth"), wxPG_LABEL, tokens.params[5]));
+            pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+        }
+    }
 }
 
-void StaticMeshPropertyGridChanged(LE3StaticMesh* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event)
+void StaticMeshPropertyGridChanged(LE3StaticMesh* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets)
 {
     if (event.GetPropertyName() == wxT("Mesh Name"))
         obj->meshName = event.GetPropertyValue().GetString().ToStdString();
     if (event.GetPropertyName() == wxT("Material Name"))
         obj->materialName = event.GetPropertyValue().GetString().ToStdString();
+
+    if (obj->meshName[0] == gPrimitivePathPrefix)
+    {
+        LE3PrimitiveTokens tokens = ParsePrimitivePath(obj->meshName);
+
+        if (tokens.token == gTokenBox)
+        {
+            if (event.GetPropertyName() == wxT("Width") ||
+                event.GetPropertyName() == wxT("Height") ||
+                event.GetPropertyName() == wxT("Depth"))
+            {
+                float newVal = event.GetPropertyValue().GetDouble();
+                size_t idx;
+                if (event.GetPropertyName() == wxT("Width")) idx = 3;
+                if (event.GetPropertyName() == wxT("Height")) idx = 4;
+                if (event.GetPropertyName() == wxT("Depth")) idx = 5;
+                tokens.params[idx] = newVal;
+
+                std::string del(1, gPrimitivePathDelimiter);
+                std::string zero("0");
+                std::string newPrimitiveDescription = 
+                    std::string(1, gPrimitivePathPrefix) + tokens.token + del + 
+                    zero + del + zero + del + zero + del +
+                    std::to_string(tokens.params[3]) + del + 
+                    std::to_string(tokens.params[4]) + del +
+                    std::to_string(tokens.params[5]) + del;
+                
+                assets.m_meshes.erase(obj->meshName);
+                assets.m_meshesPaths.erase(obj->meshName);
+                assets.LoadMeshPrimitive(newPrimitiveDescription, newPrimitiveDescription);
+                obj->meshName = newPrimitiveDescription;
+            }
+        }
+    }
 }

@@ -24,6 +24,32 @@ LE3ShaderPath::LE3ShaderPath() :
 
 void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene);
 
+LE3PrimitiveTokens ParsePrimitivePath(std::string primitiveDescription)
+{
+    int i = 1;
+    LE3PrimitiveTokens res;
+    std::string tmp;
+    bool bTokenDone = false;
+    while (i < primitiveDescription.size())
+    {
+        if (primitiveDescription[i] == gPrimitivePathDelimiter)
+        {
+            if (!bTokenDone)
+            {
+                res.token = tmp;
+                bTokenDone = true;
+            }
+            else
+                res.params.push_back(std::stof(tmp));
+            tmp = "";
+        }
+        else
+            tmp += primitiveDescription[i];
+        i++;
+    }
+    return res;
+}
+
 void LE3AssetManager::AddMeshPath(std::string name, std::string meshPath)
 {
     LE3AssetPath ap;
@@ -77,41 +103,16 @@ void LE3AssetManager::LoadMeshPrimitive(std::string name, std::string primitiveD
 {
     std::vector<LE3Vertex> data;
     
-    int i = 1;
-    std::vector<float> params;
-    std::string token, tmp;
-    bool bTokenDone = false;
-    while (i < primitiveDescription.size())
+    LE3PrimitiveTokens tokens = ParsePrimitivePath(primitiveDescription);
+    if (tokens.token == gTokenBox)
     {
-        if (primitiveDescription[i] == gPrimitivePathDelimiter)
-        {
-            if (!bTokenDone)
-            {
-                token = tmp;
-                bTokenDone = true;
-            }
-            else
-            {
-                params.push_back(std::stof(tmp));
-            }
-            tmp = "";
-        }
-        else
-        {
-            tmp += primitiveDescription[i];
-        }
-        i++;
-    }
-
-    if (token == gTokenBox)
-    {
-        AddBox(data, params[0], params[1], params[2], params[3], params[4], params[5]);
+        AddBox(data, tokens.params[0], tokens.params[1], tokens.params[2], tokens.params[3], tokens.params[4], tokens.params[5]);
     }
     else
     {
         #ifndef NDEBUG
         PrintTitle("Primitive mesh error");
-        std::cout << "Could not find token '" << token << "'." << std::endl;
+        std::cout << "Could not find token '" << tokens.token << "'." << std::endl;
         #endif
     }
 
