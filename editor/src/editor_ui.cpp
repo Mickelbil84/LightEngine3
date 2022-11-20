@@ -88,7 +88,11 @@ void LE3EditorUI::RefreshAssets()
     this->m_treeListMeshes->AppendColumn(wxT("Name"));
     this->m_treeListMeshes->SetColumnWidth(0, 300);
     for (const auto& [key, value] : m_editor->scene.assets.m_meshesPaths)
+    {
+        if (value.path != std::string("") && value.path[0] == gPrimitivePathPrefix)
+            continue;
         this->m_treeListMeshes->AppendItem(m_treeListMeshes->GetRootItem(), key.c_str());
+    }
 }
 
 void LE3EditorUI::OnSelectShader( wxTreeListEvent& event )
@@ -329,7 +333,7 @@ void LE3EditorUI::OnNewShader( wxCommandEvent& event )
     LE3NewShaderDialog dialog(this);
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = dialog.m_nameText->GetValue().ToStdString();
+        std::string name = GetValidShaderName(dialog.m_nameText->GetValue().ToStdString());
         std::string vertexShaderPath = dialog.m_vertexShaderText->GetValue().ToStdString();
         std::string fragmentShaderPath = dialog.m_fragmentShaderText->GetValue().ToStdString();
         
@@ -368,7 +372,7 @@ void LE3EditorUI::OnNewMaterial( wxCommandEvent& event )
     LE3NewMaterialDialog dialog(this);
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = dialog.m_nameText->GetValue().ToStdString();
+        std::string name = GetValidMaterialName(dialog.m_nameText->GetValue().ToStdString());
         std::string shaderName = dialog.m_shaderNametext->GetValue().ToStdString();
         
         m_editor->scene.assets.CreateMaterial(name, shaderName);
@@ -404,7 +408,7 @@ void LE3EditorUI::OnNewTexture( wxCommandEvent& event )
     LE3NewTextureDialog dialog(this);
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = dialog.m_nameText->GetValue().ToStdString();
+        std::string name = GetValidTextureName(dialog.m_nameText->GetValue().ToStdString());
         std::string path = dialog.m_pathText->GetValue().ToStdString();
         
         m_editor->scene.assets.AddTexturePath(name, path);
@@ -442,7 +446,7 @@ void LE3EditorUI::OnNewMesh( wxCommandEvent& event )
     LE3NewMeshDialog dialog(this);
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = dialog.m_nameText->GetValue().ToStdString();
+        std::string name = GetValidMeshName(dialog.m_nameText->GetValue().ToStdString());
         std::string path = dialog.m_pathText->GetValue().ToStdString();
         
         m_editor->scene.assets.AddMeshPath(name, path);
@@ -476,12 +480,88 @@ void LE3EditorUI::OnDeleteMesh( wxCommandEvent& event )
     }
 }
 
+std::string LE3EditorUI::GetObjectNumberPrefix(std::string objectName)
+{
+    size_t idx = objectName.find_last_not_of("1234567890");
+    return objectName.substr(0, ++idx);
+}
+int LE3EditorUI::GetObjectNumberSuffix(std::string objectName)
+{
+    size_t idx = objectName.find_last_not_of("1234567890");
+    std::string res = objectName.substr(++idx);
+    if (res == std::string(""))
+        return 0;
+    return std::atoi(res.c_str());
+}
+
+std::string LE3EditorUI::GetValidShaderName(std::string name)
+{
+    if (m_editor->scene.assets.m_shaders.find(name) == m_editor->scene.assets.m_shaders.end())
+        return name;
+    
+    std::string prefix = GetObjectNumberPrefix(name);
+    int counter = GetObjectNumberSuffix(name);
+
+    while (m_editor->scene.assets.m_shaders.find(prefix + std::to_string(++counter)) != m_editor->scene.assets.m_shaders.end());
+
+    return prefix + std::to_string(counter);
+}
+std::string LE3EditorUI::GetValidMaterialName(std::string name)
+{
+    if (m_editor->scene.assets.m_materials.find(name) == m_editor->scene.assets.m_materials.end())
+        return name;
+    
+    std::string prefix = GetObjectNumberPrefix(name);
+    int counter = GetObjectNumberSuffix(name);
+
+    while (m_editor->scene.assets.m_materials.find(prefix + std::to_string(++counter)) != m_editor->scene.assets.m_materials.end());
+
+    return prefix + std::to_string(counter);
+}
+std::string LE3EditorUI::GetValidTextureName(std::string name)
+{
+    if (m_editor->scene.assets.m_textures.find(name) == m_editor->scene.assets.m_textures.end())
+        return name;
+    
+    std::string prefix = GetObjectNumberPrefix(name);
+    int counter = GetObjectNumberSuffix(name);
+
+    while (m_editor->scene.assets.m_textures.find(prefix + std::to_string(++counter)) != m_editor->scene.assets.m_textures.end());
+
+    return prefix + std::to_string(counter);
+}
+std::string LE3EditorUI::GetValidMeshName(std::string name)
+{
+    if (m_editor->scene.assets.m_meshes.find(name) == m_editor->scene.assets.m_meshes.end())
+        return name;
+    
+    std::string prefix = GetObjectNumberPrefix(name);
+    int counter = GetObjectNumberSuffix(name);
+
+    while (m_editor->scene.assets.m_meshes.find(prefix + std::to_string(++counter)) != m_editor->scene.assets.m_meshes.end());
+
+    return prefix + std::to_string(counter);
+}
+std::string LE3EditorUI::GetValidObjectName(std::string objectName)
+{
+    if (m_editor->scene.objectPool.find(objectName) == m_editor->scene.objectPool.end())
+        return objectName;
+    
+    std::string prefix = GetObjectNumberPrefix(objectName);
+    int counter = GetObjectNumberSuffix(objectName);
+
+    while (m_editor->scene.objectPool.find(prefix + std::to_string(++counter)) != m_editor->scene.objectPool.end());
+
+    return prefix + std::to_string(counter);
+}
+
+
 void LE3EditorUI::OnAddCube( wxCommandEvent& event )
 {
     LE3AddCubeDialog dialog(this);
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = dialog.m_nameText->GetValue().ToStdString();
+        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
         std::string materialName = dialog.m_materialText->GetValue().ToStdString();
         std::string width = dialog.m_widthText->GetValue().ToStdString();
         std::string height = dialog.m_heightText->GetValue().ToStdString();

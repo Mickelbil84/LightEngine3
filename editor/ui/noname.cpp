@@ -565,7 +565,7 @@ LE3AddCubeDialog::LE3AddCubeDialog( wxWindow* parent, wxWindowID id, const wxStr
 	m_staticText10->Wrap( -1 );
 	bSizer32->Add( m_staticText10, 0, wxALL, 5 );
 
-	m_nameText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxT("cube"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer32->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
 
 

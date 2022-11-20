@@ -76,6 +76,14 @@ protected:
 
     virtual void OnAddCube( wxCommandEvent& event );
 
+    std::string GetObjectNumberPrefix(std::string objectName);
+    int GetObjectNumberSuffix(std::string objectName);
+    std::string GetValidObjectName(std::string objectName);
+    std::string GetValidShaderName(std::string name);
+    std::string GetValidMaterialName(std::string name);
+    std::string GetValidTextureName(std::string name);
+    std::string GetValidMeshName(std::string name);
+
 
 public:
     ///////////////
