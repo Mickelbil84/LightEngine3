@@ -63,7 +63,7 @@ void LE3EditorUI::RefreshAssets()
     this->m_treeListShaders->DeleteAllItems();
     this->m_treeListShaders->AppendColumn(wxT("Name"));
     this->m_treeListShaders->SetColumnWidth(0, 300);
-    for (const auto& [key, value] : m_editor->scene.assets.m_shaders)
+    for (const auto& [key, value] : m_editor->scene.assets.m_shadersPaths)
         this->m_treeListShaders->AppendItem(m_treeListShaders->GetRootItem(), key.c_str());
 
     this->m_treeListMaterials->ClearColumns();
@@ -77,14 +77,14 @@ void LE3EditorUI::RefreshAssets()
     this->m_treeListTextures->DeleteAllItems();
     this->m_treeListTextures->AppendColumn(wxT("Name"));
     this->m_treeListTextures->SetColumnWidth(0, 300);
-    for (const auto& [key, value] : m_editor->scene.assets.m_textures)
+    for (const auto& [key, value] : m_editor->scene.assets.m_texturesPaths)
         this->m_treeListTextures->AppendItem(m_treeListTextures->GetRootItem(), key.c_str());
 
     this->m_treeListMeshes->ClearColumns();
     this->m_treeListMeshes->DeleteAllItems();
     this->m_treeListMeshes->AppendColumn(wxT("Name"));
     this->m_treeListMeshes->SetColumnWidth(0, 300);
-    for (const auto& [key, value] : m_editor->scene.assets.m_meshes)
+    for (const auto& [key, value] : m_editor->scene.assets.m_meshesPaths)
         this->m_treeListMeshes->AppendItem(m_treeListMeshes->GetRootItem(), key.c_str());
 }
 
@@ -355,6 +355,118 @@ void LE3EditorUI::OnDeleteShader( wxCommandEvent& event )
         
         m_editor->scene.assets.m_shaders.extract(m_selectedName);
         m_editor->scene.assets.m_shadersPaths.extract(m_selectedName);
+
+        RefreshAssets();
+        m_editor->bPauseEngine = false;
+    }
+}
+void LE3EditorUI::OnNewMaterial( wxCommandEvent& event )
+{
+    LE3NewMaterialDialog dialog(this);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        std::string name = dialog.m_nameText->GetValue().ToStdString();
+        std::string shaderName = dialog.m_shaderNametext->GetValue().ToStdString();
+        
+        m_editor->scene.assets.CreateMaterial(name, shaderName);
+
+        RefreshAssets();
+    }
+}
+void LE3EditorUI::OnDeleteMaterial( wxCommandEvent& event )
+{
+    if (m_selectedType != LE3_SELECTED_MATERIAL)
+        return;
+    
+    int answer = wxMessageBox(
+        std::string("Are you sure you want to delete the material [") + m_selectedName + std::string("]?"),
+        "Delete Material",
+        wxYES_NO | wxCANCEL, this);
+    if (answer == wxYES)
+    {
+        // A bit of voodoo: to make sure everything is safe, break the rendering loop before breaking stuff
+        m_editor->bPauseEngine = true;
+        wxMilliSleep(10);
+        
+        UpdateMaterialBookkeeping(m_editor->scene, m_selectedName);
+        
+        m_editor->scene.assets.m_materials.erase(m_selectedName);
+
+        RefreshAssets();
+        m_editor->bPauseEngine = false;
+    }
+}
+void LE3EditorUI::OnNewTexture( wxCommandEvent& event )
+{
+    LE3NewTextureDialog dialog(this);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        std::string name = dialog.m_nameText->GetValue().ToStdString();
+        std::string path = dialog.m_pathText->GetValue().ToStdString();
+        
+        m_editor->scene.assets.AddTexturePath(name, path);
+        m_editor->scene.assets.GetTexture(name);
+
+        RefreshAssets();
+    }
+}
+void LE3EditorUI::OnDeleteTexture( wxCommandEvent& event )
+{
+    if (m_selectedType != LE3_SELECTED_TEXTURE)
+        return;
+    
+    int answer = wxMessageBox(
+        std::string("Are you sure you want to delete the texture [") + m_selectedName + std::string("]?"),
+        "Delete Texture",
+        wxYES_NO | wxCANCEL, this);
+    if (answer == wxYES)
+    {
+        // A bit of voodoo: to make sure everything is safe, break the rendering loop before breaking stuff
+        m_editor->bPauseEngine = true;
+        wxMilliSleep(10);
+        
+        UpdateTextureBookkeeping(m_editor->scene.assets, m_selectedName);
+        
+        m_editor->scene.assets.m_texturesPaths.erase(m_selectedName);
+        m_editor->scene.assets.m_textures.erase(m_selectedName);
+
+        RefreshAssets();
+        m_editor->bPauseEngine = false;
+    }
+}
+void LE3EditorUI::OnNewMesh( wxCommandEvent& event )
+{
+    LE3NewMeshDialog dialog(this);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        std::string name = dialog.m_nameText->GetValue().ToStdString();
+        std::string path = dialog.m_pathText->GetValue().ToStdString();
+        
+        m_editor->scene.assets.AddMeshPath(name, path);
+        m_editor->scene.assets.GetMesh(name);
+
+        RefreshAssets();
+    }
+}
+void LE3EditorUI::OnDeleteMesh( wxCommandEvent& event )
+{
+    if (m_selectedType != LE3_SELECTED_MESH)
+        return;
+    
+    int answer = wxMessageBox(
+        std::string("Are you sure you want to delete the mesh [") + m_selectedName + std::string("]?"),
+        "Delete Mesh",
+        wxYES_NO | wxCANCEL, this);
+    if (answer == wxYES)
+    {
+        // A bit of voodoo: to make sure everything is safe, break the rendering loop before breaking stuff
+        m_editor->bPauseEngine = true;
+        wxMilliSleep(10);
+        
+        UpdateMeshBookkeeping(m_editor->scene, m_selectedName);
+        
+        m_editor->scene.assets.m_meshesPaths.erase(m_selectedName);
+        m_editor->scene.assets.m_meshes.erase(m_selectedName);
 
         RefreshAssets();
         m_editor->bPauseEngine = false;

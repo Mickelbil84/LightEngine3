@@ -100,7 +100,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	m_panel2->SetSizer( bSizer91 );
 	m_panel2->Layout();
 	bSizer91->Fit( m_panel2 );
-	m_notebook1->AddPage( m_panel2, wxT("Scene"), false );
+	m_notebook1->AddPage( m_panel2, wxT("Scene"), true );
 	m_panel3 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer10;
 	bSizer10 = new wxBoxSizer( wxVERTICAL );
@@ -213,7 +213,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	m_panel3->SetSizer( bSizer10 );
 	m_panel3->Layout();
 	bSizer10->Fit( m_panel3 );
-	m_notebook1->AddPage( m_panel3, wxT("Assets"), true );
+	m_notebook1->AddPage( m_panel3, wxT("Assets"), false );
 
 	bSizer12->Add( m_notebook1, 1, wxEXPAND | wxALL, 5 );
 
@@ -255,8 +255,14 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	m_loadShaderButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewShader ), NULL, this );
 	m_newShaderButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDeleteShader ), NULL, this );
 	m_treeListShaders->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectShader ), NULL, this );
+	m_newMaterialButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewMaterial ), NULL, this );
+	m_deleteMaterialButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDeleteMaterial ), NULL, this );
 	m_treeListMaterials->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectMaterial ), NULL, this );
+	m_loadTextureButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewTexture ), NULL, this );
+	m_deleteTextureButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDeleteTexture ), NULL, this );
 	m_treeListTextures->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectTexture ), NULL, this );
+	m_loadMeshButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewMesh ), NULL, this );
+	m_deleteMeshButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDeleteMesh ), NULL, this );
 	m_treeListMeshes->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectMesh ), NULL, this );
 	m_propertyGrid->Connect( wxEVT_PG_CHANGED, wxPropertyGridEventHandler( LE3EditorWindow::OnPropertyChange ), NULL, this );
 }
@@ -275,8 +281,14 @@ LE3EditorWindow::~LE3EditorWindow()
 	m_loadShaderButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewShader ), NULL, this );
 	m_newShaderButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDeleteShader ), NULL, this );
 	m_treeListShaders->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectShader ), NULL, this );
+	m_newMaterialButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewMaterial ), NULL, this );
+	m_deleteMaterialButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDeleteMaterial ), NULL, this );
 	m_treeListMaterials->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectMaterial ), NULL, this );
+	m_loadTextureButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewTexture ), NULL, this );
+	m_deleteTextureButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDeleteTexture ), NULL, this );
 	m_treeListTextures->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectTexture ), NULL, this );
+	m_loadMeshButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewMesh ), NULL, this );
+	m_deleteMeshButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDeleteMesh ), NULL, this );
 	m_treeListMeshes->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectMesh ), NULL, this );
 	m_propertyGrid->Disconnect( wxEVT_PG_CHANGED, wxPropertyGridEventHandler( LE3EditorWindow::OnPropertyChange ), NULL, this );
 
@@ -341,6 +353,8 @@ LE3NewShaderDialog::LE3NewShaderDialog( wxWindow* parent, wxWindowID id, const w
 	bSizer16->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
 
 	m_createBtn = new wxButton( this, wxID_OK, wxT("Create"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_createBtn->SetDefault();
 	bSizer16->Add( m_createBtn, 1, wxALL|wxEXPAND, 5 );
 
 
@@ -354,5 +368,183 @@ LE3NewShaderDialog::LE3NewShaderDialog( wxWindow* parent, wxWindowID id, const w
 }
 
 LE3NewShaderDialog::~LE3NewShaderDialog()
+{
+}
+
+LE3NewMaterialDialog::LE3NewMaterialDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer19;
+	bSizer19 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer20;
+	bSizer20 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText4 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText4->Wrap( -1 );
+	m_staticText4->SetMinSize( wxSize( 120,-1 ) );
+
+	bSizer20->Add( m_staticText4, 0, wxALL, 5 );
+
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer20->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer19->Add( bSizer20, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer21;
+	bSizer21 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText5 = new wxStaticText( this, wxID_ANY, wxT("Shader Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText5->Wrap( -1 );
+	m_staticText5->SetMinSize( wxSize( 120,-1 ) );
+
+	bSizer21->Add( m_staticText5, 0, wxALL, 5 );
+
+	m_shaderNametext = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer21->Add( m_shaderNametext, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer19->Add( bSizer21, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer22;
+	bSizer22 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_cancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer22->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
+
+	m_createBtn = new wxButton( this, wxID_OK, wxT("Create"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_createBtn->SetDefault();
+	bSizer22->Add( m_createBtn, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer19->Add( bSizer22, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer19 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3NewMaterialDialog::~LE3NewMaterialDialog()
+{
+}
+
+LE3NewTextureDialog::LE3NewTextureDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer23;
+	bSizer23 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer24;
+	bSizer24 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText6 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxSize( 120,-1 ), 0 );
+	m_staticText6->Wrap( -1 );
+	bSizer24->Add( m_staticText6, 0, wxALL, 5 );
+
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer24->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer23->Add( bSizer24, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer25;
+	bSizer25 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText7 = new wxStaticText( this, wxID_ANY, wxT("Texture Path:"), wxDefaultPosition, wxSize( 120,-1 ), 0 );
+	m_staticText7->Wrap( -1 );
+	bSizer25->Add( m_staticText7, 0, wxALL, 5 );
+
+	m_pathText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer25->Add( m_pathText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer23->Add( bSizer25, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer26;
+	bSizer26 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_cancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer26->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
+
+	m_createBtn = new wxButton( this, wxID_OK, wxT("Create"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_createBtn->SetDefault();
+	bSizer26->Add( m_createBtn, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer23->Add( bSizer26, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer23 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3NewTextureDialog::~LE3NewTextureDialog()
+{
+}
+
+LE3NewMeshDialog::LE3NewMeshDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer27;
+	bSizer27 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer28;
+	bSizer28 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText8 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxSize( 120,-1 ), 0 );
+	m_staticText8->Wrap( -1 );
+	bSizer28->Add( m_staticText8, 0, wxALL, 5 );
+
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer28->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer27->Add( bSizer28, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer29;
+	bSizer29 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText9 = new wxStaticText( this, wxID_ANY, wxT("Mesh Path:"), wxDefaultPosition, wxSize( 120,-1 ), 0 );
+	m_staticText9->Wrap( -1 );
+	bSizer29->Add( m_staticText9, 0, wxALL, 5 );
+
+	m_pathText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer29->Add( m_pathText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer27->Add( bSizer29, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer30;
+	bSizer30 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_cancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer30->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
+
+	m_createBtn = new wxButton( this, wxID_OK, wxT("Create"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_createBtn->SetDefault();
+	bSizer30->Add( m_createBtn, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer27->Add( bSizer30, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer27 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3NewMeshDialog::~LE3NewMeshDialog()
 {
 }

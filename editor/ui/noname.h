@@ -104,8 +104,14 @@ class LE3EditorWindow : public wxFrame
 		virtual void OnNewShader( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnDeleteShader( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectShader( wxTreeListEvent& event ) { event.Skip(); }
+		virtual void OnNewMaterial( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDeleteMaterial( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectMaterial( wxTreeListEvent& event ) { event.Skip(); }
+		virtual void OnNewTexture( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDeleteTexture( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectTexture( wxTreeListEvent& event ) { event.Skip(); }
+		virtual void OnNewMesh( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDeleteMesh( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectMesh( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnPropertyChange( wxPropertyGridEvent& event ) { event.Skip(); }
 
@@ -141,6 +147,75 @@ class LE3NewShaderDialog : public wxDialog
 		LE3NewShaderDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("New Shader"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,170 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~LE3NewShaderDialog();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LE3NewMaterialDialog
+///////////////////////////////////////////////////////////////////////////////
+class LE3NewMaterialDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText4;
+		wxStaticText* m_staticText5;
+		wxButton* m_cancelBtn;
+		wxButton* m_createBtn;
+
+	public:
+		wxTextCtrl* m_nameText;
+		wxTextCtrl* m_shaderNametext;
+
+		LE3NewMaterialDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("New Material"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,140 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LE3NewMaterialDialog();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LE3NewTextureDialog
+///////////////////////////////////////////////////////////////////////////////
+class LE3NewTextureDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText6;
+		wxStaticText* m_staticText7;
+		wxButton* m_cancelBtn;
+		wxButton* m_createBtn;
+
+	public:
+		wxTextCtrl* m_nameText;
+		wxTextCtrl* m_pathText;
+
+		LE3NewTextureDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("New Texture"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,140 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LE3NewTextureDialog();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LE3NewMeshDialog
+///////////////////////////////////////////////////////////////////////////////
+class LE3NewMeshDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText8;
+		wxStaticText* m_staticText9;
+		wxButton* m_cancelBtn;
+		wxButton* m_createBtn;
+
+	public:
+		wxTextCtrl* m_nameText;
+		wxTextCtrl* m_pathText;
+
+		LE3NewMeshDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("New Mesh"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,140 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LE3NewMeshDialog();
 
 };
 

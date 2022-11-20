@@ -58,6 +58,12 @@ protected:
 
     virtual void OnNewShader( wxCommandEvent& event );
 	virtual void OnDeleteShader( wxCommandEvent& event );
+    virtual void OnNewMaterial( wxCommandEvent& event );
+	virtual void OnDeleteMaterial( wxCommandEvent& event );
+    virtual void OnNewTexture( wxCommandEvent& event );
+	virtual void OnDeleteTexture( wxCommandEvent& event );
+    virtual void OnNewMesh( wxCommandEvent& event );
+	virtual void OnDeleteMesh( wxCommandEvent& event );
 
     virtual void OnPropertyChange( wxPropertyGridEvent& event );
 
