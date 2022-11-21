@@ -232,3 +232,52 @@ void AddCone(std::vector<LE3Vertex>& buffer,
         buffer.push_back(bottomFace[(i+1) % resolution]);
     }
 }
+
+void AddSphere(std::vector<LE3Vertex>& buffer,
+    GLfloat x0, GLfloat y0, GLfloat z0,
+    GLfloat radius, GLushort resolution)
+{
+    std::vector<LE3Vertex> firstLayer, secondLayer;
+    resolution += 1;
+    
+    for (int i = 0; i <= resolution; i++)
+    {
+        float theta = (GLfloat) (i % resolution) / (GLfloat)(resolution - 1) * 3.14159265f;
+        secondLayer.clear();
+        for (int j = 0; j <= resolution; j++)
+        {
+            float phi = (GLfloat) (j % resolution) / (GLfloat) (resolution - 1) * 2 * 3.14159265f;
+            glm::vec3 pos(
+                radius * sinf(theta) * cosf(phi) + x0,
+                radius * cosf(theta) + y0,
+                radius * sinf(theta) * sinf(phi) + z0
+            );
+            glm::vec2 uv(0.5f * theta / 3.14159265f, 0.5f * phi / 3.14159265f);
+            if (i == 0 || i == (resolution-1))
+                uv.x += 0.001f;
+            glm::vec3 normal(
+                sinf(theta) * cosf(phi),
+                cosf(theta),
+                sinf(theta) * sinf(phi)
+            );
+            secondLayer.push_back(VertexFromGLM(pos, uv, normal));
+        }
+
+        if (i > 0)
+        {
+            for (int k = 0; k < resolution; k++)
+            {
+                buffer.push_back(firstLayer[k]);
+                buffer.push_back(firstLayer[k+1]); 
+                buffer.push_back(secondLayer[k]);
+                buffer.push_back(firstLayer[k+1]); 
+                buffer.push_back(secondLayer[k]); 
+                buffer.push_back(secondLayer[k+1]);
+            }
+        }
+
+        firstLayer.clear();
+        for (int k = 0; k <= resolution; firstLayer.push_back(secondLayer[k++]));
+    }
+    
+}

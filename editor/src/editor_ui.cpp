@@ -640,3 +640,27 @@ void LE3EditorUI::OnAddCone( wxCommandEvent& event )
         RefreshSceneGraph();
     }
 }
+void LE3EditorUI::OnAddSphere( wxCommandEvent& event )
+{
+    LE3AddSphereDialog dialog(this);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
+        std::string materialName = dialog.m_materialText->GetValue().ToStdString();
+        std::string radius = dialog.m_radiusText->GetValue().ToStdString();
+        std::string resolution = dialog.m_resolutionText->GetValue().ToStdString();
+
+        std::string del(1, gPrimitivePathDelimiter);
+        std::string zero("0");
+
+        std::string meshName = std::string(1, gPrimitivePathPrefix) + std::string(gTokenSphere) + del +
+                zero + del + zero + del + zero + del +
+                radius + del +
+                resolution + del;
+        m_editor->scene.assets.AddMeshPath(name, meshName);
+        m_editor->scene.AddStaticMesh(name, name, materialName);
+
+        RefreshAssets();
+        RefreshSceneGraph();
+    }
+}

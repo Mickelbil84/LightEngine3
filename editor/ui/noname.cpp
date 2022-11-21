@@ -863,3 +863,87 @@ LE3AddConeDialog::LE3AddConeDialog( wxWindow* parent, wxWindowID id, const wxStr
 LE3AddConeDialog::~LE3AddConeDialog()
 {
 }
+
+LE3AddSphereDialog::LE3AddSphereDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer54;
+	bSizer54 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer55;
+	bSizer55 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText26 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText26->Wrap( -1 );
+	bSizer55->Add( m_staticText26, 0, wxALL, 5 );
+
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxT("sphere"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer55->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer54->Add( bSizer55, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer56;
+	bSizer56 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText27 = new wxStaticText( this, wxID_ANY, wxT("Material:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText27->Wrap( -1 );
+	bSizer56->Add( m_staticText27, 0, wxALL, 5 );
+
+	m_materialText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer56->Add( m_materialText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer54->Add( bSizer56, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer57;
+	bSizer57 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText28 = new wxStaticText( this, wxID_ANY, wxT("Radius:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText28->Wrap( -1 );
+	bSizer57->Add( m_staticText28, 0, wxALL, 5 );
+
+	m_radiusText = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer57->Add( m_radiusText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer54->Add( bSizer57, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer58;
+	bSizer58 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText29 = new wxStaticText( this, wxID_ANY, wxT("Resolution:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText29->Wrap( -1 );
+	bSizer58->Add( m_staticText29, 0, wxALL, 5 );
+
+	m_resolutionText = new wxTextCtrl( this, wxID_ANY, wxT("8"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer58->Add( m_resolutionText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer54->Add( bSizer58, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer59;
+	bSizer59 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_cancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer59->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
+
+	m_addBtn = new wxButton( this, wxID_OK, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_addBtn->SetDefault();
+	bSizer59->Add( m_addBtn, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer54->Add( bSizer59, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer54 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3AddSphereDialog::~LE3AddSphereDialog()
+{
+}

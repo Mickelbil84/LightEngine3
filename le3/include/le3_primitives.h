@@ -27,3 +27,8 @@ void AddCylinder(std::vector<LE3Vertex>& buffer,
 void AddCone(std::vector<LE3Vertex>& buffer,
     GLfloat x0, GLfloat y0, GLfloat z0,
     GLfloat radius, GLfloat height, GLushort resolution);
+
+// Appends a sphere to a given vector vertex buffer
+void AddSphere(std::vector<LE3Vertex>& buffer,
+    GLfloat x0, GLfloat y0, GLfloat z0,
+    GLfloat radius, GLushort resolution);

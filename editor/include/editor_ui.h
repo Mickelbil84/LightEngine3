@@ -91,6 +91,7 @@ protected:
     virtual void OnAddCube( wxCommandEvent& event );
     virtual void OnAddCylinder( wxCommandEvent& event );
     virtual void OnAddCone( wxCommandEvent& event );
+    virtual void OnAddSphere( wxCommandEvent& event );
 
     ////////////////////////////////
     // Numbered names generation
