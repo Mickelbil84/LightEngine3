@@ -285,3 +285,32 @@ class LE3AddCylinderDialog : public wxDialog
 
 };
 
+///////////////////////////////////////////////////////////////////////////////
+/// Class LE3AddConeDialog
+///////////////////////////////////////////////////////////////////////////////
+class LE3AddConeDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText21;
+		wxStaticText* m_staticText22;
+		wxStaticText* m_staticText23;
+		wxStaticText* m_staticText24;
+		wxStaticText* m_staticText25;
+		wxButton* m_cancelBtn;
+		wxButton* m_addBtn;
+
+	public:
+		wxTextCtrl* m_nameText;
+		wxTextCtrl* m_materialText;
+		wxTextCtrl* m_radiusText;
+		wxTextCtrl* m_heightText;
+		wxTextCtrl* m_resolutionText;
+
+		LE3AddConeDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Cone"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,230 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LE3AddConeDialog();
+
+};
+

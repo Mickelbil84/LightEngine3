@@ -18,6 +18,7 @@ const char gPrimitivePathPrefix = '$';
 const char gPrimitivePathDelimiter = '_';
 extern const char* gTokenBox;
 extern const char* gTokenCylinder;
+extern const char* gTokenCone;
 
 struct LE3PrimitiveTokens
 {

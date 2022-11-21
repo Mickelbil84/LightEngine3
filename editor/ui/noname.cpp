@@ -766,3 +766,100 @@ LE3AddCylinderDialog::LE3AddCylinderDialog( wxWindow* parent, wxWindowID id, con
 LE3AddCylinderDialog::~LE3AddCylinderDialog()
 {
 }
+
+LE3AddConeDialog::LE3AddConeDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer47;
+	bSizer47 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer48;
+	bSizer48 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText21 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText21->Wrap( -1 );
+	bSizer48->Add( m_staticText21, 0, wxALL, 5 );
+
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxT("cone"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer48->Add( m_nameText, 0, wxALL, 5 );
+
+
+	bSizer47->Add( bSizer48, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer49;
+	bSizer49 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText22 = new wxStaticText( this, wxID_ANY, wxT("Material:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText22->Wrap( -1 );
+	bSizer49->Add( m_staticText22, 0, wxALL, 5 );
+
+	m_materialText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer49->Add( m_materialText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer47->Add( bSizer49, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer50;
+	bSizer50 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText23 = new wxStaticText( this, wxID_ANY, wxT("Radius:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText23->Wrap( -1 );
+	bSizer50->Add( m_staticText23, 0, wxALL, 5 );
+
+	m_radiusText = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer50->Add( m_radiusText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer47->Add( bSizer50, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer51;
+	bSizer51 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText24 = new wxStaticText( this, wxID_ANY, wxT("Height:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText24->Wrap( -1 );
+	bSizer51->Add( m_staticText24, 0, wxALL, 5 );
+
+	m_heightText = new wxTextCtrl( this, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer51->Add( m_heightText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer47->Add( bSizer51, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer52;
+	bSizer52 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText25 = new wxStaticText( this, wxID_ANY, wxT("Resolution:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText25->Wrap( -1 );
+	bSizer52->Add( m_staticText25, 0, wxALL, 5 );
+
+	m_resolutionText = new wxTextCtrl( this, wxID_ANY, wxT("8"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer52->Add( m_resolutionText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer47->Add( bSizer52, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer53;
+	bSizer53 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_cancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer53->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
+
+	m_addBtn = new wxButton( this, wxID_OK, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_addBtn->SetDefault();
+	bSizer53->Add( m_addBtn, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer47->Add( bSizer53, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer47 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3AddConeDialog::~LE3AddConeDialog()
+{
+}

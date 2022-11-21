@@ -210,15 +210,25 @@ void AddCone(std::vector<LE3Vertex>& buffer,
         glm::vec3 normal(x, 0.f, z);
         glm::vec3 posBottom(x, y0, z);
 
-        bottomFace.push_back(VertexFromGLM(posBottom, glm::vec2(), normal));
+        glm::vec2 uv(
+            0.5f * cosf(theta) + 0.5f,
+            0.5f * sinf(theta) + 0.5f
+        );
+
+        bottomFace.push_back(VertexFromGLM(posBottom, uv, normal));
     }
 
-    LE3Vertex topVertex = VertexFromGLM(glm::vec3(x0, y0+height, z0), glm::vec2(), glm::vec3(0.f, 1.f, 0.f));
+    LE3Vertex topVertex = VertexFromGLM(glm::vec3(x0, y0+height, z0), glm::vec2(0.5f, 0.5f), glm::vec3(0.f, 1.f, 0.f));
+    LE3Vertex bottomVertex = VertexFromGLM(glm::vec3(x0, y0, z0), glm::vec2(0.5f, 0.5f), glm::vec3(0.f, 1.f, 0.f));
 
     for (GLushort i = 0; i < resolution; i++)
     {
         buffer.push_back(bottomFace[i]);
         buffer.push_back(topVertex);
+        buffer.push_back(bottomFace[(i+1) % resolution]);
+
+        buffer.push_back(bottomFace[i]);
+        buffer.push_back(bottomVertex);
         buffer.push_back(bottomFace[(i+1) % resolution]);
     }
 }
