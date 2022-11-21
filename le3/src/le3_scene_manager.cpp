@@ -21,6 +21,10 @@ void LE3SceneManager::Init()
 {
     physics.Init();
     root = std::shared_ptr<LE3SceneRoot>(new LE3SceneRoot());
+
+    // Create default shader and material
+    assets.LoadShader("S_default", "../resources/shaders/default/default.vs", "../resources/shaders/default/default.fs");
+    assets.CreateMaterial("M_default", "S_default");
 }
 
 void LE3SceneManager::Clear()
