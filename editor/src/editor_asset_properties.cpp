@@ -49,19 +49,34 @@ bool UpdateMaterialPropertyGrid(wxPropertyGrid* pg, wxTreeListCtrl* treeList, wx
 {
     pg->Clear();
     wxString name = treeList->GetItemText(event.GetItem());
+    int i;
 
     if (name.IsEmpty())
         return false;
 
     pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, name));
-    pg->Append(new wxStringProperty(wxT("Shader Name"), wxPG_LABEL, assets.m_materials[name.ToStdString()].shaderName));
+
+    wxPGChoices shaderChoices;
+    i = 0;
+    for (auto [key, value] : assets.m_shadersPaths)
+        shaderChoices.Add(key, i++);
+    pg->Append(new wxEnumProperty(wxT("Shader Name"), wxPG_LABEL, shaderChoices, shaderChoices.Index(assets.m_materials[name.ToStdString()].shaderName)));
 
     pg->Append(new wxPropertyCategory(wxT("Diffuse")));
     pg->Append(new wxFloatProperty(wxT("Diffuse R"), wxPG_LABEL, assets.m_materials[name.ToStdString()].diffuseColor.r));
     pg->Append(new wxFloatProperty(wxT("Diffuse G"), wxPG_LABEL, assets.m_materials[name.ToStdString()].diffuseColor.g));
     pg->Append(new wxFloatProperty(wxT("Diffuse B"), wxPG_LABEL, assets.m_materials[name.ToStdString()].diffuseColor.b));
-    pg->Append(new wxStringProperty(wxT("Diffuse Texture"), wxPG_LABEL, assets.m_materials[name.ToStdString()].diffuseTextureName));
+
+    wxPGChoices textureChoices;
+    i = 0;
+    for (auto [key, value] : assets.m_texturesPaths)
+        textureChoices.Add(key, i++);
+    pg->Append(new wxEnumProperty(wxT("Diffuse Texture"), wxPG_LABEL, textureChoices, textureChoices.Index(assets.m_materials[name.ToStdString()].diffuseTextureName)));
+    
+    
     pg->Append(new wxBoolProperty(wxT("Use Diffuse Texture"), wxPG_LABEL, assets.m_materials[name.ToStdString()].bUseDiffuseTexture));
+
+
     pg->Append(new wxFloatProperty(wxT("Tiling X"), wxPG_LABEL, assets.m_materials[name.ToStdString()].tilingX));
     pg->Append(new wxFloatProperty(wxT("Tiling Y"), wxPG_LABEL, assets.m_materials[name.ToStdString()].tilingY));
 
@@ -70,6 +85,7 @@ bool UpdateMaterialPropertyGrid(wxPropertyGrid* pg, wxTreeListCtrl* treeList, wx
 void MaterialPropertyGridChanged(wxPropertyGrid* pg, wxTreeListCtrl* treeList, wxPropertyGridEvent& event, LE3AssetManager& assets, LE3SceneManager& scene, std::string selectedName)
 {
     LE3Material* material = assets.GetMaterial(selectedName);
+    int i;
 
     if (event.GetPropertyName() == wxT("Name"))
     {
@@ -82,7 +98,11 @@ void MaterialPropertyGridChanged(wxPropertyGrid* pg, wxTreeListCtrl* treeList, w
     }
     else if (event.GetPropertyName() == wxT("Shader Name"))
     {
-        material->shaderName = event.GetPropertyValue().GetString().ToStdString();
+        wxPGChoices shaderChoices;
+        i = 0;
+        for (auto [key, value] : assets.m_shadersPaths)
+            shaderChoices.Add(key, i++);
+        material->shaderName = shaderChoices.GetLabel(event.GetPropertyValue().GetInteger());
     }
     else if (event.GetPropertyName() == wxT("Diffuse R"))
     {
@@ -98,7 +118,11 @@ void MaterialPropertyGridChanged(wxPropertyGrid* pg, wxTreeListCtrl* treeList, w
     }
     else if (event.GetPropertyName() == wxT("Diffuse Texture"))
     {
-        material->diffuseTextureName = event.GetPropertyValue().GetString().ToStdString();
+        wxPGChoices textureChoices;
+        i = 0;
+        for (auto [key, value] : assets.m_texturesPaths)
+            textureChoices.Add(key, i++);
+        material->diffuseTextureName = textureChoices.GetLabel(event.GetPropertyValue().GetInteger());
     }
     else if (event.GetPropertyName() == wxT("Use Diffuse Texture"))
     {

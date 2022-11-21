@@ -51,11 +51,30 @@ void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGri
 void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg, LE3AssetManager& assets)
 {
     std::string primitiveDescription = assets.m_meshesPaths[obj->meshName].path;
+    int i;
+
+    wxPGChoices materialChoices;
+    i = 0;
+    for (auto [key, value] : assets.m_materials)
+        materialChoices.Add(key, i++);
+
     if (primitiveDescription[0] != gPrimitivePathPrefix)
     {
         pg->Append(new wxPropertyCategory(wxT("LE3StaticMesh")));
-        pg->Append(new wxStringProperty(wxT("Mesh Name"), wxPG_LABEL, obj->meshName));
-        pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+        // pg->Append(new wxStringProperty(wxT("Mesh Name"), wxPG_LABEL, obj->meshName));
+        wxPGChoices meshChoices;
+        i = 0;
+        for (auto [key, value] : assets.m_meshesPaths)
+        {
+            if (value.path != std::string("") && value.path[0] == gPrimitivePathPrefix)
+                continue;
+            meshChoices.Add(key, i++);
+        }
+        pg->Append(new wxEnumProperty(wxT("Mesh Name"), wxPG_LABEL, meshChoices, meshChoices.Index(obj->meshName)));
+        
+
+        // pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+        pg->Append(new wxEnumProperty(wxT("Material Name"), wxPG_LABEL, materialChoices, materialChoices.Index(obj->materialName)));
     }
     else
     {
@@ -67,7 +86,8 @@ void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg, LE3Ass
             pg->Append(new wxFloatProperty(wxT("Width"), wxPG_LABEL, tokens.params[3]));
             pg->Append(new wxFloatProperty(wxT("Height"), wxPG_LABEL, tokens.params[4]));
             pg->Append(new wxFloatProperty(wxT("Depth"), wxPG_LABEL, tokens.params[5]));
-            pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+            // pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+            pg->Append(new wxEnumProperty(wxT("Material Name"), wxPG_LABEL, materialChoices, materialChoices.Index(obj->materialName)));
         }
         else if (tokens.token == gTokenCylinder)
         {
@@ -79,7 +99,8 @@ void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg, LE3Ass
                 pg->Append(new wxBoolProperty(wxT("With Caps"), wxPG_LABEL, (GLushort)tokens.params[6]));
             else
                 pg->Append(new wxBoolProperty(wxT("With Caps"), wxPG_LABEL, false));
-            pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+            // pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+            pg->Append(new wxEnumProperty(wxT("Material Name"), wxPG_LABEL, materialChoices, materialChoices.Index(obj->materialName)));
         }
         else if (tokens.token == gTokenCone)
         {
@@ -87,24 +108,44 @@ void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg, LE3Ass
             pg->Append(new wxFloatProperty(wxT("Radius"), wxPG_LABEL, tokens.params[3]));
             pg->Append(new wxFloatProperty(wxT("Height"), wxPG_LABEL, tokens.params[4]));
             pg->Append(new wxIntProperty(wxT("Resolution"), wxPG_LABEL, (GLushort)tokens.params[5]));
-            pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+            // pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+            pg->Append(new wxEnumProperty(wxT("Material Name"), wxPG_LABEL, materialChoices, materialChoices.Index(obj->materialName)));
         }
         else if (tokens.token == gTokenSphere)
         {
             pg->Append(new wxPropertyCategory(wxT("LE3Sphere")));
             pg->Append(new wxFloatProperty(wxT("Radius"), wxPG_LABEL, tokens.params[3]));
             pg->Append(new wxIntProperty(wxT("Resolution"), wxPG_LABEL, (GLushort)tokens.params[4]));
-            pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+            // pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
+            pg->Append(new wxEnumProperty(wxT("Material Name"), wxPG_LABEL, materialChoices, materialChoices.Index(obj->materialName)));
         }
     }
 }
 
 void StaticMeshPropertyGridChanged(LE3StaticMesh* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets)
 {
+    int i;
+
     if (event.GetPropertyName() == wxT("Mesh Name"))
-        obj->meshName = event.GetPropertyValue().GetString().ToStdString();
+    {
+        wxPGChoices meshChoices;
+        i = 0;
+        for (auto [key, value] : assets.m_meshesPaths)
+        {
+            if (value.path != std::string("") && value.path[0] == gPrimitivePathPrefix)
+                continue;
+            meshChoices.Add(key, i++);
+        }
+        obj->meshName = meshChoices.GetLabel(event.GetPropertyValue().GetInteger());
+    }
     if (event.GetPropertyName() == wxT("Material Name"))
-        obj->materialName = event.GetPropertyValue().GetString().ToStdString();
+    {
+        wxPGChoices materialChoices;
+        i = 0;
+        for (auto [key, value] : assets.m_materials)
+            materialChoices.Add(key, i++);
+        obj->materialName = materialChoices.GetLabel(event.GetPropertyValue().GetInteger());
+    }
 
     std::string primitiveDescription = assets.m_meshesPaths[obj->meshName].path;
     if (primitiveDescription[0] == gPrimitivePathPrefix)
