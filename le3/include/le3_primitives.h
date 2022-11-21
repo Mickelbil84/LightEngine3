@@ -18,16 +18,12 @@ void AddBox(std::vector<LE3Vertex>& buffer,
     GLfloat width, GLfloat height, GLfloat depth);
 void AddDebugBox(std::vector<LE3Vertex3p>& buffer);
 
-
-
 // Appends a cylinder to a given vector vertex buffer
-// TODO: Setup tex coords
 void AddCylinder(std::vector<LE3Vertex>& buffer,
     GLfloat x0, GLfloat y0, GLfloat z0,
     GLfloat radius, GLfloat height, GLushort resolution, GLushort withCaps = 0);
 
 // Appends a cone to a given vector vertex buffer
-// TODO: Setup tex coords
 void AddCone(std::vector<LE3Vertex>& buffer,
     GLfloat x0, GLfloat y0, GLfloat z0,
     GLfloat radius, GLfloat height, GLushort resolution);
