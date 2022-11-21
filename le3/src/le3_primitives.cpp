@@ -182,6 +182,14 @@ void AddCylinder(std::vector<LE3Vertex>& buffer,
             GLfloat theta = (GLfloat)(i % resolution) / (GLfloat) resolution * 2.f * 3.14159265f;
             bottomFace[i].uv[0] = topFace[i].uv[0] = 1.f / (2.f * 3.14159265f) * cosf(theta) + 0.5f;
             bottomFace[i].uv[1] = topFace[i].uv[1] = 1.f / (2.f * 3.14159265f) * sinf(theta) + 0.5f;
+
+            bottomFace[i].normal[0] = 0.f;
+            bottomFace[i].normal[1] = -1.f;
+            bottomFace[i].normal[2] = 0.f;
+
+            topFace[i].normal[0] = 0.f;
+            topFace[i].normal[1] = 1.f;
+            topFace[i].normal[2] = 0.f;
         }
 
         for (GLushort i = 0; i < resolution; i++)

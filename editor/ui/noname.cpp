@@ -586,7 +586,7 @@ LE3AddCubeDialog::LE3AddCubeDialog( wxWindow* parent, wxWindowID id, const wxStr
 	m_staticText14->Wrap( -1 );
 	bSizer37->Add( m_staticText14, 0, wxALL, 5 );
 
-	m_materialText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_materialText = new wxComboBox( this, wxID_ANY, wxT("Select Material..."), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_SORT );
 	bSizer37->Add( m_materialText, 1, wxALL|wxEXPAND, 5 );
 
 
@@ -683,7 +683,7 @@ LE3AddCylinderDialog::LE3AddCylinderDialog( wxWindow* parent, wxWindowID id, con
 	m_staticText16->Wrap( -1 );
 	bSizer40->Add( m_staticText16, 0, wxALL, 5 );
 
-	m_materialText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_materialText = new wxComboBox( this, wxID_ANY, wxT("Select Material..."), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_SORT );
 	bSizer40->Add( m_materialText, 1, wxALL|wxEXPAND, 5 );
 
 
@@ -794,7 +794,7 @@ LE3AddConeDialog::LE3AddConeDialog( wxWindow* parent, wxWindowID id, const wxStr
 	m_staticText22->Wrap( -1 );
 	bSizer49->Add( m_staticText22, 0, wxALL, 5 );
 
-	m_materialText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_materialText = new wxComboBox( this, wxID_ANY, wxT("Select Material..."), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_SORT );
 	bSizer49->Add( m_materialText, 1, wxALL|wxEXPAND, 5 );
 
 
@@ -891,7 +891,7 @@ LE3AddSphereDialog::LE3AddSphereDialog( wxWindow* parent, wxWindowID id, const w
 	m_staticText27->Wrap( -1 );
 	bSizer56->Add( m_staticText27, 0, wxALL, 5 );
 
-	m_materialText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_materialText = new wxComboBox( this, wxID_ANY, wxT("Select Material..."), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_SORT );
 	bSizer56->Add( m_materialText, 1, wxALL|wxEXPAND, 5 );
 
 
@@ -976,8 +976,8 @@ LE3AddStaticMeshDialog::LE3AddStaticMeshDialog( wxWindow* parent, wxWindowID id,
 	m_staticText31->Wrap( -1 );
 	bSizer62->Add( m_staticText31, 0, wxALL, 5 );
 
-	m_materialText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer62->Add( m_materialText, 1, wxALL|wxEXPAND, 5 );
+	m_materialText = new wxComboBox( this, wxID_ANY, wxT("Select Material..."), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_SORT );
+	bSizer62->Add( m_materialText, 0, wxALL, 5 );
 
 
 	bSizer60->Add( bSizer62, 1, wxEXPAND, 5 );

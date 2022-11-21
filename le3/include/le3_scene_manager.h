@@ -16,6 +16,9 @@
 #include "le3_static_mesh.h"
 #include "le3_asset_manager.h"
 
+#define DEFAULT_SHADER_NAME "S_default"
+#define DEFAULT_MATERIAL_NAME "M_default"
+
 class LE3SceneManager
 {
 public:

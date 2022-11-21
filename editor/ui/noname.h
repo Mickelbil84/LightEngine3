@@ -32,8 +32,8 @@
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 #include <wx/dialog.h>
-#include <wx/checkbox.h>
 #include <wx/combobox.h>
+#include <wx/checkbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -244,12 +244,12 @@ class LE3AddCubeDialog : public wxDialog
 
 	public:
 		wxTextCtrl* m_nameText;
-		wxTextCtrl* m_materialText;
+		wxComboBox* m_materialText;
 		wxTextCtrl* m_widthText;
 		wxTextCtrl* m_heightText;
 		wxTextCtrl* m_depthText;
 
-		LE3AddCubeDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Cube"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,230 ), long style = wxDEFAULT_DIALOG_STYLE );
+		LE3AddCubeDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Cube"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 230,230 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~LE3AddCubeDialog();
 
@@ -274,13 +274,13 @@ class LE3AddCylinderDialog : public wxDialog
 
 	public:
 		wxTextCtrl* m_nameText;
-		wxTextCtrl* m_materialText;
+		wxComboBox* m_materialText;
 		wxTextCtrl* m_radiusText;
 		wxTextCtrl* m_heightText;
 		wxTextCtrl* m_resolutionText;
 		wxCheckBox* m_capsBool;
 
-		LE3AddCylinderDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Cylinder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,260 ), long style = wxDEFAULT_DIALOG_STYLE );
+		LE3AddCylinderDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Cylinder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 230,260 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~LE3AddCylinderDialog();
 
@@ -304,12 +304,12 @@ class LE3AddConeDialog : public wxDialog
 
 	public:
 		wxTextCtrl* m_nameText;
-		wxTextCtrl* m_materialText;
+		wxComboBox* m_materialText;
 		wxTextCtrl* m_radiusText;
 		wxTextCtrl* m_heightText;
 		wxTextCtrl* m_resolutionText;
 
-		LE3AddConeDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Cone"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,230 ), long style = wxDEFAULT_DIALOG_STYLE );
+		LE3AddConeDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Cone"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 230,230 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~LE3AddConeDialog();
 
@@ -332,11 +332,11 @@ class LE3AddSphereDialog : public wxDialog
 
 	public:
 		wxTextCtrl* m_nameText;
-		wxTextCtrl* m_materialText;
+		wxComboBox* m_materialText;
 		wxTextCtrl* m_radiusText;
 		wxTextCtrl* m_resolutionText;
 
-		LE3AddSphereDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Sphere"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,200 ), long style = wxDEFAULT_DIALOG_STYLE );
+		LE3AddSphereDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Sphere"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 230,200 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~LE3AddSphereDialog();
 
@@ -357,7 +357,7 @@ class LE3AddStaticMeshDialog : public wxDialog
 
 	public:
 		wxTextCtrl* m_nameText;
-		wxTextCtrl* m_materialText;
+		wxComboBox* m_materialText;
 		wxComboBox* m_meshCombo;
 
 		LE3AddStaticMeshDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Static Mesh"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 240,150 ), long style = wxDEFAULT_DIALOG_STYLE );

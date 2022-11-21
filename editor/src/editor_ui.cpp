@@ -571,6 +571,12 @@ std::string LE3EditorUI::GetValidObjectName(std::string objectName)
 void LE3EditorUI::OnAddCube( wxCommandEvent& event )
 {
     LE3AddCubeDialog dialog(this);
+
+    // Populate materials
+    for (auto [key, value] : m_editor->scene.assets.m_materials)
+        dialog.m_materialText->Append(key);
+    dialog.m_materialText->SetValue(DEFAULT_MATERIAL_NAME);
+
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
@@ -599,6 +605,12 @@ void LE3EditorUI::OnAddCube( wxCommandEvent& event )
 void LE3EditorUI::OnAddCylinder( wxCommandEvent& event )
 {
     LE3AddCylinderDialog dialog(this);
+
+    // Populate materials
+    for (auto [key, value] : m_editor->scene.assets.m_materials)
+        dialog.m_materialText->Append(key);
+    dialog.m_materialText->SetValue(DEFAULT_MATERIAL_NAME);
+
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
@@ -629,6 +641,12 @@ void LE3EditorUI::OnAddCylinder( wxCommandEvent& event )
 void LE3EditorUI::OnAddCone( wxCommandEvent& event )
 {
     LE3AddConeDialog dialog(this);
+
+    // Populate materials
+    for (auto [key, value] : m_editor->scene.assets.m_materials)
+        dialog.m_materialText->Append(key);
+    dialog.m_materialText->SetValue(DEFAULT_MATERIAL_NAME);
+
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
@@ -657,6 +675,12 @@ void LE3EditorUI::OnAddCone( wxCommandEvent& event )
 void LE3EditorUI::OnAddSphere( wxCommandEvent& event )
 {
     LE3AddSphereDialog dialog(this);
+
+    // Populate materials
+    for (auto [key, value] : m_editor->scene.assets.m_materials)
+        dialog.m_materialText->Append(key);
+    dialog.m_materialText->SetValue(DEFAULT_MATERIAL_NAME);
+
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
@@ -691,6 +715,11 @@ void LE3EditorUI::OnAddStaticMesh( wxCommandEvent& event )
             continue;
         dialog.m_meshCombo->Append(key);
     }
+
+    // Populate materials
+    for (auto [key, value] : m_editor->scene.assets.m_materials)
+        dialog.m_materialText->Append(key);
+    dialog.m_materialText->SetValue(DEFAULT_MATERIAL_NAME);
 
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
