@@ -6,6 +6,7 @@
 #include <assimp/postprocess.h>
 
 const char* gTokenBox = "BOX";
+const char* gTokenCylinder = "CYL";
 
 LE3AssetPath::LE3AssetPath() :
     path(""),
@@ -107,6 +108,13 @@ void LE3AssetManager::LoadMeshPrimitive(std::string name, std::string primitiveD
     if (tokens.token == gTokenBox)
     {
         AddBox(data, tokens.params[0], tokens.params[1], tokens.params[2], tokens.params[3], tokens.params[4], tokens.params[5]);
+    }
+    else if (tokens.token == gTokenCylinder)
+    {
+        if (tokens.params.size() < 7)
+            AddCylinder(data, tokens.params[0], tokens.params[1], tokens.params[2], tokens.params[3], tokens.params[4], (GLushort)tokens.params[5]);
+        else 
+            AddCylinder(data, tokens.params[0], tokens.params[1], tokens.params[2], tokens.params[3], tokens.params[4], (GLushort)tokens.params[5], (GLushort)tokens.params[6]);
     }
     else
     {

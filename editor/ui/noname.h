@@ -32,6 +32,7 @@
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 #include <wx/dialog.h>
+#include <wx/checkbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -250,6 +251,37 @@ class LE3AddCubeDialog : public wxDialog
 		LE3AddCubeDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Cube"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,230 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~LE3AddCubeDialog();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LE3AddCylinderDialog
+///////////////////////////////////////////////////////////////////////////////
+class LE3AddCylinderDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText15;
+		wxStaticText* m_staticText16;
+		wxStaticText* m_staticText17;
+		wxStaticText* m_staticText18;
+		wxStaticText* m_staticText19;
+		wxStaticText* m_staticText20;
+		wxButton* m_cancelBtn;
+		wxButton* m_addBtn;
+
+	public:
+		wxTextCtrl* m_nameText;
+		wxTextCtrl* m_materialText;
+		wxTextCtrl* m_radiusText;
+		wxTextCtrl* m_heightText;
+		wxTextCtrl* m_resolutionText;
+		wxCheckBox* m_capsBool;
+
+		LE3AddCylinderDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Cylinder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,260 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LE3AddCylinderDialog();
 
 };
 

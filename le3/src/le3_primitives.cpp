@@ -1,5 +1,7 @@
 #include "le3_primitives.h"
 
+#include <iostream>
+
 void AddIsoscelesTriangle(std::vector<LE3Vertex3p>& buffer, 
     GLfloat x0, GLfloat y0, GLfloat z0,
     GLfloat width, GLfloat height)
@@ -135,12 +137,13 @@ void AddDebugBox(std::vector<LE3Vertex3p>& buffer)
 
 void AddCylinder(std::vector<LE3Vertex>& buffer,
     GLfloat x0, GLfloat y0, GLfloat z0,
-    GLfloat radius, GLfloat height, GLushort resolution)
-{
+    GLfloat radius, GLfloat height, GLushort resolution, GLushort withCaps)
+{   
+    // Generate the vertices for top and bottom caps
     std::vector<LE3Vertex> bottomFace, topFace;
-    for (GLushort i = 0; i < resolution; i++)
+    for (GLushort i = 0; i <= resolution; i++)
     {
-        GLfloat theta = (GLfloat)i / (GLfloat) resolution * 2.f * 3.14159265f;
+        GLfloat theta = (GLfloat)(i % resolution) / (GLfloat) resolution * 2.f * 3.14159265f;
         GLfloat x = x0 + radius * cos(theta);
         GLfloat z = z0 + radius * sin(theta);
         
@@ -148,18 +151,48 @@ void AddCylinder(std::vector<LE3Vertex>& buffer,
         glm::vec3 posBottom(x, y0, z);
         glm::vec3 posTop(x, y0 + height, z);
 
-        bottomFace.push_back(VertexFromGLM(posBottom, glm::vec2(), normal));
-        topFace.push_back(VertexFromGLM(posTop, glm::vec2(), normal));
-    }
+        glm::vec2 uvBottom((GLfloat)i / (GLfloat) resolution, 0.f);
+        glm::vec2 uvTop((GLfloat)i / (GLfloat) resolution, height / (2.f * 3.14159265f * radius));
 
+        bottomFace.push_back(VertexFromGLM(posBottom, uvBottom, normal));
+        topFace.push_back(VertexFromGLM(posTop, uvTop, normal));
+    }  
+
+    // Push data for sides
     for (GLushort i = 0; i < resolution; i++)
     {
         buffer.push_back(bottomFace[i]);
-        buffer.push_back(topFace[(i+1) % resolution]);
+        buffer.push_back(topFace[(i+1)]);
         buffer.push_back(topFace[i]);
         buffer.push_back(bottomFace[i]);
-        buffer.push_back(topFace[(i+1) % resolution]);
-        buffer.push_back(bottomFace[(i+1) % resolution]);
+        buffer.push_back(topFace[(i+1)]);
+        buffer.push_back(bottomFace[(i+1)]);
+    }
+
+    // Push data for caps
+    if (withCaps)
+    {
+        LE3Vertex centerBottom, centerTop;
+        centerBottom = VertexFromGLM(glm::vec3(x0, y0, z0), glm::vec2(0.5f, 0.5f), glm::vec3(0.f, -1.f, 0.f));
+        centerTop = VertexFromGLM(glm::vec3(x0, y0 + height, z0), glm::vec2(0.5f, 0.5f), glm::vec3(0.f, 1.f, 0.f));
+
+        // Fix uvs
+        for (GLushort i = 0; i <= resolution; i++)
+        {
+            GLfloat theta = (GLfloat)(i % resolution) / (GLfloat) resolution * 2.f * 3.14159265f;
+            bottomFace[i].uv[0] = topFace[i].uv[0] = 1.f / (2.f * 3.14159265f) * cosf(theta) + 0.5f;
+            bottomFace[i].uv[1] = topFace[i].uv[1] = 1.f / (2.f * 3.14159265f) * sinf(theta) + 0.5f;
+        }
+
+        for (GLushort i = 0; i < resolution; i++)
+        {
+            buffer.push_back(bottomFace[i]);
+            buffer.push_back(centerBottom);
+            buffer.push_back(bottomFace[i+1]);
+            buffer.push_back(topFace[i]);
+            buffer.push_back(centerTop);
+            buffer.push_back(topFace[i+1]);
+        } 
     }
 }
 

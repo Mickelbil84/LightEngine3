@@ -655,3 +655,114 @@ LE3AddCubeDialog::LE3AddCubeDialog( wxWindow* parent, wxWindowID id, const wxStr
 LE3AddCubeDialog::~LE3AddCubeDialog()
 {
 }
+
+LE3AddCylinderDialog::LE3AddCylinderDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer38;
+	bSizer38 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer39;
+	bSizer39 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText15 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText15->Wrap( -1 );
+	bSizer39->Add( m_staticText15, 0, wxALL, 5 );
+
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxT("cylinder"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer39->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer38->Add( bSizer39, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer40;
+	bSizer40 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText16 = new wxStaticText( this, wxID_ANY, wxT("Material:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText16->Wrap( -1 );
+	bSizer40->Add( m_staticText16, 0, wxALL, 5 );
+
+	m_materialText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer40->Add( m_materialText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer38->Add( bSizer40, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer42;
+	bSizer42 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText17 = new wxStaticText( this, wxID_ANY, wxT("Radius:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText17->Wrap( -1 );
+	bSizer42->Add( m_staticText17, 0, wxALL, 5 );
+
+	m_radiusText = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer42->Add( m_radiusText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer38->Add( bSizer42, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer43;
+	bSizer43 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText18 = new wxStaticText( this, wxID_ANY, wxT("Height:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText18->Wrap( -1 );
+	bSizer43->Add( m_staticText18, 0, wxALL, 5 );
+
+	m_heightText = new wxTextCtrl( this, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer43->Add( m_heightText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer38->Add( bSizer43, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer44;
+	bSizer44 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText19 = new wxStaticText( this, wxID_ANY, wxT("Resolution:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText19->Wrap( -1 );
+	bSizer44->Add( m_staticText19, 0, wxALL, 5 );
+
+	m_resolutionText = new wxTextCtrl( this, wxID_ANY, wxT("8"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer44->Add( m_resolutionText, 0, wxALL, 5 );
+
+
+	bSizer38->Add( bSizer44, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer46;
+	bSizer46 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText20 = new wxStaticText( this, wxID_ANY, wxT("With Caps:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText20->Wrap( -1 );
+	bSizer46->Add( m_staticText20, 0, wxALL, 5 );
+
+	m_capsBool = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_capsBool->SetValue(true);
+	bSizer46->Add( m_capsBool, 0, wxALL, 5 );
+
+
+	bSizer38->Add( bSizer46, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer45;
+	bSizer45 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_cancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer45->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
+
+	m_addBtn = new wxButton( this, wxID_OK, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_addBtn->SetDefault();
+	bSizer45->Add( m_addBtn, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer38->Add( bSizer45, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer38 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3AddCylinderDialog::~LE3AddCylinderDialog()
+{
+}
