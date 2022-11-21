@@ -82,7 +82,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer11->Add( m_sideToolbar, 0, wxALL, 5 );
 
 	m_OpenGLContainer = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	bSizer11->Add( m_OpenGLContainer, 5, wxEXPAND | wxALL, 5 );
+	bSizer11->Add( m_OpenGLContainer, 10, wxEXPAND | wxALL, 5 );
 
 	wxBoxSizer* bSizer12;
 	bSizer12 = new wxBoxSizer( wxVERTICAL );
@@ -723,7 +723,7 @@ LE3AddCylinderDialog::LE3AddCylinderDialog( wxWindow* parent, wxWindowID id, con
 	bSizer44->Add( m_staticText19, 0, wxALL, 5 );
 
 	m_resolutionText = new wxTextCtrl( this, wxID_ANY, wxT("8"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer44->Add( m_resolutionText, 0, wxALL, 5 );
+	bSizer44->Add( m_resolutionText, 1, wxALL|wxEXPAND, 5 );
 
 
 	bSizer38->Add( bSizer44, 1, wxEXPAND, 5 );
@@ -782,7 +782,7 @@ LE3AddConeDialog::LE3AddConeDialog( wxWindow* parent, wxWindowID id, const wxStr
 	bSizer48->Add( m_staticText21, 0, wxALL, 5 );
 
 	m_nameText = new wxTextCtrl( this, wxID_ANY, wxT("cone"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer48->Add( m_nameText, 0, wxALL, 5 );
+	bSizer48->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
 
 
 	bSizer47->Add( bSizer48, 1, wxEXPAND, 5 );
@@ -945,5 +945,77 @@ LE3AddSphereDialog::LE3AddSphereDialog( wxWindow* parent, wxWindowID id, const w
 }
 
 LE3AddSphereDialog::~LE3AddSphereDialog()
+{
+}
+
+LE3AddStaticMeshDialog::LE3AddStaticMeshDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer60;
+	bSizer60 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer61;
+	bSizer61 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText30 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText30->Wrap( -1 );
+	bSizer61->Add( m_staticText30, 0, wxALL, 5 );
+
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxT("staticMesh"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer61->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer60->Add( bSizer61, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer62;
+	bSizer62 = new wxBoxSizer( wxHORIZONTAL );
+
+	wxStaticText* m_staticText31;
+	m_staticText31 = new wxStaticText( this, wxID_ANY, wxT("Material:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText31->Wrap( -1 );
+	bSizer62->Add( m_staticText31, 0, wxALL, 5 );
+
+	m_materialText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer62->Add( m_materialText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer60->Add( bSizer62, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer63;
+	bSizer63 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText32 = new wxStaticText( this, wxID_ANY, wxT("Mesh:"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_staticText32->Wrap( -1 );
+	bSizer63->Add( m_staticText32, 0, wxALL, 5 );
+
+	m_meshCombo = new wxComboBox( this, wxID_ANY, wxT("Select Mesh..."), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
+	bSizer63->Add( m_meshCombo, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer60->Add( bSizer63, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer64;
+	bSizer64 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_cancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer64->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
+
+	m_addBtn = new wxButton( this, wxID_OK, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_addBtn->SetDefault();
+	bSizer64->Add( m_addBtn, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer60->Add( bSizer64, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer60 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3AddStaticMeshDialog::~LE3AddStaticMeshDialog()
 {
 }

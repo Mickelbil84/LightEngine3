@@ -62,7 +62,7 @@ public:
     LE3SceneManager scene;
     std::string scenePath;
     int paneWidth, paneHeight;
-    bool bPauseEngine;
+    bool bPauseEngine, bPauseUpdate;
 
 public:
     void Init();

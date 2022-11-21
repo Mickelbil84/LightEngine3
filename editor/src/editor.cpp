@@ -15,7 +15,8 @@ LE3Editor::LE3Editor() :
     m_draggedGizmoAxis(nullptr),
     bClickUp(true),
     scenePath(""),
-    bPauseEngine(false)
+    bPauseEngine(false),
+    bPauseUpdate(false)
 {
 
 }
@@ -44,7 +45,7 @@ void LE3Editor::Init()
 
 void LE3Editor::Update(float deltaTime)
 {
-    if (bPauseEngine)
+    if (bPauseEngine || bPauseUpdate)
         return;
     scene.GetRoot()->Update(deltaTime);
     scene.GetPhysics()->StepSimulation(deltaTime);
@@ -80,6 +81,8 @@ void LE3Editor::Update(float deltaTime)
 
 void LE3Editor::HandleInput(LE3EditorInput input)
 {
+    if (bPauseEngine || bPauseUpdate)
+        return;
     UpdateHoveredObject(input);
     UpdateEditorMode(m_editorState, input);
 

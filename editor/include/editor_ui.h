@@ -38,7 +38,7 @@ protected:
     std::string m_selectedName;
     wxTimer m_propertyGridRefresh;
 
-    bool bPauseEngine;
+    // bool bPauseEngine;
 
     std::map<wxTreeListItem, LE3Object*> m_sceneGraphMap;
     std::map<LE3Object*, wxTreeListItem> m_sceneGraphMapInverse;
@@ -92,6 +92,7 @@ protected:
     virtual void OnAddCylinder( wxCommandEvent& event );
     virtual void OnAddCone( wxCommandEvent& event );
     virtual void OnAddSphere( wxCommandEvent& event );
+    virtual void OnAddStaticMesh( wxCommandEvent& event );
 
     ////////////////////////////////
     // Numbered names generation

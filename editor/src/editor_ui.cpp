@@ -335,6 +335,7 @@ void LE3EditorUI::OnSaveSceneAs( wxCommandEvent& event )
 void LE3EditorUI::OnNewShader( wxCommandEvent& event )
 {
     LE3NewShaderDialog dialog(this);
+    m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
         std::string name = GetValidShaderName(dialog.m_nameText->GetValue().ToStdString());
@@ -346,6 +347,7 @@ void LE3EditorUI::OnNewShader( wxCommandEvent& event )
 
         RefreshAssets();
     }
+    m_editor->bPauseUpdate = false;
 }
 void LE3EditorUI::OnDeleteShader( wxCommandEvent& event )
 {
@@ -374,6 +376,7 @@ void LE3EditorUI::OnDeleteShader( wxCommandEvent& event )
 void LE3EditorUI::OnNewMaterial( wxCommandEvent& event )
 {
     LE3NewMaterialDialog dialog(this);
+    m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
         std::string name = GetValidMaterialName(dialog.m_nameText->GetValue().ToStdString());
@@ -383,6 +386,7 @@ void LE3EditorUI::OnNewMaterial( wxCommandEvent& event )
 
         RefreshAssets();
     }
+    m_editor->bPauseUpdate = false;
 }
 void LE3EditorUI::OnDeleteMaterial( wxCommandEvent& event )
 {
@@ -410,6 +414,7 @@ void LE3EditorUI::OnDeleteMaterial( wxCommandEvent& event )
 void LE3EditorUI::OnNewTexture( wxCommandEvent& event )
 {
     LE3NewTextureDialog dialog(this);
+    m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
         std::string name = GetValidTextureName(dialog.m_nameText->GetValue().ToStdString());
@@ -420,6 +425,7 @@ void LE3EditorUI::OnNewTexture( wxCommandEvent& event )
 
         RefreshAssets();
     }
+    m_editor->bPauseUpdate = false;
 }
 void LE3EditorUI::OnDeleteTexture( wxCommandEvent& event )
 {
@@ -448,6 +454,7 @@ void LE3EditorUI::OnDeleteTexture( wxCommandEvent& event )
 void LE3EditorUI::OnNewMesh( wxCommandEvent& event )
 {
     LE3NewMeshDialog dialog(this);
+    m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
         std::string name = GetValidMeshName(dialog.m_nameText->GetValue().ToStdString());
@@ -458,6 +465,7 @@ void LE3EditorUI::OnNewMesh( wxCommandEvent& event )
 
         RefreshAssets();
     }
+    m_editor->bPauseUpdate = false;
 }
 void LE3EditorUI::OnDeleteMesh( wxCommandEvent& event )
 {
@@ -563,6 +571,7 @@ std::string LE3EditorUI::GetValidObjectName(std::string objectName)
 void LE3EditorUI::OnAddCube( wxCommandEvent& event )
 {
     LE3AddCubeDialog dialog(this);
+    m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
         std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
@@ -585,10 +594,12 @@ void LE3EditorUI::OnAddCube( wxCommandEvent& event )
         RefreshAssets();
         RefreshSceneGraph();
     }
+    m_editor->bPauseUpdate = false;
 }
 void LE3EditorUI::OnAddCylinder( wxCommandEvent& event )
 {
     LE3AddCylinderDialog dialog(this);
+    m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
         std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
@@ -613,10 +624,12 @@ void LE3EditorUI::OnAddCylinder( wxCommandEvent& event )
         RefreshAssets();
         RefreshSceneGraph();
     }
+    m_editor->bPauseUpdate = false;
 }
 void LE3EditorUI::OnAddCone( wxCommandEvent& event )
 {
     LE3AddConeDialog dialog(this);
+    m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
         std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
@@ -639,10 +652,12 @@ void LE3EditorUI::OnAddCone( wxCommandEvent& event )
         RefreshAssets();
         RefreshSceneGraph();
     }
+    m_editor->bPauseUpdate = false;
 }
 void LE3EditorUI::OnAddSphere( wxCommandEvent& event )
 {
     LE3AddSphereDialog dialog(this);
+    m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
         std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
@@ -663,4 +678,31 @@ void LE3EditorUI::OnAddSphere( wxCommandEvent& event )
         RefreshAssets();
         RefreshSceneGraph();
     }
+    m_editor->bPauseUpdate = false;
+}
+void LE3EditorUI::OnAddStaticMesh( wxCommandEvent& event )
+{
+    LE3AddStaticMeshDialog dialog(this);
+
+    // Populate static meshes
+    for (auto [key, value] : m_editor->scene.assets.m_meshesPaths)
+    {
+        if (value.path != std::string("") && value.path[0] == gPrimitivePathPrefix)
+            continue;
+        dialog.m_meshCombo->Append(key);
+    }
+
+    m_editor->bPauseUpdate = true;
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
+        std::string materialName = dialog.m_materialText->GetValue().ToStdString();
+        std::string meshName = dialog.m_meshCombo->GetValue().ToStdString();
+
+        m_editor->scene.AddStaticMesh(name, meshName, materialName);
+
+        RefreshAssets();
+        RefreshSceneGraph();
+    }
+    m_editor->bPauseUpdate = false;
 }

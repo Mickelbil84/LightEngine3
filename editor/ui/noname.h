@@ -33,6 +33,7 @@
 #include <wx/textctrl.h>
 #include <wx/dialog.h>
 #include <wx/checkbox.h>
+#include <wx/combobox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -338,6 +339,30 @@ class LE3AddSphereDialog : public wxDialog
 		LE3AddSphereDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Sphere"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,200 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~LE3AddSphereDialog();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LE3AddStaticMeshDialog
+///////////////////////////////////////////////////////////////////////////////
+class LE3AddStaticMeshDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText30;
+		wxStaticText* m_staticText32;
+		wxButton* m_cancelBtn;
+		wxButton* m_addBtn;
+
+	public:
+		wxTextCtrl* m_nameText;
+		wxTextCtrl* m_materialText;
+		wxComboBox* m_meshCombo;
+
+		LE3AddStaticMeshDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Static Mesh"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 240,150 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LE3AddStaticMeshDialog();
 
 };
 
