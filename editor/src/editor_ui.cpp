@@ -376,11 +376,17 @@ void LE3EditorUI::OnDeleteShader( wxCommandEvent& event )
 void LE3EditorUI::OnNewMaterial( wxCommandEvent& event )
 {
     LE3NewMaterialDialog dialog(this);
+
+    // Populate materials
+    for (auto [key, value] : m_editor->scene.assets.m_shadersPaths)
+        dialog.m_shaderText->Append(key);
+    dialog.m_shaderText->SetValue(DEFAULT_SHADER_NAME);
+
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
         std::string name = GetValidMaterialName(dialog.m_nameText->GetValue().ToStdString());
-        std::string shaderName = dialog.m_shaderNametext->GetValue().ToStdString();
+        std::string shaderName = dialog.m_shaderText->GetValue().ToStdString();
         
         m_editor->scene.assets.CreateMaterial(name, shaderName);
 

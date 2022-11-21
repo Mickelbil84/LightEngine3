@@ -393,7 +393,7 @@ LE3NewMaterialDialog::LE3NewMaterialDialog( wxWindow* parent, wxWindowID id, con
 
 	m_staticText4 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText4->Wrap( -1 );
-	m_staticText4->SetMinSize( wxSize( 120,-1 ) );
+	m_staticText4->SetMinSize( wxSize( 60,-1 ) );
 
 	bSizer20->Add( m_staticText4, 0, wxALL, 5 );
 
@@ -406,14 +406,14 @@ LE3NewMaterialDialog::LE3NewMaterialDialog( wxWindow* parent, wxWindowID id, con
 	wxBoxSizer* bSizer21;
 	bSizer21 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_staticText5 = new wxStaticText( this, wxID_ANY, wxT("Shader Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText5 = new wxStaticText( this, wxID_ANY, wxT("Shader:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText5->Wrap( -1 );
-	m_staticText5->SetMinSize( wxSize( 120,-1 ) );
+	m_staticText5->SetMinSize( wxSize( 60,-1 ) );
 
 	bSizer21->Add( m_staticText5, 0, wxALL, 5 );
 
-	m_shaderNametext = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer21->Add( m_shaderNametext, 1, wxALL|wxEXPAND, 5 );
+	m_shaderText = new wxComboBox( this, wxID_ANY, wxT("Select Shader..."), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_SORT );
+	bSizer21->Add( m_shaderText, 1, wxALL|wxEXPAND, 5 );
 
 
 	bSizer19->Add( bSizer21, 1, wxEXPAND, 5 );

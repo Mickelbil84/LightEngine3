@@ -172,9 +172,9 @@ class LE3NewMaterialDialog : public wxDialog
 
 	public:
 		wxTextCtrl* m_nameText;
-		wxTextCtrl* m_shaderNametext;
+		wxComboBox* m_shaderText;
 
-		LE3NewMaterialDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("New Material"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,140 ), long style = wxDEFAULT_DIALOG_STYLE );
+		LE3NewMaterialDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("New Material"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 230,140 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~LE3NewMaterialDialog();
 
