@@ -13,11 +13,14 @@
 #include "icons/icon_gizmo_scale.xpm"
 #include "icons/icon_collision.xpm"
 #include "icons/icon_bulletcollision.xpm"
+#include "icons/icon_reparent.xpm"
+
 #include "icons/icon_newcube.xpm"
 #include "icons/icon_newsphere.xpm"
 #include "icons/icon_newcylinder.xpm"
 #include "icons/icon_newcone.xpm"
 #include "icons/icon_newstaticmesh.xpm"
+#include "icons/icon_newempty.xpm"
 
 LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selectedType(LE3_SELECTED_NONE), selectCallback(this), refreshPropertiesCallback(this)
 {
@@ -34,6 +37,7 @@ LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selected
     m_gizmoScaleTool->SetBitmap({icon_gizmo_scale});
     m_collisionTool->SetBitmap({icon_collision});
     m_bulletCollisionTool->SetBitmap({icon_bulletcollision});
+    m_reparentTool->SetBitmap({icon_reparent});
     m_topToolbar->Realize();
 
     m_sideToolbar->SetToolBitmapSize(wxSize(24, 24));
@@ -42,6 +46,7 @@ LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selected
     m_addCylinderTool->SetBitmap({icon_newcylinder});
     m_addConeTool->SetBitmap({icon_newcone});
     m_addStaticMeshTool->SetBitmap({icon_newstaticmesh});
+    m_addEmptyTool->SetBitmap({icon_newempty});
     m_sideToolbar->Realize();
 
 }
@@ -735,6 +740,54 @@ void LE3EditorUI::OnAddStaticMesh( wxCommandEvent& event )
         std::string meshName = dialog.m_meshCombo->GetValue().ToStdString();
 
         m_editor->scene.AddStaticMesh(name, meshName, materialName);
+
+        RefreshAssets();
+        RefreshSceneGraph();
+    }
+    m_editor->bPauseUpdate = false;
+}
+void LE3EditorUI::OnAddEmpty( wxCommandEvent& event )
+{
+    LE3AddEmptyDialog dialog(this);
+    m_editor->bPauseUpdate = true;
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
+
+        m_editor->scene.AddObject(name);
+
+        RefreshAssets();
+        RefreshSceneGraph();
+    }
+    m_editor->bPauseUpdate = false;
+}
+
+void LE3EditorUI::OnReparent( wxCommandEvent& event )
+{
+    LE3ReparentDialog dialog(this);
+
+    // Populate objects and parents
+    dialog.m_parentText->Append("__Root__");
+    for (auto [key, value] : m_editor->scene.objectPool)
+    {
+        dialog.m_objectText->Append(key);
+        dialog.m_parentText->Append(key);
+    }
+    dialog.m_objectText->SetValue("");
+    if (m_editor->GetSelectedObject())
+        dialog.m_objectText->SetValue(m_editor->GetSelectedObject()->GetName());
+    dialog.m_parentText->SetValue("");
+
+    m_editor->bPauseUpdate = true;
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        std::string name = dialog.m_objectText->GetValue().ToStdString();
+        std::string parent = dialog.m_parentText->GetValue().ToStdString();
+        if (parent == std::string("__Root__"))
+            parent = std::string("");
+
+        if (name != parent)
+            m_editor->scene.Reparent(name, parent);
 
         RefreshAssets();
         RefreshSceneGraph();

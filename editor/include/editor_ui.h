@@ -84,15 +84,17 @@ protected:
     ////////////////////////////////
     virtual void OnCollisionToolToggle( wxCommandEvent& event );
     virtual void OnBulletCollisionToolToggle( wxCommandEvent& event );
+    virtual void OnReparent( wxCommandEvent& event );
 
     ////////////////////////////////
-    // Scene management (Load/Save)
+    // Object Creation Dialogs
     ////////////////////////////////
     virtual void OnAddCube( wxCommandEvent& event );
     virtual void OnAddCylinder( wxCommandEvent& event );
     virtual void OnAddCone( wxCommandEvent& event );
     virtual void OnAddSphere( wxCommandEvent& event );
     virtual void OnAddStaticMesh( wxCommandEvent& event );
+    virtual void OnAddEmpty( wxCommandEvent& event );
 
     ////////////////////////////////
     // Numbered names generation

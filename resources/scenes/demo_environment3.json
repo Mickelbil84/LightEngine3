@@ -1,0 +1,1090 @@
+{
+    "scene": {
+        "assets": {
+            "m_meshesPaths": [
+                {
+                    "key": "SM_barrel",
+                    "value": {
+                        "path": "../resources/models/gahan/barrel.obj"
+                    }
+                },
+                {
+                    "key": "SM_buffer",
+                    "value": {
+                        "path": "../resources/models/gahan/buffer.obj"
+                    }
+                },
+                {
+                    "key": "cone",
+                    "value": {
+                        "path": "$CON_0_0_0_0.600000_1.000000_32.000000_0_"
+                    }
+                },
+                {
+                    "key": "cylinder",
+                    "value": {
+                        "path": "$CYL_0_0_0_0.600000_1.000000_32.000000_1_"
+                    }
+                },
+                {
+                    "key": "floor",
+                    "value": {
+                        "path": "$BOX_0_0_0_10.000000_0.100000_10.000000_"
+                    }
+                },
+                {
+                    "key": "roof",
+                    "value": {
+                        "path": "$BOX_0_0_0_10.000000_0.100000_10.000000_"
+                    }
+                },
+                {
+                    "key": "sphere",
+                    "value": {
+                        "path": "$SPH_0_0_0_0.500000_32.000000_"
+                    }
+                },
+                {
+                    "key": "wall1",
+                    "value": {
+                        "path": "$BOX_0_0_0_10.000000_4.000000_0.100000_"
+                    }
+                },
+                {
+                    "key": "wall2",
+                    "value": {
+                        "path": "$BOX_0_0_0_10.000000_4.000000_0.100000_"
+                    }
+                },
+                {
+                    "key": "wall3",
+                    "value": {
+                        "path": "$BOX_0_0_0_0.100000_4.000000_10.000000_"
+                    }
+                }
+            ],
+            "m_texturesPaths": [
+                {
+                    "key": "T_DIF_barrel",
+                    "value": {
+                        "path": "../resources/textures/gahan/barrel_diffuse.tga"
+                    }
+                },
+                {
+                    "key": "T_DIF_buffer",
+                    "value": {
+                        "path": "../resources/textures/gahan/buffer_diffuse.tga"
+                    }
+                },
+                {
+                    "key": "T_DIF_roof",
+                    "value": {
+                        "path": "../resources/textures/roof.png"
+                    }
+                },
+                {
+                    "key": "T_DIF_tiles",
+                    "value": {
+                        "path": "../resources/textures/tile_floor.jpg"
+                    }
+                },
+                {
+                    "key": "T_DIF_wood",
+                    "value": {
+                        "path": "../resources/textures/wood.png"
+                    }
+                }
+            ],
+            "m_shadersPaths": [
+                {
+                    "key": "S_default",
+                    "value": {
+                        "vertexShaderPath": "../resources/shaders/default/default.vs",
+                        "fragmentShaderPath": "../resources/shaders/default/default.fs"
+                    }
+                },
+                {
+                    "key": "S_ps1",
+                    "value": {
+                        "vertexShaderPath": "../resources/shaders/ps1/ps1.vs",
+                        "fragmentShaderPath": "../resources/shaders/ps1/ps1.fs"
+                    }
+                }
+            ],
+            "m_materials": [
+                {
+                    "key": "M_barrel",
+                    "value": {
+                        "shaderName": "S_ps1",
+                        "diffuseColor": {
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "T_DIF_barrel",
+                        "bUseDiffuseTexture": true,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
+                    }
+                },
+                {
+                    "key": "M_buffer",
+                    "value": {
+                        "shaderName": "S_ps1",
+                        "diffuseColor": {
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "T_DIF_buffer",
+                        "bUseDiffuseTexture": true,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
+                    }
+                },
+                {
+                    "key": "M_default",
+                    "value": {
+                        "shaderName": "S_default",
+                        "diffuseColor": {
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "",
+                        "bUseDiffuseTexture": false,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
+                    }
+                },
+                {
+                    "key": "M_ps1_tiles",
+                    "value": {
+                        "shaderName": "S_ps1",
+                        "diffuseColor": {
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "T_DIF_tiles",
+                        "bUseDiffuseTexture": true,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
+                    }
+                },
+                {
+                    "key": "M_roof",
+                    "value": {
+                        "shaderName": "S_default",
+                        "diffuseColor": {
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "T_DIF_roof",
+                        "bUseDiffuseTexture": true,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
+                    }
+                },
+                {
+                    "key": "M_tiles",
+                    "value": {
+                        "shaderName": "S_default",
+                        "diffuseColor": {
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "T_DIF_tiles",
+                        "bUseDiffuseTexture": true,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
+                    }
+                },
+                {
+                    "key": "M_wood",
+                    "value": {
+                        "shaderName": "S_default",
+                        "diffuseColor": {
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "T_DIF_wood",
+                        "bUseDiffuseTexture": true,
+                        "tilingX": 0.20000000298023225,
+                        "tilingY": 0.20000000298023225
+                    }
+                }
+            ]
+        },
+        "objectPool": [
+            {
+                "key": "barrel",
+                "value": {
+                    "polymorphic_id": 2147483649,
+                    "polymorphic_name": "LE3StaticMesh",
+                    "ptr_wrapper": {
+                        "id": 2147483649,
+                        "data": {
+                            "m_position": {
+                                "v.x": -4.368675708770752,
+                                "v.y": 0.44851940870285036,
+                                "v.z": -4.405156135559082
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.800000011920929,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 0.20000000298023225,
+                            "m_globalPosition": {
+                                "v.x": -4.368675708770752,
+                                "v.y": 0.44851940870285036,
+                                "v.z": -4.405156135559082
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.800000011920929,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 0.139341339468956,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": -0.14347122609615327,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 0.20000000298023225,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.14347122609615327,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 0.139341339468956,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": -4.368675708770752,
+                                "m[3][1]": 0.44851940870285036,
+                                "m[3][2]": -4.405156135559082,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 0.139341339468956,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": -0.14347122609615327,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 0.20000000298023225,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.14347122609615327,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 0.139341339468956,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": -4.368675708770752,
+                                "m[3][1]": 0.44851940870285036,
+                                "m[3][2]": -4.405156135559082,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "barrel",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "SM_barrel",
+                            "materialName": "M_barrel",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            },
+            {
+                "key": "buffer",
+                "value": {
+                    "polymorphic_id": 1,
+                    "ptr_wrapper": {
+                        "id": 2147483650,
+                        "data": {
+                            "m_position": {
+                                "v.x": -4.441071510314941,
+                                "v.y": 0.0746484026312828,
+                                "v.z": -2.9878623485565187
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 0.20000000298023225,
+                            "m_globalPosition": {
+                                "v.x": -4.441071510314941,
+                                "v.y": 0.0746484026312828,
+                                "v.z": -2.9878623485565187
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 0.20000000298023225,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 0.20000000298023225,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 0.20000000298023225,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": -4.441071510314941,
+                                "m[3][1]": 0.0746484026312828,
+                                "m[3][2]": -2.9878623485565187,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 0.20000000298023225,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 0.20000000298023225,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 0.20000000298023225,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": -4.441071510314941,
+                                "m[3][1]": 0.0746484026312828,
+                                "m[3][2]": -2.9878623485565187,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "buffer",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "SM_buffer",
+                            "materialName": "M_buffer",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            },
+            {
+                "key": "cone",
+                "value": {
+                    "polymorphic_id": 1,
+                    "ptr_wrapper": {
+                        "id": 2147483651,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.5923701524734497,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": -4.473031520843506,
+                                "v.y": 0.0,
+                                "v.z": 1.9434484243392945
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.5923701524734497,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": -4.473031520843506,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 1.9434484243392945,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "cone",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "cone",
+                            "materialName": "M_ps1_tiles",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            },
+            {
+                "key": "cylinder",
+                "value": {
+                    "polymorphic_id": 1,
+                    "ptr_wrapper": {
+                        "id": 2147483652,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": -5.065401554107666,
+                                "v.y": 0.0,
+                                "v.z": 1.9434484243392945
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": -5.065401554107666,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 1.9434484243392945,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "cylinder",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "cylinder",
+                            "materialName": "M_ps1_tiles",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            },
+            {
+                "key": "floor",
+                "value": {
+                    "polymorphic_id": 1,
+                    "ptr_wrapper": {
+                        "id": 2147483653,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "floor",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "floor",
+                            "materialName": "M_wood",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            },
+            {
+                "key": "primitives",
+                "value": {
+                    "polymorphic_id": 1073741824,
+                    "ptr_wrapper": {
+                        "id": 2147483654,
+                        "data": {
+                            "m_position": {
+                                "v.x": -5.065401554107666,
+                                "v.y": 0.0,
+                                "v.z": 1.9434484243392945
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": -5.065401554107666,
+                                "v.y": 0.0,
+                                "v.z": 1.9434484243392945
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": -5.065401554107666,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 1.9434484243392945,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": -5.065401554107666,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 1.9434484243392945,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "primitives",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false
+                        }
+                    }
+                }
+            },
+            {
+                "key": "roof",
+                "value": {
+                    "polymorphic_id": 1,
+                    "ptr_wrapper": {
+                        "id": 2147483655,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": 4.0,
+                                "v.z": 0.0
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": 0.0,
+                                "v.y": 4.0,
+                                "v.z": 0.0
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 4.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 4.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "roof",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "roof",
+                            "materialName": "M_roof",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            },
+            {
+                "key": "sphere",
+                "value": {
+                    "polymorphic_id": 1,
+                    "ptr_wrapper": {
+                        "id": 2147483656,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": 1.0966546535491944,
+                                "v.z": 0.0
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": -5.065401554107666,
+                                "v.y": 1.0966546535491944,
+                                "v.z": 1.9434484243392945
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 1.0966546535491944,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": -5.065401554107666,
+                                "m[3][1]": 1.0966546535491944,
+                                "m[3][2]": 1.9434484243392945,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "sphere",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "sphere",
+                            "materialName": "M_ps1_tiles",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            },
+            {
+                "key": "wall1",
+                "value": {
+                    "polymorphic_id": 1,
+                    "ptr_wrapper": {
+                        "id": 2147483657,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": 2.0,
+                                "v.z": -5.0
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": 0.0,
+                                "v.y": 2.0,
+                                "v.z": -5.0
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 2.0,
+                                "m[3][2]": -5.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 2.0,
+                                "m[3][2]": -5.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "wall1",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "wall1",
+                            "materialName": "M_tiles",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            },
+            {
+                "key": "wall2",
+                "value": {
+                    "polymorphic_id": 1,
+                    "ptr_wrapper": {
+                        "id": 2147483658,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": 2.0,
+                                "v.z": 5.0
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": 0.0,
+                                "v.y": 2.0,
+                                "v.z": 5.0
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 2.0,
+                                "m[3][2]": 5.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 2.0,
+                                "m[3][2]": 5.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "wall2",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "wall2",
+                            "materialName": "M_tiles",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            },
+            {
+                "key": "wall3",
+                "value": {
+                    "polymorphic_id": 1,
+                    "ptr_wrapper": {
+                        "id": 2147483659,
+                        "data": {
+                            "m_position": {
+                                "v.x": -5.0,
+                                "v.y": 2.0,
+                                "v.z": 0.0
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": -5.0,
+                                "v.y": 2.0,
+                                "v.z": 0.0
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": -5.0,
+                                "m[3][1]": 2.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": -5.0,
+                                "m[3][1]": 2.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "wall3",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "wall3",
+                            "materialName": "M_tiles",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            }
+        ],
+        "parentLinks": [
+            {
+                "key": "barrel",
+                "value": ""
+            },
+            {
+                "key": "buffer",
+                "value": ""
+            },
+            {
+                "key": "cone",
+                "value": "primitives"
+            },
+            {
+                "key": "cylinder",
+                "value": "primitives"
+            },
+            {
+                "key": "floor",
+                "value": ""
+            },
+            {
+                "key": "primitives",
+                "value": ""
+            },
+            {
+                "key": "roof",
+                "value": ""
+            },
+            {
+                "key": "sphere",
+                "value": "primitives"
+            },
+            {
+                "key": "wall1",
+                "value": ""
+            },
+            {
+                "key": "wall2",
+                "value": ""
+            },
+            {
+                "key": "wall3",
+                "value": ""
+            }
+        ]
+    }
+}

@@ -54,14 +54,15 @@ public:
         // ---------------------------
         LE3Texture::g_bPS1TextureMode = true;
         scene.Init();
-        LoadScene(scene, "../resources/scenes/03_ps1_shooter.json");
+        // LoadScene(scene, "../resources/scenes/03_ps1_shooter.json");
+        LoadScene(scene, "../resources/scenes/demo_environment3.json");
         scene.AddFPSCamera();
 
 
         // Add Gun
         scene.assets.LoadMesh("glock", "../resources/models/weapons/glock.obj");
         scene.assets.LoadTexture("glockDiffuse", "../resources/textures/weapons/glock_diffuse.tga");
-        scene.assets.CreateMaterial("glockMat", "basic_no_jitter");
+        scene.assets.CreateMaterial("glockMat", "S_default");
         scene.assets.GetMaterial("glockMat")->SetDiffuseTexture(scene.assets.GetTexture("glockDiffuse"));
         scene.assets.GetMaterial("glockMat")->bUseDiffuseTexture = true;
 
@@ -73,7 +74,7 @@ public:
         //   Misc
         // ---------------------------
         
-        scene.GetCamera()->SetPosition(glm::vec3(0.f, 1.25f, 5.f));
+        scene.GetCamera()->SetPosition(glm::vec3(0.f, 1.25f, 0.f));
         scene.GetCamera()->SetAspectRatio((float)m_settings.windowWidth / (float)m_settings.windowHeight);
         
         walkSpeed = 2.2f;

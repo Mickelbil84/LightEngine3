@@ -59,13 +59,14 @@ class LE3EditorWindow : public wxFrame
 		wxAuiToolBarItem* m_gizmoScaleTool;
 		wxAuiToolBarItem* m_collisionTool;
 		wxAuiToolBarItem* m_bulletCollisionTool;
+		wxAuiToolBarItem* m_reparentTool;
 		wxAuiToolBar* m_sideToolbar;
 		wxAuiToolBarItem* m_addCubeTool;
 		wxAuiToolBarItem* m_addSphereTool;
 		wxAuiToolBarItem* m_addCylinderTool;
 		wxAuiToolBarItem* m_addConeTool;
 		wxAuiToolBarItem* m_addStaticMeshTool;
-		wxAuiToolBarItem* m_tool27;
+		wxAuiToolBarItem* m_addEmptyTool;
 		wxAuiToolBarItem* m_tool28;
 		wxAuiToolBarItem* m_tool29;
 		wxNotebook* m_notebook1;
@@ -101,11 +102,13 @@ class LE3EditorWindow : public wxFrame
 		virtual void OnSaveSceneAs( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBulletCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnReparent( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddCube( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddSphere( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddCylinder( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddCone( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddStaticMesh( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAddEmpty( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMouseClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void OnSelectObjectInGraph( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnNewShader( wxCommandEvent& event ) { event.Skip(); }
@@ -363,6 +366,50 @@ class LE3AddStaticMeshDialog : public wxDialog
 		LE3AddStaticMeshDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Static Mesh"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 240,150 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~LE3AddStaticMeshDialog();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LE3AddEmptyDialog
+///////////////////////////////////////////////////////////////////////////////
+class LE3AddEmptyDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText33;
+		wxButton* m_cancelBtn;
+		wxButton* m_addBtn;
+
+	public:
+		wxTextCtrl* m_nameText;
+
+		LE3AddEmptyDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Empty"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,100 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LE3AddEmptyDialog();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LE3ReparentDialog
+///////////////////////////////////////////////////////////////////////////////
+class LE3ReparentDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText34;
+		wxStaticText* m_staticText35;
+		wxButton* m_cancelBtn;
+		wxButton* m_reparentBtn;
+
+	public:
+		wxComboBox* m_objectText;
+		wxComboBox* m_parentText;
+
+		LE3ReparentDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Reparent"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 230,130 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LE3ReparentDialog();
 
 };
 

@@ -49,6 +49,10 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 
 	m_bulletCollisionTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
 
+	m_topToolbar->AddSeparator();
+
+	m_reparentTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
 	m_topToolbar->Realize();
 
 	bSizer9->Add( m_topToolbar, 0, wxALL|wxEXPAND, 5 );
@@ -69,7 +73,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 
 	m_sideToolbar->AddSeparator();
 
-	m_tool27 = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+	m_addEmptyTool = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
 	m_tool28 = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
@@ -250,11 +254,13 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	this->Connect( m_saveAsTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveSceneAs ) );
 	this->Connect( m_collisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnCollisionToolToggle ) );
 	this->Connect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
+	this->Connect( m_reparentTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnReparent ) );
 	this->Connect( m_addCubeTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCube ) );
 	this->Connect( m_addSphereTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddSphere ) );
 	this->Connect( m_addCylinderTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCylinder ) );
 	this->Connect( m_addConeTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCone ) );
 	this->Connect( m_addStaticMeshTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddStaticMesh ) );
+	this->Connect( m_addEmptyTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddEmpty ) );
 	m_OpenGLContainer->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );
 	m_sceneGraphTree->Connect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectObjectInGraph ), NULL, this );
 	m_loadShaderButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewShader ), NULL, this );
@@ -281,11 +287,13 @@ LE3EditorWindow::~LE3EditorWindow()
 	this->Disconnect( m_saveAsTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveSceneAs ) );
 	this->Disconnect( m_collisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnCollisionToolToggle ) );
 	this->Disconnect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
+	this->Disconnect( m_reparentTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnReparent ) );
 	this->Disconnect( m_addCubeTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCube ) );
 	this->Disconnect( m_addSphereTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddSphere ) );
 	this->Disconnect( m_addCylinderTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCylinder ) );
 	this->Disconnect( m_addConeTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCone ) );
 	this->Disconnect( m_addStaticMeshTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddStaticMesh ) );
+	this->Disconnect( m_addEmptyTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddEmpty ) );
 	m_OpenGLContainer->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );
 	m_sceneGraphTree->Disconnect( wxEVT_TREELIST_SELECTION_CHANGED, wxTreeListEventHandler( LE3EditorWindow::OnSelectObjectInGraph ), NULL, this );
 	m_loadShaderButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnNewShader ), NULL, this );
@@ -722,7 +730,7 @@ LE3AddCylinderDialog::LE3AddCylinderDialog( wxWindow* parent, wxWindowID id, con
 	m_staticText19->Wrap( -1 );
 	bSizer44->Add( m_staticText19, 0, wxALL, 5 );
 
-	m_resolutionText = new wxTextCtrl( this, wxID_ANY, wxT("8"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_resolutionText = new wxTextCtrl( this, wxID_ANY, wxT("16"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer44->Add( m_resolutionText, 1, wxALL|wxEXPAND, 5 );
 
 
@@ -833,7 +841,7 @@ LE3AddConeDialog::LE3AddConeDialog( wxWindow* parent, wxWindowID id, const wxStr
 	m_staticText25->Wrap( -1 );
 	bSizer52->Add( m_staticText25, 0, wxALL, 5 );
 
-	m_resolutionText = new wxTextCtrl( this, wxID_ANY, wxT("8"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_resolutionText = new wxTextCtrl( this, wxID_ANY, wxT("16"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer52->Add( m_resolutionText, 1, wxALL|wxEXPAND, 5 );
 
 
@@ -917,7 +925,7 @@ LE3AddSphereDialog::LE3AddSphereDialog( wxWindow* parent, wxWindowID id, const w
 	m_staticText29->Wrap( -1 );
 	bSizer58->Add( m_staticText29, 0, wxALL, 5 );
 
-	m_resolutionText = new wxTextCtrl( this, wxID_ANY, wxT("8"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_resolutionText = new wxTextCtrl( this, wxID_ANY, wxT("16"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer58->Add( m_resolutionText, 1, wxALL|wxEXPAND, 5 );
 
 
@@ -1017,5 +1025,108 @@ LE3AddStaticMeshDialog::LE3AddStaticMeshDialog( wxWindow* parent, wxWindowID id,
 }
 
 LE3AddStaticMeshDialog::~LE3AddStaticMeshDialog()
+{
+}
+
+LE3AddEmptyDialog::LE3AddEmptyDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer64;
+	bSizer64 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer65;
+	bSizer65 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText33 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText33->Wrap( -1 );
+	bSizer65->Add( m_staticText33, 0, wxALL, 5 );
+
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxT("empty"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer65->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer64->Add( bSizer65, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer66;
+	bSizer66 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_cancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer66->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
+
+	m_addBtn = new wxButton( this, wxID_OK, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_addBtn->SetDefault();
+	bSizer66->Add( m_addBtn, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer64->Add( bSizer66, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer64 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3AddEmptyDialog::~LE3AddEmptyDialog()
+{
+}
+
+LE3ReparentDialog::LE3ReparentDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer67;
+	bSizer67 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer68;
+	bSizer68 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText34 = new wxStaticText( this, wxID_ANY, wxT("Object:"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	m_staticText34->Wrap( -1 );
+	bSizer68->Add( m_staticText34, 0, wxALL, 5 );
+
+	m_objectText = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_SORT );
+	bSizer68->Add( m_objectText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer67->Add( bSizer68, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer69;
+	bSizer69 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText35 = new wxStaticText( this, wxID_ANY, wxT("Parent:"), wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	m_staticText35->Wrap( -1 );
+	bSizer69->Add( m_staticText35, 0, wxALL, 5 );
+
+	m_parentText = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_SORT );
+	bSizer69->Add( m_parentText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer67->Add( bSizer69, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer70;
+	bSizer70 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_cancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer70->Add( m_cancelBtn, 1, wxALL|wxEXPAND, 5 );
+
+	m_reparentBtn = new wxButton( this, wxID_OK, wxT("Reparent"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_reparentBtn->SetDefault();
+	bSizer70->Add( m_reparentBtn, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer67->Add( bSizer70, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer67 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3ReparentDialog::~LE3ReparentDialog()
 {
 }
