@@ -188,7 +188,7 @@ public:
         ///////////////
         // Update Gun
         ///////////////
-        glm::vec3 deltaRotation = 0.00005f * glm::vec3(cosf(runTime) + sinf(runTime), 4.f * sinf(runTime + 2.f) * cosf(runTime + 2.f), 0.f);
+        glm::vec3 deltaRotation = 0.000005f * glm::vec3(cosf(runTime) + sinf(runTime), 4.f * sinf(runTime + 2.f) * cosf(runTime + 2.f), 0.f);
 
         scene.GetObject("gun")->SetRotation(glm::vec3(8.f * 3.14159265 / 180.f, -3.14159265f + 5.f * 3.14159265 / 180.f, 0.f) + deltaRotation * 100.f);
         scene.GetObject("gun")->SetPosition(glm::vec3(0.12f, -.1f, -0.4f));
@@ -208,7 +208,7 @@ public:
         if (bIsShooting)
         {
             float gunSine = sinf((runTime - shotBeginTime) * (2 * 3.14159265f) / shotDuration);
-            deltaRotation.x += 0.005f * gunSine;
+            deltaRotation.x += 0.0005f * gunSine;
 
             scene.GetObject("gun")->SetPosition(scene.GetObject("gun")->GetPosition() + glm::vec3(0.0f, 0.01f * gunSine, 0.f));
             scene.GetObject("gun")->SetRotation(scene.GetObject("gun")->GetRotation() + glm::vec3(0.05f * gunSine, 0.f, 0.f));
@@ -222,7 +222,7 @@ public:
 
         // Head bobble while moving
         if (cameraVelocity.y * cameraVelocity.y + cameraVelocity.x * cameraVelocity.x > 0.01f)
-            deltaRotation.x += 0.001f * sinf(runTime * 25.f);
+            deltaRotation.x += 0.0001f * sinf(runTime * 25.f);
 
         scene.GetCamera()->AddRotationX(deltaRotation.x);
         scene.GetCamera()->AddRotationY(deltaRotation.y);

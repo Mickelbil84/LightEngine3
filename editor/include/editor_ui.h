@@ -84,7 +84,12 @@ protected:
     ////////////////////////////////
     virtual void OnCollisionToolToggle( wxCommandEvent& event );
     virtual void OnBulletCollisionToolToggle( wxCommandEvent& event );
+
+    /////////////////////////////////
+    // Object Hirerachy Manipulation
+    /////////////////////////////////
     virtual void OnReparent( wxCommandEvent& event );
+    virtual void OnDuplicate( wxCommandEvent& event );
 
     ////////////////////////////////
     // Object Creation Dialogs

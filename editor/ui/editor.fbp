@@ -287,6 +287,18 @@
                             <property name="tooltip"></property>
                             <event name="OnToolClicked">OnReparent</event>
                         </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap"></property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">tool</property>
+                            <property name="name">m_duplicateTool</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar"></property>
+                            <property name="tooltip"></property>
+                            <event name="OnToolClicked">OnDuplicate</event>
+                        </object>
                     </object>
                 </object>
                 <object class="sizeritem" expanded="0">

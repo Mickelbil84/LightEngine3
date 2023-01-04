@@ -60,6 +60,7 @@ class LE3EditorWindow : public wxFrame
 		wxAuiToolBarItem* m_collisionTool;
 		wxAuiToolBarItem* m_bulletCollisionTool;
 		wxAuiToolBarItem* m_reparentTool;
+		wxAuiToolBarItem* m_duplicateTool;
 		wxAuiToolBar* m_sideToolbar;
 		wxAuiToolBarItem* m_addCubeTool;
 		wxAuiToolBarItem* m_addSphereTool;
@@ -103,6 +104,7 @@ class LE3EditorWindow : public wxFrame
 		virtual void OnCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBulletCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnReparent( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDuplicate( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddCube( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddSphere( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddCylinder( wxCommandEvent& event ) { event.Skip(); }

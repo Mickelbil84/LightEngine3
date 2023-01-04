@@ -1,5 +1,5 @@
 /* XPM */
-static char *icon_reparent[] = {
+static const char *const icon_reparent[] = {
 /* Values */
 "24 24 94 2",
 /* Colors */

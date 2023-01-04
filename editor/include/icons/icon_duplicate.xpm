@@ -1,5 +1,5 @@
 /* XPM */
-static char *icon_duplicate[] = {
+static const char *const icon_duplicate[] = {
 /* Values */
 "24 24 54 1",
 /* Colors */

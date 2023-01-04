@@ -14,6 +14,7 @@
 #include "icons/icon_collision.xpm"
 #include "icons/icon_bulletcollision.xpm"
 #include "icons/icon_reparent.xpm"
+#include "icons/icon_duplicate.xpm"
 
 #include "icons/icon_newcube.xpm"
 #include "icons/icon_newsphere.xpm"
@@ -38,6 +39,7 @@ LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selected
     m_collisionTool->SetBitmap({icon_collision});
     m_bulletCollisionTool->SetBitmap({icon_bulletcollision});
     m_reparentTool->SetBitmap({icon_reparent});
+    m_duplicateTool->SetBitmap({icon_duplicate});
     m_topToolbar->Realize();
 
     m_sideToolbar->SetToolBitmapSize(wxSize(24, 24));
@@ -793,4 +795,22 @@ void LE3EditorUI::OnReparent( wxCommandEvent& event )
         RefreshSceneGraph();
     }
     m_editor->bPauseUpdate = false;
+}
+
+void LE3EditorUI::OnDuplicate( wxCommandEvent& event )
+{
+    // LE3Object* selectedObject = m_editor->GetSelectedObject();
+    // if (!selectedObject)
+    //     return;
+
+    // bool bBaseObject = true;
+    // std::string newName = GetValidObjectName(selectedObject->GetName());
+
+    // // Try casting to a static mesh
+    // LE3StaticMesh* staticMesh = std::dynamic_cast<LE3StaticMesh>(selectedObject);
+    // if (staticMesh)
+    // {
+            
+    //     bBaseObject = false;
+    // }
 }
