@@ -35,6 +35,7 @@ protected:
     LE3Mesh<LE3Vertex>* m_mesh;
     LE3Material* m_material;
     btRigidBody* m_pRigidBody;
+public:
     bool m_bHasCollision;
 };
 

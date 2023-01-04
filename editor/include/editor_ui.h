@@ -90,6 +90,7 @@ protected:
     /////////////////////////////////
     virtual void OnReparent( wxCommandEvent& event );
     virtual void OnDuplicate( wxCommandEvent& event );
+    LE3Object* Duplicate(LE3Object* obj, std::string parentName);
 
     ////////////////////////////////
     // Object Creation Dialogs

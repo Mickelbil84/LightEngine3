@@ -799,18 +799,56 @@ void LE3EditorUI::OnReparent( wxCommandEvent& event )
 
 void LE3EditorUI::OnDuplicate( wxCommandEvent& event )
 {
-    // LE3Object* selectedObject = m_editor->GetSelectedObject();
-    // if (!selectedObject)
-    //     return;
+    LE3Object* selectedObject = m_editor->GetSelectedObject();
+    if (!selectedObject)
+        return;
 
-    // bool bBaseObject = true;
-    // std::string newName = GetValidObjectName(selectedObject->GetName());
+    m_editor->bPauseUpdate = true;
+    std::string parentName = selectedObject->GetParent()->GetName();
+    if (selectedObject->GetParent()->GetName() == "Root")
+        parentName = "";
+    LE3Object* newObj = Duplicate(selectedObject, parentName);
+    m_editor->SetSelectedObject(newObj);
+    RefreshAssets();
+    RefreshSceneGraph();
+    m_editor->bPauseUpdate = false;
+}
 
-    // // Try casting to a static mesh
-    // LE3StaticMesh* staticMesh = std::dynamic_cast<LE3StaticMesh>(selectedObject);
-    // if (staticMesh)
-    // {
-            
-    //     bBaseObject = false;
-    // }
+LE3Object* LE3EditorUI::Duplicate(LE3Object* obj, std::string parentName) 
+{
+    std::string newName = GetValidObjectName(obj->GetName());
+
+    // Try casting and creating all types of objects
+    // If we cannot cast, then the object is just the base class
+    bool bBaseObject = true; 
+
+    LE3Object* newObj = nullptr;
+    
+    LE3StaticMesh* staticMesh = dynamic_cast<LE3StaticMesh*>(obj);
+    if (staticMesh) 
+    {
+        m_editor->scene.AddStaticMesh(newName, staticMesh->meshName, staticMesh->materialName, staticMesh->GetScale(), staticMesh->m_bHasCollision, parentName);
+        bBaseObject = false;
+    }
+
+    if (bBaseObject) 
+    {
+        m_editor->scene.AddObject(newName, parentName);
+    }
+
+    newObj = m_editor->scene.GetObject(newName).get();
+    if (newObj)
+    {
+        // Copy transformations
+        newObj->SetPosition(obj->GetPosition());
+        newObj->SetRotation(obj->GetRotation());
+        newObj->SetScale(obj->GetScale());
+        newObj->SetHiddenInSceneGraph(obj->GetHiddenInSceneGraph());
+        newObj->SetHidden(obj->GetHidden());
+
+        for (auto child : obj->GetChildren())
+            Duplicate(child, newName);
+    }
+
+    return newObj;
 }

@@ -77,6 +77,8 @@ public:
     LE3Object* GetSelectedObject() const;
     void SetRefreshPropertiesCallback(LE3RefreshPropertiesCallback* callback);
 
+    
+
     void ModeIdle();
     void ModeSelect();
     void ModeCamera(LE3EditorInput input);
