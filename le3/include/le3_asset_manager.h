@@ -113,6 +113,8 @@ public:
             material.SetShader(GetShader(material.shaderName));
             if (material.diffuseTextureName.size())
                 material.SetDiffuseTexture(GetTexture(material.diffuseTextureName));
+            if (material.specularTextureName.size())
+                material.SetSpecularTexture(GetTexture(material.specularTextureName));
         }
     }
 

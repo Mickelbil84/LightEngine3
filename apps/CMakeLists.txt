@@ -36,3 +36,10 @@ add_executable(
 )
 target_link_libraries(03_ps1_shooter PRIVATE le3 GLEW::glew ${BULLET_LIBRARIES})
 target_compile_features(03_ps1_shooter PUBLIC cxx_std_20)
+
+add_executable(
+    04_lighting
+    demos/04_lighting.cpp
+)
+target_link_libraries(04_lighting PRIVATE le3 GLEW::glew ${BULLET_LIBRARIES})
+target_compile_features(04_lighting PUBLIC cxx_std_20)

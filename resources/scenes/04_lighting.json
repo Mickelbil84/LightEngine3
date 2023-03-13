@@ -1,0 +1,288 @@
+{
+    "scene": {
+        "assets": {
+            "m_meshesPaths": [
+                {
+                    "key": "floor",
+                    "value": {
+                        "path": "$BOX_0_0_0_10.000000_0.200000_10.000000_"
+                    }
+                },
+                {
+                    "key": "sphere",
+                    "value": {
+                        "path": "$SPH_0_0_0_0.700000_64.000000_"
+                    }
+                }
+            ],
+            "m_texturesPaths": [
+                {
+                    "key": "T_tile_floor",
+                    "value": {
+                        "path": "../resources/textures/tile_floor.jpg"
+                    }
+                },
+                {
+                    "key": "T_wood",
+                    "value": {
+                        "path": "../resources/textures/wood.png"
+                    }
+                }
+            ],
+            "m_shadersPaths": [
+                {
+                    "key": "S_blinn_phong",
+                    "value": {
+                        "vertexShaderPath": "../resources/shaders/blinn_phong/blinn_phong.vs",
+                        "fragmentShaderPath": "../resources/shaders/blinn_phong/blinn_phong.fs"
+                    }
+                },
+                {
+                    "key": "S_default",
+                    "value": {
+                        "vertexShaderPath": "../resources/shaders/default/default.vs",
+                        "fragmentShaderPath": "../resources/shaders/default/default.fs"
+                    }
+                }
+            ],
+            "m_materials": [
+                {
+                    "key": "M_default",
+                    "value": {
+                        "shaderName": "S_default",
+                        "diffuseColor": {
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "",
+                        "bUseDiffuseTexture": false,
+                        "specularColor": {
+                            "v.x": 1.0,
+                            "v.y": 1.0,
+                            "v.z": 1.0
+                        },
+                        "specularIntensity": 1.0,
+                        "shininess": 16.0,
+                        "specularTextureName": "",
+                        "bUseSpecularTexture": false,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
+                    }
+                },
+                {
+                    "key": "M_floor",
+                    "value": {
+                        "shaderName": "S_blinn_phong",
+                        "diffuseColor": {
+                            "v.x": 0.20000000298023225,
+                            "v.y": 0.20000000298023225,
+                            "v.z": 0.20000000298023225,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "T_tile_floor",
+                        "bUseDiffuseTexture": true,
+                        "specularColor": {
+                            "v.x": 1.0,
+                            "v.y": 1.0,
+                            "v.z": 1.0
+                        },
+                        "specularIntensity": 2.0,
+                        "shininess": 128.0,
+                        "specularTextureName": "T_tile_floor",
+                        "bUseSpecularTexture": true,
+                        "tilingX": 0.5,
+                        "tilingY": 0.5
+                    }
+                },
+                {
+                    "key": "M_sphere",
+                    "value": {
+                        "shaderName": "S_blinn_phong",
+                        "diffuseColor": {
+                            "v.x": 1.0,
+                            "v.y": 1.0,
+                            "v.z": 1.0,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "T_wood",
+                        "bUseDiffuseTexture": false,
+                        "specularColor": {
+                            "v.x": 1.0,
+                            "v.y": 1.0,
+                            "v.z": 1.0
+                        },
+                        "specularIntensity": 10.0,
+                        "shininess": 128.0,
+                        "specularTextureName": "T_wood",
+                        "bUseSpecularTexture": true,
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
+                    }
+                }
+            ]
+        },
+        "objectPool": [
+            {
+                "key": "floor",
+                "value": {
+                    "polymorphic_id": 2147483649,
+                    "polymorphic_name": "LE3StaticMesh",
+                    "ptr_wrapper": {
+                        "id": 2147483649,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "floor",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "floor",
+                            "materialName": "M_floor",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            },
+            {
+                "key": "sphere",
+                "value": {
+                    "polymorphic_id": 1,
+                    "ptr_wrapper": {
+                        "id": 2147483650,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": 0.9959688186645508,
+                                "v.z": 1.2027459144592286
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": 0.0,
+                                "v.y": 0.9959688186645508,
+                                "v.z": 1.2027459144592286
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.9959688186645508,
+                                "m[3][2]": 1.2027459144592286,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.9959688186645508,
+                                "m[3][2]": 1.2027459144592286,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "sphere",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "sphere",
+                            "materialName": "M_sphere",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            }
+        ],
+        "parentLinks": [
+            {
+                "key": "floor",
+                "value": ""
+            },
+            {
+                "key": "sphere",
+                "value": ""
+            }
+        ]
+    }
+}
