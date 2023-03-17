@@ -90,13 +90,12 @@ public:
 
         // Lights
         scene.AddAmbientLight(glm::vec3(1.f, 1.f, 1.f), 0.1f);
-        scene.AddDirectionalLight("directional_light01");
+        scene.AddDirectionalLight("directional_light01", glm::vec3(1.f), 0.5);
         scene.GetObject("directional_light01")->SetRotationX(-1.5f);
-
+        scene.AddDirectionalLight("directional_light02", glm::vec3(0.05f, 0.8f, 0.95f), 0.5);
 
         // Camera
         scene.AddFPSCamera();
-
 
 
         // ---------------------------

@@ -67,7 +67,7 @@ vec3 calc_directional_light(DirectionalLight directionalLight, vec3 normal, vec3
     float bp = calc_blinn_phong(normal, direction, pos, material.shininess);
 
     return directionalLight.intensity * 
-        (bp * material.specularIntensity * specularColor + l * vec3(1.0));
+        (bp * material.specularIntensity * specularColor + l * vec3(1.0)) * directionalLight.color;
 }
 
 void main()
