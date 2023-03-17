@@ -34,6 +34,16 @@ struct DirectionalLight
 };
 uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
 
+struct PointLight
+{
+    vec3 color;
+    float intensity;
+    vec3 position;
+
+    float attn_const, attn_linear, attn_exp;
+};
+uniform PointLight pointLights[MAX_POINT_LIGHTS];
+
 out vec4 fColor;
 
 in vec2 texCoord;
@@ -70,6 +80,20 @@ vec3 calc_directional_light(DirectionalLight directionalLight, vec3 normal, vec3
         (bp * material.specularIntensity * specularColor + l * vec3(1.0)) * directionalLight.color;
 }
 
+vec3 calc_point_light(PointLight pointLight, vec3 normal, vec3 pos, Material material, vec3 specularColor)
+{
+    vec3 direction = pos - vec3(viewMat * vec4(pointLight.position, 1.0));
+    float dir_len = length(direction);
+    direction = direction / dir_len;
+
+    float attn = 1 / (pointLight.attn_const + pointLight.attn_linear * dir_len + pointLight.attn_exp * dir_len * dir_len + 0.0000001);
+    float l = calc_lambertian(normal, direction);
+    float bp = calc_blinn_phong(normal, direction, pos, material.shininess);
+
+    return pointLight.intensity * attn *
+        (bp * material.specularIntensity * specularColor + l * vec3(1.0)) * pointLight.color;
+}
+
 void main()
 {
     // Diffuse color
@@ -85,16 +109,11 @@ void main()
             material.specularTexture, vec2(texCoord.x * material.tilingX, texCoord.y * material.tilingY)).r;
 
     vec3 light = vec3(0.0);
-
     light += calc_ambient_light(ambientLight);
     for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
         light += calc_directional_light(directionalLights[i], normalCoord, posCoord, material, vec3(specularColor));
-
-    // Directional lights
-    // vec3 dir = normalize(vec3(0.01, -0.5, -0.5));
-
-    // light += 0.4 * calc_lambertian(normalCoord, dir) * vec3(1.0);
-    // light += material.specularIntensity * calc_blinn_phong(normalCoord, dir, posCoord, material.shininess) * vec3(specularColor);
+    for (int i = 0; i < MAX_POINT_LIGHTS; i++)
+        light += calc_point_light(pointLights[i], normalCoord, posCoord, material, vec3(specularColor));
 
     fColor = vec4(light, 1.0) * diffuseColor;
 }

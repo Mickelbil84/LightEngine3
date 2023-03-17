@@ -75,7 +75,7 @@ public:
         scene.assets.CreateMaterial("M_sphere", "S_blinn_phong");
         scene.assets.GetMaterial("M_sphere")->SetDiffuseTexture(scene.assets.GetTexture("T_wood"));
         scene.assets.GetMaterial("M_sphere")->bUseDiffuseTexture = true;
-        scene.assets.GetMaterial("M_sphere")->specularIntensity = 2.f;
+        scene.assets.GetMaterial("M_sphere")->specularIntensity = 6.f;
         scene.assets.GetMaterial("M_sphere")->shininess = 256.f;
         scene.assets.GetMaterial("M_sphere")->SetSpecularTexture(scene.assets.GetTexture("T_wood"));
         scene.assets.GetMaterial("M_sphere")->bUseSpecularTexture = true;
@@ -90,9 +90,14 @@ public:
 
         // Lights
         scene.AddAmbientLight(glm::vec3(1.f, 1.f, 1.f), 0.1f);
+
         scene.AddDirectionalLight("directional_light01", glm::vec3(1.f), 0.5);
         scene.GetObject("directional_light01")->SetRotationX(-1.5f);
+
         scene.AddDirectionalLight("directional_light02", glm::vec3(0.05f, 0.8f, 0.95f), 0.5);
+
+        scene.AddPointLight("point_light01", glm::vec3(0.95f, 0.7f, 0.2f), 0.7f);
+        scene.GetObject("point_light01")->SetPosition(glm::vec3(0.f, 1.f, -.7f));
 
         SaveScene(scene, resource_prefix + "resources/scenes/04_lighting.json");
 
