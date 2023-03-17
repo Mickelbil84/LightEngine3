@@ -1,5 +1,7 @@
 # Welcome to the LightEngine3 repository! #
 
+![Screenshot](https://raw.githubusercontent.com/Mickelbil84/LightEngine3/master/resources/screenshots/screenshot01.png)
+
 ## Introduction
 
 LightEngine3 is a lightweight OpenGL rendering engine (which also contains some elements of a game engine),
