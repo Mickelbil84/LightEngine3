@@ -30,6 +30,7 @@ public:
     // void LoadScene(std::string serializationPath);
 
     void Init();
+    void Render();
     void Clear();
 
     void AddFreeCamera(glm::vec3 position=glm::vec3(0.f));
@@ -37,6 +38,7 @@ public:
 
     void AddObject(std::string name, std::string parent="");
     void AddStaticMesh(std::string name, std::string meshName, std::string materialName, float scale=1.f, bool registerCollision=true, std::string parent="");
+    void AddAmbientLight(glm::vec3 color=glm::vec3(1.f), float intensity=0.1f);
 
     std::shared_ptr<LE3SceneRoot> GetRoot() const;
     std::shared_ptr<LE3Camera> GetCamera() const;

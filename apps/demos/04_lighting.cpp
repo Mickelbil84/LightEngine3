@@ -89,7 +89,8 @@ public:
         scene.GetObject("sphere")->SetPosition(glm::vec3(0.f, 0.9959f, 1.2027f));
 
         // Lights
-        
+        scene.AddAmbientLight(glm::vec3(1.f, 1.f, 1.f), 0.1f);
+
 
         // Camera
         scene.AddFPSCamera();
@@ -172,14 +173,7 @@ public:
 
     virtual void Render()
     {
-        for (const auto& [key, value] : scene.assets.m_shaders)
-        {
-            LE3Shader* shader = scene.assets.GetShader(key);
-            shader->Use();
-            shader ->Uniform("view", scene.GetCamera()->GetViewMatrix());
-            shader->Uniform("projection", scene.GetCamera()->GetProjectionMatrix());
-        }
-        scene.GetRoot()->Draw();
+        scene.Render();
     }
 
     virtual void Shutdown() 

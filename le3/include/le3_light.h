@@ -18,6 +18,12 @@ public:
         // ar(CEREAL_NVP(color), CEREAL_NVP(intensity));
     }
 
+    glm::vec3 GetColor() const;
+    void SetColor(glm::vec3 color);
+    
+    float GetIntensity() const;
+    void SetIntensity(float intensity);
+
 protected:
     glm::vec3 color;
     float intensity;

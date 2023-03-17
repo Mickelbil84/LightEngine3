@@ -51,6 +51,11 @@ float calc_blinn_phong(vec3 normal, vec3 direction, vec3 pos, float shininess)
     return pow(N_dot_H, shininess);
 }
 
+vec3 calc_ambient_light(AmbientLight ambientLight)
+{
+    return ambientLight.intensity * ambientLight.color;
+}
+
 void main()
 {
     // Diffuse color
@@ -67,11 +72,13 @@ void main()
 
     vec3 light = vec3(0.0);
 
-    // Directional lights
-    vec3 dir = normalize(vec3(0.01, -0.5, -0.5));
+    light += calc_ambient_light(ambientLight);
 
-    light += 0.4 * calc_lambertian(normalCoord, dir) * vec3(1.0);
-    light += material.specularIntensity * calc_blinn_phong(normalCoord, dir, posCoord, material.shininess) * vec3(specularColor);
+    // Directional lights
+    // vec3 dir = normalize(vec3(0.01, -0.5, -0.5));
+
+    // light += 0.4 * calc_lambertian(normalCoord, dir) * vec3(1.0);
+    // light += material.specularIntensity * calc_blinn_phong(normalCoord, dir, posCoord, material.shininess) * vec3(specularColor);
 
     fColor = vec4(light, 1.0) * diffuseColor;
 }

@@ -117,6 +117,15 @@ void LE3SceneManager::AddStaticMesh(std::string name, std::string meshName, std:
     UpdateSceneGraph();
 }
 
+void LE3SceneManager::AddAmbientLight(glm::vec3 color, float intensity)
+{
+    std::shared_ptr<LE3AmbientLight> obj(new LE3AmbientLight(color, intensity));
+    objectPool[obj->GetName()] = std::static_pointer_cast<LE3Object>(obj);
+    parentLinks[obj->GetName()] = "";
+    lightManager.SetAmbientLight(obj);
+    UpdateSceneGraph();
+}
+
 void LE3SceneManager::AddObject(std::string name, std::string parent)
 {
     std::shared_ptr<LE3Object> obj(new LE3Object(name));
@@ -129,4 +138,17 @@ void LE3SceneManager::Reparent(std::string object, std::string newParent)
 {
     parentLinks[object] = newParent;
     UpdateSceneGraph();
+}
+
+void LE3SceneManager::Render()
+{
+    for (const auto& [key, value] : assets.m_shaders)
+    {
+        LE3Shader* shader = assets.GetShader(key);
+        shader->Use();
+        shader ->Uniform("view", GetCamera()->GetViewMatrix());
+        shader->Uniform("projection", GetCamera()->GetProjectionMatrix());
+        lightManager.RenderLights(shader);
+    }
+    GetRoot()->Draw();
 }
