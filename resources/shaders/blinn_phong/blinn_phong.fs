@@ -1,6 +1,8 @@
 #version 410 core
 
-#define MAX_DIRECTIONAL_LIGHTS
+#define MAX_DIRECTIONAL_LIGHTS 4
+#define MAX_POINT_LIGHTS 16
+#define MAX_SPOT_LIGHTS 16
 
 struct Material
 {
@@ -30,12 +32,14 @@ struct DirectionalLight
     float intensity;
     vec3 direction;
 };
+uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
 
 out vec4 fColor;
 
 in vec2 texCoord;
 in vec3 posCoord;
 in vec3 normalCoord;
+in mat4 viewMat;
 
 float calc_lambertian(vec3 normal, vec3 direction)
 {
@@ -56,6 +60,16 @@ vec3 calc_ambient_light(AmbientLight ambientLight)
     return ambientLight.intensity * ambientLight.color;
 }
 
+vec3 calc_directional_light(DirectionalLight directionalLight, vec3 normal, vec3 pos, Material material, vec3 specularColor)
+{
+    vec3 direction = vec3(viewMat * vec4(directionalLight.direction, 0.0));
+    float l = calc_lambertian(normal, direction);
+    float bp = calc_blinn_phong(normal, direction, pos, material.shininess);
+
+    return directionalLight.intensity * 
+        (bp * material.specularIntensity * specularColor + l * vec3(1.0));
+}
+
 void main()
 {
     // Diffuse color
@@ -73,6 +87,8 @@ void main()
     vec3 light = vec3(0.0);
 
     light += calc_ambient_light(ambientLight);
+    for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
+        light += calc_directional_light(directionalLights[i], normalCoord, posCoord, material, vec3(specularColor));
 
     // Directional lights
     // vec3 dir = normalize(vec3(0.01, -0.5, -0.5));

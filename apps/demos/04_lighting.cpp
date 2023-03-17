@@ -90,6 +90,8 @@ public:
 
         // Lights
         scene.AddAmbientLight(glm::vec3(1.f, 1.f, 1.f), 0.1f);
+        scene.AddDirectionalLight("directional_light01");
+        scene.GetObject("directional_light01")->SetRotationX(-1.5f);
 
 
         // Camera

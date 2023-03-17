@@ -11,6 +11,7 @@ uniform mat4 projection;
 out vec2 texCoord;
 out vec3 posCoord;
 out vec3 normalCoord;
+out mat4 viewMat;
 
 void main()
 {
@@ -22,4 +23,6 @@ void main()
 
     mat3 normal_mtx = transpose(inverse(mat3(view_model)));
     normalCoord = normalize(normal_mtx * vNormal);
+
+    viewMat = view;
 }

@@ -126,6 +126,15 @@ void LE3SceneManager::AddAmbientLight(glm::vec3 color, float intensity)
     UpdateSceneGraph();
 }
 
+void LE3SceneManager::AddDirectionalLight(std::string name, glm::vec3 color, float intensity, std::string parent)
+{
+    std::shared_ptr<LE3DirectionalLight> obj(new LE3DirectionalLight(name, color, intensity));
+    objectPool[obj->GetName()] = std::static_pointer_cast<LE3Object>(obj);
+    parentLinks[obj->GetName()] = parent;
+    lightManager.AddDirectionalLight(obj);
+    UpdateSceneGraph();
+}
+
 void LE3SceneManager::AddObject(std::string name, std::string parent)
 {
     std::shared_ptr<LE3Object> obj(new LE3Object(name));

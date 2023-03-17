@@ -39,6 +39,7 @@ public:
     void AddObject(std::string name, std::string parent="");
     void AddStaticMesh(std::string name, std::string meshName, std::string materialName, float scale=1.f, bool registerCollision=true, std::string parent="");
     void AddAmbientLight(glm::vec3 color=glm::vec3(1.f), float intensity=0.1f);
+    void AddDirectionalLight(std::string name, glm::vec3 color=glm::vec3(1.f), float intensity=0.8f, std::string parent="");
 
     std::shared_ptr<LE3SceneRoot> GetRoot() const;
     std::shared_ptr<LE3Camera> GetCamera() const;
