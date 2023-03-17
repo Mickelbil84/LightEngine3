@@ -23,6 +23,7 @@ void LE3LightManager::RenderLights(LE3Shader* shader)
 
 void LE3LightManager::RenderAmbientLight(LE3Shader* shader)
 {
+    if (!m_pAmbientLight) return;
     shader->Uniform("ambientLight.color", m_pAmbientLight->GetColor());
     shader->Uniform("ambientLight.intensity", m_pAmbientLight->GetIntensity());
 }

@@ -76,9 +76,9 @@
                     "value": {
                         "shaderName": "S_blinn_phong",
                         "diffuseColor": {
-                            "v.x": 0.20000000298023225,
-                            "v.y": 0.20000000298023225,
-                            "v.z": 0.20000000298023225,
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
                             "v.w": 1.0
                         },
                         "diffuseTextureName": "T_tile_floor",
@@ -101,20 +101,20 @@
                     "value": {
                         "shaderName": "S_blinn_phong",
                         "diffuseColor": {
-                            "v.x": 1.0,
-                            "v.y": 1.0,
-                            "v.z": 1.0,
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
                             "v.w": 1.0
                         },
                         "diffuseTextureName": "T_wood",
-                        "bUseDiffuseTexture": false,
+                        "bUseDiffuseTexture": true,
                         "specularColor": {
                             "v.x": 1.0,
                             "v.y": 1.0,
                             "v.z": 1.0
                         },
-                        "specularIntensity": 10.0,
-                        "shininess": 128.0,
+                        "specularIntensity": 2.0,
+                        "shininess": 256.0,
                         "specularTextureName": "T_wood",
                         "bUseSpecularTexture": true,
                         "tilingX": 1.0,
@@ -125,12 +125,245 @@
         },
         "objectPool": [
             {
-                "key": "floor",
+                "key": "ambient_light",
                 "value": {
                     "polymorphic_id": 2147483649,
-                    "polymorphic_name": "LE3StaticMesh",
+                    "polymorphic_name": "LE3AmbientLight",
                     "ptr_wrapper": {
                         "id": 2147483649,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "ambient_light",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "color": {
+                                "v.x": 1.0,
+                                "v.y": 1.0,
+                                "v.z": 1.0
+                            },
+                            "intensity": 0.10000000149011612
+                        }
+                    }
+                }
+            },
+            {
+                "key": "directional_light01",
+                "value": {
+                    "polymorphic_id": 2147483650,
+                    "polymorphic_name": "LE3DirectionalLight",
+                    "ptr_wrapper": {
+                        "id": 2147483650,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_rotation": {
+                                "v.x": -1.5,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_globalRotation": {
+                                "v.x": -1.5,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 0.07073719799518585,
+                                "m[1][2]": -0.9974949955940247,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.9974949955940247,
+                                "m[2][2]": 0.07073719799518585,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 0.07073719799518585,
+                                "m[1][2]": -0.9974949955940247,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.9974949955940247,
+                                "m[2][2]": 0.07073719799518585,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "directional_light01",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "color": {
+                                "v.x": 1.0,
+                                "v.y": 1.0,
+                                "v.z": 1.0
+                            },
+                            "intensity": 0.5
+                        }
+                    }
+                }
+            },
+            {
+                "key": "directional_light02",
+                "value": {
+                    "polymorphic_id": 2,
+                    "ptr_wrapper": {
+                        "id": 2147483651,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 1.0,
+                            "m_globalPosition": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 1.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 1.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 1.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": 0.0,
+                                "m[3][2]": 0.0,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "directional_light02",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "color": {
+                                "v.x": 0.05000000074505806,
+                                "v.y": 0.800000011920929,
+                                "v.z": 0.949999988079071
+                            },
+                            "intensity": 0.5
+                        }
+                    }
+                }
+            },
+            {
+                "key": "floor",
+                "value": {
+                    "polymorphic_id": 2147483651,
+                    "polymorphic_name": "LE3StaticMesh",
+                    "ptr_wrapper": {
+                        "id": 2147483652,
                         "data": {
                             "m_position": {
                                 "v.x": 0.0,
@@ -202,14 +435,14 @@
             {
                 "key": "sphere",
                 "value": {
-                    "polymorphic_id": 1,
+                    "polymorphic_id": 3,
                     "ptr_wrapper": {
-                        "id": 2147483650,
+                        "id": 2147483653,
                         "data": {
                             "m_position": {
                                 "v.x": 0.0,
-                                "v.y": 0.9959688186645508,
-                                "v.z": 1.2027459144592286
+                                "v.y": 0.9958999752998352,
+                                "v.z": 1.2027000188827515
                             },
                             "m_rotation": {
                                 "v.x": 0.0,
@@ -219,8 +452,8 @@
                             "m_scale": 1.0,
                             "m_globalPosition": {
                                 "v.x": 0.0,
-                                "v.y": 0.9959688186645508,
-                                "v.z": 1.2027459144592286
+                                "v.y": 0.9958999752998352,
+                                "v.z": 1.2027000188827515
                             },
                             "m_globalRotation": {
                                 "v.x": 0.0,
@@ -241,8 +474,8 @@
                                 "m[2][2]": 1.0,
                                 "m[2][3]": 0.0,
                                 "m[3][0]": 0.0,
-                                "m[3][1]": 0.9959688186645508,
-                                "m[3][2]": 1.2027459144592286,
+                                "m[3][1]": 0.9958999752998352,
+                                "m[3][2]": 1.2027000188827515,
                                 "m[3][3]": 1.0
                             },
                             "m_globalModelMatrix": {
@@ -259,8 +492,8 @@
                                 "m[2][2]": 1.0,
                                 "m[2][3]": 0.0,
                                 "m[3][0]": 0.0,
-                                "m[3][1]": 0.9959688186645508,
-                                "m[3][2]": 1.2027459144592286,
+                                "m[3][1]": 0.9958999752998352,
+                                "m[3][2]": 1.2027000188827515,
                                 "m[3][3]": 1.0
                             },
                             "m_name": "sphere",
@@ -276,6 +509,18 @@
         ],
         "parentLinks": [
             {
+                "key": "ambient_light",
+                "value": ""
+            },
+            {
+                "key": "directional_light01",
+                "value": ""
+            },
+            {
+                "key": "directional_light02",
+                "value": ""
+            },
+            {
                 "key": "floor",
                 "value": ""
             },
@@ -283,6 +528,28 @@
                 "key": "sphere",
                 "value": ""
             }
-        ]
+        ],
+        "lightManager": {
+            "m_pAmbientLight": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 1
+                }
+            },
+            "m_directionalLights": [
+                {
+                    "polymorphic_id": 1073741824,
+                    "ptr_wrapper": {
+                        "id": 2
+                    }
+                },
+                {
+                    "polymorphic_id": 1073741824,
+                    "ptr_wrapper": {
+                        "id": 3
+                    }
+                }
+            ]
+        }
     }
 }

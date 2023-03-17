@@ -100,6 +100,7 @@ void LE3Editor::Render(int width, int height)
         shader->Use();
         shader ->Uniform("view", scene.GetCamera()->GetViewMatrix());
         shader->Uniform("projection", scene.GetCamera()->GetProjectionMatrix());
+        scene.lightManager.RenderLights(shader);
     }
 
     // Update also the gizmo shaders

@@ -75,8 +75,8 @@ public:
         scene.assets.CreateMaterial("M_sphere", "S_blinn_phong");
         scene.assets.GetMaterial("M_sphere")->SetDiffuseTexture(scene.assets.GetTexture("T_wood"));
         scene.assets.GetMaterial("M_sphere")->bUseDiffuseTexture = true;
-        scene.assets.GetMaterial("M_sphere")->specularIntensity = 1.f;
-        scene.assets.GetMaterial("M_sphere")->shininess = 128.f;
+        scene.assets.GetMaterial("M_sphere")->specularIntensity = 2.f;
+        scene.assets.GetMaterial("M_sphere")->shininess = 256.f;
         scene.assets.GetMaterial("M_sphere")->SetSpecularTexture(scene.assets.GetTexture("T_wood"));
         scene.assets.GetMaterial("M_sphere")->bUseSpecularTexture = true;
         scene.assets.GetMaterial("M_sphere")->tilingX = 1.f;
@@ -93,6 +93,8 @@ public:
         scene.AddDirectionalLight("directional_light01", glm::vec3(1.f), 0.5);
         scene.GetObject("directional_light01")->SetRotationX(-1.5f);
         scene.AddDirectionalLight("directional_light02", glm::vec3(0.05f, 0.8f, 0.95f), 0.5);
+
+        SaveScene(scene, resource_prefix + "resources/scenes/04_lighting.json");
 
         // Camera
         scene.AddFPSCamera();
