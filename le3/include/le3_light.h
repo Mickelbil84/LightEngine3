@@ -1,6 +1,8 @@
 #pragma once
 #include "le3_object.h"
 
+#include <cereal/cereal.hpp>
+
 class LE3AmbientLight : public LE3Object
 {
 public:
@@ -10,10 +12,10 @@ public:
     virtual void Draw();
 
     template <typename Archive>
-    void serialize( Archive & ar ) 
+    void serialize( Archive & ar )
     {
         LE3Object::serialize(ar);
-        ar(CEREAL_NVP(color), CEREAL_NVP(intensity));
+        // ar(CEREAL_NVP(color), CEREAL_NVP(intensity));
     }
 
 protected:

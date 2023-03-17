@@ -30,6 +30,7 @@ add_library(
     src/le3_texture.cpp
     src/le3_material.cpp
     src/le3_light.cpp
+    src/le3_light_manager.cpp
     src/le3_scene_root.cpp
     src/le3_static_mesh.cpp
     src/le3_asset_manager.cpp

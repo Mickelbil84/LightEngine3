@@ -15,6 +15,7 @@
 #include "le3_scene_root.h"
 #include "le3_static_mesh.h"
 #include "le3_asset_manager.h"
+#include "le3_light_manager.h"
 
 #define DEFAULT_SHADER_NAME "S_default"
 #define DEFAULT_MATERIAL_NAME "M_default"
@@ -23,6 +24,7 @@ class LE3SceneManager
 {
 public:
     LE3AssetManager assets;
+    LE3LightManager lightManager;
 
     // void SaveScene(std::string serializationPath) const;
     // void LoadScene(std::string serializationPath);
@@ -65,6 +67,7 @@ public:
     {
         ar(CEREAL_NVP(assets));
         ar(CEREAL_NVP(objectPool), CEREAL_NVP(parentLinks));
+        ar(CEREAL_NVP(lightManager));
     }
 
     template <class Archive>
@@ -72,6 +75,7 @@ public:
     {
         ar(assets);
         ar(objectPool, parentLinks);
+        ar(lightManager);
         UpdateSceneGraph();
         UpdateAssets();
         UpdatePhysics();

@@ -46,8 +46,54 @@ public:
         //   Load Assets
         // ---------------------------
         scene.Init();
-        LoadScene(scene, "../resources/scenes/04_lighting.json");
+        // LoadScene(scene, "../resources/scenes/04_lighting.json");
+        
+        // Meshes
+        scene.assets.AddMeshPath("floor", "$BOX_0_0_0_10.000000_0.200000_10.000000_");
+        scene.assets.AddMeshPath("sphere", "$SPH_0_0_0_0.700000_64.000000_");
+
+        // Textures
+        scene.assets.AddTexturePath("T_tile_floor", resource_prefix + "resources/textures/tile_floor.jpg");
+        scene.assets.AddTexturePath("T_wood", resource_prefix + "resources/textures/wood.png");
+
+        // Shaders
+        scene.assets.AddShaderPath("S_blinn_phong", 
+            resource_prefix + "resources/shaders/blinn_phong/blinn_phong.vs", 
+            resource_prefix + "resources/shaders/blinn_phong/blinn_phong.fs");
+        
+        // Materials
+        scene.assets.CreateMaterial("M_floor", "S_blinn_phong");
+        scene.assets.GetMaterial("M_floor")->SetDiffuseTexture(scene.assets.GetTexture("T_tile_floor"));
+        scene.assets.GetMaterial("M_floor")->bUseDiffuseTexture = true;
+        scene.assets.GetMaterial("M_floor")->specularIntensity = 2.f;
+        scene.assets.GetMaterial("M_floor")->shininess = 128.f;
+        scene.assets.GetMaterial("M_floor")->SetSpecularTexture(scene.assets.GetTexture("T_tile_floor"));
+        scene.assets.GetMaterial("M_floor")->bUseSpecularTexture = true;
+        scene.assets.GetMaterial("M_floor")->tilingX = 0.5f;
+        scene.assets.GetMaterial("M_floor")->tilingY = 0.5f;
+
+        scene.assets.CreateMaterial("M_sphere", "S_blinn_phong");
+        scene.assets.GetMaterial("M_sphere")->SetDiffuseTexture(scene.assets.GetTexture("T_wood"));
+        scene.assets.GetMaterial("M_sphere")->bUseDiffuseTexture = true;
+        scene.assets.GetMaterial("M_sphere")->specularIntensity = 1.f;
+        scene.assets.GetMaterial("M_sphere")->shininess = 128.f;
+        scene.assets.GetMaterial("M_sphere")->SetSpecularTexture(scene.assets.GetTexture("T_wood"));
+        scene.assets.GetMaterial("M_sphere")->bUseSpecularTexture = true;
+        scene.assets.GetMaterial("M_sphere")->tilingX = 1.f;
+        scene.assets.GetMaterial("M_sphere")->tilingY = 1.f;
+
+        // Objects
+        scene.AddStaticMesh("floor", "floor", "M_floor");
+
+        scene.AddStaticMesh("sphere", "sphere", "M_sphere");
+        scene.GetObject("sphere")->SetPosition(glm::vec3(0.f, 0.9959f, 1.2027f));
+
+        // Lights
+        
+
+        // Camera
         scene.AddFPSCamera();
+
 
 
         // ---------------------------
