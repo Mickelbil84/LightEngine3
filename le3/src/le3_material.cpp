@@ -48,6 +48,20 @@ void LE3Material::SetSpecularTexture(LE3Texture* texture)
     }
 }
 
+void LE3Material::SetNormalTexture(LE3Texture* texture)
+{
+    if (texture)
+    {
+        this->normalTexture = texture;
+        this->normalTextureName = texture->GetName();
+    }
+    else
+    {
+        this->normalTexture = nullptr;
+        this->normalTextureName = std::string("");
+    }
+}
+
 void LE3Material::Apply(glm::mat4 modelMatrix)
 {
     if (!pShader)
@@ -62,6 +76,8 @@ void LE3Material::Apply(glm::mat4 modelMatrix)
     pShader->Uniform("material.shininess", shininess);
     pShader->Uniform("material.bUseSpecularTexture", (GLuint)bUseSpecularTexture);
 
+    pShader->Uniform("material.bUseNormalTexture", (GLuint)bUseNormalTexture);
+
     pShader->Uniform("material.tilingX", tilingX);
     pShader->Uniform("material.tilingY", tilingY);
     if (bUseDiffuseTexture && diffuseTexture)
@@ -72,7 +88,12 @@ void LE3Material::Apply(glm::mat4 modelMatrix)
     if (bUseSpecularTexture && specularTexture)
     {
         pShader->Uniform("material.specularTexture", (GLuint)SPECULAR_TEXTURE_INDEX);
-        diffuseTexture->Use(SPECULAR_TEXTURE_INDEX);
+        specularTexture->Use(SPECULAR_TEXTURE_INDEX);
+    }
+    if (bUseSpecularTexture && specularTexture)
+    {
+        pShader->Uniform("material.normalTexture", (GLuint)NORMAL_TEXTURE_INDEX);
+        normalTexture->Use(NORMAL_TEXTURE_INDEX);
     }
 }
 

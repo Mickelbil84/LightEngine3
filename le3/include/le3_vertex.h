@@ -34,10 +34,20 @@ struct LE3Vertex3p2t3n3c
     GLfloat color[3]; // location = 3
 };
 
+struct LE3Vertex3p2t3n3tn3b
+{
+    GLfloat position[3]; // location = 0
+    GLfloat uv[2]; // location = 1
+    GLfloat normal[3]; // location = 2
+    GLfloat tangent[3]; // location = 4
+    GLfloat bitangent[3]; // location = 5
+};
+
 // The default vertex type is the one with (position, uv, normal)
-using LE3Vertex = LE3Vertex3p2t3n; 
+using LE3Vertex = LE3Vertex3p2t3n3tn3b; 
 // Create a default vertex using glm vectors
-LE3Vertex VertexFromGLM(glm::vec3 position, glm::vec2 uv, glm::vec3 normal);
+LE3Vertex VertexFromGLM(glm::vec3 position, glm::vec2 uv, glm::vec3 normal, 
+    glm::vec3 tangent = glm::vec3(1.f, 0.f, 0.f), glm::vec3 bitangent = glm::vec3(1.f, 0.f, 0.f));
 LE3Vertex3p VertexFromGLM(glm::vec3 position);
 
 
@@ -49,3 +59,5 @@ void RegisterVertexAttribPointer(LE3Vertex3p3c* v);
 void RegisterVertexAttribPointer(LE3Vertex3p2t3n* v);
 // Register the type of `LE3Vertex3p2t3n3c` as the current vertex type, argument `v` is example for type.
 void RegisterVertexAttribPointer(LE3Vertex3p2t3n3c* v);
+// Register the type of `LE3Vertex3p2t3n3tn3b` as the current vertex type, argument `v` is example for type.
+void RegisterVertexAttribPointer(LE3Vertex3p2t3n3tn3b* v);

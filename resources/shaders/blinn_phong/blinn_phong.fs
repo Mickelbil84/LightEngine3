@@ -15,6 +15,9 @@ struct Material
     sampler2D specularTexture;
     bool bUseSpecularTexture;
 
+    sampler2D normalTexture;
+    bool bUseNormalTexture;
+
     float tilingX, tilingY;
 };
 uniform Material material;
@@ -50,6 +53,7 @@ in vec2 texCoord;
 in vec3 posCoord;
 in vec3 normalCoord;
 in mat4 viewMat;
+in mat3 tbn;
 
 float calc_lambertian(vec3 normal, vec3 direction)
 {
@@ -108,12 +112,23 @@ void main()
         specularColor *= texture(
             material.specularTexture, vec2(texCoord.x * material.tilingX, texCoord.y * material.tilingY)).r;
 
+    // Normal color
+    vec3 normal = normalCoord;
+    if (material.bUseNormalTexture)
+    {
+        normal = texture(
+            material.normalTexture, vec2(texCoord.x * material.tilingX, texCoord.y * material.tilingY)).rgb;
+        normal = normalize(normal * 2.0 - 1.0);
+        normal = normalize(tbn * normal);
+    }
+        
+
     vec3 light = vec3(0.0);
     light += calc_ambient_light(ambientLight);
     for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
-        light += calc_directional_light(directionalLights[i], normalCoord, posCoord, material, vec3(specularColor));
+        light += calc_directional_light(directionalLights[i], normal, posCoord, material, vec3(specularColor));
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
-        light += calc_point_light(pointLights[i], normalCoord, posCoord, material, vec3(specularColor));
+        light += calc_point_light(pointLights[i], normal, posCoord, material, vec3(specularColor));
 
     fColor = vec4(light, 1.0) * diffuseColor;
 }

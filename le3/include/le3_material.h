@@ -10,7 +10,8 @@
 #include "le3_utils.h"
 
 #define DIFFUSE_TEXTURE_INDEX 0
-#define SPECULAR_TEXTURE_INDEX 0
+#define SPECULAR_TEXTURE_INDEX 1
+#define NORMAL_TEXTURE_INDEX 2
 
 struct LE3Material
 {
@@ -21,6 +22,7 @@ public:
     void SetShader(LE3Shader* shader);
     void SetDiffuseTexture(LE3Texture* texture);
     void SetSpecularTexture(LE3Texture* texture);
+    void SetNormalTexture(LE3Texture* texture);
 
     std::string shaderName;
 
@@ -36,11 +38,16 @@ public:
     std::string specularTextureName;
     bool bUseSpecularTexture = false;
 
+    // Normal
+    std::string normalTextureName;
+    bool bUseNormalTexture = false;
+
     float tilingX=1.f, tilingY=1.f;
 
     // Pointers
     LE3Texture* diffuseTexture;
     LE3Texture* specularTexture;
+    LE3Texture* normalTexture;
 
     // Sends material information to a given shader, and binds all relevant textures
     void Apply(glm::mat4 modelMatrix);
@@ -60,6 +67,9 @@ public:
         ar(CEREAL_NVP(shininess));
         ar(CEREAL_NVP(specularTextureName));
         ar(CEREAL_NVP(bUseSpecularTexture));
+
+        ar(CEREAL_NVP(normalTextureName));
+        ar(CEREAL_NVP(bUseNormalTexture));
 
         ar(CEREAL_NVP(tilingX), CEREAL_NVP(tilingY));
     }

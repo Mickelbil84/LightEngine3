@@ -115,6 +115,8 @@ public:
                 material.SetDiffuseTexture(GetTexture(material.diffuseTextureName));
             if (material.specularTextureName.size())
                 material.SetSpecularTexture(GetTexture(material.specularTextureName));
+            if (material.normalTextureName.size())
+                material.SetNormalTexture(GetTexture(material.normalTextureName));
         }
     }
 

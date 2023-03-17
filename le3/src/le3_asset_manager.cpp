@@ -79,7 +79,8 @@ void LE3AssetManager::LoadMesh(std::string name, std::string meshPath)
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(meshPath, 
         aiProcess_FlipUVs |
-        aiProcess_Triangulate
+        aiProcess_Triangulate |
+        aiProcess_CalcTangentSpace
         );
     if (!scene)
     {
@@ -165,6 +166,12 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
             vertex.normal[0] = mesh->mNormals[j].x;
             vertex.normal[1] = mesh->mNormals[j].y;
             vertex.normal[2] = mesh->mNormals[j].z;
+            vertex.tangent[0] = mesh->mTangents[j].x;
+            vertex.tangent[1] = mesh->mTangents[j].y;
+            vertex.tangent[2] = mesh->mTangents[j].z;
+            vertex.bitangent[0] = mesh->mBitangents[j].x;
+            vertex.bitangent[1] = mesh->mBitangents[j].y;
+            vertex.bitangent[2] = mesh->mBitangents[j].z;
             buffer.push_back(vertex);
         }
         for (unsigned int j = 0; j < mesh->mNumFaces; ++j)
