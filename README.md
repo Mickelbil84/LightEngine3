@@ -37,7 +37,7 @@ Installation is done simply with CMake.
 7. Run: `vcpkg install glm:x64-windows`
 8. Run: `vcpkg install assimp:x64-windows`
 9. Run: `vcpkg install wxwidgets:x64-windows`
-10. Run: `vcpkg install bullet:x64-windows`
+10. Run: `vcpkg install bullet3:x64-windows`
 11. Run: `vcpkg install fmt:x64-windows`
 
 ### Installation for MacOS (Tested in Intel and Apple Silicon, Monterey 12.4)
