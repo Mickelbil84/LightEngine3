@@ -4,8 +4,8 @@
 #include <cereal/cereal.hpp>
 
 #define MAX_DIRECTIONAL_LIGHTS 4
-#define MAX_POINT_LIGHTS 16
-#define MAX_SPOT_LIGHTS 16
+#define MAX_POINT_LIGHTS 8
+#define MAX_SPOT_LIGHTS 2
 
 const glm::vec3 g_DefaultLightDirection = glm::vec3(0.f, -1.f, 0.f);
 

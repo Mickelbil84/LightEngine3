@@ -1,8 +1,8 @@
 #version 410 core
 
 #define MAX_DIRECTIONAL_LIGHTS 4
-#define MAX_POINT_LIGHTS 16
-#define MAX_SPOT_LIGHTS 16
+#define MAX_POINT_LIGHTS 8
+#define MAX_SPOT_LIGHTS 2
 
 struct Material
 {
