@@ -115,3 +115,56 @@ void LE3PointLight::SetAttenuationExp(float attn_exp)
 {
     this->attn_exp = attn_exp;
 }
+
+LE3SpotLight::LE3SpotLight(std::string name, glm::vec3 color, float intensity, 
+        float cutoff, float outer_cutoff) :
+    LE3Object(name), color(color), intensity(intensity), cutoff(cutoff), outer_cutoff(outer_cutoff)
+{
+}
+
+void LE3SpotLight::Update(double deltaTime)
+{
+}
+void LE3SpotLight::Draw()
+{
+}
+glm::vec3 LE3SpotLight::GetColor() const
+{
+    return this->color;
+}
+void LE3SpotLight::SetColor(glm::vec3 color)
+{
+    this->color = color;
+}
+
+float LE3SpotLight::GetIntensity() const
+{
+    return this->intensity;
+}
+void LE3SpotLight::SetIntensity(float intensity)
+{
+    this->intensity = intensity;
+}
+
+float LE3SpotLight::GetCutoff() const
+{
+    return this->cutoff;
+}
+float LE3SpotLight::GetOuterCutoff() const
+{
+    return this->outer_cutoff;
+}
+void LE3SpotLight::SetCutoff(float cutoff)
+{
+    this->cutoff = cutoff;
+}
+void LE3SpotLight::SetOuterCutoff(float outer_cutoff)
+{
+    this->outer_cutoff = cutoff;
+}
+
+glm::vec3 LE3SpotLight::GetDirection() const
+{
+    glm::vec3 dir = this->GetModelMatrix() * glm::vec4(g_DefaultLightDirection, 0.f);
+    return dir;
+}

@@ -18,12 +18,17 @@ void LE3LightManager::AddPointLight(std::shared_ptr<LE3PointLight> pointLight)
 {
     this->m_pointLights.push_back(pointLight);
 }
+void LE3LightManager::AddSpotLight(std::shared_ptr<LE3SpotLight> spotLight)
+{
+    this->m_spotLights.push_back(spotLight);
+}
 
 void LE3LightManager::RenderLights(LE3Shader* shader)
 {
     RenderAmbientLight(shader);
     RenderDirectionalLights(shader);
     RenderPointLights(shader);
+    RenderSpotLights(shader);
 }
 
 void LE3LightManager::RenderAmbientLight(LE3Shader* shader)
@@ -53,5 +58,18 @@ void LE3LightManager::RenderPointLights(LE3Shader* shader)
         shader->Uniform(fmt::format("pointLights[{}].attn_const", i), m_pointLights[i]->GetAttenuationConst());
         shader->Uniform(fmt::format("pointLights[{}].attn_linear", i), m_pointLights[i]->GetAttenuationLinear());
         shader->Uniform(fmt::format("pointLights[{}].attn_exp", i), m_pointLights[i]->GetAttenuationExp());
+    }
+}
+
+void LE3LightManager::RenderSpotLights(LE3Shader* shader)
+{
+    for (int i = 0; i < m_spotLights.size(); i++)
+    {
+        shader->Uniform(fmt::format("spotLights[{}].color", i), m_spotLights[i]->GetColor());
+        shader->Uniform(fmt::format("spotLights[{}].intensity", i), m_spotLights[i]->GetIntensity());
+        shader->Uniform(fmt::format("spotLights[{}].position", i), m_spotLights[i]->GetGlobalPosition());
+        shader->Uniform(fmt::format("spotLights[{}].direction", i), m_spotLights[i]->GetDirection());
+        shader->Uniform(fmt::format("spotLights[{}].cutoff", i), m_spotLights[i]->GetCutoff());
+        shader->Uniform(fmt::format("spotLights[{}].outer_cutoff", i), m_spotLights[i]->GetOuterCutoff());
     }
 }

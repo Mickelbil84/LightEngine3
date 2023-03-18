@@ -144,6 +144,15 @@ void LE3SceneManager::AddPointLight(std::string name, glm::vec3 color, float int
     UpdateSceneGraph();
 }
 
+void LE3SceneManager::AddSpotLight(std::string name, glm::vec3 color, float intensity, float cutoff, float outer_cutoff, std::string parent)
+{
+    std::shared_ptr<LE3SpotLight> obj(new LE3SpotLight(name, color, intensity, cutoff, outer_cutoff));
+    objectPool[obj->GetName()] = std::static_pointer_cast<LE3Object>(obj);
+    parentLinks[obj->GetName()] = parent;
+    lightManager.AddSpotLight(obj);
+    UpdateSceneGraph();
+}
+
 void LE3SceneManager::AddObject(std::string name, std::string parent)
 {
     std::shared_ptr<LE3Object> obj(new LE3Object(name));

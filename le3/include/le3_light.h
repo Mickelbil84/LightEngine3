@@ -99,9 +99,50 @@ protected:
     float attn_const, attn_linear, attn_exp;
 };
 
+
+
+class LE3SpotLight : public LE3Object
+{
+public:
+    LE3SpotLight(std::string name = "", glm::vec3 color = glm::vec3(1.f), float intensity = 0.1f, 
+        float cutoff = 0.91f, float outer_cutoff = 0.82f);
+
+    virtual void Update(double deltaTime);
+    virtual void Draw();
+
+    template <typename Archive>
+    void serialize( Archive & ar )
+    {
+        LE3Object::serialize(ar);
+        ar(CEREAL_NVP(color), CEREAL_NVP(intensity));
+        ar(CEREAL_NVP(cutoff), CEREAL_NVP(outer_cutoff));
+    }
+
+    glm::vec3 GetColor() const;
+    void SetColor(glm::vec3 color);
+    
+    float GetIntensity() const;
+    void SetIntensity(float intensity);
+
+    float GetCutoff() const;
+    float GetOuterCutoff() const;
+    void SetCutoff(float cutoff);
+    void SetOuterCutoff(float outer_cutoff);
+
+    glm::vec3 GetDirection() const;
+
+protected:
+    glm::vec3 color;
+    float intensity;
+    float cutoff, outer_cutoff;
+};
+
+
 CEREAL_REGISTER_TYPE(LE3AmbientLight);
 CEREAL_REGISTER_POLYMORPHIC_RELATION(LE3Object, LE3AmbientLight);
 CEREAL_REGISTER_TYPE(LE3DirectionalLight);
 CEREAL_REGISTER_POLYMORPHIC_RELATION(LE3Object, LE3DirectionalLight);
 CEREAL_REGISTER_TYPE(LE3PointLight);
 CEREAL_REGISTER_POLYMORPHIC_RELATION(LE3Object, LE3PointLight);
+CEREAL_REGISTER_TYPE(LE3SpotLight);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(LE3Object, LE3SpotLight);

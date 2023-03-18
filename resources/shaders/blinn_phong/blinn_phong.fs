@@ -47,6 +47,16 @@ struct PointLight
 };
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
 
+struct SpotLight
+{
+    vec3 color;
+    float intensity;
+    vec3 position, direction;
+
+    float cutoff, outer_cutoff;
+};
+uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
+
 out vec4 fColor;
 
 in vec2 texCoord;
@@ -98,6 +108,23 @@ vec3 calc_point_light(PointLight pointLight, vec3 normal, vec3 pos, Material mat
         (bp * material.specularIntensity * specularColor + l * vec3(1.0)) * pointLight.color;
 }
 
+vec3 calc_spot_light(SpotLight spotLight, vec3 normal, vec3 pos, Material material, vec3 specularColor)
+{
+    vec3 direction = pos - vec3(viewMat * vec4(spotLight.position, 1.0));
+    direction = normalize(direction);
+
+    float l = calc_lambertian(normal, direction);
+    float bp = calc_blinn_phong(normal, direction, pos, material.shininess);
+
+    vec3 spotDirection = vec3(viewMat * vec4(spotLight.direction, 0.0));
+    float theta = dot(direction, normalize(spotDirection));
+    float epsilon = spotLight.cutoff - spotLight.outer_cutoff + 0.00000001;
+    float spotIntensity = clamp((theta - spotLight.outer_cutoff) / epsilon, 0.0, 1.0);
+    
+    return spotLight.intensity * spotIntensity *
+        (bp * material.specularIntensity * specularColor + l * vec3(1.0)) * spotLight.color;
+}
+
 void main()
 {
     // Diffuse color
@@ -129,6 +156,8 @@ void main()
         light += calc_directional_light(directionalLights[i], normal, posCoord, material, vec3(specularColor));
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
         light += calc_point_light(pointLights[i], normal, posCoord, material, vec3(specularColor));
+    for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
+        light += calc_spot_light(spotLights[i], normal, posCoord, material, vec3(specularColor));
 
     fColor = vec4(light, 1.0) * diffuseColor;
 }
