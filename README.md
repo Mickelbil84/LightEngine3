@@ -39,6 +39,7 @@ Installation is done simply with CMake.
 9. Run: `vcpkg install wxwidgets:x64-windows`
 10. Run: `vcpkg install bullet3:x64-windows`
 11. Run: `vcpkg install fmt:x64-windows`
+11. Run: `vcpkg install cereal:x64-windows`
 
 ### Installation for MacOS (Tested in Intel and Apple Silicon, Monterey 12.4)
 
@@ -53,3 +54,4 @@ Installation is done simply with CMake.
 9. Run: `brew install wxwidgets`
 10. Run: `brew install bullet`
 11. Run: `brew install fmt`
+12. Run: `brew install cereal`
