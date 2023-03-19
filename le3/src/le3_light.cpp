@@ -31,7 +31,7 @@ void LE3AmbientLight::SetIntensity(float intensity)
 
 
 LE3DirectionalLight::LE3DirectionalLight(std::string name, glm::vec3 color, float intensity) : 
-    LE3Object(name), color(color), intensity(intensity)
+    LE3Object(name), color(color), intensity(intensity), bEnableShadows(false)
 {
 }
 void LE3DirectionalLight::Update(double deltaTime)
@@ -61,6 +61,22 @@ glm::vec3 LE3DirectionalLight::GetDirection() const
 {
     glm::vec3 dir = this->GetModelMatrix() * glm::vec4(g_DefaultLightDirection, 0.f);
     return dir;
+}
+glm::mat4 LE3DirectionalLight::GetViewMatrix() const
+{
+    return glm::lookAt(-10.f * GetDirection(), glm::vec3(0.f), glm::vec3(0.f, 1.f, 0.f));
+}
+bool LE3DirectionalLight::IsShadowsEnabled() const
+{
+    return bEnableShadows;
+}
+void LE3DirectionalLight::SetShadowsEnabled(bool enabled)
+{
+    bEnableShadows = enabled;
+}
+LE3ShadowMap& LE3DirectionalLight::GetShadowMap()
+{
+    return shadowMap;
 }
 
 
@@ -118,7 +134,7 @@ void LE3PointLight::SetAttenuationExp(float attn_exp)
 
 LE3SpotLight::LE3SpotLight(std::string name, glm::vec3 color, float intensity, 
         float cutoff, float outer_cutoff) :
-    LE3Object(name), color(color), intensity(intensity), cutoff(cutoff), outer_cutoff(outer_cutoff)
+    LE3Object(name), color(color), intensity(intensity), cutoff(cutoff), outer_cutoff(outer_cutoff), bEnableShadows(false)
 {
 }
 
@@ -167,4 +183,16 @@ glm::vec3 LE3SpotLight::GetDirection() const
 {
     glm::vec3 dir = this->GetModelMatrix() * glm::vec4(g_DefaultLightDirection, 0.f);
     return dir;
+}
+bool LE3SpotLight::IsShadowsEnabled() const
+{
+    return bEnableShadows;
+}
+void LE3SpotLight::SetShadowsEnabled(bool enabled)
+{
+    bEnableShadows = enabled;
+}
+LE3ShadowMap& LE3SpotLight::GetShadowMap()
+{
+    return shadowMap;
 }

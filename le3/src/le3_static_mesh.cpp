@@ -19,13 +19,22 @@ void LE3StaticMesh::Update(double deltaTime)
         m_pRigidBody->setCenterOfMassTransform(transform);
     }
 }
+void LE3StaticMesh::Draw(LE3Shader* shader)
+{
+    if (!shader)
+        return;
+    shader->Use();
+    shader->Uniform("model", m_globalModelMatrix);
+    m_mesh->Draw();
+    
+}
 void LE3StaticMesh::Draw()
 {
     if (!m_material->GetShader())
         return;
-    m_material->Apply(m_globalModelMatrix);
-    m_mesh->Draw();
-
+    m_material->Apply();
+    this->Draw(m_material->GetShader());
+    
     if (m_pRigidBody)
     {
         glm::vec3 lowerBound = m_mesh->GetBoxCollision().lowerBound;

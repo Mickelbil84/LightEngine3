@@ -2,6 +2,31 @@
 
 #include <fmt/core.h>
 
+LE3LightManager::LE3LightManager()
+{
+    m_shadowMapWidth = m_shadowMapHeight = 1024;
+}
+
+void LE3LightManager::Init()
+{
+    std::string shadowShaderVS = "#version 410 core\n"
+        "layout (location = 0) in vec4 vPosition;\n"
+        "\n"
+        "uniform mat4 model;\n"
+        "uniform mat4 lightMatrix;\n"
+        "\n"
+        "void main()\n"
+        "{\n"
+        "\tgl_Position = lightMatrix * model * vPosition;\n"
+        "}";
+    std::string shadowShaderFS = "#version 410 core\n"
+        "\n"
+        "void main()\n"
+        "{\n"
+        "}";
+    m_shadowShader.CompileShaderFromSource(shadowShaderVS, shadowShaderFS);
+}
+
 std::shared_ptr<LE3AmbientLight> LE3LightManager::GetAmbientLight() const
 {
     return this->m_pAmbientLight;
@@ -42,9 +67,18 @@ void LE3LightManager::RenderDirectionalLights(LE3Shader* shader)
 {
     for (int i = 0; i < m_directionalLights.size(); i++)
     {
+        if (m_directionalLights[i]->IsShadowsEnabled())
+        {   
+            glActiveTexture(GL_TEXTURE0 + m_directionalLights[i]->GetShadowMap().bindIdx);
+            glBindTexture(GL_TEXTURE_2D, m_directionalLights[i]->GetShadowMap().texId);
+        }
         shader->Uniform(fmt::format("directionalLights[{}].color", i), m_directionalLights[i]->GetColor());
         shader->Uniform(fmt::format("directionalLights[{}].intensity", i), m_directionalLights[i]->GetIntensity());
         shader->Uniform(fmt::format("directionalLights[{}].direction", i), m_directionalLights[i]->GetDirection());
+        shader->Uniform(fmt::format("directionalLights[{}].bEnableShadows", i), (GLuint)m_directionalLights[i]->IsShadowsEnabled());
+        shader->Uniform(fmt::format("directionalLights[{}].shadowMap", i), m_directionalLights[i]->GetShadowMap().bindIdx);
+        shader->Uniform(fmt::format("directionalLights[{}].viewMatrix", i), m_directionalLights[i]->GetViewMatrix());
+
     }
 }
 
@@ -65,11 +99,61 @@ void LE3LightManager::RenderSpotLights(LE3Shader* shader)
 {
     for (int i = 0; i < m_spotLights.size(); i++)
     {
+        if (m_spotLights[i]->IsShadowsEnabled())
+        {   
+            glActiveTexture(GL_TEXTURE0 + m_spotLights[i]->GetShadowMap().bindIdx);
+            glBindTexture(GL_TEXTURE_2D, m_spotLights[i]->GetShadowMap().texId);
+        }
         shader->Uniform(fmt::format("spotLights[{}].color", i), m_spotLights[i]->GetColor());
         shader->Uniform(fmt::format("spotLights[{}].intensity", i), m_spotLights[i]->GetIntensity());
         shader->Uniform(fmt::format("spotLights[{}].position", i), m_spotLights[i]->GetGlobalPosition());
         shader->Uniform(fmt::format("spotLights[{}].direction", i), m_spotLights[i]->GetDirection());
         shader->Uniform(fmt::format("spotLights[{}].cutoff", i), m_spotLights[i]->GetCutoff());
         shader->Uniform(fmt::format("spotLights[{}].outer_cutoff", i), m_spotLights[i]->GetOuterCutoff());
+        shader->Uniform(fmt::format("spotLights[{}].bEnableShadows", i), (GLuint)m_spotLights[i]->IsShadowsEnabled());
+        shader->Uniform(fmt::format("spotLights[{}].shadowMap", i), m_spotLights[i]->GetShadowMap().bindIdx);
     }
+}
+
+void LE3LightManager::EnableShadows(std::shared_ptr<LE3DirectionalLight> directionalLight)
+{
+    directionalLight->SetShadowsEnabled(true);
+    directionalLight->GetShadowMap().Init(m_shadowMapWidth, m_shadowMapHeight);
+}
+void LE3LightManager::EnableShadows(std::shared_ptr<LE3SpotLight> spotLight)
+{
+    spotLight->SetShadowsEnabled(true);
+    spotLight->GetShadowMap().Init(m_shadowMapWidth, m_shadowMapHeight);
+}
+
+void LE3LightManager::DisableShadows(std::shared_ptr<LE3DirectionalLight> directionalLight)
+{
+    directionalLight->SetShadowsEnabled(true);
+    directionalLight->GetShadowMap().Clear();
+}
+void LE3LightManager::DisableShadows(std::shared_ptr<LE3SpotLight> spotLight)
+{
+    spotLight->SetShadowsEnabled(true);
+    spotLight->GetShadowMap().Clear();
+}
+void LE3LightManager::UpdateLightShadowMaps()
+{
+    for (auto light : m_directionalLights)
+        if (light->IsShadowsEnabled())
+            EnableShadows(light);
+    for (auto light : m_spotLights)
+        if (light->IsShadowsEnabled())
+            EnableShadows(light);
+}
+std::vector<std::shared_ptr<LE3DirectionalLight>>& LE3LightManager::GetDirectionalLights()
+{
+    return m_directionalLights;
+}
+std::vector<std::shared_ptr<LE3SpotLight>>& LE3LightManager::GetSpotLights()
+{
+    return m_spotLights;
+}
+LE3Shader* LE3LightManager::GetShadowShader()
+{
+    return &m_shadowShader;
 }

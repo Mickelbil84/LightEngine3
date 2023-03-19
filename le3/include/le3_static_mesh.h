@@ -14,6 +14,7 @@ public:
 
     virtual void Update(double deltaTime);
     virtual void Draw();
+    virtual void Draw(LE3Shader* shader);
 
     void SetMesh(LE3Mesh<LE3Vertex>* mesh);
     void SetMaterial(LE3Material* material);

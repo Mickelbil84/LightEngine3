@@ -25,6 +25,9 @@ void LE3SceneManager::Init()
     // Create default shader and material
     assets.LoadShader(DEFAULT_SHADER_NAME, "../resources/shaders/default/default.vs", "../resources/shaders/default/default.fs");
     assets.CreateMaterial(DEFAULT_MATERIAL_NAME, DEFAULT_SHADER_NAME);
+
+    // Setup light manager
+    lightManager.Init();
 }
 
 void LE3SceneManager::Clear()
@@ -169,6 +172,22 @@ void LE3SceneManager::Reparent(std::string object, std::string newParent)
 
 void LE3SceneManager::Render()
 {
+    // Draw the shadowmaps
+    GLuint shadowMapIdx = SHADOW_MAP_INDEX;
+    int i = 0;
+    for (auto light : lightManager.GetDirectionalLights())
+    {
+        if (!light->IsShadowsEnabled())
+            continue;
+        light->GetShadowMap().Bind();
+        lightManager.GetShadowShader()->Use();
+        lightManager.GetShadowShader()->Uniform("lightMatrix", light->GetViewMatrix());
+        GetRoot()->Draw(lightManager.GetShadowShader());
+        light->GetShadowMap().Unbind();
+        light->GetShadowMap().bindIdx = shadowMapIdx++;
+    }
+
+    // Draw the rest of the scene
     for (const auto& [key, value] : assets.m_shaders)
     {
         LE3Shader* shader = assets.GetShader(key);
@@ -177,5 +196,6 @@ void LE3SceneManager::Render()
         shader->Uniform("projection", GetCamera()->GetProjectionMatrix());
         lightManager.RenderLights(shader);
     }
+    glViewport(0, 0, applicationSettings->windowWidth, applicationSettings->windowHeight);
     GetRoot()->Draw();
 }

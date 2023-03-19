@@ -14,6 +14,7 @@
 #include "le3_physics.h"
 #include "le3_scene_root.h"
 #include "le3_static_mesh.h"
+#include "le3_application_settings.h"
 #include "le3_asset_manager.h"
 #include "le3_light_manager.h"
 
@@ -50,6 +51,8 @@ public:
     std::shared_ptr<LE3Object> GetObject(std::string name);
     void Reparent(std::string object, std::string newParent);
 
+    LE3ApplicationSettings* applicationSettings;
+
 protected:
     std::shared_ptr<LE3SceneRoot> root;
     std::shared_ptr<LE3Camera> camera;
@@ -64,7 +67,6 @@ public:
     void UpdateSceneGraph();
     void UpdateAssets();
     void UpdatePhysics();
-
 
 public:
     template <class Archive>
@@ -84,6 +86,7 @@ public:
         UpdateSceneGraph();
         UpdateAssets();
         UpdatePhysics();
+        lightManager.UpdateLightShadowMaps();
     }
 };
 

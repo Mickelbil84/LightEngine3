@@ -14,6 +14,9 @@
 class LE3LightManager
 {
 public:
+    LE3LightManager();
+    void Init();
+
     template <class Archive>
     void serialize( Archive & ar )
     {
@@ -32,6 +35,16 @@ public:
 
     void RenderLights(LE3Shader* shader);
 
+    void EnableShadows(std::shared_ptr<LE3DirectionalLight> directionalLight);
+    void DisableShadows(std::shared_ptr<LE3DirectionalLight> directionalLight);
+    void EnableShadows(std::shared_ptr<LE3SpotLight> spotLight);
+    void DisableShadows(std::shared_ptr<LE3SpotLight> spotLight);
+    void UpdateLightShadowMaps();
+
+    std::vector<std::shared_ptr<LE3DirectionalLight>>& GetDirectionalLights();
+    std::vector<std::shared_ptr<LE3SpotLight>>& GetSpotLights();
+    LE3Shader* GetShadowShader();
+
 
 private:
     void RenderAmbientLight(LE3Shader* shader);
@@ -43,4 +56,7 @@ private:
     std::vector<std::shared_ptr<LE3DirectionalLight>> m_directionalLights;
     std::vector<std::shared_ptr<LE3PointLight>> m_pointLights;
     std::vector<std::shared_ptr<LE3SpotLight>> m_spotLights;
+
+    GLuint m_shadowMapWidth, m_shadowMapHeight;
+    LE3Shader m_shadowShader;
 };

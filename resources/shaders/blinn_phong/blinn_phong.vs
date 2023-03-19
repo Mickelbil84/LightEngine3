@@ -12,6 +12,7 @@ uniform mat4 projection;
 
 out vec2 texCoord;
 out vec3 posCoord;
+// out vec4 worldPosCoord;
 out vec3 normalCoord;
 out mat4 viewMat;
 out mat3 tbn;
@@ -22,7 +23,8 @@ void main()
     gl_Position = projection * view_model * vPosition;
     texCoord = vTexCoord;
     vec4 posCoordTmp = view_model * vPosition;
-    posCoord = vec3(posCoordTmp); /// posCoordTmp.w;
+    posCoord = vec3(posCoordTmp);
+    // worldPosCoord = vec4(vec3(model * vPosition), 1.0);
 
     mat3 normal_mtx = transpose(inverse(mat3(view_model)));
     normalCoord = normalize(normal_mtx * vNormal);

@@ -49,7 +49,6 @@ void LE3Texture::Use(GLuint activeTexture)
 {
     glActiveTexture(GL_TEXTURE0 + activeTexture);
     glBindTexture(GL_TEXTURE_2D, m_texture);
-
 }
 
 void LE3Texture::Delete()

@@ -12,6 +12,7 @@
 #define DIFFUSE_TEXTURE_INDEX 0
 #define SPECULAR_TEXTURE_INDEX 1
 #define NORMAL_TEXTURE_INDEX 2
+#define SHADOW_MAP_INDEX 3
 
 struct LE3Material
 {
@@ -50,7 +51,7 @@ public:
     LE3Texture* normalTexture;
 
     // Sends material information to a given shader, and binds all relevant textures
-    void Apply(glm::mat4 modelMatrix);
+    void Apply();
     LE3Shader* GetShader() const;
 
     template <class Archive>

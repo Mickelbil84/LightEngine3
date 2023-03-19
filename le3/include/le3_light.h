@@ -1,5 +1,6 @@
 #pragma once
 #include "le3_object.h"
+#include "le3_shadowmap.h"
 
 #include <cereal/cereal.hpp>
 
@@ -48,6 +49,7 @@ public:
     {
         LE3Object::serialize(ar);
         ar(CEREAL_NVP(color), CEREAL_NVP(intensity));
+        ar(CEREAL_NVP(bEnableShadows));
     }
 
     glm::vec3 GetColor() const;
@@ -57,10 +59,18 @@ public:
     void SetIntensity(float intensity);
 
     glm::vec3 GetDirection() const;
+    glm::mat4 GetViewMatrix() const;
+
+    bool IsShadowsEnabled() const;
+    void SetShadowsEnabled(bool enabled);
+    LE3ShadowMap& GetShadowMap();
 
 protected:
     glm::vec3 color;
     float intensity;
+
+    bool bEnableShadows;
+    LE3ShadowMap shadowMap;
 };
 
 class LE3PointLight : public LE3Object
@@ -116,6 +126,7 @@ public:
         LE3Object::serialize(ar);
         ar(CEREAL_NVP(color), CEREAL_NVP(intensity));
         ar(CEREAL_NVP(cutoff), CEREAL_NVP(outer_cutoff));
+        ar(CEREAL_NVP(bEnableShadows));
     }
 
     glm::vec3 GetColor() const;
@@ -131,10 +142,17 @@ public:
 
     glm::vec3 GetDirection() const;
 
+    bool IsShadowsEnabled() const;
+    void SetShadowsEnabled(bool enabled);
+    LE3ShadowMap& GetShadowMap();
+
 protected:
     glm::vec3 color;
     float intensity;
     float cutoff, outer_cutoff;
+
+    bool bEnableShadows;
+    LE3ShadowMap shadowMap;
 };
 
 

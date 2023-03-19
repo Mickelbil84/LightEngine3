@@ -1,6 +1,6 @@
 #version 410 core
 
-#define MAX_DIRECTIONAL_LIGHTS 4
+#define MAX_DIRECTIONAL_LIGHTS 2
 #define MAX_POINT_LIGHTS 8
 #define MAX_SPOT_LIGHTS 2
 
@@ -34,6 +34,10 @@ struct DirectionalLight
     vec3 color;
     float intensity;
     vec3 direction;
+
+    bool bEnableShadows;
+    mat4 lightViewMatrix;
+    sampler2D shadowMap;
 };
 uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
 
@@ -54,6 +58,10 @@ struct SpotLight
     vec3 position, direction;
 
     float cutoff, outer_cutoff;
+
+    // bool bEnableShadows;
+    // sampler2D shadowMap;
+    // mat4 viewMatrix;
 };
 uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 
@@ -61,6 +69,7 @@ out vec4 fColor;
 
 in vec2 texCoord;
 in vec3 posCoord;
+// in vec4 worldPosCoord;
 in vec3 normalCoord;
 in mat4 viewMat;
 in mat3 tbn;
@@ -79,6 +88,11 @@ float calc_blinn_phong(vec3 normal, vec3 direction, vec3 pos, float shininess)
     return pow(N_dot_H, shininess);
 }
 
+// float calc_shadow(vec4 posLightSpace)
+// {
+//     return 0.0;
+// }
+
 vec3 calc_ambient_light(AmbientLight ambientLight)
 {
     return ambientLight.intensity * ambientLight.color;
@@ -90,7 +104,11 @@ vec3 calc_directional_light(DirectionalLight directionalLight, vec3 normal, vec3
     float l = calc_lambertian(normal, direction);
     float bp = calc_blinn_phong(normal, direction, pos, material.shininess);
 
-    return directionalLight.intensity * 
+    float shadow = 0.0;
+    // if (directionalLight.bEnableShadows)
+    //     shadow = calc_shadow(directionalLight.viewMatrix * worldPosCoord);
+
+    return directionalLight.intensity * (1.0 - shadow) *
         (bp * material.specularIntensity * specularColor + l * vec3(1.0)) * directionalLight.color;
 }
 

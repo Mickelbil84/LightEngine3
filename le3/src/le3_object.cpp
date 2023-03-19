@@ -20,7 +20,9 @@ void LE3Object::Update(double deltaTime)
 
 void LE3Object::Draw()
 {
-
+}
+void LE3Object::Draw(LE3Shader* shader)
+{
 }
 
 void LE3Object::UpdateLocalModelMatrix()

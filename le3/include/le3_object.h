@@ -29,6 +29,7 @@ public:
 
     virtual void Update(double deltaTime);
     virtual void Draw();
+    virtual void Draw(LE3Shader* shader);
 
     glm::mat4 GetModelMatrix() const;
 

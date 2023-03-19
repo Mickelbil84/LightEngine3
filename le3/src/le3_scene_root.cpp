@@ -29,6 +29,19 @@ void LE3SceneRoot::DrawRecurse(LE3Object* object)
         DrawRecurse(child);
     }
 }
+void LE3SceneRoot::DrawRecurse(LE3Object* object, LE3Shader* shader)
+{
+    if (object->GetHidden())
+        return;
+
+    for (auto child : object->GetChildren())   
+    {
+        if (!child)
+            continue;
+        child->Draw(shader);
+        DrawRecurse(child, shader);
+    }
+}
 
 void LE3SceneRoot::Update(double deltaTime)
 {
@@ -37,4 +50,8 @@ void LE3SceneRoot::Update(double deltaTime)
 void LE3SceneRoot::Draw()
 {
     DrawRecurse(this);
+}
+void LE3SceneRoot::Draw(LE3Shader* shader)
+{
+    DrawRecurse(this, shader);
 }
