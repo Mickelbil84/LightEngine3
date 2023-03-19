@@ -117,19 +117,19 @@ public:
         // Lights
         scene.AddAmbientLight(glm::vec3(1.f, 1.f, 1.f), 0.1f);
 
-        scene.AddDirectionalLight("directional_light01", glm::vec3(1.f), 0.5);
-        scene.GetObject("directional_light01")->SetRotationX(-1.8f);
+        scene.AddDirectionalLight("directional_light01", glm::vec3(1.f), 0.7);
+        scene.GetObject("directional_light01")->SetRotationX(-1.5f);
         scene.lightManager.EnableShadows(dynamic_pointer_cast<LE3DirectionalLight>(scene.GetObject("directional_light01")));
 
         scene.AddDirectionalLight("directional_light02", glm::vec3(0.05f, 0.8f, 0.95f), 0.5);
         scene.lightManager.EnableShadows(dynamic_pointer_cast<LE3DirectionalLight>(scene.GetObject("directional_light02")));
 
-        // scene.AddPointLight("point_light01", glm::vec3(0.95f, 0.7f, 0.2f), 0.7f);
-        // scene.GetObject("point_light01")->SetPosition(glm::vec3(0.f, 1.f, -.7f));
+        scene.AddPointLight("point_light01", glm::vec3(0.95f, 0.7f, 0.2f), 0.7f);
+        scene.GetObject("point_light01")->SetPosition(glm::vec3(0.f, 1.f, -.7f));
 
-        // scene.AddSpotLight("spot_light01");
-        // scene.GetObject("spot_light01")->SetPosition(glm::vec3(0.f, 2.5f, 0.f));
-        // scene.GetObject("spot_light01")->SetRotationX(0.5f);
+        scene.AddSpotLight("spot_light01");
+        scene.GetObject("spot_light01")->SetPosition(glm::vec3(0.f, 2.5f, 0.f));
+        scene.GetObject("spot_light01")->SetRotationX(0.5f);
 
         SaveScene(scene, resource_prefix + "resources/scenes/04_lighting.json");
 

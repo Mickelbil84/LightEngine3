@@ -59,7 +59,7 @@ public:
     void SetIntensity(float intensity);
 
     glm::vec3 GetDirection() const;
-    glm::mat4 GetViewMatrix() const;
+    glm::mat4 GetViewMatrix(glm::vec3 pos) const;
 
     bool IsShadowsEnabled() const;
     void SetShadowsEnabled(bool enabled);

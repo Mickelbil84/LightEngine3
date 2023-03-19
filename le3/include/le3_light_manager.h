@@ -33,7 +33,7 @@ public:
     void AddPointLight(std::shared_ptr<LE3PointLight> pointLight);
     void AddSpotLight(std::shared_ptr<LE3SpotLight> spotLight);
 
-    void RenderLights(LE3Shader* shader);
+    void RenderLights(LE3Shader* shader, glm::vec3 camPos);
 
     void EnableShadows(std::shared_ptr<LE3DirectionalLight> directionalLight);
     void DisableShadows(std::shared_ptr<LE3DirectionalLight> directionalLight);
@@ -48,7 +48,7 @@ public:
 
 private:
     void RenderAmbientLight(LE3Shader* shader);
-    void RenderDirectionalLights(LE3Shader* shader);
+    void RenderDirectionalLights(LE3Shader* shader, glm::vec3 camPos);
     void RenderPointLights(LE3Shader* shader);
     void RenderSpotLights(LE3Shader* shader);
 

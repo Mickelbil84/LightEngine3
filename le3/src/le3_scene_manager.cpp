@@ -175,13 +175,14 @@ void LE3SceneManager::Render()
     // Draw the shadowmaps
     GLuint shadowMapIdx = SHADOW_MAP_INDEX;
     int i = 0;
+    glCullFace(GL_FRONT); // Solve Peter-Panning
     for (auto light : lightManager.GetDirectionalLights())
     {
         if (!light->IsShadowsEnabled())
             continue;
         light->GetShadowMap().Bind();
         lightManager.GetShadowShader()->Use();
-        lightManager.GetShadowShader()->Uniform("lightMatrix", light->GetViewMatrix());
+        lightManager.GetShadowShader()->Uniform("lightMatrix", light->GetViewMatrix(GetCamera()->GetPosition()));
         GetRoot()->Draw(lightManager.GetShadowShader());
         light->GetShadowMap().Unbind();
         light->GetShadowMap().bindIdx = shadowMapIdx++;
@@ -194,8 +195,9 @@ void LE3SceneManager::Render()
         shader->Use();
         shader ->Uniform("view", GetCamera()->GetViewMatrix());
         shader->Uniform("projection", GetCamera()->GetProjectionMatrix());
-        lightManager.RenderLights(shader);
+        lightManager.RenderLights(shader, GetCamera()->GetPosition());
     }
     glViewport(0, 0, applicationSettings->windowWidth, applicationSettings->windowHeight);
+    glCullFace(GL_BACK); 
     GetRoot()->Draw();
 }

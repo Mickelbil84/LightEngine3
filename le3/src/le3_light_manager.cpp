@@ -4,7 +4,7 @@
 
 LE3LightManager::LE3LightManager()
 {
-    m_shadowMapWidth = m_shadowMapHeight = 1024;
+    m_shadowMapWidth = m_shadowMapHeight = 4096;
 }
 
 void LE3LightManager::Init()
@@ -48,10 +48,10 @@ void LE3LightManager::AddSpotLight(std::shared_ptr<LE3SpotLight> spotLight)
     this->m_spotLights.push_back(spotLight);
 }
 
-void LE3LightManager::RenderLights(LE3Shader* shader)
+void LE3LightManager::RenderLights(LE3Shader* shader, glm::vec3 camPos)
 {
     RenderAmbientLight(shader);
-    RenderDirectionalLights(shader);
+    RenderDirectionalLights(shader, camPos);
     RenderPointLights(shader);
     RenderSpotLights(shader);
 }
@@ -63,7 +63,7 @@ void LE3LightManager::RenderAmbientLight(LE3Shader* shader)
     shader->Uniform("ambientLight.intensity", m_pAmbientLight->GetIntensity());
 }
 
-void LE3LightManager::RenderDirectionalLights(LE3Shader* shader)
+void LE3LightManager::RenderDirectionalLights(LE3Shader* shader, glm::vec3 camPos)
 {
     for (int i = 0; i < m_directionalLights.size(); i++)
     {
@@ -77,8 +77,7 @@ void LE3LightManager::RenderDirectionalLights(LE3Shader* shader)
         shader->Uniform(fmt::format("directionalLights[{}].direction", i), m_directionalLights[i]->GetDirection());
         shader->Uniform(fmt::format("directionalLights[{}].bEnableShadows", i), (GLuint)m_directionalLights[i]->IsShadowsEnabled());
         shader->Uniform(fmt::format("directionalLights[{}].shadowMap", i), m_directionalLights[i]->GetShadowMap().bindIdx);
-        shader->Uniform(fmt::format("directionalLights[{}].viewMatrix", i), m_directionalLights[i]->GetViewMatrix());
-
+        shader->Uniform(fmt::format("dirLightViewMatrix[{}]", i), m_directionalLights[i]->GetViewMatrix(camPos));
     }
 }
 
