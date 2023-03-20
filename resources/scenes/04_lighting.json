@@ -179,7 +179,7 @@
                             "v.z": 0.800000011920929,
                             "v.w": 1.0
                         },
-                        "diffuseTextureName": "TD_wood",
+                        "diffuseTextureName": "TD_tile_floor",
                         "bUseDiffuseTexture": true,
                         "specularColor": {
                             "v.x": 1.0,
@@ -188,12 +188,12 @@
                         },
                         "specularIntensity": 6.0,
                         "shininess": 64.0,
-                        "specularTextureName": "TD_wood",
+                        "specularTextureName": "TD_tile_floor",
                         "bUseSpecularTexture": true,
-                        "normalTextureName": "TN_wood",
+                        "normalTextureName": "TN_tile_floor",
                         "bUseNormalTexture": true,
                         "cubemapName": "CM_basilica",
-                        "reflectionIntensity": 0.30000001192092898,
+                        "reflectionIntensity": 0.5,
                         "tilingX": 1.0,
                         "tilingY": 1.0
                     }
