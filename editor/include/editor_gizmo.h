@@ -14,6 +14,7 @@ public:
     void Init(LE3Material* gizmoMaterial);
 
     virtual void Draw();
+    virtual void Draw(LE3Shader* shader);
 
     bool GetIsHovered() const;
     void SetIsHovered(bool isHovered);

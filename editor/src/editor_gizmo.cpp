@@ -121,6 +121,9 @@ void LE3EditorGizmoAxis::Draw()
     LE3StaticMesh::Draw();
     // glEnable(GL_DEPTH_TEST);
 }
+void LE3EditorGizmoAxis::Draw(LE3Shader* shader)
+{
+}
 
 bool LE3EditorGizmoAxis::GetIsHovered() const
 {

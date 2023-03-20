@@ -33,7 +33,9 @@ void LE3StaticMesh::Draw()
     if (!m_material->GetShader())
         return;
     m_material->Apply();
-    this->Draw(m_material->GetShader());
+    m_material->GetShader()->Use();
+    m_material->GetShader()->Uniform("model", m_globalModelMatrix);
+    m_mesh->Draw();
     
     if (m_pRigidBody)
     {
