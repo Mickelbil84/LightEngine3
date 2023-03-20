@@ -3,6 +3,12 @@
         "assets": {
             "m_meshesPaths": [
                 {
+                    "key": "bunny",
+                    "value": {
+                        "path": "../resources/models/bunny.obj"
+                    }
+                },
+                {
                     "key": "floor",
                     "value": {
                         "path": "$BOX_0_0_0_10.000000_0.200000_10.000000_"
@@ -13,25 +19,19 @@
                     "value": {
                         "path": "$SPH_0_0_0_0.700000_64.000000_"
                     }
-                },
-                {
-                    "key": "trashcan",
-                    "value": {
-                        "path": "../resources/models/bunny.obj"
-                    }
                 }
             ],
             "m_texturesPaths": [
                 {
-                    "key": "TD_tile_floor",
+                    "key": "TD_bunny",
                     "value": {
-                        "path": "../resources/textures/tile_floor.jpg"
+                        "path": "../resources/textures/bunny.png"
                     }
                 },
                 {
-                    "key": "TD_trashcan",
+                    "key": "TD_tile_floor",
                     "value": {
-                        "path": "../resources/textures/trashcan.png"
+                        "path": "../resources/textures/tile_floor.jpg"
                     }
                 },
                 {
@@ -41,15 +41,15 @@
                     }
                 },
                 {
-                    "key": "TN_tile_floor",
+                    "key": "TN_bunny",
                     "value": {
-                        "path": "../resources/textures/tile_floor_normal.png"
+                        "path": "../resources/textures/bunny_normal.png"
                     }
                 },
                 {
-                    "key": "TN_trashcan",
+                    "key": "TN_tile_floor",
                     "value": {
-                        "path": "../resources/textures/trashcan_normal.png"
+                        "path": "../resources/textures/tile_floor_normal.png"
                     }
                 },
                 {
@@ -76,6 +76,33 @@
                 }
             ],
             "m_materials": [
+                {
+                    "key": "M_bunny",
+                    "value": {
+                        "shaderName": "S_blinn_phong",
+                        "diffuseColor": {
+                            "v.x": 0.800000011920929,
+                            "v.y": 0.800000011920929,
+                            "v.z": 0.800000011920929,
+                            "v.w": 1.0
+                        },
+                        "diffuseTextureName": "TD_tile_floor",
+                        "bUseDiffuseTexture": true,
+                        "specularColor": {
+                            "v.x": 1.0,
+                            "v.y": 1.0,
+                            "v.z": 1.0
+                        },
+                        "specularIntensity": 6.0,
+                        "shininess": 512.0,
+                        "specularTextureName": "TD_tile_floor",
+                        "bUseSpecularTexture": true,
+                        "normalTextureName": "TN_tile_floor",
+                        "bUseNormalTexture": true,
+                        "tilingX": 3.0,
+                        "tilingY": 3.0
+                    }
+                },
                 {
                     "key": "M_default",
                     "value": {
@@ -133,33 +160,6 @@
                 {
                     "key": "M_sphere",
                     "value": {
-                        "shaderName": "",
-                        "diffuseColor": {
-                            "v.x": 0.800000011920929,
-                            "v.y": 0.800000011920929,
-                            "v.z": 0.800000011920929,
-                            "v.w": 1.0
-                        },
-                        "diffuseTextureName": "",
-                        "bUseDiffuseTexture": false,
-                        "specularColor": {
-                            "v.x": 1.0,
-                            "v.y": 1.0,
-                            "v.z": 1.0
-                        },
-                        "specularIntensity": 1.0,
-                        "shininess": 16.0,
-                        "specularTextureName": "",
-                        "bUseSpecularTexture": false,
-                        "normalTextureName": "",
-                        "bUseNormalTexture": false,
-                        "tilingX": 1.0,
-                        "tilingY": 1.0
-                    }
-                },
-                {
-                    "key": "M_trashcan",
-                    "value": {
                         "shaderName": "S_blinn_phong",
                         "diffuseColor": {
                             "v.x": 0.800000011920929,
@@ -167,7 +167,7 @@
                             "v.z": 0.800000011920929,
                             "v.w": 1.0
                         },
-                        "diffuseTextureName": "TD_tile_floor",
+                        "diffuseTextureName": "TD_wood",
                         "bUseDiffuseTexture": true,
                         "specularColor": {
                             "v.x": 1.0,
@@ -175,13 +175,13 @@
                             "v.z": 1.0
                         },
                         "specularIntensity": 6.0,
-                        "shininess": 512.0,
-                        "specularTextureName": "TD_tile_floor",
+                        "shininess": 64.0,
+                        "specularTextureName": "TD_wood",
                         "bUseSpecularTexture": true,
-                        "normalTextureName": "TN_tile_floor",
+                        "normalTextureName": "TN_wood",
                         "bUseNormalTexture": true,
-                        "tilingX": 3.0,
-                        "tilingY": 3.0
+                        "tilingX": 1.0,
+                        "tilingY": 1.0
                     }
                 }
             ]
@@ -266,12 +266,87 @@
                 }
             },
             {
-                "key": "directional_light01",
+                "key": "bunny",
                 "value": {
                     "polymorphic_id": 2147483650,
-                    "polymorphic_name": "LE3DirectionalLight",
+                    "polymorphic_name": "LE3StaticMesh",
                     "ptr_wrapper": {
                         "id": 2147483650,
+                        "data": {
+                            "m_position": {
+                                "v.x": 0.0,
+                                "v.y": -0.19589999318122865,
+                                "v.z": -1.5026999711990357
+                            },
+                            "m_rotation": {
+                                "v.x": 0.0,
+                                "v.y": 0.0,
+                                "v.z": 0.0
+                            },
+                            "m_scale": 6.0,
+                            "m_globalPosition": {
+                                "v.x": 0.0,
+                                "v.y": -0.19589999318122865,
+                                "v.z": -1.5026999711990357
+                            },
+                            "m_globalRotation": {
+                                "v.x": 0.0,
+                                "v.y": -0.0,
+                                "v.z": 0.0
+                            },
+                            "m_localModelMatrix": {
+                                "m[0][0]": 6.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 6.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 6.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": -0.19589999318122865,
+                                "m[3][2]": -1.5026999711990357,
+                                "m[3][3]": 1.0
+                            },
+                            "m_globalModelMatrix": {
+                                "m[0][0]": 6.0,
+                                "m[0][1]": 0.0,
+                                "m[0][2]": 0.0,
+                                "m[0][3]": 0.0,
+                                "m[1][0]": 0.0,
+                                "m[1][1]": 6.0,
+                                "m[1][2]": 0.0,
+                                "m[1][3]": 0.0,
+                                "m[2][0]": 0.0,
+                                "m[2][1]": 0.0,
+                                "m[2][2]": 6.0,
+                                "m[2][3]": 0.0,
+                                "m[3][0]": 0.0,
+                                "m[3][1]": -0.19589999318122865,
+                                "m[3][2]": -1.5026999711990357,
+                                "m[3][3]": 1.0
+                            },
+                            "m_name": "bunny",
+                            "m_bHiddenInSceneGraph": false,
+                            "m_bHidden": false,
+                            "meshName": "bunny",
+                            "materialName": "M_bunny",
+                            "m_bHasCollision": true
+                        }
+                    }
+                }
+            },
+            {
+                "key": "directional_light01",
+                "value": {
+                    "polymorphic_id": 2147483651,
+                    "polymorphic_name": "LE3DirectionalLight",
+                    "ptr_wrapper": {
+                        "id": 2147483651,
                         "data": {
                             "m_position": {
                                 "v.x": 0.0,
@@ -339,7 +414,7 @@
                                 "v.z": 1.0
                             },
                             "intensity": 0.699999988079071,
-                            "bEnableShadows": false
+                            "bEnableShadows": true
                         }
                     }
                 }
@@ -347,9 +422,9 @@
             {
                 "key": "directional_light02",
                 "value": {
-                    "polymorphic_id": 2,
+                    "polymorphic_id": 3,
                     "ptr_wrapper": {
-                        "id": 2147483651,
+                        "id": 2147483652,
                         "data": {
                             "m_position": {
                                 "v.x": 0.0,
@@ -417,7 +492,7 @@
                                 "v.z": 0.949999988079071
                             },
                             "intensity": 0.5,
-                            "bEnableShadows": false
+                            "bEnableShadows": true
                         }
                     }
                 }
@@ -425,10 +500,9 @@
             {
                 "key": "floor",
                 "value": {
-                    "polymorphic_id": 2147483651,
-                    "polymorphic_name": "LE3StaticMesh",
+                    "polymorphic_id": 2,
                     "ptr_wrapper": {
-                        "id": 2147483652,
+                        "id": 2147483653,
                         "data": {
                             "m_position": {
                                 "v.x": 0.0,
@@ -503,7 +577,7 @@
                     "polymorphic_id": 2147483652,
                     "polymorphic_name": "LE3PointLight",
                     "ptr_wrapper": {
-                        "id": 2147483653,
+                        "id": 2147483654,
                         "data": {
                             "m_position": {
                                 "v.x": 0.0,
@@ -581,9 +655,9 @@
             {
                 "key": "sphere",
                 "value": {
-                    "polymorphic_id": 3,
+                    "polymorphic_id": 2,
                     "ptr_wrapper": {
-                        "id": 2147483654,
+                        "id": 2147483655,
                         "data": {
                             "m_position": {
                                 "v.x": 0.0,
@@ -658,12 +732,12 @@
                     "polymorphic_id": 2147483653,
                     "polymorphic_name": "LE3SpotLight",
                     "ptr_wrapper": {
-                        "id": 2147483655,
+                        "id": 2147483656,
                         "data": {
                             "m_position": {
                                 "v.x": 0.0,
                                 "v.y": 1.5,
-                                "v.z": 0.0
+                                "v.z": 0.6000000238418579
                             },
                             "m_rotation": {
                                 "v.x": 1.2999999523162842,
@@ -674,7 +748,7 @@
                             "m_globalPosition": {
                                 "v.x": 0.0,
                                 "v.y": 1.5,
-                                "v.z": 0.0
+                                "v.z": 0.6000000238418579
                             },
                             "m_globalRotation": {
                                 "v.x": 1.2999999523162842,
@@ -696,7 +770,7 @@
                                 "m[2][3]": 0.0,
                                 "m[3][0]": 0.0,
                                 "m[3][1]": 1.5,
-                                "m[3][2]": 0.0,
+                                "m[3][2]": 0.6000000238418579,
                                 "m[3][3]": 1.0
                             },
                             "m_globalModelMatrix": {
@@ -714,7 +788,7 @@
                                 "m[2][3]": 0.0,
                                 "m[3][0]": 0.0,
                                 "m[3][1]": 1.5,
-                                "m[3][2]": 0.0,
+                                "m[3][2]": 0.6000000238418579,
                                 "m[3][3]": 1.0
                             },
                             "m_name": "spot_light01",
@@ -732,85 +806,15 @@
                         }
                     }
                 }
-            },
-            {
-                "key": "trashcan",
-                "value": {
-                    "polymorphic_id": 3,
-                    "ptr_wrapper": {
-                        "id": 2147483656,
-                        "data": {
-                            "m_position": {
-                                "v.x": 0.0,
-                                "v.y": -0.19589999318122865,
-                                "v.z": -1.5026999711990357
-                            },
-                            "m_rotation": {
-                                "v.x": 0.0,
-                                "v.y": 0.0,
-                                "v.z": 0.0
-                            },
-                            "m_scale": 6.0,
-                            "m_globalPosition": {
-                                "v.x": 0.0,
-                                "v.y": -0.19589999318122865,
-                                "v.z": -1.5026999711990357
-                            },
-                            "m_globalRotation": {
-                                "v.x": 0.0,
-                                "v.y": -0.0,
-                                "v.z": 0.0
-                            },
-                            "m_localModelMatrix": {
-                                "m[0][0]": 6.0,
-                                "m[0][1]": 0.0,
-                                "m[0][2]": 0.0,
-                                "m[0][3]": 0.0,
-                                "m[1][0]": 0.0,
-                                "m[1][1]": 6.0,
-                                "m[1][2]": 0.0,
-                                "m[1][3]": 0.0,
-                                "m[2][0]": 0.0,
-                                "m[2][1]": 0.0,
-                                "m[2][2]": 6.0,
-                                "m[2][3]": 0.0,
-                                "m[3][0]": 0.0,
-                                "m[3][1]": -0.19589999318122865,
-                                "m[3][2]": -1.5026999711990357,
-                                "m[3][3]": 1.0
-                            },
-                            "m_globalModelMatrix": {
-                                "m[0][0]": 6.0,
-                                "m[0][1]": 0.0,
-                                "m[0][2]": 0.0,
-                                "m[0][3]": 0.0,
-                                "m[1][0]": 0.0,
-                                "m[1][1]": 6.0,
-                                "m[1][2]": 0.0,
-                                "m[1][3]": 0.0,
-                                "m[2][0]": 0.0,
-                                "m[2][1]": 0.0,
-                                "m[2][2]": 6.0,
-                                "m[2][3]": 0.0,
-                                "m[3][0]": 0.0,
-                                "m[3][1]": -0.19589999318122865,
-                                "m[3][2]": -1.5026999711990357,
-                                "m[3][3]": 1.0
-                            },
-                            "m_name": "trashcan",
-                            "m_bHiddenInSceneGraph": false,
-                            "m_bHidden": false,
-                            "meshName": "trashcan",
-                            "materialName": "M_trashcan",
-                            "m_bHasCollision": true
-                        }
-                    }
-                }
             }
         ],
         "parentLinks": [
             {
                 "key": "ambient_light",
+                "value": ""
+            },
+            {
+                "key": "bunny",
                 "value": ""
             },
             {
@@ -836,10 +840,6 @@
             {
                 "key": "spot_light01",
                 "value": ""
-            },
-            {
-                "key": "trashcan",
-                "value": ""
             }
         ],
         "lightManager": {
@@ -853,13 +853,13 @@
                 {
                     "polymorphic_id": 1073741824,
                     "ptr_wrapper": {
-                        "id": 2
+                        "id": 3
                     }
                 },
                 {
                     "polymorphic_id": 1073741824,
                     "ptr_wrapper": {
-                        "id": 3
+                        "id": 4
                     }
                 }
             ],
@@ -867,7 +867,7 @@
                 {
                     "polymorphic_id": 1073741824,
                     "ptr_wrapper": {
-                        "id": 5
+                        "id": 6
                     }
                 }
             ],
@@ -875,7 +875,7 @@
                 {
                     "polymorphic_id": 1073741824,
                     "ptr_wrapper": {
-                        "id": 7
+                        "id": 8
                     }
                 }
             ]
