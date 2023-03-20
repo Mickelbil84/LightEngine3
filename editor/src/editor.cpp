@@ -93,6 +93,24 @@ void LE3Editor::Render(int width, int height)
 {
     if (bPauseEngine)
         return;
+
+    // Draw the shadowmaps
+    GLuint shadowMapIdx = SHADOW_MAP_INDEX;
+    int i = 0;
+    glCullFace(GL_FRONT); // Solve Peter-Panning
+    for (auto light : this->scene.lightManager.GetDirectionalLights())
+    {
+        if (!light->IsShadowsEnabled())
+            continue;
+        light->GetShadowMap().Bind();
+        this->scene.lightManager.GetShadowShader()->Use();
+        this->scene.lightManager.GetShadowShader()->Uniform("lightMatrix", light->GetViewMatrix(this->scene.GetCamera()->GetPosition()));
+        this->scene.GetRoot()->Draw(this->scene.lightManager.GetShadowShader());
+        light->GetShadowMap().Unbind();
+        light->GetShadowMap().bindIdx = shadowMapIdx++;
+    }
+    
+    // Draw the rest of the scene
     scene.GetCamera()->SetAspectRatio((float)width / (float)height);
     for (const auto& [key, value] : scene.assets.m_shaders)
     {
@@ -100,8 +118,10 @@ void LE3Editor::Render(int width, int height)
         shader->Use();
         shader ->Uniform("view", scene.GetCamera()->GetViewMatrix());
         shader->Uniform("projection", scene.GetCamera()->GetProjectionMatrix());
-        scene.lightManager.RenderLights(shader);
+        scene.lightManager.RenderLights(shader, scene.GetCamera()->GetPosition());
     }
+    glCullFace(GL_BACK); 
+    glViewport(0, 0, width, height);
 
     // Update also the gizmo shaders
     gizmo.GetGizmoShader()->Use();

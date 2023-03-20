@@ -108,10 +108,10 @@ public:
         scene.AddStaticMesh("floor", "floor", "M_floor");
 
         scene.AddStaticMesh("sphere", "sphere", "M_sphere");
-        scene.GetObject("sphere")->SetPosition(glm::vec3(0.f, 0.9959f, 1.2027f));
+        scene.GetObject("sphere")->SetPosition(glm::vec3(0.f, 0.6959f, 1.2027f));
 
-        scene.AddStaticMesh("trashcan", "trashcan", "M_trashcan", 3.f);
-        scene.GetObject("trashcan")->SetPosition(glm::vec3(0.f, 0.6959f, -1.5027f));
+        scene.AddStaticMesh("trashcan", "trashcan", "M_trashcan", 6.f);
+        scene.GetObject("trashcan")->SetPosition(glm::vec3(0.f, -0.1959f, -1.5027f));
         // scene.GetObject("trashcan")->SetRotationX(-1.57f);
 
         // Lights

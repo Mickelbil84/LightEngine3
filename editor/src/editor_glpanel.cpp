@@ -187,7 +187,7 @@ void LE3wxOpenGLPanel::render( wxPaintEvent& evt )
         glClearColor(0.1f, 0.1f, 0.1f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        m_editor->Render(getWidth(), getHeight());
+        m_editor->Render(getWidth() * GetContentScaleFactor(), getHeight() * GetContentScaleFactor());
 
     #else
         glBindFramebuffer(GL_FRAMEBUFFER, m_outFramebuffer);

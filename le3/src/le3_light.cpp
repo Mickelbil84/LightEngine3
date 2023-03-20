@@ -70,7 +70,8 @@ glm::mat4 LE3DirectionalLight::GetViewMatrix(glm::vec3 pos) const
         pos.y - delta_plane, pos.y + delta_plane, 
         pos.z - 2.f, pos.z + 100.f);
     // To combat linearly dependant columns in look-at matrix, we add a very small noise to the up vector
-    glm::mat4 lightView = glm::lookAt(pos, pos + GetDirection(), glm::vec3(0.f, .999f, 0.04471017781f));
+    // glm::mat4 lightView = glm::lookAt(pos, pos + GetDirection(), glm::vec3(0.f, .999f, 0.04471017781f));
+    glm::mat4 lightView = glm::lookAt(-delta_plane * GetDirection(), glm::vec3(0.f), glm::vec3(0.f, .999f, 0.04471017781f));
     return lightProjection * lightView;
 }
 bool LE3DirectionalLight::IsShadowsEnabled() const
