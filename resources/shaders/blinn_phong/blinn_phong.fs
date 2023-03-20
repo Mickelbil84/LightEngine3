@@ -207,7 +207,7 @@ void main()
     if (material.reflectionIntensity > 0.0)
     {
         float alpha = clamp(material.reflectionIntensity, 0.0, 1.0);
-        diffuseColor = alpha * vec4(calc_reflection(normalCoord), 1.0) + (1.0 - alpha) * diffuseColor; 
+        diffuseColor = alpha * vec4(calc_reflection(normal), 1.0) + (1.0 - alpha) * diffuseColor; 
     }
 
     vec3 light = vec3(0.0);

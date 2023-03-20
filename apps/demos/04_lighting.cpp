@@ -82,7 +82,7 @@ public:
         scene.assets.GetMaterial("M_floor")->tilingX = 0.5f;
         scene.assets.GetMaterial("M_floor")->tilingY = 0.5f;
         scene.assets.GetMaterial("M_floor")->SetCubemap(scene.assets.GetTexture("CM_basilica"));
-        scene.assets.GetMaterial("M_floor")->reflectionIntensity = 0.05f;
+        scene.assets.GetMaterial("M_floor")->reflectionIntensity = 0.1f;
 
         scene.assets.CreateMaterial("M_sphere", "S_blinn_phong");
         scene.assets.GetMaterial("M_sphere")->SetDiffuseTexture(scene.assets.GetTexture("TD_wood"));
