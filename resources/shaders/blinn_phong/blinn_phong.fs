@@ -69,6 +69,7 @@ out vec4 fColor;
 in vec2 texCoord;
 in vec3 posCoord;
 in vec4 dirLightPosCoord[MAX_DIRECTIONAL_LIGHTS];
+in vec4 spotLightPosCoord[MAX_SPOT_LIGHTS];
 in vec3 normalCoord;
 in mat4 viewMat;
 in mat3 tbn;
@@ -142,7 +143,7 @@ vec3 calc_point_light(PointLight pointLight, vec3 normal, vec3 pos, Material mat
         (bp * material.specularIntensity * specularColor + l * vec3(1.0)) * pointLight.color;
 }
 
-vec3 calc_spot_light(SpotLight spotLight, vec3 normal, vec3 pos, Material material, vec3 specularColor)
+vec3 calc_spot_light(SpotLight spotLight, vec3 normal, vec3 pos, vec4 posLightSpace, Material material, vec3 specularColor)
 {
     vec3 direction = pos - vec3(viewMat * vec4(spotLight.position, 1.0));
     direction = normalize(direction);
@@ -154,8 +155,12 @@ vec3 calc_spot_light(SpotLight spotLight, vec3 normal, vec3 pos, Material materi
     float theta = dot(direction, normalize(spotDirection));
     float epsilon = spotLight.cutoff - spotLight.outer_cutoff + 0.00000001;
     float spotIntensity = clamp((theta - spotLight.outer_cutoff) / epsilon, 0.0, 1.0);
+
+    float shadow = 0.0;
+    if (spotLight.bEnableShadows)
+        shadow = calc_shadow(posLightSpace, spotLight.shadowMap, normal, direction);
     
-    return spotLight.intensity * spotIntensity *
+    return spotLight.intensity * spotIntensity * (1.0 - shadow) *
         (bp * material.specularIntensity * specularColor + l * vec3(1.0)) * spotLight.color;
 }
 
@@ -191,7 +196,7 @@ void main()
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
         light += calc_point_light(pointLights[i], normal, posCoord, material, vec3(specularColor));
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
-        light += calc_spot_light(spotLights[i], normal, posCoord, material, vec3(specularColor));
+        light += calc_spot_light(spotLights[i], normal, posCoord, spotLightPosCoord[i], material, vec3(specularColor));
 
     fColor = vec4(light, 1.0) * diffuseColor;
 }

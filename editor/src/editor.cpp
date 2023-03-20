@@ -109,6 +109,17 @@ void LE3Editor::Render(int width, int height)
         light->GetShadowMap().Unbind();
         light->GetShadowMap().bindIdx = shadowMapIdx++;
     }
+    for (auto light : this->scene.lightManager.GetSpotLights())
+    {
+        if (!light->IsShadowsEnabled())
+            continue;
+        light->GetShadowMap().Bind();
+        this->scene.lightManager.GetShadowShader()->Use();
+        this->scene.lightManager.GetShadowShader()->Uniform("lightMatrix", light->GetViewMatrix());
+        this->scene.GetRoot()->Draw(this->scene.lightManager.GetShadowShader());
+        light->GetShadowMap().Unbind();
+        light->GetShadowMap().bindIdx = shadowMapIdx++;
+    }
     
     // Draw the rest of the scene
     scene.GetCamera()->SetAspectRatio((float)width / (float)height);

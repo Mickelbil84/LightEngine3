@@ -13,10 +13,12 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 uniform mat4 dirLightViewMatrix[MAX_DIRECTIONAL_LIGHTS];
+uniform mat4 spotLightViewMatrix[MAX_SPOT_LIGHTS];
 
 out vec2 texCoord;
 out vec3 posCoord;
 out vec4 dirLightPosCoord[MAX_DIRECTIONAL_LIGHTS];
+out vec4 spotLightPosCoord[MAX_SPOT_LIGHTS];
 out vec3 normalCoord;
 out mat4 viewMat;
 out mat3 tbn;
@@ -32,6 +34,10 @@ void main()
     vec3 fragPos = vec3(model * vPosition);
     for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
         dirLightPosCoord[i] = dirLightViewMatrix[i] * vec4(fragPos, 1.0);
+    for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
+        spotLightPosCoord[i] = spotLightViewMatrix[i] * vec4(fragPos, 1.0);
+
+    // gl_Position = spotLightPosCoord[0] * vPosition;
 
     mat3 normal_mtx = transpose(inverse(mat3(view_model)));
     normalCoord = normalize(normal_mtx * vNormal);

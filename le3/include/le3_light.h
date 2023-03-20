@@ -141,6 +141,7 @@ public:
     void SetOuterCutoff(float outer_cutoff);
 
     glm::vec3 GetDirection() const;
+    glm::mat4 GetViewMatrix() const;
 
     bool IsShadowsEnabled() const;
     void SetShadowsEnabled(bool enabled);

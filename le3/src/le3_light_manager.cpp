@@ -111,6 +111,7 @@ void LE3LightManager::RenderSpotLights(LE3Shader* shader)
         shader->Uniform(fmt::format("spotLights[{}].outer_cutoff", i), m_spotLights[i]->GetOuterCutoff());
         shader->Uniform(fmt::format("spotLights[{}].bEnableShadows", i), (GLuint)m_spotLights[i]->IsShadowsEnabled());
         shader->Uniform(fmt::format("spotLights[{}].shadowMap", i), m_spotLights[i]->GetShadowMap().bindIdx);
+        shader->Uniform(fmt::format("spotLightViewMatrix[{}]", i), m_spotLights[i]->GetViewMatrix());
     }
 }
 
