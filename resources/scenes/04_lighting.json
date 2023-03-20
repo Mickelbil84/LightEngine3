@@ -164,7 +164,7 @@
                         "normalTextureName": "TN_tile_floor",
                         "bUseNormalTexture": true,
                         "cubemapName": "CM_basilica",
-                        "reflectionIntensity": 0.10000000149011612,
+                        "reflectionIntensity": 0.30000000149011612,
                         "tilingX": 0.5,
                         "tilingY": 0.5
                     }
@@ -193,7 +193,7 @@
                         "normalTextureName": "TN_wood",
                         "bUseNormalTexture": true,
                         "cubemapName": "CM_basilica",
-                        "reflectionIntensity": 0.20000000298023225,
+                        "reflectionIntensity": 0.30000001192092898,
                         "tilingX": 1.0,
                         "tilingY": 1.0
                     }
