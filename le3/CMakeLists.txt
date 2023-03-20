@@ -30,6 +30,7 @@ add_library(
     src/le3_camera.cpp
     src/le3_texture.cpp
     src/le3_material.cpp
+    src/le3_sprite.cpp
     src/le3_light.cpp
     src/le3_light_manager.cpp
     src/le3_shadowmap.cpp

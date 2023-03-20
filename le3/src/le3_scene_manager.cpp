@@ -26,6 +26,10 @@ void LE3SceneManager::Init()
     assets.LoadShader(DEFAULT_SHADER_NAME, "../resources/shaders/default/default.vs", "../resources/shaders/default/default.fs");
     assets.CreateMaterial(DEFAULT_MATERIAL_NAME, DEFAULT_SHADER_NAME);
 
+    assets.LoadShader(SPRITE_SHADER_NAME, "../resources/shaders/default/sprite.vs", "../resources/shaders/default/sprite.fs");
+    assets.CreateMaterial(SPRITE_MATERIAL_NAME, SPRITE_SHADER_NAME);
+
+
     // Setup light manager
     lightManager.Init();
 }
@@ -115,6 +119,17 @@ void LE3SceneManager::AddStaticMesh(std::string name, std::string meshName, std:
     obj->SetScale(scale);
     if (registerCollision)
         obj->RegisterCollision(&physics);
+    objectPool[name] = std::static_pointer_cast<LE3Object>(obj);
+    parentLinks[name] = parent;
+    UpdateSceneGraph();
+}
+
+void LE3SceneManager::AddSprite(std::string name, std::string spriteTextureName, float scale, std::string parent)
+{
+    std::shared_ptr<LE3Sprite> obj(new LE3Sprite(name, assets.GetMaterial(SPRITE_MATERIAL_NAME), assets.GetTexture(spriteTextureName)));
+    obj->m_materialName = SPRITE_MATERIAL_NAME;
+    obj->m_spriteTextureName = spriteTextureName;
+    obj->SetScale(scale);
     objectPool[name] = std::static_pointer_cast<LE3Object>(obj);
     parentLinks[name] = parent;
     UpdateSceneGraph();

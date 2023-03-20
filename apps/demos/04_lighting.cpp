@@ -142,6 +142,8 @@ public:
         scene.GetObject("spot_light01")->SetRotationX(1.3f);
         scene.lightManager.EnableShadows(dynamic_pointer_cast<LE3SpotLight>(scene.GetObject("spot_light01")));
 
+        scene.AddSprite("testSprite", "TD_wood", .1f, "point_light01");
+
         SaveScene(scene, resource_prefix + "resources/scenes/04_lighting.json");
 
         // Camera
