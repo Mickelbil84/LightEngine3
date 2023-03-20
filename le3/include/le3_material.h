@@ -9,10 +9,11 @@
 #include "le3_texture.h"
 #include "le3_utils.h"
 
-#define DIFFUSE_TEXTURE_INDEX 0
-#define SPECULAR_TEXTURE_INDEX 1
-#define NORMAL_TEXTURE_INDEX 2
-#define SHADOW_MAP_INDEX 3
+#define DIFFUSE_TEXTURE_INDEX 1
+#define SPECULAR_TEXTURE_INDEX 2
+#define NORMAL_TEXTURE_INDEX 3
+#define CUBEMAP_TEXTURE_INDEX 4
+#define SHADOW_MAP_INDEX 6
 
 struct LE3Material
 {
@@ -24,6 +25,7 @@ public:
     void SetDiffuseTexture(LE3Texture* texture);
     void SetSpecularTexture(LE3Texture* texture);
     void SetNormalTexture(LE3Texture* texture);
+    void SetCubemap(LE3Texture* cubemap);
 
     std::string shaderName;
 
@@ -43,12 +45,17 @@ public:
     std::string normalTextureName;
     bool bUseNormalTexture = false;
 
+    // Cubemap
+    std::string cubemapName;
+    float reflectionIntensity = 0.f;
+
     float tilingX=1.f, tilingY=1.f;
 
     // Pointers
     LE3Texture* diffuseTexture;
     LE3Texture* specularTexture;
     LE3Texture* normalTexture;
+    LE3Texture* cubemap;
 
     // Sends material information to a given shader, and binds all relevant textures
     void Apply();
@@ -71,6 +78,9 @@ public:
 
         ar(CEREAL_NVP(normalTextureName));
         ar(CEREAL_NVP(bUseNormalTexture));
+
+        ar(CEREAL_NVP(cubemapName));
+        ar(CEREAL_NVP(reflectionIntensity));
 
         ar(CEREAL_NVP(tilingX), CEREAL_NVP(tilingY));
     }

@@ -117,6 +117,8 @@ public:
                 material.SetSpecularTexture(GetTexture(material.specularTextureName));
             if (material.normalTextureName.size())
                 material.SetNormalTexture(GetTexture(material.normalTextureName));
+            if (material.cubemapName.size())
+                material.SetCubemap(GetTexture(material.cubemapName));
         }
     }
 

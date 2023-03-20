@@ -1,8 +1,10 @@
-#version 410 core
+#version 400 core
 
 #define MAX_DIRECTIONAL_LIGHTS 4
 #define MAX_POINT_LIGHTS 8
 #define MAX_SPOT_LIGHTS 2
+
+#define M_PI 3.1415926535897932384626433832795
 
 struct Material
 {
@@ -17,6 +19,9 @@ struct Material
 
     sampler2D normalTexture;
     bool bUseNormalTexture;
+
+    sampler2D cubemapTexture;
+    float reflectionIntensity;
 
     float tilingX, tilingY;
 };
@@ -110,6 +115,16 @@ float calc_shadow(vec4 posLightSpace, sampler2D shadowMap, vec3 normal, vec3 lig
     return shadow;
 }
 
+vec3 calc_reflection(vec3 normal)
+{
+    vec3 dir = reflect(normalize(-posCoord), normal);
+    vec2 uv = vec2(
+        atan(-dir.z / -dir.x) * 2 / M_PI + 0.5,
+        dir.y * 0.5 + 0.5
+    );
+    return texture(material.cubemapTexture, uv).rgb;
+}
+
 vec3 calc_ambient_light(AmbientLight ambientLight)
 {
     return ambientLight.intensity * ambientLight.color;
@@ -188,6 +203,12 @@ void main()
         normal = normalize(tbn * normal);
     }
         
+    // Reflections
+    if (material.reflectionIntensity > 0.0)
+    {
+        float alpha = clamp(material.reflectionIntensity, 0.0, 1.0);
+        diffuseColor = alpha * vec4(calc_reflection(normalCoord), 1.0) + (1.0 - alpha) * diffuseColor; 
+    }
 
     vec3 light = vec3(0.0);
     light += calc_ambient_light(ambientLight);
@@ -199,4 +220,5 @@ void main()
         light += calc_spot_light(spotLights[i], normal, posCoord, spotLightPosCoord[i], material, vec3(specularColor));
 
     fColor = vec4(light, 1.0) * diffuseColor;
+    // fColor = vec4(1.0);
 }

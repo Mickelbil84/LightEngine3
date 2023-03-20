@@ -37,8 +37,6 @@ void main()
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
         spotLightPosCoord[i] = spotLightViewMatrix[i] * vec4(fragPos, 1.0);
 
-    // gl_Position = spotLightPosCoord[0] * vPosition;
-
     mat3 normal_mtx = transpose(inverse(mat3(view_model)));
     normalCoord = normalize(normal_mtx * vNormal);
 

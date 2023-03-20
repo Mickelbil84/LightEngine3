@@ -23,6 +23,12 @@
             ],
             "m_texturesPaths": [
                 {
+                    "key": "CM_basilica",
+                    "value": {
+                        "path": "../resources/textures/distribution_board_4k.png"
+                    }
+                },
+                {
                     "key": "TD_bunny",
                     "value": {
                         "path": "../resources/textures/bunny.png"
@@ -99,6 +105,8 @@
                         "bUseSpecularTexture": true,
                         "normalTextureName": "TN_tile_floor",
                         "bUseNormalTexture": true,
+                        "cubemapName": "CM_basilica",
+                        "reflectionIntensity": 0.8999999761581421,
                         "tilingX": 3.0,
                         "tilingY": 3.0
                     }
@@ -126,6 +134,8 @@
                         "bUseSpecularTexture": false,
                         "normalTextureName": "",
                         "bUseNormalTexture": false,
+                        "cubemapName": "",
+                        "reflectionIntensity": 0.0,
                         "tilingX": 1.0,
                         "tilingY": 1.0
                     }
@@ -153,6 +163,8 @@
                         "bUseSpecularTexture": true,
                         "normalTextureName": "TN_tile_floor",
                         "bUseNormalTexture": true,
+                        "cubemapName": "CM_basilica",
+                        "reflectionIntensity": 0.05000000074505806,
                         "tilingX": 0.5,
                         "tilingY": 0.5
                     }
@@ -180,6 +192,8 @@
                         "bUseSpecularTexture": true,
                         "normalTextureName": "TN_wood",
                         "bUseNormalTexture": true,
+                        "cubemapName": "CM_basilica",
+                        "reflectionIntensity": 0.20000000298023225,
                         "tilingX": 1.0,
                         "tilingY": 1.0
                     }

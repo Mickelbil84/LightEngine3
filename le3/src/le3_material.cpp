@@ -61,6 +61,19 @@ void LE3Material::SetNormalTexture(LE3Texture* texture)
         this->normalTextureName = std::string("");
     }
 }
+void LE3Material::SetCubemap(LE3Texture* cubemap)
+{
+    if (cubemap)
+    {
+        this->cubemap = cubemap;
+        this->cubemapName = cubemap->GetName();
+    }
+    else
+    {
+        this->cubemap = nullptr;
+        this->cubemapName = std::string("");
+    }
+}
 
 void LE3Material::Apply()
 {
@@ -76,6 +89,8 @@ void LE3Material::Apply()
     pShader->Uniform("material.bUseSpecularTexture", (GLuint)bUseSpecularTexture);
 
     pShader->Uniform("material.bUseNormalTexture", (GLuint)bUseNormalTexture);
+
+    pShader->Uniform("material.reflectionIntensity", reflectionIntensity);
 
     pShader->Uniform("material.tilingX", tilingX);
     pShader->Uniform("material.tilingY", tilingY);
@@ -93,6 +108,11 @@ void LE3Material::Apply()
     {
         pShader->Uniform("material.normalTexture", (GLuint)NORMAL_TEXTURE_INDEX);
         normalTexture->Use(NORMAL_TEXTURE_INDEX);
+    }
+    if (reflectionIntensity > 0.f && cubemap)
+    {
+        pShader->Uniform("material.cubemapTexture", (GLuint)CUBEMAP_TEXTURE_INDEX);
+        cubemap->Use(CUBEMAP_TEXTURE_INDEX);
     }
 }
 
