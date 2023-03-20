@@ -5,10 +5,11 @@
 #include <le3_primitives.h>
 
 #include "editor_consts.h"
+#include "editor_modes.h"
 #include "editor_math.h"
 
 
-class LE3EditorGizmoAxis : public LE3StaticMesh
+class LE3EditorGizmoAxis : public LE3Object
 {
 public:
     void Init(LE3Material* gizmoMaterial);
@@ -24,7 +25,12 @@ public:
     glm::vec3 GetAxisLine() const;
     void SetAxisLine(glm::vec3 line);
 
+    void SetGizmoModePtr(LE3EditorGizmoModes* gizmoMode);
+
 private:
+    LE3EditorGizmoModes* m_pGizmoMode;
+    LE3Mesh<LE3Vertex> *m_axisMove, *m_axisRotate, *m_axisScale;
+    LE3Material* m_material;
     bool m_bIsHovered;
     glm::vec3 m_axisLine;
 };
@@ -42,6 +48,8 @@ public:
     void UnhoverAxes();
 
     LE3Shader* GetGizmoShader() const;
+
+    void SetGizmoModePtr(LE3EditorGizmoModes* gizmoMode);
 
 private:
 

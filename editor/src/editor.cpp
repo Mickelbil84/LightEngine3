@@ -29,6 +29,7 @@ void LE3Editor::Init()
     // Setup Gizmo and Camera
     // ------------------------
     gizmo.Init();
+    gizmo.SetGizmoModePtr(&m_editorState.gizmoMode);
     gizmo.SetHiddenInSceneGraph(true);
     gizmo.SetHidden(true);
     scene.GetRoot()->AppendChild(&gizmo);
@@ -304,12 +305,31 @@ void LE3Editor::ModeGizmoDrag(LE3EditorInput input)
     float deltaX = input.relativeMouseX - m_editorState.dragInitialPos.x;
     float deltaY = input.relativeMouseY - m_editorState.dragInitialPos.y;
 
-    float t = glm::dot(glm::vec2(deltaX, deltaY), qScreen - pScreen);
-    glm::vec3 projection = t * m_draggedGizmoAxis->GetAxisLine();
-    m_editorState.deltaPos = gGizmoDragSpeed * projection;
+    if (m_editorState.gizmoMode == LE3EditorGizmoModes::LE3EDITOR_GIZMO_MOVE)
+    {   
+        float t = glm::dot(glm::vec2(deltaX, deltaY), qScreen - pScreen);
+        glm::vec3 projection = t * m_draggedGizmoAxis->GetAxisLine();
+        m_editorState.deltaPos = gGizmoDragSpeed * projection;
 
-    m_selectedObject->SetPosition(m_editorState.selectedInitialPos + m_editorState.deltaPos);
-    gizmo.SetPosition(m_selectedObject->GetGlobalPosition());
+        m_selectedObject->SetPosition(m_editorState.selectedInitialPos + m_editorState.deltaPos);
+        gizmo.SetPosition(m_selectedObject->GetGlobalPosition());
+    }
+    else if (m_editorState.gizmoMode == LE3EditorGizmoModes::LE3EDITOR_GIZMO_ROTATE)
+    {
+        float tmp = 0.5f * (deltaX + deltaY);
+        float t = glm::dot(glm::vec2(tmp, tmp), qScreen - pScreen);
+        glm::vec3 projection = t * m_draggedGizmoAxis->GetAxisLine();
+        m_editorState.deltaPos = gGizmoDragSpeed * projection;
+        m_selectedObject->SetRotation(m_editorState.selectedInitialRot + m_editorState.deltaPos);
+    }
+    else if (m_editorState.gizmoMode == LE3EditorGizmoModes::LE3EDITOR_GIZMO_SCALE)
+    {
+        float t = glm::dot(glm::vec2(deltaX, deltaY), qScreen - pScreen);
+        glm::vec3 projection = t * m_draggedGizmoAxis->GetAxisLine();
+        m_editorState.deltaPos = gGizmoDragSpeed * projection;
+        float deltaScale = 0.33f * (m_editorState.deltaPos.x + m_editorState.deltaPos.y + m_editorState.deltaPos.z);
+        m_selectedObject->SetScale(m_editorState.selectedInitialScale + deltaScale);
+    }
 
     if (refreshPropertiesCallback)
         refreshPropertiesCallback->callback();
@@ -333,6 +353,8 @@ void LE3Editor::SetSelectedObject(LE3Object* obj)
     if (m_selectedObject)
     {
         m_editorState.selectedInitialPos = m_selectedObject->GetPosition();
+        m_editorState.selectedInitialRot = m_selectedObject->GetRotation();
+        m_editorState.selectedInitialScale = m_selectedObject->GetScale();
 
         // Update gizmo
         gizmo.SetHidden(false);

@@ -85,6 +85,14 @@ protected:
     virtual void OnCollisionToolToggle( wxCommandEvent& event );
     virtual void OnBulletCollisionToolToggle( wxCommandEvent& event );
 
+    ////////////////////////////////
+    // Gizmo Modes
+    ////////////////////////////////
+    virtual void OnGizmoSelect( wxCommandEvent& event );
+    virtual void OnGizmoMove( wxCommandEvent& event );
+    virtual void OnGizmoRotate( wxCommandEvent& event );
+    virtual void OnGizmoScale( wxCommandEvent& event );
+
     /////////////////////////////////
     // Object Hirerachy Manipulation
     /////////////////////////////////

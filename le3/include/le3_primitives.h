@@ -32,3 +32,8 @@ void AddCone(std::vector<LE3Vertex>& buffer,
 void AddSphere(std::vector<LE3Vertex>& buffer,
     GLfloat x0, GLfloat y0, GLfloat z0,
     GLfloat radius, GLushort resolution);
+
+// Appends a torus to a given vector vertex buffer
+void AddTorus(std::vector<LE3Vertex>& buffer,
+    GLfloat x0, GLfloat y0, GLfloat z0,
+    GLfloat majorRadius, GLfloat minorRadius, GLushort resolution);

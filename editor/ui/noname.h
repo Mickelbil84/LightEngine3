@@ -101,6 +101,10 @@ class LE3EditorWindow : public wxFrame
 		virtual void OnLoadScene( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSaveScene( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSaveSceneAs( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnGizmoSelect( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnGizmoMove( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnGizmoRotate( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnGizmoScale( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBulletCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnReparent( wxCommandEvent& event ) { event.Skip(); }

@@ -36,6 +36,7 @@ public:
 
 class LE3Editor
 {
+public:
     // Editor input modes and states
     LE3EditorModeState m_editorState;
     LE3EditorInput m_lastInput;

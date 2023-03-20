@@ -852,3 +852,20 @@ LE3Object* LE3EditorUI::Duplicate(LE3Object* obj, std::string parentName)
 
     return newObj;
 }
+
+void LE3EditorUI::OnGizmoSelect( wxCommandEvent& event )
+{
+    m_editor->m_editorState.gizmoMode = LE3EditorGizmoModes::LE3EDITOR_GIZMO_SELECT;
+}
+void LE3EditorUI::OnGizmoMove( wxCommandEvent& event )
+{
+    m_editor->m_editorState.gizmoMode = LE3EditorGizmoModes::LE3EDITOR_GIZMO_MOVE;
+}
+void LE3EditorUI::OnGizmoRotate( wxCommandEvent& event )
+{
+    m_editor->m_editorState.gizmoMode = LE3EditorGizmoModes::LE3EDITOR_GIZMO_ROTATE;
+}
+void LE3EditorUI::OnGizmoScale( wxCommandEvent& event )
+{
+    m_editor->m_editorState.gizmoMode = LE3EditorGizmoModes::LE3EDITOR_GIZMO_SCALE;
+}

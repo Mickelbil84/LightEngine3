@@ -35,13 +35,13 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 
 	m_topToolbar->AddSeparator();
 
-	m_gizmoSelectTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
+	m_gizmoSelectTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_gizmoMoveTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
+	m_gizmoMoveTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_gizmoRotateTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
+	m_gizmoRotateTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_gizmoScaleTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
+	m_gizmoScaleTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
 	m_topToolbar->AddSeparator();
 
@@ -254,6 +254,10 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	this->Connect( m_loadTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnLoadScene ) );
 	this->Connect( m_saveTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveScene ) );
 	this->Connect( m_saveAsTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveSceneAs ) );
+	this->Connect( m_gizmoSelectTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnGizmoSelect ) );
+	this->Connect( m_gizmoMoveTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnGizmoMove ) );
+	this->Connect( m_gizmoRotateTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnGizmoRotate ) );
+	this->Connect( m_gizmoScaleTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnGizmoScale ) );
 	this->Connect( m_collisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnCollisionToolToggle ) );
 	this->Connect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
 	this->Connect( m_reparentTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnReparent ) );
@@ -288,6 +292,10 @@ LE3EditorWindow::~LE3EditorWindow()
 	this->Disconnect( m_loadTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnLoadScene ) );
 	this->Disconnect( m_saveTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveScene ) );
 	this->Disconnect( m_saveAsTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSaveSceneAs ) );
+	this->Disconnect( m_gizmoSelectTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnGizmoSelect ) );
+	this->Disconnect( m_gizmoMoveTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnGizmoMove ) );
+	this->Disconnect( m_gizmoRotateTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnGizmoRotate ) );
+	this->Disconnect( m_gizmoScaleTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnGizmoScale ) );
 	this->Disconnect( m_collisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnCollisionToolToggle ) );
 	this->Disconnect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
 	this->Disconnect( m_reparentTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnReparent ) );
