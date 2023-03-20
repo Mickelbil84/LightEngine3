@@ -9,6 +9,7 @@ struct LE3ApplicationSettings
     /////////////////////
     std::string windowTitle = "LightEngine3";
     int windowWidth = 800, windowHeight = 600;
+    int maxFPS = 300;
     bool bIsResizable = false, bIsFullscreen = false;
 
 
