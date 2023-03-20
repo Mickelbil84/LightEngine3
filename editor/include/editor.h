@@ -85,6 +85,7 @@ public:
     void ModeCamera(LE3EditorInput input);
     void ModeGizmoDrag(LE3EditorInput input);
     void ModeGizmoDragRelease();
+    void HandleGizmoToolHotkeys(LE3EditorInput input);
 
     bool UpdateHoveredGizmo(LE3EditorInput input); // return true if gizmo is hovered
     void UpdateHoveredObject(LE3EditorInput input);

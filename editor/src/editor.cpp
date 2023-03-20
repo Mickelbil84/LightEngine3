@@ -61,9 +61,11 @@ void LE3Editor::Update(float deltaTime)
     {
     case LE3EditorModes::LE3EDITOR_IDLE:
         ModeIdle();
+        HandleGizmoToolHotkeys(m_lastInput);
         break;
     case LE3EditorModes::LE3EDITOR_SELECT:
         ModeSelect();
+        HandleGizmoToolHotkeys(m_lastInput);
         break;
     case LE3EditorModes::LE3EDITOR_CAMERA:
         ModeCamera(m_lastInput);
@@ -369,4 +371,16 @@ void LE3Editor::SetSelectedObject(LE3Object* obj)
     {
         gizmo.SetHidden(true);
     }
+}
+
+void LE3Editor::HandleGizmoToolHotkeys(LE3EditorInput input)
+{
+    if (input.keyboard['Q'])
+        m_editorState.gizmoMode = LE3EditorGizmoModes::LE3EDITOR_GIZMO_SELECT;
+    else if (input.keyboard['W'])
+        m_editorState.gizmoMode = LE3EditorGizmoModes::LE3EDITOR_GIZMO_MOVE;
+    else if (input.keyboard['E'])
+        m_editorState.gizmoMode = LE3EditorGizmoModes::LE3EDITOR_GIZMO_ROTATE;
+    else if (input.keyboard['R'])
+        m_editorState.gizmoMode = LE3EditorGizmoModes::LE3EDITOR_GIZMO_SCALE;
 }
