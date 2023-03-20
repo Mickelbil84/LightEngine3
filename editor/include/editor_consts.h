@@ -9,7 +9,7 @@ const int gEditorLookAroundKey = wxKeyCode::WXK_SHIFT;
 //-----------------
 const float gGizmoAxisThickness = 0.005f;
 const float gGizmoAxisLength = 0.3f;
-const float gGizmoAxisMajorRadius = 0.3f;
+const float gGizmoAxisMajorRadius = 0.15f;
 const float gGizmoAxisMinorRadius = 0.005f;
 const float gGizmoConeThicnkess = 1.5f * gGizmoAxisThickness;
 const float gGizmoConeLength = 3.f * gGizmoAxisThickness;
