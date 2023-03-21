@@ -121,8 +121,8 @@ vec3 calc_reflection(vec3 normal)
 {
     vec3 dir = reflect(normalize(posCoord - cameraPos), normal);
     vec2 uv = vec2(
-        atan(-dir.z / -dir.x) * 2 / M_PI + 0.5,
-        dir.y * 0.5 + 0.5
+        atan(-dir.z / -dir.x) / 2 / M_PI + 0.5,
+        asin(dir.y) / M_PI + 0.5
     );
     return texture(material.cubemapTexture, uv).rgb;
 }
