@@ -220,6 +220,7 @@ void LE3SceneManager::Render()
         shader->Use();
         shader ->Uniform("view", GetCamera()->GetViewMatrix());
         shader->Uniform("projection", GetCamera()->GetProjectionMatrix());
+        shader->Uniform("cameraPos", GetCamera()->GetGlobalPosition());
         lightManager.RenderLights(shader, GetCamera()->GetPosition());
     }
     glViewport(0, 0, applicationSettings->windowWidth, applicationSettings->windowHeight);

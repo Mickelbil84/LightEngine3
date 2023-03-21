@@ -132,6 +132,7 @@ void LE3Editor::Render(int width, int height)
         shader->Use();
         shader ->Uniform("view", scene.GetCamera()->GetViewMatrix());
         shader->Uniform("projection", scene.GetCamera()->GetProjectionMatrix());
+        shader->Uniform("cameraPos", scene.GetCamera()->GetGlobalPosition());
         scene.lightManager.RenderLights(shader, scene.GetCamera()->GetPosition());
     }
     glCullFace(GL_BACK); 
