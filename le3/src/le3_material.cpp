@@ -104,7 +104,7 @@ void LE3Material::Apply()
         pShader->Uniform("material.specularTexture", (GLuint)SPECULAR_TEXTURE_INDEX);
         specularTexture->Use(SPECULAR_TEXTURE_INDEX);
     }
-    if (bUseSpecularTexture && specularTexture)
+    if (bUseNormalTexture && normalTexture)
     {
         pShader->Uniform("material.normalTexture", (GLuint)NORMAL_TEXTURE_INDEX);
         normalTexture->Use(NORMAL_TEXTURE_INDEX);
