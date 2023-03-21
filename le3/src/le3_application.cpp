@@ -10,6 +10,8 @@ int LE3Application::_Init()
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, m_settings.numSamples);
 
     Uint32 flags = 0;
     flags |= SDL_WINDOW_OPENGL;
@@ -143,6 +145,8 @@ void LE3Application::ApplyOpenGLSettings()
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     else
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    glEnable(GL_MULTISAMPLE);
 }
 
 void LE3Application::ApplyWindowSettings()
