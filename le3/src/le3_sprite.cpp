@@ -34,7 +34,7 @@ void LE3Sprite::Draw()
     m_material->GetShader()->Use();
     m_material->GetShader()->Uniform("model", m_globalModelMatrix);
     m_material->Apply();
-    glClear(GL_DEPTH_BUFFER_BIT);
+    // glClear(GL_DEPTH_BUFFER_BIT);
     m_mesh->Draw();
 }
 
