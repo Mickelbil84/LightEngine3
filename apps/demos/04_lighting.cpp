@@ -58,10 +58,9 @@ public:
         scene.assets.AddTexturePath("TD_tile_floor", resource_prefix + "resources/textures/tile_floor.jpg");
         scene.assets.AddTexturePath("TN_tile_floor", resource_prefix + "resources/textures/tile_floor_normal.png");
         scene.assets.AddTexturePath("TD_wood", resource_prefix + "resources/textures/wood.png");
-        scene.assets.AddTexturePath("TN_wood", resource_prefix + "resources/textures/wood_normal.png");
-        scene.assets.AddTexturePath("TD_bunny", resource_prefix + "resources/textures/bunny.png");
-        scene.assets.AddTexturePath("TN_bunny", resource_prefix + "resources/textures/bunny_normal.png");
+        scene.assets.AddTexturePath("TN_wood", resource_prefix + "resources/textures/wood_normal2.png");
         scene.assets.AddTexturePath("CM_basilica", resource_prefix + "resources/textures/basilica.png");
+        // scene.assets.AddTexturePath("CM_basilica", resource_prefix + "resources/textures/tile_floor.jpg");
 
         // Shaders
         scene.assets.AddShaderPath("S_blinn_phong", 
@@ -85,17 +84,17 @@ public:
 
         scene.assets.CreateMaterial("M_sphere", "S_blinn_phong");
         scene.assets.GetMaterial("M_sphere")->SetDiffuseTexture(scene.assets.GetTexture("TD_wood"));
-        // scene.assets.GetMaterial("M_sphere")->bUseDiffuseTexture = true;
+        scene.assets.GetMaterial("M_sphere")->bUseDiffuseTexture = true;
         scene.assets.GetMaterial("M_sphere")->specularIntensity = 6.f;
         scene.assets.GetMaterial("M_sphere")->shininess = 128.f;
         scene.assets.GetMaterial("M_sphere")->SetSpecularTexture(scene.assets.GetTexture("TD_wood"));
-        // scene.assets.GetMaterial("M_sphere")->bUseSpecularTexture = true;
+        scene.assets.GetMaterial("M_sphere")->bUseSpecularTexture = true;
         scene.assets.GetMaterial("M_sphere")->SetNormalTexture(scene.assets.GetTexture("TN_wood"));
         scene.assets.GetMaterial("M_sphere")->bUseNormalTexture = true;
         scene.assets.GetMaterial("M_sphere")->tilingX = 2.f;
         scene.assets.GetMaterial("M_sphere")->tilingY = 2.f;
         scene.assets.GetMaterial("M_sphere")->SetCubemap(scene.assets.GetTexture("CM_basilica"));
-        scene.assets.GetMaterial("M_sphere")->reflectionIntensity = 0.9f;
+        scene.assets.GetMaterial("M_sphere")->reflectionIntensity = 0.3f;
 
         scene.assets.CreateMaterial("M_bunny", "S_blinn_phong");
         scene.assets.GetMaterial("M_bunny")->SetDiffuseTexture(scene.assets.GetTexture("TD_tile_floor"));
