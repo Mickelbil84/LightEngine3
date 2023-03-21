@@ -98,7 +98,7 @@
                         "shininess": 512.0,
                         "specularTextureName": "TD_tile_floor",
                         "bUseSpecularTexture": true,
-                        "normalTextureName": "TN_tile_floor",
+                        "normalTextureName": "TN_wood",
                         "bUseNormalTexture": true,
                         "cubemapName": "CM_basilica",
                         "reflectionIntensity": 0.8999999761581421,
@@ -188,7 +188,7 @@
                         "normalTextureName": "TN_wood",
                         "bUseNormalTexture": true,
                         "cubemapName": "CM_basilica",
-                        "reflectionIntensity": 0.30000001192092898,
+                        "reflectionIntensity": 0.4000000059604645,
                         "tilingX": 2.0,
                         "tilingY": 2.0
                     }

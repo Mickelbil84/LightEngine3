@@ -81,6 +81,10 @@ in vec3 normalCoord;
 // in vec3 cameraPos;
 in mat3 tbn;
 
+float rand(vec2 co){
+    return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
 float calc_lambertian(vec3 normal, vec3 direction)
 {
     return max(dot(-direction, normal), 0.0);
@@ -121,9 +125,11 @@ vec3 calc_reflection(vec3 normal)
 {
     vec3 dir = reflect(normalize(posCoord - cameraPos), normal);
     vec2 uv = vec2(
-        atan(-dir.z / -dir.x) / 2.0 / M_PI + 0.5,
-        asin(dir.y) / M_PI + 0.5
-    );
+        // atan(-dir.z / -dir.x) * 2.0 / M_PI + 0.5,
+        // asin(dir.y) / M_PI + 0.5
+        acos(dir.x) + 1.0,
+        acos(dir.y / length(dir.zy)) + 1.0
+    ) * 0.2;
     return texture(material.cubemapTexture, uv).rgb;
 }
 
