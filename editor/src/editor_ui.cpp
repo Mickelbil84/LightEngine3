@@ -20,6 +20,7 @@
 #include "icons/icon_newsphere.xpm"
 #include "icons/icon_newcylinder.xpm"
 #include "icons/icon_newcone.xpm"
+#include "icons/icon_newtorus.xpm"
 #include "icons/icon_newstaticmesh.xpm"
 #include "icons/icon_newempty.xpm"
 
@@ -47,6 +48,7 @@ LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selected
     m_addSphereTool->SetBitmap({icon_newsphere});
     m_addCylinderTool->SetBitmap({icon_newcylinder});
     m_addConeTool->SetBitmap({icon_newcone});
+    m_addTorusTool->SetBitmap({icon_newtorus});
     m_addStaticMeshTool->SetBitmap({icon_newstaticmesh});
     m_addEmptyTool->SetBitmap({icon_newempty});
     m_sideToolbar->Realize();
@@ -676,6 +678,40 @@ void LE3EditorUI::OnAddCone( wxCommandEvent& event )
                 zero + del + zero + del + zero + del +
                 radius + del +
                 height + del +
+                resolution + del;
+        m_editor->scene.assets.AddMeshPath(name, meshName);
+        m_editor->scene.AddStaticMesh(name, name, materialName);
+
+        RefreshAssets();
+        RefreshSceneGraph();
+    }
+    m_editor->bPauseUpdate = false;
+}
+void LE3EditorUI::OnAddTorus( wxCommandEvent& event )
+{
+    LE3AddTorusDialog dialog(this);
+
+    // Populate materials
+    for (auto [key, value] : m_editor->scene.assets.m_materials)
+        dialog.m_materialText->Append(key);
+    dialog.m_materialText->SetValue(DEFAULT_MATERIAL_NAME);
+
+    m_editor->bPauseUpdate = true;
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
+        std::string materialName = dialog.m_materialText->GetValue().ToStdString();
+        std::string majorRadius = dialog.m_majorRadiusText->GetValue().ToStdString();
+        std::string minorRadius = dialog.m_minorRadiusText->GetValue().ToStdString();
+        std::string resolution = dialog.m_resolutionText->GetValue().ToStdString();
+
+        std::string del(1, gPrimitivePathDelimiter);
+        std::string zero("0");
+
+        std::string meshName = std::string(1, gPrimitivePathPrefix) + std::string(gTokenTorus) + del +
+                zero + del + zero + del + zero + del +
+                majorRadius + del +
+                minorRadius + del +
                 resolution + del;
         m_editor->scene.assets.AddMeshPath(name, meshName);
         m_editor->scene.AddStaticMesh(name, name, materialName);

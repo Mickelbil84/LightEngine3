@@ -106,6 +106,7 @@ protected:
     virtual void OnAddCube( wxCommandEvent& event );
     virtual void OnAddCylinder( wxCommandEvent& event );
     virtual void OnAddCone( wxCommandEvent& event );
+    virtual void OnAddTorus( wxCommandEvent& event );
     virtual void OnAddSphere( wxCommandEvent& event );
     virtual void OnAddStaticMesh( wxCommandEvent& event );
     virtual void OnAddEmpty( wxCommandEvent& event );

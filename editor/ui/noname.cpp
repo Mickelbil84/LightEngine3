@@ -71,11 +71,13 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 
 	m_addConeTool = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
+	m_addTorusTool = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
 	m_addStaticMeshTool = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
-	m_sideToolbar->AddSeparator();
-
 	m_addEmptyTool = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
+	m_sideToolbar->AddSeparator();
 
 	m_tool28 = m_sideToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
@@ -266,6 +268,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	this->Connect( m_addSphereTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddSphere ) );
 	this->Connect( m_addCylinderTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCylinder ) );
 	this->Connect( m_addConeTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCone ) );
+	this->Connect( m_addTorusTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddTorus ) );
 	this->Connect( m_addStaticMeshTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddStaticMesh ) );
 	this->Connect( m_addEmptyTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddEmpty ) );
 	m_OpenGLContainer->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );
@@ -304,6 +307,7 @@ LE3EditorWindow::~LE3EditorWindow()
 	this->Disconnect( m_addSphereTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddSphere ) );
 	this->Disconnect( m_addCylinderTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCylinder ) );
 	this->Disconnect( m_addConeTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddCone ) );
+	this->Disconnect( m_addTorusTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddTorus ) );
 	this->Disconnect( m_addStaticMeshTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddStaticMesh ) );
 	this->Disconnect( m_addEmptyTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnAddEmpty ) );
 	m_OpenGLContainer->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LE3EditorWindow::OnMouseClick ), NULL, this );
@@ -965,6 +969,103 @@ LE3AddSphereDialog::LE3AddSphereDialog( wxWindow* parent, wxWindowID id, const w
 }
 
 LE3AddSphereDialog::~LE3AddSphereDialog()
+{
+}
+
+LE3AddTorusDialog::LE3AddTorusDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer71;
+	bSizer71 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer72;
+	bSizer72 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText36 = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxSize( 90,-1 ), 0 );
+	m_staticText36->Wrap( -1 );
+	bSizer72->Add( m_staticText36, 0, wxALL, 5 );
+
+	m_nameText = new wxTextCtrl( this, wxID_ANY, wxT("torus"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer72->Add( m_nameText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer71->Add( bSizer72, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer73;
+	bSizer73 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText37 = new wxStaticText( this, wxID_ANY, wxT("Material:"), wxDefaultPosition, wxSize( 90,-1 ), 0 );
+	m_staticText37->Wrap( -1 );
+	bSizer73->Add( m_staticText37, 0, wxALL, 5 );
+
+	m_materialText = new wxComboBox( this, wxID_ANY, wxT("Select Material..."), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_SORT );
+	bSizer73->Add( m_materialText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer71->Add( bSizer73, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer74;
+	bSizer74 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText38 = new wxStaticText( this, wxID_ANY, wxT("Major Radius:"), wxDefaultPosition, wxSize( 90,-1 ), 0 );
+	m_staticText38->Wrap( -1 );
+	bSizer74->Add( m_staticText38, 0, wxALL, 5 );
+
+	m_majorRadiusText = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer74->Add( m_majorRadiusText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer71->Add( bSizer74, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer75;
+	bSizer75 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText39 = new wxStaticText( this, wxID_ANY, wxT("Minor Radius:"), wxDefaultPosition, wxSize( 90,-1 ), 0 );
+	m_staticText39->Wrap( -1 );
+	bSizer75->Add( m_staticText39, 0, wxALL, 5 );
+
+	m_minorRadiusText = new wxTextCtrl( this, wxID_ANY, wxT("0.2"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer75->Add( m_minorRadiusText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer71->Add( bSizer75, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer76;
+	bSizer76 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText40 = new wxStaticText( this, wxID_ANY, wxT("Resolution"), wxDefaultPosition, wxSize( 90,-1 ), 0 );
+	m_staticText40->Wrap( -1 );
+	bSizer76->Add( m_staticText40, 0, wxALL, 5 );
+
+	m_resolutionText = new wxTextCtrl( this, wxID_ANY, wxT("16"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer76->Add( m_resolutionText, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer71->Add( bSizer76, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer77;
+	bSizer77 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_button31 = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer77->Add( m_button31, 1, wxALL|wxEXPAND, 5 );
+
+	m_button32 = new wxButton( this, wxID_OK, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+
+	m_button32->SetDefault();
+	bSizer77->Add( m_button32, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer71->Add( bSizer77, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer71 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+LE3AddTorusDialog::~LE3AddTorusDialog()
 {
 }
 

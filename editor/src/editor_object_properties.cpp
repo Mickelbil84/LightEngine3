@@ -111,6 +111,14 @@ void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg, LE3Ass
             // pg->Append(new wxStringProperty(wxT("Material Name"), wxPG_LABEL, obj->materialName));
             pg->Append(new wxEnumProperty(wxT("Material Name"), wxPG_LABEL, materialChoices, materialChoices.Index(obj->materialName)));
         }
+        else if (tokens.token == gTokenTorus)
+        {
+            pg->Append(new wxPropertyCategory(wxT("LE3Torus")));
+            pg->Append(new wxFloatProperty(wxT("Major Radius"), wxPG_LABEL, tokens.params[3]));
+            pg->Append(new wxFloatProperty(wxT("Minor Radius"), wxPG_LABEL, tokens.params[4]));
+            pg->Append(new wxIntProperty(wxT("Resolution"), wxPG_LABEL, (GLushort)tokens.params[5]));
+            pg->Append(new wxEnumProperty(wxT("Material Name"), wxPG_LABEL, materialChoices, materialChoices.Index(obj->materialName)));
+        }
         else if (tokens.token == gTokenSphere)
         {
             pg->Append(new wxPropertyCategory(wxT("LE3Sphere")));
@@ -222,6 +230,34 @@ void StaticMeshPropertyGridChanged(LE3StaticMesh* obj, wxPropertyGrid* pg, wxPro
                 size_t idx;
                 if (event.GetPropertyName() == wxT("Radius")) idx = 3;
                 if (event.GetPropertyName() == wxT("Height")) idx = 4;
+                if (event.GetPropertyName() == wxT("Resolution")) idx = 5;
+                tokens.params[idx] = newVal;
+
+                std::string del(1, gPrimitivePathDelimiter);
+                std::string zero("0");
+                std::string newPrimitiveDescription = 
+                    std::string(1, gPrimitivePathPrefix) + tokens.token + del + 
+                    zero + del + zero + del + zero + del +
+                    std::to_string(tokens.params[3]) + del + 
+                    std::to_string(tokens.params[4]) + del +
+                    std::to_string(tokens.params[5]) + del + 
+                    std::to_string((GLushort)tokens.params[6]) + del;
+                
+                assets.m_meshes.erase(obj->meshName);
+                assets.m_meshesPaths.erase(obj->meshName);
+                assets.LoadMeshPrimitive(obj->meshName, newPrimitiveDescription);
+            }
+        }
+        else if (tokens.token == gTokenTorus)
+        {
+            if (event.GetPropertyName() == wxT("Major Radius") ||
+                event.GetPropertyName() == wxT("Minor Radius") ||
+                event.GetPropertyName() == wxT("Resolution"))
+            {
+                float newVal = event.GetPropertyValue().GetDouble();
+                size_t idx;
+                if (event.GetPropertyName() == wxT("Major Radius")) idx = 3;
+                if (event.GetPropertyName() == wxT("Minor Radius")) idx = 4;
                 if (event.GetPropertyName() == wxT("Resolution")) idx = 5;
                 tokens.params[idx] = newVal;
 

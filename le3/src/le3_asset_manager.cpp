@@ -8,6 +8,7 @@
 const char* gTokenBox = "BOX";
 const char* gTokenCylinder = "CYL";
 const char* gTokenCone = "CON";
+const char* gTokenTorus = "TOR";
 const char* gTokenSphere = "SPH";
 
 LE3AssetPath::LE3AssetPath() :
@@ -122,6 +123,10 @@ void LE3AssetManager::LoadMeshPrimitive(std::string name, std::string primitiveD
     else if (tokens.token == gTokenCone)
     {
         AddCone(data, tokens.params[0], tokens.params[1], tokens.params[2], tokens.params[3], tokens.params[4], (GLushort)tokens.params[5]);
+    }
+    else if (tokens.token == gTokenTorus)
+    {
+        AddTorus(data, tokens.params[0], tokens.params[1], tokens.params[2], tokens.params[3], tokens.params[4], (GLushort)tokens.params[5]);
     }
     else if (tokens.token == gTokenSphere)
     {

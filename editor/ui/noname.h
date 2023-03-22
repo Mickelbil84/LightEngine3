@@ -66,6 +66,7 @@ class LE3EditorWindow : public wxFrame
 		wxAuiToolBarItem* m_addSphereTool;
 		wxAuiToolBarItem* m_addCylinderTool;
 		wxAuiToolBarItem* m_addConeTool;
+		wxAuiToolBarItem* m_addTorusTool;
 		wxAuiToolBarItem* m_addStaticMeshTool;
 		wxAuiToolBarItem* m_addEmptyTool;
 		wxAuiToolBarItem* m_tool28;
@@ -113,6 +114,7 @@ class LE3EditorWindow : public wxFrame
 		virtual void OnAddSphere( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddCylinder( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddCone( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAddTorus( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddStaticMesh( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddEmpty( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMouseClick( wxMouseEvent& event ) { event.Skip(); }
@@ -345,9 +347,38 @@ class LE3AddSphereDialog : public wxDialog
 		wxTextCtrl* m_radiusText;
 		wxTextCtrl* m_resolutionText;
 
-		LE3AddSphereDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Sphere"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 230,200 ), long style = wxDEFAULT_DIALOG_STYLE );
+		LE3AddSphereDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Sphere"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 230,220 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~LE3AddSphereDialog();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LE3AddTorusDialog
+///////////////////////////////////////////////////////////////////////////////
+class LE3AddTorusDialog : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* m_staticText36;
+		wxStaticText* m_staticText37;
+		wxStaticText* m_staticText38;
+		wxStaticText* m_staticText39;
+		wxStaticText* m_staticText40;
+
+	public:
+		wxTextCtrl* m_nameText;
+		wxComboBox* m_materialText;
+		wxTextCtrl* m_majorRadiusText;
+		wxTextCtrl* m_minorRadiusText;
+		wxTextCtrl* m_resolutionText;
+		wxButton* m_button31;
+		wxButton* m_button32;
+
+		LE3AddTorusDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Add Torus"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 250,230 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LE3AddTorusDialog();
 
 };
 

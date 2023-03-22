@@ -313,9 +313,9 @@ void AddTorus(std::vector<LE3Vertex>& buffer,
             if (i == 0 || i == (resolution-1))
                 uv.x += 0.001f;
             glm::vec3 normal(
-                sinf(theta) * cosf(phi),
-                cosf(theta),
-                sinf(theta) * sinf(phi)
+                cosf(theta) * cosf(phi),
+                sinf(phi),
+                sinf(theta) * cosf(phi)
             );
             secondLayer.push_back(VertexFromGLM(pos, uv, normal));
         }
