@@ -1,6 +1,6 @@
 # Welcome to the LightEngine3 repository! #
 
-![Screenshot](https://raw.githubusercontent.com/Mickelbil84/LightEngine3/master/resources/screenshots/screenshot03.png)
+![Screenshot](https://raw.githubusercontent.com/Mickelbil84/LightEngine3/master/resources/screenshots/screenshot04.png)
 
 ## Introduction
 
