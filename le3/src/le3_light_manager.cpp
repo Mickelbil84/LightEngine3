@@ -118,23 +118,47 @@ void LE3LightManager::RenderSpotLights(LE3Shader* shader)
 void LE3LightManager::EnableShadows(std::shared_ptr<LE3DirectionalLight> directionalLight)
 {
     directionalLight->SetShadowsEnabled(true);
-    directionalLight->GetShadowMap().Init(m_shadowMapWidth, m_shadowMapHeight);
+    if (!directionalLight->GetShadowMap().fbo)
+        directionalLight->GetShadowMap().Init(m_shadowMapWidth, m_shadowMapHeight);
 }
 void LE3LightManager::EnableShadows(std::shared_ptr<LE3SpotLight> spotLight)
 {
     spotLight->SetShadowsEnabled(true);
-    spotLight->GetShadowMap().Init(m_shadowMapWidth, m_shadowMapHeight);
+    if (!spotLight->GetShadowMap().fbo)
+        spotLight->GetShadowMap().Init(m_shadowMapWidth, m_shadowMapHeight);
+}
+void LE3LightManager::EnableShadows(LE3DirectionalLight* directionalLight)
+{
+    directionalLight->SetShadowsEnabled(true);
+    if (!directionalLight->GetShadowMap().fbo)
+        directionalLight->GetShadowMap().Init(m_shadowMapWidth, m_shadowMapHeight);
+}
+void LE3LightManager::EnableShadows(LE3SpotLight* spotLight)
+{
+    spotLight->SetShadowsEnabled(true);
+    if (!spotLight->GetShadowMap().fbo)
+        spotLight->GetShadowMap().Init(m_shadowMapWidth, m_shadowMapHeight);
 }
 
 void LE3LightManager::DisableShadows(std::shared_ptr<LE3DirectionalLight> directionalLight)
 {
-    directionalLight->SetShadowsEnabled(true);
-    directionalLight->GetShadowMap().Clear();
+    directionalLight->SetShadowsEnabled(false);
+    // directionalLight->GetShadowMap().Clear();
 }
 void LE3LightManager::DisableShadows(std::shared_ptr<LE3SpotLight> spotLight)
 {
-    spotLight->SetShadowsEnabled(true);
-    spotLight->GetShadowMap().Clear();
+    spotLight->SetShadowsEnabled(false);
+    // spotLight->GetShadowMap().Clear();
+}
+void LE3LightManager::DisableShadows(LE3DirectionalLight* directionalLight)
+{
+    directionalLight->SetShadowsEnabled(false);
+    // directionalLight->GetShadowMap().Clear();
+}
+void LE3LightManager::DisableShadows(LE3SpotLight* spotLight)
+{
+    spotLight->SetShadowsEnabled(false);
+    // spotLight->GetShadowMap().Clear();
 }
 void LE3LightManager::UpdateLightShadowMaps()
 {

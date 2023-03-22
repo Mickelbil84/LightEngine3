@@ -23,10 +23,16 @@ void UpdateObjectPropertyGrid(LE3Object* obj, wxPropertyGrid* pg, LE3AssetManage
     if (dynamic_cast<LE3StaticMesh*>(obj))
         UpdateStaticMeshPropertyGrid(dynamic_cast<LE3StaticMesh*>(obj), pg, assets);
     if (dynamic_cast<LE3AmbientLight*>(obj))
-        UpdateAmbientLightPropertyGrid(dynamic_cast<LE3AmbientLight*>(obj), pg, assets);
+        UpdateAmbientLightPropertyGrid(dynamic_cast<LE3AmbientLight*>(obj), pg);
+    if (dynamic_cast<LE3DirectionalLight*>(obj))
+        UpdateDirectionalLightPropertyGrid(dynamic_cast<LE3DirectionalLight*>(obj), pg);
+    if (dynamic_cast<LE3PointLight*>(obj))
+        UpdatePointLightPropertyGrid(dynamic_cast<LE3PointLight*>(obj), pg);
+    if (dynamic_cast<LE3SpotLight*>(obj))
+        UpdateSpotLightPropertyGrid(dynamic_cast<LE3SpotLight*>(obj), pg);
 }
 
-void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets)
+void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets, LE3LightManager& lightManager)
 {
     if (event.GetPropertyName() == wxT("Name"))
         obj->SetName(event.GetPropertyValue().GetString().ToStdString());
@@ -48,8 +54,13 @@ void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGri
     if (dynamic_cast<LE3StaticMesh*>(obj))
         StaticMeshPropertyGridChanged(dynamic_cast<LE3StaticMesh*>(obj), pg, event, assets);
     if (dynamic_cast<LE3AmbientLight*>(obj))
-        AmbientLightPropertyGridChanged(dynamic_cast<LE3AmbientLight*>(obj), pg, event, assets);
-
+        AmbientLightPropertyGridChanged(dynamic_cast<LE3AmbientLight*>(obj), pg, event);
+    if (dynamic_cast<LE3DirectionalLight*>(obj))
+        DirectionalLightPropertyGridChanged(dynamic_cast<LE3DirectionalLight*>(obj), pg, event, lightManager);
+    if (dynamic_cast<LE3PointLight*>(obj))
+        PointLightPropertyGridChanged(dynamic_cast<LE3PointLight*>(obj), pg, event, lightManager);
+    if (dynamic_cast<LE3SpotLight*>(obj))
+        SpotLightPropertyGridChanged(dynamic_cast<LE3SpotLight*>(obj), pg, event, lightManager);
 }
 
 void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg, LE3AssetManager& assets)
@@ -307,7 +318,7 @@ void StaticMeshPropertyGridChanged(LE3StaticMesh* obj, wxPropertyGrid* pg, wxPro
     }
 }
 
-void UpdateAmbientLightPropertyGrid(LE3AmbientLight* obj, wxPropertyGrid* pg, LE3AssetManager& assets)
+void UpdateAmbientLightPropertyGrid(LE3AmbientLight* obj, wxPropertyGrid* pg)
 {
     pg->Append(new wxPropertyCategory(wxT("LE3AmbientLight")));
     pg->Append(new wxFloatProperty(wxT("Color R"), wxPG_LABEL, obj->GetColor().r));
@@ -315,7 +326,7 @@ void UpdateAmbientLightPropertyGrid(LE3AmbientLight* obj, wxPropertyGrid* pg, LE
     pg->Append(new wxFloatProperty(wxT("Color B"), wxPG_LABEL, obj->GetColor().b));
     pg->Append(new wxFloatProperty(wxT("Intensity"), wxPG_LABEL, obj->GetIntensity()));
 }
-void AmbientLightPropertyGridChanged(LE3AmbientLight* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets)
+void AmbientLightPropertyGridChanged(LE3AmbientLight* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event)
 {
     glm::vec3 color = obj->GetColor();
     if (event.GetPropertyName() == wxT("Color R"))
@@ -336,5 +347,141 @@ void AmbientLightPropertyGridChanged(LE3AmbientLight* obj, wxPropertyGrid* pg, w
     else if (event.GetPropertyName() == wxT("Intensity"))
     {
         obj->SetIntensity(event.GetPropertyValue().GetDouble());
+    }
+}
+void UpdateDirectionalLightPropertyGrid(LE3DirectionalLight* obj, wxPropertyGrid* pg)
+{
+    pg->Append(new wxPropertyCategory(wxT("LE3DirectionalLight")));
+    pg->Append(new wxFloatProperty(wxT("Color R"), wxPG_LABEL, obj->GetColor().r));
+    pg->Append(new wxFloatProperty(wxT("Color G"), wxPG_LABEL, obj->GetColor().g));
+    pg->Append(new wxFloatProperty(wxT("Color B"), wxPG_LABEL, obj->GetColor().b));
+    pg->Append(new wxFloatProperty(wxT("Intensity"), wxPG_LABEL, obj->GetIntensity()));
+    pg->Append(new wxBoolProperty(wxT("Enable Shadows"), wxPG_LABEL, obj->IsShadowsEnabled()));
+}
+void DirectionalLightPropertyGridChanged(LE3DirectionalLight* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3LightManager& lightManager)
+{
+    glm::vec3 color = obj->GetColor();
+    if (event.GetPropertyName() == wxT("Color R"))
+    {
+        color.r = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Color G"))
+    {
+        color.g = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Color B"))
+    {
+        color.b = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Intensity"))
+    {
+        obj->SetIntensity(event.GetPropertyValue().GetDouble());
+    }
+    else if (event.GetPropertyName() == wxT("Enable Shadows"))
+    {
+        bool val = event.GetPropertyValue().GetBool();
+        if (val)
+            lightManager.EnableShadows(obj);
+        else
+            lightManager.DisableShadows(obj);
+    }
+}
+void UpdatePointLightPropertyGrid(LE3PointLight* obj, wxPropertyGrid* pg)
+{
+    pg->Append(new wxPropertyCategory(wxT("LE3PointLight")));
+    pg->Append(new wxFloatProperty(wxT("Color R"), wxPG_LABEL, obj->GetColor().r));
+    pg->Append(new wxFloatProperty(wxT("Color G"), wxPG_LABEL, obj->GetColor().g));
+    pg->Append(new wxFloatProperty(wxT("Color B"), wxPG_LABEL, obj->GetColor().b));
+    pg->Append(new wxFloatProperty(wxT("Intensity"), wxPG_LABEL, obj->GetIntensity()));
+    pg->Append(new wxFloatProperty(wxT("Attenuation (Const)"), wxPG_LABEL, obj->GetAttenuationConst()));
+    pg->Append(new wxFloatProperty(wxT("Attenuation (Linear)"), wxPG_LABEL, obj->GetAttenuationLinear()));
+    pg->Append(new wxFloatProperty(wxT("Attenuation (Exp)"), wxPG_LABEL, obj->GetAttenuationExp()));
+}
+void PointLightPropertyGridChanged(LE3PointLight* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3LightManager& lightManager)
+{
+    glm::vec3 color = obj->GetColor();
+    if (event.GetPropertyName() == wxT("Color R"))
+    {
+        color.r = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Color G"))
+    {
+        color.g = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Color B"))
+    {
+        color.b = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Intensity"))
+    {
+        obj->SetIntensity(event.GetPropertyValue().GetDouble());
+    }
+    else if (event.GetPropertyName() == wxT("Attenuation (Const)"))
+    {
+        obj->SetAttenuationConst(event.GetPropertyValue().GetDouble());
+    }
+    else if (event.GetPropertyName() == wxT("Attenuation (Linear)"))
+    {
+        obj->SetAttenuationLinear(event.GetPropertyValue().GetDouble());
+    }
+    else if (event.GetPropertyName() == wxT("Attenuation (Exp)"))
+    {
+        obj->SetAttenuationExp(event.GetPropertyValue().GetDouble());
+    }
+}
+void UpdateSpotLightPropertyGrid(LE3SpotLight* obj, wxPropertyGrid* pg)
+{
+    pg->Append(new wxPropertyCategory(wxT("LE3SpotLight")));
+    pg->Append(new wxFloatProperty(wxT("Color R"), wxPG_LABEL, obj->GetColor().r));
+    pg->Append(new wxFloatProperty(wxT("Color G"), wxPG_LABEL, obj->GetColor().g));
+    pg->Append(new wxFloatProperty(wxT("Color B"), wxPG_LABEL, obj->GetColor().b));
+    pg->Append(new wxFloatProperty(wxT("Intensity"), wxPG_LABEL, obj->GetIntensity()));
+    pg->Append(new wxFloatProperty(wxT("Cutoff"), wxPG_LABEL, obj->GetCutoff()));
+    pg->Append(new wxFloatProperty(wxT("Outer Cutoff"), wxPG_LABEL, obj->GetOuterCutoff()));
+    pg->Append(new wxBoolProperty(wxT("Enable Shadows"), wxPG_LABEL, obj->IsShadowsEnabled()));
+}
+void SpotLightPropertyGridChanged(LE3SpotLight* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3LightManager& lightManager)
+{
+    glm::vec3 color = obj->GetColor();
+    if (event.GetPropertyName() == wxT("Color R"))
+    {
+        color.r = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Color G"))
+    {
+        color.g = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Color B"))
+    {
+        color.b = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Intensity"))
+    {
+        obj->SetIntensity(event.GetPropertyValue().GetDouble());
+    }
+    else if (event.GetPropertyName() == wxT("Cutoff"))
+    {
+        obj->SetCutoff(event.GetPropertyValue().GetDouble());
+    }
+    else if (event.GetPropertyName() == wxT("Outer Cutoff"))
+    {
+        obj->SetOuterCutoff(event.GetPropertyValue().GetDouble());
+    }
+    else if (event.GetPropertyName() == wxT("Enable Shadows"))
+    {
+        bool val = event.GetPropertyValue().GetBool();
+        if (val)
+            lightManager.EnableShadows(obj);
+        else
+            lightManager.DisableShadows(obj);
     }
 }

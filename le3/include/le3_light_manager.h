@@ -37,8 +37,12 @@ public:
 
     void EnableShadows(std::shared_ptr<LE3DirectionalLight> directionalLight);
     void DisableShadows(std::shared_ptr<LE3DirectionalLight> directionalLight);
+    void EnableShadows(LE3DirectionalLight* directionalLight);
+    void DisableShadows(LE3DirectionalLight* directionalLight);
     void EnableShadows(std::shared_ptr<LE3SpotLight> spotLight);
     void DisableShadows(std::shared_ptr<LE3SpotLight> spotLight);
+    void EnableShadows(LE3SpotLight* spotLight);
+    void DisableShadows(LE3SpotLight* spotLight);
     void UpdateLightShadowMaps();
 
     std::vector<std::shared_ptr<LE3DirectionalLight>>& GetDirectionalLights();

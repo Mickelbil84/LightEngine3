@@ -227,7 +227,7 @@ void LE3EditorUI::OnPropertyChange( wxPropertyGridEvent& event )
         break;
 
     case LE3_SELECTED_OBJECT:
-        ObjectPropertyGridChanged(m_editor->GetSelectedObject(), m_propertyGrid, event, m_editor->scene.assets);
+        ObjectPropertyGridChanged(m_editor->GetSelectedObject(), m_propertyGrid, event, m_editor->scene.assets, m_editor->scene.lightManager);
         m_editor->SetSelectedObject(m_editor->GetSelectedObject());
         RefreshSceneGraph();
         m_editor->scene.UpdateAssets();
