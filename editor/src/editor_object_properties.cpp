@@ -22,6 +22,8 @@ void UpdateObjectPropertyGrid(LE3Object* obj, wxPropertyGrid* pg, LE3AssetManage
 
     if (dynamic_cast<LE3StaticMesh*>(obj))
         UpdateStaticMeshPropertyGrid(dynamic_cast<LE3StaticMesh*>(obj), pg, assets);
+    if (dynamic_cast<LE3AmbientLight*>(obj))
+        UpdateAmbientLightPropertyGrid(dynamic_cast<LE3AmbientLight*>(obj), pg, assets);
 }
 
 void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets)
@@ -45,6 +47,8 @@ void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGri
 
     if (dynamic_cast<LE3StaticMesh*>(obj))
         StaticMeshPropertyGridChanged(dynamic_cast<LE3StaticMesh*>(obj), pg, event, assets);
+    if (dynamic_cast<LE3AmbientLight*>(obj))
+        AmbientLightPropertyGridChanged(dynamic_cast<LE3AmbientLight*>(obj), pg, event, assets);
 
 }
 
@@ -300,5 +304,37 @@ void StaticMeshPropertyGridChanged(LE3StaticMesh* obj, wxPropertyGrid* pg, wxPro
                 assets.LoadMeshPrimitive(obj->meshName, newPrimitiveDescription);
             }
         }
+    }
+}
+
+void UpdateAmbientLightPropertyGrid(LE3AmbientLight* obj, wxPropertyGrid* pg, LE3AssetManager& assets)
+{
+    pg->Append(new wxPropertyCategory(wxT("LE3AmbientLight")));
+    pg->Append(new wxFloatProperty(wxT("Color R"), wxPG_LABEL, obj->GetColor().r));
+    pg->Append(new wxFloatProperty(wxT("Color G"), wxPG_LABEL, obj->GetColor().g));
+    pg->Append(new wxFloatProperty(wxT("Color B"), wxPG_LABEL, obj->GetColor().b));
+    pg->Append(new wxFloatProperty(wxT("Intensity"), wxPG_LABEL, obj->GetIntensity()));
+}
+void AmbientLightPropertyGridChanged(LE3AmbientLight* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets)
+{
+    glm::vec3 color = obj->GetColor();
+    if (event.GetPropertyName() == wxT("Color R"))
+    {
+        color.r = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Color G"))
+    {
+        color.g = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Color B"))
+    {
+        color.b = event.GetPropertyValue().GetDouble();
+        obj->SetColor(color);
+    }
+    else if (event.GetPropertyName() == wxT("Intensity"))
+    {
+        obj->SetIntensity(event.GetPropertyValue().GetDouble());
     }
 }

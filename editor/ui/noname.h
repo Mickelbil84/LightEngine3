@@ -69,8 +69,6 @@ class LE3EditorWindow : public wxFrame
 		wxAuiToolBarItem* m_addTorusTool;
 		wxAuiToolBarItem* m_addStaticMeshTool;
 		wxAuiToolBarItem* m_addEmptyTool;
-		wxAuiToolBarItem* m_tool28;
-		wxAuiToolBarItem* m_tool29;
 		wxNotebook* m_notebook1;
 		wxPanel* m_panel2;
 		wxTreeListCtrl* m_sceneGraphTree;
@@ -117,6 +115,10 @@ class LE3EditorWindow : public wxFrame
 		virtual void OnAddTorus( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddStaticMesh( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAddEmpty( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAddAmbientLight( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAddDirectionalLight( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAddPointLight( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAddSpotLight( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMouseClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void OnSelectObjectInGraph( wxTreeListEvent& event ) { event.Skip(); }
 		virtual void OnNewShader( wxCommandEvent& event ) { event.Skip(); }
@@ -135,6 +137,10 @@ class LE3EditorWindow : public wxFrame
 
 
 	public:
+		wxAuiToolBarItem* m_addAmbientLightTool;
+		wxAuiToolBarItem* m_addDirectionalLightTool;
+		wxAuiToolBarItem* m_addPointLightTool;
+		wxAuiToolBarItem* m_addSpotLightTool;
 		wxPanel* m_OpenGLContainer;
 
 		LE3EditorWindow( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("LightEngine3 Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1360,768 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );

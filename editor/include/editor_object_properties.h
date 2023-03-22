@@ -8,6 +8,7 @@
 #include <wx/propgrid/propgrid.h>
 #include <wx/propgrid/advprops.h>
 
+#include <le3_light.h>
 #include <le3_object.h>
 #include <le3_static_mesh.h>
 #include <le3_asset_manager.h>
@@ -19,3 +20,7 @@ void ObjectPropertyGridChanged(LE3Object* obj, wxPropertyGrid* pg, wxPropertyGri
 // LE3StaticMesh Properties
 void UpdateStaticMeshPropertyGrid(LE3StaticMesh* obj, wxPropertyGrid* pg, LE3AssetManager& assets);
 void StaticMeshPropertyGridChanged(LE3StaticMesh* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets);
+
+// Lights properties
+void UpdateAmbientLightPropertyGrid(LE3AmbientLight* obj, wxPropertyGrid* pg, LE3AssetManager& assets);
+void AmbientLightPropertyGridChanged(LE3AmbientLight* obj, wxPropertyGrid* pg, wxPropertyGridEvent& event, LE3AssetManager& assets);

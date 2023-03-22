@@ -112,6 +112,14 @@ protected:
     virtual void OnAddEmpty( wxCommandEvent& event );
 
     ////////////////////////////////
+    // Light Creation Dialogs
+    ////////////////////////////////
+    virtual void OnAddAmbientLight( wxCommandEvent& event );
+    virtual void OnAddDirectionalLight( wxCommandEvent& event );
+    virtual void OnAddPointLight( wxCommandEvent& event );
+    virtual void OnAddSpotLight( wxCommandEvent& event );
+
+    ////////////////////////////////
     // Numbered names generation
     ////////////////////////////////
     std::string GetObjectNumberPrefix(std::string objectName);

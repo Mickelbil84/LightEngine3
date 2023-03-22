@@ -24,6 +24,11 @@
 #include "icons/icon_newstaticmesh.xpm"
 #include "icons/icon_newempty.xpm"
 
+#include "icons/icon_addambientlight.xpm"
+#include "icons/icon_adddirectionallight.xpm"
+#include "icons/icon_addpointlight.xpm"
+#include "icons/icon_addspotlight.xpm"
+
 LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selectedType(LE3_SELECTED_NONE), selectCallback(this), refreshPropertiesCallback(this)
 {
     m_topToolbar->SetToolBitmapSize(wxSize(24, 24));    
@@ -51,6 +56,12 @@ LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selected
     m_addTorusTool->SetBitmap({icon_newtorus});
     m_addStaticMeshTool->SetBitmap({icon_newstaticmesh});
     m_addEmptyTool->SetBitmap({icon_newempty});
+
+    m_addAmbientLightTool->SetBitmap({icon_addambientlight});
+    m_addDirectionalLightTool->SetBitmap({icon_adddirectionallight});
+    m_addPointLightTool->SetBitmap({icon_addpointlight});
+    m_addSpotLightTool->SetBitmap({icon_addspotlight});
+
     m_sideToolbar->Realize();
 
 }
@@ -904,4 +915,28 @@ void LE3EditorUI::OnGizmoRotate( wxCommandEvent& event )
 void LE3EditorUI::OnGizmoScale( wxCommandEvent& event )
 {
     m_editor->m_editorState.gizmoMode = LE3EditorGizmoModes::LE3EDITOR_GIZMO_SCALE;
+}
+
+void LE3EditorUI::OnAddAmbientLight( wxCommandEvent& event )
+{
+    if (!m_editor->scene.lightManager.GetAmbientLight())
+        m_editor->scene.AddAmbientLight();
+    else
+        wxMessageBox( wxT("Only one ambient light is allowed per scene."), wxT("Add Ambient Light"), wxICON_INFORMATION);
+    RefreshSceneGraph();
+}
+void LE3EditorUI::OnAddDirectionalLight( wxCommandEvent& event )
+{
+    m_editor->scene.AddDirectionalLight(GetValidObjectName("directional_light"));
+    RefreshSceneGraph();
+}
+void LE3EditorUI::OnAddPointLight( wxCommandEvent& event )
+{
+    m_editor->scene.AddPointLight(GetValidObjectName("point_light"));
+    RefreshSceneGraph();
+}
+void LE3EditorUI::OnAddSpotLight( wxCommandEvent& event )
+{
+    m_editor->scene.AddSpotLight(GetValidObjectName("spot_light"));
+    RefreshSceneGraph();
 }
