@@ -31,6 +31,7 @@ void LE3Material::SetDiffuseTexture(LE3Texture* texture)
     {
         this->diffuseTexture = nullptr;
         this->diffuseTextureName = std::string("");
+        this->bUseDiffuseTexture = false;
     }
 }
 
@@ -45,6 +46,7 @@ void LE3Material::SetSpecularTexture(LE3Texture* texture)
     {
         this->specularTexture = nullptr;
         this->specularTextureName = std::string("");
+        this->bUseSpecularTexture = false;
     }
 }
 
@@ -59,6 +61,7 @@ void LE3Material::SetNormalTexture(LE3Texture* texture)
     {
         this->normalTexture = nullptr;
         this->normalTextureName = std::string("");
+        this->bUseNormalTexture = false;
     }
 }
 void LE3Material::SetCubemap(LE3Texture* cubemap)
@@ -72,6 +75,7 @@ void LE3Material::SetCubemap(LE3Texture* cubemap)
     {
         this->cubemap = nullptr;
         this->cubemapName = std::string("");
+        this->reflectionIntensity = 0.f;
     }
 }
 

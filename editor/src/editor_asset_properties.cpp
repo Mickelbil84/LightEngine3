@@ -69,6 +69,7 @@ bool UpdateMaterialPropertyGrid(wxPropertyGrid* pg, wxTreeListCtrl* treeList, wx
 
     wxPGChoices textureChoices;
     i = 0;
+    textureChoices.Add("", i++);
     for (auto [key, value] : assets.m_texturesPaths)
         textureChoices.Add(key, i++);
     pg->Append(new wxEnumProperty(wxT("Diffuse Texture"), wxPG_LABEL, textureChoices, textureChoices.Index(assets.m_materials[name.ToStdString()].diffuseTextureName)));
@@ -78,17 +79,35 @@ bool UpdateMaterialPropertyGrid(wxPropertyGrid* pg, wxTreeListCtrl* treeList, wx
     pg->Append(new wxFloatProperty(wxT("Specular R"), wxPG_LABEL, assets.m_materials[name.ToStdString()].specularColor.r));
     pg->Append(new wxFloatProperty(wxT("Specular G"), wxPG_LABEL, assets.m_materials[name.ToStdString()].specularColor.g));
     pg->Append(new wxFloatProperty(wxT("Specular B"), wxPG_LABEL, assets.m_materials[name.ToStdString()].specularColor.b));
-
     pg->Append(new wxFloatProperty(wxT("Specular Intensity"), wxPG_LABEL, assets.m_materials[name.ToStdString()].specularIntensity));
     pg->Append(new wxFloatProperty(wxT("Shininess"), wxPG_LABEL, assets.m_materials[name.ToStdString()].shininess));
-
     wxPGChoices specularTextureChoices;
     i = 0;
+    specularTextureChoices.Add("", i++);
     for (auto [key, value] : assets.m_texturesPaths)
         specularTextureChoices.Add(key, i++);
     pg->Append(new wxEnumProperty(wxT("Specular Texture"), wxPG_LABEL, specularTextureChoices, specularTextureChoices.Index(assets.m_materials[name.ToStdString()].specularTextureName)));
     pg->Append(new wxBoolProperty(wxT("Use Specular Texture"), wxPG_LABEL, assets.m_materials[name.ToStdString()].bUseSpecularTexture));
 
+    pg->Append(new wxPropertyCategory(wxT("Normal")));
+    wxPGChoices normalTextureChoices;
+    i = 0;
+    normalTextureChoices.Add("", i++);
+    for (auto [key, value] : assets.m_texturesPaths)
+        normalTextureChoices.Add(key, i++);
+    pg->Append(new wxEnumProperty(wxT("Normal Texture"), wxPG_LABEL, normalTextureChoices, normalTextureChoices.Index(assets.m_materials[name.ToStdString()].normalTextureName)));
+    pg->Append(new wxBoolProperty(wxT("Use Normal Texture"), wxPG_LABEL, assets.m_materials[name.ToStdString()].bUseNormalTexture));
+
+    pg->Append(new wxPropertyCategory(wxT("Reflections")));
+    wxPGChoices reflectionTextureChoices;
+    i = 0;
+    reflectionTextureChoices.Add("", i++);
+    for (auto [key, value] : assets.m_texturesPaths)
+        reflectionTextureChoices.Add(key, i++);
+    pg->Append(new wxEnumProperty(wxT("Reflection Texture"), wxPG_LABEL, reflectionTextureChoices, reflectionTextureChoices.Index(assets.m_materials[name.ToStdString()].cubemapName)));
+    pg->Append(new wxFloatProperty(wxT("Reflection Intensity"), wxPG_LABEL, assets.m_materials[name.ToStdString()].reflectionIntensity));
+
+    pg->Append(new wxPropertyCategory(wxT("Tiling")));
     pg->Append(new wxFloatProperty(wxT("Tiling X"), wxPG_LABEL, assets.m_materials[name.ToStdString()].tilingX));
     pg->Append(new wxFloatProperty(wxT("Tiling Y"), wxPG_LABEL, assets.m_materials[name.ToStdString()].tilingY));
 
@@ -132,6 +151,7 @@ void MaterialPropertyGridChanged(wxPropertyGrid* pg, wxTreeListCtrl* treeList, w
     {
         wxPGChoices textureChoices;
         i = 0;
+        textureChoices.Add("", i++);
         for (auto [key, value] : assets.m_texturesPaths)
             textureChoices.Add(key, i++);
         material->diffuseTextureName = textureChoices.GetLabel(event.GetPropertyValue().GetInteger());
@@ -164,6 +184,7 @@ void MaterialPropertyGridChanged(wxPropertyGrid* pg, wxTreeListCtrl* treeList, w
     {
         wxPGChoices textureChoices;
         i = 0;
+        textureChoices.Add("", i++);
         for (auto [key, value] : assets.m_texturesPaths)
             textureChoices.Add(key, i++);
         material->specularTextureName = textureChoices.GetLabel(event.GetPropertyValue().GetInteger());
@@ -171,6 +192,32 @@ void MaterialPropertyGridChanged(wxPropertyGrid* pg, wxTreeListCtrl* treeList, w
     else if (event.GetPropertyName() == wxT("Use Specular Texture"))
     {
         material->bUseSpecularTexture = event.GetPropertyValue().GetBool();
+    }
+    else if (event.GetPropertyName() == wxT("Normal Texture"))
+    {
+        wxPGChoices textureChoices;
+        i = 0;
+        textureChoices.Add("", i++);
+        for (auto [key, value] : assets.m_texturesPaths)
+            textureChoices.Add(key, i++);
+        material->normalTextureName = textureChoices.GetLabel(event.GetPropertyValue().GetInteger());
+    }
+    else if (event.GetPropertyName() == wxT("Use Normal Texture"))
+    {
+        material->bUseNormalTexture = event.GetPropertyValue().GetBool();
+    }
+    else if (event.GetPropertyName() == wxT("Reflection Texture"))
+    {
+        wxPGChoices textureChoices;
+        i = 0;
+        textureChoices.Add("", i++);
+        for (auto [key, value] : assets.m_texturesPaths)
+            textureChoices.Add(key, i++);
+        material->cubemapName = textureChoices.GetLabel(event.GetPropertyValue().GetInteger());
+    }
+    else if (event.GetPropertyName() == wxT("Reflection Intensity"))
+    {
+        material->reflectionIntensity = event.GetPropertyValue().GetDouble();
     }
     else if (event.GetPropertyName() == wxT("Tiling X"))
     {
@@ -185,6 +232,9 @@ void MaterialPropertyGridChanged(wxPropertyGrid* pg, wxTreeListCtrl* treeList, w
     // Refresh material
     material->SetShader(assets.GetShader(material->shaderName));
     material->SetDiffuseTexture(assets.GetTexture(material->diffuseTextureName));
+    material->SetSpecularTexture(assets.GetTexture(material->specularTextureName));
+    material->SetNormalTexture(assets.GetTexture(material->normalTextureName));
+    material->SetCubemap(assets.GetTexture(material->cubemapName));
 }
 
 bool UpdateTexturePropertyGrid(wxPropertyGrid* pg, wxTreeListCtrl* treeList, wxTreeListEvent& event, LE3AssetManager& assets)
