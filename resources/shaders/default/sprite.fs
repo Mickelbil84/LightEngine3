@@ -21,6 +21,8 @@ void main()
     if (material.bUseDiffuseTexture)
         diffuseColor = texture(
             material.diffuseTexture, vec2(texCoord.x * material.tilingX, texCoord.y * material.tilingY));
+    if (diffuseColor.a < 0.5)
+        discard;
 
     // Lambert light
     vec3 dir = normalize(vec3(1, 0.5, 1));

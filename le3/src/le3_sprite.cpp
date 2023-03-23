@@ -19,8 +19,8 @@ LE3Sprite::LE3Sprite(std::string name, LE3Material* material, LE3Texture* sprite
     square.push_back(VertexFromGLM(v2, u2, n));
     square.push_back(VertexFromGLM(v3, u3, n));
     square.push_back(VertexFromGLM(v1, u1, n));
-    square.push_back(VertexFromGLM(v4, u3, n));
-    square.push_back(VertexFromGLM(v3, u4, n));
+    square.push_back(VertexFromGLM(v3, u3, n));
+    square.push_back(VertexFromGLM(v4, u4, n));
     m_mesh = new LE3Mesh<LE3Vertex>();
     m_mesh->LoadMeshData(square);
 }

@@ -10,7 +10,10 @@
 #include <le3_asset_manager.h>
 #include <le3_scene_manager.h>
 
+#include <le3_engine_sprites.h>
+
 #include <vector>
+#include <string>
 #include <glm/gtx/transform.hpp>
 
 #ifndef __APPLE__
@@ -60,6 +63,11 @@ public:
         scene.assets.AddTexturePath("TD_wood", resource_prefix + "resources/textures/wood.png");
         scene.assets.AddTexturePath("TN_wood", resource_prefix + "resources/textures/wood_normal2.png");
         scene.assets.AddTexturePath("CM_basilica", resource_prefix + "resources/textures/basilica.png");
+        scene.assets.AddTexturePath("SPT_pointlight", SpriteToString(icon_addpointlight));
+        // scene.assets.AddTexturePath("TD_tile_floor", SpriteToString(icon_addpointlight));
+
+        // scene.assets.GetTexture("SPT_pointlight");
+
         // scene.assets.AddTexturePath("CM_basilica", resource_prefix + "resources/textures/tile_floor.jpg");
 
         // Shaders
@@ -140,7 +148,7 @@ public:
         scene.GetObject("spot_light01")->SetRotationX(1.3f);
         scene.lightManager.EnableShadows(dynamic_pointer_cast<LE3SpotLight>(scene.GetObject("spot_light01")));
 
-        // scene.AddSprite("testSprite", "TD_wood", .1f, "point_light01");
+        scene.AddSprite("testSprite", "SPT_pointlight", .1f, "point_light01");
 
         SaveScene(scene, resource_prefix + "resources/scenes/04_lighting.json");
 

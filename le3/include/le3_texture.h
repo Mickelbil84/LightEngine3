@@ -17,6 +17,8 @@ public:
     static bool g_bPS1TextureMode;
 
 private:
+    static unsigned char* LoadXPM(std::string xpmStr, int* x, int* y, int* n);
+
     GLuint m_texture;
     std::string m_name;
 };
