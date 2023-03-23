@@ -13,11 +13,6 @@
 #include <vector>
 #include <glm/gtx/transform.hpp>
 
-#ifndef __APPLE__
-const std::string resource_prefix = std::string("../../");
-#else
-const std::string resource_prefix = std::string("../");
-#endif
 
 #define PS1_RESOLUTION_WIDTH 320 * 2
 #define PS1_RESOLUTION_HEIGHT 240 * 2
@@ -54,14 +49,13 @@ public:
         // ---------------------------
         LE3Texture::g_bPS1TextureMode = true;
         scene.Init();
-        // LoadScene(scene, "../resources/scenes/03_ps1_shooter.json");
-        LoadScene(scene, "../resources/scenes/demo_environment3.json");
+        LoadScene(scene, "resources/scenes/demo_environment3.json");
         scene.AddFPSCamera();
 
 
         // Add Gun
-        scene.assets.LoadMesh("glock", "../resources/models/weapons/glock.obj");
-        scene.assets.LoadTexture("glockDiffuse", "../resources/textures/weapons/glock_diffuse.tga");
+        scene.assets.LoadMesh("glock", "resources/models/weapons/glock.obj");
+        scene.assets.LoadTexture("glockDiffuse", "resources/textures/weapons/glock_diffuse.tga");
         scene.assets.CreateMaterial("glockMat", "S_default");
         scene.assets.GetMaterial("glockMat")->SetDiffuseTexture(scene.assets.GetTexture("glockDiffuse"));
         scene.assets.GetMaterial("glockMat")->bUseDiffuseTexture = true;

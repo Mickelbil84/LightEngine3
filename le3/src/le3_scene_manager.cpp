@@ -28,10 +28,10 @@ void LE3SceneManager::Init()
     root = std::shared_ptr<LE3SceneRoot>(new LE3SceneRoot());
 
     // Create default shader and material
-    assets.LoadShader(DEFAULT_SHADER_NAME, "../resources/shaders/default/default.vs", "../resources/shaders/default/default.fs");
+    assets.LoadShader(DEFAULT_SHADER_NAME, "resources/shaders/default/default.vs", "resources/shaders/default/default.fs");
     assets.CreateMaterial(DEFAULT_MATERIAL_NAME, DEFAULT_SHADER_NAME);
 
-    assets.LoadShader(SPRITE_SHADER_NAME, "../resources/shaders/default/sprite.vs", "../resources/shaders/default/sprite.fs");
+    assets.LoadShader(SPRITE_SHADER_NAME, "resources/shaders/default/sprite.vs", "resources/shaders/default/sprite.fs");
     assets.CreateMaterial(SPRITE_MATERIAL_NAME, SPRITE_SHADER_NAME);
 
     assets.LoadTexture(SPRITE_AMBIENTLIGHT_NAME, SpriteToString(sprite_engine_ambientlight));

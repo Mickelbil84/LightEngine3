@@ -93,6 +93,7 @@ unsigned char* LE3Texture::LoadXPM(std::string xpmStr, int* x, int* y, int* n)
     int curr_state = XPM_VALUES;
 
     int idx = 0, j;
+    int width, height, char_table_size;
     unsigned char* img;
     std::map<char, glm::ivec4> char_table;
     while (std::getline(ss, line))
@@ -101,7 +102,6 @@ unsigned char* LE3Texture::LoadXPM(std::string xpmStr, int* x, int* y, int* n)
         if (line.find("/*") != std::string::npos || line.find("*/") != std::string::npos) continue;
 
         std::istringstream lss(line);
-        int width, height, char_table_size;
         std::string color;
         char c, tmp;
         glm::ivec4 tmpv;

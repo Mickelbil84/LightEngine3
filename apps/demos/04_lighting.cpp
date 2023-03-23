@@ -16,12 +16,6 @@
 #include <string>
 #include <glm/gtx/transform.hpp>
 
-#ifndef __APPLE__
-const std::string resource_prefix = std::string("../../");
-#else
-const std::string resource_prefix = std::string("../");
-#endif
-
 
 class LE3Demo : public LE3Application
 {
@@ -50,30 +44,29 @@ public:
         // ---------------------------
         scene.applicationSettings = &this->m_settings;
         scene.Init();
-        // LoadScene(scene, "../resources/scenes/04_lighting.json");
         
         // Meshes
         scene.assets.AddMeshPath("floor", "$BOX_0_0_0_10.000000_0.200000_10.000000_");
         scene.assets.AddMeshPath("sphere", "$SPH_0_0_0_0.700000_64.000000_");
-        scene.assets.AddMeshPath("bunny", resource_prefix + "resources/models/bunny.obj");
+        scene.assets.AddMeshPath("bunny", "resources/models/bunny.obj");
 
         // Textures
-        scene.assets.AddTexturePath("TD_tile_floor", resource_prefix + "resources/textures/tile_floor.jpg");
-        scene.assets.AddTexturePath("TN_tile_floor", resource_prefix + "resources/textures/tile_floor_normal.png");
-        scene.assets.AddTexturePath("TD_wood", resource_prefix + "resources/textures/wood.png");
-        scene.assets.AddTexturePath("TN_wood", resource_prefix + "resources/textures/wood_normal2.png");
-        scene.assets.AddTexturePath("CM_basilica", resource_prefix + "resources/textures/basilica.png");
+        scene.assets.AddTexturePath("TD_tile_floor", "resources/textures/tile_floor.jpg");
+        scene.assets.AddTexturePath("TN_tile_floor", "resources/textures/tile_floor_normal.png");
+        scene.assets.AddTexturePath("TD_wood", "resources/textures/wood.png");
+        scene.assets.AddTexturePath("TN_wood", "resources/textures/wood_normal2.png");
+        scene.assets.AddTexturePath("CM_basilica", "resources/textures/basilica.png");
         // scene.assets.AddTexturePath("SPT_pointlight", SpriteToString(sprite_engine_pointlight));
         // scene.assets.AddTexturePath("TD_tile_floor", SpriteToString(icon_addpointlight));
 
         // scene.assets.GetTexture("SPT_pointlight");
 
-        // scene.assets.AddTexturePath("CM_basilica", resource_prefix + "resources/textures/tile_floor.jpg");
+        // scene.assets.AddTexturePath("CM_basilica", "resources/textures/tile_floor.jpg");
 
         // Shaders
         scene.assets.AddShaderPath("S_blinn_phong", 
-            resource_prefix + "resources/shaders/blinn_phong/blinn_phong.vs", 
-            resource_prefix + "resources/shaders/blinn_phong/blinn_phong.fs");
+            "resources/shaders/blinn_phong/blinn_phong.vs", 
+            "resources/shaders/blinn_phong/blinn_phong.fs");
         
         // Materials
         scene.assets.CreateMaterial("M_floor", "S_blinn_phong");
@@ -148,7 +141,7 @@ public:
         scene.GetObject("spot_light01")->SetRotationX(1.3f);
         scene.lightManager.EnableShadows(dynamic_pointer_cast<LE3SpotLight>(scene.GetObject("spot_light01")));
 
-        SaveScene(scene, resource_prefix + "resources/scenes/04_lighting.json");
+        SaveScene(scene, "resources/scenes/04_lighting.json");
 
         // Camera
         scene.AddFPSCamera();

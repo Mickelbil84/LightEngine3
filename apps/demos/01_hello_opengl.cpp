@@ -5,12 +5,6 @@
 
 #include <vector>
 
-#ifndef __APPLE__
-const std::string resource_prefix = std::string("../../");
-#else
-const std::string resource_prefix = std::string("../");
-#endif
-
 class App01_Hello_OpenGL : public LE3Application
 {
 public:
@@ -31,8 +25,8 @@ public:
 
 
         shader.CompileShader(
-            resource_prefix + "resources/shaders/hello_opengl/hello_opengl.vs",
-            resource_prefix + "resources/shaders/hello_opengl/hello_opengl.fs"
+            "resources/shaders/hello_opengl/hello_opengl.vs",
+            "resources/shaders/hello_opengl/hello_opengl.fs"
         );
 
         UpdateWindowTitle("LightEngine3 - (01) \"Hello OpenGL\" Demo");

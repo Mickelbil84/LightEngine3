@@ -12,12 +12,6 @@
 #include <vector>
 #include <glm/gtx/transform.hpp>
 
-#ifndef __APPLE__
-const std::string resource_prefix = std::string("../../");
-#else
-const std::string resource_prefix = std::string("../");
-#endif
-
 
 class LE3Demo : public LE3Application
 {
@@ -47,13 +41,13 @@ public:
         //   Load Assets
         // ---------------------------
         assets.LoadShader("basic", 
-            resource_prefix + "resources/shaders/basic/basic.vs", 
-            resource_prefix + "resources/shaders/basic/basic.fs");
+            "resources/shaders/basic/basic.vs", 
+            "resources/shaders/basic/basic.fs");
 
         std::vector<LE3Vertex> box;
         AddBox(box, 0.f, 0.f, 0.f, .5f, .5f, .3f);
-        assets.LoadMesh("wheel", resource_prefix + "resources/models/cars/Audi R8 Wheel.fbx");
-        assets.LoadMesh("carBody", resource_prefix + "resources/models/cars/Audi R8 Body.fbx");
+        assets.LoadMesh("wheel", "resources/models/cars/Audi R8 Wheel.fbx");
+        assets.LoadMesh("carBody", "resources/models/cars/Audi R8 Body.fbx");
 
         assets.CreateMaterial("red", "basic");
         assets.GetMaterial("red")->diffuseColor = glm::vec4(1.f, 0.f, 0.f, 1.f);
@@ -65,7 +59,7 @@ public:
         assets.GetMaterial("yellow")->diffuseColor = glm::vec4(1.f, 1.f, 0.f, 1.f);
 
         assets.CreateMaterial("carBody", "basic");
-        assets.LoadTexture("wood", resource_prefix + "resources/textures/woodparquet_59-2K/woodparquet_59_basecolor-2K-2K.png");
+        assets.LoadTexture("wood", "resources/textures/woodparquet_59-2K/woodparquet_59_basecolor-2K-2K.png");
         assets.GetMaterial("carBody")->diffuseTexture = assets.GetTexture("wood");
         assets.GetMaterial("carBody")->bUseDiffuseTexture = false;
         

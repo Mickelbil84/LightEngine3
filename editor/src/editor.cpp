@@ -1,12 +1,6 @@
 #include "editor.h"
 #include "wx/wx.h"
 
-#ifndef __APPLE__
-const std::string resource_prefix = std::string("../../");
-#else
-const std::string resource_prefix = std::string("../");
-#endif
-
 LE3Editor::LE3Editor() :
     hoveredObject(nullptr),
     selectCallback(nullptr),
