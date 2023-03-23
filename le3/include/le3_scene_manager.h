@@ -18,11 +18,17 @@
 #include "le3_application_settings.h"
 #include "le3_asset_manager.h"
 #include "le3_light_manager.h"
+#include "le3_engine_sprites.h"
 
 #define DEFAULT_SHADER_NAME "S_default"
 #define DEFAULT_MATERIAL_NAME "M_default"
 #define SPRITE_SHADER_NAME "S_sprite"
 #define SPRITE_MATERIAL_NAME "M_sprite"
+
+#define SPRITE_AMBIENTLIGHT_NAME "SPR_ambientlight"
+#define SPRITE_DIRECTIONALLIGHT_NAME "SPR_directionallight"
+#define SPRITE_POINTLIGHT_NAME "SPR_pointlight"
+#define SPRITE_SPOTLIGHT_NAME "SPR_spotlight"
 
 class LE3SceneManager
 {
@@ -51,6 +57,8 @@ public:
     std::shared_ptr<LE3SceneRoot> GetRoot() const;
     std::shared_ptr<LE3Camera> GetCamera() const;
     LE3PhysicsComponent* GetPhysics() const;
+
+    void AddLightSprites();
 
     std::shared_ptr<LE3Object> GetObject(std::string name);
     void Reparent(std::string object, std::string newParent);

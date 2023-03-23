@@ -49,6 +49,7 @@ public:
     void UpdateLightShadowMaps();
 
     std::vector<std::shared_ptr<LE3DirectionalLight>>& GetDirectionalLights();
+    std::vector<std::shared_ptr<LE3PointLight>>& GetPointLights();
     std::vector<std::shared_ptr<LE3SpotLight>>& GetSpotLights();
     LE3Shader* GetShadowShader();
 

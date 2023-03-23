@@ -1,5 +1,6 @@
 #pragma once
 #include "le3_object.h"
+#include "le3_sprite.h"
 #include "le3_shadowmap.h"
 
 #include <cereal/cereal.hpp>
@@ -9,6 +10,7 @@
 #define MAX_SPOT_LIGHTS 2
 
 const glm::vec3 g_DefaultLightDirection = glm::vec3(0.f, -1.f, 0.f);
+extern const char* g_LightSpriteSuffix;
 
 class LE3AmbientLight : public LE3Object
 {
@@ -30,6 +32,9 @@ public:
     
     float GetIntensity() const;
     void SetIntensity(float intensity);
+
+    LE3Sprite* GetSprite();
+    void SetName(std::string name);
 
 protected:
     glm::vec3 color;
@@ -67,6 +72,9 @@ public:
     void SetShadowsEnabled(bool enabled);
     LE3ShadowMap& GetShadowMap();
 
+    LE3Sprite* GetSprite();
+    void SetName(std::string name);
+
 protected:
     glm::vec3 color;
     float intensity;
@@ -94,6 +102,8 @@ public:
         ar(CEREAL_NVP(attn_const), CEREAL_NVP(attn_linear), CEREAL_NVP(attn_exp));
     }
 
+    
+
     glm::vec3 GetColor() const;
     void SetColor(glm::vec3 color);
     
@@ -106,6 +116,9 @@ public:
     void SetAttenuationConst(float attn_const);
     void SetAttenuationLinear(float attn_linear);
     void SetAttenuationExp(float attn_exp);
+
+    LE3Sprite* GetSprite();
+    void SetName(std::string name);
 
 protected:
     glm::vec3 color;
@@ -152,6 +165,9 @@ public:
     bool IsShadowsEnabled() const;
     void SetShadowsEnabled(bool enabled);
     LE3ShadowMap& GetShadowMap();
+
+    LE3Sprite* GetSprite();
+    void SetName(std::string name);
 
 protected:
     glm::vec3 color;

@@ -322,9 +322,10 @@ void LE3EditorUI::OnLoadScene( wxCommandEvent& event )
     LoadScene(m_editor->scene, m_editor->scenePath);
     m_editor->bPauseEngine = false;
 
+    m_editor->scene.lightManager.RegisterLightCollisions(m_editor->scene.GetPhysics());
+    m_editor->scene.AddLightSprites();
     RefreshAssets();
     RefreshSceneGraph();
-    m_editor->scene.lightManager.RegisterLightCollisions(m_editor->scene.GetPhysics());
     
     wxTopLevelWindow::SetTitle(std::string(LE3EDITOR_WINDOW_TITLE) + std::string(" - ") + m_editor->scenePath);
 }
@@ -924,24 +925,28 @@ void LE3EditorUI::OnAddAmbientLight( wxCommandEvent& event )
         m_editor->scene.AddAmbientLight();
     else
         wxMessageBox( wxT("Only one ambient light is allowed per scene."), wxT("Add Ambient Light"), wxICON_INFORMATION);
-    RefreshSceneGraph();
     m_editor->scene.lightManager.RegisterLightCollisions(m_editor->scene.GetPhysics());
+    m_editor->scene.AddLightSprites();
+    RefreshSceneGraph();
 }
 void LE3EditorUI::OnAddDirectionalLight( wxCommandEvent& event )
 {
     m_editor->scene.AddDirectionalLight(GetValidObjectName("directional_light"));
-    RefreshSceneGraph();
     m_editor->scene.lightManager.RegisterLightCollisions(m_editor->scene.GetPhysics());
+    m_editor->scene.AddLightSprites();
+    RefreshSceneGraph();
 }
 void LE3EditorUI::OnAddPointLight( wxCommandEvent& event )
 {
     m_editor->scene.AddPointLight(GetValidObjectName("point_light"));
-    RefreshSceneGraph();
     m_editor->scene.lightManager.RegisterLightCollisions(m_editor->scene.GetPhysics());
+    m_editor->scene.AddLightSprites();
+    RefreshSceneGraph();
 }
 void LE3EditorUI::OnAddSpotLight( wxCommandEvent& event )
 {
     m_editor->scene.AddSpotLight(GetValidObjectName("spot_light"));
-    RefreshSceneGraph();
     m_editor->scene.lightManager.RegisterLightCollisions(m_editor->scene.GetPhysics());
+    m_editor->scene.AddLightSprites();
+    RefreshSceneGraph();
 }

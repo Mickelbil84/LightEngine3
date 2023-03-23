@@ -1,5 +1,5 @@
 /* XPM */
-static const char *const icon_addpointlight[] = {
+static const char *const sprite_engine_pointlight[] = {
 /* Values */
 "24 24 5 1",
 /* Colors */

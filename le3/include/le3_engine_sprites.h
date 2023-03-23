@@ -1,10 +1,10 @@
 #pragma once
-#include "sprites/le3_engine_pointlight.xpm"
+#include "sprites/sprite_engine_ambientlight.xpm"
+#include "sprites/sprite_engine_directionallight.xpm"
+#include "sprites/sprite_engine_pointlight.xpm"
+#include "sprites/sprite_engine_spotlight.xpm"
 
 #include <sstream>
-#include <fmt/core.h>
-
-using fmt::print;
 
 inline std::string SpriteToString(const char* const* xpm)
 {

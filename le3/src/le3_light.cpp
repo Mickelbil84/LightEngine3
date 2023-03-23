@@ -2,6 +2,8 @@
 
 #include <fmt/core.h>
 
+const char* g_LightSpriteSuffix = "_sprite";
+
 LE3AmbientLight::LE3AmbientLight(glm::vec3 color, float intensity) : LE3Object("ambient_light"), color(color), intensity(intensity), m_pRigidBody(nullptr)
 {
 }
@@ -35,6 +37,23 @@ float LE3AmbientLight::GetIntensity() const
 void LE3AmbientLight::SetIntensity(float intensity)
 {
     this->intensity = intensity;
+}
+LE3Sprite* LE3AmbientLight::GetSprite()
+{
+    for (auto child : m_children)
+        if (dynamic_cast<LE3Sprite*>(child) && 
+            (child->GetName() == GetName() + g_LightSpriteSuffix))
+            return dynamic_cast<LE3Sprite*>(child);
+    
+    return nullptr;
+}
+void LE3AmbientLight::SetName(std::string name)
+{
+    LE3Object::SetName(name);
+
+    LE3Sprite* sprite = GetSprite();
+    if (sprite)
+        sprite->SetName(GetName() + g_LightSpriteSuffix);
 }
 
 
@@ -102,6 +121,23 @@ LE3ShadowMap& LE3DirectionalLight::GetShadowMap()
 {
     return shadowMap;
 }
+LE3Sprite* LE3DirectionalLight::GetSprite()
+{
+    for (auto child : m_children)
+        if (dynamic_cast<LE3Sprite*>(child) && 
+            (child->GetName() == GetName() + g_LightSpriteSuffix))
+            return dynamic_cast<LE3Sprite*>(child);
+    
+    return nullptr;
+}
+void LE3DirectionalLight::SetName(std::string name)
+{
+    LE3Object::SetName(name);
+
+    LE3Sprite* sprite = GetSprite();
+    if (sprite)
+        sprite->SetName(GetName() + g_LightSpriteSuffix);
+}
 
 
 LE3PointLight::LE3PointLight(std::string name, glm::vec3 color, float intensity, float attn_const, float attn_linear, float attn_exp) : 
@@ -162,6 +198,23 @@ void LE3PointLight::SetAttenuationLinear(float attn_linear)
 void LE3PointLight::SetAttenuationExp(float attn_exp)
 {
     this->attn_exp = attn_exp;
+}
+LE3Sprite* LE3PointLight::GetSprite()
+{
+    for (auto child : m_children)
+        if (dynamic_cast<LE3Sprite*>(child) && 
+            (child->GetName() == GetName() + g_LightSpriteSuffix))
+            return dynamic_cast<LE3Sprite*>(child);
+    
+    return nullptr;
+}
+void LE3PointLight::SetName(std::string name)
+{
+    LE3Object::SetName(name);
+
+    LE3Sprite* sprite = GetSprite();
+    if (sprite)
+        sprite->SetName(GetName() + g_LightSpriteSuffix);
 }
 
 LE3SpotLight::LE3SpotLight(std::string name, glm::vec3 color, float intensity, 
@@ -226,9 +279,9 @@ glm::vec3 LE3SpotLight::GetDirection() const
 }
 glm::mat4 LE3SpotLight::GetViewMatrix() const
 {
-    float delta_plane = 5.f;
+    float delta_plane = 15.f;
     glm::vec3 pos = GetGlobalPosition();
-    glm::mat4 lightProjection = glm::perspective(glm::radians(45.f), 1.f, .5f, 25.f);
+    glm::mat4 lightProjection = glm::perspective(glm::radians(45.f), 1.f, .5f, 40.f);
     // To combat linearly dependant columns in look-at matrix, we add a very small noise to the up vector
     glm::mat4 lightView = glm::lookAt(pos, pos + GetDirection(), glm::vec3(0.f, .999f, 0.04471017781f));
     return lightProjection * lightView;
@@ -244,4 +297,21 @@ void LE3SpotLight::SetShadowsEnabled(bool enabled)
 LE3ShadowMap& LE3SpotLight::GetShadowMap()
 {
     return shadowMap;
+}
+LE3Sprite* LE3SpotLight::GetSprite()
+{
+    for (auto child : m_children)
+        if (dynamic_cast<LE3Sprite*>(child) && 
+            (child->GetName() == GetName() + g_LightSpriteSuffix))
+            return dynamic_cast<LE3Sprite*>(child);
+    
+    return nullptr;
+}
+void LE3SpotLight::SetName(std::string name)
+{
+    LE3Object::SetName(name);
+
+    LE3Sprite* sprite = GetSprite();
+    if (sprite)
+        sprite->SetName(GetName() + g_LightSpriteSuffix);
 }

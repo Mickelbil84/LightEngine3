@@ -15,6 +15,11 @@ void LoadScene(LE3SceneManager& scene, std::string serializationPath)
         cereal::JSONInputArchive iarchive(fp);
         iarchive(scene);
     }
+
+    scene.assets.LoadTexture(SPRITE_AMBIENTLIGHT_NAME, SpriteToString(sprite_engine_ambientlight));
+    scene.assets.LoadTexture(SPRITE_DIRECTIONALLIGHT_NAME, SpriteToString(sprite_engine_directionallight));
+    scene.assets.LoadTexture(SPRITE_POINTLIGHT_NAME, SpriteToString(sprite_engine_pointlight));
+    scene.assets.LoadTexture(SPRITE_SPOTLIGHT_NAME, SpriteToString(sprite_engine_spotlight));
 }
 
 void LE3SceneManager::Init()
@@ -28,6 +33,11 @@ void LE3SceneManager::Init()
 
     assets.LoadShader(SPRITE_SHADER_NAME, "../resources/shaders/default/sprite.vs", "../resources/shaders/default/sprite.fs");
     assets.CreateMaterial(SPRITE_MATERIAL_NAME, SPRITE_SHADER_NAME);
+
+    assets.LoadTexture(SPRITE_AMBIENTLIGHT_NAME, SpriteToString(sprite_engine_ambientlight));
+    assets.LoadTexture(SPRITE_DIRECTIONALLIGHT_NAME, SpriteToString(sprite_engine_directionallight));
+    assets.LoadTexture(SPRITE_POINTLIGHT_NAME, SpriteToString(sprite_engine_pointlight));
+    assets.LoadTexture(SPRITE_SPOTLIGHT_NAME, SpriteToString(sprite_engine_spotlight));
 
 
     // Setup light manager
@@ -226,4 +236,19 @@ void LE3SceneManager::Render()
     glViewport(0, 0, applicationSettings->windowWidth, applicationSettings->windowHeight);
     glCullFace(GL_BACK); 
     GetRoot()->Draw();
+}
+
+void LE3SceneManager::AddLightSprites()
+{
+    if (lightManager.GetAmbientLight() && !lightManager.GetAmbientLight()->GetSprite())
+        AddSprite(lightManager.GetAmbientLight()->GetName() + g_LightSpriteSuffix, SPRITE_AMBIENTLIGHT_NAME, gEngineLightSpriteSize, lightManager.GetAmbientLight()->GetName());
+    for (auto light : lightManager.GetDirectionalLights())
+        if (!light->GetSprite())
+            AddSprite(light->GetName() + g_LightSpriteSuffix, SPRITE_DIRECTIONALLIGHT_NAME, gEngineLightSpriteSize, light->GetName());
+    for (auto light : lightManager.GetPointLights())
+        if (!light->GetSprite())
+            AddSprite(light->GetName() + g_LightSpriteSuffix, SPRITE_POINTLIGHT_NAME, gEngineLightSpriteSize, light->GetName());
+    for (auto light : lightManager.GetSpotLights())
+        if (!light->GetSprite())
+            AddSprite(light->GetName() + g_LightSpriteSuffix, SPRITE_SPOTLIGHT_NAME, gEngineLightSpriteSize, light->GetName());
 }

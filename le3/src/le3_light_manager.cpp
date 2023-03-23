@@ -173,6 +173,10 @@ std::vector<std::shared_ptr<LE3DirectionalLight>>& LE3LightManager::GetDirection
 {
     return m_directionalLights;
 }
+std::vector<std::shared_ptr<LE3PointLight>>& LE3LightManager::GetPointLights()
+{
+    return m_pointLights;
+}
 std::vector<std::shared_ptr<LE3SpotLight>>& LE3LightManager::GetSpotLights()
 {
     return m_spotLights;
@@ -184,7 +188,7 @@ LE3Shader* LE3LightManager::GetShadowShader()
 
 void LE3LightManager::RegisterLightCollisions(LE3PhysicsComponent* physics)
 {
-    if (!m_pAmbientLight->m_pRigidBody)
+    if (m_pAmbientLight && !m_pAmbientLight->m_pRigidBody)
         m_pAmbientLight->m_pRigidBody = RegisterLightCollisionsImpl(m_pAmbientLight.get(), physics);
     for (auto light : m_directionalLights)
         if (!light->m_pRigidBody)

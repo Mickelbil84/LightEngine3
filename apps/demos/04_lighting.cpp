@@ -63,7 +63,7 @@ public:
         scene.assets.AddTexturePath("TD_wood", resource_prefix + "resources/textures/wood.png");
         scene.assets.AddTexturePath("TN_wood", resource_prefix + "resources/textures/wood_normal2.png");
         scene.assets.AddTexturePath("CM_basilica", resource_prefix + "resources/textures/basilica.png");
-        scene.assets.AddTexturePath("SPT_pointlight", SpriteToString(icon_addpointlight));
+        // scene.assets.AddTexturePath("SPT_pointlight", SpriteToString(sprite_engine_pointlight));
         // scene.assets.AddTexturePath("TD_tile_floor", SpriteToString(icon_addpointlight));
 
         // scene.assets.GetTexture("SPT_pointlight");
@@ -147,8 +147,6 @@ public:
         scene.GetObject("spot_light01")->SetPosition(glm::vec3(0.f, 1.5f, 0.6f));
         scene.GetObject("spot_light01")->SetRotationX(1.3f);
         scene.lightManager.EnableShadows(dynamic_pointer_cast<LE3SpotLight>(scene.GetObject("spot_light01")));
-
-        scene.AddSprite("testSprite", "SPT_pointlight", .1f, "point_light01");
 
         SaveScene(scene, resource_prefix + "resources/scenes/04_lighting.json");
 
