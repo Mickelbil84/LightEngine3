@@ -13,3 +13,11 @@ project(
 add_subdirectory(le3)
 add_subdirectory(apps)
 add_subdirectory(editor)
+
+# Copy the resources directory to the build
+add_custom_target(
+    copy_resources ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources
+)
