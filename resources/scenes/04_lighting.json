@@ -29,9 +29,27 @@
                     }
                 },
                 {
+                    "key": "SPR_ambientlight",
+                    "value": {
+                        "path": "/* XPM */\n24 24 3 1\n  c None\n! c #212121\n@ c #666565\n                        \n                        \n                        \n                        \n           !!           \n          !@@!          \n      !@ !!@@!! @!      \n      @!   !!   !@      \n        !@ !! @!        \n      ! @! !! !@ !      \n     !!   !!!!   !!     \n    !@@!!!!@@!!!!@@!    \n    !@@!!!!@@!!!!@@!    \n     !!   !!!!   !!     \n      ! @! !! !@ !      \n        !@ !! @!        \n      @!   !!   !@      \n      !@ !!@@!! @!      \n          !@@!          \n           !!           \n                        \n                        \n                        \n                        \n"
+                    }
+                },
+                {
+                    "key": "SPR_directionallight",
+                    "value": {
+                        "path": "/* XPM */\n24 24 3 1\n  c None\n! c #989898\n@ c #373737\n                        \n                        \n                        \n           !!           \n       !   !@   !       \n       !@  !!  !@       \n               @!       \n    !              !    \n    !@!   @@@@          \n     !! @@!!!!@@ !!     \n        @!!!!!!@        \n       @@!!!!!!@@       \n    @! @!!!!!!!!@ !@    \n       @@!!!!!!@@  !!   \n        @!!!!!!@        \n     !  @@!!!!@@ !!     \n     @    @@@@@  !@     \n    !              !    \n       !       !        \n       @!  !!  @        \n       !   @    !       \n           !!           \n                        \n                        \n"
+                    }
+                },
+                {
                     "key": "SPR_pointlight",
                     "value": {
                         "path": "/* XPM */\n24 24 5 1\n  c None\n! c #000000\n@ c #c4c4c4\n# c #727272\n$ c #e6e3e3\n                        \n                        \n                        \n            !           \n     @      !           \n     !!          @!     \n     @!    !!    !!     \n         !!##!!  !      \n        !#@@@@#!        \n       !#@##@@@#!       \n      !!@#@@@@$@!! @@   \n   !! !#@#@@@@$@#! !!   \n   @@ !#@#@@@@@@#!      \n      !!@#@@@@@@!!      \n       !#@#@@@@#!       \n        !@@@@@#!@       \n        !#@@@@#         \n         !!!!!!         \n         !@$@@!         \n         !!!!!!         \n          !!@@!         \n          !!!!          \n                        \n                        \n"
+                    }
+                },
+                {
+                    "key": "SPR_spotlight",
+                    "value": {
+                        "path": "/* XPM */\n24 24 4 1\n  c None\n! c #000000\n@ c #808080\n# c #9f9f9f\n                        \n                        \n                        \n              !@##!!    \n              !@##!!    \n              !@##@!    \n              !@##@!    \n             !!!!@!!    \n            !@!!!!      \n          !!@#!!#@      \n        !!!@##@###!     \n       !@@@!!@####!     \n        !@##@!@#@!      \n    !!  !!###@!@!!      \n        !!@###!!!       \n        !!!@##@!        \n     !    !!##@!        \n    !     !!!@@!        \n      !!     !!         \n     !   ! !!           \n     !  !! !            \n        !  !            \n                        \n                        \n"
                     }
                 },
                 {
@@ -209,8 +227,8 @@
                             "v.z": 0.800000011920929,
                             "v.w": 1.0
                         },
-                        "diffuseTextureName": "SPR_pointlight",
-                        "bUseDiffuseTexture": true,
+                        "diffuseTextureName": "",
+                        "bUseDiffuseTexture": false,
                         "specularColor": {
                             "v.x": 1.0,
                             "v.y": 1.0,
@@ -697,85 +715,11 @@
                 }
             },
             {
-                "key": "point_light01_sprite",
-                "value": {
-                    "polymorphic_id": 2147483653,
-                    "polymorphic_name": "LE3Sprite",
-                    "ptr_wrapper": {
-                        "id": 2147483655,
-                        "data": {
-                            "m_position": {
-                                "v.x": 0.0,
-                                "v.y": 0.0,
-                                "v.z": 0.0
-                            },
-                            "m_rotation": {
-                                "v.x": 0.0,
-                                "v.y": 0.0,
-                                "v.z": 0.0
-                            },
-                            "m_scale": 0.10000000149011612,
-                            "m_globalPosition": {
-                                "v.x": 0.0,
-                                "v.y": 1.0,
-                                "v.z": -0.699999988079071
-                            },
-                            "m_globalRotation": {
-                                "v.x": 0.0,
-                                "v.y": -0.0,
-                                "v.z": 0.0
-                            },
-                            "m_localModelMatrix": {
-                                "m[0][0]": 0.10000000149011612,
-                                "m[0][1]": 0.0,
-                                "m[0][2]": 0.0,
-                                "m[0][3]": 0.0,
-                                "m[1][0]": 0.0,
-                                "m[1][1]": 0.10000000149011612,
-                                "m[1][2]": 0.0,
-                                "m[1][3]": 0.0,
-                                "m[2][0]": 0.0,
-                                "m[2][1]": 0.0,
-                                "m[2][2]": 0.10000000149011612,
-                                "m[2][3]": 0.0,
-                                "m[3][0]": 0.0,
-                                "m[3][1]": 0.0,
-                                "m[3][2]": 0.0,
-                                "m[3][3]": 1.0
-                            },
-                            "m_globalModelMatrix": {
-                                "m[0][0]": 0.10000000149011612,
-                                "m[0][1]": 0.0,
-                                "m[0][2]": 0.0,
-                                "m[0][3]": 0.0,
-                                "m[1][0]": 0.0,
-                                "m[1][1]": 0.10000000149011612,
-                                "m[1][2]": 0.0,
-                                "m[1][3]": 0.0,
-                                "m[2][0]": 0.0,
-                                "m[2][1]": 0.0,
-                                "m[2][2]": 0.10000000149011612,
-                                "m[2][3]": 0.0,
-                                "m[3][0]": 0.0,
-                                "m[3][1]": 1.0,
-                                "m[3][2]": -0.699999988079071,
-                                "m[3][3]": 1.0
-                            },
-                            "m_name": "point_light01_sprite",
-                            "m_bHiddenInSceneGraph": false,
-                            "m_bHidden": false,
-                            "m_spriteTextureName": "SPR_pointlight",
-                            "m_materialName": "M_sprite"
-                        }
-                    }
-                }
-            },
-            {
                 "key": "sphere",
                 "value": {
                     "polymorphic_id": 2,
                     "ptr_wrapper": {
-                        "id": 2147483656,
+                        "id": 2147483655,
                         "data": {
                             "m_position": {
                                 "v.x": 0.0,
@@ -847,10 +791,10 @@
             {
                 "key": "spot_light01",
                 "value": {
-                    "polymorphic_id": 2147483654,
+                    "polymorphic_id": 2147483653,
                     "polymorphic_name": "LE3SpotLight",
                     "ptr_wrapper": {
-                        "id": 2147483657,
+                        "id": 2147483656,
                         "data": {
                             "m_position": {
                                 "v.x": 0.0,
@@ -952,10 +896,6 @@
                 "value": ""
             },
             {
-                "key": "point_light01_sprite",
-                "value": "point_light01"
-            },
-            {
                 "key": "sphere",
                 "value": ""
             },
@@ -997,7 +937,7 @@
                 {
                     "polymorphic_id": 1073741824,
                     "ptr_wrapper": {
-                        "id": 9
+                        "id": 8
                     }
                 }
             ]
