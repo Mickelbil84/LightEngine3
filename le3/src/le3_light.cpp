@@ -2,9 +2,10 @@
 
 #include <fmt/core.h>
 
-const char* g_LightSpriteSuffix = "_sprite";
+const char* gLightSpriteSuffix = "_sprite";
 
-LE3AmbientLight::LE3AmbientLight(glm::vec3 color, float intensity) : LE3Object("ambient_light"), color(color), intensity(intensity), m_pRigidBody(nullptr)
+LE3AmbientLight::LE3AmbientLight(glm::vec3 color, float intensity) : 
+    LE3Object("ambient_light"), color(color), intensity(intensity), m_pRigidBody(nullptr)
 {
 }
 void LE3AmbientLight::Update(double deltaTime)
@@ -20,6 +21,8 @@ void LE3AmbientLight::Update(double deltaTime)
 }
 void LE3AmbientLight::Draw()
 {
+    if (GetSprite())
+        GetSprite()->GetMaterial()->diffuseColor = glm::vec4(GetColor(), 1.f);
 }
 glm::vec3 LE3AmbientLight::GetColor() const
 {
@@ -42,7 +45,7 @@ LE3Sprite* LE3AmbientLight::GetSprite()
 {
     for (auto child : m_children)
         if (dynamic_cast<LE3Sprite*>(child) && 
-            (child->GetName() == GetName() + g_LightSpriteSuffix))
+            (child->GetName() == GetName() + gLightSpriteSuffix))
             return dynamic_cast<LE3Sprite*>(child);
     
     return nullptr;
@@ -53,12 +56,12 @@ void LE3AmbientLight::SetName(std::string name)
 
     LE3Sprite* sprite = GetSprite();
     if (sprite)
-        sprite->SetName(GetName() + g_LightSpriteSuffix);
+        sprite->SetName(GetName() + gLightSpriteSuffix);
 }
 
 
 LE3DirectionalLight::LE3DirectionalLight(std::string name, glm::vec3 color, float intensity) : 
-    LE3Object(name), color(color), intensity(intensity), bEnableShadows(false), m_pRigidBody(nullptr)
+    LE3Object(name), color(color), intensity(intensity), bEnableShadows(false), m_pRigidBody(nullptr), bDebugLine(false)
 {
 }
 void LE3DirectionalLight::Update(double deltaTime)
@@ -74,6 +77,14 @@ void LE3DirectionalLight::Update(double deltaTime)
 }
 void LE3DirectionalLight::Draw()
 {
+    if (GetSprite())
+        GetSprite()->GetMaterial()->diffuseColor = glm::vec4(GetColor(), 1.f);
+
+    if (bDebugLine)
+        LE3VisualDebug::DrawDebugLine(
+            GetGlobalPosition(), 
+            GetGlobalPosition() + gLightDebugRayLength * GetDirection(), 
+            GetColor());
 }
 glm::vec3 LE3DirectionalLight::GetColor() const
 {
@@ -94,7 +105,7 @@ void LE3DirectionalLight::SetIntensity(float intensity)
 }
 glm::vec3 LE3DirectionalLight::GetDirection() const
 {
-    glm::vec3 dir = this->GetModelMatrix() * glm::vec4(g_DefaultLightDirection, 0.f);
+    glm::vec3 dir = this->GetModelMatrix() * glm::vec4(gDefaultLightDirection, 0.f);
     return dir;
 }
 glm::mat4 LE3DirectionalLight::GetViewMatrix(glm::vec3 pos) const
@@ -125,7 +136,7 @@ LE3Sprite* LE3DirectionalLight::GetSprite()
 {
     for (auto child : m_children)
         if (dynamic_cast<LE3Sprite*>(child) && 
-            (child->GetName() == GetName() + g_LightSpriteSuffix))
+            (child->GetName() == GetName() + gLightSpriteSuffix))
             return dynamic_cast<LE3Sprite*>(child);
     
     return nullptr;
@@ -136,7 +147,7 @@ void LE3DirectionalLight::SetName(std::string name)
 
     LE3Sprite* sprite = GetSprite();
     if (sprite)
-        sprite->SetName(GetName() + g_LightSpriteSuffix);
+        sprite->SetName(GetName() + gLightSpriteSuffix);
 }
 
 
@@ -157,6 +168,8 @@ void LE3PointLight::Update(double deltaTime)
 }
 void LE3PointLight::Draw()
 {
+    if (GetSprite())
+        GetSprite()->GetMaterial()->diffuseColor = glm::vec4(GetColor(), 1.f);
 }
 glm::vec3 LE3PointLight::GetColor() const
 {
@@ -203,7 +216,7 @@ LE3Sprite* LE3PointLight::GetSprite()
 {
     for (auto child : m_children)
         if (dynamic_cast<LE3Sprite*>(child) && 
-            (child->GetName() == GetName() + g_LightSpriteSuffix))
+            (child->GetName() == GetName() + gLightSpriteSuffix))
             return dynamic_cast<LE3Sprite*>(child);
     
     return nullptr;
@@ -214,12 +227,13 @@ void LE3PointLight::SetName(std::string name)
 
     LE3Sprite* sprite = GetSprite();
     if (sprite)
-        sprite->SetName(GetName() + g_LightSpriteSuffix);
+        sprite->SetName(GetName() + gLightSpriteSuffix);
 }
 
 LE3SpotLight::LE3SpotLight(std::string name, glm::vec3 color, float intensity, 
         float cutoff, float outer_cutoff) :
-    LE3Object(name), color(color), intensity(intensity), cutoff(cutoff), outer_cutoff(outer_cutoff), bEnableShadows(false), m_pRigidBody(nullptr)
+    LE3Object(name), color(color), intensity(intensity), cutoff(cutoff), outer_cutoff(outer_cutoff), 
+    bEnableShadows(false), m_pRigidBody(nullptr), bDebugLine(false)
 {
 }
 
@@ -236,6 +250,13 @@ void LE3SpotLight::Update(double deltaTime)
 }
 void LE3SpotLight::Draw()
 {
+    if (GetSprite())
+        GetSprite()->GetMaterial()->diffuseColor = glm::vec4(GetColor(), 1.f);
+    if (bDebugLine)
+        LE3VisualDebug::DrawDebugLine(
+            GetGlobalPosition(), 
+            GetGlobalPosition() + gLightDebugRayLength * GetDirection(), 
+            GetColor());
 }
 glm::vec3 LE3SpotLight::GetColor() const
 {
@@ -274,7 +295,7 @@ void LE3SpotLight::SetOuterCutoff(float outer_cutoff)
 
 glm::vec3 LE3SpotLight::GetDirection() const
 {
-    glm::vec3 dir = this->GetModelMatrix() * glm::vec4(g_DefaultLightDirection, 0.f);
+    glm::vec3 dir = this->GetModelMatrix() * glm::vec4(gDefaultLightDirection, 0.f);
     return dir;
 }
 glm::mat4 LE3SpotLight::GetViewMatrix() const
@@ -302,7 +323,7 @@ LE3Sprite* LE3SpotLight::GetSprite()
 {
     for (auto child : m_children)
         if (dynamic_cast<LE3Sprite*>(child) && 
-            (child->GetName() == GetName() + g_LightSpriteSuffix))
+            (child->GetName() == GetName() + gLightSpriteSuffix))
             return dynamic_cast<LE3Sprite*>(child);
     
     return nullptr;
@@ -313,5 +334,5 @@ void LE3SpotLight::SetName(std::string name)
 
     LE3Sprite* sprite = GetSprite();
     if (sprite)
-        sprite->SetName(GetName() + g_LightSpriteSuffix);
+        sprite->SetName(GetName() + gLightSpriteSuffix);
 }

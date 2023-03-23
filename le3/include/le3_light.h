@@ -2,6 +2,7 @@
 #include "le3_object.h"
 #include "le3_sprite.h"
 #include "le3_shadowmap.h"
+#include "le3_visual_debug.h"
 
 #include <cereal/cereal.hpp>
 
@@ -9,8 +10,9 @@
 #define MAX_POINT_LIGHTS 8
 #define MAX_SPOT_LIGHTS 2
 
-const glm::vec3 g_DefaultLightDirection = glm::vec3(0.f, -1.f, 0.f);
-extern const char* g_LightSpriteSuffix;
+const glm::vec3 gDefaultLightDirection = glm::vec3(0.f, -1.f, 0.f);
+const float gLightDebugRayLength = 0.2f;
+extern const char* gLightSpriteSuffix;
 
 class LE3AmbientLight : public LE3Object
 {
@@ -83,6 +85,7 @@ protected:
     LE3ShadowMap shadowMap;
 public:
     btRigidBody* m_pRigidBody;
+    bool bDebugLine;
 };
 
 class LE3PointLight : public LE3Object
@@ -178,6 +181,7 @@ protected:
     LE3ShadowMap shadowMap;
 public:
     btRigidBody* m_pRigidBody;
+    bool bDebugLine;
 };
 
 

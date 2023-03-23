@@ -19,7 +19,7 @@ void main()
     // Diffuse color
     vec4 diffuseColor = material.diffuseColor;
     if (material.bUseDiffuseTexture)
-        diffuseColor = texture(
+        diffuseColor *= texture(
             material.diffuseTexture, vec2(texCoord.x * material.tilingX, texCoord.y * material.tilingY));
     if (diffuseColor.a < 0.5)
         discard;

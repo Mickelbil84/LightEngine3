@@ -242,25 +242,27 @@ void LE3SceneManager::AddLightSprites()
 {
     if (lightManager.GetAmbientLight() && !lightManager.GetAmbientLight()->GetSprite())
     {
-        AddSprite(lightManager.GetAmbientLight()->GetName() + g_LightSpriteSuffix, SPRITE_AMBIENTLIGHT_NAME, gEngineLightSpriteSize, lightManager.GetAmbientLight()->GetName());
-        GetObject(lightManager.GetAmbientLight()->GetName() + g_LightSpriteSuffix)->SetHiddenInSceneGraph(true);
+        AddSprite(lightManager.GetAmbientLight()->GetName() + gLightSpriteSuffix, SPRITE_AMBIENTLIGHT_NAME, gEngineLightSpriteSize, lightManager.GetAmbientLight()->GetName());
+        GetObject(lightManager.GetAmbientLight()->GetName() + gLightSpriteSuffix)->SetHiddenInSceneGraph(true);
     }
     for (auto light : lightManager.GetDirectionalLights())
         if (!light->GetSprite())
         {
-            AddSprite(light->GetName() + g_LightSpriteSuffix, SPRITE_DIRECTIONALLIGHT_NAME, gEngineLightSpriteSize, light->GetName());
-            GetObject(light->GetName() + g_LightSpriteSuffix)->SetHiddenInSceneGraph(true);
+            AddSprite(light->GetName() + gLightSpriteSuffix, SPRITE_DIRECTIONALLIGHT_NAME, gEngineLightSpriteSize, light->GetName());
+            GetObject(light->GetName() + gLightSpriteSuffix)->SetHiddenInSceneGraph(true);
+            light->bDebugLine = true;
         }
     for (auto light : lightManager.GetPointLights())
         if (!light->GetSprite())
         {
-            AddSprite(light->GetName() + g_LightSpriteSuffix, SPRITE_POINTLIGHT_NAME, gEngineLightSpriteSize, light->GetName());
-            GetObject(light->GetName() + g_LightSpriteSuffix)->SetHiddenInSceneGraph(true);
+            AddSprite(light->GetName() + gLightSpriteSuffix, SPRITE_POINTLIGHT_NAME, gEngineLightSpriteSize, light->GetName());
+            GetObject(light->GetName() + gLightSpriteSuffix)->SetHiddenInSceneGraph(true);
         }
     for (auto light : lightManager.GetSpotLights())
         if (!light->GetSprite())
         {
-            AddSprite(light->GetName() + g_LightSpriteSuffix, SPRITE_SPOTLIGHT_NAME, gEngineLightSpriteSize, light->GetName());
-            GetObject(light->GetName() + g_LightSpriteSuffix)->SetHiddenInSceneGraph(true);
+            AddSprite(light->GetName() + gLightSpriteSuffix, SPRITE_SPOTLIGHT_NAME, gEngineLightSpriteSize, light->GetName());
+            GetObject(light->GetName() + gLightSpriteSuffix)->SetHiddenInSceneGraph(true);
+            light->bDebugLine = true;
         }
 }

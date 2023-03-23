@@ -18,6 +18,8 @@ public:
         ar(CEREAL_NVP(m_materialName));
     }
 
+    LE3Material* GetMaterial();
+
     std::string m_spriteTextureName;
     std::string m_materialName;
 protected:

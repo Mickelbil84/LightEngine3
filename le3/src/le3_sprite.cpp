@@ -43,3 +43,8 @@ void LE3Sprite::UpdateAssets(LE3AssetManager& assets)
     m_material = assets.GetMaterial(m_materialName);
     m_spriteTexture = assets.GetTexture(m_spriteTextureName);
 }
+
+LE3Material* LE3Sprite::GetMaterial()
+{
+    return m_material;
+}
