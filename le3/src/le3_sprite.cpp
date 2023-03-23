@@ -27,7 +27,7 @@ LE3Sprite::LE3Sprite(std::string name, LE3Material* material, LE3Texture* sprite
 
 void LE3Sprite::Draw()
 {
-    if (!m_material || !m_mesh || !m_spriteTexture)
+    if (!m_material || !m_mesh || !m_spriteTexture || m_bHidden)
         return;
     m_material->SetDiffuseTexture(m_spriteTexture);
     m_material->bUseDiffuseTexture = true;

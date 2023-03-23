@@ -266,3 +266,25 @@ void LE3SceneManager::AddLightSprites()
             light->bDebugLine = true;
         }
 }
+void LE3SceneManager::SetLightSpritesHidden(bool hidden)
+{
+    if (lightManager.GetAmbientLight() && lightManager.GetAmbientLight()->GetSprite())
+    {
+        GetObject(lightManager.GetAmbientLight()->GetName() + gLightSpriteSuffix)->SetHidden(hidden);
+    }
+    for (auto light : lightManager.GetDirectionalLights())
+        if (light->GetSprite())
+        {
+            GetObject(light->GetName() + gLightSpriteSuffix)->SetHidden(hidden);
+        }
+    for (auto light : lightManager.GetPointLights())
+        if (light->GetSprite())
+        {
+            GetObject(light->GetName() + gLightSpriteSuffix)->SetHidden(hidden);    
+        }
+    for (auto light : lightManager.GetSpotLights())
+        if (light->GetSprite())
+        {
+            GetObject(light->GetName() + gLightSpriteSuffix)->SetHidden(hidden);        
+        }
+}

@@ -11,19 +11,19 @@
                 {
                     "key": "SM_barrel",
                     "value": {
-                        "path": "../resources/models/gahan/barrel.obj"
+                        "path": "resources/models/gahan/barrel.obj"
                     }
                 },
                 {
                     "key": "SM_buffer",
                     "value": {
-                        "path": "../resources/models/gahan/buffer.obj"
+                        "path": "resources/models/gahan/buffer.obj"
                     }
                 },
                 {
                     "key": "SM_floor",
                     "value": {
-                        "path": "../resources/models/floor.obj"
+                        "path": "resources/models/floor.obj"
                     }
                 },
                 {
@@ -61,19 +61,19 @@
                 {
                     "key": "T_DIF_barrel",
                     "value": {
-                        "path": "../resources/textures/gahan/barrel_diffuse.tga"
+                        "path": "resources/textures/gahan/barrel_diffuse.tga"
                     }
                 },
                 {
                     "key": "T_DIF_buffer",
                     "value": {
-                        "path": "../resources/textures/gahan/buffer_diffuse.tga"
+                        "path": "resources/textures/gahan/buffer_diffuse.tga"
                     }
                 },
                 {
                     "key": "T_DIF_floor",
                     "value": {
-                        "path": "../resources/textures/tile_floor.jpg"
+                        "path": "resources/textures/tile_floor.jpg"
                     }
                 }
             ],
@@ -81,22 +81,22 @@
                 {
                     "key": "S_default",
                     "value": {
-                        "vertexShaderPath": "../resources/shaders/default/default.vs",
-                        "fragmentShaderPath": "../resources/shaders/default/default.fs"
+                        "vertexShaderPath": "resources/shaders/default/default.vs",
+                        "fragmentShaderPath": "resources/shaders/default/default.fs"
                     }
                 },
                 {
                     "key": "S_moving_car",
                     "value": {
-                        "vertexShaderPath": "../resources/shaders/moving_car/moving_car.vs",
-                        "fragmentShaderPath": "../resources/shaders/moving_car/moving_car.fs"
+                        "vertexShaderPath": "resources/shaders/moving_car/moving_car.vs",
+                        "fragmentShaderPath": "resources/shaders/moving_car/moving_car.fs"
                     }
                 },
                 {
                     "key": "S_ps1",
                     "value": {
-                        "vertexShaderPath": "../resources/shaders/ps1/ps1.vs",
-                        "fragmentShaderPath": "../resources/shaders/ps1/ps1.fs"
+                        "vertexShaderPath": "resources/shaders/ps1/ps1.vs",
+                        "fragmentShaderPath": "resources/shaders/ps1/ps1.fs"
                     }
                 }
             ],

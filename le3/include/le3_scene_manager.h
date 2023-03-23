@@ -59,6 +59,7 @@ public:
     LE3PhysicsComponent* GetPhysics() const;
 
     void AddLightSprites();
+    void SetLightSpritesHidden(bool hidden);
 
     std::shared_ptr<LE3Object> GetObject(std::string name);
     void Reparent(std::string object, std::string newParent);

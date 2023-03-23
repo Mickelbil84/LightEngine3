@@ -44,108 +44,12 @@ public:
         // ---------------------------
         scene.applicationSettings = &this->m_settings;
         scene.Init();
+
+        LoadScene(scene, "resources/scenes/04_lighting.json");
+        scene.SetLightSpritesHidden(true);
         
-        // Meshes
-        scene.assets.AddMeshPath("floor", "$BOX_0_0_0_10.000000_0.200000_10.000000_");
-        scene.assets.AddMeshPath("sphere", "$SPH_0_0_0_0.700000_64.000000_");
-        scene.assets.AddMeshPath("bunny", "resources/models/bunny.obj");
-
-        // Textures
-        scene.assets.AddTexturePath("TD_tile_floor", "resources/textures/tile_floor.jpg");
-        scene.assets.AddTexturePath("TN_tile_floor", "resources/textures/tile_floor_normal.png");
-        scene.assets.AddTexturePath("TD_wood", "resources/textures/wood.png");
-        scene.assets.AddTexturePath("TN_wood", "resources/textures/wood_normal2.png");
-        scene.assets.AddTexturePath("CM_basilica", "resources/textures/basilica.png");
-        // scene.assets.AddTexturePath("SPT_pointlight", SpriteToString(sprite_engine_pointlight));
-        // scene.assets.AddTexturePath("TD_tile_floor", SpriteToString(icon_addpointlight));
-
-        // scene.assets.GetTexture("SPT_pointlight");
-
-        // scene.assets.AddTexturePath("CM_basilica", "resources/textures/tile_floor.jpg");
-
-        // Shaders
-        scene.assets.AddShaderPath("S_blinn_phong", 
-            "resources/shaders/blinn_phong/blinn_phong.vs", 
-            "resources/shaders/blinn_phong/blinn_phong.fs");
-        
-        // Materials
-        scene.assets.CreateMaterial("M_floor", "S_blinn_phong");
-        scene.assets.GetMaterial("M_floor")->SetDiffuseTexture(scene.assets.GetTexture("TD_tile_floor"));
-        scene.assets.GetMaterial("M_floor")->bUseDiffuseTexture = true;
-        scene.assets.GetMaterial("M_floor")->specularIntensity = 2.f;
-        scene.assets.GetMaterial("M_floor")->shininess = 128.f;
-        scene.assets.GetMaterial("M_floor")->SetSpecularTexture(scene.assets.GetTexture("TD_tile_floor"));
-        scene.assets.GetMaterial("M_floor")->bUseSpecularTexture = true;
-        scene.assets.GetMaterial("M_floor")->SetNormalTexture(scene.assets.GetTexture("TN_tile_floor"));
-        scene.assets.GetMaterial("M_floor")->bUseNormalTexture = true;
-        scene.assets.GetMaterial("M_floor")->tilingX = 0.5f;
-        scene.assets.GetMaterial("M_floor")->tilingY = 0.5f;
-        scene.assets.GetMaterial("M_floor")->SetCubemap(scene.assets.GetTexture("CM_basilica"));
-        scene.assets.GetMaterial("M_floor")->reflectionIntensity = 0.5f;
-
-        scene.assets.CreateMaterial("M_sphere", "S_blinn_phong");
-        scene.assets.GetMaterial("M_sphere")->SetDiffuseTexture(scene.assets.GetTexture("TD_wood"));
-        scene.assets.GetMaterial("M_sphere")->bUseDiffuseTexture = true;
-        scene.assets.GetMaterial("M_sphere")->specularIntensity = 6.f;
-        scene.assets.GetMaterial("M_sphere")->shininess = 128.f;
-        scene.assets.GetMaterial("M_sphere")->SetSpecularTexture(scene.assets.GetTexture("TD_wood"));
-        scene.assets.GetMaterial("M_sphere")->bUseSpecularTexture = true;
-        scene.assets.GetMaterial("M_sphere")->SetNormalTexture(scene.assets.GetTexture("TN_wood"));
-        scene.assets.GetMaterial("M_sphere")->bUseNormalTexture = true;
-        scene.assets.GetMaterial("M_sphere")->tilingX = 2.f;
-        scene.assets.GetMaterial("M_sphere")->tilingY = 2.f;
-        scene.assets.GetMaterial("M_sphere")->SetCubemap(scene.assets.GetTexture("CM_basilica"));
-        scene.assets.GetMaterial("M_sphere")->reflectionIntensity = 0.4f;
-
-        scene.assets.CreateMaterial("M_bunny", "S_blinn_phong");
-        scene.assets.GetMaterial("M_bunny")->SetDiffuseTexture(scene.assets.GetTexture("TD_tile_floor"));
-        scene.assets.GetMaterial("M_bunny")->bUseDiffuseTexture = true;
-        scene.assets.GetMaterial("M_bunny")->specularIntensity = 6.f;
-        scene.assets.GetMaterial("M_bunny")->shininess = 512.f;
-        scene.assets.GetMaterial("M_bunny")->SetSpecularTexture(scene.assets.GetTexture("TD_tile_floor"));
-        scene.assets.GetMaterial("M_bunny")->bUseSpecularTexture = true;
-        scene.assets.GetMaterial("M_bunny")->SetNormalTexture(scene.assets.GetTexture("TN_wood"));
-        scene.assets.GetMaterial("M_bunny")->bUseNormalTexture = true;
-        scene.assets.GetMaterial("M_bunny")->SetCubemap(scene.assets.GetTexture("CM_basilica"));
-        scene.assets.GetMaterial("M_bunny")->reflectionIntensity = 0.9f;
-
-
-        scene.assets.GetMaterial("M_bunny")->tilingX = 3.f;
-        scene.assets.GetMaterial("M_bunny")->tilingY = 3.f;
-
-        // Objects
-        scene.AddStaticMesh("floor", "floor", "M_floor");
-
-        scene.AddStaticMesh("sphere", "sphere", "M_sphere");
-        scene.GetObject("sphere")->SetPosition(glm::vec3(0.f, 0.6959f, 1.2027f));
-
-        scene.AddStaticMesh("bunny", "bunny", "M_bunny", 6.f);
-        scene.GetObject("bunny")->SetPosition(glm::vec3(0.f, -0.1959f, -1.5027f));
-        // scene.GetObject("bunny")->SetRotationX(-1.57f);
-
-        // Lights
-        scene.AddAmbientLight(glm::vec3(1.f, 1.f, 1.f), 0.1f);
-
-        scene.AddDirectionalLight("directional_light01", glm::vec3(1.f), 0.7);
-        scene.GetObject("directional_light01")->SetRotationX(-1.5f);
-        scene.lightManager.EnableShadows(dynamic_pointer_cast<LE3DirectionalLight>(scene.GetObject("directional_light01")));
-
-        scene.AddDirectionalLight("directional_light02", glm::vec3(0.05f, 0.8f, 0.95f), 0.5);
-        scene.lightManager.EnableShadows(dynamic_pointer_cast<LE3DirectionalLight>(scene.GetObject("directional_light02")));
-
-        scene.AddPointLight("point_light01", glm::vec3(0.95f, 0.7f, 0.2f), 0.7f);
-        scene.GetObject("point_light01")->SetPosition(glm::vec3(0.f, 1.f, -.7f));
-
-        scene.AddSpotLight("spot_light01");
-        scene.GetObject("spot_light01")->SetPosition(glm::vec3(0.f, 1.5f, 0.6f));
-        scene.GetObject("spot_light01")->SetRotationX(1.3f);
-        scene.lightManager.EnableShadows(dynamic_pointer_cast<LE3SpotLight>(scene.GetObject("spot_light01")));
-
-        SaveScene(scene, "resources/scenes/04_lighting.json");
-
         // Camera
         scene.AddFPSCamera();
-
 
         // ---------------------------
         //   Misc

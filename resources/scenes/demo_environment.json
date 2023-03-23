@@ -5,19 +5,19 @@
                 {
                     "key": "barrel",
                     "value": {
-                        "path": "../resources/models/gahan/barrel.obj"
+                        "path": "resources/models/gahan/barrel.obj"
                     }
                 },
                 {
                     "key": "buffer",
                     "value": {
-                        "path": "../resources/models/gahan/buffer.obj"
+                        "path": "resources/models/gahan/buffer.obj"
                     }
                 },
                 {
                     "key": "carBody",
                     "value": {
-                        "path": "../resources/models/cars/Audi R8 Body.fbx"
+                        "path": "resources/models/cars/Audi R8 Body.fbx"
                     }
                 },
                 {
@@ -29,7 +29,7 @@
                 {
                     "key": "wheel",
                     "value": {
-                        "path": "../resources/models/cars/Audi R8 Wheel.fbx"
+                        "path": "resources/models/cars/Audi R8 Wheel.fbx"
                     }
                 }
             ],
@@ -37,25 +37,25 @@
                 {
                     "key": "barrelDiffuse",
                     "value": {
-                        "path": "../resources/textures/gahan/barrel_diffuse.tga"
+                        "path": "resources/textures/gahan/barrel_diffuse.tga"
                     }
                 },
                 {
                     "key": "bufferDiffuse",
                     "value": {
-                        "path": "../resources/textures/gahan/buffer_diffuse.tga"
+                        "path": "resources/textures/gahan/buffer_diffuse.tga"
                     }
                 },
                 {
                     "key": "floorDiffuse",
                     "value": {
-                        "path": "../resources/textures/tile_floor.jpg"
+                        "path": "resources/textures/tile_floor.jpg"
                     }
                 },
                 {
                     "key": "wood",
                     "value": {
-                        "path": "../resources/textures/woodparquet_59-2K/woodparquet_59_basecolor-2K-2K.png"
+                        "path": "resources/textures/woodparquet_59-2K/woodparquet_59_basecolor-2K-2K.png"
                     }
                 }
             ],
@@ -63,8 +63,8 @@
                 {
                     "key": "basic",
                     "value": {
-                        "vertexShaderPath": "../resources/shaders/basic/basic.vs",
-                        "fragmentShaderPath": "../resources/shaders/basic/basic.fs"
+                        "vertexShaderPath": "resources/shaders/basic/basic.vs",
+                        "fragmentShaderPath": "resources/shaders/basic/basic.fs"
                     }
                 }
             ],

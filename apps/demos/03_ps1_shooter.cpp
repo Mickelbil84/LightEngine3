@@ -49,14 +49,14 @@ public:
         // ---------------------------
         LE3Texture::g_bPS1TextureMode = true;
         scene.Init();
-        LoadScene(scene, "resources/scenes/demo_environment3.json");
+        LoadScene(scene, "resources/scenes/03_ps1_shooter.json");
         scene.AddFPSCamera();
 
 
         // Add Gun
         scene.assets.LoadMesh("glock", "resources/models/weapons/glock.obj");
         scene.assets.LoadTexture("glockDiffuse", "resources/textures/weapons/glock_diffuse.tga");
-        scene.assets.CreateMaterial("glockMat", "S_default");
+        scene.assets.CreateMaterial("glockMat", "S_ps1");
         scene.assets.GetMaterial("glockMat")->SetDiffuseTexture(scene.assets.GetTexture("glockDiffuse"));
         scene.assets.GetMaterial("glockMat")->bUseDiffuseTexture = true;
 
@@ -230,8 +230,9 @@ public:
 
     virtual void Render()
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, m_outFramebuffer);
-        glViewport(0, 0, PS1_RESOLUTION_WIDTH, PS1_RESOLUTION_HEIGHT);
+        // glBindFramebuffer(GL_FRAMEBUFFER, m_outFramebuffer);
+        // glViewport(0, 0, PS1_RESOLUTION_WIDTH, PS1_RESOLUTION_HEIGHT);
+        glViewport(0, 0, m_settings.windowWidth, m_settings.windowHeight);
         glClearColor(0.1f, 0.1f, 0.1f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -245,13 +246,12 @@ public:
 
         scene.GetRoot()->Draw();
 
-
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-        glViewport(0, 0, m_settings.windowWidth, m_settings.windowHeight);
-        glClearColor(0.7f, 0.7f, 0.7f, 1.f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glBlitFramebuffer(0, 0, PS1_RESOLUTION_WIDTH, PS1_RESOLUTION_HEIGHT, 0, 0, m_settings.windowWidth, m_settings.windowHeight, 
-            GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+        // glViewport(0, 0, m_settings.windowWidth, m_settings.windowHeight);
+        // glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        // glClearColor(0.7f, 0.7f, 0.7f, 1.f);
+        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // glBlitFramebuffer(0, 0, PS1_RESOLUTION_WIDTH, PS1_RESOLUTION_HEIGHT, 0, 0, m_settings.windowWidth, m_settings.windowHeight, 
+        //     GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
     }
 
     virtual void Shutdown() 
