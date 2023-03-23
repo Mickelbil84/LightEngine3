@@ -2,7 +2,7 @@
 
 LE3EditorModeState::LE3EditorModeState() :
     mode(LE3EditorModes::LE3EDITOR_IDLE),
-    gizmoMode(LE3EditorGizmoModes::LE3EDITOR_GIZMO_SELECT),
+    gizmoMode(LE3EditorGizmoModes::LE3EDITOR_GIZMO_MOVE),
     bCanLeftClick(true),
     bHoversGizmo(false)
 {
