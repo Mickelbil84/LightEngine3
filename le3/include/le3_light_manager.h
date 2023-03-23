@@ -10,6 +10,9 @@
 
 #include "le3_light.h"
 #include "le3_shader.h"
+#include "le3_physics.h"
+
+const float gEngineLightSpriteSize = 0.1f;
 
 class LE3LightManager
 {
@@ -49,12 +52,15 @@ public:
     std::vector<std::shared_ptr<LE3SpotLight>>& GetSpotLights();
     LE3Shader* GetShadowShader();
 
+    void RegisterLightCollisions(LE3PhysicsComponent* physics);
 
 private:
     void RenderAmbientLight(LE3Shader* shader);
     void RenderDirectionalLights(LE3Shader* shader, glm::vec3 camPos);
     void RenderPointLights(LE3Shader* shader);
     void RenderSpotLights(LE3Shader* shader);
+
+    btRigidBody* RegisterLightCollisionsImpl(LE3Object* obj, LE3PhysicsComponent* physics);
 
     std::shared_ptr<LE3AmbientLight> m_pAmbientLight;
     std::vector<std::shared_ptr<LE3DirectionalLight>> m_directionalLights;

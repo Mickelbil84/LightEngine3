@@ -2,11 +2,19 @@
 
 #include <fmt/core.h>
 
-LE3AmbientLight::LE3AmbientLight(glm::vec3 color, float intensity) : LE3Object("ambient_light"), color(color), intensity(intensity)
+LE3AmbientLight::LE3AmbientLight(glm::vec3 color, float intensity) : LE3Object("ambient_light"), color(color), intensity(intensity), m_pRigidBody(nullptr)
 {
 }
 void LE3AmbientLight::Update(double deltaTime)
 {
+    LE3Object::Update(deltaTime);
+
+    if (m_pRigidBody)
+    {
+        btTransform transform;
+        transform.setFromOpenGLMatrix(glm::value_ptr(GetModelMatrix() * glm::scale(glm::vec3(1/m_scale))));
+        m_pRigidBody->setCenterOfMassTransform(transform);
+    }
 }
 void LE3AmbientLight::Draw()
 {
@@ -31,11 +39,19 @@ void LE3AmbientLight::SetIntensity(float intensity)
 
 
 LE3DirectionalLight::LE3DirectionalLight(std::string name, glm::vec3 color, float intensity) : 
-    LE3Object(name), color(color), intensity(intensity), bEnableShadows(false)
+    LE3Object(name), color(color), intensity(intensity), bEnableShadows(false), m_pRigidBody(nullptr)
 {
 }
 void LE3DirectionalLight::Update(double deltaTime)
 {
+    LE3Object::Update(deltaTime);
+
+    if (m_pRigidBody)
+    {
+        btTransform transform;
+        transform.setFromOpenGLMatrix(glm::value_ptr(GetModelMatrix() * glm::scale(glm::vec3(1/m_scale))));
+        m_pRigidBody->setCenterOfMassTransform(transform);
+    }
 }
 void LE3DirectionalLight::Draw()
 {
@@ -89,11 +105,19 @@ LE3ShadowMap& LE3DirectionalLight::GetShadowMap()
 
 
 LE3PointLight::LE3PointLight(std::string name, glm::vec3 color, float intensity, float attn_const, float attn_linear, float attn_exp) : 
-    LE3Object(name), color(color), intensity(intensity), attn_const(attn_const), attn_linear(attn_linear), attn_exp(attn_exp)
+    LE3Object(name), color(color), intensity(intensity), attn_const(attn_const), attn_linear(attn_linear), attn_exp(attn_exp), m_pRigidBody(nullptr)
 {
 }
 void LE3PointLight::Update(double deltaTime)
 {
+    LE3Object::Update(deltaTime);
+
+    if (m_pRigidBody)
+    {
+        btTransform transform;
+        transform.setFromOpenGLMatrix(glm::value_ptr(GetModelMatrix() * glm::scale(glm::vec3(1/m_scale))));
+        m_pRigidBody->setCenterOfMassTransform(transform);
+    }
 }
 void LE3PointLight::Draw()
 {
@@ -142,12 +166,20 @@ void LE3PointLight::SetAttenuationExp(float attn_exp)
 
 LE3SpotLight::LE3SpotLight(std::string name, glm::vec3 color, float intensity, 
         float cutoff, float outer_cutoff) :
-    LE3Object(name), color(color), intensity(intensity), cutoff(cutoff), outer_cutoff(outer_cutoff), bEnableShadows(false)
+    LE3Object(name), color(color), intensity(intensity), cutoff(cutoff), outer_cutoff(outer_cutoff), bEnableShadows(false), m_pRigidBody(nullptr)
 {
 }
 
 void LE3SpotLight::Update(double deltaTime)
 {
+    LE3Object::Update(deltaTime);
+
+    if (m_pRigidBody)
+    {
+        btTransform transform;
+        transform.setFromOpenGLMatrix(glm::value_ptr(GetModelMatrix() * glm::scale(glm::vec3(1/m_scale))));
+        m_pRigidBody->setCenterOfMassTransform(transform);
+    }
 }
 void LE3SpotLight::Draw()
 {

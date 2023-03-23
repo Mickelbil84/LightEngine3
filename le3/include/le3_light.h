@@ -34,6 +34,8 @@ public:
 protected:
     glm::vec3 color;
     float intensity;
+public:
+    btRigidBody* m_pRigidBody;
 };
 
 class LE3DirectionalLight : public LE3Object
@@ -71,6 +73,8 @@ protected:
 
     bool bEnableShadows;
     LE3ShadowMap shadowMap;
+public:
+    btRigidBody* m_pRigidBody;
 };
 
 class LE3PointLight : public LE3Object
@@ -107,6 +111,8 @@ protected:
     glm::vec3 color;
     float intensity;
     float attn_const, attn_linear, attn_exp;
+public:
+    btRigidBody* m_pRigidBody;
 };
 
 
@@ -154,6 +160,8 @@ protected:
 
     bool bEnableShadows;
     LE3ShadowMap shadowMap;
+public:
+    btRigidBody* m_pRigidBody;
 };
 
 

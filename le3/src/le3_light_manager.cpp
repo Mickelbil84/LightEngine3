@@ -181,3 +181,40 @@ LE3Shader* LE3LightManager::GetShadowShader()
 {
     return &m_shadowShader;
 }
+
+void LE3LightManager::RegisterLightCollisions(LE3PhysicsComponent* physics)
+{
+    if (!m_pAmbientLight->m_pRigidBody)
+        m_pAmbientLight->m_pRigidBody = RegisterLightCollisionsImpl(m_pAmbientLight.get(), physics);
+    for (auto light : m_directionalLights)
+        if (!light->m_pRigidBody)
+            light->m_pRigidBody = RegisterLightCollisionsImpl(light.get(), physics);
+    for (auto light : m_pointLights)
+        if (!light->m_pRigidBody)
+            light->m_pRigidBody = RegisterLightCollisionsImpl(light.get(), physics);
+    for (auto light : m_spotLights)
+        if (!light->m_pRigidBody)
+            light->m_pRigidBody = RegisterLightCollisionsImpl(light.get(), physics);
+}
+
+btRigidBody* LE3LightManager::RegisterLightCollisionsImpl(LE3Object* obj, LE3PhysicsComponent* physics)
+{
+    btTransform transform;
+    transform.setFromOpenGLMatrix(glm::value_ptr(obj->GetModelMatrix()));
+    btDefaultMotionState* motionstate = new btDefaultMotionState(transform);
+
+    LE3BoxCollision boxCollision;
+    boxCollision.lowerBound = glm::vec3(-gEngineLightSpriteSize);
+    boxCollision.upperBound = glm::vec3(gEngineLightSpriteSize);
+    btCollisionShape* boxCollisionShape = boxCollision.ToBullet();
+    btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
+        0, // zero mass
+        motionstate,
+        boxCollisionShape,
+        btVector3(0,0,0)
+    );
+    btRigidBody* rigidBody = new btRigidBody(rigidBodyCI);
+    rigidBody->setUserPointer((void*)obj);
+    physics->GetWorld()->addRigidBody(rigidBody);
+    return rigidBody;
+}
