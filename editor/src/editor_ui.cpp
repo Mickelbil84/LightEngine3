@@ -15,6 +15,7 @@
 #include "icons/icon_bulletcollision.xpm"
 #include "icons/icon_reparent.xpm"
 #include "icons/icon_duplicate.xpm"
+#include "icons/icon_delete.xpm"
 
 #include "icons/icon_newcube.xpm"
 #include "icons/icon_newsphere.xpm"
@@ -46,6 +47,7 @@ LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selected
     m_bulletCollisionTool->SetBitmap({icon_bulletcollision});
     m_reparentTool->SetBitmap({icon_reparent});
     m_duplicateTool->SetBitmap({icon_duplicate});
+    m_deleteTool->SetBitmap({icon_delete});
     m_topToolbar->Realize();
 
     m_sideToolbar->SetToolBitmapSize(wxSize(24, 24));
@@ -872,45 +874,20 @@ void LE3EditorUI::OnDuplicate( wxCommandEvent& event )
 
     m_editor->bPauseUpdate = false;
 }
-
-LE3Object* LE3EditorUI::Duplicate(LE3Object* obj, std::string parentName) 
+void LE3EditorUI::OnDelete( wxCommandEvent& event )
 {
-    return nullptr;
-    // std::string newName = GetValidObjectName(obj->GetName());
+    LE3Object* selectedObject = m_editor->GetSelectedObject();
+    if (!selectedObject)
+        return;
+    m_editor->bPauseUpdate = true;
+    m_editor->scene.DeleteObject(m_editor->scene.GetObject(selectedObject->GetName()));
+    m_editor->SetSelectedObject(nullptr);
 
-    // // Try casting and creating all types of objects
-    // // If we cannot cast, then the object is just the base class
-    // bool bBaseObject = true; 
-
-    // LE3Object* newObj = nullptr;
+    RefreshAssets();
+    RefreshSceneGraph();
+    RefreshPropertyGrid();
     
-    // LE3StaticMesh* staticMesh = dynamic_cast<LE3StaticMesh*>(obj);
-    // if (staticMesh) 
-    // {
-    //     m_editor->scene.AddStaticMesh(newName, staticMesh->meshName, staticMesh->materialName, staticMesh->GetScale(), staticMesh->m_bHasCollision, parentName);
-    //     bBaseObject = false;
-    // }
-
-    // if (bBaseObject) 
-    // {
-    //     m_editor->scene.AddObject(newName, parentName);
-    // }
-
-    // newObj = m_editor->scene.GetObject(newName).get();
-    // if (newObj)
-    // {
-    //     // Copy transformations
-    //     newObj->SetPosition(obj->GetPosition());
-    //     newObj->SetRotation(obj->GetRotation());
-    //     newObj->SetScale(obj->GetScale());
-    //     newObj->SetHiddenInSceneGraph(obj->GetHiddenInSceneGraph());
-    //     newObj->SetHidden(obj->GetHidden());
-
-    //     for (auto child : obj->GetChildren())
-    //         Duplicate(child, newName);
-    // }
-
-    // return newObj;
+    m_editor->bPauseUpdate = false;
 }
 
 void LE3EditorUI::OnGizmoSelect( wxCommandEvent& event )

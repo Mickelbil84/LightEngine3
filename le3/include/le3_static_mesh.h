@@ -17,6 +17,7 @@ public:
     virtual void Draw(LE3Shader* shader);
 
     virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
+    virtual void Delete();
 
     void SetMesh(LE3Mesh<LE3Vertex>* mesh);
     void SetMaterial(LE3Material* material);
@@ -38,6 +39,7 @@ protected:
     LE3Mesh<LE3Vertex>* m_mesh;
     LE3Material* m_material;
     btRigidBody* m_pRigidBody;
+    LE3PhysicsComponent* m_pPhysics;
 public:
     bool m_bHasCollision;
 };

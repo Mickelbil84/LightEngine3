@@ -251,3 +251,7 @@ void LE3Object::CopyDataFromOther(LE3Object* original)
     SetHiddenInSceneGraph(original->GetHiddenInSceneGraph());
     SetHidden(original->GetHidden());
 }
+
+void LE3Object::Delete()
+{
+}

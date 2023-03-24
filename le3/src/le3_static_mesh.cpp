@@ -103,7 +103,8 @@ void LE3StaticMesh::RegisterCollision(LE3PhysicsComponent* physics)
     );
     m_pRigidBody = new btRigidBody(rigidBodyCI);
     m_pRigidBody->setUserPointer((void*)this);
-    physics->GetWorld()->addRigidBody(m_pRigidBody);
+    m_pPhysics = physics;
+    m_pPhysics->GetWorld()->addRigidBody(m_pRigidBody);
     m_bHasCollision = true;
 }
 
@@ -127,4 +128,10 @@ std::shared_ptr<LE3Object> LE3StaticMesh::Duplicate(std::string newName)
     newObj->materialName = materialName;
     newObj->m_bHasCollision = m_bHasCollision;
     return std::dynamic_pointer_cast<LE3Object>(newObj);
+}
+
+void LE3StaticMesh::Delete()
+{
+    if (m_pRigidBody)
+        m_pPhysics->GetWorld()->removeRigidBody(m_pRigidBody);
 }

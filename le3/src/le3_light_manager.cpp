@@ -189,16 +189,28 @@ LE3Shader* LE3LightManager::GetShadowShader()
 void LE3LightManager::RegisterLightCollisions(LE3PhysicsComponent* physics)
 {
     if (m_pAmbientLight && !m_pAmbientLight->m_pRigidBody)
+    {
         m_pAmbientLight->m_pRigidBody = RegisterLightCollisionsImpl(m_pAmbientLight.get(), physics);
+        m_pAmbientLight->m_pPhysics = physics;
+    }
     for (auto light : m_directionalLights)
         if (!light->m_pRigidBody)
+        {
             light->m_pRigidBody = RegisterLightCollisionsImpl(light.get(), physics);
+            light->m_pPhysics = physics;
+        }
     for (auto light : m_pointLights)
         if (!light->m_pRigidBody)
+        {
             light->m_pRigidBody = RegisterLightCollisionsImpl(light.get(), physics);
+            light->m_pPhysics = physics;
+        }
     for (auto light : m_spotLights)
         if (!light->m_pRigidBody)
+        {
             light->m_pRigidBody = RegisterLightCollisionsImpl(light.get(), physics);
+            light->m_pPhysics = physics;
+        }
 }
 
 btRigidBody* LE3LightManager::RegisterLightCollisionsImpl(LE3Object* obj, LE3PhysicsComponent* physics)

@@ -1,6 +1,7 @@
 #pragma once
 #include "le3_object.h"
 #include "le3_sprite.h"
+#include "le3_physics.h"
 #include "le3_shadowmap.h"
 #include "le3_visual_debug.h"
 
@@ -23,6 +24,7 @@ public:
     virtual void Draw();
 
     virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
+    virtual void Delete();
 
     template <typename Archive>
     void serialize( Archive & ar )
@@ -45,6 +47,7 @@ protected:
     float intensity;
 public:
     btRigidBody* m_pRigidBody;
+    LE3PhysicsComponent* m_pPhysics;
 };
 
 class LE3DirectionalLight : public LE3Object
@@ -56,6 +59,7 @@ public:
     virtual void Draw();
 
     virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
+    virtual void Delete();
 
     template <typename Archive>
     void serialize( Archive & ar )
@@ -89,6 +93,7 @@ protected:
     LE3ShadowMap shadowMap;
 public:
     btRigidBody* m_pRigidBody;
+    LE3PhysicsComponent* m_pPhysics;
     bool bDebugLine;
 };
 
@@ -102,6 +107,7 @@ public:
     virtual void Draw();
 
     virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
+    virtual void Delete();
 
     template <typename Archive>
     void serialize( Archive & ar )
@@ -135,6 +141,7 @@ protected:
     float attn_const, attn_linear, attn_exp;
 public:
     btRigidBody* m_pRigidBody;
+    LE3PhysicsComponent* m_pPhysics;
 };
 
 
@@ -149,6 +156,7 @@ public:
     virtual void Draw();
 
     virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
+    virtual void Delete();
 
     template <typename Archive>
     void serialize( Archive & ar )
@@ -189,6 +197,7 @@ protected:
     LE3ShadowMap shadowMap;
 public:
     btRigidBody* m_pRigidBody;
+    LE3PhysicsComponent* m_pPhysics;
     bool bDebugLine;
 };
 

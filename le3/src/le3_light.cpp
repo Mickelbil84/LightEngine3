@@ -24,14 +24,13 @@ void LE3AmbientLight::Draw()
     if (GetSprite())
         GetSprite()->GetMaterial()->diffuseColor = glm::vec4(GetColor(), 1.f);
 }
+void LE3AmbientLight::Delete()
+{
+    if (m_pRigidBody)
+        m_pPhysics->GetWorld()->removeRigidBody(m_pRigidBody);
+}
 std::shared_ptr<LE3Object> LE3AmbientLight::Duplicate(std::string newName)
 {
-    // std::shared_ptr<LE3AmbientLight> newObj(new LE3AmbientLight());
-    // newObj->SetName(newName);
-    // newObj->CopyDataFromOther((LE3Object*)this);
-    // newObj->color = color;
-    // newObj->intensity = intensity;
-    // return std::dynamic_pointer_cast<LE3Object>(newObj);
     return nullptr;
 }
 glm::vec3 LE3AmbientLight::GetColor() const
@@ -95,6 +94,11 @@ void LE3DirectionalLight::Draw()
             GetGlobalPosition(), 
             GetGlobalPosition() + gLightDebugRayLength * GetDirection(), 
             GetColor());
+}
+void LE3DirectionalLight::Delete()
+{
+    if (m_pRigidBody)
+        m_pPhysics->GetWorld()->removeRigidBody(m_pRigidBody);
 }
 std::shared_ptr<LE3Object> LE3DirectionalLight::Duplicate(std::string newName)
 {
@@ -190,6 +194,11 @@ void LE3PointLight::Draw()
 {
     if (GetSprite())
         GetSprite()->GetMaterial()->diffuseColor = glm::vec4(GetColor(), 1.f);
+}
+void LE3PointLight::Delete()
+{
+    if (m_pRigidBody)
+        m_pPhysics->GetWorld()->removeRigidBody(m_pRigidBody);
 }
 std::shared_ptr<LE3Object> LE3PointLight::Duplicate(std::string newName)
 {
@@ -289,6 +298,11 @@ void LE3SpotLight::Draw()
             GetGlobalPosition(), 
             GetGlobalPosition() + gLightDebugRayLength * GetDirection(), 
             GetColor());
+}
+void LE3SpotLight::Delete()
+{
+    if (m_pRigidBody)
+        m_pPhysics->GetWorld()->removeRigidBody(m_pRigidBody);
 }
 std::shared_ptr<LE3Object> LE3SpotLight::Duplicate(std::string newName)
 {

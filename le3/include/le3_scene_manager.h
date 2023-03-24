@@ -70,7 +70,8 @@ public:
 
     std::shared_ptr<LE3Object> GetObject(std::string name);
     void Reparent(std::string object, std::string newParent);
-    std::shared_ptr<LE3Object> DuplicateObject(std::shared_ptr<LE3Object> obj, std::string parentName, bool topLevel=true);
+    std::shared_ptr<LE3Object> DuplicateObject(std::shared_ptr<LE3Object> obj, std::string parentName, bool topLevel = true);
+    void DeleteObject(std::shared_ptr<LE3Object> obj, bool topLevel = true);
 
     LE3ApplicationSettings* applicationSettings;
 

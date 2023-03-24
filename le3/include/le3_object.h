@@ -34,6 +34,7 @@ public:
     // Create a new copy of the class
     virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
     void CopyDataFromOther(LE3Object* original);
+    virtual void Delete();
 
     glm::mat4 GetModelMatrix() const;
 

@@ -379,3 +379,18 @@ void LE3SceneManager::UpdateLightManager()
             lightManager.EnableShadows(pSpotLight);
     }
 }
+
+void LE3SceneManager::DeleteObject(std::shared_ptr<LE3Object> obj, bool topLevel)
+{
+    if (!obj) return;
+    for (auto child : obj->GetChildren())
+        DeleteObject(GetObject(child->GetName()));
+    objectPool.erase(obj->GetName());
+    parentLinks.erase(obj->GetName());
+    obj->Reparent(nullptr);
+    obj->Delete();
+    if (topLevel)
+    {
+        UpdateSceneGraph();
+    }
+}
