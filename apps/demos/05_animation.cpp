@@ -45,6 +45,36 @@ public:
         scene.applicationSettings = &this->m_settings;
         scene.Init();
 
+        scene.assets.AddShaderPath("S_blinn_phong", 
+            "resources/shaders/blinn_phong/blinn_phong.vs",
+            "resources/shaders/blinn_phong/blinn_phong.fs");
+
+        scene.assets.AddTexturePath("T_DIF_soldier", "resources/textures/soldier/T_DIF_soldier.png");
+        scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/soldier/T_SPC_soldier.png");
+        scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/soldier/T_NRM_soldier.png");
+
+        scene.assets.AddMeshPath("SK_soldier", "resources/models/SK_soldier.fbx");
+
+        scene.assets.CreateMaterial("M_soldier", "S_blinn_phong");
+        scene.assets.GetMaterial("M_soldier")->SetDiffuseTexture(scene.assets.GetTexture("T_DIF_soldier"));
+        scene.assets.GetMaterial("M_soldier")->SetSpecularTexture(scene.assets.GetTexture("T_SPC_soldier"));
+        scene.assets.GetMaterial("M_soldier")->SetNormalTexture(scene.assets.GetTexture("T_NRM_soldier"));
+        scene.assets.GetMaterial("M_soldier")->bUseDiffuseTexture = true;
+        scene.assets.GetMaterial("M_soldier")->bUseSpecularTexture = true;
+        scene.assets.GetMaterial("M_soldier")->bUseNormalTexture = true;
+        scene.assets.GetMaterial("M_soldier")->specularIntensity = .6f;
+        scene.assets.GetMaterial("M_soldier")->shininess = 128.f;
+
+        scene.AddStaticMesh("soldier", "SK_soldier", "M_soldier", .007f);
+        scene.GetObject("soldier")->SetPositionZ(-1.f);
+
+        scene.AddDirectionalLight("directional_light", glm::vec3(1.f), 1.3f);
+        scene.GetObject("directional_light")->SetRotationX(1.57f);
+        scene.AddDirectionalLight("directional_light1", glm::vec3(1.f), 1.3f);
+        scene.GetObject("directional_light1")->SetRotationX(-1.57f);
+
+        
+
         
 
 
