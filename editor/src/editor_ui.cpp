@@ -582,18 +582,18 @@ std::string LE3EditorUI::GetValidMeshName(std::string name)
 
     return prefix + std::to_string(counter);
 }
-std::string LE3EditorUI::GetValidObjectName(std::string objectName)
-{
-    if (m_editor->scene.objectPool.find(objectName) == m_editor->scene.objectPool.end())
-        return objectName;
+// std::string LE3EditorUI::GetValidObjectName(std::string objectName)
+// {
+//     if (m_editor->scene.objectPool.find(objectName) == m_editor->scene.objectPool.end())
+//         return objectName;
     
-    std::string prefix = GetObjectNumberPrefix(objectName);
-    int counter = GetObjectNumberSuffix(objectName);
+//     std::string prefix = GetObjectNumberPrefix(objectName);
+//     int counter = GetObjectNumberSuffix(objectName);
 
-    while (m_editor->scene.objectPool.find(prefix + std::to_string(++counter)) != m_editor->scene.objectPool.end());
+//     while (m_editor->scene.objectPool.find(prefix + std::to_string(++counter)) != m_editor->scene.objectPool.end());
 
-    return prefix + std::to_string(counter);
-}
+//     return prefix + std::to_string(counter);
+// }
 
 
 void LE3EditorUI::OnAddCube( wxCommandEvent& event )
@@ -608,7 +608,7 @@ void LE3EditorUI::OnAddCube( wxCommandEvent& event )
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
+        std::string name = m_editor->scene.GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
         std::string materialName = dialog.m_materialText->GetValue().ToStdString();
         std::string width = dialog.m_widthText->GetValue().ToStdString();
         std::string height = dialog.m_heightText->GetValue().ToStdString();
@@ -642,7 +642,7 @@ void LE3EditorUI::OnAddCylinder( wxCommandEvent& event )
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
+        std::string name = m_editor->scene.GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
         std::string materialName = dialog.m_materialText->GetValue().ToStdString();
         std::string radius = dialog.m_radiusText->GetValue().ToStdString();
         std::string height = dialog.m_heightText->GetValue().ToStdString();
@@ -678,7 +678,7 @@ void LE3EditorUI::OnAddCone( wxCommandEvent& event )
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
+        std::string name = m_editor->scene.GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
         std::string materialName = dialog.m_materialText->GetValue().ToStdString();
         std::string radius = dialog.m_radiusText->GetValue().ToStdString();
         std::string height = dialog.m_heightText->GetValue().ToStdString();
@@ -712,7 +712,7 @@ void LE3EditorUI::OnAddTorus( wxCommandEvent& event )
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
+        std::string name = m_editor->scene.GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
         std::string materialName = dialog.m_materialText->GetValue().ToStdString();
         std::string majorRadius = dialog.m_majorRadiusText->GetValue().ToStdString();
         std::string minorRadius = dialog.m_minorRadiusText->GetValue().ToStdString();
@@ -746,7 +746,7 @@ void LE3EditorUI::OnAddSphere( wxCommandEvent& event )
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
+        std::string name = m_editor->scene.GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
         std::string materialName = dialog.m_materialText->GetValue().ToStdString();
         std::string radius = dialog.m_radiusText->GetValue().ToStdString();
         std::string resolution = dialog.m_resolutionText->GetValue().ToStdString();
@@ -786,7 +786,7 @@ void LE3EditorUI::OnAddStaticMesh( wxCommandEvent& event )
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
+        std::string name = m_editor->scene.GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
         std::string materialName = dialog.m_materialText->GetValue().ToStdString();
         std::string meshName = dialog.m_meshCombo->GetValue().ToStdString();
 
@@ -803,7 +803,7 @@ void LE3EditorUI::OnAddEmpty( wxCommandEvent& event )
     m_editor->bPauseUpdate = true;
     if (dialog.ShowModal() == wxID_OK)
     {
-        std::string name = GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
+        std::string name = m_editor->scene.GetValidObjectName(dialog.m_nameText->GetValue().ToStdString());
 
         m_editor->scene.AddObject(name);
 
@@ -856,50 +856,61 @@ void LE3EditorUI::OnDuplicate( wxCommandEvent& event )
     std::string parentName = selectedObject->GetParent()->GetName();
     if (selectedObject->GetParent()->GetName() == "Root")
         parentName = "";
-    LE3Object* newObj = Duplicate(selectedObject, parentName);
+    LE3Object* newObj = m_editor->scene.DuplicateObject(
+        m_editor->scene.GetObject(selectedObject->GetName()),
+        parentName
+    ).get();
     m_editor->SetSelectedObject(newObj);
+
+
     RefreshAssets();
     RefreshSceneGraph();
+    RefreshPropertyGrid();
+    m_editor->scene.UpdateLightManager();
+    m_editor->scene.AddLightSprites();
+    m_editor->scene.lightManager.RegisterLightCollisions(m_editor->scene.GetPhysics());
+
     m_editor->bPauseUpdate = false;
 }
 
 LE3Object* LE3EditorUI::Duplicate(LE3Object* obj, std::string parentName) 
 {
-    std::string newName = GetValidObjectName(obj->GetName());
+    return nullptr;
+    // std::string newName = GetValidObjectName(obj->GetName());
 
-    // Try casting and creating all types of objects
-    // If we cannot cast, then the object is just the base class
-    bool bBaseObject = true; 
+    // // Try casting and creating all types of objects
+    // // If we cannot cast, then the object is just the base class
+    // bool bBaseObject = true; 
 
-    LE3Object* newObj = nullptr;
+    // LE3Object* newObj = nullptr;
     
-    LE3StaticMesh* staticMesh = dynamic_cast<LE3StaticMesh*>(obj);
-    if (staticMesh) 
-    {
-        m_editor->scene.AddStaticMesh(newName, staticMesh->meshName, staticMesh->materialName, staticMesh->GetScale(), staticMesh->m_bHasCollision, parentName);
-        bBaseObject = false;
-    }
+    // LE3StaticMesh* staticMesh = dynamic_cast<LE3StaticMesh*>(obj);
+    // if (staticMesh) 
+    // {
+    //     m_editor->scene.AddStaticMesh(newName, staticMesh->meshName, staticMesh->materialName, staticMesh->GetScale(), staticMesh->m_bHasCollision, parentName);
+    //     bBaseObject = false;
+    // }
 
-    if (bBaseObject) 
-    {
-        m_editor->scene.AddObject(newName, parentName);
-    }
+    // if (bBaseObject) 
+    // {
+    //     m_editor->scene.AddObject(newName, parentName);
+    // }
 
-    newObj = m_editor->scene.GetObject(newName).get();
-    if (newObj)
-    {
-        // Copy transformations
-        newObj->SetPosition(obj->GetPosition());
-        newObj->SetRotation(obj->GetRotation());
-        newObj->SetScale(obj->GetScale());
-        newObj->SetHiddenInSceneGraph(obj->GetHiddenInSceneGraph());
-        newObj->SetHidden(obj->GetHidden());
+    // newObj = m_editor->scene.GetObject(newName).get();
+    // if (newObj)
+    // {
+    //     // Copy transformations
+    //     newObj->SetPosition(obj->GetPosition());
+    //     newObj->SetRotation(obj->GetRotation());
+    //     newObj->SetScale(obj->GetScale());
+    //     newObj->SetHiddenInSceneGraph(obj->GetHiddenInSceneGraph());
+    //     newObj->SetHidden(obj->GetHidden());
 
-        for (auto child : obj->GetChildren())
-            Duplicate(child, newName);
-    }
+    //     for (auto child : obj->GetChildren())
+    //         Duplicate(child, newName);
+    // }
 
-    return newObj;
+    // return newObj;
 }
 
 void LE3EditorUI::OnGizmoSelect( wxCommandEvent& event )
@@ -931,21 +942,21 @@ void LE3EditorUI::OnAddAmbientLight( wxCommandEvent& event )
 }
 void LE3EditorUI::OnAddDirectionalLight( wxCommandEvent& event )
 {
-    m_editor->scene.AddDirectionalLight(GetValidObjectName("directional_light"));
+    m_editor->scene.AddDirectionalLight(m_editor->scene.GetValidObjectName("directional_light"));
     m_editor->scene.lightManager.RegisterLightCollisions(m_editor->scene.GetPhysics());
     m_editor->scene.AddLightSprites();
     RefreshSceneGraph();
 }
 void LE3EditorUI::OnAddPointLight( wxCommandEvent& event )
 {
-    m_editor->scene.AddPointLight(GetValidObjectName("point_light"));
+    m_editor->scene.AddPointLight(m_editor->scene.GetValidObjectName("point_light"));
     m_editor->scene.lightManager.RegisterLightCollisions(m_editor->scene.GetPhysics());
     m_editor->scene.AddLightSprites();
     RefreshSceneGraph();
 }
 void LE3EditorUI::OnAddSpotLight( wxCommandEvent& event )
 {
-    m_editor->scene.AddSpotLight(GetValidObjectName("spot_light"));
+    m_editor->scene.AddSpotLight(m_editor->scene.GetValidObjectName("spot_light"));
     m_editor->scene.lightManager.RegisterLightCollisions(m_editor->scene.GetPhysics());
     m_editor->scene.AddLightSprites();
     RefreshSceneGraph();

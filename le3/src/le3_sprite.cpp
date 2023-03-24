@@ -48,3 +48,13 @@ LE3Material* LE3Sprite::GetMaterial()
 {
     return m_material;
 }
+
+std::shared_ptr<LE3Object> LE3Sprite::Duplicate(std::string newName)
+{
+    std::shared_ptr<LE3Sprite> newObj(new LE3Sprite());
+    newObj->SetName(newName);
+    newObj->CopyDataFromOther((LE3Object*)this);
+    newObj->m_spriteTextureName = m_spriteTextureName;
+    newObj->m_materialName = m_materialName;
+    return std::dynamic_pointer_cast<LE3Object>(newObj);
+}

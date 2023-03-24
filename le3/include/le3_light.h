@@ -22,6 +22,8 @@ public:
     virtual void Update(double deltaTime);
     virtual void Draw();
 
+    virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
+
     template <typename Archive>
     void serialize( Archive & ar )
     {
@@ -52,6 +54,8 @@ public:
 
     virtual void Update(double deltaTime);
     virtual void Draw();
+
+    virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
 
     template <typename Archive>
     void serialize( Archive & ar )
@@ -97,6 +101,8 @@ public:
     virtual void Update(double deltaTime);
     virtual void Draw();
 
+    virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
+
     template <typename Archive>
     void serialize( Archive & ar )
     {
@@ -141,6 +147,8 @@ public:
 
     virtual void Update(double deltaTime);
     virtual void Draw();
+
+    virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
 
     template <typename Archive>
     void serialize( Archive & ar )

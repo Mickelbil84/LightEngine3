@@ -31,6 +31,10 @@ public:
     virtual void Draw();
     virtual void Draw(LE3Shader* shader);
 
+    // Create a new copy of the class
+    virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
+    void CopyDataFromOther(LE3Object* original);
+
     glm::mat4 GetModelMatrix() const;
 
     // Moves itself from the current parent to a new one

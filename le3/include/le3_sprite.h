@@ -10,6 +10,8 @@ public:
     virtual void Draw();
     virtual void UpdateAssets(LE3AssetManager& assets);
 
+    virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
+
     template <typename Archive>
     void serialize( Archive & ar )
     {

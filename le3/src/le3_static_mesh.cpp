@@ -117,3 +117,14 @@ void LE3StaticMesh::UpdatePhysics(LE3PhysicsComponent& physics)
 {
     RegisterCollision(&physics);
 }
+
+std::shared_ptr<LE3Object> LE3StaticMesh::Duplicate(std::string newName)
+{
+    std::shared_ptr<LE3StaticMesh> newObj(new LE3StaticMesh());
+    newObj->SetName(newName);
+    newObj->CopyDataFromOther((LE3Object*)this);
+    newObj->meshName = meshName;
+    newObj->materialName = materialName;
+    newObj->m_bHasCollision = m_bHasCollision;
+    return std::dynamic_pointer_cast<LE3Object>(newObj);
+}

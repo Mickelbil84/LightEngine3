@@ -234,3 +234,20 @@ void LE3Object::UpdatePhysics(LE3PhysicsComponent& physics)
 {
 
 }
+
+std::shared_ptr<LE3Object> LE3Object::Duplicate(std::string newName)
+{
+    std::shared_ptr<LE3Object> newCopy(new LE3Object());
+    newCopy->SetName(newName);
+    newCopy->CopyDataFromOther(this);
+    return newCopy;
+}
+
+void LE3Object::CopyDataFromOther(LE3Object* original)
+{
+    SetPosition(original->GetPosition());
+    SetRotation(original->GetRotation());
+    SetScale(original->GetScale());
+    SetHiddenInSceneGraph(original->GetHiddenInSceneGraph());
+    SetHidden(original->GetHidden());
+}

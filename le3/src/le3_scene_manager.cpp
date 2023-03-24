@@ -246,12 +246,14 @@ void LE3SceneManager::AddLightSprites()
         GetObject(lightManager.GetAmbientLight()->GetName() + gLightSpriteSuffix)->SetHiddenInSceneGraph(true);
     }
     for (auto light : lightManager.GetDirectionalLights())
+    {
         if (!light->GetSprite())
         {
             AddSprite(light->GetName() + gLightSpriteSuffix, SPRITE_DIRECTIONALLIGHT_NAME, gEngineLightSpriteSize, light->GetName());
             GetObject(light->GetName() + gLightSpriteSuffix)->SetHiddenInSceneGraph(true);
-            light->bDebugLine = true;
         }
+        light->bDebugLine = true;
+    }
     for (auto light : lightManager.GetPointLights())
         if (!light->GetSprite())
         {
@@ -259,12 +261,14 @@ void LE3SceneManager::AddLightSprites()
             GetObject(light->GetName() + gLightSpriteSuffix)->SetHiddenInSceneGraph(true);
         }
     for (auto light : lightManager.GetSpotLights())
+    {
         if (!light->GetSprite())
         {
             AddSprite(light->GetName() + gLightSpriteSuffix, SPRITE_SPOTLIGHT_NAME, gEngineLightSpriteSize, light->GetName());
             GetObject(light->GetName() + gLightSpriteSuffix)->SetHiddenInSceneGraph(true);
-            light->bDebugLine = true;
         }
+        light->bDebugLine = true;
+    }
 }
 void LE3SceneManager::SetLightSpritesHidden(bool hidden)
 {
@@ -276,6 +280,7 @@ void LE3SceneManager::SetLightSpritesHidden(bool hidden)
         if (light->GetSprite())
         {
             GetObject(light->GetName() + gLightSpriteSuffix)->SetHidden(hidden);
+            light->bDebugLine = false;
         }
     for (auto light : lightManager.GetPointLights())
         if (light->GetSprite())
@@ -285,6 +290,92 @@ void LE3SceneManager::SetLightSpritesHidden(bool hidden)
     for (auto light : lightManager.GetSpotLights())
         if (light->GetSprite())
         {
-            GetObject(light->GetName() + gLightSpriteSuffix)->SetHidden(hidden);        
+            GetObject(light->GetName() + gLightSpriteSuffix)->SetHidden(hidden);     
+            light->bDebugLine = false;   
         }
+}
+
+std::string LE3SceneManager::GetObjectNumberPrefix(std::string objectName)
+{
+    size_t idx = objectName.find_last_not_of("1234567890");
+    return objectName.substr(0, ++idx);
+}
+int LE3SceneManager::GetObjectNumberSuffix(std::string objectName)
+{
+    size_t idx = objectName.find_last_not_of("1234567890");
+    std::string res = objectName.substr(++idx);
+    if (res == std::string(""))
+        return 0;
+    return std::atoi(res.c_str());
+}
+
+std::string LE3SceneManager::GetValidObjectName(std::string objectName)
+{
+    if (objectPool.find(objectName) == objectPool.end())
+        return objectName;
+    
+    std::string prefix = GetObjectNumberPrefix(objectName);
+    int counter = GetObjectNumberSuffix(objectName);
+
+    while (objectPool.find(prefix + std::to_string(++counter)) != objectPool.end());
+
+    return prefix + std::to_string(counter);
+}
+
+std::shared_ptr<LE3Object> LE3SceneManager::DuplicateObject(std::shared_ptr<LE3Object> obj, std::string parentName, bool topLevel)
+{
+    if (!obj) return nullptr;
+    std::string newName = GetValidObjectName(obj->GetName());
+    std::shared_ptr<LE3Object> newObj = obj->Duplicate(newName);
+    if (!newObj) return nullptr;
+    objectPool[newName] = newObj;
+    parentLinks[newName] = parentName;
+    if (newObj)
+        for (auto child : obj->GetChildren())
+            DuplicateObject(GetObject(child->GetName()), newName, false);
+    if (topLevel)
+    {
+        UpdateAssets();
+        UpdatePhysics();
+        UpdateSceneGraph();
+    }
+    return newObj;
+}
+
+void LE3SceneManager::UpdateLightManager()
+{
+    for (auto& [key, value] : objectPool)
+    {
+        std::shared_ptr<LE3AmbientLight> pAmbientLight = std::dynamic_pointer_cast<LE3AmbientLight>(value);
+        if (pAmbientLight && !lightManager.GetAmbientLight())
+            lightManager.SetAmbientLight(pAmbientLight);
+        
+        std::shared_ptr<LE3DirectionalLight> pDirectionalLight = std::dynamic_pointer_cast<LE3DirectionalLight>(value);
+        if (pDirectionalLight && 
+            (std::find(
+                lightManager.GetDirectionalLights().begin(), 
+                lightManager.GetDirectionalLights().end(), 
+                pDirectionalLight) == lightManager.GetDirectionalLights().end()))
+            lightManager.AddDirectionalLight(pDirectionalLight);
+        if (pDirectionalLight && pDirectionalLight->IsShadowsEnabled() && !pDirectionalLight->GetShadowMap().fbo)
+            lightManager.EnableShadows(pDirectionalLight);
+
+        std::shared_ptr<LE3PointLight> pPointLight = std::dynamic_pointer_cast<LE3PointLight>(value);
+        if (pPointLight && 
+            (std::find(
+                lightManager.GetPointLights().begin(), 
+                lightManager.GetPointLights().end(), 
+                pPointLight) == lightManager.GetPointLights().end()))
+            lightManager.AddPointLight(pPointLight);
+
+        std::shared_ptr<LE3SpotLight> pSpotLight = std::dynamic_pointer_cast<LE3SpotLight>(value);
+        if (pSpotLight && 
+            (std::find(
+                lightManager.GetSpotLights().begin(), 
+                lightManager.GetSpotLights().end(), 
+                pSpotLight) == lightManager.GetSpotLights().end()))
+            lightManager.AddSpotLight(pSpotLight);
+        if (pSpotLight && pSpotLight->IsShadowsEnabled() && !pSpotLight->GetShadowMap().fbo)
+            lightManager.EnableShadows(pSpotLight);
+    }
 }

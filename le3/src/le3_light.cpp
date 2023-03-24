@@ -24,6 +24,16 @@ void LE3AmbientLight::Draw()
     if (GetSprite())
         GetSprite()->GetMaterial()->diffuseColor = glm::vec4(GetColor(), 1.f);
 }
+std::shared_ptr<LE3Object> LE3AmbientLight::Duplicate(std::string newName)
+{
+    // std::shared_ptr<LE3AmbientLight> newObj(new LE3AmbientLight());
+    // newObj->SetName(newName);
+    // newObj->CopyDataFromOther((LE3Object*)this);
+    // newObj->color = color;
+    // newObj->intensity = intensity;
+    // return std::dynamic_pointer_cast<LE3Object>(newObj);
+    return nullptr;
+}
 glm::vec3 LE3AmbientLight::GetColor() const
 {
     return this->color;
@@ -85,6 +95,16 @@ void LE3DirectionalLight::Draw()
             GetGlobalPosition(), 
             GetGlobalPosition() + gLightDebugRayLength * GetDirection(), 
             GetColor());
+}
+std::shared_ptr<LE3Object> LE3DirectionalLight::Duplicate(std::string newName)
+{
+    std::shared_ptr<LE3DirectionalLight> newObj(new LE3DirectionalLight());
+    newObj->SetName(newName);
+    newObj->CopyDataFromOther((LE3Object*)this);
+    newObj->color = color;
+    newObj->intensity = intensity;
+    newObj->bEnableShadows = bEnableShadows;
+    return std::dynamic_pointer_cast<LE3Object>(newObj);
 }
 glm::vec3 LE3DirectionalLight::GetColor() const
 {
@@ -170,6 +190,18 @@ void LE3PointLight::Draw()
 {
     if (GetSprite())
         GetSprite()->GetMaterial()->diffuseColor = glm::vec4(GetColor(), 1.f);
+}
+std::shared_ptr<LE3Object> LE3PointLight::Duplicate(std::string newName)
+{
+    std::shared_ptr<LE3PointLight> newObj(new LE3PointLight());
+    newObj->SetName(newName);
+    newObj->CopyDataFromOther((LE3Object*)this);
+    newObj->color = color;
+    newObj->intensity = intensity;
+    newObj->attn_const = attn_const;
+    newObj->attn_linear = attn_linear;
+    newObj->attn_exp = attn_exp;
+    return std::dynamic_pointer_cast<LE3Object>(newObj);
 }
 glm::vec3 LE3PointLight::GetColor() const
 {
@@ -257,6 +289,18 @@ void LE3SpotLight::Draw()
             GetGlobalPosition(), 
             GetGlobalPosition() + gLightDebugRayLength * GetDirection(), 
             GetColor());
+}
+std::shared_ptr<LE3Object> LE3SpotLight::Duplicate(std::string newName)
+{
+    std::shared_ptr<LE3SpotLight> newObj(new LE3SpotLight());
+    newObj->SetName(newName);
+    newObj->CopyDataFromOther((LE3Object*)this);
+    newObj->color = color;
+    newObj->intensity = intensity;
+    newObj->cutoff = cutoff;
+    newObj->outer_cutoff = outer_cutoff;
+    newObj->bEnableShadows = bEnableShadows;
+    return std::dynamic_pointer_cast<LE3Object>(newObj);
 }
 glm::vec3 LE3SpotLight::GetColor() const
 {

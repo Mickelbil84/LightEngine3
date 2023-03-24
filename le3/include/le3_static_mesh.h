@@ -16,6 +16,8 @@ public:
     virtual void Draw();
     virtual void Draw(LE3Shader* shader);
 
+    virtual std::shared_ptr<LE3Object> Duplicate(std::string newName);
+
     void SetMesh(LE3Mesh<LE3Vertex>* mesh);
     void SetMaterial(LE3Material* material);
     void RegisterCollision(LE3PhysicsComponent* physics);
