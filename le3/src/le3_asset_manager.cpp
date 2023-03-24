@@ -27,6 +27,7 @@ LE3ShaderPath::LE3ShaderPath() :
 }
 
 void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene);
+void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, std::vector<glm::mat4>& bones, aiNode* node, const aiScene* scene);
 
 LE3PrimitiveTokens ParsePrimitivePath(std::string primitiveDescription)
 {
@@ -148,47 +149,53 @@ void LE3AssetManager::LoadMeshPrimitive(std::string name, std::string primitiveD
     m_meshesPaths[name].bIsLoaded = true;
 }
 
-void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene)
+void LE3AssetManager::AddSkeletalMeshPath(std::string name, std::string meshPath)
 {
-    for (unsigned int i = 0; i < node->mNumMeshes; ++i)
+    LE3AssetPath ap;
+    ap.path = meshPath;
+    ap.bIsLoaded = false;
+    m_skeletalMeshesPaths[name] = ap;
+}
+void LE3AssetManager::LoadSkeletalMesh(std::string name, std::string meshPath)
+{
+    Assimp::Importer importer;
+    const aiScene* scene = importer.ReadFile(meshPath, 
+        aiProcess_FlipUVs |
+        aiProcess_Triangulate |
+        aiProcess_CalcTangentSpace
+        );
+    if (!scene)
     {
-        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        for (unsigned int j = 0; j < mesh->mNumVertices; ++j)
-        {
-            LE3Vertex vertex;
-            vertex.position[0] = mesh->mVertices[j].x;
-            vertex.position[1] = mesh->mVertices[j].y;
-            vertex.position[2] = mesh->mVertices[j].z;
-            if (mesh->mTextureCoords[0])
-            {
-                vertex.uv[0] = mesh->mTextureCoords[0][j].x;
-                vertex.uv[1] = mesh->mTextureCoords[0][j].y;
-            }
-            else
-            {
-                vertex.uv[0] = vertex.uv[1] = 0.f;
-            }
-            vertex.normal[0] = mesh->mNormals[j].x;
-            vertex.normal[1] = mesh->mNormals[j].y;
-            vertex.normal[2] = mesh->mNormals[j].z;
-            vertex.tangent[0] = mesh->mTangents[j].x;
-            vertex.tangent[1] = mesh->mTangents[j].y;
-            vertex.tangent[2] = mesh->mTangents[j].z;
-            vertex.bitangent[0] = mesh->mBitangents[j].x;
-            vertex.bitangent[1] = mesh->mBitangents[j].y;
-            vertex.bitangent[2] = mesh->mBitangents[j].z;
-            buffer.push_back(vertex);
-        }
-        for (unsigned int j = 0; j < mesh->mNumFaces; ++j)
-        {
-            aiFace face = mesh->mFaces[j];
-            for (unsigned int k = 0; k < face.mNumIndices; ++k)
-                indices.push_back(buffer.size() - mesh->mNumVertices + face.mIndices[k]);
-        }
+        #ifndef NDEBUG
+        PrintTitle("Load Mesh Error");
+        std::cout << "Failed loading mesh:\t" << meshPath << std::endl;
+        #endif
+        return;
     }
 
-    for (unsigned int i = 0; i < node->mNumChildren; ++i)
-        AssimpSceneToVertexBuffer(buffer, indices, node->mChildren[i], scene);
+    std::vector<LE3VertexSkeletal> buffer;
+    std::vector<GLuint> indices;
+    LE3Mesh<LE3VertexSkeletal> mesh;
+
+    AssimpSkeletalSceneToVertexBuffer(buffer, indices, mesh.m_bones, scene->mRootNode, scene);
+
+    mesh.LoadMeshDataIndexed(buffer, indices);
+    m_skeletalMeshes[name] = mesh;
+
+    AddSkeletalMeshPath(name, meshPath);
+    m_skeletalMeshesPaths[name].bIsLoaded = true;
+
+}
+LE3Mesh<LE3VertexSkeletal>* LE3AssetManager::GetSkeletalMesh(std::string name)
+{
+    LE3AssetPath& ap = m_skeletalMeshesPaths[name];
+    if (!ap.bIsLoaded && ap.path.size() > 0)
+    {
+        LoadSkeletalMesh(name, ap.path);
+        ap.bIsLoaded = true;
+    }
+
+    return &m_skeletalMeshes[name];
 }
 
 LE3Mesh<LE3Vertex>* LE3AssetManager::GetMesh(std::string name)
@@ -284,4 +291,93 @@ void LE3AssetManager::Clear()
     m_shaders.clear();
     m_textures.clear();
     m_materials.clear();
+}
+
+// ---------------------------------------------------------------------------
+
+void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene)
+{
+    for (unsigned int i = 0; i < node->mNumMeshes; ++i)
+    {
+        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+        for (unsigned int j = 0; j < mesh->mNumVertices; ++j)
+        {
+            LE3Vertex vertex;
+            vertex.position[0] = mesh->mVertices[j].x;
+            vertex.position[1] = mesh->mVertices[j].y;
+            vertex.position[2] = mesh->mVertices[j].z;
+            if (mesh->mTextureCoords[0])
+            {
+                vertex.uv[0] = mesh->mTextureCoords[0][j].x;
+                vertex.uv[1] = mesh->mTextureCoords[0][j].y;
+            }
+            else
+            {
+                vertex.uv[0] = vertex.uv[1] = 0.f;
+            }
+            vertex.normal[0] = mesh->mNormals[j].x;
+            vertex.normal[1] = mesh->mNormals[j].y;
+            vertex.normal[2] = mesh->mNormals[j].z;
+            vertex.tangent[0] = mesh->mTangents[j].x;
+            vertex.tangent[1] = mesh->mTangents[j].y;
+            vertex.tangent[2] = mesh->mTangents[j].z;
+            vertex.bitangent[0] = mesh->mBitangents[j].x;
+            vertex.bitangent[1] = mesh->mBitangents[j].y;
+            vertex.bitangent[2] = mesh->mBitangents[j].z;
+            buffer.push_back(vertex);
+        }
+        for (unsigned int j = 0; j < mesh->mNumFaces; ++j)
+        {
+            aiFace face = mesh->mFaces[j];
+            for (unsigned int k = 0; k < face.mNumIndices; ++k)
+                indices.push_back(buffer.size() - mesh->mNumVertices + face.mIndices[k]);
+        }
+    }
+
+    for (unsigned int i = 0; i < node->mNumChildren; ++i)
+        AssimpSceneToVertexBuffer(buffer, indices, node->mChildren[i], scene);
+}
+
+
+void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, std::vector<glm::mat4>& bones, aiNode* node, const aiScene* scene)
+{
+    for (unsigned int i = 0; i < node->mNumMeshes; ++i)
+    {
+        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+        for (unsigned int j = 0; j < mesh->mNumVertices; ++j)
+        {
+            LE3VertexSkeletal vertex;
+            vertex.position[0] = mesh->mVertices[j].x;
+            vertex.position[1] = mesh->mVertices[j].y;
+            vertex.position[2] = mesh->mVertices[j].z;
+            if (mesh->mTextureCoords[0])
+            {
+                vertex.uv[0] = mesh->mTextureCoords[0][j].x;
+                vertex.uv[1] = mesh->mTextureCoords[0][j].y;
+            }
+            else
+            {
+                vertex.uv[0] = vertex.uv[1] = 0.f;
+            }
+            vertex.normal[0] = mesh->mNormals[j].x;
+            vertex.normal[1] = mesh->mNormals[j].y;
+            vertex.normal[2] = mesh->mNormals[j].z;
+            vertex.tangent[0] = mesh->mTangents[j].x;
+            vertex.tangent[1] = mesh->mTangents[j].y;
+            vertex.tangent[2] = mesh->mTangents[j].z;
+            vertex.bitangent[0] = mesh->mBitangents[j].x;
+            vertex.bitangent[1] = mesh->mBitangents[j].y;
+            vertex.bitangent[2] = mesh->mBitangents[j].z;
+            buffer.push_back(vertex);
+        }
+        for (unsigned int j = 0; j < mesh->mNumFaces; ++j)
+        {
+            aiFace face = mesh->mFaces[j];
+            for (unsigned int k = 0; k < face.mNumIndices; ++k)
+                indices.push_back(buffer.size() - mesh->mNumVertices + face.mIndices[k]);
+        }
+    }
+
+    for (unsigned int i = 0; i < node->mNumChildren; ++i)
+        AssimpSkeletalSceneToVertexBuffer(buffer, indices, bones, node->mChildren[i], scene);
 }

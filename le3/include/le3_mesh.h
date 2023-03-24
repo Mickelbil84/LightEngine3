@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <gl/glew.h>
+#include <glm/glm.hpp>
 
 #include "le3_vertex.h"
 #include "le3_physics.h"
@@ -35,4 +36,7 @@ public:
     GLsizei m_count;
     bool m_bIndexed;
     LE3BoxCollision m_boxCollision;
+
+    // In case of skeletal mesh
+    std::vector<glm::mat4> m_bones;
 };

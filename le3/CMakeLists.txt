@@ -36,6 +36,7 @@ add_library(
     src/le3_shadowmap.cpp
     src/le3_scene_root.cpp
     src/le3_static_mesh.cpp
+    src/le3_skeletal_mesh.cpp
     src/le3_asset_manager.cpp
     src/le3_scene_manager.cpp
     src/le3_physics.cpp

@@ -134,6 +134,20 @@ void LE3SceneManager::AddStaticMesh(std::string name, std::string meshName, std:
     UpdateSceneGraph();
 }
 
+void LE3SceneManager::AddSkeletalMesh(std::string name, std::string meshName, std::string materialName, float scale, bool registerCollision, std::string parent)
+{
+    std::shared_ptr<LE3SkeletalMesh> obj(new LE3SkeletalMesh(name));
+    obj->meshName = meshName;
+    obj->materialName = materialName;
+    obj->UpdateAssets(assets);
+    obj->SetScale(scale);
+    if (registerCollision)
+        obj->RegisterCollision(&physics);
+    objectPool[name] = std::static_pointer_cast<LE3Object>(obj);
+    parentLinks[name] = parent;
+    UpdateSceneGraph();
+}
+
 void LE3SceneManager::AddSprite(std::string name, std::string spriteTextureName, float scale, std::string parent)
 {
     std::shared_ptr<LE3Sprite> obj(new LE3Sprite(name, assets.GetMaterial(SPRITE_MATERIAL_NAME), assets.GetTexture(spriteTextureName)));

@@ -53,7 +53,7 @@ public:
         scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/soldier/T_SPC_soldier.png");
         scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/soldier/T_NRM_soldier.png");
 
-        scene.assets.AddMeshPath("SK_soldier", "resources/models/SK_soldier.fbx");
+        scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.fbx");
 
         scene.assets.CreateMaterial("M_soldier", "S_blinn_phong");
         scene.assets.GetMaterial("M_soldier")->SetDiffuseTexture(scene.assets.GetTexture("T_DIF_soldier"));
@@ -65,7 +65,7 @@ public:
         scene.assets.GetMaterial("M_soldier")->specularIntensity = .6f;
         scene.assets.GetMaterial("M_soldier")->shininess = 128.f;
 
-        scene.AddStaticMesh("soldier", "SK_soldier", "M_soldier", .007f);
+        scene.AddSkeletalMesh("soldier", "SK_soldier", "M_soldier", .007f);
         scene.GetObject("soldier")->SetPositionZ(-1.f);
 
         scene.AddDirectionalLight("directional_light", glm::vec3(1.f), 1.3f);

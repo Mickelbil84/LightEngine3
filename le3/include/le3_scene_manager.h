@@ -15,6 +15,7 @@
 #include "le3_sprite.h"
 #include "le3_scene_root.h"
 #include "le3_static_mesh.h"
+#include "le3_skeletal_mesh.h"
 #include "le3_application_settings.h"
 #include "le3_asset_manager.h"
 #include "le3_light_manager.h"
@@ -48,6 +49,7 @@ public:
 
     void AddObject(std::string name, std::string parent="");
     void AddStaticMesh(std::string name, std::string meshName, std::string materialName, float scale=1.f, bool registerCollision=true, std::string parent="");
+    void AddSkeletalMesh(std::string name, std::string meshName, std::string materialName, float scale=1.f, bool registerCollision=true, std::string parent="");
     void AddSprite(std::string name, std::string spriteTextureName, float scale = 1.f, std::string parent="");
     void AddAmbientLight(glm::vec3 color=glm::vec3(1.f), float intensity=0.1f);
     void AddDirectionalLight(std::string name, glm::vec3 color=glm::vec3(1.f), float intensity=0.8f, std::string parent="");

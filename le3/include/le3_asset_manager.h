@@ -69,6 +69,10 @@ public:
     void LoadMeshPrimitive(std::string name, std::string primitiveDescription);
     LE3Mesh<LE3Vertex>* GetMesh(std::string name);
 
+    void AddSkeletalMeshPath(std::string name, std::string meshPath);
+    void LoadSkeletalMesh(std::string name, std::string meshPath);
+    LE3Mesh<LE3VertexSkeletal>* GetSkeletalMesh(std::string name);
+
     void AddTexturePath(std::string name, std::string texturePath);
     void LoadTexture(std::string name, std::string texturePath);
     LE3Texture* GetTexture(std::string name);
@@ -84,10 +88,12 @@ public:
     *  Meshes and Textures can also be added lazily, and loaded on demand
     */
     std::map<std::string, LE3AssetPath> m_meshesPaths;
+    std::map<std::string, LE3AssetPath> m_skeletalMeshesPaths;
     std::map<std::string, LE3AssetPath> m_texturesPaths;
     std::map<std::string, LE3ShaderPath> m_shadersPaths;
 
     std::map<std::string, LE3Mesh<LE3Vertex>> m_meshes;
+    std::map<std::string, LE3Mesh<LE3VertexSkeletal>> m_skeletalMeshes;
     std::map<std::string, LE3Shader> m_shaders;
     std::map<std::string, LE3Texture> m_textures;
     std::map<std::string, LE3Material> m_materials;
@@ -96,6 +102,7 @@ public:
     void save( Archive & ar ) const
     {
         ar(CEREAL_NVP(m_meshesPaths));
+        ar(CEREAL_NVP(m_skeletalMeshesPaths));
         ar(CEREAL_NVP(m_texturesPaths));
         ar(CEREAL_NVP(m_shadersPaths));
         ar(CEREAL_NVP(m_materials));
@@ -105,6 +112,7 @@ public:
     void load( Archive & ar )
     {
         ar(m_meshesPaths);
+        ar(m_skeletalMeshesPaths);
         ar(m_texturesPaths);
         ar(m_shadersPaths);
         ar(m_materials);
