@@ -183,7 +183,7 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
         {
             aiFace face = mesh->mFaces[j];
             for (unsigned int k = 0; k < face.mNumIndices; ++k)
-                indices.push_back(face.mIndices[k]);
+                indices.push_back(buffer.size() - mesh->mNumVertices + face.mIndices[k]);
         }
     }
 
