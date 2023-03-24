@@ -387,6 +387,22 @@ void LE3SceneManager::DeleteObject(std::shared_ptr<LE3Object> obj, bool topLevel
         DeleteObject(GetObject(child->GetName()));
     objectPool.erase(obj->GetName());
     parentLinks.erase(obj->GetName());
+
+    // Handle light objects since we keep track of those
+    std::shared_ptr<LE3AmbientLight> pAmbientLight = std::dynamic_pointer_cast<LE3AmbientLight>(obj);
+    if (pAmbientLight)
+        lightManager.SetAmbientLight(nullptr);
+    std::shared_ptr<LE3DirectionalLight> pDirectionalLight = std::dynamic_pointer_cast<LE3DirectionalLight>(obj);
+    if (pDirectionalLight)
+        std::erase(lightManager.GetDirectionalLights(), pDirectionalLight);
+    std::shared_ptr<LE3PointLight> pPointLight = std::dynamic_pointer_cast<LE3PointLight>(obj);
+    if (pPointLight)
+        std::erase(lightManager.GetPointLights(), pPointLight);
+    std::shared_ptr<LE3SpotLight> pSpotLight = std::dynamic_pointer_cast<LE3SpotLight>(obj);
+    if (pSpotLight)
+        std::erase(lightManager.GetSpotLights(), pSpotLight);
+
+
     obj->Reparent(nullptr);
     obj->Delete();
     if (topLevel)
