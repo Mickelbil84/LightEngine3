@@ -147,6 +147,8 @@ void LE3Application::ApplyOpenGLSettings()
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     glEnable(GL_MULTISAMPLE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void LE3Application::ApplyWindowSettings()

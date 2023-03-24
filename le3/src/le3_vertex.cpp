@@ -65,6 +65,31 @@ void RegisterVertexAttribPointer(LE3Vertex3p2t3n3tn3b* v)
         reinterpret_cast<void*>(offsetof(LE3Vertex3p2t3n3tn3b, bitangent)));
 }
 
+void RegisterVertexAttribPointer(LE3Vertex3p2t3n3tn3b4b4w* v)
+{
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
+        reinterpret_cast<void*>(offsetof(LE3Vertex3p2t3n3tn3b4b4w, position)));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
+        reinterpret_cast<void*>(offsetof(LE3Vertex3p2t3n3tn3b4b4w, uv)));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
+        reinterpret_cast<void*>(offsetof(LE3Vertex3p2t3n3tn3b4b4w, normal)));
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
+        reinterpret_cast<void*>(offsetof(LE3Vertex3p2t3n3tn3b4b4w, tangent)));
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
+        reinterpret_cast<void*>(offsetof(LE3Vertex3p2t3n3tn3b4b4w, bitangent)));
+    glEnableVertexAttribArray(6);
+    glVertexAttribPointer(6, 4, GL_INT, GL_FALSE, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
+        reinterpret_cast<void*>(offsetof(LE3Vertex3p2t3n3tn3b4b4w, bones)));
+    glEnableVertexAttribArray(7);
+    glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
+        reinterpret_cast<void*>(offsetof(LE3Vertex3p2t3n3tn3b4b4w, weights)));
+}
+
 
 LE3Vertex VertexFromGLM(glm::vec3 position, glm::vec2 uv, glm::vec3 normal, glm::vec3 tangent, glm::vec3 bitangent)
 {
@@ -92,5 +117,19 @@ LE3Vertex3p VertexFromGLM(glm::vec3 position)
     v.position[0] = position.x;
     v.position[1] = position.y;
     v.position[2] = position.z;
+    return v;
+}
+
+LE3VertexSkeletal VertexSkeletalFromGLM(glm::vec3 position, glm::vec2 uv, glm::vec3 normal, 
+    glm::vec3 tangent, glm::vec3 bitangent, glm::ivec4 bones, glm::vec4 weights)
+{
+    LE3VertexSkeletal v;
+    v.position[0] = position.x; v.position[1] = position.y; v.position[2] = position.z;
+    v.uv[0] = uv.x; v.uv[1] = uv.y;
+    v.normal[0] = normal.x; v.normal[1] = normal.y; v.normal[2] = normal.z;
+    v.tangent[0] = tangent.x; v.tangent[1] = tangent.y; v.tangent[2] = tangent.z;
+    v.bitangent[0] = bitangent.x; v.bitangent[1] = bitangent.y; v.bitangent[2] = bitangent.z;
+    v.bones[0] = bones.x; v.bones[1] = bones.y; v.bones[2] = bones.z; v.bones[3] = bones.w;
+    v.weights[0] = weights.x; v.weights[1] = weights.y; v.weights[2] = weights.z; v.weights[3] = weights.w;
     return v;
 }
