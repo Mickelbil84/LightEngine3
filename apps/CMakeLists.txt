@@ -43,3 +43,10 @@ add_executable(
 )
 target_link_libraries(04_lighting PRIVATE le3 GLEW::glew ${BULLET_LIBRARIES})
 target_compile_features(04_lighting PUBLIC cxx_std_20)
+
+add_executable(
+    05_animation
+    demos/05_animation.cpp
+)
+target_link_libraries(05_animation PRIVATE le3 GLEW::glew ${BULLET_LIBRARIES})
+target_compile_features(05_animation PUBLIC cxx_std_20)
