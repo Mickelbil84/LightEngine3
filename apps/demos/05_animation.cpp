@@ -60,7 +60,7 @@ public:
 
         scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.fbx");
         // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/dancing_vampire.dae");
-        // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/cylinder/cylinder.fbx");
+        // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/Idle.fbx");
 
         scene.assets.CreateMaterial("M_soldier", "S_blinn_phong");
         scene.assets.GetMaterial("M_soldier")->SetDiffuseTexture(scene.assets.GetTexture("T_DIF_soldier"));
@@ -79,6 +79,9 @@ public:
         scene.GetObject("directional_light")->SetRotationX(1.57f);
         scene.AddDirectionalLight("directional_light1", glm::vec3(1.f), 1.3f);
         scene.GetObject("directional_light1")->SetRotationX(-1.57f);
+
+        scene.assets.AddMeshPath("floor", "$BOX_0_0_0_20.000000_0.0240000_20.000000_");
+        scene.AddStaticMesh("floor", "floor", "M_default");
 
         
         // Camera
@@ -154,6 +157,12 @@ public:
         scene.GetCamera()->AddRotationY(deltaRotation.y);
 
         scene.GetRoot()->Update(deltaTime);
+
+        scene.GetObject("soldier")->SetPosition(3.f * glm::vec3(
+            cosf(runTime*1.f), 0.f, sinf(runTime*1.f)
+        ));
+        scene.GetObject("soldier")->SetRotationY(-runTime - 1.57*0);
+
 
         // Hotfix: Update gun and camera in sync to avoid "jagged" model matrix
         scene.GetCamera()->Update(deltaTime);

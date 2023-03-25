@@ -52,10 +52,9 @@ void LE3AnimationTrack::LoadAnimationTrack(const aiScene* scene, unsigned int tr
     }
 }
 
-std::vector<glm::mat4> LE3AnimationTrack::GetBoneMatrices(float animationTime)
+void LE3AnimationTrack::UpdateBoneMatrices(float animationTime)
 {
-    std::vector<glm::mat4> res;
-
+    boneMatrices.clear();
     // Set the local keyframe matrices
     for (auto bone : skeleton->m_bones)
     {
@@ -64,15 +63,46 @@ std::vector<glm::mat4> LE3AnimationTrack::GetBoneMatrices(float animationTime)
             bone->transform = glm::mat4(1.f);
             continue;
         }
-        glm::mat4 translation = glm::translate(positionKeyframes[bone][0].position);
-        glm::mat4 rotation = glm::toMat4(rotationKeyframes[bone][0].rotation);
-        glm::mat4 scale = glm::scale(scaleKeyframes[bone][0].scale);
+        glm::mat4 translation = PositionKeyframeInterpolation(bone, animationTime);
+        glm::mat4 rotation = RotationKeyframeInterpolation(bone, animationTime);
+        glm::mat4 scale = ScaleKeyframeInterpolation(bone, animationTime);
         bone->transform = translation * rotation * scale;
     }
 
     // Get the bone matrices
     for (auto bone : skeleton->m_bones)
-        res.push_back(bone->GetTransform() * bone->offset);
+        boneMatrices.push_back(bone->GetTransform() * bone->offset);
+}
 
-    return res;
+std::vector<glm::mat4> LE3AnimationTrack::GetBoneMatrices()
+{
+    return boneMatrices;
+}
+
+glm::mat4 LE3AnimationTrack::PositionKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
+{
+    if (!positionKeyframes[bone].size())
+        return glm::mat4(1.f);
+    int keyframeIdx = 0;
+    for (; keyframeIdx < positionKeyframes[bone].size() - 1; keyframeIdx++)
+        if (animationTime < positionKeyframes[bone][keyframeIdx+1].timestamp) break; 
+    return glm::translate(positionKeyframes[bone][keyframeIdx].position);
+}
+glm::mat4 LE3AnimationTrack::RotationKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
+{
+    if (!rotationKeyframes[bone].size())
+        return glm::mat4(1.f);
+    int keyframeIdx = 0;
+    for (; keyframeIdx < rotationKeyframes[bone].size() - 1; keyframeIdx++)
+        if (animationTime < rotationKeyframes[bone][keyframeIdx+1].timestamp) break; 
+    return glm::toMat4(rotationKeyframes[bone][keyframeIdx].rotation);
+}
+glm::mat4 LE3AnimationTrack::ScaleKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
+{
+    if (!scaleKeyframes[bone].size())
+        return glm::mat4(1.f);
+    int keyframeIdx = 0;
+    for (; keyframeIdx < scaleKeyframes[bone].size() - 1; keyframeIdx++)
+        if (animationTime < scaleKeyframes[bone][keyframeIdx+1].timestamp) break; 
+    return glm::scale(scaleKeyframes[bone][keyframeIdx].scale);
 }

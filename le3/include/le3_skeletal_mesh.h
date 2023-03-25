@@ -41,6 +41,7 @@ protected:
     LE3Material* m_material;
     btRigidBody* m_pRigidBody;
     LE3PhysicsComponent* m_pPhysics;
+    float m_animationTime = 0.f;
 public:
     bool m_bHasCollision;
 };

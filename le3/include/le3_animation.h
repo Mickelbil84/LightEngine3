@@ -46,8 +46,15 @@ public:
     std::map<std::shared_ptr<LE3Bone>, std::vector<LE3PositionKeyframe>> positionKeyframes;
     std::map<std::shared_ptr<LE3Bone>, std::vector<LE3RotationKeyframe>> rotationKeyframes;
     std::map<std::shared_ptr<LE3Bone>, std::vector<LE3ScaleKeyframe>> scaleKeyframes;
+    std::vector<glm::mat4> boneMatrices;
 
     void LoadAnimationTrack(const aiScene* scene, unsigned int trackIdx);
-    std::vector<glm::mat4> GetBoneMatrices(float animationTime);
+    void UpdateBoneMatrices(float animationTime);
+    std::vector<glm::mat4> GetBoneMatrices();
+
+protected:
+    glm::mat4 PositionKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime);
+    glm::mat4 RotationKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime);
+    glm::mat4 ScaleKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime);
 };
 

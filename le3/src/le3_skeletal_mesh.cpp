@@ -16,6 +16,15 @@ void LE3SkeletalMesh::Update(double deltaTime)
 {
     LE3Object::Update(deltaTime);
 
+    m_animationTime += deltaTime;
+
+    float ticksPerSecond = 25.f;
+    if (m_mesh->m_animationTracks[0].ticksPerSecond)
+        ticksPerSecond = (float)m_mesh->m_animationTracks[0].ticksPerSecond;
+
+    float adjustedAnimationTime = fmodf(m_animationTime * ticksPerSecond, m_mesh->m_animationTracks[0].duration);
+    m_mesh->m_animationTracks[0].UpdateBoneMatrices(adjustedAnimationTime);
+
     if (m_pRigidBody)
     {
         btTransform transform;
@@ -41,7 +50,7 @@ void LE3SkeletalMesh::Draw()
     m_material->GetShader()->Uniform("model", m_globalModelMatrix);
     
     // Update animation
-    std::vector<glm::mat4> boneMatrices = m_mesh->m_animationTracks[0].GetBoneMatrices(0.f);
+    std::vector<glm::mat4> boneMatrices = m_mesh->m_animationTracks[0].GetBoneMatrices();
     for (int idx = 0; idx < boneMatrices.size(); idx++)
         m_material->GetShader()->Uniform(format("boneMatrices[{}]", idx), boneMatrices[idx]);
 
