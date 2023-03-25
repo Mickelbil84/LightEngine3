@@ -1,9 +1,13 @@
 #include "le3_asset_manager.h"
 #include "le3_print.h"
+#include "le3_utils.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
+#include <fmt/core.h>
+using fmt::print;
 
 const char* gTokenBox = "BOX";
 const char* gTokenCylinder = "CYL";
@@ -27,7 +31,9 @@ LE3ShaderPath::LE3ShaderPath() :
 }
 
 void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene);
-void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, std::vector<glm::mat4>& bones, aiNode* node, const aiScene* scene);
+void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, LE3Skeleton& skeleton, aiNode* node, const aiScene* scene);
+void AssimpGetNodeVector(aiNode* node, std::vector<aiNode*>& nodes);
+void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes);
 
 LE3PrimitiveTokens ParsePrimitivePath(std::string primitiveDescription)
 {
@@ -176,8 +182,13 @@ void LE3AssetManager::LoadSkeletalMesh(std::string name, std::string meshPath)
     std::vector<LE3VertexSkeletal> buffer;
     std::vector<GLuint> indices;
     LE3Mesh<LE3VertexSkeletal> mesh;
+    mesh.m_skeleton.m_globalInverseTransform = aiMatrix4x4toGLM(scene->mRootNode->mTransformation.Inverse());
 
-    AssimpSkeletalSceneToVertexBuffer(buffer, indices, mesh.m_bones, scene->mRootNode, scene);
+    AssimpSkeletalSceneToVertexBuffer(buffer, indices, mesh.m_skeleton, scene->mRootNode, scene);
+
+    std::vector<aiNode*> nodes;
+    AssimpGetNodeVector(scene->mRootNode, nodes);
+    AssimpSkeletonHierarchy(mesh.m_skeleton, nodes);
 
     mesh.LoadMeshDataIndexed(buffer, indices);
     m_skeletalMeshes[name] = mesh;
@@ -339,7 +350,7 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
 }
 
 
-void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, std::vector<glm::mat4>& bones, aiNode* node, const aiScene* scene)
+void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, LE3Skeleton& skeleton, aiNode* node, const aiScene* scene)
 {
     for (unsigned int i = 0; i < node->mNumMeshes; ++i)
     {
@@ -376,8 +387,51 @@ void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, s
             for (unsigned int k = 0; k < face.mNumIndices; ++k)
                 indices.push_back(buffer.size() - mesh->mNumVertices + face.mIndices[k]);
         }
+        for (unsigned int j = 0; j < mesh->mNumBones; ++j)
+        {
+            aiBone* bone = mesh->mBones[j];
+            std::string boneName = std::string(bone->mName.C_Str());
+            skeleton.AddBone(boneName);
+            skeleton.GetBone(boneName)->transform = aiMatrix4x4toGLM(bone->mOffsetMatrix);
+        }
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; ++i)
-        AssimpSkeletalSceneToVertexBuffer(buffer, indices, bones, node->mChildren[i], scene);
+        AssimpSkeletalSceneToVertexBuffer(buffer, indices, skeleton, node->mChildren[i], scene);
+}
+
+
+void AssimpGetNodeVector(aiNode* node, std::vector<aiNode*>& nodes)
+{
+    if (!node) return;
+    nodes.push_back(node);
+    for (unsigned int i = 0; i < node->mNumChildren; ++i)
+        AssimpGetNodeVector(node->mChildren[i], nodes);
+}
+
+void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes)
+{
+    for (auto bone : skeleton.m_bones)
+    {
+        // Find the corresponding aiNode
+        for (auto node : nodes)
+        {
+            if ((std::string(node->mName.C_Str()) == bone->name) && node->mParent)
+            {
+                bone->parent = skeleton.GetBone(std::string(node->mParent->mName.C_Str()));
+                if (!bone->parent)
+                {
+                    // If there is a parent to a bone that is note present,
+                    // add a fictitiuos root
+                    if (!skeleton.GetBone("_root"))
+                        skeleton.AddBone("_root");
+                    skeleton.GetBone("_root")->transform = aiMatrix4x4toGLM(node->mParent->mTransformation);
+                    bone->parent = skeleton.GetBone("_root");
+                }
+                if (bone->parent)
+                    print("{} -> {}\n", bone->parent->name, bone->name);
+                break;
+            }
+        }
+    }
 }

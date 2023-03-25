@@ -53,6 +53,7 @@ public:
         scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/soldier/T_SPC_soldier.png");
         scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/soldier/T_NRM_soldier.png");
 
+        // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.dae");
         scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.fbx");
 
         scene.assets.CreateMaterial("M_soldier", "S_blinn_phong");
@@ -74,13 +75,9 @@ public:
         scene.GetObject("directional_light1")->SetRotationX(-1.57f);
 
         
-
-        
-
-
-        
         // Camera
         scene.AddFPSCamera();
+        LE3VisualDebug::Init(scene.GetCamera().get());
 
         // ---------------------------
         //   Misc
