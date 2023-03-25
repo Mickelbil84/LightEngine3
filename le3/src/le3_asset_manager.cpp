@@ -346,7 +346,7 @@ void LE3AssetManager::LoadSkeletalMesh(std::string name, std::string meshPath)
     AssimpSkeletonHierarchy(mesh.m_skeleton, nodes);
 
     // _DBG_SkeletalPrint(mesh.m_skeleton);
-    _DBG_aiScenePrint(scene);
+    // _DBG_aiScenePrint(scene);
 
     mesh.LoadMeshDataIndexed(buffer, indices);
     m_skeletalMeshes[name] = mesh;
@@ -432,7 +432,6 @@ void AssimpSkeletalAddBoneWeights(aiMesh* mesh, LE3Skeleton& skeleton, std::vect
         {
             aiVertexWeight vertexWeight = bone->mWeights[j];
             GLuint vertexId = vertexWeight.mVertexId + buffer_offset;
-            bool addedVertexWeight = false;
             for (unsigned int k = 0; k < MAX_BONES_PER_VERTEX; k++)
             {
                 if (k < 4)
@@ -447,11 +446,8 @@ void AssimpSkeletalAddBoneWeights(aiMesh* mesh, LE3Skeleton& skeleton, std::vect
                     vertices[vertexId].bones2[k-4] = skeleton.GetBone(boneName)->id;
                     vertices[vertexId].weights2[k-4] = vertexWeight.mWeight;
                 }
-                addedVertexWeight = true;
                 break;
             }
-            if (!addedVertexWeight)
-                print("hi");
         }   
     }
 }
