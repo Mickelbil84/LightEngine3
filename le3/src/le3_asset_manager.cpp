@@ -36,6 +36,7 @@ void AssimpGetNodeVector(aiNode* node, std::vector<aiNode*>& nodes);
 void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes);
 void AssimpSkeletalAddBoneWeights(aiMesh* mesh, LE3Skeleton& skeleton, std::vector<LE3VertexSkeletal>& vertices, int buffer_offset);
 void _DBG_SkeletalPrint(LE3Skeleton& skeleton);
+void _DBG_aiScenePrint(const aiScene* scene);
 
 LE3PrimitiveTokens ParsePrimitivePath(std::string primitiveDescription)
 {
@@ -345,9 +346,18 @@ void LE3AssetManager::LoadSkeletalMesh(std::string name, std::string meshPath)
     AssimpSkeletonHierarchy(mesh.m_skeleton, nodes);
 
     // _DBG_SkeletalPrint(mesh.m_skeleton);
+    _DBG_aiScenePrint(scene);
 
     mesh.LoadMeshDataIndexed(buffer, indices);
     m_skeletalMeshes[name] = mesh;
+
+    // Load Animations
+    for (int i = 0; i < scene->mNumAnimations; ++i)
+    {
+        LE3AnimationTrack animTrack(&m_skeletalMeshes[name].m_skeleton);
+        animTrack.LoadAnimationTrack(scene, i);
+        m_skeletalMeshes[name].m_animationTracks.push_back(animTrack);
+    }
 
     AddSkeletalMeshPath(name, meshPath);
     m_skeletalMeshesPaths[name].bIsLoaded = true;
@@ -383,8 +393,10 @@ void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, s
             vertex.bitangent[0] = mesh->mBitangents[j].x;
             vertex.bitangent[1] = mesh->mBitangents[j].y;
             vertex.bitangent[2] = mesh->mBitangents[j].z;
-            for(int k = 0; k < MAX_BONES_PER_VERTEX; ++k)
+            for(int k = 0; k < 4; ++k)
                 vertex.bones[k] = -1;
+            // for(int k = 0; k < 4; ++k)
+            //     vertex.bones2[k] = -1;
             buffer.push_back(vertex);
         }
         for (unsigned int j = 0; j < mesh->mNumFaces; ++j)
@@ -420,18 +432,26 @@ void AssimpSkeletalAddBoneWeights(aiMesh* mesh, LE3Skeleton& skeleton, std::vect
         {
             aiVertexWeight vertexWeight = bone->mWeights[j];
             GLuint vertexId = vertexWeight.mVertexId + buffer_offset;
+            // bool addedVertexWeight = false;
             for (unsigned int k = 0; k < MAX_BONES_PER_VERTEX; k++)
             {
-                if (vertices[vertexId].bones[k] >= 0) continue;
-                vertices[vertexId].bones[k] = skeleton.GetBone(boneName)->id;
-                vertices[vertexId].weights[k] = vertexWeight.mWeight;
+                if (k < 4)
+                {
+                    if (vertices[vertexId].bones[k] >= 0) continue;
+                    vertices[vertexId].bones[k] = skeleton.GetBone(boneName)->id;
+                    vertices[vertexId].weights[k] = vertexWeight.mWeight;
+                }
+                else
+                {
+                    if (vertices[vertexId].bones2[k] >= 0) continue;
+                    vertices[vertexId].bones2[k] = skeleton.GetBone(boneName)->id;
+                    vertices[vertexId].weights2[k] = vertexWeight.mWeight;
+                }
+                // addedVertexWeight = true;
                 break;
             }
-            // print("V {}={},{}={},{}={},{}={}\n", 
-            //     vertices[vertexId].bones[0], vertices[vertexId].weights[0],
-            //     vertices[vertexId].bones[1], vertices[vertexId].weights[1],
-            //     vertices[vertexId].bones[2], vertices[vertexId].weights[2],
-            //     vertices[vertexId].bones[3], vertices[vertexId].weights[3]);
+            // if (!addedVertexWeight)
+            //     return;
         }   
     }
 }
@@ -476,4 +496,23 @@ void _DBG_SkeletalPrint(LE3Skeleton& skeleton)
         print("\n");
     }
     print("\n");
+}
+
+void _DBG_aiScenePrint(const aiScene* scene)
+{
+    print("Num Animations: {}\n\n", scene->mNumAnimations);
+
+    aiAnimation* animation = scene->mAnimations[0];
+    print("Animation Metadata:\n");
+    print("\tDuration = {}\n", animation->mDuration);
+    print("\tName = {}\n", animation->mName.C_Str());
+    print("\tNum Channels = {}\n", animation->mNumChannels);
+    print("\tTicks Per Second = {}\n", animation->mTicksPerSecond);
+
+    aiNodeAnim* nodeAnim = animation->mChannels[1];
+    print("\nNode 1:\n");
+    print("\tName = {}\n", nodeAnim->mNodeName.C_Str());
+    print("\tNum Position Keys = {}\n", nodeAnim->mNumPositionKeys);
+    print("\tNum Rotation Keys = {}\n", nodeAnim->mNumRotationKeys);
+    print("\tNum Scale Keys = {}\n", nodeAnim->mNumScalingKeys);
 }

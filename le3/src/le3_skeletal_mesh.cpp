@@ -1,5 +1,9 @@
 #include "le3_skeletal_mesh.h"
 #include "le3_visual_debug.h"
+#include "le3_print.h"
+
+#include <fmt/core.h>
+using fmt::format;
 
 LE3SkeletalMesh::LE3SkeletalMesh(std::string name, glm::vec3 position, glm::vec3 rotation, float scale) :
     LE3Object(name, position, rotation, scale),
@@ -35,6 +39,12 @@ void LE3SkeletalMesh::Draw()
     m_material->Apply();
     m_material->GetShader()->Use();
     m_material->GetShader()->Uniform("model", m_globalModelMatrix);
+    
+    // Update animation
+    std::vector<glm::mat4> boneMatrices = m_mesh->m_animationTracks[0].GetBoneMatrices(0.f);
+    for (int idx = 0; idx < boneMatrices.size(); idx++)
+        m_material->GetShader()->Uniform(format("boneMatrices[{}]", idx), boneMatrices[idx]);
+
     m_mesh->Draw();
 
     int i = 0;
@@ -48,14 +58,14 @@ void LE3SkeletalMesh::Draw()
     for (auto bone : m_mesh->m_skeleton.m_bones)
     {
         // glm::mat4 model_bone = GetModelMatrix() * mixamoArmature * m_mesh->m_skeleton.m_globalInverseTransform *  bone->GetTransform();
-        glm::mat4 model_bone = GetModelMatrix() *  glm::inverse(bone->GetTransform());
+        glm::mat4 model_bone = GetModelMatrix() * glm::inverse(bone->GetTransform()) * glm::inverse(bone->offset);
         glm::vec3 pos(model_bone[3]);
-        LE3VisualDebug::DrawDebugCube(pos, glm::vec3(0.f), glm::vec3(0.01f, .01f, 0.01f), glm::vec3(0.f, 1.f, 0.f));
+        // LE3VisualDebug::DrawDebugCube(pos, glm::vec3(0.f), glm::vec3(0.01f, .01f, 0.01f), glm::vec3(0.f, 1.f, 0.f));
         if (bone->parent)
         {   
-            glm::mat4 parent_model_bone = GetModelMatrix() * glm::inverse(bone->parent->GetTransform());
+            glm::mat4 parent_model_bone = GetModelMatrix() * glm::inverse(bone->parent->offset) * bone->parent->GetTransform();
             glm::vec3 parent_pos(parent_model_bone[3]);
-            LE3VisualDebug::DrawDebugLine(parent_pos, pos, glm::vec3(0.f, 1.f, 0.f));
+            // LE3VisualDebug::DrawDebugLine(parent_pos, pos, glm::vec3(0.f, 1.f, 0.f));
         }
     }
     

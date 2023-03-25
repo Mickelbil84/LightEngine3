@@ -3,6 +3,7 @@
 #include <cereal/cereal.hpp>
 
 #include "le3_mesh.h"
+#include "le3_animation.h"
 #include "le3_material.h"
 #include "le3_object.h"
 #include "le3_physics.h"

@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <glm/glm.hpp>
 
-#define MAX_BONES_PER_VERTEX 4
+#define MAX_BONES_PER_VERTEX 8
 
 // Vertex struct with 3 floats for position
 struct LE3Vertex3p
@@ -53,8 +53,10 @@ struct LE3Vertex3p2t3n3tn3b4b4w
     GLfloat normal[3]; // location = 2
     GLfloat tangent[3]; // location = 4
     GLfloat bitangent[3]; // location = 5
-    GLint bones[MAX_BONES_PER_VERTEX]; // location = 6
-    GLfloat weights[MAX_BONES_PER_VERTEX]; // location = 7
+    GLint bones[4]; // location = 6
+    GLfloat weights[4]; // location = 7
+    GLint bones2[4]; // location = 8
+    GLfloat weights2[4]; // location = 9
 };
 
 // The default vertex type is the one with (position, uv, normal)

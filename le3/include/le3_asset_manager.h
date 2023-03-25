@@ -12,6 +12,7 @@
 #include "le3_shader.h"
 #include "le3_texture.h"
 #include "le3_material.h"
+#include "le3_animation.h"
 #include "le3_primitives.h"
 
 const char gPrimitivePathPrefix = '$';
