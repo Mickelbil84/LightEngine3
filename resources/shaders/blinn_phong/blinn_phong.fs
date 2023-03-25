@@ -78,7 +78,6 @@ in vec3 posCoord;
 in vec4 dirLightPosCoord[MAX_DIRECTIONAL_LIGHTS];
 in vec4 spotLightPosCoord[MAX_SPOT_LIGHTS];
 in vec3 normalCoord;
-// in vec3 cameraPos;
 in mat3 tbn;
 
 float rand(vec2 co){

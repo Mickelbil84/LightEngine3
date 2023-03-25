@@ -146,6 +146,7 @@ void LE3Skeleton::AddBone(std::string boneName)
     if (GetBone(boneName)) return;
     std::shared_ptr<LE3Bone> pBone = std::make_shared<LE3Bone>();
     pBone->name = boneName;
+    pBone->id = (GLuint)m_bones.size();
     m_bones.push_back(pBone);
     m_boneMapping[boneName] = pBone;
 }

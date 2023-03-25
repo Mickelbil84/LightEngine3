@@ -8,6 +8,8 @@ layout(location = 1) in vec2 vTexCoord;
 layout(location = 2) in vec3 vNormal;
 layout(location = 4) in vec3 vTangent;
 layout(location = 5) in vec3 vBitangent;
+layout(location = 6) in ivec4 vBones;
+layout(location = 7) in vec4 vWeights;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -20,7 +22,6 @@ out vec3 posCoord;
 out vec4 dirLightPosCoord[MAX_DIRECTIONAL_LIGHTS];
 out vec4 spotLightPosCoord[MAX_SPOT_LIGHTS];
 out vec3 normalCoord;
-// out vec3 cameraPos;
 out mat3 tbn;
 
 void main()

@@ -16,6 +16,8 @@
 #include <string>
 #include <glm/gtx/transform.hpp>
 
+#include <fmt/core.h>
+using fmt::print;
 
 class LE3Demo : public LE3Application
 {

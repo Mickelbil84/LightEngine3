@@ -34,6 +34,7 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
 void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, LE3Skeleton& skeleton, aiNode* node, const aiScene* scene);
 void AssimpGetNodeVector(aiNode* node, std::vector<aiNode*>& nodes);
 void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes);
+void AssimpSkeletalAddBoneWeights(aiMesh* mesh, LE3Skeleton& skeleton, std::vector<LE3VertexSkeletal>& vertices, int buffer_offset);
 void _DBG_SkeletalPrint(LE3Skeleton& skeleton);
 
 LE3PrimitiveTokens ParsePrimitivePath(std::string primitiveDescription)
@@ -343,7 +344,7 @@ void LE3AssetManager::LoadSkeletalMesh(std::string name, std::string meshPath)
     AssimpGetNodeVector(scene->mRootNode, nodes);
     AssimpSkeletonHierarchy(mesh.m_skeleton, nodes);
 
-    _DBG_SkeletalPrint(mesh.m_skeleton);
+    // _DBG_SkeletalPrint(mesh.m_skeleton);
 
     mesh.LoadMeshDataIndexed(buffer, indices);
     m_skeletalMeshes[name] = mesh;
@@ -382,6 +383,8 @@ void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, s
             vertex.bitangent[0] = mesh->mBitangents[j].x;
             vertex.bitangent[1] = mesh->mBitangents[j].y;
             vertex.bitangent[2] = mesh->mBitangents[j].z;
+            for(int k = 0; k < MAX_BONES_PER_VERTEX; ++k)
+                vertex.bones[k] = -1;
             buffer.push_back(vertex);
         }
         for (unsigned int j = 0; j < mesh->mNumFaces; ++j)
@@ -397,10 +400,40 @@ void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, s
             skeleton.AddBone(boneName);
             skeleton.GetBone(boneName)->offset = aiMatrix4x4toGLM(bone->mOffsetMatrix);
         }
+
+        AssimpSkeletalAddBoneWeights(mesh, skeleton, buffer, buffer.size() - mesh->mNumVertices);
     }
+
 
     for (unsigned int i = 0; i < node->mNumChildren; ++i)
         AssimpSkeletalSceneToVertexBuffer(buffer, indices, skeleton, node->mChildren[i], scene);
+}
+
+void AssimpSkeletalAddBoneWeights(aiMesh* mesh, LE3Skeleton& skeleton, std::vector<LE3VertexSkeletal>& vertices, int buffer_offset)
+{
+    for (unsigned int i = 0; i < mesh->mNumBones; ++i)
+    {
+        aiBone* bone = mesh->mBones[i];
+        std::string boneName = std::string(bone->mName.C_Str());
+        
+        for (unsigned int j = 0; j < bone->mNumWeights; ++j)
+        {
+            aiVertexWeight vertexWeight = bone->mWeights[j];
+            GLuint vertexId = vertexWeight.mVertexId + buffer_offset;
+            for (unsigned int k = 0; k < MAX_BONES_PER_VERTEX; k++)
+            {
+                if (vertices[vertexId].bones[k] >= 0) continue;
+                vertices[vertexId].bones[k] = skeleton.GetBone(boneName)->id;
+                vertices[vertexId].weights[k] = vertexWeight.mWeight;
+                break;
+            }
+            // print("V {}={},{}={},{}={},{}={}\n", 
+            //     vertices[vertexId].bones[0], vertices[vertexId].weights[0],
+            //     vertices[vertexId].bones[1], vertices[vertexId].weights[1],
+            //     vertices[vertexId].bones[2], vertices[vertexId].weights[2],
+            //     vertices[vertexId].bones[3], vertices[vertexId].weights[3]);
+        }   
+    }
 }
 
 
@@ -423,15 +456,6 @@ void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes)
             if ((std::string(node->mName.C_Str()) == bone->name) && node->mParent)
             {
                 bone->parent = skeleton.GetBone(std::string(node->mParent->mName.C_Str()));
-                if (!bone->parent)
-                {
-                    // If there is a parent to a bone that is note present,
-                    // add a fictitiuos root
-                    // skeleton.GetBone("_root")->offset = glm::inverse(aiMatrix4x4toGLM(node->mParent->mTransformation));
-                    // bone->parent = skeleton.GetBone("_root");
-                }
-                if (bone->parent)
-                    print("{} -> {}\n", bone->parent->name, bone->name);
                 break;
             }
         }

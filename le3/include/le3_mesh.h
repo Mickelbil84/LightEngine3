@@ -17,6 +17,7 @@ public:
     glm::mat4 transform;
     glm::mat4 offset;
     std::string name;
+    GLuint id;
 
     std::shared_ptr<LE3Bone> parent = nullptr;
 

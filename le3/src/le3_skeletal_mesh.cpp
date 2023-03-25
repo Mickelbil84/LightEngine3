@@ -50,7 +50,7 @@ void LE3SkeletalMesh::Draw()
         // glm::mat4 model_bone = GetModelMatrix() * mixamoArmature * m_mesh->m_skeleton.m_globalInverseTransform *  bone->GetTransform();
         glm::mat4 model_bone = GetModelMatrix() *  glm::inverse(bone->GetTransform());
         glm::vec3 pos(model_bone[3]);
-        LE3VisualDebug::DrawDebugCube(pos, glm::vec3(0.f), glm::vec3(0.05f, .05f, 0.05f), glm::vec3(0.f, 1.f, 0.f));
+        LE3VisualDebug::DrawDebugCube(pos, glm::vec3(0.f), glm::vec3(0.01f, .01f, 0.01f), glm::vec3(0.f, 1.f, 0.f));
         if (bone->parent)
         {   
             glm::mat4 parent_model_bone = GetModelMatrix() * glm::inverse(bone->parent->GetTransform());
