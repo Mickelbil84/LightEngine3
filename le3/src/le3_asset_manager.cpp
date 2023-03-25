@@ -423,10 +423,10 @@ void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes)
                 {
                     // If there is a parent to a bone that is note present,
                     // add a fictitiuos root
-                    if (!skeleton.GetBone("_root"))
-                        skeleton.AddBone("_root");
-                    skeleton.GetBone("_root")->transform = aiMatrix4x4toGLM(node->mParent->mTransformation);
-                    bone->parent = skeleton.GetBone("_root");
+                    // if (!skeleton.GetBone("_root"))
+                    //     skeleton.AddBone("_root");
+                    // skeleton.GetBone("_root")->transform = glm::inverse(aiMatrix4x4toGLM(node->mParent->mTransformation));
+                    // bone->parent = skeleton.GetBone("_root");
                 }
                 if (bone->parent)
                     print("{} -> {}\n", bone->parent->name, bone->name);

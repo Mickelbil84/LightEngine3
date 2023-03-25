@@ -49,12 +49,16 @@ public:
             "resources/shaders/blinn_phong/blinn_phong.vs",
             "resources/shaders/blinn_phong/blinn_phong.fs");
 
-        scene.assets.AddTexturePath("T_DIF_soldier", "resources/textures/soldier/T_DIF_soldier.png");
-        scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/soldier/T_SPC_soldier.png");
-        scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/soldier/T_NRM_soldier.png");
+        // scene.assets.AddTexturePath("T_DIF_soldier", "resources/textures/soldier/T_DIF_soldier.png");
+        // scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/soldier/T_SPC_soldier.png");
+        // scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/soldier/T_NRM_soldier.png");
+        scene.assets.AddTexturePath("T_DIF_soldier", "resources/textures/vampire/Vampire_diffuse.png");
+        scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/vampire/Vampire_specular.png");
+        scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/vampire/Vampire_normal.png");
 
         // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.dae");
-        scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.fbx");
+        // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/dancing_vampire.dae");
+        scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/cylinder/cylinder.fbx");
 
         scene.assets.CreateMaterial("M_soldier", "S_blinn_phong");
         scene.assets.GetMaterial("M_soldier")->SetDiffuseTexture(scene.assets.GetTexture("T_DIF_soldier"));
