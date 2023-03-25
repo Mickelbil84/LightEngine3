@@ -34,6 +34,7 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
 void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, LE3Skeleton& skeleton, aiNode* node, const aiScene* scene);
 void AssimpGetNodeVector(aiNode* node, std::vector<aiNode*>& nodes);
 void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes);
+void _DBG_SkeletalPrint(LE3Skeleton& skeleton);
 
 LE3PrimitiveTokens ParsePrimitivePath(std::string primitiveDescription)
 {
@@ -161,41 +162,6 @@ void LE3AssetManager::AddSkeletalMeshPath(std::string name, std::string meshPath
     ap.path = meshPath;
     ap.bIsLoaded = false;
     m_skeletalMeshesPaths[name] = ap;
-}
-void LE3AssetManager::LoadSkeletalMesh(std::string name, std::string meshPath)
-{
-    Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(meshPath, 
-        aiProcess_FlipUVs |
-        aiProcess_Triangulate |
-        aiProcess_CalcTangentSpace
-        );
-    if (!scene)
-    {
-        #ifndef NDEBUG
-        PrintTitle("Load Mesh Error");
-        std::cout << "Failed loading mesh:\t" << meshPath << std::endl;
-        #endif
-        return;
-    }
-
-    std::vector<LE3VertexSkeletal> buffer;
-    std::vector<GLuint> indices;
-    LE3Mesh<LE3VertexSkeletal> mesh;
-    mesh.m_skeleton.m_globalInverseTransform = aiMatrix4x4toGLM(scene->mRootNode->mTransformation.Inverse());
-
-    AssimpSkeletalSceneToVertexBuffer(buffer, indices, mesh.m_skeleton, scene->mRootNode, scene);
-
-    std::vector<aiNode*> nodes;
-    AssimpGetNodeVector(scene->mRootNode, nodes);
-    AssimpSkeletonHierarchy(mesh.m_skeleton, nodes);
-
-    mesh.LoadMeshDataIndexed(buffer, indices);
-    m_skeletalMeshes[name] = mesh;
-
-    AddSkeletalMeshPath(name, meshPath);
-    m_skeletalMeshesPaths[name].bIsLoaded = true;
-
 }
 LE3Mesh<LE3VertexSkeletal>* LE3AssetManager::GetSkeletalMesh(std::string name)
 {
@@ -349,6 +315,43 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
         AssimpSceneToVertexBuffer(buffer, indices, node->mChildren[i], scene);
 }
 
+void LE3AssetManager::LoadSkeletalMesh(std::string name, std::string meshPath)
+{
+    Assimp::Importer importer;
+    const aiScene* scene = importer.ReadFile(meshPath, 
+        aiProcess_FlipUVs |
+        aiProcess_Triangulate |
+        aiProcess_CalcTangentSpace
+        );
+    if (!scene)
+    {
+        #ifndef NDEBUG
+        PrintTitle("Load Mesh Error");
+        std::cout << "Failed loading mesh:\t" << meshPath << std::endl;
+        #endif
+        return;
+    }
+
+    std::vector<LE3VertexSkeletal> buffer;
+    std::vector<GLuint> indices;
+    LE3Mesh<LE3VertexSkeletal> mesh;
+    mesh.m_skeleton.m_globalInverseTransform = glm::inverse(aiMatrix4x4toGLM(scene->mRootNode->mTransformation));
+
+    AssimpSkeletalSceneToVertexBuffer(buffer, indices, mesh.m_skeleton, scene->mRootNode, scene);
+
+    std::vector<aiNode*> nodes;
+    AssimpGetNodeVector(scene->mRootNode, nodes);
+    AssimpSkeletonHierarchy(mesh.m_skeleton, nodes);
+
+    _DBG_SkeletalPrint(mesh.m_skeleton);
+
+    mesh.LoadMeshDataIndexed(buffer, indices);
+    m_skeletalMeshes[name] = mesh;
+
+    AddSkeletalMeshPath(name, meshPath);
+    m_skeletalMeshesPaths[name].bIsLoaded = true;
+
+}
 
 void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, LE3Skeleton& skeleton, aiNode* node, const aiScene* scene)
 {
@@ -392,7 +395,7 @@ void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, s
             aiBone* bone = mesh->mBones[j];
             std::string boneName = std::string(bone->mName.C_Str());
             skeleton.AddBone(boneName);
-            skeleton.GetBone(boneName)->transform = aiMatrix4x4toGLM(bone->mOffsetMatrix);
+            skeleton.GetBone(boneName)->offset = aiMatrix4x4toGLM(bone->mOffsetMatrix);
         }
     }
 
@@ -411,6 +414,7 @@ void AssimpGetNodeVector(aiNode* node, std::vector<aiNode*>& nodes)
 
 void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes)
 {
+    // skeleton.AddBone("_root");
     for (auto bone : skeleton.m_bones)
     {
         // Find the corresponding aiNode
@@ -423,9 +427,7 @@ void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes)
                 {
                     // If there is a parent to a bone that is note present,
                     // add a fictitiuos root
-                    // if (!skeleton.GetBone("_root"))
-                    //     skeleton.AddBone("_root");
-                    // skeleton.GetBone("_root")->transform = glm::inverse(aiMatrix4x4toGLM(node->mParent->mTransformation));
+                    // skeleton.GetBone("_root")->offset = glm::inverse(aiMatrix4x4toGLM(node->mParent->mTransformation));
                     // bone->parent = skeleton.GetBone("_root");
                 }
                 if (bone->parent)
@@ -434,4 +436,20 @@ void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes)
             }
         }
     }
+}
+
+
+void _DBG_SkeletalPrint(LE3Skeleton& skeleton)
+{
+    print("m_globalInverseTransform:\n");
+    printMatrix(skeleton.m_globalInverseTransform);
+    print("\n");
+
+    for (auto bone : skeleton.m_bones)
+    {
+        print("Bone: {}\n", bone->name);
+        printMatrix(bone->offset);
+        print("\n");
+    }
+    print("\n");
 }

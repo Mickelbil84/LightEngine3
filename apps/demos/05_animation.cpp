@@ -49,16 +49,16 @@ public:
             "resources/shaders/blinn_phong/blinn_phong.vs",
             "resources/shaders/blinn_phong/blinn_phong.fs");
 
-        // scene.assets.AddTexturePath("T_DIF_soldier", "resources/textures/soldier/T_DIF_soldier.png");
-        // scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/soldier/T_SPC_soldier.png");
-        // scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/soldier/T_NRM_soldier.png");
-        scene.assets.AddTexturePath("T_DIF_soldier", "resources/textures/vampire/Vampire_diffuse.png");
-        scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/vampire/Vampire_specular.png");
-        scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/vampire/Vampire_normal.png");
+        scene.assets.AddTexturePath("T_DIF_soldier", "resources/textures/soldier/T_DIF_soldier.png");
+        scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/soldier/T_SPC_soldier.png");
+        scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/soldier/T_NRM_soldier.png");
+        // scene.assets.AddTexturePath("T_DIF_soldier", "resources/textures/vampire/Vampire_diffuse.png");
+        // scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/vampire/Vampire_specular.png");
+        // scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/vampire/Vampire_normal.png");
 
-        // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.dae");
+        scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.fbx");
         // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/dancing_vampire.dae");
-        scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/cylinder/cylinder.fbx");
+        // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/cylinder/cylinder.fbx");
 
         scene.assets.CreateMaterial("M_soldier", "S_blinn_phong");
         scene.assets.GetMaterial("M_soldier")->SetDiffuseTexture(scene.assets.GetTexture("T_DIF_soldier"));
@@ -70,7 +70,7 @@ public:
         scene.assets.GetMaterial("M_soldier")->specularIntensity = .6f;
         scene.assets.GetMaterial("M_soldier")->shininess = 128.f;
 
-        scene.AddSkeletalMesh("soldier", "SK_soldier", "M_soldier", .007f);
+        scene.AddSkeletalMesh("soldier", "SK_soldier", "M_soldier", .01f);
         scene.GetObject("soldier")->SetPositionZ(-1.f);
 
         scene.AddDirectionalLight("directional_light", glm::vec3(1.f), 1.3f);
@@ -87,7 +87,7 @@ public:
         //   Misc
         // ---------------------------
         
-        scene.GetCamera()->SetPosition(glm::vec3(0.f, 1.25f, 0.f));
+        scene.GetCamera()->SetPosition(glm::vec3(0.f, 1.8f, 0.f));
         scene.GetCamera()->SetAspectRatio((float)m_settings.windowWidth / (float)m_settings.windowHeight);
         
         walkSpeed = 2.2f;

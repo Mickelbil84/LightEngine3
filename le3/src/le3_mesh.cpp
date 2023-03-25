@@ -132,11 +132,12 @@ template class LE3Mesh<LE3Vertex3p2t3n3c>;
 template class LE3Mesh<LE3Vertex3p2t3n3tn3b>;
 template class LE3Mesh<LE3Vertex3p2t3n3tn3b4b4w>;
 
-glm::mat4 LE3Bone::GetGlobalTransform()
+glm::mat4 LE3Bone::GetTransform()
 {
     glm::mat4 res = transform;
+    return offset;
     if (parent)
-        res = parent->GetGlobalTransform() * res;
+        res = parent->GetTransform() * res;
     return res;
 }
 

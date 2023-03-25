@@ -6,8 +6,6 @@ set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 if (WIN32)
   add_compile_options(/bigobj)
-else ()
-  add_compile_options(-Wa,-mbig-obj)
 endif ()
 
 project(

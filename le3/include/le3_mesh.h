@@ -15,11 +15,12 @@ struct LE3Bone
 {
 public:
     glm::mat4 transform;
+    glm::mat4 offset;
     std::string name;
 
     std::shared_ptr<LE3Bone> parent = nullptr;
 
-    glm::mat4 GetGlobalTransform();
+    glm::mat4 GetTransform();
 };
 struct LE3Skeleton
 {

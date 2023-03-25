@@ -44,14 +44,16 @@ void LE3SkeletalMesh::Draw()
     // mixamoArmature = mixamoArmature * glm::scale(glm::vec3(0.1f));
     // glm::mat4 mixamoArmature = glm::identity<glm::mat4>();
 
+    glClear(GL_DEPTH_BUFFER_BIT);
     for (auto bone : m_mesh->m_skeleton.m_bones)
     {
-        glm::mat4 model_bone = mixamoArmature * m_mesh->m_skeleton.m_globalInverseTransform *  bone->GetGlobalTransform();
+        // glm::mat4 model_bone = GetModelMatrix() * mixamoArmature * m_mesh->m_skeleton.m_globalInverseTransform *  bone->GetTransform();
+        glm::mat4 model_bone = GetModelMatrix() *  glm::inverse(bone->GetTransform());
         glm::vec3 pos(model_bone[3]);
-        LE3VisualDebug::DrawDebugCube(pos, glm::vec3(0.f), glm::vec3(0.02f), glm::vec3(0.f, 1.f, 0.f));
+        LE3VisualDebug::DrawDebugCube(pos, glm::vec3(0.f), glm::vec3(0.05f, .05f, 0.05f), glm::vec3(0.f, 1.f, 0.f));
         if (bone->parent)
         {   
-            glm::mat4 parent_model_bone = mixamoArmature *  m_mesh->m_skeleton.m_globalInverseTransform  * bone->parent->GetGlobalTransform();
+            glm::mat4 parent_model_bone = GetModelMatrix() * glm::inverse(bone->parent->GetTransform());
             glm::vec3 parent_pos(parent_model_bone[3]);
             LE3VisualDebug::DrawDebugLine(parent_pos, pos, glm::vec3(0.f, 1.f, 0.f));
         }
