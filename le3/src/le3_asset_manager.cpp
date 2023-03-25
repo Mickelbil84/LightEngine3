@@ -395,8 +395,8 @@ void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, s
             vertex.bitangent[2] = mesh->mBitangents[j].z;
             for(int k = 0; k < 4; ++k)
                 vertex.bones[k] = -1;
-            // for(int k = 0; k < 4; ++k)
-            //     vertex.bones2[k] = -1;
+            for(int k = 0; k < 4; ++k)
+                vertex.bones2[k] = -1;
             buffer.push_back(vertex);
         }
         for (unsigned int j = 0; j < mesh->mNumFaces; ++j)
@@ -432,7 +432,7 @@ void AssimpSkeletalAddBoneWeights(aiMesh* mesh, LE3Skeleton& skeleton, std::vect
         {
             aiVertexWeight vertexWeight = bone->mWeights[j];
             GLuint vertexId = vertexWeight.mVertexId + buffer_offset;
-            // bool addedVertexWeight = false;
+            bool addedVertexWeight = false;
             for (unsigned int k = 0; k < MAX_BONES_PER_VERTEX; k++)
             {
                 if (k < 4)
@@ -443,15 +443,15 @@ void AssimpSkeletalAddBoneWeights(aiMesh* mesh, LE3Skeleton& skeleton, std::vect
                 }
                 else
                 {
-                    if (vertices[vertexId].bones2[k] >= 0) continue;
-                    vertices[vertexId].bones2[k] = skeleton.GetBone(boneName)->id;
-                    vertices[vertexId].weights2[k] = vertexWeight.mWeight;
+                    if (vertices[vertexId].bones2[k-4] >= 0) continue;
+                    vertices[vertexId].bones2[k-4] = skeleton.GetBone(boneName)->id;
+                    vertices[vertexId].weights2[k-4] = vertexWeight.mWeight;
                 }
-                // addedVertexWeight = true;
+                addedVertexWeight = true;
                 break;
             }
-            // if (!addedVertexWeight)
-            //     return;
+            if (!addedVertexWeight)
+                print("hi");
         }   
     }
 }

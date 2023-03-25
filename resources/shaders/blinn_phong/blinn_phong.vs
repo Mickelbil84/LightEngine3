@@ -38,22 +38,28 @@ void main()
     float sum_weights = 0.0;
     for (int i = 0; i < MAX_BONES_PER_VERTEX; i++)
     {
-        ivec4 bones = vBones;
-        vec4 weights = vWeights;
-        if (i >= 4)
+        if (i < 4)
         {
-            bones = vBones2;
-            weights = vWeights2;
+            if (vBones[i] < 0) continue;
+            if (vBones[i] >= MAX_NUM_BONES)
+            {
+                position = vPosition;
+                break;
+            }
+            vec4 deltaPos = boneMatrices[vBones[i]] * vPosition;
+            position += deltaPos * vWeights[i];
         }
-
-        if (bones[i] < 0) continue;
-        if (bones[i] >= MAX_NUM_BONES)
+        else
         {
-            position = vPosition;
-            break;
+            if (vBones2[i-4] < 0) continue;
+            if (vBones2[i-4] >= MAX_NUM_BONES)
+            {
+                position = vPosition;
+                break;
+            }
+            vec4 deltaPos = boneMatrices[vBones2[i-4]] * vPosition;
+            position += deltaPos * vWeights2[i-4];
         }
-        vec4 deltaPos = boneMatrices[bones[i]] * vPosition;
-        position += deltaPos * weights[i];
         // sum_weights += weights[i];
     }
     // if (sum_weights > 0.0)
