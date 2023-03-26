@@ -33,6 +33,9 @@
                     }
                 }
             ],
+            "m_skeletalMeshesPaths": [],
+            "m_animationPaths": [],
+            "m_animationAttachments": [],
             "m_texturesPaths": [
                 {
                     "key": "T_DIF_barrel",
@@ -598,6 +601,7 @@
         ],
         "lightManager": {
             "m_pAmbientLight": {
+                "polymorphic_id": 0
             },
             "m_directionalLights": [
             ],

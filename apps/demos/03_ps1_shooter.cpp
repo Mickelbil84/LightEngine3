@@ -49,7 +49,8 @@ public:
         // ---------------------------
         LE3Texture::g_bPS1TextureMode = true;
         scene.Init();
-        LoadScene(scene, "resources/scenes/03_ps1_shooter.json");
+        glDisable(GL_BLEND);
+        LoadScene(scene, "resources/scenes/demo_environment3.json");
         scene.AddFPSCamera();
 
 
