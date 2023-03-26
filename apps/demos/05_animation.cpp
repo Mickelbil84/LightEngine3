@@ -72,16 +72,21 @@ public:
         scene.assets.GetMaterial("M_soldier")->specularIntensity = .6f;
         scene.assets.GetMaterial("M_soldier")->shininess = 128.f;
 
+        scene.assets.CreateMaterial("M_floor", "S_blinn_phong");
+        scene.assets.GetMaterial("M_floor")->specularIntensity = .0f;
+        scene.assets.GetMaterial("M_floor")->shininess = 128.f;
+
         scene.AddSkeletalMesh("soldier", "SK_soldier", "M_soldier", .01f);
         scene.GetObject("soldier")->SetPositionZ(-1.f);
 
         scene.AddDirectionalLight("directional_light", glm::vec3(1.f), 1.3f);
-        scene.GetObject("directional_light")->SetRotationX(1.57f);
+        scene.GetObject("directional_light")->SetRotationX(0.8f);
+        scene.lightManager.EnableShadows(std::dynamic_pointer_cast<LE3DirectionalLight>(scene.GetObject("directional_light")));
         scene.AddDirectionalLight("directional_light1", glm::vec3(1.f), 1.3f);
         scene.GetObject("directional_light1")->SetRotationX(-1.57f);
 
         scene.assets.AddMeshPath("floor", "$BOX_0_0_0_20.000000_0.0240000_20.000000_");
-        scene.AddStaticMesh("floor", "floor", "M_default");
+        scene.AddStaticMesh("floor", "floor", "M_floor");
 
         
         // Camera
@@ -158,10 +163,10 @@ public:
 
         scene.GetRoot()->Update(deltaTime);
 
-        scene.GetObject("soldier")->SetPosition(3.f * glm::vec3(
-            cosf(runTime*1.f), 0.f, sinf(runTime*1.f)
-        ));
-        scene.GetObject("soldier")->SetRotationY(-runTime - 1.57*0);
+        // scene.GetObject("soldier")->SetPosition(3.f * glm::vec3(
+        //     cosf(runTime*1.f), 0.f, sinf(runTime*1.f)
+        // ));
+        // scene.GetObject("soldier")->SetRotationY(-runTime - 1.57*0);
 
 
         // Hotfix: Update gun and camera in sync to avoid "jagged" model matrix

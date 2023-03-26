@@ -21,6 +21,7 @@
                     }
                 }
             ],
+            "m_skeletalMeshesPaths": [],
             "m_texturesPaths": [
                 {
                     "key": "CM_basilica",

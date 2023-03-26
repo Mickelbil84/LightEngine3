@@ -23,6 +23,7 @@ uniform mat4 projection;
 uniform mat4 dirLightViewMatrix[MAX_DIRECTIONAL_LIGHTS];
 uniform mat4 spotLightViewMatrix[MAX_SPOT_LIGHTS];
 
+uniform bool bIsSkeletal;
 uniform mat4 boneMatrices[MAX_NUM_BONES];
 
 out vec2 texCoord;
@@ -34,37 +35,37 @@ out mat3 tbn;
 
 void main()
 {
-    vec4 position = vec4(0.0);
-    float sum_weights = 0.0;
-    for (int i = 0; i < MAX_BONES_PER_VERTEX; i++)
+    vec4 position = vPosition;
+    if (bIsSkeletal)
     {
-        if (i < 4)
+        position = vec4(0.0);
+        for (int i = 0; i < MAX_BONES_PER_VERTEX; i++)
         {
-            if (vBones[i] < 0) continue;
-            if (vBones[i] >= MAX_NUM_BONES)
+            if (i < 4)
             {
-                position = vPosition;
-                break;
+                if (vBones[i] < 0) continue;
+                if (vBones[i] >= MAX_NUM_BONES)
+                {
+                    position = vPosition;
+                    break;
+                }
+                vec4 deltaPos = boneMatrices[vBones[i]] * vPosition;
+                position += deltaPos * vWeights[i];
             }
-            vec4 deltaPos = boneMatrices[vBones[i]] * vPosition;
-            position += deltaPos * vWeights[i];
-        }
-        else
-        {
-            if (vBones2[i-4] < 0) continue;
-            if (vBones2[i-4] >= MAX_NUM_BONES)
+            else
             {
-                position = vPosition;
-                break;
+                if (vBones2[i-4] < 0) continue;
+                if (vBones2[i-4] >= MAX_NUM_BONES)
+                {
+                    position = vPosition;
+                    break;
+                }
+                vec4 deltaPos = boneMatrices[vBones2[i-4]] * vPosition;
+                position += deltaPos * vWeights2[i-4];
             }
-            vec4 deltaPos = boneMatrices[vBones2[i-4]] * vPosition;
-            position += deltaPos * vWeights2[i-4];
         }
-        // sum_weights += weights[i];
+        position.w = 1.0;
     }
-    // if (sum_weights > 0.0)
-    //     position /= sum_weights;
-    position.w = 1.0;
 
     gl_Position = projection * view * model * position;
     texCoord = vTexCoord;

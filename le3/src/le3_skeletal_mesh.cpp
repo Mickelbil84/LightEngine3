@@ -38,8 +38,13 @@ void LE3SkeletalMesh::Draw(LE3Shader* shader)
         return;
     shader->Use();
     shader->Uniform("model", m_globalModelMatrix);
+    // Update animation
+    std::vector<glm::mat4> boneMatrices = m_mesh->m_animationTracks[0].GetBoneMatrices();
+    for (int idx = 0; idx < boneMatrices.size(); idx++)
+        shader->Uniform(format("boneMatrices[{}]", idx), boneMatrices[idx]);
+    shader->Uniform("bIsSkeletal", (GLuint)true);
     m_mesh->Draw();
-    
+    shader->Uniform("bIsSkeletal", (GLuint)false);
 }
 void LE3SkeletalMesh::Draw()
 {
@@ -53,8 +58,9 @@ void LE3SkeletalMesh::Draw()
     std::vector<glm::mat4> boneMatrices = m_mesh->m_animationTracks[0].GetBoneMatrices();
     for (int idx = 0; idx < boneMatrices.size(); idx++)
         m_material->GetShader()->Uniform(format("boneMatrices[{}]", idx), boneMatrices[idx]);
-
+    m_material->GetShader()->Uniform("bIsSkeletal", (GLuint)true);
     m_mesh->Draw();
+    m_material->GetShader()->Uniform("bIsSkeletal", (GLuint)false);
 
     int i = 0;
 
