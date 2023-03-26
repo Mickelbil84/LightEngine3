@@ -77,13 +77,19 @@ public:
         scene.assets.GetMaterial("M_floor")->shininess = 128.f;
 
         scene.AddSkeletalMesh("soldier", "SK_soldier", "M_soldier", .01f);
-        scene.GetObject("soldier")->SetPositionZ(-1.f);
+        scene.GetObject("soldier")->SetPositionZ(-4.f);
 
-        scene.AddDirectionalLight("directional_light", glm::vec3(1.f), 1.3f);
-        scene.GetObject("directional_light")->SetRotationX(0.8f);
-        scene.lightManager.EnableShadows(std::dynamic_pointer_cast<LE3DirectionalLight>(scene.GetObject("directional_light")));
-        scene.AddDirectionalLight("directional_light1", glm::vec3(1.f), 1.3f);
+
+        scene.AddAmbientLight(glm::vec3(0.9f, 0.4f, 0.1f), 0.05f);
+        // scene.AddDirectionalLight("directional_light", glm::vec3(1.f), 1.3f);
+        // scene.GetObject("directional_light")->SetRotationX(1.57f);
+        scene.AddDirectionalLight("directional_light1", glm::vec3(1.f), .3f);
         scene.GetObject("directional_light1")->SetRotationX(-1.57f);
+
+        scene.AddSpotLight("spot_light", glm::vec3(.9f, 1.f, 1.f), 0.6f);
+        scene.GetObject("spot_light")->SetPosition(glm::vec3(0.f, 4.8f, 2.f));
+        scene.GetObject("spot_light")->SetRotationX(0.7f);
+        scene.lightManager.EnableShadows(std::dynamic_pointer_cast<LE3SpotLight>(scene.GetObject("spot_light")));
 
         scene.assets.AddMeshPath("floor", "$BOX_0_0_0_20.000000_0.0240000_20.000000_");
         scene.AddStaticMesh("floor", "floor", "M_floor");
@@ -97,7 +103,7 @@ public:
         //   Misc
         // ---------------------------
         
-        scene.GetCamera()->SetPosition(glm::vec3(0.f, 1.8f, 0.f));
+        scene.GetCamera()->SetPosition(glm::vec3(0.f, 1.6f, 0.f));
         scene.GetCamera()->SetAspectRatio((float)m_settings.windowWidth / (float)m_settings.windowHeight);
         
         walkSpeed = 2.2f;
@@ -163,6 +169,11 @@ public:
 
         scene.GetRoot()->Update(deltaTime);
 
+        glm::vec3 soldierPosition = scene.GetObject("soldier")->GetPosition();
+        soldierPosition.z += deltaTime * 1.f;
+        if (soldierPosition.z > 4.f)
+            soldierPosition.z = -4.f;
+        scene.GetObject("soldier")->SetPosition(soldierPosition);
         // scene.GetObject("soldier")->SetPosition(3.f * glm::vec3(
         //     cosf(runTime*1.f), 0.f, sinf(runTime*1.f)
         // ));

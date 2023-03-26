@@ -212,6 +212,7 @@ void LE3SceneManager::Reparent(std::string object, std::string newParent)
 void LE3SceneManager::Render()
 {
     // Draw the shadowmaps
+    glEnable(GL_CULL_FACE);
     glCullFace(GL_FRONT); // Solve Peter-Panning
     GLuint shadowMapIdx = SHADOW_MAP_INDEX;
     for (auto light : lightManager.GetDirectionalLights())
@@ -249,6 +250,7 @@ void LE3SceneManager::Render()
     }
     glViewport(0, 0, applicationSettings->windowWidth, applicationSettings->windowHeight);
     glCullFace(GL_BACK); 
+    glDisable(GL_CULL_FACE);
     GetRoot()->Draw();
 }
 

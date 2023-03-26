@@ -358,9 +358,9 @@ glm::vec3 LE3SpotLight::GetDirection() const
 }
 glm::mat4 LE3SpotLight::GetViewMatrix() const
 {
-    float delta_plane = 15.f;
+    float delta_plane = 25.f;
     glm::vec3 pos = GetGlobalPosition();
-    glm::mat4 lightProjection = glm::perspective(glm::radians(45.f), 1.f, .5f, 40.f);
+    glm::mat4 lightProjection = glm::perspective(glm::radians(90.f), 1.f, .5f, 40.f);
     // To combat linearly dependant columns in look-at matrix, we add a very small noise to the up vector
     glm::mat4 lightView = glm::lookAt(pos, pos + GetDirection(), glm::vec3(0.f, .999f, 0.04471017781f));
     return lightProjection * lightView;
