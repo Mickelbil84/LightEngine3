@@ -30,6 +30,13 @@ LE3ShaderPath::LE3ShaderPath() :
 
 }
 
+LE3AnimationPath::LE3AnimationPath() :
+    path(""),
+    skeletalMeshName(""),
+    bIsLoaded(false)
+{
+}
+
 void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene);
 void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, LE3Skeleton& skeleton, aiNode* node, const aiScene* scene);
 void AssimpGetNodeVector(aiNode* node, std::vector<aiNode*>& nodes);
@@ -351,14 +358,6 @@ void LE3AssetManager::LoadSkeletalMesh(std::string name, std::string meshPath)
     mesh.LoadMeshDataIndexed(buffer, indices);
     m_skeletalMeshes[name] = mesh;
 
-    // Load Animations
-    for (int i = 0; i < scene->mNumAnimations; ++i)
-    {
-        LE3AnimationTrack animTrack(&m_skeletalMeshes[name].m_skeleton);
-        animTrack.LoadAnimationTrack(scene, i);
-        m_skeletalMeshes[name].m_animationTracks.push_back(animTrack);
-    }
-
     AddSkeletalMeshPath(name, meshPath);
     m_skeletalMeshesPaths[name].bIsLoaded = true;
 
@@ -511,4 +510,42 @@ void _DBG_aiScenePrint(const aiScene* scene)
     print("\tNum Position Keys = {}\n", nodeAnim->mNumPositionKeys);
     print("\tNum Rotation Keys = {}\n", nodeAnim->mNumRotationKeys);
     print("\tNum Scale Keys = {}\n", nodeAnim->mNumScalingKeys);
+}
+
+void LE3AssetManager::AddAnimationPath(std::string name, std::string animationPath, std::string skeletalMeshName)
+{
+    LE3AnimationPath ap;
+    ap.path = animationPath;
+    ap.skeletalMeshName = skeletalMeshName;
+    ap.bIsLoaded = false;
+    m_animationPaths[name] = ap;
+}
+void LE3AssetManager::LoadAnimations(std::string animationName)
+{
+    LE3AnimationPath ap = m_animationPaths[animationName];
+    LE3Mesh<LE3VertexSkeletal>* mesh = GetSkeletalMesh(ap.skeletalMeshName);
+    if (!mesh) return;
+
+    Assimp::Importer importer;
+    const aiScene* scene = importer.ReadFile(ap.path, 
+        aiProcess_FlipUVs |
+        aiProcess_Triangulate |
+        aiProcess_CalcTangentSpace
+        );
+    if (!scene)
+    {
+        #ifndef NDEBUG
+        PrintTitle("Load Animation Error");
+        std::cout << "Failed loading animation:\t" << ap.path << std::endl;
+        #endif
+        return;
+    }
+
+    // Load Animations
+    for (int i = 0; i < scene->mNumAnimations; ++i)
+    {
+        LE3AnimationTrack animTrack(&mesh->m_skeleton);
+        animTrack.LoadAnimationTrack(scene, i);
+        mesh->m_animationTracks.push_back(animTrack);
+    }
 }

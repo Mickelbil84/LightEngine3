@@ -59,6 +59,22 @@ struct LE3ShaderPath
     }
 };
 
+struct LE3AnimationPath
+{
+    LE3AnimationPath();
+
+    std::string path;
+    std::string skeletalMeshName;
+    bool bIsLoaded;
+
+    template <class Archive>
+    void serialize(Archive & ar)
+    {
+        ar(CEREAL_NVP(path));
+        ar(CEREAL_NVP(skeletalMeshName));
+    }
+};
+
 class LE3AssetManager
 {
 public:
@@ -73,6 +89,9 @@ public:
     void AddSkeletalMeshPath(std::string name, std::string meshPath);
     void LoadSkeletalMesh(std::string name, std::string meshPath);
     LE3Mesh<LE3VertexSkeletal>* GetSkeletalMesh(std::string name);
+
+    void AddAnimationPath(std::string name, std::string animationPath, std::string skeletalMeshName);
+    void LoadAnimations(std::string animationName);
 
     void AddTexturePath(std::string name, std::string texturePath);
     void LoadTexture(std::string name, std::string texturePath);
@@ -90,6 +109,7 @@ public:
     */
     std::map<std::string, LE3AssetPath> m_meshesPaths;
     std::map<std::string, LE3AssetPath> m_skeletalMeshesPaths;
+    std::map<std::string, LE3AnimationPath> m_animationPaths;
     std::map<std::string, LE3AssetPath> m_texturesPaths;
     std::map<std::string, LE3ShaderPath> m_shadersPaths;
 
@@ -104,6 +124,7 @@ public:
     {
         ar(CEREAL_NVP(m_meshesPaths));
         ar(CEREAL_NVP(m_skeletalMeshesPaths));
+        ar(CEREAL_NVP(m_animationPaths));
         ar(CEREAL_NVP(m_texturesPaths));
         ar(CEREAL_NVP(m_shadersPaths));
         ar(CEREAL_NVP(m_materials));
@@ -114,6 +135,7 @@ public:
     {
         ar(m_meshesPaths);
         ar(m_skeletalMeshesPaths);
+        ar(m_animationPaths);
         ar(m_texturesPaths);
         ar(m_shadersPaths);
         ar(m_materials);
@@ -130,6 +152,9 @@ public:
             if (material.cubemapName.size())
                 material.SetCubemap(GetTexture(material.cubemapName));
         }
+
+        for (auto& [name, ap] : m_animationPaths)
+            LoadAnimations(name);
     }
 
 

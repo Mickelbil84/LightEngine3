@@ -1,4 +1,5 @@
 #include "le3_animation.h"
+#include <iostream>
 
 LE3AnimationTrack::LE3AnimationTrack(LE3Skeleton* skeleton) : skeleton(skeleton)
 {

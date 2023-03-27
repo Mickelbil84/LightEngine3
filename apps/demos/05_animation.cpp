@@ -54,13 +54,11 @@ public:
         scene.assets.AddTexturePath("T_DIF_soldier", "resources/textures/soldier/T_DIF_soldier.png");
         scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/soldier/T_SPC_soldier.png");
         scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/soldier/T_NRM_soldier.png");
-        // scene.assets.AddTexturePath("T_DIF_soldier", "resources/textures/vampire/Vampire_diffuse.png");
-        // scene.assets.AddTexturePath("T_SPC_soldier", "resources/textures/vampire/Vampire_specular.png");
-        // scene.assets.AddTexturePath("T_NRM_soldier", "resources/textures/vampire/Vampire_normal.png");
 
-        scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.fbx");
-        // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/dancing_vampire.dae");
-        // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/Idle.fbx");
+        // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.fbx");
+        scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/animations/SK_soldier.fbx");
+        scene.assets.AddAnimationPath("ANIM_soldier_walk", "resources/models/animations/ANIM_soldier_rifle_aiming_idle.fbx", "SK_soldier");
+        scene.assets.LoadAnimations("ANIM_soldier_walk");
 
         scene.assets.CreateMaterial("M_soldier", "S_blinn_phong");
         scene.assets.GetMaterial("M_soldier")->SetDiffuseTexture(scene.assets.GetTexture("T_DIF_soldier"));
@@ -80,15 +78,16 @@ public:
         scene.GetObject("soldier")->SetPositionZ(-4.f);
 
 
-        scene.AddAmbientLight(glm::vec3(0.9f, 0.4f, 0.1f), 0.05f);
-        // scene.AddDirectionalLight("directional_light", glm::vec3(1.f), 1.3f);
-        // scene.GetObject("directional_light")->SetRotationX(1.57f);
+        scene.AddAmbientLight(glm::vec3(0.9f, 0.4f, 0.1f), 0.2f);
+        scene.AddDirectionalLight("directional_light", glm::vec3(1.f), 0.5f);
+        scene.GetObject("directional_light")->SetRotationX(1.57f);
         scene.AddDirectionalLight("directional_light1", glm::vec3(1.f), .3f);
         scene.GetObject("directional_light1")->SetRotationX(-1.57f);
 
-        scene.AddSpotLight("spot_light", glm::vec3(.9f, 1.f, 1.f), 0.6f);
+        scene.AddSpotLight("spot_light", glm::vec3(.9f, 1.f, 1.f), 0.8f);
         scene.GetObject("spot_light")->SetPosition(glm::vec3(0.f, 4.8f, 2.f));
         scene.GetObject("spot_light")->SetRotationX(0.7f);
+        scene.GetObject("spot_light")->SetRotationY(-0.1f);
         scene.lightManager.EnableShadows(std::dynamic_pointer_cast<LE3SpotLight>(scene.GetObject("spot_light")));
 
         scene.assets.AddMeshPath("floor", "$BOX_0_0_0_20.000000_0.0240000_20.000000_");
@@ -97,6 +96,7 @@ public:
         
         // Camera
         scene.AddFPSCamera();
+        // scene.AddFreeCamera();
         LE3VisualDebug::Init(scene.GetCamera().get());
 
         // ---------------------------
@@ -170,7 +170,7 @@ public:
         scene.GetRoot()->Update(deltaTime);
 
         glm::vec3 soldierPosition = scene.GetObject("soldier")->GetPosition();
-        soldierPosition.z += deltaTime * 1.f;
+        soldierPosition.z += deltaTime * .0f;
         if (soldierPosition.z > 4.f)
             soldierPosition.z = -4.f;
         scene.GetObject("soldier")->SetPosition(soldierPosition);
