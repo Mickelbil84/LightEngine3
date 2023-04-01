@@ -57,7 +57,11 @@ public:
 
         // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.fbx");
         scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/animations/SK_soldier.fbx");
+        scene.assets.AddAnimationPath("ANIM_soldier_idle", "resources/models/animations/ANIM_soldier_rifle_idle.fbx", "SK_soldier");
+        scene.assets.AddAnimationPath("ANIM_soldier_fire", "resources/models/animations/ANIM_soldier_rifle_fire.fbx", "SK_soldier");
         scene.assets.AddAnimationPath("ANIM_soldier_walk", "resources/models/animations/ANIM_soldier_rifle_walk.fbx", "SK_soldier");
+        scene.assets.LoadAnimations("ANIM_soldier_idle");
+        scene.assets.LoadAnimations("ANIM_soldier_fire");
         scene.assets.LoadAnimations("ANIM_soldier_walk");
 
         for (auto& [name, track] : scene.assets.GetSkeletalMesh("SK_soldier")->m_animationTracks)
@@ -81,6 +85,15 @@ public:
         scene.GetObject("soldier")->SetPositionZ(-4.f);
         std::dynamic_pointer_cast<LE3SkeletalMesh>(scene.GetObject("soldier"))->SetCurrentAnimtion("ANIM_soldier_walk");
 
+        scene.AddSkeletalMesh("soldier2", "SK_soldier", "M_soldier", .01f);
+        scene.GetObject("soldier2")->SetPositionX(-1.f);
+        scene.GetObject("soldier2")->SetPositionZ(-4.f);
+        std::dynamic_pointer_cast<LE3SkeletalMesh>(scene.GetObject("soldier2"))->SetCurrentAnimtion("ANIM_soldier_idle");
+
+        scene.AddSkeletalMesh("soldier3", "SK_soldier", "M_soldier", .01f);
+        scene.GetObject("soldier3")->SetPositionX( 1.f);
+        scene.GetObject("soldier3")->SetPositionZ(-4.f);
+        std::dynamic_pointer_cast<LE3SkeletalMesh>(scene.GetObject("soldier3"))->SetCurrentAnimtion("ANIM_soldier_fire");
 
         scene.AddAmbientLight(glm::vec3(0.9f, 0.4f, 0.1f), 0.2f);
         scene.AddDirectionalLight("directional_light", glm::vec3(1.f), 0.5f);
