@@ -57,8 +57,11 @@ public:
 
         // scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/SK_soldier.fbx");
         scene.assets.AddSkeletalMeshPath("SK_soldier", "resources/models/animations/SK_soldier.fbx");
-        scene.assets.AddAnimationPath("ANIM_soldier_walk", "resources/models/animations/ANIM_soldier_rifle_aiming_idle.fbx", "SK_soldier");
+        scene.assets.AddAnimationPath("ANIM_soldier_walk", "resources/models/animations/ANIM_soldier_rifle_walk.fbx", "SK_soldier");
         scene.assets.LoadAnimations("ANIM_soldier_walk");
+
+        for (auto& [name, track] : scene.assets.GetSkeletalMesh("SK_soldier")->m_animationTracks)
+            print("Animation: {}\n", name);
 
         scene.assets.CreateMaterial("M_soldier", "S_blinn_phong");
         scene.assets.GetMaterial("M_soldier")->SetDiffuseTexture(scene.assets.GetTexture("T_DIF_soldier"));
@@ -76,6 +79,7 @@ public:
 
         scene.AddSkeletalMesh("soldier", "SK_soldier", "M_soldier", .01f);
         scene.GetObject("soldier")->SetPositionZ(-4.f);
+        std::dynamic_pointer_cast<LE3SkeletalMesh>(scene.GetObject("soldier"))->SetCurrentAnimtion("ANIM_soldier_walk");
 
 
         scene.AddAmbientLight(glm::vec3(0.9f, 0.4f, 0.1f), 0.2f);
@@ -92,6 +96,8 @@ public:
 
         scene.assets.AddMeshPath("floor", "$BOX_0_0_0_20.000000_0.0240000_20.000000_");
         scene.AddStaticMesh("floor", "floor", "M_floor");
+
+        SaveScene(scene, "resources/scenes/05_animation.json");
 
         
         // Camera

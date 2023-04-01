@@ -91,7 +91,7 @@ public:
     LE3Mesh<LE3VertexSkeletal>* GetSkeletalMesh(std::string name);
 
     void AddAnimationPath(std::string name, std::string animationPath, std::string skeletalMeshName);
-    void LoadAnimations(std::string animationName);
+    void LoadAnimations(std::string animationName); // Loads only the first animation from a given file
 
     void AddTexturePath(std::string name, std::string texturePath);
     void LoadTexture(std::string name, std::string texturePath);

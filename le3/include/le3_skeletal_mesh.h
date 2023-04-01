@@ -36,12 +36,15 @@ public:
         ar(CEREAL_NVP(meshName), CEREAL_NVP(materialName), CEREAL_NVP(m_bHasCollision));
     }
 
+    void SetCurrentAnimtion(std::string animationName);
+
 protected:
     LE3Mesh<LE3VertexSkeletal>* m_mesh;
     LE3Material* m_material;
     btRigidBody* m_pRigidBody;
     LE3PhysicsComponent* m_pPhysics;
     float m_animationTime = 0.f;
+    std::string m_currentAnimation = "";
 public:
     bool m_bHasCollision;
 };

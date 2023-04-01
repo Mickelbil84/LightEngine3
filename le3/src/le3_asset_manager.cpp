@@ -546,6 +546,7 @@ void LE3AssetManager::LoadAnimations(std::string animationName)
     {
         LE3AnimationTrack animTrack(&mesh->m_skeleton);
         animTrack.LoadAnimationTrack(scene, i);
-        mesh->m_animationTracks.push_back(animTrack);
+        mesh->m_animationTracks[animationName] = animTrack;
+        break;
     }
 }

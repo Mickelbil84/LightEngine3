@@ -64,6 +64,7 @@ void main()
                 position += deltaPos * vWeights2[i-4];
             }
         }
+
         position.w = 1.0;
     }
 
@@ -78,10 +79,6 @@ void main()
 
     mat3 normal_mtx = mat3(transpose(inverse(model)));
     normalCoord = normalize(normal_mtx * vNormal);
-
-    // cameraPos = -vec3(
-    //     view[3][0], view[3][1], view[3][2]
-    // );
 
     vec3 T = normalize(normal_mtx * vTangent);
     vec3 B = normalize(normal_mtx * vBitangent);

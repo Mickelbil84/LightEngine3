@@ -45,5 +45,6 @@ public:
 
     // In case of skeletal mesh
     LE3Skeleton m_skeleton;
-    std::vector<LE3AnimationTrack> m_animationTracks;
+    // std::vector<LE3AnimationTrack> m_animationTracks;
+    std::map<std::string, LE3AnimationTrack> m_animationTracks;
 };

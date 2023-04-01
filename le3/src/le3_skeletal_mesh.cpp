@@ -19,12 +19,14 @@ void LE3SkeletalMesh::Update(double deltaTime)
     m_animationTime += deltaTime;
 
     float ticksPerSecond = 25.f;
-    if (m_mesh->m_animationTracks[0].ticksPerSecond)
-        ticksPerSecond = (float)m_mesh->m_animationTracks[0].ticksPerSecond;
+    if (m_currentAnimation.size())
+    {
+        if (m_mesh->m_animationTracks[m_currentAnimation].ticksPerSecond)
+            ticksPerSecond = (float)m_mesh->m_animationTracks[m_currentAnimation].ticksPerSecond;
 
-    float adjustedAnimationTime = fmodf(m_animationTime * ticksPerSecond, m_mesh->m_animationTracks[0].duration);
-    m_mesh->m_animationTracks[0].UpdateBoneMatrices(adjustedAnimationTime);
-
+        float adjustedAnimationTime = fmodf(m_animationTime * ticksPerSecond, m_mesh->m_animationTracks[m_currentAnimation].duration);
+        m_mesh->m_animationTracks[m_currentAnimation].UpdateBoneMatrices(adjustedAnimationTime);
+    }
     if (m_pRigidBody)
     {
         btTransform transform;
@@ -39,7 +41,12 @@ void LE3SkeletalMesh::Draw(LE3Shader* shader)
     shader->Use();
     shader->Uniform("model", m_globalModelMatrix);
     // Update animation
-    std::vector<glm::mat4> boneMatrices = m_mesh->m_animationTracks[0].GetBoneMatrices();
+    std::vector<glm::mat4> boneMatrices;
+    if (m_currentAnimation.size())
+        boneMatrices = m_mesh->m_animationTracks[m_currentAnimation].GetBoneMatrices();
+    else for (int idx = 0; idx < m_mesh->m_skeleton.m_bones.size(); idx++)
+        boneMatrices.push_back(glm::mat4(1.f));
+
     for (int idx = 0; idx < boneMatrices.size(); idx++)
         shader->Uniform(format("boneMatrices[{}]", idx), boneMatrices[idx]);
     shader->Uniform("bIsSkeletal", (GLuint)true);
@@ -55,7 +62,12 @@ void LE3SkeletalMesh::Draw()
     m_material->GetShader()->Uniform("model", m_globalModelMatrix);
     
     // Update animation
-    std::vector<glm::mat4> boneMatrices = m_mesh->m_animationTracks[0].GetBoneMatrices();
+    std::vector<glm::mat4> boneMatrices;
+    if (m_currentAnimation.size())
+        boneMatrices = m_mesh->m_animationTracks[m_currentAnimation].GetBoneMatrices();
+    else for (int idx = 0; idx < m_mesh->m_skeleton.m_bones.size(); idx++)
+        boneMatrices.push_back(glm::mat4(1.f));
+
     for (int idx = 0; idx < boneMatrices.size(); idx++)
         m_material->GetShader()->Uniform(format("boneMatrices[{}]", idx), boneMatrices[idx]);
     m_material->GetShader()->Uniform("bIsSkeletal", (GLuint)true);
@@ -64,16 +76,11 @@ void LE3SkeletalMesh::Draw()
 
     int i = 0;
 
-    // glm::mat4 mixamoArmature = glm::rotate(glm::radians(180.f), glm::vec3(1.f, 0.f, 0.f));
-    glm::mat4 mixamoArmature = glm::rotate(glm::radians(0.f), glm::vec3(1.f, 0.f, 0.f));
-    // mixamoArmature = mixamoArmature * glm::scale(glm::vec3(0.1f));
-    // glm::mat4 mixamoArmature = glm::identity<glm::mat4>();
-
     glClear(GL_DEPTH_BUFFER_BIT);
     for (auto bone : m_mesh->m_skeleton.m_bones)
     {
         // glm::mat4 model_bone = GetModelMatrix() * mixamoArmature * m_mesh->m_skeleton.m_globalInverseTransform *  bone->GetTransform();
-        glm::mat4 model_bone = GetModelMatrix() * glm::inverse(bone->GetTransform()) * glm::inverse(bone->offset);
+        glm::mat4 model_bone = GetModelMatrix() * glm::inverse(bone->offset);
         glm::vec3 pos(model_bone[3]);
         // LE3VisualDebug::DrawDebugCube(pos, glm::vec3(0.f), glm::vec3(0.01f, .01f, 0.01f), glm::vec3(0.f, 1.f, 0.f));
         if (bone->parent)
@@ -181,4 +188,9 @@ void LE3SkeletalMesh::Delete()
 {
     if (m_pRigidBody)
         m_pPhysics->GetWorld()->removeRigidBody(m_pRigidBody);
+}
+
+void LE3SkeletalMesh::SetCurrentAnimtion(std::string animationName)
+{
+    m_currentAnimation = animationName;
 }

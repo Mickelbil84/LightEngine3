@@ -36,7 +36,7 @@ struct LE3ScaleKeyframe
 struct LE3AnimationTrack
 {
 public:
-    LE3AnimationTrack(LE3Skeleton* skeleton);
+    LE3AnimationTrack(LE3Skeleton* skeleton=nullptr);
 
     std::string name;
     float duration;
