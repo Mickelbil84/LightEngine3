@@ -8,6 +8,7 @@ LE3Shader* LE3VisualDebug::m_pDebugShader = nullptr;
 LE3Camera* LE3VisualDebug::m_pCamera = nullptr;
 bool LE3VisualDebug::g_bDrawCollision = false;
 bool LE3VisualDebug::g_bDrawBulletCollision = false;
+bool LE3VisualDebug::g_bDrawSkeleton = false;
 
 void LE3VisualDebug::Init(LE3Camera* camera)
 {

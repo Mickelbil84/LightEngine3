@@ -95,6 +95,9 @@ public:
         scene.GetObject("soldier3")->SetPositionZ(-4.f);
         std::dynamic_pointer_cast<LE3SkeletalMesh>(scene.GetObject("soldier3"))->SetCurrentAnimtion("ANIM_soldier_fire");
 
+        // scene.AddSkeletalMesh("soldier4", "SK_soldier", "M_soldier", .01f);
+        // scene.GetObject("soldier4")->SetPositionZ(-6.f);
+
         scene.AddAmbientLight(glm::vec3(0.9f, 0.4f, 0.1f), 0.2f);
         scene.AddDirectionalLight("directional_light", glm::vec3(1.f), 0.5f);
         scene.GetObject("directional_light")->SetRotationX(1.57f);
@@ -117,6 +120,7 @@ public:
         scene.AddFPSCamera();
         // scene.AddFreeCamera();
         LE3VisualDebug::Init(scene.GetCamera().get());
+        LE3VisualDebug::g_bDrawSkeleton = true;
 
         // ---------------------------
         //   Misc

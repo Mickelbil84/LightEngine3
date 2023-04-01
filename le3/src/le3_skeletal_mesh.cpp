@@ -4,6 +4,7 @@
 
 #include <fmt/core.h>
 using fmt::format;
+using fmt::print;
 
 LE3SkeletalMesh::LE3SkeletalMesh(std::string name, glm::vec3 position, glm::vec3 rotation, float scale) :
     LE3Object(name, position, rotation, scale),
@@ -74,21 +75,22 @@ void LE3SkeletalMesh::Draw()
     m_mesh->Draw();
     m_material->GetShader()->Uniform("bIsSkeletal", (GLuint)false);
 
-    int i = 0;
-
-    glClear(GL_DEPTH_BUFFER_BIT);
-    for (auto bone : m_mesh->m_skeleton.m_bones)
+    if (LE3VisualDebug::g_bDrawSkeleton)
     {
-        // glm::mat4 model_bone = GetModelMatrix() * mixamoArmature * m_mesh->m_skeleton.m_globalInverseTransform *  bone->GetTransform();
-        glm::mat4 model_bone = GetModelMatrix() * glm::inverse(bone->offset);
-        glm::vec3 pos(model_bone[3]);
-        // LE3VisualDebug::DrawDebugCube(pos, glm::vec3(0.f), glm::vec3(0.01f, .01f, 0.01f), glm::vec3(0.f, 1.f, 0.f));
-        if (bone->parent)
-        {   
-            glm::mat4 parent_model_bone = GetModelMatrix() * glm::inverse(bone->parent->offset) * bone->parent->GetTransform();
-            glm::vec3 parent_pos(parent_model_bone[3]);
-            // LE3VisualDebug::DrawDebugLine(parent_pos, pos, glm::vec3(0.f, 1.f, 0.f));
+        // glClear(GL_DEPTH_BUFFER_BIT);
+        glDisable(GL_DEPTH_TEST);
+        for (auto bone : m_mesh->m_skeleton.m_bones)
+        {
+            if (!boneMatrices.size()) continue;
+            glm::mat4 model_bone = GetModelMatrix() * boneMatrices[bone->id] * glm::inverse(bone->offset);
+            LE3VisualDebug::DrawDebugCube(model_bone[3], glm::vec3(0.f), glm::vec3(0.01f, .01f, 0.01f), glm::vec3(0.f, 1.f, 0.f));
+            if (bone->parent)
+            {   
+                glm::mat4 parent_model_bone = GetModelMatrix() * boneMatrices[bone->parent->id] * glm::inverse(bone->parent->offset);;
+                LE3VisualDebug::DrawDebugLine(model_bone[3], parent_model_bone[3], glm::vec3(0.f, 1.f, 0.f));
+            }
         }
+        glEnable(GL_DEPTH_TEST);
     }
     
     if (m_pRigidBody)

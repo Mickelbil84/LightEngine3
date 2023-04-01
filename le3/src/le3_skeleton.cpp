@@ -3,7 +3,6 @@
 glm::mat4 LE3Bone::GetTransform()
 {
     glm::mat4 res = transform;
-    // return offset;
     if (parent)
         res = parent->GetTransform() * res;
     return res;

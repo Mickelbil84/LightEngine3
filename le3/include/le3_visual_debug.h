@@ -19,6 +19,7 @@ public:
 
     static bool g_bDrawCollision;
     static bool g_bDrawBulletCollision;
+    static bool g_bDrawSkeleton;
 private:
     static LE3Mesh<LE3Vertex3p> *m_pDebugCube, *m_pDebugCylinder, *m_pDebugCone, *m_pDebugLine;
     static LE3Shader* m_pDebugShader;
