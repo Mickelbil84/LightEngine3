@@ -80,6 +80,7 @@ std::vector<glm::mat4> LE3AnimationTrack::GetBoneMatrices()
     return boneMatrices;
 }
 
+
 glm::mat4 LE3AnimationTrack::PositionKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
 {
     if (!positionKeyframes[bone].size())
@@ -87,7 +88,14 @@ glm::mat4 LE3AnimationTrack::PositionKeyframeInterpolation(std::shared_ptr<LE3Bo
     int keyframeIdx = 0;
     for (; keyframeIdx < positionKeyframes[bone].size() - 1; keyframeIdx++)
         if (animationTime < positionKeyframes[bone][keyframeIdx+1].timestamp) break; 
-    return glm::translate(positionKeyframes[bone][keyframeIdx].position);
+
+    float alpha =  (positionKeyframes[bone][keyframeIdx+1].timestamp - animationTime) / 
+        (positionKeyframes[bone][keyframeIdx+1].timestamp - positionKeyframes[bone][keyframeIdx].timestamp);
+
+    glm::vec3 interpolatedPosition = alpha * positionKeyframes[bone][keyframeIdx].position + 
+        (1 - alpha) * positionKeyframes[bone][keyframeIdx+1].position;
+
+    return glm::translate(interpolatedPosition);
 }
 glm::mat4 LE3AnimationTrack::RotationKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
 {
@@ -96,7 +104,16 @@ glm::mat4 LE3AnimationTrack::RotationKeyframeInterpolation(std::shared_ptr<LE3Bo
     int keyframeIdx = 0;
     for (; keyframeIdx < rotationKeyframes[bone].size() - 1; keyframeIdx++)
         if (animationTime < rotationKeyframes[bone][keyframeIdx+1].timestamp) break; 
-    return glm::toMat4(rotationKeyframes[bone][keyframeIdx].rotation);
+
+    float alpha =  (scaleKeyframes[bone][keyframeIdx+1].timestamp - animationTime) / 
+        (scaleKeyframes[bone][keyframeIdx+1].timestamp - scaleKeyframes[bone][keyframeIdx].timestamp);
+
+    glm::quat interpolatedRotation = glm::slerp(
+        rotationKeyframes[bone][keyframeIdx].rotation , 
+        rotationKeyframes[bone][keyframeIdx+1].rotation, 1.f - alpha);
+    interpolatedRotation = glm::normalize(interpolatedRotation);
+
+    return glm::toMat4(interpolatedRotation);
 }
 glm::mat4 LE3AnimationTrack::ScaleKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
 {
@@ -105,5 +122,13 @@ glm::mat4 LE3AnimationTrack::ScaleKeyframeInterpolation(std::shared_ptr<LE3Bone>
     int keyframeIdx = 0;
     for (; keyframeIdx < scaleKeyframes[bone].size() - 1; keyframeIdx++)
         if (animationTime < scaleKeyframes[bone][keyframeIdx+1].timestamp) break; 
-    return glm::scale(scaleKeyframes[bone][keyframeIdx].scale);
+
+
+    float alpha =  (scaleKeyframes[bone][keyframeIdx+1].timestamp - animationTime) / 
+        (scaleKeyframes[bone][keyframeIdx+1].timestamp - scaleKeyframes[bone][keyframeIdx].timestamp);
+        
+    glm::vec3 interpolatedScale = alpha * scaleKeyframes[bone][keyframeIdx].scale + 
+        (1 - alpha) * scaleKeyframes[bone][keyframeIdx+1].scale;
+
+    return glm::scale(interpolatedScale);
 }
