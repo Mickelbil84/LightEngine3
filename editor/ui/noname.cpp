@@ -49,6 +49,8 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 
 	m_bulletCollisionTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
 
+	m_skeletonToggleTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL );
+
 	m_topToolbar->AddSeparator();
 
 	m_reparentTool = m_topToolbar->AddTool( wxID_ANY, wxT("tool"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
@@ -228,6 +230,23 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	m_panel3->Layout();
 	bSizer10->Fit( m_panel3 );
 	m_notebook1->AddPage( m_panel3, wxT("Assets"), false );
+	m_panel8 = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer78;
+	bSizer78 = new wxBoxSizer( wxVERTICAL );
+
+	m_notebook3 = new wxNotebook( m_panel8, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_panel9 = new wxPanel( m_notebook3, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_notebook3->AddPage( m_panel9, wxT("Skeletal Mehses"), true );
+	m_panel10 = new wxPanel( m_notebook3, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_notebook3->AddPage( m_panel10, wxT("Animations"), false );
+
+	bSizer78->Add( m_notebook3, 1, wxEXPAND | wxALL, 5 );
+
+
+	m_panel8->SetSizer( bSizer78 );
+	m_panel8->Layout();
+	bSizer78->Fit( m_panel8 );
+	m_notebook1->AddPage( m_panel8, wxT("Animations"), false );
 
 	bSizer12->Add( m_notebook1, 1, wxEXPAND | wxALL, 5 );
 
@@ -268,6 +287,7 @@ LE3EditorWindow::LE3EditorWindow( wxWindow* parent, wxWindowID id, const wxStrin
 	this->Connect( m_gizmoScaleTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnGizmoScale ) );
 	this->Connect( m_collisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnCollisionToolToggle ) );
 	this->Connect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
+	this->Connect( m_skeletonToggleTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSkeletonToggle ) );
 	this->Connect( m_reparentTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnReparent ) );
 	this->Connect( m_duplicateTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDuplicate ) );
 	this->Connect( m_deleteTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDelete ) );
@@ -312,6 +332,7 @@ LE3EditorWindow::~LE3EditorWindow()
 	this->Disconnect( m_gizmoScaleTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnGizmoScale ) );
 	this->Disconnect( m_collisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnCollisionToolToggle ) );
 	this->Disconnect( m_bulletCollisionTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnBulletCollisionToolToggle ) );
+	this->Disconnect( m_skeletonToggleTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnSkeletonToggle ) );
 	this->Disconnect( m_reparentTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnReparent ) );
 	this->Disconnect( m_duplicateTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDuplicate ) );
 	this->Disconnect( m_deleteTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( LE3EditorWindow::OnDelete ) );

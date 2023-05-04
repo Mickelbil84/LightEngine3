@@ -59,6 +59,7 @@ class LE3EditorWindow : public wxFrame
 		wxAuiToolBarItem* m_gizmoScaleTool;
 		wxAuiToolBarItem* m_collisionTool;
 		wxAuiToolBarItem* m_bulletCollisionTool;
+		wxAuiToolBarItem* m_skeletonToggleTool;
 		wxAuiToolBarItem* m_reparentTool;
 		wxAuiToolBarItem* m_duplicateTool;
 		wxAuiToolBar* m_sideToolbar;
@@ -90,6 +91,10 @@ class LE3EditorWindow : public wxFrame
 		wxButton* m_loadMeshButton;
 		wxButton* m_deleteMeshButton;
 		wxTreeListCtrl* m_treeListMeshes;
+		wxPanel* m_panel8;
+		wxNotebook* m_notebook3;
+		wxPanel* m_panel9;
+		wxPanel* m_panel10;
 		wxPropertyGrid* m_propertyGrid;
 		wxStatusBar* m_statusBar2;
 		wxMenuBar* m_menubar2;
@@ -106,6 +111,7 @@ class LE3EditorWindow : public wxFrame
 		virtual void OnGizmoScale( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBulletCollisionToolToggle( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSkeletonToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnReparent( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnDuplicate( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnDelete( wxCommandEvent& event ) { event.Skip(); }

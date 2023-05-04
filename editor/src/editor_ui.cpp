@@ -13,6 +13,7 @@
 #include "icons/icon_gizmo_scale.xpm"
 #include "icons/icon_collision.xpm"
 #include "icons/icon_bulletcollision.xpm"
+#include "icons/icon_skeleton.xpm"
 #include "icons/icon_reparent.xpm"
 #include "icons/icon_duplicate.xpm"
 #include "icons/icon_delete.xpm"
@@ -45,6 +46,7 @@ LE3EditorUI::LE3EditorUI(wxWindow* parent) : LE3EditorWindow(parent), m_selected
     m_gizmoScaleTool->SetBitmap({icon_gizmo_scale});
     m_collisionTool->SetBitmap({icon_collision});
     m_bulletCollisionTool->SetBitmap({icon_bulletcollision});
+    m_skeletonToggleTool->SetBitmap({icon_skeleton});
     m_reparentTool->SetBitmap({icon_reparent});
     m_duplicateTool->SetBitmap({icon_duplicate});
     m_deleteTool->SetBitmap({icon_delete});
@@ -296,6 +298,10 @@ void LE3EditorUI::OnCollisionToolToggle( wxCommandEvent& event )
 void LE3EditorUI::OnBulletCollisionToolToggle( wxCommandEvent& event )
 {
     LE3VisualDebug::g_bDrawBulletCollision = event.IsChecked();
+}
+void LE3EditorUI::OnSkeletonToggle( wxCommandEvent& event )
+{
+    LE3VisualDebug::g_bDrawSkeleton = event.IsChecked();
 }
 
 void LE3EditorUI::OnNewScene( wxCommandEvent& event )
