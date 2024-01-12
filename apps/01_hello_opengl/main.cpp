@@ -1,9 +1,15 @@
-#include <le3_application.h>
+#include <le3.h>
 using namespace le3;
 
-int main() {
+class Demo01_HelloOpenGL : public LE3GameLogic {
+public:
+    void update(float deltaTime) {
+        ImGui::ShowDemoWindow();
+    }
+};
 
-    LE3Application app(std::make_unique<LE3GameLogic>());
+int main() {
+    LE3Application app(std::make_unique<Demo01_HelloOpenGL>());
     app.run();
     return 0;
 }

@@ -32,5 +32,6 @@ namespace le3 {
     private:
         void _initSDL();
         void _initOpenGL();
+        void _initImGui();
     };
 }

@@ -6,6 +6,11 @@ using namespace le3;
 #include <gl/glew.h>
 #include <SDL2/SDL.h>
 
+#include <imgui.h>
+#include <misc/cpp/imgui_stdlib.h>
+#include <backends/imgui_impl_sdl2.h>
+#include <backends/imgui_impl_opengl3.h>
+
 using fmt::format;
 
 
@@ -37,6 +42,7 @@ void LE3Application::run() {
 void LE3Application::init() {
     _initSDL();
     _initOpenGL();
+    _initImGui();
     m_pGameLogic->init();
 }
 
@@ -45,6 +51,8 @@ void LE3Application::handleInput() {
     LE3Input input;
     while (SDL_PollEvent(&e)) {
         if (e.type == SDL_QUIT) m_bShouldRun = false;
+
+        ImGui_ImplSDL2_ProcessEvent(&e);
     }
 
     m_pGameLogic->handleInput(input);
@@ -58,20 +66,40 @@ void LE3Application::update() {
     m_prevTime = m_currTime;
     m_pGameLogic->m_engineState.m_elapsedTime += m_deltaTime;
 
+    // Update ImGui frame
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+
     m_pGameLogic->update(m_deltaTime);
 }
 
 void LE3Application::render() {
+    
     glClearColor(0.8f, 0.8f, 0.8f, 1.f); // TODO: Propagate to game config
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     m_pGameLogic->render();
+
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    // Update platform windows
+    SDL_Window* backup_current_window = SDL_GL_GetCurrentWindow();
+    SDL_GLContext backup_current_context = SDL_GL_GetCurrentContext();
+    ImGui::UpdatePlatformWindows();
+    ImGui::RenderPlatformWindowsDefault();
+    SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
 
     SDL_GL_SwapWindow(m_pInternal->m_pWindow.get());
 }
 
 void LE3Application::shutdown() {
     m_pGameLogic->shutdown();
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
 
     SDL_GL_DeleteContext(m_pInternal->m_glContext);
     if (m_pInternal->m_pWindow) {
@@ -121,4 +149,25 @@ void LE3Application::_initOpenGL() {
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+void LE3Application::_initImGui() {
+    // Setup Dear ImGui
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+    // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        style.WindowRounding = 0.0f;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+    }
+
+    ImGui_ImplSDL2_InitForOpenGL(m_pInternal->m_pWindow.get(), m_pInternal->m_glContext);
+    ImGui_ImplOpenGL3_Init();
 }
