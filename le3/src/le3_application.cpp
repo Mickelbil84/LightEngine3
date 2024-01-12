@@ -1,175 +1,124 @@
 #include "le3_application.h"
+using namespace le3;
 
-LE3Application::LE3Application(LE3ApplicationSettings settings) : m_bShouldRun(true), m_deltaTime(0), m_settings(settings)
-{
+#include <fmt/core.h>
 
+#include <gl/glew.h>
+#include <SDL2/SDL.h>
+
+using fmt::format;
+
+
+struct LE3Application::_Internal {
+    _Internal() {}
+    std::shared_ptr<SDL_Window> m_pWindow;
+    SDL_GLContext m_glContext;
+};
+
+LE3Application::LE3Application(std::unique_ptr<LE3GameLogic> pGameLogic) :
+    m_pGameLogic(std::move(pGameLogic)),
+    m_pInternal(std::make_shared<LE3Application::_Internal>()),
+    m_bShouldRun(true) {
+    if (m_pGameLogic == nullptr)
+        throw std::runtime_error("Cannot start game application with nullptr logic.");
 }
 
-int LE3Application::_Init()
-{
-    SDL_Init(SDL_INIT_VIDEO);
 
-    SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, m_settings.numSamples);
+void LE3Application::run() {
+    init();
+    while(m_bShouldRun) {
+        handleInput();
+        update();
+        render();
+    }
+    shutdown();
+}
 
-    Uint32 flags = 0;
-    flags |= SDL_WINDOW_OPENGL;
-    if (m_settings.bIsResizable && !m_settings.bIsFullscreen)
-        flags |= SDL_WINDOW_RESIZABLE;
+void LE3Application::init() {
+    _initSDL();
+    _initOpenGL();
+    m_pGameLogic->init();
+}
 
-    m_pWindow = SDL_CreateWindow(
-        m_settings.windowTitle.c_str(), 
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-        m_settings.windowWidth, m_settings.windowHeight, 
-        flags
-    );
-    // SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "1", SDL_HINT_OVERRIDE);
-    SDL_SetRelativeMouseMode(SDL_TRUE);
-
-    if (!m_pWindow)
-    {
-        std::cout << "Could not create window: " << SDL_GetError() << std::endl;
-        return -1;
+void LE3Application::handleInput() {
+    SDL_Event e;
+    LE3Input input;
+    while (SDL_PollEvent(&e)) {
+        if (e.type == SDL_QUIT) m_bShouldRun = false;
     }
 
-    m_glcontext = SDL_GL_CreateContext(m_pWindow);
-    glewInit();
-
-    if (m_settings.bIsFullscreen)
-        SDL_SetWindowFullscreen(m_pWindow, SDL_WINDOW_FULLSCREEN);
-
-    this->ApplyOpenGLSettings();
-
-    m_physics.Init();
-    m_lastInput.xrel = m_lastInput.yrel = 0;
-    m_lastInput.bLeftMouseDown = false; m_lastInput.bRightMouseDown = false;
-
-
-    return this->Init();
+    m_pGameLogic->handleInput(input);
 }
-int LE3Application::_Run()
-{
-    Uint64 currTime = SDL_GetPerformanceCounter();
-    Uint64 prevTime = 0;
-    while (m_bShouldRun)
-    {
-       /*
-        * Process the event queue
-        */
-        SDL_Event e;
-        LE3Input input;
-        input.xrel = 0; input.yrel  = 0;
-        input.bLeftMouseDown = m_lastInput.bLeftMouseDown; input.bRightMouseDown = m_lastInput.bRightMouseDown;
-        while (SDL_PollEvent(&e))
-        {
-            if (e.type == SDL_QUIT)
-            {
-                m_bShouldRun = false;
-            }
-            if (e.type == SDL_MOUSEBUTTONDOWN)
-            {
-                if (e.button.button == SDL_BUTTON_LEFT)
-                    input.bLeftMouseDown = true;
-                if (e.button.button == SDL_BUTTON_RIGHT)
-                    input.bRightMouseDown = true;
-            }
-            if (e.type == SDL_MOUSEBUTTONUP)
-            {
-                if (e.button.button == SDL_BUTTON_LEFT)
-                    input.bLeftMouseDown = false;
-                if (e.button.button == SDL_BUTTON_RIGHT)
-                    input.bRightMouseDown = false;
-            }
-        }
-        SDL_GetRelativeMouseState(&input.xrel, &input.yrel);
-        input.keyboard = SDL_GetKeyboardState(NULL);
-        this->HandleInput(input);
-        m_lastInput = input;
 
-        /*
-        * Update application logic
-        */
-       this->Update(m_deltaTime);
+void LE3Application::update() {
+    // Update delta time computation
+    m_currTime = SDL_GetTicks();
+    m_deltaTime = (double)((m_currTime - m_prevTime) * 1000 / (double)SDL_GetPerformanceFrequency());
+    m_deltaTime *= 0.001;
+    m_prevTime = m_currTime;
+    m_pGameLogic->m_engineState.m_elapsedTime += m_deltaTime;
 
-       /*
-        * Render the frame
-        */
-        glClearColor(
-            m_settings.defaultBackgroundR, 
-            m_settings.defaultBackgroundG, 
-            m_settings.defaultBackgroundB, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    m_pGameLogic->update(m_deltaTime);
+}
 
-        this->Render();
+void LE3Application::render() {
+    glClearColor(0.8f, 0.8f, 0.8f, 1.f); // TODO: Propagate to game config
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        SDL_GL_SwapWindow(m_pWindow);
+    m_pGameLogic->render();
 
-        /*
-        * Handle time calculations
-        */
-        prevTime = currTime;
-        currTime = SDL_GetPerformanceCounter();
-        m_deltaTime = (double)((currTime - prevTime) * 1000 / (double)SDL_GetPerformanceFrequency());
-        m_deltaTime *= 0.001;
-        if (m_deltaTime < 1.0 / (double)m_settings.maxFPS) // Cap frame rate
-                SDL_Delay(Uint32((1.0 / (double)m_settings.maxFPS - m_deltaTime) * 1000));
+    SDL_GL_SwapWindow(m_pInternal->m_pWindow.get());
+}
+
+void LE3Application::shutdown() {
+    m_pGameLogic->shutdown();
+
+    SDL_GL_DeleteContext(m_pInternal->m_glContext);
+    if (m_pInternal->m_pWindow) {
+        SDL_DestroyWindow(m_pInternal->m_pWindow.get());
+        m_pInternal->m_pWindow = nullptr;
     }
-
-    return 0;
-}
-void LE3Application::_Shutdown()
-{
-    this->Shutdown();
-    SDL_GL_DeleteContext(m_glcontext);
-    SDL_DestroyWindow(m_pWindow);
     SDL_Quit();
 }
 
-int LE3Application::Run()
-{
-    if (this->_Init() < 0) return -1; 
-    if (this->_Run() < 0) return -1;
-    this->_Shutdown();
-    return 0;
+void LE3Application::_initSDL() {
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+        throw std::runtime_error(format("Could not initialize SDL: {}\n", SDL_GetError()));
+    
+    // TODO: Enumerate largest version of OpenGL and GLSL on device
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 16); // TODO: Propagate multisamples into engine config
+
+    Uint32 flags = 0;
+    flags |= SDL_WINDOW_OPENGL;
+    flags |= SDL_WINDOW_RESIZABLE; // TODO: Propagate resizability (and fullscreen) into engine config
+
+    // TODO: Propagate window title and size into game config
+    m_pInternal->m_pWindow = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
+        "LightEngine3 v0.2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 800, flags
+    ), SDL_DestroyWindow);
+    // SDL_SetRelativeMouseMode(SDL_TRUE);
+
+    if (!m_pInternal->m_pWindow)
+        throw std::runtime_error(format("Could not create SDL window: {}\n", SDL_GetError()));
+    m_pInternal->m_glContext = SDL_GL_CreateContext(m_pInternal->m_pWindow.get());
+    m_pGameLogic->m_engineState.m_windowWidth = 1200;
+    m_pGameLogic->m_engineState.m_windowHeight = 800;
+
+    m_prevTime = m_currTime = SDL_GetPerformanceCounter();
+
+    // if (false) // TODO: Allow fullscreen on init
+        // setFullscreen(true);
 }
-
-void LE3Application::ApplyOpenGLSettings()
-{
-    if (m_settings.bEnableDepthTest)
-        glEnable(GL_DEPTH_TEST);
-    else
-        glDisable(GL_DEPTH_TEST);
-
-    if (m_settings.bWireframe)
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    else
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+void LE3Application::_initOpenGL() {
+    if (glewInit() != GLEW_OK)
+        throw std::runtime_error(format("Could not init GLEW: {}", (char *)glewGetErrorString(glewInit())));
+    
+    glEnable(GL_DEPTH_TEST);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-}
-
-void LE3Application::ApplyWindowSettings()
-{
-    this->UpdateWindowTitle(m_settings.windowTitle);
-    if (m_settings.bIsFullscreen)
-    {
-        SDL_SetWindowSize(m_pWindow, m_settings.windowWidth, m_settings.windowHeight);
-        SDL_SetWindowFullscreen(m_pWindow, SDL_WINDOW_FULLSCREEN);
-        SDL_SetWindowResizable(m_pWindow, SDL_FALSE);
-    }
-    else
-    {   
-        SDL_SetWindowFullscreen(m_pWindow, 0);
-        SDL_SetWindowResizable(m_pWindow, (SDL_bool)m_settings.bIsResizable);
-        SDL_SetWindowSize(m_pWindow, m_settings.windowWidth, m_settings.windowHeight);
-    }
-}
-
-void LE3Application::UpdateWindowTitle(std::string windowTitle)
-{
-    m_settings.windowTitle = windowTitle;
-    SDL_SetWindowTitle(m_pWindow, m_settings.windowTitle.c_str());
 }

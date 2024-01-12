@@ -8,11 +8,16 @@ if (WIN32)
   add_compile_options(/bigobj)
 endif ()
 
+set(LE3_VERSION 0.2)
+
 project(
-    LightEngine
-    VERSION 0.1
+    LightEngine3
+    VERSION ${LE3_VERSION}
     DESCRIPTION "Lightweight C++ OpenGL toolkit for various purposes"
 )
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 add_subdirectory(le3)
 add_subdirectory(apps)
