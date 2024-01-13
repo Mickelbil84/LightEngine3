@@ -1,1 +1,2 @@
+add_subdirectory(00_lua_playground)
 add_subdirectory(01_hello_opengl)
