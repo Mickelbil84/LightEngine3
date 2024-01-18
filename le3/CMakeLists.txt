@@ -25,6 +25,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_application.cpp
     src/le3_shader.cpp
     src/le3_scene.cpp
+    src/le3_geometry.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp

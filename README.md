@@ -55,3 +55,6 @@ Installation is done simply with CMake.
 10. Run: `brew install bullet`
 11. Run: `brew install fmt`
 12. Run: `brew install cereal`
+
+NOTE: To ignore glm's CMake warning, you need to edit glmConfig.cmake in glm installation to increase CMake version to 3.6.
+(This is also a recent [as of January 2024] commit on glm's repository from July 2023).
