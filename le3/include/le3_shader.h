@@ -13,7 +13,7 @@ namespace le3 {
         LE3Shader(std::string vertexShaderSource, std::string fragmentShaderSource);
         ~LE3Shader();
 
-        inline void use() const;
+        void use() const;
 
         inline void uniform(std::string uniformName, glm::vec3 v);
         inline void uniform(std::string uniformName, glm::vec4 v);
