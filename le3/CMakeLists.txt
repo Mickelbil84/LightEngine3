@@ -6,6 +6,7 @@ find_package(GLEW REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(assimp REQUIRED)
 find_package(Bullet REQUIRED)
+find_package(glm CONFIG REQUIRED)
 
 if(MSVC)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
@@ -22,6 +23,8 @@ set(public_headers
 
 target_sources(${PROJECT_NAME} PRIVATE
     src/le3_application.cpp
+    src/le3_shader.cpp
+    src/le3_scene.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp
@@ -37,7 +40,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt SDL2::SDL2 GLEW::GLEW)
+target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt SDL2::SDL2 GLEW::GLEW glm::glm)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 
