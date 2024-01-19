@@ -28,6 +28,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_geometry.cpp
     src/le3_material.cpp
     src/le3_model.cpp
+    src/le3_transform.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp

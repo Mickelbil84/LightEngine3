@@ -75,6 +75,8 @@ namespace le3 {
 
         // TODO: Skeleton + animation
     };
+    template<typename LE3VertexType>
+    using LE3MeshPtr = std::shared_ptr<LE3Mesh<LE3VertexType>>;
 
 
 

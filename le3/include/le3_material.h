@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <glm/glm.hpp>
 
 // #include "le3_texture.h"
@@ -47,4 +49,6 @@ namespace le3 {
         // General settings
         float tilingX=1.f, tilingY=1.f;
     };
+
+    using LE3MaterialPtr = std::shared_ptr<LE3Material>;
 }
