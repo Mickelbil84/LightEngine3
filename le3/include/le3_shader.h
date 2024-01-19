@@ -15,11 +15,11 @@ namespace le3 {
 
         void use() const;
 
-        inline void uniform(std::string uniformName, glm::vec3 v);
-        inline void uniform(std::string uniformName, glm::vec4 v);
-        inline void uniform(std::string uniformName, glm::mat4 m);
-        inline void uniform(std::string uniformName, unsigned int i);
-        inline void uniform(std::string uniformName, float x);
+        void uniform(std::string uniformName, glm::vec3 v);
+        void uniform(std::string uniformName, glm::vec4 v);
+        void uniform(std::string uniformName, glm::mat4 m);
+        void uniform(std::string uniformName, unsigned int i);
+        void uniform(std::string uniformName, float x);
 
     private:
         unsigned int m_program;

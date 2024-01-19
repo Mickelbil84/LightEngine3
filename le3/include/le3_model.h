@@ -5,6 +5,7 @@
 
 #include <glm/glm.hpp>
 
+#include "le3_object.h"
 #include "le3_geometry.h"
 #include "le3_material.h"
 
@@ -13,14 +14,16 @@ namespace le3 {
     struct LE3MeshNode {
         LE3MeshPtr<LE3VertexType> pMesh = nullptr;
         LE3MaterialPtr pMaterial = nullptr;
-        glm::mat4 offset = glm::mat4(1.f);
     };
 
-    class LE3Model {
+    template<typename LE3VertexType>
+    class LE3Model : LE3Object {
     public:
+        LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial);
 
     private:
-        
+        LE3MeshPtr<LE3VertexType> m_pMesh;
+        LE3MaterialPtr m_pMaterial;
     };
 
 

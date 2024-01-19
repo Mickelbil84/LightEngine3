@@ -13,15 +13,7 @@ public:
             "./resources/shaders/hello_opengl/hello_opengl.fs"
         );
 
-        std::vector<LE3Vertex3p3c> vertices(3);
-        vertices[0].position[0] = .5f * -1.f; vertices[0].position[1] = .5f * -1.f; vertices[0].position[2] = .5f * 0.f;
-        vertices[1].position[0] = .5f *  0.f; vertices[1].position[1] = .5f *  1.f; vertices[1].position[2] = .5f * 0.f;
-        vertices[2].position[0] = .5f *  1.f; vertices[2].position[1] = .5f * -1.f; vertices[2].position[2] = .5f * 0.f;
-
-        vertices[0].color[0] =  1.f; vertices[0].color[1] =  0.f; vertices[0].color[2] = 0.f;
-        vertices[1].color[0] =  0.f; vertices[1].color[1] =  1.f; vertices[1].color[2] = 0.f;
-        vertices[2].color[0] =  0.f; vertices[2].color[1] =  0.f; vertices[2].color[2] = 1.f;
-        m_triangle = std::make_shared<LE3Mesh<LE3Vertex3p3c>>(vertices);
+        m_triangle = CreateHelloOpenGLTriangle();
     }
     void update(float deltaTime) {
         // ImGui::ShowDemoWindow();
