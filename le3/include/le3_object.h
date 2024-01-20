@@ -10,6 +10,8 @@ namespace le3 {
     public:
         inline LE3Transform& getTransform() { return m_transform; }
 
+        inline glm::mat4 getWorldMatrix() const { return m_worldMatrix; }
+
         virtual void update(float deltaTime);
         virtual void draw();
 
@@ -26,6 +28,8 @@ namespace le3 {
         // Graph structure
         std::shared_ptr<LE3Object> m_pParent = nullptr;
         std::vector<std::shared_ptr<LE3Object>> m_pChildren;
+
+        glm::mat4 m_worldMatrix;
     };
     using LE3ObjectPtr = std::shared_ptr<LE3Object>;
 }

@@ -12,7 +12,7 @@ public:
     std::shared_ptr<LE3Mesh<LE3Vertex>> m_mesh;
     std::shared_ptr<LE3Model<LE3Vertex>> m_model;
 
-    std::shared_ptr<LE3Camera> m_camera;
+    std::shared_ptr<LE3OrbitCamera> m_camera;
     glm::vec3 cameraVelocity, cameraRotation;
     float walkSpeed, sensitivity;
 
@@ -23,9 +23,10 @@ public:
             "./resources/shaders/moving_car/moving_car.fs"
         );
 
-        m_camera = std::make_shared<LE3Camera>();
-        m_camera->getTransform().setPosition(glm::vec3(0.f, 0.f, 2.0f));
+        m_camera = std::make_shared<LE3OrbitCamera>();
+        // m_camera->getTransform().setPosition(glm::vec3(0.f, 0.f, 2.0f));
         m_camera->setAspectRatio(m_engineState.getAspectRatio());
+        m_camera->setOffset(glm::vec3(0.f, 0.f, 5.f));
         walkSpeed = 2.2f;
         sensitivity = 0.005f;
 
@@ -40,35 +41,8 @@ public:
             (float)deltaTime * walkSpeed * cameraVelocity.x *  cameraTranform.getRight() + 
             (float)deltaTime * walkSpeed * cameraVelocity.z *  glm::vec3(0.f, 1.f, 0.f)
         );
-        // cameraTranform.addRotation(sensitivity * cameraRotation.y, glm::vec3(1.f, 0.f, 0.f));
-        // cameraTranform.addRotation(sensitivity * cameraRotation.x, glm::vec3(0.f, 1.f, 0.f));
-
-        // cameraTranform.addRotationRPY(0.f, sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
-
         m_camera->addPitchYaw(sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
-
-        // cameraTranform.addRotation(deltaTime * 1.f, glm::vec3(1.f, 0.f, 0.f));
-        // cameraTranform.addRotation(deltaTime * 1.f, glm::vec3(0.f, 1.f, 0.f));
-        // cameraTranform.disableZ();
-        // cameraTranform.fixCamera();
-
-        m_camera->update(deltaTime);
-
-        ImGui::Begin("Camera");
-        // ImGui::Text(format("{}", glm::to_string(glm::angleAxis(deltaTime * 100.f, glm::vec3(1.f, 0.f, 0.f)))).c_str());
-        // ImGui::Text(format("{}", glm::to_string(glm::angleAxis(deltaTime * 100.f, glm::vec3(0.f, 1.f, 0.f)))).c_str());
-        // ImGui::Text(format("{}", glm::to_string(
-        //     glm::angleAxis(deltaTime * 100.f, glm::vec3(0.f, 1.f, 0.f)) * 
-        //     glm::angleAxis(deltaTime * 100.f, glm::vec3(1.f, 0.f, 0.f))
-        //     )).c_str());
-        // ImGui::Text(format("Camera Position: {}", glm::to_string(cameraTranform.getPosition())).c_str());
-        // ImGui::Text(format("Camera Forward: {}", glm::to_string(cameraTranform.getForward())).c_str());
-        // ImGui::Text(format("Camera Right: {}", glm::to_string(cameraTranform.getRight())).c_str());
-        // ImGui::Text(format("Camera Up: {}", glm::to_string(cameraTranform.getUp())).c_str());
-        ImGui::Text(format("Camera Rotation: {}", glm::to_string(cameraTranform.getRotation())).c_str());
-        ImGui::Text(format("Camera Rotation [Euler]: {}", glm::to_string(glm::eulerAngles(cameraTranform.getRotation()))).c_str());
-        ImGui::End();
-        
+        m_camera->update(deltaTime);        
     }
     void render() {
         m_scene.getShader("hello_opengl")->use();
@@ -85,6 +59,8 @@ public:
         ////////////////////////
         // Camera Movement
         ////////////////////////
+        cameraVelocity = glm::vec3();
+        cameraRotation = glm::vec3();
         if (input.bLeftMouseDown) {
             if (input.keys["KEY_W"]) cameraVelocity.y = 1.f;
             else if (input.keys["KEY_S"]) cameraVelocity.y = -1.f;

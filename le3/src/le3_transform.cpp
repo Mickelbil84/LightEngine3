@@ -56,20 +56,17 @@ void LE3Transform::addPositionZ(float amount) {
 void LE3Transform::setRotationRPY(float roll, float pitch, float yaw) {
     m_rotation = glm::quat(glm::vec3(pitch, yaw, roll));
 }
-void LE3Transform::addRotationRPY(float roll, float pitch, float yaw) {
-    glm::vec3 angles = glm::vec3(pitch, yaw, roll) + glm::eulerAngles(m_rotation);
-    if (angles.x > glm::radians(89.9f)) angles.x = glm::radians(89.9f);
-    if (angles.x < glm::radians(-89.9f)) angles.x = glm::radians(-89.9f);
-    if (angles.y > glm::radians(181.f)) angles.y = glm::radians(-179.f);
-    if (angles.y < glm::radians(-181.f)) angles.y = glm::radians(179.f);
-    // angles.z = 0.f;
-
-    m_rotation = glm::quat(angles);
-
-    if (glm::eulerAngles(m_rotation).z > 0.5f) {
-        int i = 0;
-    }
+void LE3Transform::setOrbit(float roll, float pitch, float yaw, glm::vec3 origin, glm::vec3 offset) {
+    glm::vec3 target = offset - origin;
+    glm::mat4 tmp = 
+        glm::translate(glm::mat4(1.f), origin) *
+        glm::toMat4(glm::quat(glm::vec3(pitch, yaw, roll))) *
+        glm::translate(glm::mat4(1.f), target)
+    ;
+    m_position = glm::vec3(tmp[3]);
+    m_rotation = glm::toQuat(tmp);
 }
+
 void LE3Transform::addRotationX(float amount) {
     addRotation(amount, glm::vec3(1.f, 0.f, 0.f));
 }

@@ -24,11 +24,12 @@ namespace le3 {
         void addPositionZ(float amount);
 
         void setRotationRPY(float roll, float pitch, float yaw);
-        void addRotationRPY(float roll, float pitch, float yaw);
         void addRotationX(float amount);
         void addRotationY(float amount);
         void addRotationZ(float amount);
         void addRotation(float amount, glm::vec3 axis);
+        
+        void setOrbit(float roll, float pitch, float yaw, glm::vec3 origin, glm::vec3 offset);
 
         void lookAt(glm::vec3 target);
 

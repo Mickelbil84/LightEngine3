@@ -22,4 +22,27 @@ namespace le3 {
         float m_aspectRatio, m_fov;
         float m_pitch, m_yaw;
     };
+
+    class LE3OrbitCamera : public LE3Camera {
+    public:     
+        LE3OrbitCamera();
+
+        virtual void update(float deltaTime);
+
+        glm::vec3 getOffset() const { return m_offset; }
+        void setOffset(glm::vec3 offset) { m_offset = offset; }
+        glm::vec3 getOrigin() const { return m_origin; }
+        void setOrigin(glm::vec3 origin) { m_origin = origin; }
+
+    protected:
+        glm::vec3 m_offset, m_origin;
+    };
+
+    class LE3FreeCamera : public LE3Camera {
+    public:     
+        LE3FreeCamera();
+
+        virtual void update(float deltaTime);
+    protected:
+    };
 }

@@ -2,7 +2,9 @@
 using namespace le3;
 
 void LE3Object::update(float deltaTime) {
-
+    glm::mat4 parentWorld = glm::mat4(1.f);
+    if (m_pParent) parentWorld = m_pParent->getWorldMatrix();
+    m_worldMatrix = m_transform.getTransformMatrix() * parentWorld;
 }
 void LE3Object::draw() {
 
