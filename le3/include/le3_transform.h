@@ -14,11 +14,8 @@ namespace le3 {
         glm::quat getRotation() const;
         glm::vec3 getScale() const;
 
-        glm::vec3 getForward() const;
-        glm::vec3 getRight() const;
-        glm::vec3 getUp() const;
-
         void setPosition(glm::vec3 position);
+        void addPosition(glm::vec3 position);
         void addPositionX(float amount);
         void addPositionY(float amount);
         void addPositionZ(float amount);

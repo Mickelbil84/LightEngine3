@@ -30,18 +30,11 @@ glm::vec3 LE3Transform::getScale() const {
     return m_scale;
 }
 
-glm::vec3 LE3Transform::getForward() const {
-    return m_rotation * glm::vec3(0.f, 0.f, -1.f);
-}
-glm::vec3 LE3Transform::getRight() const {
-    return m_rotation * glm::vec3(1.f, 0.f, 0.f);
-}
-glm::vec3 LE3Transform::getUp() const {
-    return m_rotation * glm::vec3(0.f, 1.f, 0.f);
-}
-
 void LE3Transform::setPosition(glm::vec3 position) {
     m_position = position;
+}
+void LE3Transform::addPosition(glm::vec3 position) {
+    m_position += position;
 }
 void LE3Transform::addPositionX(float amount) {
     m_position.x += amount;

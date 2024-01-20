@@ -32,6 +32,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_primitives.cpp
     src/le3_camera.cpp
     src/le3_object.cpp
+    src/le3_scene_root.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp

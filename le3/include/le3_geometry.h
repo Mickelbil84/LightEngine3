@@ -77,12 +77,13 @@ namespace le3 {
     };
     template<typename LE3VertexType>
     using LE3MeshPtr = std::shared_ptr<LE3Mesh<LE3VertexType>>;
-
-
-
+    
     // The default vertex type is the one with the most data (and skeletal if relevant)
     using LE3Vertex = LE3Vertex3p2t3n3tn3b;
     using LE3VertexSkeletal = LE3Vertex3p2t3n3tn3b4b4w;
+
+    using LE3StaticMeshPtr = std::shared_ptr<LE3Mesh<LE3Vertex>>;
+    using LE3SkeletalMeshPtr = std::shared_ptr<LE3Mesh<LE3VertexSkeletal>>;
 
     // Create a default vertex type using glm
     LE3Vertex vertexFromGLM(glm::vec3 position, glm::vec2 uv, glm::vec3 normal,

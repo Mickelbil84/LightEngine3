@@ -12,6 +12,14 @@ namespace le3 {
         glm::mat4 getViewMatrix();
         glm::mat4 getProjectionMatrix(float aspectRatio=-1.f);
 
+        glm::vec3 getForward() const { return m_forwawrd; }
+        glm::vec3 getRight() const { return m_right; }
+        glm::vec3 getUp() const { return m_up; }
+
+        void moveForward(float amount) { m_transform.addPosition(amount * m_forwawrd); }
+        void moveRight(float amount) { m_transform.addPosition(amount * m_right); }
+        void moveUp(float amount) { m_transform.addPosition(amount * m_up); }
+
         float getAspectRatio() const { return m_aspectRatio; }
         void setAspectRatio(float aspectRatio) { m_aspectRatio = aspectRatio; }
         void setFov(float fov) { m_fov = fov; }
@@ -21,7 +29,11 @@ namespace le3 {
     protected:
         float m_aspectRatio, m_fov;
         float m_pitch, m_yaw;
+        glm::vec3 m_forwawrd, m_right, m_up;
+
+        virtual void updateCameraDirections() = 0;
     };
+    using LE3CameraPtr = std::shared_ptr<LE3Camera>;
 
     class LE3OrbitCamera : public LE3Camera {
     public:     
@@ -36,7 +48,9 @@ namespace le3 {
 
     protected:
         glm::vec3 m_offset, m_origin;
+        virtual void updateCameraDirections();
     };
+    using LE3OrbitCameraPtr = std::shared_ptr<LE3OrbitCamera>;
 
     class LE3FreeCamera : public LE3Camera {
     public:     
@@ -44,5 +58,7 @@ namespace le3 {
 
         virtual void update(float deltaTime);
     protected:
+        virtual void updateCameraDirections();
     };
+    using LE3FreeCameraPtr = std::shared_ptr<LE3FreeCamera>;
 }

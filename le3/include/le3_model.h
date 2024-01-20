@@ -28,5 +28,6 @@ namespace le3 {
         LE3MaterialPtr m_pMaterial;
     };
 
-
+    using LE3StaticModelPtr = std::shared_ptr<LE3Model<LE3Vertex>>;
+    using LE3SkeletalModelPtr = std::shared_ptr<LE3Model<LE3VertexSkeletal>>;
 }
