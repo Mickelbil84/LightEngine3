@@ -16,7 +16,10 @@ namespace le3 {
         void setAspectRatio(float aspectRatio) { m_aspectRatio = aspectRatio; }
         void setFov(float fov) { m_fov = fov; }
 
+        void addPitchYaw(float pitch, float yaw) { m_pitch += pitch; m_yaw += yaw; }
+
     protected:
         float m_aspectRatio, m_fov;
+        float m_pitch, m_yaw;
     };
 }

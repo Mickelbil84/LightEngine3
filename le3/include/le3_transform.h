@@ -8,7 +8,7 @@ namespace le3 {
     public:
         LE3Transform();
 
-        inline glm::mat4 getTransformMatrix() const { return m_transform; }
+        glm::mat4 getTransformMatrix() const;
 
         glm::vec3 getPosition() const;
         glm::quat getRotation() const;
@@ -23,17 +23,22 @@ namespace le3 {
         void addPositionY(float amount);
         void addPositionZ(float amount);
 
+        void setRotationRPY(float roll, float pitch, float yaw);
+        void addRotationRPY(float roll, float pitch, float yaw);
         void addRotationX(float amount);
         void addRotationY(float amount);
         void addRotationZ(float amount);
+        void addRotation(float amount, glm::vec3 axis);
+
+        void lookAt(glm::vec3 target);
+
+        void disableZ();
 
     private:
-        glm::mat4 m_transform;
-
-        // Cache
-        glm::vec3 m_position, m_scale;
+        glm::vec3 m_position;
         glm::quat m_rotation;
-        void updateCache();
+        glm::vec3 m_scale;
 
+        glm::quat rotationBetweenVectors(glm::vec3 start, glm::vec3 dest);
     };
 };

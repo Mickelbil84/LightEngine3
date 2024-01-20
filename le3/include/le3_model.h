@@ -17,9 +17,11 @@ namespace le3 {
     };
 
     template<typename LE3VertexType>
-    class LE3Model : LE3Object {
+    class LE3Model : public LE3Object {
     public:
         LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial);
+
+        virtual void draw();
 
     private:
         LE3MeshPtr<LE3VertexType> m_pMesh;

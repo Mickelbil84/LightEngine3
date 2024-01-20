@@ -22,6 +22,7 @@ namespace le3 {
         bool m_bShouldRun;
         unsigned int m_prevTime, m_currTime;
         float m_deltaTime;
+        LE3Input m_lastInput;
 
         void init();
         void handleInput();
@@ -33,5 +34,9 @@ namespace le3 {
         void _initSDL();
         void _initOpenGL();
         void _initImGui();
+
+        void getKeyboardInput(LE3Input& input); // Convert SDL format to LE3 input format
+        void createSDLKeyMapping();
+        std::map<int, std::string> m_sdlKeyMapping;
     };
 }

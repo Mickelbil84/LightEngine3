@@ -11,9 +11,12 @@ namespace le3 {
         inline int getWindowHeight() const { return m_windowHeight; }
         inline float getAspectRatio() const { return (float)m_windowWidth / (float)m_windowHeight; }
 
+        inline void notifyWantsQuit() { m_bWantsQuit = true; }
+
     private:
         float m_elapsedTime = 0.f;
         int m_windowWidth, m_windowHeight;
+        bool m_bWantsQuit = false;
 
     public:
         friend class LE3Application;

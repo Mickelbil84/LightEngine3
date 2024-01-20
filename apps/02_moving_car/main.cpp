@@ -2,7 +2,7 @@
 using namespace le3;
 
 #include <fmt/core.h>
-using fmt::print;
+using fmt::print, fmt::format;
 
 #include <glm/gtx/string_cast.hpp>
 
@@ -10,7 +10,11 @@ class Demo02_MovingCar : public LE3GameLogic {
 public:
     LE3Scene m_scene;
     std::shared_ptr<LE3Mesh<LE3Vertex>> m_mesh;
+    std::shared_ptr<LE3Model<LE3Vertex>> m_model;
+
     std::shared_ptr<LE3Camera> m_camera;
+    glm::vec3 cameraVelocity, cameraRotation;
+    float walkSpeed, sensitivity;
 
     void init() {
         m_scene.addShaderFromFile(
@@ -22,18 +26,81 @@ public:
         m_camera = std::make_shared<LE3Camera>();
         m_camera->getTransform().setPosition(glm::vec3(0.f, 0.f, 2.0f));
         m_camera->setAspectRatio(m_engineState.getAspectRatio());
+        walkSpeed = 2.2f;
+        sensitivity = 0.005f;
+
         m_mesh = CreateBox(0.f, 0.f, 0.f, 1.f, 1.f, 1.f);
+        m_model = std::make_shared<LE3Model<LE3Vertex>>(m_mesh, nullptr);
     }
     void update(float deltaTime) {
-        // ImGui::ShowDemoWindow();
+        LE3Transform& cameraTranform = m_camera->getTransform();
+        cameraTranform.setPosition(
+            cameraTranform.getPosition() + 
+            (float)deltaTime * walkSpeed * cameraVelocity.y *  cameraTranform.getForward() + 
+            (float)deltaTime * walkSpeed * cameraVelocity.x *  cameraTranform.getRight() + 
+            (float)deltaTime * walkSpeed * cameraVelocity.z *  glm::vec3(0.f, 1.f, 0.f)
+        );
+        // cameraTranform.addRotation(sensitivity * cameraRotation.y, glm::vec3(1.f, 0.f, 0.f));
+        // cameraTranform.addRotation(sensitivity * cameraRotation.x, glm::vec3(0.f, 1.f, 0.f));
+
+        // cameraTranform.addRotationRPY(0.f, sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
+
+        m_camera->addPitchYaw(sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
+
+        // cameraTranform.addRotation(deltaTime * 1.f, glm::vec3(1.f, 0.f, 0.f));
+        // cameraTranform.addRotation(deltaTime * 1.f, glm::vec3(0.f, 1.f, 0.f));
+        // cameraTranform.disableZ();
+        // cameraTranform.fixCamera();
+
+        m_camera->update(deltaTime);
+
+        ImGui::Begin("Camera");
+        // ImGui::Text(format("{}", glm::to_string(glm::angleAxis(deltaTime * 100.f, glm::vec3(1.f, 0.f, 0.f)))).c_str());
+        // ImGui::Text(format("{}", glm::to_string(glm::angleAxis(deltaTime * 100.f, glm::vec3(0.f, 1.f, 0.f)))).c_str());
+        // ImGui::Text(format("{}", glm::to_string(
+        //     glm::angleAxis(deltaTime * 100.f, glm::vec3(0.f, 1.f, 0.f)) * 
+        //     glm::angleAxis(deltaTime * 100.f, glm::vec3(1.f, 0.f, 0.f))
+        //     )).c_str());
+        // ImGui::Text(format("Camera Position: {}", glm::to_string(cameraTranform.getPosition())).c_str());
+        // ImGui::Text(format("Camera Forward: {}", glm::to_string(cameraTranform.getForward())).c_str());
+        // ImGui::Text(format("Camera Right: {}", glm::to_string(cameraTranform.getRight())).c_str());
+        // ImGui::Text(format("Camera Up: {}", glm::to_string(cameraTranform.getUp())).c_str());
+        ImGui::Text(format("Camera Rotation: {}", glm::to_string(cameraTranform.getRotation())).c_str());
+        ImGui::Text(format("Camera Rotation [Euler]: {}", glm::to_string(glm::eulerAngles(cameraTranform.getRotation()))).c_str());
+        ImGui::End();
+        
     }
     void render() {
         m_scene.getShader("hello_opengl")->use();
-        m_scene.getShader("hello_opengl")->uniform("model", glm::mat4(1.f));
         m_scene.getShader("hello_opengl")->uniform("view", m_camera->getViewMatrix());
         m_scene.getShader("hello_opengl")->uniform("projection", m_camera->getProjectionMatrix());
 
-        m_mesh->draw();
+        m_scene.getShader("hello_opengl")->uniform("model", m_model->getTransform().getTransformMatrix());
+        m_model->draw();
+    }
+
+    void handleInput(LE3Input input) {
+        if (input.keys["KEY_ESCAPE"]) m_engineState.notifyWantsQuit();
+
+        ////////////////////////
+        // Camera Movement
+        ////////////////////////
+        if (input.bLeftMouseDown) {
+            if (input.keys["KEY_W"]) cameraVelocity.y = 1.f;
+            else if (input.keys["KEY_S"]) cameraVelocity.y = -1.f;
+            else cameraVelocity.y = 0.f;
+
+            if (input.keys["KEY_D"]) cameraVelocity.x = 1.f;
+            else if (input.keys["KEY_A"]) cameraVelocity.x = -1.f;
+            else cameraVelocity.x = 0.f;
+
+            if (input.keys["KEY_E"]) cameraVelocity.z = 1.f;
+            else if (input.keys["KEY_Q"]) cameraVelocity.z = -1.f;
+            else cameraVelocity.z = 0.f;
+
+            cameraRotation.x = (float)input.xrel;
+            cameraRotation.y = -(float)input.yrel;
+        }
     }
 };
 
