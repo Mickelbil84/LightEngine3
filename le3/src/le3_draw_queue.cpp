@@ -10,15 +10,17 @@ LE3DrawQueue::LE3DrawQueue() {
 }
 
 void LE3DrawQueue::draw(LE3ShaderPtr shaderOverride) {
+    if (shaderOverride != nullptr) shaderOverride->use();
     for (
         int priority = LE3DrawPriority::DRAW_PRIORITY_LOW; 
         priority <= LE3DrawPriority::DRAW_PRIORITY_END; ++priority) {
         
         for (auto kv : m_drawQueue[(LE3DrawPriority)priority]) {
-            LE3ShaderPtr shader = nullptr;
+            LE3ShaderPtr shader = shaderOverride;
             for (auto object : kv.second) {
                 if (object.expired()) continue;
                 auto objectPtr = object.lock();
+                if (objectPtr->isHidden()) continue;
                 if (shader == nullptr) {
                     shader = objectPtr->getMaterial()->shader;
                     shader->use();

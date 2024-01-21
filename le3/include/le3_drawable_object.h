@@ -17,19 +17,24 @@ namespace le3 {
     public:
         LE3DrawableObject(LE3MaterialPtr pMaterial) : 
             m_pMaterial(pMaterial), 
-            m_drawPriority(LE3DrawPriority::DRAW_PRIORITY_LOW)
+            m_drawPriority(LE3DrawPriority::DRAW_PRIORITY_LOW),
+            m_bHidden(false)
         {}
 
         virtual void draw() = 0;
 
-        LE3DrawPriority getDrawPriority() const { return m_drawPriority; }
-        void setDrawPriority(LE3DrawPriority drawPriority) { m_drawPriority = drawPriority; }
+        inline LE3DrawPriority getDrawPriority() const { return m_drawPriority; }
+        inline void setDrawPriority(LE3DrawPriority drawPriority) { m_drawPriority = drawPriority; }
 
-        LE3MaterialPtr getMaterial() { return m_pMaterial; }
+        inline LE3MaterialPtr getMaterial() { return m_pMaterial; }
+
+        inline bool isHidden() const { return m_bHidden; }
+        inline void setHidden(bool hidden) { m_bHidden = hidden; }
 
     protected:
         LE3MaterialPtr m_pMaterial;
         LE3DrawPriority m_drawPriority;
+        bool m_bHidden;
     };
     using LE3DrawableObjectPtr = std::shared_ptr<LE3DrawableObject>;
 }

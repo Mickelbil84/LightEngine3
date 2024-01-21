@@ -6,7 +6,6 @@
 #include "le3_transform.h"
 
 namespace le3 {
-    // TODO: add hidden, add selected(?)
     class LE3Object : public std::enable_shared_from_this<LE3Object> {
     public:
         inline LE3Transform& getTransform() { return m_transform; }

@@ -12,10 +12,6 @@
 #include "le3_primitives.h"
 #include "le3_scene_root.h"
 
-// TODO: draw & update methods
-// TODO: draw batches models by shader type (also by geometry?)
-// TODO: draw with bypassed shader
-
 namespace le3 {
     class LE3Scene {
     public:
