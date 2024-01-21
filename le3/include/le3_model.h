@@ -17,6 +17,8 @@ namespace le3 {
 
         virtual void draw();
 
+        LE3MeshPtr<LE3VertexType> getMesh() { return m_pMesh; }
+
     private:
         LE3MeshPtr<LE3VertexType> m_pMesh;
     };

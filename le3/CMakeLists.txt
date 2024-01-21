@@ -34,6 +34,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_object.cpp
     src/le3_scene_root.cpp
     src/le3_draw_queue.cpp
+    src/le3_scene_assimp.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp
@@ -49,7 +50,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt SDL2::SDL2 GLEW::GLEW glm::glm)
+target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 

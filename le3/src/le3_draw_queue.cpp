@@ -23,7 +23,7 @@ void LE3DrawQueue::draw(LE3ShaderPtr shaderOverride) {
                     shader = objectPtr->getMaterial()->shader;
                     shader->use();
                 }
-                shader->uniform("model", objectPtr->getTransform().getTransformMatrix());
+                shader->uniform("model", objectPtr->getWorldMatrix());
                 objectPtr->draw();
             }
         }

@@ -20,7 +20,7 @@ void main()
     // if (material.bUseDiffuseTexture)
     //     diffuseColor = texture(material.diffuseTexture, texCoord);
     // else
-    // diffuseColor = normalColor;
+    diffuseColor = normalColor;
     // diffuseColor = vec4(1.0, 0.0, 0.0, 1.0);
     fColor = diffuseColor;
     // fColor = normalColor;

@@ -14,6 +14,6 @@ out vec4 normalColor;
 void main()
 {
     gl_Position = projection * view * model * vPosition;
-    normalColor = vec4(vPosition);
+    normalColor = vec4(vNormal, 1.0);
     texCoord = vTexCoord;
 }

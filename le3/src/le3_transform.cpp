@@ -74,6 +74,13 @@ void LE3Transform::addRotation(float amount, glm::vec3 axis) {
     m_rotation = glm::quat(amount * axis) * m_rotation;
 }
 
+void LE3Transform::setScale(glm::vec3 scale) {
+    m_scale = scale;
+}
+void LE3Transform::setScale(float scale) {
+    m_scale = glm::vec3(scale);
+}
+
 void LE3Transform::lookAt(glm::vec3 target) {
 
 }

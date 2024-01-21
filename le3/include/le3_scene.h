@@ -34,9 +34,14 @@ namespace le3 {
         void addMaterial(std::string name, std::string shaderName);
         inline LE3MaterialPtr getMaterial(std::string name) { return m_pMaterials[name]; }
 
+        // Meshes
+        void addStaticMesh(std::string name, std::string filename);
+        inline LE3StaticMeshPtr getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
+
         // Object factory
         void addEmptyObject(std::string name, std::string parent = "");
         void addCube(std::string name, std::string materialName, glm::vec3 position = glm::vec3(0.f), glm::vec3 extent = glm::vec3(1.f), std::string parent = "");
+        void addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent = "");
 
         void addFreeCamera(std::string name, std::string parent = "");
         void addOrbitCamera(std::string name, std::string parent = "");
@@ -48,6 +53,7 @@ namespace le3 {
     private:
         std::map<std::string, LE3ShaderPtr> m_pShaders;
         std::map<std::string, LE3MaterialPtr> m_pMaterials;
+        std::map<std::string, LE3StaticMeshPtr> m_pStaticMeshes;
 
         LE3SceneRootPtr m_pRoot; // NOTE: root is not in pObjects
         LE3CameraPtr m_pMainCamera; 
@@ -63,5 +69,6 @@ namespace le3 {
 
         // Helper methods
         std::string readFile(std::string filename);
+        LE3StaticMeshPtr loadStaticMesh(std::string filename); // Implemented in le3_scene_assimp.cpp
     };
 }

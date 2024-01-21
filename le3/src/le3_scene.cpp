@@ -44,6 +44,13 @@ void LE3Scene::addMaterial(std::string name, std::string shaderName) {
     m_pMaterials[name] = std::make_shared<LE3Material>(m_pShaders[shaderName]);
 }
 
+void LE3Scene::addStaticMesh(std::string name, std::string filename) {
+    if (m_pStaticMeshes.contains(name)) throw std::runtime_error(format("Static mesh [{}] already exists", name));
+    m_pStaticMeshes[name] = loadStaticMesh(filename);
+}
+
+// -----------
+
 void LE3Scene::addEmptyObject(std::string name, std::string parent) {
     assertObjectName(name);
     LE3ObjectPtr obj = std::make_shared<LE3Object>();
@@ -55,6 +62,14 @@ void LE3Scene::addCube(std::string name, std::string materialName, glm::vec3 pos
     assertObjectName(name);
     LE3StaticMeshPtr mesh = createBox(position.x, position.y, position.z, extent.x, extent.y, extent.z);
     LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, m_pMaterials[materialName]); // TODO: engine default shader + material
+    attachObject(name, obj, parent);
+    m_drawQueue.addObject(obj);
+}
+
+void LE3Scene::addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent) {
+    assertObjectName(name);
+    LE3StaticMeshPtr mesh = m_pStaticMeshes[meshName];
+    LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, m_pMaterials[materialName]);
     attachObject(name, obj, parent);
     m_drawQueue.addObject(obj);
 }

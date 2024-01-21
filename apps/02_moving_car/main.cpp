@@ -16,6 +16,8 @@ public:
     void init() {
         m_scene.init();
 
+        /////////////////
+
         m_scene.addShaderFromFile(
             "hello_opengl",
             "./resources/shaders/moving_car/moving_car.vs",
@@ -23,20 +25,68 @@ public:
         );
         m_scene.addMaterial("default", "hello_opengl");
 
+        m_scene.addStaticMesh("carBody",  "./resources/models/cars/Audi R8 Body.fbx");
+        m_scene.addStaticMesh("carWheel",  "./resources/models/cars/Audi R8 Wheel.fbx");
+
+        /////////////////
+
         m_scene.addEmptyObject("player");
-        m_scene.getObject("player")->getTransform().setPosition(glm::vec3(0.f, 0.f, 5.f));
+        m_scene.getObject("player")->getTransform().setPosition(glm::vec3(0.f, 0.f, 0.f));
 
         m_scene.addFreeCamera("camera", "player");
         m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
+        m_scene.getMainCamera()->getTransform().setPosition(glm::vec3(.0f, 0.5f, 3.f));
         
-        m_scene.addCube("cube", "default", glm::vec3(0.f), glm::vec3(1.f));
+        m_scene.addCube("cube", "default", glm::vec3(0.f, -0.1f, 0.f), glm::vec3(50.f, 0.1f, 50.f));
+
+        m_scene.addEmptyObject("car");
+        m_scene.addStaticModel("carBody", "carBody", "default", "car");
+        m_scene.getObject("carBody")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
+        m_scene.getObject("carBody")->getTransform().setScale(0.3f);
+
+        m_scene.addEmptyObject("wheelsFront", "car");
+        m_scene.getObject("wheelsFront")->getTransform().setPosition(glm::vec3(-.705f, 0.175f, 0.f));
+        m_scene.addEmptyObject("wheelsBack", "car");
+        m_scene.getObject("wheelsBack")->getTransform().setPosition(glm::vec3(.935f, 0.175f, 0.f));
+        
+        m_scene.addStaticModel("wheel1", "carWheel", "default", "wheelsFront");
+        m_scene.getObject("wheel1")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.5f));
+        m_scene.getObject("wheel1")->getTransform().setScale(0.33f);
+        m_scene.getObject("wheel1")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
+
+        m_scene.addStaticModel("wheel2", "carWheel", "default", "wheelsFront");
+        m_scene.getObject("wheel2")->getTransform().setPosition(glm::vec3(0.f, 0.f, .5f));
+        m_scene.getObject("wheel2")->getTransform().setScale(0.33f);
+        m_scene.getObject("wheel2")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
+
+        m_scene.addStaticModel("wheel3", "carWheel", "default", "wheelsBack");
+        m_scene.getObject("wheel3")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.5f));
+        m_scene.getObject("wheel3")->getTransform().setScale(0.33f);
+        m_scene.getObject("wheel3")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
+
+        m_scene.addStaticModel("wheel4", "carWheel", "default", "wheelsBack");
+        m_scene.getObject("wheel4")->getTransform().setPosition(glm::vec3(0.f, 0.f, .5f));
+        m_scene.getObject("wheel4")->getTransform().setScale(0.33f);
+        m_scene.getObject("wheel4")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
+
     }
     void update(float deltaTime) {
+        // Setup FPS camera
         m_scene.getMainCamera()->addPitchYaw(sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
         m_scene.getMainCamera()->moveForward(deltaTime * walkSpeed * cameraVelocity.y);
         m_scene.getMainCamera()->moveRight(deltaTime * walkSpeed * cameraVelocity.x);
         m_scene.getMainCamera()->moveUp(deltaTime * walkSpeed * cameraVelocity.z);
+
+        // Move car forward
+        glm::vec3 carPos = m_scene.getObject("car")->getTransform().getPosition();
+        carPos.x += -1.f * deltaTime;
+        if (carPos.x < -3.f) carPos.x = 3.f;
+        m_scene.getObject("car")->getTransform().setPosition(carPos);
         
+        for (int i = 1; i <= 4; i++)
+            m_scene.getObject(format("wheel{}", i))->getTransform().addRotationZ(1.9f * deltaTime);
+
+        // Update scene
         m_scene.update(deltaTime);  
     }
     void render() {

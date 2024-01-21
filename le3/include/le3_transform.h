@@ -25,6 +25,9 @@ namespace le3 {
         void addRotationY(float amount);
         void addRotationZ(float amount);
         void addRotation(float amount, glm::vec3 axis);
+
+        void setScale(glm::vec3 scale);
+        void setScale(float scale);
         
         void setOrbit(float roll, float pitch, float yaw, glm::vec3 origin, glm::vec3 offset);
 
