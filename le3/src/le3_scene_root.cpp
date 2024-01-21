@@ -8,10 +8,3 @@ void LE3SceneRoot::updateRecurse(float deltaTime, LE3ObjectPtr object) {
         updateRecurse(deltaTime, child);
     }
 }
-void LE3SceneRoot::drawRecurse(LE3ObjectPtr object) {
-    for (auto child : object->getChildren()) {
-        if (!child) continue;
-        child->draw();
-        drawRecurse(child);
-    }
-}

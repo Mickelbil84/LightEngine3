@@ -14,7 +14,6 @@ namespace le3 {
         inline glm::mat4 getWorldMatrix() const { return m_worldMatrix; }
 
         virtual void update(float deltaTime);
-        virtual void draw();
 
         std::shared_ptr<LE3Object> getParent() { return m_pParent; }
         std::vector<std::shared_ptr<LE3Object>> getChildren() const { return m_pChildren; }

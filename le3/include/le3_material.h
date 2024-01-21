@@ -19,15 +19,17 @@ namespace le3 {
 
     struct LE3Material {
     public:
+        LE3Material(LE3ShaderPtr shader) : shader(shader) {}
+
         void apply();
 
         ///////////////
         // Members
         ///////////////
-        LE3ShaderPtr shader = nullptr;
+        LE3ShaderPtr shader;
 
         // Diffuse
-        glm::vec4 diffuseColor = glm::vec4(.8f, .8f, .8f, 1.f);
+        glm::vec4 diffuseColor = glm::vec4(.8f, .0f, .8f, 1.f);
         // LE3TexturePtr diffuseTexture = nullptr;
         bool bUseDiffuseTexture = false;
 

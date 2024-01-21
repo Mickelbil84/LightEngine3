@@ -9,60 +9,38 @@ using fmt::print, fmt::format;
 class Demo02_MovingCar : public LE3GameLogic {
 public:
     LE3Scene m_scene;
-
-    LE3SceneRootPtr m_root;
-
-    LE3StaticMeshPtr m_mesh;
-    LE3StaticModelPtr m_model;
-    
-    LE3ObjectPtr m_player;
-
-    LE3FreeCameraPtr m_camera;
     glm::vec3 cameraVelocity, cameraRotation;
-    float walkSpeed, sensitivity;
+
+    float walkSpeed = 2.2f, sensitivity = 0.005f;
 
     void init() {
+        m_scene.init();
+
         m_scene.addShaderFromFile(
             "hello_opengl",
             "./resources/shaders/moving_car/moving_car.vs",
             "./resources/shaders/moving_car/moving_car.fs"
         );
+        m_scene.addMaterial("default", "hello_opengl");
 
-        m_root = std::make_shared<LE3SceneRoot>();
+        m_scene.addEmptyObject("player");
+        m_scene.getObject("player")->getTransform().setPosition(glm::vec3(0.f, 0.f, 5.f));
 
-        m_player = std::make_shared<LE3Object>();
-        m_player->reparent(m_root);
-        m_player->getTransform().setPosition(glm::vec3(0.f, 0.f, 5.f));
-
-        m_camera = std::make_shared<LE3FreeCamera>();
-        m_camera->setAspectRatio(m_engineState.getAspectRatio());
-        // m_camera->setOffset(glm::vec3(0.f, 0.f, 5.f));
-        m_camera->reparent(m_player);
-        walkSpeed = 2.2f;
-        sensitivity = 0.005f;
-
-        m_mesh = CreateBox(0.f, 0.f, 0.f, 1.f, 1.f, 1.f);
-        m_model = std::make_shared<LE3Model<LE3Vertex>>(m_mesh, nullptr);
-        m_model->reparent(m_root);
+        m_scene.addFreeCamera("camera", "player");
+        m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
+        
+        m_scene.addCube("cube", "default", glm::vec3(0.f), glm::vec3(1.f));
     }
     void update(float deltaTime) {
-        m_camera->addPitchYaw(sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
-        m_camera->moveForward(deltaTime * walkSpeed * cameraVelocity.y);
-        m_camera->moveRight(deltaTime * walkSpeed * cameraVelocity.x);
-        m_camera->moveUp(deltaTime * walkSpeed * cameraVelocity.z);
+        m_scene.getMainCamera()->addPitchYaw(sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
+        m_scene.getMainCamera()->moveForward(deltaTime * walkSpeed * cameraVelocity.y);
+        m_scene.getMainCamera()->moveRight(deltaTime * walkSpeed * cameraVelocity.x);
+        m_scene.getMainCamera()->moveUp(deltaTime * walkSpeed * cameraVelocity.z);
         
-        m_root->update(deltaTime);  
-        print("{}\n", glm::to_string(m_camera->getWorldMatrix()));
+        m_scene.update(deltaTime);  
     }
     void render() {
-        m_scene.getShader("hello_opengl")->use();
-        m_scene.getShader("hello_opengl")->uniform("view", m_camera->getViewMatrix());
-        m_scene.getShader("hello_opengl")->uniform("projection", m_camera->getProjectionMatrix());
-
-        m_scene.getShader("hello_opengl")->uniform("model", m_model->getTransform().getTransformMatrix());
-        m_model->draw();
-
-        m_root->draw();
+        m_scene.draw();
     }
 
     void handleInput(LE3Input input) {

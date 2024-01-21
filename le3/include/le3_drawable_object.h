@@ -1,0 +1,35 @@
+#pragma once
+
+#include "le3_object.h"
+#include "le3_material.h"
+
+namespace le3 {
+    // The lower priority == the sooner the object is drawn on screen
+    enum LE3DrawPriority {
+        DRAW_PRIORITY_LOW = 0,
+        DRAW_PRIORITY_MEDIUM = 1,
+        DRAW_PRIORITY_HIGH = 2,
+        DRAW_PRIORITY_UI = 3,
+        DRAW_PRIORITY_END // Used for enum iteration, not an actual priority
+    };
+
+    class LE3DrawableObject : public LE3Object {
+    public:
+        LE3DrawableObject(LE3MaterialPtr pMaterial) : 
+            m_pMaterial(pMaterial), 
+            m_drawPriority(LE3DrawPriority::DRAW_PRIORITY_LOW)
+        {}
+
+        virtual void draw() = 0;
+
+        LE3DrawPriority getDrawPriority() const { return m_drawPriority; }
+        void setDrawPriority(LE3DrawPriority drawPriority) { m_drawPriority = drawPriority; }
+
+        LE3MaterialPtr getMaterial() { return m_pMaterial; }
+
+    protected:
+        LE3MaterialPtr m_pMaterial;
+        LE3DrawPriority m_drawPriority;
+    };
+    using LE3DrawableObjectPtr = std::shared_ptr<LE3DrawableObject>;
+}

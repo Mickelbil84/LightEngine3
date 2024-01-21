@@ -1,7 +1,7 @@
 #include "le3_primitives.h"
 using namespace le3;
 
-LE3MeshPtr<LE3Vertex3p3c> le3::CreateHelloOpenGLTriangle() {
+LE3MeshPtr<LE3Vertex3p3c> le3::createHelloOpenGLTriangle() {
     std::vector<LE3Vertex3p3c> vertices(3);
     vertices[0].position[0] = .5f * -1.f; vertices[0].position[1] = .5f * -1.f; vertices[0].position[2] = .5f * 0.f;
     vertices[1].position[0] = .5f *  0.f; vertices[1].position[1] = .5f *  1.f; vertices[1].position[2] = .5f * 0.f;
@@ -13,7 +13,7 @@ LE3MeshPtr<LE3Vertex3p3c> le3::CreateHelloOpenGLTriangle() {
     return std::make_shared<LE3Mesh<LE3Vertex3p3c>>(vertices);
 }
 
-LE3MeshPtr<LE3Vertex> le3::CreateBox(float x0, float y0, float z0, float width, float height, float depth) {
+LE3MeshPtr<LE3Vertex> le3::createBox(float x0, float y0, float z0, float width, float height, float depth) {
     float hw = .5f * width;
     float hh = .5f * height;
     float hd = .5f * depth;

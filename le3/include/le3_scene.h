@@ -3,18 +3,63 @@
 #include <map>
 #include <string>
 
+#include "le3_model.h"
+#include "le3_material.h"
+#include "le3_camera.h"
+#include "le3_object.h"
 #include "le3_shader.h"
+#include "le3_draw_queue.h"
+#include "le3_primitives.h"
+#include "le3_scene_root.h"
+
+// TODO: draw & update methods
+// TODO: draw batches models by shader type (also by geometry?)
+// TODO: draw with bypassed shader
 
 namespace le3 {
     class LE3Scene {
     public:
+        void init();
+        void reset();
+        
+        void update(float deltaTime);
+        void draw(LE3ShaderPtr shaderOverride = nullptr);
+
+        // Shaders
         void addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
         void addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource);
-
         inline LE3ShaderPtr getShader(std::string name) { return m_pShaders[name]; }
+
+        // Materials
+        void addMaterial(std::string name, std::string shaderName);
+        inline LE3MaterialPtr getMaterial(std::string name) { return m_pMaterials[name]; }
+
+        // Object factory
+        void addEmptyObject(std::string name, std::string parent = "");
+        void addCube(std::string name, std::string materialName, glm::vec3 position = glm::vec3(0.f), glm::vec3 extent = glm::vec3(1.f), std::string parent = "");
+
+        void addFreeCamera(std::string name, std::string parent = "");
+        void addOrbitCamera(std::string name, std::string parent = "");
+
+        LE3SceneRootPtr getSceneRoot() const { return m_pRoot; }
+        LE3ObjectPtr getObject(std::string name) { return m_pObjects[name]; }
+        LE3CameraPtr getMainCamera() { return m_pMainCamera; }
 
     private:
         std::map<std::string, LE3ShaderPtr> m_pShaders;
+        std::map<std::string, LE3MaterialPtr> m_pMaterials;
+
+        LE3SceneRootPtr m_pRoot; // NOTE: root is not in pObjects
+        LE3CameraPtr m_pMainCamera; 
+        std::map<std::string, LE3ObjectPtr> m_pObjects;
+        std::map<std::string, LE3ObjectPtr> m_pPrototypes; // Objects that are not present in scene, but can be duplicated
+        LE3DrawQueue m_drawQueue;
+        
+        void assertObjectName(std::string name);
+        void attachObject(std::string name, LE3ObjectPtr obj, std::string parent);
+        void attachCamera(LE3CameraPtr pCamera);
+
+        void applyMainCamera(LE3ShaderPtr shader);
 
         // Helper methods
         std::string readFile(std::string filename);

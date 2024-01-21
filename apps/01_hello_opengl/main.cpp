@@ -13,7 +13,7 @@ public:
             "./resources/shaders/hello_opengl/hello_opengl.fs"
         );
 
-        m_triangle = CreateHelloOpenGLTriangle();
+        m_triangle = createHelloOpenGLTriangle();
     }
     void update(float deltaTime) {
         // ImGui::ShowDemoWindow();

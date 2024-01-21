@@ -6,9 +6,6 @@ void LE3Object::update(float deltaTime) {
     if (m_pParent) parentWorld = m_pParent->getWorldMatrix();
     m_worldMatrix = parentWorld * m_transform.getTransformMatrix();
 }
-void LE3Object::draw() {
-
-}
 
 void LE3Object::reparent(std::shared_ptr<LE3Object> newParent) {
     if (m_pParent) {

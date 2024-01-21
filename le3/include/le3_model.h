@@ -5,19 +5,13 @@
 
 #include <glm/glm.hpp>
 
-#include "le3_object.h"
 #include "le3_geometry.h"
 #include "le3_material.h"
+#include "le3_drawable_object.h"
 
 namespace le3 {
     template<typename LE3VertexType>
-    struct LE3MeshNode {
-        LE3MeshPtr<LE3VertexType> pMesh = nullptr;
-        LE3MaterialPtr pMaterial = nullptr;
-    };
-
-    template<typename LE3VertexType>
-    class LE3Model : public LE3Object {
+    class LE3Model : public LE3DrawableObject {
     public:
         LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial);
 
@@ -25,9 +19,10 @@ namespace le3 {
 
     private:
         LE3MeshPtr<LE3VertexType> m_pMesh;
-        LE3MaterialPtr m_pMaterial;
     };
 
-    using LE3StaticModelPtr = std::shared_ptr<LE3Model<LE3Vertex>>;
-    using LE3SkeletalModelPtr = std::shared_ptr<LE3Model<LE3VertexSkeletal>>;
+    using LE3StaticModel =LE3Model<LE3Vertex>;
+    using LE3SkeletalModel =LE3Model<LE3VertexSkeletal>;
+    using LE3StaticModelPtr = std::shared_ptr<LE3StaticModel>;
+    using LE3SkeletalModelPtr = std::shared_ptr<LE3SkeletalModel>;
 }
