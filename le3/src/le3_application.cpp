@@ -33,7 +33,7 @@ LE3Application::LE3Application(std::unique_ptr<LE3GameLogic> pGameLogic) :
 void LE3Application::run() {
     init();
     while(m_bShouldRun) {
-        if (m_pGameLogic->m_engineState.m_bWantsQuit) m_bShouldRun = false;
+        _handleNotifys();
         handleInput();
         update();
         render();
@@ -53,6 +53,7 @@ void LE3Application::handleInput() {
     LE3Input input;
     input.xrel = 0; input.yrel = 0;
     input.bLeftMouseDown = m_lastInput.bLeftMouseDown; input.bRightMouseDown = m_lastInput.bRightMouseDown;
+    input.keyDownEvt.clear(); input.keyUpEvt.clear();
     while (SDL_PollEvent(&e)) {
         if (e.type == SDL_QUIT) m_bShouldRun = false;
         if (e.type == SDL_MOUSEBUTTONDOWN)
@@ -68,6 +69,13 @@ void LE3Application::handleInput() {
                 input.bLeftMouseDown = false;
             if (e.button.button == SDL_BUTTON_RIGHT)
                 input.bRightMouseDown = false;
+        }
+
+        if (e.type == SDL_KEYDOWN) {
+            input.keyDownEvt.push_back(m_sdlKeyMapping[e.key.keysym.scancode]);
+        }
+        if (e.type == SDL_KEYUP) {
+            input.keyUpEvt.push_back(m_sdlKeyMapping[e.key.keysym.scancode]);
         }
 
         ImGui_ImplSDL2_ProcessEvent(&e);
@@ -148,7 +156,7 @@ void LE3Application::_initSDL() {
     m_pInternal->m_pWindow = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
         "LightEngine3 v0.2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 800, flags
     ), SDL_DestroyWindow);
-    // SDL_SetRelativeMouseMode(SDL_TRUE);
+    SDL_SetRelativeMouseMode((SDL_bool)m_pGameLogic->m_engineState.m_bReltaiveMouse);
 
     if (!m_pInternal->m_pWindow)
         throw std::runtime_error(format("Could not create SDL window: {}\n", SDL_GetError()));
@@ -192,6 +200,15 @@ void LE3Application::_initImGui() {
 
     ImGui_ImplSDL2_InitForOpenGL(m_pInternal->m_pWindow.get(), m_pInternal->m_glContext);
     ImGui_ImplOpenGL3_Init();
+}
+
+void LE3Application::_handleNotifys() {
+    if (m_pGameLogic->m_engineState.m_bWantsQuit) m_bShouldRun = false;
+    
+    if (m_pGameLogic->m_engineState.m_bWantsRelativeMouse != m_pGameLogic->m_engineState.m_bReltaiveMouse) {
+        m_pGameLogic->m_engineState.m_bReltaiveMouse = m_pGameLogic->m_engineState.m_bWantsRelativeMouse;
+        SDL_SetRelativeMouseMode((SDL_bool)m_pGameLogic->m_engineState.m_bReltaiveMouse);
+    }
 }
 
 void LE3Application::getKeyboardInput(LE3Input& input) {

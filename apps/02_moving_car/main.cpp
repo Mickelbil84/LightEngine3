@@ -11,6 +11,9 @@ public:
     LE3Scene m_scene;
     glm::vec3 cameraVelocity, cameraRotation;
 
+    // Gui panel info
+    int cameraId = 0; // 0 = free, 1 = orbit
+
     float walkSpeed = 2.2f, sensitivity = 0.005f;
 
     void init() {
@@ -33,16 +36,27 @@ public:
         m_scene.addEmptyObject("player");
         m_scene.getObject("player")->getTransform().setPosition(glm::vec3(0.f, 0.f, 0.f));
 
-        m_scene.addFreeCamera("camera", "player");
+        m_scene.addFreeCamera("cameraFree", "player");
         m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
         m_scene.getMainCamera()->getTransform().setPosition(glm::vec3(.0f, 0.5f, 3.f));
+
+        m_scene.addOrbitCamera("cameraOrbit", "player");
+        std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setAspectRatio(m_engineState.getAspectRatio());
+        std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(glm::vec3(0.f, 0.5f, 5.f));
         
         m_scene.addCube("cube", "default", glm::vec3(0.f, -0.1f, 0.f), glm::vec3(50.f, 0.1f, 50.f));
+
+        for (int i = 0; i < 10; i++) {
+            m_scene.addCube(format("block{}", 2 * i), "default", glm::vec3(-2.f + i, 0.5f, 2.f), glm::vec3(.5f));
+            m_scene.addCube(format("block{}", 2 * i + 1), "default", glm::vec3(-2.f + i, 0.5f, -2.f), glm::vec3(.5f));
+        }
 
         m_scene.addEmptyObject("car");
         m_scene.addStaticModel("carBody", "carBody", "default", "car");
         m_scene.getObject("carBody")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
         m_scene.getObject("carBody")->getTransform().setScale(0.3f);
+
+        m_scene.getObject("cameraOrbit")->reparent(m_scene.getObject("car"));
 
         m_scene.addEmptyObject("wheelsFront", "car");
         m_scene.getObject("wheelsFront")->getTransform().setPosition(glm::vec3(-.705f, 0.175f, 0.f));
@@ -71,6 +85,8 @@ public:
 
     }
     void update(float deltaTime) {
+        updateGUI();
+
         // Setup FPS camera
         m_scene.getMainCamera()->addPitchYaw(sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
         m_scene.getMainCamera()->moveForward(deltaTime * walkSpeed * cameraVelocity.y);
@@ -89,6 +105,23 @@ public:
         // Update scene
         m_scene.update(deltaTime);  
     }
+
+    void updateGUI() {
+        ImGui::Begin("Demo 02: Moving Car");
+
+        if (ImGui::CollapsingHeader("Camera Control", ImGuiTreeNodeFlags_DefaultOpen)) {
+            if (ImGui::Button("Set FPS (Free) Camera")) {
+                m_scene.setMainCamera("cameraFree");
+            }
+            if (ImGui::Button("Set TPS (Orbit) Camera")) {
+                m_scene.setMainCamera("cameraOrbit");
+            }
+            ImGui::Text("Press F to toggle relative mouse.");
+        }
+
+        ImGui::End();
+    }
+
     void render() {
         m_scene.draw();
     }
@@ -96,12 +129,14 @@ public:
     void handleInput(LE3Input input) {
         if (input.keys["KEY_ESCAPE"]) m_engineState.notifyWantsQuit();
 
+        if (input.isKeyDownEvent("KEY_F")) m_engineState.notifyWantsRelativeMOuse(!m_engineState.isRelativeMouse());
+
         ////////////////////////
         // Camera Movement
         ////////////////////////
         cameraVelocity = glm::vec3();
         cameraRotation = glm::vec3();
-        if (input.bLeftMouseDown) {
+        if (input.bLeftMouseDown || m_engineState.isRelativeMouse()) {
             if (input.keys["KEY_W"]) cameraVelocity.y = 1.f;
             else if (input.keys["KEY_S"]) cameraVelocity.y = -1.f;
             else cameraVelocity.y = 0.f;

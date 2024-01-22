@@ -35,6 +35,8 @@ namespace le3 {
         void _initOpenGL();
         void _initImGui();
 
+        void _handleNotifys(); // Handle notify events from the engine state
+
         void getKeyboardInput(LE3Input& input); // Convert SDL format to LE3 input format
         void createSDLKeyMapping();
         std::map<int, std::string> m_sdlKeyMapping;

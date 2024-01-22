@@ -121,3 +121,10 @@ void LE3Scene::applyMainCamera(LE3ShaderPtr shader) {
     shader->uniform("view", m_pMainCamera->getViewMatrix());
     shader->uniform("projection", m_pMainCamera->getProjectionMatrix());
 }
+
+void LE3Scene::setMainCamera(std::string camera) {
+    if (!m_pObjects.contains(camera)) throw std::runtime_error(format("Object '{}' does not exist", camera));
+    LE3CameraPtr pCamera = std::dynamic_pointer_cast<LE3Camera>(m_pObjects[camera]);
+    if (!pCamera) throw std::runtime_error(format("Object '{}' is not a camera", camera));
+    m_pMainCamera = pCamera;
+}

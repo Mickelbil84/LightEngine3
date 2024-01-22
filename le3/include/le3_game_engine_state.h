@@ -12,11 +12,15 @@ namespace le3 {
         inline float getAspectRatio() const { return (float)m_windowWidth / (float)m_windowHeight; }
 
         inline void notifyWantsQuit() { m_bWantsQuit = true; }
+        inline void notifyWantsRelativeMOuse(bool relativeMouse) { m_bWantsRelativeMouse = relativeMouse; }
+        inline bool isRelativeMouse() const { return m_bReltaiveMouse; }
 
     private:
         float m_elapsedTime = 0.f;
         int m_windowWidth, m_windowHeight;
         bool m_bWantsQuit = false;
+        bool m_bWantsRelativeMouse = false;
+        bool m_bReltaiveMouse = false;
 
     public:
         friend class LE3Application;

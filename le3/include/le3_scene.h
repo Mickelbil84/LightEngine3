@@ -45,6 +45,7 @@ namespace le3 {
         LE3SceneRootPtr getSceneRoot() const { return m_pRoot; }
         LE3ObjectPtr getObject(std::string name) { return m_pObjects[name]; }
         LE3CameraPtr getMainCamera() { return m_pMainCamera; }
+        void setMainCamera(std::string camera);
 
     private:
         std::map<std::string, LE3ShaderPtr> m_pShaders;

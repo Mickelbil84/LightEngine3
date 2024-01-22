@@ -8,3 +8,4 @@ TODO: Conditional integration of ImGui
 -------
 (Backlog)
 TODO: Verify that batched rendering works as expected
+TODO: Control window title
