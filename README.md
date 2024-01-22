@@ -61,4 +61,4 @@ NOTE: To ignore glm's CMake warning, you need to edit glmConfig.cmake in glm ins
 
 ## Acknowledgments
 
-Car model: (link)[https://sketchfab.com/3d-models/free-concept-car-025-public-domain-cc0-e3a65443d3e44c33b594cec591c01c05]
+Car model: [link](https://sketchfab.com/3d-models/free-concept-car-025-public-domain-cc0-e3a65443d3e44c33b594cec591c01c05)
