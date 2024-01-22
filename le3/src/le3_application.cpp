@@ -83,7 +83,8 @@ void LE3Application::handleInput() {
     SDL_GetRelativeMouseState(&input.xrel, &input.yrel);
     getKeyboardInput(input);
 
-    m_pGameLogic->handleInput(input);
+    if (m_pGameLogic->m_engineState.isFocused())
+        m_pGameLogic->handleInput(input);
 
     m_lastInput = input;
 }
@@ -100,6 +101,8 @@ void LE3Application::update() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
+
+    m_pGameLogic->m_engineState.m_bFocused = !ImGui::GetIO().WantCaptureMouse;
 
     m_pGameLogic->update(m_deltaTime);
 }

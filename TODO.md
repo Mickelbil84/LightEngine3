@@ -1,3 +1,4 @@
+TODO: Lua integration (basic) and scene serialization with lua
 TODO: Textures
 TODO: Framebuffers in scene: for main, shadows, etc. 
 TODO: Test framebuffer with ImGui

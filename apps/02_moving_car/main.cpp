@@ -28,8 +28,8 @@ public:
         );
         m_scene.addMaterial("default", "hello_opengl");
 
-        m_scene.addStaticMesh("carBody",  "./resources/models/cars/Audi R8 Body.fbx");
-        m_scene.addStaticMesh("carWheel",  "./resources/models/cars/Audi R8 Wheel.fbx");
+        m_scene.addStaticMesh("carBody",  "./resources/models/cars/Car Body.fbx");
+        m_scene.addStaticMesh("carWheel",  "./resources/models/cars/Car Wheel.fbx");
 
         /////////////////
 
@@ -42,7 +42,7 @@ public:
 
         m_scene.addOrbitCamera("cameraOrbit", "player");
         std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setAspectRatio(m_engineState.getAspectRatio());
-        std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(glm::vec3(0.f, 0.5f, 5.f));
+        std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(glm::vec3(0.f, 0.5f, 2.5f));
         
         m_scene.addCube("cube", "default", glm::vec3(0.f, -0.1f, 0.f), glm::vec3(50.f, 0.1f, 50.f));
 
@@ -52,36 +52,40 @@ public:
         }
 
         m_scene.addEmptyObject("car");
+        m_scene.getObject("car")->getTransform().setScale(2.5f);
+
         m_scene.addStaticModel("carBody", "carBody", "default", "car");
         m_scene.getObject("carBody")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
         m_scene.getObject("carBody")->getTransform().setScale(0.3f);
+        m_scene.getObject("carBody")->getTransform().setPosition(glm::vec3(-2.36f * 0.3f, 0.f, 0.f));
 
         m_scene.getObject("cameraOrbit")->reparent(m_scene.getObject("car"));
+        // std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOrigin(glm::vec3(3.f, 0.f, 0.f));
 
         m_scene.addEmptyObject("wheelsFront", "car");
-        m_scene.getObject("wheelsFront")->getTransform().setPosition(glm::vec3(-.705f, 0.175f, 0.f));
+        m_scene.getObject("wheelsFront")->getTransform().setPosition(glm::vec3(.285f -2.36f * 0.3f, 0.095f, 0.f));
         m_scene.addEmptyObject("wheelsBack", "car");
-        m_scene.getObject("wheelsBack")->getTransform().setPosition(glm::vec3(.935f, 0.175f, 0.f));
+        m_scene.getObject("wheelsBack")->getTransform().setPosition(glm::vec3(1.035f -2.36f * 0.3f, 0.095f, 0.f));
         
         m_scene.addStaticModel("wheel1", "carWheel", "default", "wheelsFront");
-        m_scene.getObject("wheel1")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.5f));
+        m_scene.getObject("wheel1")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.3f));
         m_scene.getObject("wheel1")->getTransform().setScale(0.33f);
-        m_scene.getObject("wheel1")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
+        m_scene.getObject("wheel1")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
 
         m_scene.addStaticModel("wheel2", "carWheel", "default", "wheelsFront");
-        m_scene.getObject("wheel2")->getTransform().setPosition(glm::vec3(0.f, 0.f, .5f));
+        m_scene.getObject("wheel2")->getTransform().setPosition(glm::vec3(0.f, 0.f, .3f));
         m_scene.getObject("wheel2")->getTransform().setScale(0.33f);
-        m_scene.getObject("wheel2")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
+        m_scene.getObject("wheel2")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
 
         m_scene.addStaticModel("wheel3", "carWheel", "default", "wheelsBack");
-        m_scene.getObject("wheel3")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.5f));
+        m_scene.getObject("wheel3")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.3f));
         m_scene.getObject("wheel3")->getTransform().setScale(0.33f);
-        m_scene.getObject("wheel3")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
+        m_scene.getObject("wheel3")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
 
         m_scene.addStaticModel("wheel4", "carWheel", "default", "wheelsBack");
-        m_scene.getObject("wheel4")->getTransform().setPosition(glm::vec3(0.f, 0.f, .5f));
+        m_scene.getObject("wheel4")->getTransform().setPosition(glm::vec3(0.f, 0.f, .3f));
         m_scene.getObject("wheel4")->getTransform().setScale(0.33f);
-        m_scene.getObject("wheel4")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
+        m_scene.getObject("wheel4")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
 
     }
     void update(float deltaTime) {

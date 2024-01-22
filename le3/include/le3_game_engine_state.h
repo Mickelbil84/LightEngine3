@@ -15,12 +15,15 @@ namespace le3 {
         inline void notifyWantsRelativeMOuse(bool relativeMouse) { m_bWantsRelativeMouse = relativeMouse; }
         inline bool isRelativeMouse() const { return m_bReltaiveMouse; }
 
+        inline bool isFocused() const { return m_bFocused; } // True only if window is focused (and not on GUI)
+
     private:
         float m_elapsedTime = 0.f;
         int m_windowWidth, m_windowHeight;
         bool m_bWantsQuit = false;
         bool m_bWantsRelativeMouse = false;
         bool m_bReltaiveMouse = false;
+        bool m_bFocused = true;
 
     public:
         friend class LE3Application;

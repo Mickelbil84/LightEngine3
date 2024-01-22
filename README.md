@@ -58,3 +58,7 @@ Installation is done simply with CMake.
 
 NOTE: To ignore glm's CMake warning, you need to edit glmConfig.cmake in glm installation to increase CMake version to 3.6.
 (This is also a recent [as of January 2024] commit on glm's repository from July 2023).
+
+## Acknowledgments
+
+Car model: (link)[https://sketchfab.com/3d-models/free-concept-car-025-public-domain-cc0-e3a65443d3e44c33b594cec591c01c05]
