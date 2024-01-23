@@ -29,7 +29,7 @@ namespace le3 {
         LE3ShaderPtr shader;
 
         // Diffuse
-        glm::vec4 diffuseColor = glm::vec4(.8f, .0f, .8f, 1.f);
+        glm::vec4 diffuseColor = glm::vec4(.8f, .8f, .8f, 1.f);
         // LE3TexturePtr diffuseTexture = nullptr;
         bool bUseDiffuseTexture = false;
 
