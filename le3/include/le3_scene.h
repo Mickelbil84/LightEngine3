@@ -8,6 +8,7 @@
 #include "le3_camera.h"
 #include "le3_object.h"
 #include "le3_shader.h"
+#include "le3_texture.h"
 #include "le3_draw_queue.h"
 #include "le3_primitives.h"
 #include "le3_scene_root.h"
@@ -30,6 +31,11 @@ namespace le3 {
         void addMaterial(std::string name, std::string shaderName);
         inline LE3MaterialPtr getMaterial(std::string name) { return m_pMaterials[name]; }
 
+        // Textures
+        void addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate = true);
+        void addTexture(std::string name, std::string filename, bool interpolate = true);
+        inline LE3TexturePtr getTexture(std::string name) { return m_pTextures[name]; }
+
         // Meshes
         void addStaticMesh(std::string name, std::string filename);
         inline LE3StaticMeshPtr getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
@@ -50,6 +56,7 @@ namespace le3 {
     private:
         std::map<std::string, LE3ShaderPtr> m_pShaders;
         std::map<std::string, LE3MaterialPtr> m_pMaterials;
+        std::map<std::string, LE3TexturePtr> m_pTextures;
         std::map<std::string, LE3StaticMeshPtr> m_pStaticMeshes;
 
         LE3SceneRootPtr m_pRoot; // NOTE: root is not in pObjects

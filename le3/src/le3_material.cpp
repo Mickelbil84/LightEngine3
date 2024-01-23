@@ -17,24 +17,24 @@ void LE3Material::apply() {
 
     shader->uniform("material.tilingX", tilingX);
     shader->uniform("material.tilingY", tilingY);
-    // if (bUseDiffuseTexture && diffuseTexture)
-    // {
-    //     shader->uniform("material.diffuseTexture", (uint32_t)DIFFUSE_TEXTURE_INDEX);
-    //     diffuseTexture->Use(DIFFUSE_TEXTURE_INDEX);
-    // }
-    // if (bUseSpecularTexture && specularTexture)
-    // {
-    //     shader->uniform("material.specularTexture", (uint32_t)SPECULAR_TEXTURE_INDEX);
-    //     specularTexture->Use(SPECULAR_TEXTURE_INDEX);
-    // }
-    // if (bUseNormalTexture && normalTexture)
-    // {
-    //     shader->uniform("material.normalTexture", (uint32_t)NORMAL_TEXTURE_INDEX);
-    //     normalTexture->Use(NORMAL_TEXTURE_INDEX);
-    // }
-    // if (reflectionIntensity > 0.f && cubemap)
-    // {
-    //     shader->uniform("material.cubemapTexture", (uint32_t)CUBEMAP_TEXTURE_INDEX);
-    //     cubemap->Use(CUBEMAP_TEXTURE_INDEX);
-    // }
+    if (bUseDiffuseTexture && diffuseTexture)
+    {
+        shader->uniform("material.diffuseTexture", (uint32_t)DIFFUSE_TEXTURE_INDEX);
+        diffuseTexture->use(DIFFUSE_TEXTURE_INDEX);
+    }
+    if (bUseSpecularTexture && specularTexture)
+    {
+        shader->uniform("material.specularTexture", (uint32_t)SPECULAR_TEXTURE_INDEX);
+        specularTexture->use(SPECULAR_TEXTURE_INDEX);
+    }
+    if (bUseNormalTexture && normalTexture)
+    {
+        shader->uniform("material.normalTexture", (uint32_t)NORMAL_TEXTURE_INDEX);
+        normalTexture->use(NORMAL_TEXTURE_INDEX);
+    }
+    if (reflectionIntensity > 0.f && cubemap)
+    {
+        shader->uniform("material.cubemapTexture", (uint32_t)CUBEMAP_TEXTURE_INDEX);
+        cubemap->use(CUBEMAP_TEXTURE_INDEX);
+    }
 }

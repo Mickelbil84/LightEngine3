@@ -4,7 +4,7 @@
 
 #include <glm/glm.hpp>
 
-// #include "le3_texture.h"
+#include "le3_texture.h"
 #include "le3_shader.h"
 
 
@@ -30,22 +30,22 @@ namespace le3 {
 
         // Diffuse
         glm::vec4 diffuseColor = glm::vec4(.8f, .8f, .8f, 1.f);
-        // LE3TexturePtr diffuseTexture = nullptr;
+        LE3TexturePtr diffuseTexture = nullptr;
         bool bUseDiffuseTexture = false;
 
         // Specular
         glm::vec3 specularColor = glm::vec3(1.f, 1.f, 1.f);
         float specularIntensity = 1.f;
         float shininess = 16.f;
-        // LE3TexturePtr specularTexture = nullptr;
+        LE3TexturePtr specularTexture = nullptr;
         bool bUseSpecularTexture = false;
 
         // Normal
-        // LE3TexturePtr normalTexture = nullptr;
+        LE3TexturePtr normalTexture = nullptr;
         bool bUseNormalTexture = false;
 
         // Cubemap
-        // LE3TexturePtr cubemap = nullptr;
+        LE3TexturePtr cubemap = nullptr;
         float reflectionIntensity = 0.f;
 
         // General settings

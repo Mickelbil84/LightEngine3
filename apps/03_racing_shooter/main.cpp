@@ -27,7 +27,13 @@ public:
             "./resources/shaders/blinn_phong/blinn_phong.vs",
             "./resources/shaders/blinn_phong/blinn_phong.fs"
         );
+
+        m_scene.addTexture("carWheel_DIFF", "./resources/textures/cars/CarWheel_DIFF.png");
+
         m_scene.addMaterial("default", "blinn_phong");
+        m_scene.addMaterial("wheel", "blinn_phong");
+        m_scene.getMaterial("wheel")->diffuseTexture = m_scene.getTexture("carWheel_DIFF");
+        m_scene.getMaterial("wheel")->bUseDiffuseTexture = true;
 
         m_scene.addStaticMesh("carBody",  "./resources/models/cars/Car Body.fbx");
         m_scene.addStaticMesh("carWheel",  "./resources/models/cars/Car Wheel.fbx");
@@ -68,22 +74,22 @@ public:
         m_scene.addEmptyObject("wheelsBack", "car");
         m_scene.getObject("wheelsBack")->getTransform().setPosition(glm::vec3(1.035f -2.06f * 0.3f, 0.095f, 0.f));
         
-        m_scene.addStaticModel("wheel1", "carWheel", "default", "wheelsFront");
+        m_scene.addStaticModel("wheel1", "carWheel", "wheel", "wheelsFront");
         m_scene.getObject("wheel1")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.3f));
         m_scene.getObject("wheel1")->getTransform().setScale(0.33f);
         m_scene.getObject("wheel1")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
 
-        m_scene.addStaticModel("wheel2", "carWheel", "default", "wheelsFront");
+        m_scene.addStaticModel("wheel2", "carWheel", "wheel", "wheelsFront");
         m_scene.getObject("wheel2")->getTransform().setPosition(glm::vec3(0.f, 0.f, .3f));
         m_scene.getObject("wheel2")->getTransform().setScale(0.33f);
         m_scene.getObject("wheel2")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
 
-        m_scene.addStaticModel("wheel3", "carWheel", "default", "wheelsBack");
+        m_scene.addStaticModel("wheel3", "carWheel", "wheel", "wheelsBack");
         m_scene.getObject("wheel3")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.3f));
         m_scene.getObject("wheel3")->getTransform().setScale(0.33f);
         m_scene.getObject("wheel3")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
 
-        m_scene.addStaticModel("wheel4", "carWheel", "default", "wheelsBack");
+        m_scene.addStaticModel("wheel4", "carWheel", "wheel", "wheelsBack");
         m_scene.getObject("wheel4")->getTransform().setPosition(glm::vec3(0.f, 0.f, .3f));
         m_scene.getObject("wheel4")->getTransform().setScale(0.33f);
         m_scene.getObject("wheel4")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
