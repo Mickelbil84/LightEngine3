@@ -49,8 +49,8 @@ void LE3Transform::addPositionZ(float amount) {
 void LE3Transform::setRotationRPY(float roll, float pitch, float yaw) {
     m_rotation = glm::quat(glm::vec3(pitch, yaw, roll));
 }
-void LE3Transform::setOrbit(float roll, float pitch, float yaw, glm::vec3 origin, glm::vec3 offset) {
-    glm::vec3 target = offset - origin;
+void LE3Transform::setOrbit(float roll, float pitch, float yaw, glm::vec3 origin, float offset) {
+    glm::vec3 target = glm::vec3(0.f, 0.f, offset) - origin;
     glm::mat4 tmp = 
         glm::translate(glm::mat4(1.f), origin) *
         glm::toMat4(glm::quat(glm::vec3(pitch, yaw, roll))) *

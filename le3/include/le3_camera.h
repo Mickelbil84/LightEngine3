@@ -41,13 +41,14 @@ namespace le3 {
 
         virtual void update(float deltaTime);
 
-        glm::vec3 getOffset() const { return m_offset; }
-        void setOffset(glm::vec3 offset) { m_offset = offset; }
+        float getOffset() const { return m_offset; }
+        void setOffset(float offset) { m_offset = offset; }
         glm::vec3 getOrigin() const { return m_origin; }
         void setOrigin(glm::vec3 origin) { m_origin = origin; }
 
     protected:
-        glm::vec3 m_offset, m_origin;
+        glm::vec3 m_origin;
+        float m_offset;
         virtual void updateCameraDirections();
     };
     using LE3OrbitCameraPtr = std::shared_ptr<LE3OrbitCamera>;

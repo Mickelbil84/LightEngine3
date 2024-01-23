@@ -29,7 +29,7 @@ namespace le3 {
         void setScale(glm::vec3 scale);
         void setScale(float scale);
         
-        void setOrbit(float roll, float pitch, float yaw, glm::vec3 origin, glm::vec3 offset);
+        void setOrbit(float roll, float pitch, float yaw, glm::vec3 origin, float offset);
 
         void lookAt(glm::vec3 target);
 

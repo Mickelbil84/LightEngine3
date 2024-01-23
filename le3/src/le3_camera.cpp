@@ -21,7 +21,7 @@ glm::mat4 LE3Camera::getProjectionMatrix(float aspectRatio) {
     return glm::perspective(m_fov, aspectRatio, .1f, 100.f);
 }
 
-LE3OrbitCamera::LE3OrbitCamera() : LE3Camera(), m_origin(glm::vec3(0.f)), m_offset(glm::vec3(0.f)) {
+LE3OrbitCamera::LE3OrbitCamera() : LE3Camera(), m_origin(glm::vec3(0.f)), m_offset(0.f) {
 }
 
 void LE3OrbitCamera::update(float deltaTime) {

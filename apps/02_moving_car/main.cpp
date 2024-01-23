@@ -12,7 +12,8 @@ public:
     glm::vec3 cameraVelocity, cameraRotation;
 
     // Gui panel info
-    int cameraId = 0; // 0 = free, 1 = orbit
+    float orbitOffset = 3.f;
+
 
     float walkSpeed = 2.2f, sensitivity = 0.005f;
 
@@ -42,7 +43,7 @@ public:
 
         m_scene.addOrbitCamera("cameraOrbit", "player");
         std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setAspectRatio(m_engineState.getAspectRatio());
-        std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(glm::vec3(0.f, 0.5f, 2.5f));
+        std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(orbitOffset);
         
         m_scene.addCube("cube", "default", glm::vec3(0.f, -0.1f, 0.f), glm::vec3(50.f, 0.1f, 50.f));
 
@@ -57,15 +58,15 @@ public:
         m_scene.addStaticModel("carBody", "carBody", "default", "car");
         m_scene.getObject("carBody")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
         m_scene.getObject("carBody")->getTransform().setScale(0.3f);
-        m_scene.getObject("carBody")->getTransform().setPosition(glm::vec3(-2.36f * 0.3f, 0.f, 0.f));
+        m_scene.getObject("carBody")->getTransform().setPosition(glm::vec3(-2.06f * 0.3f, 0.f, 0.f));
 
         m_scene.getObject("cameraOrbit")->reparent(m_scene.getObject("car"));
         // std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOrigin(glm::vec3(3.f, 0.f, 0.f));
 
         m_scene.addEmptyObject("wheelsFront", "car");
-        m_scene.getObject("wheelsFront")->getTransform().setPosition(glm::vec3(.285f -2.36f * 0.3f, 0.095f, 0.f));
+        m_scene.getObject("wheelsFront")->getTransform().setPosition(glm::vec3(.285f -2.06f * 0.3f, 0.095f, 0.f));
         m_scene.addEmptyObject("wheelsBack", "car");
-        m_scene.getObject("wheelsBack")->getTransform().setPosition(glm::vec3(1.035f -2.36f * 0.3f, 0.095f, 0.f));
+        m_scene.getObject("wheelsBack")->getTransform().setPosition(glm::vec3(1.035f -2.06f * 0.3f, 0.095f, 0.f));
         
         m_scene.addStaticModel("wheel1", "carWheel", "default", "wheelsFront");
         m_scene.getObject("wheel1")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.3f));
@@ -97,6 +98,8 @@ public:
         m_scene.getMainCamera()->moveRight(deltaTime * walkSpeed * cameraVelocity.x);
         m_scene.getMainCamera()->moveUp(deltaTime * walkSpeed * cameraVelocity.z);
 
+        std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(orbitOffset);
+
         // Move car forward
         glm::vec3 carPos = m_scene.getObject("car")->getTransform().getPosition();
         carPos.x += -1.f * deltaTime;
@@ -120,7 +123,11 @@ public:
             if (ImGui::Button("Set TPS (Orbit) Camera")) {
                 m_scene.setMainCamera("cameraOrbit");
             }
+            ImGui::Text("Orbit Offset:");
+            ImGui::SliderFloat("##orbitOffset", &orbitOffset, 0.f, 5.f);
+            ImGui::Separator();
             ImGui::Text("Press F to toggle relative mouse.");
+
         }
 
         ImGui::End();
