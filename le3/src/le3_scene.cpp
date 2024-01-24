@@ -139,6 +139,7 @@ void LE3Scene::applyMainCamera(LE3ShaderPtr shader) {
     shader->use();
     shader->uniform("view", m_pMainCamera->getViewMatrix());
     shader->uniform("projection", m_pMainCamera->getProjectionMatrix());
+    shader->uniform("cameraPos", glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
 }
 
 void LE3Scene::setMainCamera(std::string camera) {

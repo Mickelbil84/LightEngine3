@@ -219,10 +219,10 @@ void main()
     light += calc_ambient_light(ambientLight);
     for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
         light += calc_directional_light(directionalLights[i], normal, posCoord, dirLightPosCoord[i], material, vec3(specularColor));
-    for (int i = 0; i < MAX_POINT_LIGHTS; i++)
-        light += calc_point_light(pointLights[i], normal, posCoord, material, vec3(specularColor));
-    for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
-        light += calc_spot_light(spotLights[i], normal, posCoord, spotLightPosCoord[i], material, vec3(specularColor));
+    // for (int i = 0; i < MAX_POINT_LIGHTS; i++)
+    //     light += calc_point_light(pointLights[i], normal, posCoord, material, vec3(specularColor));
+    // for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
+    //     light += calc_spot_light(spotLights[i], normal, posCoord, spotLightPosCoord[i], material, vec3(specularColor));
 
     fColor = vec4(light, 1.0) * diffuseColor;
     // fColor = diffuseColor;

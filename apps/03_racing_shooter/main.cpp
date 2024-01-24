@@ -13,6 +13,7 @@ public:
 
     // Gui panel info
     float orbitOffset = 3.f;
+    float carSpeed = 1.f;
 
 
     float walkSpeed = 2.2f, sensitivity = 0.005f;
@@ -108,12 +109,12 @@ public:
 
         // Move car forward
         glm::vec3 carPos = m_scene.getObject("car")->getTransform().getPosition();
-        carPos.x += -1.f * deltaTime;
+        carPos.x += -1.f * deltaTime * carSpeed;
         if (carPos.x < -3.f) carPos.x = 3.f;
         m_scene.getObject("car")->getTransform().setPosition(carPos);
         
         for (int i = 1; i <= 4; i++)
-            m_scene.getObject(format("wheel{}", i))->getTransform().addRotationZ(1.9f * deltaTime);
+            m_scene.getObject(format("wheel{}", i))->getTransform().addRotationZ(1.9f * carSpeed * deltaTime);
 
         // Update scene
         m_scene.update(deltaTime);  
@@ -134,6 +135,10 @@ public:
             ImGui::Separator();
             ImGui::Text("Press F to toggle relative mouse.");
 
+        }
+        if (ImGui::CollapsingHeader("Camera Control", ImGuiTreeNodeFlags_DefaultOpen)) {
+            ImGui::Text("Car Speed:");
+            ImGui::SliderFloat("##carSpeed", &carSpeed, 0.f, 1.f);
         }
 
         ImGui::End();
