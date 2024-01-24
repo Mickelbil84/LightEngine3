@@ -29,12 +29,32 @@ public:
             "./resources/shaders/blinn_phong/blinn_phong.fs"
         );
 
-        m_scene.addTexture("carWheel_DIFF", "./resources/textures/cars/CarWheel_DIFF.png");
+        m_scene.addTexture("T_carBody_DIFF", "./resources/textures/cars/T_CarBody_DIFF.png");
+        m_scene.addTexture("T_carWheel_DIFF", "./resources/textures/cars/CarWheel_DIFF.png");
+        m_scene.addTexture("T_carWheel_REFL", "./resources/textures/cars/CarWheel_REFL.png");
+        m_scene.addTexture("T_basilica", "./resources/textures/cubemaps/basilica.png");
 
-        m_scene.addMaterial("default", "blinn_phong");
-        m_scene.addMaterial("wheel", "blinn_phong");
-        m_scene.getMaterial("wheel")->diffuseTexture = m_scene.getTexture("carWheel_DIFF");
-        m_scene.getMaterial("wheel")->bUseDiffuseTexture = true;
+
+        m_scene.addMaterial("M_default", "blinn_phong");
+        m_scene.getMaterial("M_default")->specularIntensity = 0.f;
+        
+        m_scene.addMaterial("M_wheel", "blinn_phong");
+        m_scene.getMaterial("M_wheel")->diffuseTexture = m_scene.getTexture("T_carWheel_DIFF");
+        m_scene.getMaterial("M_wheel")->bUseDiffuseTexture = true;
+        m_scene.getMaterial("M_wheel")->specularTexture = m_scene.getTexture("T_carWheel_REFL");
+        m_scene.getMaterial("M_wheel")->bUseSpecularTexture = true;
+        m_scene.getMaterial("M_wheel")->shininess = 128;
+        m_scene.getMaterial("M_wheel")->cubemap = m_scene.getTexture("T_basilica");
+        m_scene.getMaterial("M_wheel")->reflectionIntensity = .3f;
+
+        m_scene.addMaterial("M_carBody", "blinn_phong");
+        m_scene.getMaterial("M_carBody")->diffuseColor = glm::vec4(1.f);
+        m_scene.getMaterial("M_carBody")->diffuseTexture = m_scene.getTexture("T_carBody_DIFF");
+        m_scene.getMaterial("M_carBody")->bUseDiffuseTexture = true;
+        m_scene.getMaterial("M_carBody")->shininess = 128;
+        m_scene.getMaterial("M_carBody")->cubemap = m_scene.getTexture("T_basilica");
+        m_scene.getMaterial("M_carBody")->reflectionIntensity = .3f;
+
 
         m_scene.addStaticMesh("carBody",  "./resources/models/cars/Car Body.fbx");
         m_scene.addStaticMesh("carWheel",  "./resources/models/cars/Car Wheel.fbx");
@@ -52,17 +72,17 @@ public:
         std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setAspectRatio(m_engineState.getAspectRatio());
         std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(orbitOffset);
         
-        m_scene.addCube("cube", "default", glm::vec3(0.f, -0.1f, 0.f), glm::vec3(50.f, 0.1f, 50.f));
+        m_scene.addCube("cube", "M_default", glm::vec3(0.f, -0.1f, 0.f), glm::vec3(50.f, 0.1f, 50.f));
 
         for (int i = 0; i < 10; i++) {
-            m_scene.addCube(format("block{}", 2 * i), "default", glm::vec3(-2.f + i, 0.5f, 2.f), glm::vec3(.5f));
-            m_scene.addCube(format("block{}", 2 * i + 1), "default", glm::vec3(-2.f + i, 0.5f, -2.f), glm::vec3(.5f));
+            m_scene.addCube(format("block{}", 2 * i), "M_default", glm::vec3(-2.f + i, 0.5f, 2.f), glm::vec3(.5f));
+            m_scene.addCube(format("block{}", 2 * i + 1), "M_default", glm::vec3(-2.f + i, 0.5f, -2.f), glm::vec3(.5f));
         }
 
         m_scene.addEmptyObject("car");
         m_scene.getObject("car")->getTransform().setScale(2.5f);
 
-        m_scene.addStaticModel("carBody", "carBody", "default", "car");
+        m_scene.addStaticModel("carBody", "carBody", "M_carBody", "car");
         m_scene.getObject("carBody")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
         m_scene.getObject("carBody")->getTransform().setScale(0.3f);
         m_scene.getObject("carBody")->getTransform().setPosition(glm::vec3(-2.06f * 0.3f, 0.f, 0.f));
@@ -75,22 +95,22 @@ public:
         m_scene.addEmptyObject("wheelsBack", "car");
         m_scene.getObject("wheelsBack")->getTransform().setPosition(glm::vec3(1.035f -2.06f * 0.3f, 0.095f, 0.f));
         
-        m_scene.addStaticModel("wheel1", "carWheel", "wheel", "wheelsFront");
+        m_scene.addStaticModel("wheel1", "carWheel", "M_wheel", "wheelsFront");
         m_scene.getObject("wheel1")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.3f));
         m_scene.getObject("wheel1")->getTransform().setScale(0.33f);
         m_scene.getObject("wheel1")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
 
-        m_scene.addStaticModel("wheel2", "carWheel", "wheel", "wheelsFront");
+        m_scene.addStaticModel("wheel2", "carWheel", "M_wheel", "wheelsFront");
         m_scene.getObject("wheel2")->getTransform().setPosition(glm::vec3(0.f, 0.f, .3f));
         m_scene.getObject("wheel2")->getTransform().setScale(0.33f);
         m_scene.getObject("wheel2")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
 
-        m_scene.addStaticModel("wheel3", "carWheel", "wheel", "wheelsBack");
+        m_scene.addStaticModel("wheel3", "carWheel", "M_wheel", "wheelsBack");
         m_scene.getObject("wheel3")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.3f));
         m_scene.getObject("wheel3")->getTransform().setScale(0.33f);
         m_scene.getObject("wheel3")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
 
-        m_scene.addStaticModel("wheel4", "carWheel", "wheel", "wheelsBack");
+        m_scene.addStaticModel("wheel4", "carWheel", "M_wheel", "wheelsBack");
         m_scene.getObject("wheel4")->getTransform().setPosition(glm::vec3(0.f, 0.f, .3f));
         m_scene.getObject("wheel4")->getTransform().setScale(0.33f);
         m_scene.getObject("wheel4")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
@@ -110,7 +130,7 @@ public:
         // Move car forward
         glm::vec3 carPos = m_scene.getObject("car")->getTransform().getPosition();
         carPos.x += -1.f * deltaTime * carSpeed;
-        if (carPos.x < -3.f) carPos.x = 3.f;
+        if (carPos.x < -3.f) carPos.x = 7.f;
         m_scene.getObject("car")->getTransform().setPosition(carPos);
         
         for (int i = 1; i <= 4; i++)
@@ -138,7 +158,7 @@ public:
         }
         if (ImGui::CollapsingHeader("Camera Control", ImGuiTreeNodeFlags_DefaultOpen)) {
             ImGui::Text("Car Speed:");
-            ImGui::SliderFloat("##carSpeed", &carSpeed, 0.f, 1.f);
+            ImGui::SliderFloat("##carSpeed", &carSpeed, 0.f, 3.f);
         }
 
         ImGui::End();
@@ -147,11 +167,11 @@ public:
     void render() {
         m_scene.getShader("blinn_phong")->use();
         m_scene.getShader("blinn_phong")->uniform("ambientLight.color", glm::vec3(1.f));
-        m_scene.getShader("blinn_phong")->uniform("ambientLight.intensity", 0.1f);
+        m_scene.getShader("blinn_phong")->uniform("ambientLight.intensity", 0.3f);
 
         m_scene.getShader("blinn_phong")->uniform("directionalLights[0].color", glm::vec3(1.f));
-        m_scene.getShader("blinn_phong")->uniform("directionalLights[0].intensity", 0.5f);
-        m_scene.getShader("blinn_phong")->uniform("directionalLights[0].direction", glm::vec3(-1.f / sqrt(3.f)));
+        m_scene.getShader("blinn_phong")->uniform("directionalLights[0].intensity", 0.7f);
+        m_scene.getShader("blinn_phong")->uniform("directionalLights[0].direction", glm::vec3(-1.f / sqrt(3.f), -1.f / sqrt(3.f), -1.f / sqrt(3.f)));
         m_scene.draw();
     }
 
