@@ -45,7 +45,7 @@ public:
         m_scene.getMaterial("M_wheel")->bUseSpecularTexture = true;
         m_scene.getMaterial("M_wheel")->shininess = 128;
         m_scene.getMaterial("M_wheel")->cubemap = m_scene.getTexture("T_basilica");
-        m_scene.getMaterial("M_wheel")->reflectionIntensity = .3f;
+        m_scene.getMaterial("M_wheel")->reflectionIntensity = .5f;
 
         m_scene.addMaterial("M_carBody", "blinn_phong");
         m_scene.getMaterial("M_carBody")->diffuseColor = glm::vec4(1.f);
@@ -53,7 +53,7 @@ public:
         m_scene.getMaterial("M_carBody")->bUseDiffuseTexture = true;
         m_scene.getMaterial("M_carBody")->shininess = 128;
         m_scene.getMaterial("M_carBody")->cubemap = m_scene.getTexture("T_basilica");
-        m_scene.getMaterial("M_carBody")->reflectionIntensity = .3f;
+        m_scene.getMaterial("M_carBody")->reflectionIntensity = .2f;
 
 
         m_scene.addStaticMesh("carBody",  "./resources/models/cars/Car Body.fbx");
@@ -74,10 +74,10 @@ public:
         
         m_scene.addCube("cube", "M_default", glm::vec3(0.f, -0.1f, 0.f), glm::vec3(50.f, 0.1f, 50.f));
 
-        for (int i = 0; i < 10; i++) {
-            m_scene.addCube(format("block{}", 2 * i), "M_default", glm::vec3(-2.f + i, 0.5f, 2.f), glm::vec3(.5f));
-            m_scene.addCube(format("block{}", 2 * i + 1), "M_default", glm::vec3(-2.f + i, 0.5f, -2.f), glm::vec3(.5f));
-        }
+        // for (int i = 0; i < 10; i++) {
+        //     m_scene.addCube(format("block{}", 2 * i), "M_default", glm::vec3(-2.f + i, 0.5f, 2.f), glm::vec3(.5f));
+        //     m_scene.addCube(format("block{}", 2 * i + 1), "M_default", glm::vec3(-2.f + i, 0.5f, -2.f), glm::vec3(.5f));
+        // }
 
         m_scene.addEmptyObject("car");
         m_scene.getObject("car")->getTransform().setScale(2.5f);
@@ -170,7 +170,7 @@ public:
         m_scene.getShader("blinn_phong")->uniform("ambientLight.intensity", 0.3f);
 
         m_scene.getShader("blinn_phong")->uniform("directionalLights[0].color", glm::vec3(1.f));
-        m_scene.getShader("blinn_phong")->uniform("directionalLights[0].intensity", 0.7f);
+        m_scene.getShader("blinn_phong")->uniform("directionalLights[0].intensity", 1.3f);
         m_scene.getShader("blinn_phong")->uniform("directionalLights[0].direction", glm::vec3(-1.f / sqrt(3.f), -1.f / sqrt(3.f), -1.f / sqrt(3.f)));
         m_scene.draw();
     }
