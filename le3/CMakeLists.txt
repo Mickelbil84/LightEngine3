@@ -15,6 +15,7 @@ endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/third-party/stb)
 include_directories(${CMAKE_SOURCE_DIR}/third-party/imgui)
+include_directories(${CMAKE_SOURCE_DIR}/third-party/gzip-hpp/include)
 
 add_library(${PROJECT_NAME} SHARED)
 
@@ -36,6 +37,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_draw_queue.cpp
     src/le3_scene_assimp.cpp
     src/le3_texture.cpp
+    src/le3_dat_file.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp
