@@ -22,20 +22,30 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 add_subdirectory(le3)
 add_subdirectory(apps)
 add_subdirectory(editor)
+add_subdirectory(tools)
 
-# Copy the resources directory to the build
-if (WIN32)
+# Copy the resources directory to the build 
+# (NOTE: since we package all resources at build time, this is now obsolete)
+# if (WIN32)
+# add_custom_target(
+#     copy_resources ALL
+#     COMMAND ${CMAKE_COMMAND} -E copy_directory
+#         ${CMAKE_CURRENT_SOURCE_DIR}/resources
+#         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/resources
+# )
+# else()
+# add_custom_target(
+#     copy_resources ALL
+#     COMMAND ${CMAKE_COMMAND} -E copy_directory
+#         ${CMAKE_CURRENT_SOURCE_DIR}/resources
+#         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources
+# )
+# endif()
+
 add_custom_target(
-    copy_resources ALL
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_SOURCE_DIR}/resources
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/resources
+    pkg-resources-tgt ALL
+    COMMAND 
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+
+    DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources 
 )
-else()
-add_custom_target(
-    copy_resources ALL
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_SOURCE_DIR}/resources
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources
-)
-endif()

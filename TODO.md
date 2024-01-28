@@ -1,4 +1,5 @@
-TODO: LE3DatFileSystem: traverse tree from archive [traverse tree from single path, by splitting and adding if not exists]
+TODO: Resources dir to dat files, run on every CMake
+TODO: LE3DatFileSystem: system singleton, and move all resources to that
 TODO: Lights
 TODO: Framebuffers in scene: for main, shadows, etc. 
 TODO: Test framebuffer with ImGui
