@@ -1,5 +1,3 @@
-TODO: Resources dir to dat files, run on every CMake
-TODO: LE3DatFileSystem: system singleton, and move all resources to that
 TODO: Lights
 TODO: Framebuffers in scene: for main, shadows, etc. 
 TODO: Test framebuffer with ImGui
@@ -18,3 +16,4 @@ TODO: Physics and Collision detection
 TODO: Verify that batched rendering works as expected
 TODO: Control window title
 TODO: Make backups of archive (perhaps engine feature?)
+TODO: LE3DatFileSystem delete files

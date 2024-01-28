@@ -2,6 +2,7 @@
 using namespace le3;
 
 #include <fmt/core.h>
+using fmt::format, fmt::print;
 
 #include <gl/glew.h>
 #include <SDL2/SDL.h>
@@ -37,6 +38,16 @@ void LE3Application::run() {
         handleInput();
         update();
         render();
+
+        // Update delta time computation
+        m_prevTime = m_currTime;
+        m_currTime = SDL_GetPerformanceCounter();
+        m_deltaTime = (double)((m_currTime - m_prevTime) * 1000 / (double)SDL_GetPerformanceFrequency());
+        m_deltaTime *= 0.001;
+        m_pGameLogic->m_engineState.m_elapsedTime += m_deltaTime;
+        if (m_deltaTime < 1.0 / (double)120) // TODO: move into settings file!
+            SDL_Delay(Uint32((1.0 / (double)120 - m_deltaTime) * 1000));
+        // print("FPS: {}\n",1.f / m_deltaTime);
     }
     shutdown();
 }
@@ -90,13 +101,6 @@ void LE3Application::handleInput() {
 }
 
 void LE3Application::update() {
-    // Update delta time computation
-    m_currTime = SDL_GetPerformanceCounter();
-    m_deltaTime = (double)((m_currTime - m_prevTime) * 1000 / (double)SDL_GetPerformanceFrequency());
-    m_deltaTime *= 0.001;
-    m_prevTime = m_currTime;
-    m_pGameLogic->m_engineState.m_elapsedTime += m_deltaTime;
-
     // Update ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
