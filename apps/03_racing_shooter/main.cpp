@@ -19,20 +19,21 @@ public:
     float walkSpeed = 2.2f, sensitivity = 0.005f;
 
     void init() {
+        LE3EngineSystems::instance().getDatFilesystem().addArchive("demos", "demos.dat");
         m_scene.init();
-
+        
         /////////////////
 
         m_scene.addShaderFromFile(
             "blinn_phong",
-            "./resources/shaders/blinn_phong/blinn_phong.vs",
-            "./resources/shaders/blinn_phong/blinn_phong.fs"
+            "/engine/shaders/blinn_phong/blinn_phong.vs",
+            "/engine/shaders/blinn_phong/blinn_phong.fs"
         );
 
-        m_scene.addTexture("T_carBody_DIFF", "./resources/textures/cars/T_CarBody_DIFF.png");
-        m_scene.addTexture("T_carWheel_DIFF", "./resources/textures/cars/CarWheel_DIFF.png");
-        m_scene.addTexture("T_carWheel_REFL", "./resources/textures/cars/CarWheel_REFL.png");
-        m_scene.addTexture("T_basilica", "./resources/textures/cubemaps/basilica.png");
+        m_scene.addTexture("T_carBody_DIFF", "/demos/textures/cars/T_CarBody_DIFF.png");
+        m_scene.addTexture("T_carWheel_DIFF", "/demos/textures/cars/CarWheel_DIFF.png");
+        m_scene.addTexture("T_carWheel_REFL", "/demos/textures/cars/CarWheel_REFL.png");
+        m_scene.addTexture("T_basilica", "/demos/textures/cubemaps/basilica.png");
 
 
         m_scene.addMaterial("M_default", "blinn_phong");
@@ -56,8 +57,8 @@ public:
         m_scene.getMaterial("M_carBody")->reflectionIntensity = .2f;
 
 
-        m_scene.addStaticMesh("carBody",  "./resources/models/cars/Car Body.fbx");
-        m_scene.addStaticMesh("carWheel",  "./resources/models/cars/Car Wheel.fbx");
+        m_scene.addStaticMesh("carBody",  "/demos/models/cars/Car Body.fbx");
+        m_scene.addStaticMesh("carWheel",  "/demos/models/cars/Car Wheel.fbx");
 
         /////////////////
 

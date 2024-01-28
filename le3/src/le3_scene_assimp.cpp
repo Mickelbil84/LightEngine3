@@ -22,8 +22,15 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
 LE3StaticMeshPtr LE3Scene::loadStaticMesh(std::string filename) {
     LE3StaticMeshPtr mesh;
 
+    LE3DatBuffer data = LE3EngineSystems::instance().getDatFilesystem().getFileContent(filename);
+
     Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(filename,
+    // const aiScene* scene = importer.ReadFile(filename,
+    //     aiProcess_FlipUVs |
+    //     aiProcess_Triangulate | 
+    //     aiProcess_CalcTangentSpace
+    // );
+    const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 
         aiProcess_FlipUVs |
         aiProcess_Triangulate | 
         aiProcess_CalcTangentSpace

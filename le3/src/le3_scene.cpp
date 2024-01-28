@@ -56,7 +56,9 @@ void LE3Scene::addTexture(std::string name, std::string filename, bool interpola
     unsigned char* rawData;
     std::vector<unsigned char> data;
 
-    rawData = stbi_load(filename.c_str(), &width, &height, &nChannels, 0);
+    LE3DatBuffer buffer = LE3EngineSystems::instance().getDatFilesystem().getFileContent(filename);
+    // rawData = stbi_load(filename.c_str(), &width, &height, &nChannels, 0);
+    rawData = stbi_load_from_memory((u_char*)&buffer.data[0], buffer.data.size(), &width, &height, &nChannels, 0);
     if (!rawData) throw std::runtime_error(format("Could not load texture from path: {}", filename));
     std::copy(&rawData[0], &rawData[width * height * nChannels - 1], std::back_inserter(data));
     stbi_image_free(rawData);
@@ -111,11 +113,12 @@ void LE3Scene::addOrbitCamera(std::string name, std::string parent) {
 // --------------------------------------------------------------------------------
 
 std::string LE3Scene::readFile(std::string filename) {
-    std::ifstream ifs(filename);
-    if (!ifs.good()) throw std::runtime_error(format("Could not open file:\n\t{}\n", filename));
-    std::stringstream ss;
-    ss << ifs.rdbuf();
-    return ss.str();
+    // std::ifstream ifs(filename);
+    // if (!ifs.good()) throw std::runtime_error(format("Could not open file:\n\t{}\n", filename));
+    // std::stringstream ss;
+    // ss << ifs.rdbuf();
+    // return ss.str();
+    return LE3EngineSystems::instance().getDatFilesystem().getFileContent(filename).toString();
 }
 
 void LE3Scene::assertObjectName(std::string name) { 

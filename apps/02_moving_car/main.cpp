@@ -18,19 +18,21 @@ public:
     float walkSpeed = 2.2f, sensitivity = 0.005f;
 
     void init() {
+        LE3EngineSystems::instance().getDatFilesystem().addArchive("demos", "demos.dat");
+
         m_scene.init();
 
         /////////////////
 
         m_scene.addShaderFromFile(
             "hello_opengl",
-            "./resources/shaders/moving_car/moving_car.vs",
-            "./resources/shaders/moving_car/moving_car.fs"
+            "/demos/shaders/moving_car/moving_car.vs",
+            "/demos/shaders/moving_car/moving_car.fs"
         );
         m_scene.addMaterial("default", "hello_opengl");
 
-        m_scene.addStaticMesh("carBody",  "./resources/models/cars/Car Body.fbx");
-        m_scene.addStaticMesh("carWheel",  "./resources/models/cars/Car Wheel.fbx");
+        m_scene.addStaticMesh("carBody",  "/demos/models/cars/Car Body.fbx");
+        m_scene.addStaticMesh("carWheel",  "/demos/models/cars/Car Wheel.fbx");
 
         /////////////////
 

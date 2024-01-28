@@ -12,6 +12,7 @@
 #include "le3_draw_queue.h"
 #include "le3_primitives.h"
 #include "le3_scene_root.h"
+#include "le3_engine_systems.h"
 
 namespace le3 {
     class LE3Scene {
