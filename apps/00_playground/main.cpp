@@ -15,32 +15,21 @@ using namespace le3;
 
 
 int main() {
-    LE3DatArchive engineDat("engine.dat");
-    print("Data size: {}\n", engineDat.getDataSize());
+    LE3DatFileSystem datFilesystem;
+    datFilesystem.addArchive("engine", "engine.dat");
 
-    // Create demo file
-    // LE3DatBuffer file1 = LE3DatBuffer::loadFromSystem("./resources/shaders/blinn_phong/blinn_phong.vs");
-    // LE3DatBuffer file2 = LE3DatBuffer::loadFromSystem("./resources/shaders/blinn_phong/blinn_phong.fs");
-    // engineDat.appendFile("engine/shaders/blinn_phong/blinn_phong.vs", file1, false);
-    // engineDat.appendFile("engine/shaders/blinn_phong/blinn_phong.fs", file2, false);
+    // datFilesystem.appendFile("engine", 
+    //     "/engine/shaders/blinn_phong/blinn_phong.vs.comp", 
+    //     "./resources/shaders/blinn_phong/blinn_phong.vs", true);
+    // datFilesystem.appendFile("engine", 
+    //     "/engine/shaders/blinn_phong/blinn_phong.fs.comp", 
+    //     "./resources/shaders/blinn_phong/blinn_phong.fs", true);
 
-    for (auto kv : engineDat.getFileInfos()) {
-        print("\t{}\n", kv.second.str());
+    for (auto path : datFilesystem.getFilesFromDir("/engine")) {
+        print("{}\n", path);
+        bool shouldDecompress = path.ends_with(".comp");
+        print("{}\n----------------------------\n\n", datFilesystem.getFileContent(path, shouldDecompress).toString());
     }
-    
-    print("\n\n{}\n--------------\n", engineDat.getFileContent("engine/shaders/blinn_phong/blinn_phong.vs", false).toString());
-
-    LE3DatBuffer file1_mod; file1_mod.fromString("Oops I broke everything :(");
-    // engineDat.appendFile("engine/shaders/blinn_phong/blinn_phong.vs", file1_mod, false);
-
-    engineDat.defragmentArchive();
-
-    for (auto kv : engineDat.getFileInfos()) {
-        print("\t{}\n", kv.second.str());
-    }
-    
-    print("\n\n{}\n--------------\n", engineDat.getFileContent("engine/shaders/blinn_phong/blinn_phong.vs", false).toString());
-
 
 
     return 0;

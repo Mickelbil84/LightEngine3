@@ -49,12 +49,12 @@ std::string LE3DatBuffer::readStringFrom(uint64_t start, uint16_t count) {
 }
 
 void LE3DatBuffer::compress() {
-    if (bCompressed) return;
+    // if (bCompressed) return;
     fromString(gzip::compress(data.data(), data.size()));
     bCompressed = true;
 }
 void LE3DatBuffer::decompress() {
-    if (!bCompressed) return;
+    // if (!bCompressed) return;
     fromString(gzip::decompress(data.data(), data.size()));
     bCompressed = false;
 }
@@ -203,6 +203,7 @@ LE3DatBuffer LE3DatArchive::getFileContent(std::string path, bool shouldDecompre
 
     LE3DatBuffer buffer;
     buffer.readBuffer(&tmp[0], &tmp[fileInfo.packedSize]);
+    if (shouldDecompress) buffer.decompress();
     delete[] tmp;
     return buffer;
 }

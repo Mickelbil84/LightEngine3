@@ -1,4 +1,4 @@
-TODO: LE3DatFileSystem
+TODO: LE3DatFileSystem: traverse tree from archive [traverse tree from single path, by splitting and adding if not exists]
 TODO: Lights
 TODO: Framebuffers in scene: for main, shadows, etc. 
 TODO: Test framebuffer with ImGui

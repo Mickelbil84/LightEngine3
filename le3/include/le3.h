@@ -11,3 +11,4 @@
 #include "le3_scene_root.h"
 #include "le3_application.h"
 #include "le3_dat_archive.h"
+#include "le3_dat_filesystem.h"
