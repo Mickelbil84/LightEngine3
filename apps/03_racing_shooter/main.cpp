@@ -142,7 +142,7 @@ public:
     }
 
     void updateGUI() {
-        ImGui::Begin("Demo 02: Moving Car");
+        ImGui::Begin("Demo 03: Racing Shooter");
 
         if (ImGui::CollapsingHeader("Camera Control", ImGuiTreeNodeFlags_DefaultOpen)) {
             if (ImGui::Button("Set FPS (Free) Camera")) {
