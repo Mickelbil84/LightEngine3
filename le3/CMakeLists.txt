@@ -37,7 +37,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_draw_queue.cpp
     src/le3_scene_assimp.cpp
     src/le3_texture.cpp
-    src/le3_dat_file.cpp
+    src/le3_dat_archive.cpp
+    src/le3_dat_filesystem.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp

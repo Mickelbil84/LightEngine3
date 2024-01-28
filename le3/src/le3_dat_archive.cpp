@@ -1,4 +1,4 @@
-#include "le3_dat_file.h"
+#include "le3_dat_archive.h"
 using namespace le3;
 
 #include <fmt/core.h>
@@ -60,6 +60,10 @@ void LE3DatBuffer::decompress() {
 }
 
 LE3DatArchive::LE3DatArchive(std::string archivePath) : m_archivePath(archivePath) {
+    createArchiveIfNotExist();
+    loadArchive();
+}
+LE3DatArchive::LE3DatArchive(LE3DatArchive& other) : m_archivePath(other.m_archivePath) {
     createArchiveIfNotExist();
     loadArchive();
 }

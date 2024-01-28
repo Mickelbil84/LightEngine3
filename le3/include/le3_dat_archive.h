@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <memory>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -57,6 +58,7 @@ namespace le3 {
     class LE3DatArchive {
     public:
         LE3DatArchive(std::string archivePath);
+        LE3DatArchive(LE3DatArchive& other);
         ~LE3DatArchive();
 
         inline std::map<std::string, LE3FileInfo> getFileInfos() const { return m_fileInfos; }
@@ -95,5 +97,5 @@ namespace le3 {
         void writeFileInfos();
         void writeDataSize();
     };
-
+    using LE3DatArchivePtr = std::unique_ptr<LE3DatArchive>;
 }
