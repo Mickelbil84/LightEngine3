@@ -51,13 +51,36 @@ static int bnd_LE3Scene_getMaterial(lua_State* L) {
     return 1;
 }
 
+static int bnd_LE3Scene_addStaticMesh(lua_State* L) {
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(1);
+    std::string name = LE3GetScriptSystem().getString(2);
+    std::string filename = LE3GetScriptSystem().getString(3);
+    scene->addStaticMesh(name, filename);
+    return 0;
+}
+
+static int bnd_LE3Scene_getStaticMesh(lua_State* L) {
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(1);
+    std::string name = LE3GetScriptSystem().getString(2);
+    LE3StaticMeshPtr& mesh = scene->getStaticMesh(name);
+    LE3GetScriptSystem().pushUserType<LE3StaticMeshPtr>(&mesh);
+    return 1;
+}
+
+
 static const luaL_Reg LE3SceneLib[] = {
     {"add_shader", bnd_LE3Scene_addShader},
     {"get_shader", bnd_LE3Scene_getShader},
+
     {"add_texture", bnd_LE3Scene_addTexture},
     {"get_texture", bnd_LE3Scene_getTexture},
+
     {"add_material", bnd_LE3Scene_addMaterial},
     {"get_material", bnd_LE3Scene_getMaterial},
+
+    {"add_static_mesh", bnd_LE3Scene_addStaticMesh},
+    {"get_static_mesh", bnd_LE3Scene_getStaticMesh},
+
     {NULL, NULL}
 };
 

@@ -49,3 +49,13 @@ Scene.Materials = {
         ReflectionIntensity = 0.2
     }
 }
+Scene.Meshes = {
+    {
+        Name = "SM_carBody",
+        Path = "/demos/models/cars/Car Body.fbx"
+    },
+    {
+        Name = "SM_carWheel",
+        Path = "/demos/models/cars/Car Wheel.fbx"
+    }
+}

@@ -34,8 +34,15 @@ local function load_LE3Scene_materials(scene, material_data_table)
     end
 end
 
+local function load_LE3Scene_meshes(scene, mesh_data_table) 
+    for _, mesh in ipairs(mesh_data_table) do
+        LE3Scene.add_static_mesh(scene, mesh.Name, mesh.Path)
+    end
+end
+
 function load_LE3Scene(scene, scene_data_table)
     if scene_data_table.Shaders ~= nil then load_LE3Scene_shaders(scene, scene_data_table.Shaders) end
     if scene_data_table.Textures ~= nil then load_LE3Scene_textures(scene, scene_data_table.Textures) end
     if scene_data_table.Materials ~= nil then load_LE3Scene_materials(scene, scene_data_table.Materials) end
+    if scene_data_table.Meshes ~= nil then load_LE3Scene_meshes(scene, scene_data_table.Meshes) end
 end

@@ -8,6 +8,8 @@ LE3Shader = {}
 LE3Texture = {}
 ---@class LE3Material
 LE3Material = {}
+---@class LE3StaticMesh
+LE3StaticMesh = {}
 
 -----------------------------------------------------------------
 
@@ -42,6 +44,16 @@ function LE3Scene.add_material(scene, name, shader_name) end
 ---@param name string
 ---@return LE3Material
 function LE3Scene.get_material(scene, name) end
+
+---@param scene LE3Scene
+---@param name string
+---@param filename string
+function LE3Scene.add_static_mesh(scene, name, filename) end
+
+---@param scene LE3Scene
+---@param name string
+---@return LE3StaticMesh
+function LE3Scene.get_static_mesh(scene, name) end
 
 -----------------------------------------------------------------
 
