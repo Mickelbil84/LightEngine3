@@ -7,7 +7,7 @@ public:
     std::shared_ptr<LE3Mesh<LE3Vertex3p3c>> m_triangle;
 
     void init() {
-        LE3EngineSystems::instance().getDatFilesystem().addArchive("demos", "demos.dat");
+        LE3GetDatFileSystem().addArchive("demos", "demos.dat");
 
         m_scene.addShaderFromFile(
             "hello_opengl",

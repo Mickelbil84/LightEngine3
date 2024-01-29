@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "le3_dat_filesystem.h"
+#include "le3_script_system.h"
 
 namespace le3 {
     // Singleton for various (global) engine systems, which are not specific to any scene
@@ -13,7 +14,8 @@ namespace le3 {
             return *instance_;
         }
 
-        inline LE3DatFileSystem& getDatFilesystem() { return g_datFilesystem; }
+        inline LE3DatFileSystem& getDatFileSystem() { return g_datFilesystem; }
+        inline LE3ScriptSystem& getScriptSystem() { return g_scriptSystem; }
 
     private:
         LE3EngineSystems() {
@@ -21,5 +23,9 @@ namespace le3 {
         }
 
         LE3DatFileSystem g_datFilesystem;
+        LE3ScriptSystem g_scriptSystem;
     };
+
+    #define LE3GetDatFileSystem LE3EngineSystems::instance().getDatFileSystem
+    #define LE3GetScriptSystem LE3EngineSystems::instance().getScriptSystem
 }

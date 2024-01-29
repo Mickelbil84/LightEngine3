@@ -2,8 +2,8 @@ project("pkg-resources" VERSION 0.1)
 
 find_package(fmt REQUIRED)
 find_package(GLEW REQUIRED)
-
-include_directories(${GLEW_INCLUDE_DIRS})
+find_package(Lua REQUIRED)
+include_directories(${GLEW_INCLUDE_DIRS} ${LUA_INCLUDE_DIR})
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt)

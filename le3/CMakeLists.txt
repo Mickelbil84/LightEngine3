@@ -2,6 +2,7 @@ project(le3 VERSION ${LE3_VERSION})
 set(namespace le3)
 
 find_package(fmt REQUIRED)
+find_package(Lua REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(assimp REQUIRED)
@@ -13,9 +14,11 @@ if(MSVC)
     set(BUILD_SHARED_LIBS TRUE)
 endif()
 
+include_directories(${LUA_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/third-party/stb)
 include_directories(${CMAKE_SOURCE_DIR}/third-party/imgui)
 include_directories(${CMAKE_SOURCE_DIR}/third-party/gzip-hpp/include)
+
 
 add_library(${PROJECT_NAME} SHARED)
 
@@ -39,6 +42,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_texture.cpp
     src/le3_dat_archive.cpp
     src/le3_dat_filesystem.cpp
+    src/le3_script_system.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp
@@ -54,7 +58,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp)
+target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp ${LUA_LIBRARIES})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 

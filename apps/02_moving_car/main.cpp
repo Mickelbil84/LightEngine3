@@ -18,7 +18,7 @@ public:
     float walkSpeed = 2.2f, sensitivity = 0.005f;
 
     void init() {
-        LE3EngineSystems::instance().getDatFilesystem().addArchive("demos", "demos.dat");
+        LE3GetDatFileSystem().addArchive("demos", "demos.dat");
 
         m_scene.init();
 

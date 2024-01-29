@@ -56,7 +56,7 @@ void LE3Scene::addTexture(std::string name, std::string filename, bool interpola
     unsigned char* rawData;
     std::vector<unsigned char> data;
 
-    LE3DatBuffer buffer = LE3EngineSystems::instance().getDatFilesystem().getFileContent(filename);
+    LE3DatBuffer buffer = LE3GetDatFileSystem().getFileContent(filename);
     // rawData = stbi_load(filename.c_str(), &width, &height, &nChannels, 0);
     rawData = stbi_load_from_memory((u_char*)&buffer.data[0], buffer.data.size(), &width, &height, &nChannels, 0);
     if (!rawData) throw std::runtime_error(format("Could not load texture from path: {}", filename));
@@ -118,7 +118,7 @@ std::string LE3Scene::readFile(std::string filename) {
     // std::stringstream ss;
     // ss << ifs.rdbuf();
     // return ss.str();
-    return LE3EngineSystems::instance().getDatFilesystem().getFileContent(filename).toString();
+    return LE3GetDatFileSystem().getFileContent(filename).toString();
 }
 
 void LE3Scene::assertObjectName(std::string name) { 
