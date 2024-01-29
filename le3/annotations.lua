@@ -44,3 +44,50 @@ function LE3Scene.add_material(scene, name, shader_name) end
 function LE3Scene.get_material(scene, name) end
 
 -----------------------------------------------------------------
+
+---@param material LE3Material
+---@param r number
+---@param g number
+---@param b number
+---@param a number
+function LE3Material.set_diffuse_color(material, r, g, b, a) end
+
+---@param material LE3Material
+---@param texture LE3Texture
+function LE3Material.set_diffuse_texture(material, texture) end
+
+---@param material LE3Material
+---@param r number
+---@param g number
+---@param b number
+---@param a number
+function LE3Material.set_specular_color(material, r, g, b, a) end
+
+---@param material LE3Material
+---@param val number
+function LE3Material.set_specular_intensity(material, val) end
+
+---@param material LE3Material
+---@param val number
+function LE3Material.set_shininess(material, val) end
+
+---@param material LE3Material
+---@param texture LE3Texture
+function LE3Material.set_specular_texture(material, texture) end
+
+---@param material LE3Material
+---@param texture LE3Texture
+function LE3Material.set_normal_texture(material, texture) end
+
+---@param material LE3Material
+---@param texture LE3Texture
+function LE3Material.set_cubemap(material, texture) end
+
+---@param material LE3Material
+---@param val number
+function LE3Material.set_reflection_intensity(material, val) end
+
+---@param material LE3Material
+---@param x number
+---@param y number
+function LE3Material.set_tiling(material, x, y) end

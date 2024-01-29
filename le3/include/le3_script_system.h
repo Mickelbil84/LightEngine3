@@ -28,7 +28,7 @@ namespace le3 {
         void getGlobal(std::string name); // push global var to stack
         template<typename T> T* getUserType(int index) {
             void* udata = lua_touserdata(L, index);
-            if (!udata) luaL_typeerror(L, index, "");
+            if (!udata) return nullptr;
             return reinterpret_cast<T*>(udata);
         }
 

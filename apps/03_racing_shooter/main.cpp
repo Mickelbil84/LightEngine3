@@ -27,39 +27,6 @@ public:
         
         /////////////////
 
-        // m_scene.addShaderFromFile(
-        //     "blinn_phong",
-        //     "/engine/shaders/blinn_phong/blinn_phong.vs",
-        //     "/engine/shaders/blinn_phong/blinn_phong.fs"
-        // );
-
-        // m_scene.addTexture("T_carBody_DIFF", "/demos/textures/cars/T_CarBody_DIFF.png");
-        // m_scene.addTexture("T_carWheel_DIFF", "/demos/textures/cars/CarWheel_DIFF.png");
-        // m_scene.addTexture("T_carWheel_REFL", "/demos/textures/cars/CarWheel_REFL.png");
-        // m_scene.addTexture("T_basilica", "/demos/textures/cubemaps/basilica.png");
-
-
-        m_scene.addMaterial("M_default", "blinn_phong");
-        m_scene.getMaterial("M_default")->specularIntensity = 0.f;
-        
-        m_scene.addMaterial("M_wheel", "blinn_phong");
-        m_scene.getMaterial("M_wheel")->diffuseTexture = m_scene.getTexture("T_carWheel_DIFF");
-        m_scene.getMaterial("M_wheel")->bUseDiffuseTexture = true;
-        m_scene.getMaterial("M_wheel")->specularTexture = m_scene.getTexture("T_carWheel_REFL");
-        m_scene.getMaterial("M_wheel")->bUseSpecularTexture = true;
-        m_scene.getMaterial("M_wheel")->shininess = 128;
-        m_scene.getMaterial("M_wheel")->cubemap = m_scene.getTexture("T_basilica");
-        m_scene.getMaterial("M_wheel")->reflectionIntensity = .5f;
-
-        m_scene.addMaterial("M_carBody", "blinn_phong");
-        m_scene.getMaterial("M_carBody")->diffuseColor = glm::vec4(1.f);
-        m_scene.getMaterial("M_carBody")->diffuseTexture = m_scene.getTexture("T_carBody_DIFF");
-        m_scene.getMaterial("M_carBody")->bUseDiffuseTexture = true;
-        m_scene.getMaterial("M_carBody")->shininess = 128;
-        m_scene.getMaterial("M_carBody")->cubemap = m_scene.getTexture("T_basilica");
-        m_scene.getMaterial("M_carBody")->reflectionIntensity = .2f;
-
-
         m_scene.addStaticMesh("carBody",  "/demos/models/cars/Car Body.fbx");
         m_scene.addStaticMesh("carWheel",  "/demos/models/cars/Car Wheel.fbx");
 
@@ -169,13 +136,13 @@ public:
     }
 
     void render() {
-        m_scene.getShader("blinn_phong")->use();
-        m_scene.getShader("blinn_phong")->uniform("ambientLight.color", glm::vec3(1.f));
-        m_scene.getShader("blinn_phong")->uniform("ambientLight.intensity", 0.3f);
+        m_scene.getShader("S_default")->use();
+        m_scene.getShader("S_default")->uniform("ambientLight.color", glm::vec3(1.f));
+        m_scene.getShader("S_default")->uniform("ambientLight.intensity", 0.3f);
 
-        m_scene.getShader("blinn_phong")->uniform("directionalLights[0].color", glm::vec3(1.f));
-        m_scene.getShader("blinn_phong")->uniform("directionalLights[0].intensity", 1.3f);
-        m_scene.getShader("blinn_phong")->uniform("directionalLights[0].direction", glm::vec3(-1.f / sqrt(3.f), -1.f / sqrt(3.f), -1.f / sqrt(3.f)));
+        m_scene.getShader("S_default")->uniform("directionalLights[0].color", glm::vec3(1.f));
+        m_scene.getShader("S_default")->uniform("directionalLights[0].intensity", 1.3f);
+        m_scene.getShader("S_default")->uniform("directionalLights[0].direction", glm::vec3(-1.f / sqrt(3.f), -1.f / sqrt(3.f), -1.f / sqrt(3.f)));
         m_scene.draw();
     }
 
