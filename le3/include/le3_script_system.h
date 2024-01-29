@@ -13,19 +13,26 @@ namespace le3 {
 
         void doString(std::string code);
         void doFile(std::string filename);
-
-        void moduleInit(std::string moduleName, const luaL_Reg* flist);
-
+        
         void pushNil();
         void pushBool(bool b);
         void pushNumber(double d);
         void pushString(std::string str);
-        template<typename T> void pushUserType(T* udata, std::string tname);
+        template<typename T> void pushUserType(T* udata, std::string tname) {
+            lua_pushlightuserdata(L, reinterpret_cast<void*>(udata));
+        }
 
         bool getBool(int index);
         double getNumber(int index);
         std::string getString(int index);
-        template<typename T> T* getUserType(int index, std::string tname);
+        void getGlobal(std::string name); // push global var to stack
+        template<typename T> T* getUserType(int index, std::string tname) {
+            void* udata = lua_touserdata(L, index);
+            if (!udata) luaL_typeerror(L, index, tname.c_str());
+            return reinterpret_cast<T*>(udata);
+        }
+
+        void callFunction(int numArgs, int numResults);
 
     private:
         lua_State* L = nullptr;

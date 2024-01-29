@@ -19,7 +19,12 @@ namespace le3 {
 
     private:
         LE3EngineSystems() {
+            // Load engine data and scripts
             g_datFilesystem.addArchive("engine", "engine.dat");
+            for (auto filename : g_datFilesystem.getFilesFromDir("/engine/scripts")) {
+                std::string content = g_datFilesystem.getFileContent(filename).toString();
+                g_scriptSystem.doString(content);
+            }
         }
 
         LE3DatFileSystem g_datFilesystem;

@@ -22,6 +22,17 @@ void LE3Scene::reset() {
     init();
 }
 
+void LE3Scene::load(std::string path) {
+    LE3GetScriptSystem().doFile(path); // Load "Scene" variable
+
+    // In lua:
+    //  >>  load_LE3Scene(this, Scene)
+    LE3GetScriptSystem().getGlobal("load_LE3Scene");
+    LE3GetScriptSystem().pushUserType<LE3Scene>(this, "LE3Scene");
+    LE3GetScriptSystem().getGlobal("Scene");
+    LE3GetScriptSystem().callFunction(2, 0);
+}
+
 void LE3Scene::update(float deltaTime) {
     m_pRoot->update(deltaTime);
 }

@@ -13,7 +13,7 @@ public:
 
     // Gui panel info
     float orbitOffset = 3.f;
-    float carSpeed = 1.f;
+    float carSpeed = .0f;
 
 
     float walkSpeed = 2.2f, sensitivity = 0.005f;
@@ -21,21 +21,22 @@ public:
     void init() {
         LE3GetDatFileSystem().addArchive("demos", "demos.dat");
         m_scene.init();
+        m_scene.load("/demos/scripts/racing_shooter/scene.lua");
 
-        LE3GetScriptSystem().doFile("/demos/scripts/test.lua");
+        // LE3GetScriptSystem().doFile("/demos/scripts/test.lua");
         
         /////////////////
 
-        m_scene.addShaderFromFile(
-            "blinn_phong",
-            "/engine/shaders/blinn_phong/blinn_phong.vs",
-            "/engine/shaders/blinn_phong/blinn_phong.fs"
-        );
+        // m_scene.addShaderFromFile(
+        //     "blinn_phong",
+        //     "/engine/shaders/blinn_phong/blinn_phong.vs",
+        //     "/engine/shaders/blinn_phong/blinn_phong.fs"
+        // );
 
-        m_scene.addTexture("T_carBody_DIFF", "/demos/textures/cars/T_CarBody_DIFF.png");
-        m_scene.addTexture("T_carWheel_DIFF", "/demos/textures/cars/CarWheel_DIFF.png");
-        m_scene.addTexture("T_carWheel_REFL", "/demos/textures/cars/CarWheel_REFL.png");
-        m_scene.addTexture("T_basilica", "/demos/textures/cubemaps/basilica.png");
+        // m_scene.addTexture("T_carBody_DIFF", "/demos/textures/cars/T_CarBody_DIFF.png");
+        // m_scene.addTexture("T_carWheel_DIFF", "/demos/textures/cars/CarWheel_DIFF.png");
+        // m_scene.addTexture("T_carWheel_REFL", "/demos/textures/cars/CarWheel_REFL.png");
+        // m_scene.addTexture("T_basilica", "/demos/textures/cubemaps/basilica.png");
 
 
         m_scene.addMaterial("M_default", "blinn_phong");

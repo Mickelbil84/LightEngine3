@@ -8,6 +8,11 @@ if (WIN32)
   add_compile_options(/bigobj)
 endif ()
 
+# Disable -Wdeprecated-volatile from glm
+if (NOT WIN32)
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-volatile")
+endif()
+
 set(LE3_VERSION 0.2)
 
 project(

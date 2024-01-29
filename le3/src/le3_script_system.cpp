@@ -42,20 +42,12 @@ double LE3ScriptSystem::getNumber(int index) {
 std::string LE3ScriptSystem::getString(int index) {
     return std::string(lua_tostring(L, index));
 }
-
-template<typename T> 
-void LE3ScriptSystem::pushUserType(T* udata, std::string tname) {
-    lua_pushlightuserdata(L, reinterpret_cast<void*>(udata));
+void LE3ScriptSystem::getGlobal(std::string name) {
+    lua_getglobal(L, name.c_str());
 }
 
-template<typename T> 
-T* LE3ScriptSystem::getUserType(int index, std::string tname) {
-    void* udata = lua_touserdata(L, index);
-    if (!udata) luaL_typeerror(L, index, tname.c_str());
-    return reinterpret_cast<T*>(udata);
-}
-
-void LE3ScriptSystem::moduleInit(std::string moduleName, const luaL_Reg* flist) {
-    // luaL_setfuncs(L, flist, 0);
-    luaL_newlib(L, flist);
+void LE3ScriptSystem::callFunction(int numArgs, int numResults) {
+    if (lua_pcall(L, numArgs, numResults, 0) != 0) {
+        luaL_error(L, "Error in running function: ...");
+    }
 }

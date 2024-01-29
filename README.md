@@ -67,6 +67,7 @@ NOTE: To ignore glm's CMake warning, you need to edit glmConfig.cmake in glm ins
 * Add `luaL_requiref(L, XXX, luaopen_XXX, 1);` in `le3_script_bindings.cpp`
 * Add a new file `src/bindings/le3_binding_XXX.cpp` and implement `luaopen_XXX` (and the binding functions)
 * Add `src/bindings/le3_binding_XXX.cpp` the the le3 `CMakeLists.txt`
+* Add annotations to `annotations.lua` (optional, but useful)
 
 ## Acknowledgments
 

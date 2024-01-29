@@ -5,4 +5,5 @@ print(a + b)
 -- local LE3Scene = require "LE3Scene"
 
 print(LE3Scene)
-LE3Scene.test()
+
+print(load_LE3Scene)

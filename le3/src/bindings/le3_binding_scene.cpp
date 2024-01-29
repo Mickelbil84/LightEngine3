@@ -2,17 +2,62 @@
 #include "le3_engine_systems.h"
 using namespace le3;
 
-#include <fmt/core.h>
-using fmt::print;
+static int bnd_LE3Scene_addShader(lua_State* L) {
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(1, "LE3Scene");
+    std::string name = LE3GetScriptSystem().getString(2);
+    std::string vertexSource = LE3GetScriptSystem().getString(3);
+    std::string fragmentSource = LE3GetScriptSystem().getString(4);
+    scene->addShaderFromFile(name, vertexSource, fragmentSource);
+    return 0;
+}
+static int bnd_LE3Scene_getShader(lua_State* L) {
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(1, "LE3Scene");
+    std::string name = LE3GetScriptSystem().getString(2);
+    LE3ShaderPtr& shader = scene->getShader(name);
+    LE3GetScriptSystem().pushUserType<LE3ShaderPtr>(&shader, "LE3Shader");
+    return 1;
+}
 
-static int bnd_LE3Scene_test(lua_State* L) {
-    print("It works! (kinda..)\n");
-    print("");
+static int bnd_LE3Scene_addTexture(lua_State* L) {
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(1, "LE3Scene");
+    std::string name = LE3GetScriptSystem().getString(2);
+    std::string filename = LE3GetScriptSystem().getString(3);
+    bool interpolate = LE3GetScriptSystem().getBool(4);
+    scene->addTexture(name, filename, interpolate);
     return 0;
 }
 
+static int bnd_LE3Scene_getTexture(lua_State* L) {
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(1, "LE3Scene");
+    std::string name = LE3GetScriptSystem().getString(2);
+    LE3TexturePtr& texture = scene->getTexture(name);
+    LE3GetScriptSystem().pushUserType<LE3TexturePtr>(&texture, "LE3Texture");
+    return 1;
+}
+
+static int bnd_LE3Scene_addMaterial(lua_State* L) {
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(1, "LE3Scene");
+    std::string name = LE3GetScriptSystem().getString(2);
+    std::string shaderName = LE3GetScriptSystem().getString(3);
+    scene->addMaterial(name, shaderName);
+    return 0;
+}
+
+static int bnd_LE3Scene_getMaterial(lua_State* L) {
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(1, "LE3Scene");
+    std::string name = LE3GetScriptSystem().getString(2);
+    LE3MaterialPtr& material = scene->getMaterial(name);
+    LE3GetScriptSystem().pushUserType<LE3MaterialPtr>(&material, "LE3Material");
+    return 1;
+}
+
 static const luaL_Reg LE3SceneLib[] = {
-    {"test", bnd_LE3Scene_test},
+    {"add_shader", bnd_LE3Scene_addShader},
+    {"get_shader", bnd_LE3Scene_getShader},
+    {"add_texture", bnd_LE3Scene_addTexture},
+    {"get_texture", bnd_LE3Scene_getTexture},
+    {"add_material", bnd_LE3Scene_addMaterial},
+    {"get_material", bnd_LE3Scene_getMaterial},
     {NULL, NULL}
 };
 

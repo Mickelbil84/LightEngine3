@@ -19,6 +19,9 @@ namespace le3 {
     public:
         void init();
         void reset();
+
+        // Path to Lua file that creates a (global) table "Scene"
+        void load(std::string path);
         
         void update(float deltaTime);
         void draw(LE3ShaderPtr shaderOverride = nullptr);
@@ -26,20 +29,20 @@ namespace le3 {
         // Shaders
         void addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
         void addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource);
-        inline LE3ShaderPtr getShader(std::string name) { return m_pShaders[name]; }
+        inline LE3ShaderPtr& getShader(std::string name) { return m_pShaders[name]; }
 
         // Materials
         void addMaterial(std::string name, std::string shaderName);
-        inline LE3MaterialPtr getMaterial(std::string name) { return m_pMaterials[name]; }
+        inline LE3MaterialPtr& getMaterial(std::string name) { return m_pMaterials[name]; }
 
         // Textures
         void addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate = true);
         void addTexture(std::string name, std::string filename, bool interpolate = true);
-        inline LE3TexturePtr getTexture(std::string name) { return m_pTextures[name]; }
+        inline LE3TexturePtr& getTexture(std::string name) { return m_pTextures[name]; }
 
         // Meshes
         void addStaticMesh(std::string name, std::string filename);
-        inline LE3StaticMeshPtr getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
+        inline LE3StaticMeshPtr& getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
 
         // Object factory
         void addEmptyObject(std::string name, std::string parent = "");
