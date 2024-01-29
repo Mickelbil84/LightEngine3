@@ -18,7 +18,7 @@ namespace le3 {
         void pushBool(bool b);
         void pushNumber(double d);
         void pushString(std::string str);
-        template<typename T> void pushUserType(T* udata, std::string tname) {
+        template<typename T> void pushUserType(T* udata) {
             lua_pushlightuserdata(L, reinterpret_cast<void*>(udata));
         }
 
@@ -26,9 +26,9 @@ namespace le3 {
         double getNumber(int index);
         std::string getString(int index);
         void getGlobal(std::string name); // push global var to stack
-        template<typename T> T* getUserType(int index, std::string tname) {
+        template<typename T> T* getUserType(int index) {
             void* udata = lua_touserdata(L, index);
-            if (!udata) luaL_typeerror(L, index, tname.c_str());
+            if (!udata) luaL_typeerror(L, index, "");
             return reinterpret_cast<T*>(udata);
         }
 

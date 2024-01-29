@@ -28,7 +28,7 @@ void LE3Scene::load(std::string path) {
     // In lua:
     //  >>  load_LE3Scene(this, Scene)
     LE3GetScriptSystem().getGlobal("load_LE3Scene");
-    LE3GetScriptSystem().pushUserType<LE3Scene>(this, "LE3Scene");
+    LE3GetScriptSystem().pushUserType<LE3Scene>(this);
     LE3GetScriptSystem().getGlobal("Scene");
     LE3GetScriptSystem().callFunction(2, 0);
 }
