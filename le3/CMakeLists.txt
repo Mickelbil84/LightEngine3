@@ -42,7 +42,10 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_texture.cpp
     src/le3_dat_archive.cpp
     src/le3_dat_filesystem.cpp
+    
     src/le3_script_system.cpp
+    src/le3_script_bindings.cpp
+    src/bindings/le3_binding_scene.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp

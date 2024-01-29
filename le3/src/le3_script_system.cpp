@@ -1,10 +1,12 @@
 #include "le3_script_system.h"
 #include "le3_engine_systems.h"
+#include "le3_script_bindings.h"
 using namespace le3;
 
 LE3ScriptSystem::LE3ScriptSystem() {
     L = luaL_newstate();
     luaL_openlibs(L);
+    bindLE3Types(L);
 }
 LE3ScriptSystem::~LE3ScriptSystem() {
     if (L) lua_close(L);
@@ -54,5 +56,6 @@ T* LE3ScriptSystem::getUserType(int index, std::string tname) {
 }
 
 void LE3ScriptSystem::moduleInit(std::string moduleName, const luaL_Reg* flist) {
-    luaL_setfuncs(L, flist, 0);
+    // luaL_setfuncs(L, flist, 0);
+    luaL_newlib(L, flist);
 }

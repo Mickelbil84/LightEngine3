@@ -61,6 +61,13 @@ Installation is done simply with CMake.
 NOTE: To ignore glm's CMake warning, you need to edit glmConfig.cmake in glm installation to increase CMake version to 3.6.
 (This is also a recent [as of January 2024] commit on glm's repository from July 2023).
 
+### Things to remember when binding LE3 types to Lua
+
+* Declare `luaopen_XXX`` in `le3_script_bindings.h`
+* Add `luaL_requiref(L, XXX, luaopen_XXX, 1);` in `le3_script_bindings.cpp`
+* Add a new file `src/bindings/le3_binding_XXX.cpp` and implement `luaopen_XXX` (and the binding functions)
+* Add `src/bindings/le3_binding_XXX.cpp` the the le3 `CMakeLists.txt`
+
 ## Acknowledgments
 
 Car model: [link](https://sketchfab.com/3d-models/free-concept-car-025-public-domain-cc0-e3a65443d3e44c33b594cec591c01c05)
