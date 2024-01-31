@@ -59,3 +59,51 @@ Scene.Meshes = {
         Path = "/demos/models/cars/Car Wheel.fbx"
     }
 }
+
+Scene.Objects = {
+    {
+        Type = "Empty",
+        Name = "player",
+        Position = {0.0, 0.0, 0.0}
+    },
+    {
+        Type = "FreeCamera",
+        Name = "cameraFree",
+        Position = {0.0, 0.5, 3.0}
+    },
+    {
+        Type = "OrbitCamera",
+        Name = "cameraOrbit",
+        Offset = 3.0
+    },
+    {
+        Type = "Cube",
+        Name = "cube",
+        MaterialName = "M_default",
+        Position = {0.0, -0.1, 0.0},
+        Scale = {50.0, 0.1, 50.0}
+    },
+    {
+        Type = "Empty",
+        Name = "car",
+        Scale = {2.5, 2.5, 2.5}
+    },
+    {
+        Type = "StaticModel",
+        MeshName = "SM_carBody",
+        MaterialName = "M_carBody",
+        
+    }
+}
+
+Scene.ObjectRelations = {
+    {"cameraFree", "player"},
+    {"cameraOrbit", "car"},
+    {"carBody", "car"},
+    {"wheelsFront", "car"},
+    {"wheelsBack", "car"},
+    {"wheel1", "wheelsFront"},
+    {"wheel2", "wheelsFront"},
+    {"wheel3", "wheelsBack"},
+    {"wheel4", "wheelsBack"},
+}

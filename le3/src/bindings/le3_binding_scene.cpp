@@ -67,6 +67,65 @@ static int bnd_LE3Scene_getStaticMesh(lua_State* L) {
     return 1;
 }
 
+static int bnd_LE3Scene_addEmptyObject(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string name = LE3GetScriptSystem().getString(idx++);
+    scene->addEmptyObject(name);
+    return 0;
+}
+
+static int bnd_LE3Scene_addCube(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string name = LE3GetScriptSystem().getString(idx++);
+    std::string materialName = LE3GetScriptSystem().getString(idx++);
+    scene->addCube(name, materialName);
+    return 0;
+}
+
+static int bnd_LE3Scene_addStaticModel(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string name = LE3GetScriptSystem().getString(idx++);
+    std::string meshName = LE3GetScriptSystem().getString(idx++);
+    std::string materialName = LE3GetScriptSystem().getString(idx++);
+    scene->addStaticModel(name, meshName, materialName);
+    return 0;
+}
+
+static int bnd_LE3Scene_addFreeCamera(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string name = LE3GetScriptSystem().getString(idx++);
+    scene->addFreeCamera(name);
+    return 0;
+}
+
+static int bnd_LE3Scene_addOrbitCamera(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string name = LE3GetScriptSystem().getString(idx++);
+    scene->addOrbitCamera(name);
+    return 0;
+}
+
+static int bnd_LE3Scene_setMainCamera(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string camera = LE3GetScriptSystem().getString(idx++);
+    scene->setMainCamera(camera);
+    return 0;
+}
+
+static int bnd_LE3Scene_reparent(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string child = LE3GetScriptSystem().getString(idx++);
+    std::string parent = LE3GetScriptSystem().getString(idx++);
+    scene->getObject(child)->reparent(scene->getObject(parent));
+    return 0;
+}
 
 static const luaL_Reg LE3SceneLib[] = {
     {"add_shader", bnd_LE3Scene_addShader},
@@ -80,6 +139,16 @@ static const luaL_Reg LE3SceneLib[] = {
 
     {"add_static_mesh", bnd_LE3Scene_addStaticMesh},
     {"get_static_mesh", bnd_LE3Scene_getStaticMesh},
+
+    {"add_empty_object", bnd_LE3Scene_addEmptyObject},
+    {"add_cube", bnd_LE3Scene_addCube},
+    {"add_static_model", bnd_LE3Scene_addStaticModel},
+
+    {"add_free_camera", bnd_LE3Scene_addFreeCamera},
+    {"add_orbit_camera", bnd_LE3Scene_addOrbitCamera},
+    {"set_main_camera", bnd_LE3Scene_setMainCamera},
+
+    {"reparent", bnd_LE3Scene_reparent},
 
     {NULL, NULL}
 };

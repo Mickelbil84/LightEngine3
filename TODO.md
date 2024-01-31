@@ -1,3 +1,4 @@
+TODO: Lua functions for table -> object (and call parent functions)
 TODO: Lua integration (basic) and scene serialization with lua
 TODO: Engine & Game config (with Lua?)
 TODO: Lights

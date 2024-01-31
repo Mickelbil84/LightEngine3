@@ -55,6 +55,38 @@ function LE3Scene.add_static_mesh(scene, name, filename) end
 ---@return LE3StaticMesh
 function LE3Scene.get_static_mesh(scene, name) end
 
+---@param scene LE3Scene
+---@param name string
+function LE3Scene.add_empty_object(scene, name) end
+
+---@param scene LE3Scene
+---@param name string
+---@param materialName string
+function LE3Scene.add_cube(scene, name, materialName) end
+
+---@param scene LE3Scene
+---@param name string
+---@param meshName string
+---@param materialName string
+function LE3Scene.add_static_model(scene, name, meshName, materialName) end
+
+---@param scene LE3Scene
+---@param name string
+function LE3Scene.add_free_camera(scene, name) end
+
+---@param scene LE3Scene
+---@param name string
+function LE3Scene.add_orbit_camera(scene, name) end
+
+---@param scene LE3Scene
+---@param name string
+function LE3Scene.set_main_camera(scene, name) end
+
+---@param scene LE3Scene
+---@param child string
+---@param parent string
+function LE3Scene.reparent(scene, child, parent) end
+
 -----------------------------------------------------------------
 
 ---@param material LE3Material
@@ -103,3 +135,4 @@ function LE3Material.set_reflection_intensity(material, val) end
 ---@param x number
 ---@param y number
 function LE3Material.set_tiling(material, x, y) end
+
