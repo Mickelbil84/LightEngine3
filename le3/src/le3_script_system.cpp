@@ -42,6 +42,11 @@ double LE3ScriptSystem::getNumber(int index) {
 std::string LE3ScriptSystem::getString(int index) {
     return std::string(lua_tostring(L, index));
 }
+
+void LE3ScriptSystem::setGlobal(std::string name) {
+    lua_setglobal(L, name.c_str());
+
+}
 void LE3ScriptSystem::getGlobal(std::string name) {
     lua_getglobal(L, name.c_str());
 }

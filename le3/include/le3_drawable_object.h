@@ -26,7 +26,8 @@ namespace le3 {
         inline LE3DrawPriority getDrawPriority() const { return m_drawPriority; }
         inline void setDrawPriority(LE3DrawPriority drawPriority) { m_drawPriority = drawPriority; }
 
-        inline LE3MaterialPtr getMaterial() { return m_pMaterial; }
+        inline LE3MaterialPtr& getMaterial() { return m_pMaterial; }
+        inline void setMaterial(LE3MaterialPtr pMaterial) { m_pMaterial = pMaterial; }
 
         inline bool isHidden() const { return m_bHidden; }
         inline void setHidden(bool hidden) { m_bHidden = hidden; }

@@ -22,10 +22,12 @@ namespace le3 {
             lua_pushlightuserdata(L, reinterpret_cast<void*>(udata));
         }
 
+        void setGlobal(std::string name); // set recently pushed var on stack as global
+        void getGlobal(std::string name); // push global var to stack
+
         bool getBool(int index);
         double getNumber(int index);
         std::string getString(int index);
-        void getGlobal(std::string name); // push global var to stack
         template<typename T> T* getUserType(int index) {
             void* udata = lua_touserdata(L, index);
             if (!udata) return nullptr;
