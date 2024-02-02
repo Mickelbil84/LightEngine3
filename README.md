@@ -53,10 +53,10 @@ Installation is done simply with CMake.
 6. Run: `brew install glew`
 7. Run: `brew install glm`
 8. Run: `brew install assimp`
-9. Run: `brew install wxwidgets`
-10. Run: `brew install bullet`
+9. Run: `brew install wxwidgets` [No longer required]
+10. Run: `brew install bullet` [No longer required]
 11. Run: `brew install fmt`
-12. Run: `brew install cereal`
+12. Run: `brew install cxxopts`
 
 NOTE: To ignore glm's CMake warning, you need to edit glmConfig.cmake in glm installation to increase CMake version to 3.6.
 (This is also a recent [as of January 2024] commit on glm's repository from July 2023).
