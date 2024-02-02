@@ -117,6 +117,35 @@ static int bnd_LE3Scene_addOrbitCamera(lua_State* L) {
     return 0;
 }
 
+static int bnd_LE3Scene_addAmbientLight(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string name = LE3GetScriptSystem().getString(idx++);
+    scene->addAmbientLight(name);
+    return 0;
+}
+static int bnd_LE3Scene_addDirectionalLight(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string name = LE3GetScriptSystem().getString(idx++);
+    scene->addDirectionalLight(name);
+    return 0;
+}
+static int bnd_LE3Scene_addPointLight(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string name = LE3GetScriptSystem().getString(idx++);
+    scene->addPointLight(name);
+    return 0;
+}
+static int bnd_LE3Scene_addSpotLight(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string name = LE3GetScriptSystem().getString(idx++);
+    scene->addSpotLight(name);
+    return 0;
+}
+
 static int bnd_LE3Scene_setMainCamera(lua_State* L) {
     int idx = 1;
     LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
@@ -163,6 +192,11 @@ static const luaL_Reg LE3SceneLib[] = {
     {"add_free_camera", bnd_LE3Scene_addFreeCamera},
     {"add_orbit_camera", bnd_LE3Scene_addOrbitCamera},
     {"set_main_camera", bnd_LE3Scene_setMainCamera},
+
+    {"add_ambient_light", bnd_LE3Scene_addAmbientLight},
+    {"add_directional_light", bnd_LE3Scene_addDirectionalLight},
+    {"add_point_light", bnd_LE3Scene_addPointLight},
+    {"add_spot_light", bnd_LE3Scene_addSpotLight},
 
     {"reparent", bnd_LE3Scene_reparent},
 

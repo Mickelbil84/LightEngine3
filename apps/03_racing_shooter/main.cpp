@@ -74,13 +74,6 @@ public:
     }
 
     void render() {
-        m_scene.getShader("S_default")->use();
-        m_scene.getShader("S_default")->uniform("ambientLight.color", glm::vec3(1.f));
-        m_scene.getShader("S_default")->uniform("ambientLight.intensity", 0.3f);
-
-        m_scene.getShader("S_default")->uniform("directionalLights[0].color", glm::vec3(1.f));
-        m_scene.getShader("S_default")->uniform("directionalLights[0].intensity", 1.3f);
-        m_scene.getShader("S_default")->uniform("directionalLights[0].direction", glm::vec3(-1.f / sqrt(3.f), -1.f / sqrt(3.f), -1.f / sqrt(3.f)));
         m_scene.draw();
     }
 

@@ -4,6 +4,7 @@
 #include <lauxlib.h>
 
 #include "le3_input.h"
+#include "le3_light.h"
 #include "le3_scene.h"
 #include "le3_shader.h"
 #include "le3_texture.h"
@@ -41,6 +42,12 @@ namespace le3 {
     int luaopen_LE3OrbitCamera(lua_State* L);
     int luaopen_LE3FreeCamera(lua_State* L);
     int luaopen_LE3Box(lua_State* L);
+
+    int luaopen_LE3Light(lua_State* L);
+    int luaopen_LE3AmbientLight(lua_State* L);
+    int luaopen_LE3DirectionalLight(lua_State* L);
+    int luaopen_LE3PointLight(lua_State* L);
+    int luaopen_LE3SpotLight(lua_State* L);
 
     void bindLE3Types(lua_State* L); // Is called when initializing the script system
 }

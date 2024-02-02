@@ -36,12 +36,14 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_primitives.cpp
     src/le3_camera.cpp
     src/le3_object.cpp
+    src/le3_light.cpp
     src/le3_scene_root.cpp
     src/le3_draw_queue.cpp
     src/le3_scene_assimp.cpp
     src/le3_texture.cpp
     src/le3_dat_archive.cpp
     src/le3_dat_filesystem.cpp
+    src/le3_light_manager.cpp
     
     src/le3_script_system.cpp
     src/le3_script_bindings.cpp
@@ -58,6 +60,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_drawable_object.cpp
     src/bindings/le3_binding_camera.cpp
     src/bindings/le3_binding_primitives.cpp
+    src/bindings/le3_binding_light.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp

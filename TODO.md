@@ -1,14 +1,14 @@
-TODO: Primitive object types
-TODO: Lights
 TODO: Framebuffers in scene: for main, shadows, etc. 
 TODO: Test framebuffer with ImGui
 TODO: Shadowmaps
 TODO: Visual Debugs
 TODO: Skeletal Meshes and Animations 
+TODO: Physics and Collision detection
 TODO: Lua save scene (object -> table)
+TODO: LE3 Editor (once again)
 TODO: Engine & Game config (with Lua?)
 TODO: Conditional integration of ImGui
-TODO: Physics and Collision detection
+
 
 
 -------

@@ -62,6 +62,33 @@ Scene.StaticMeshes = {
 
 Scene.Objects = {
     {
+        Type = "AmbientLight",
+        Name = "ambientLight",
+        Intensity = 0.3,
+        Color = {1, 0.9, 0.9}
+    },
+    {
+        Type = "DirectionalLight",
+        Name = "sunLight",
+        Intensity = 0.5,
+        Rotation = {0.9961947, 0, 0.08715574, 0}
+    },
+    {
+        Type = "PointLight",
+        Name = "pointLight01",
+        -- Position = {-2, 1.1, 0},
+        Position = {-1, 1.1, 0},
+        Color = {0, 0.9, 1.0},
+        Intensity = 0.9,
+    },
+    {
+        Type = "SpotLight",
+        Name = "spotLight01",
+        Position = {1.3, 1.1, 0},
+        Color = {0, 0.9, 1.0},
+        Intensity = 0.1,
+    },
+    {
         Type = "Empty",
         Name = "player",
         Position = {0.0, 0.0, 0.0}
@@ -155,6 +182,7 @@ Scene.Objects = {
 Scene.ObjectRelations = {
     {"cameraFree", "player"},
     {"cameraOrbit", "car"},
+    {"pointLight01", "car"},
     {"carBody", "car"},
     {"wheelsFront", "car"},
     {"wheelsBack", "car"},

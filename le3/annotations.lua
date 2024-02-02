@@ -32,6 +32,16 @@ LE3FreeCamera = {}
 ---@class LE3Box
 LE3Box = {}
 
+---@class LE3Light
+LE3Light = {}
+---@class LE3AmbientLight
+LE3AmbientLight = {}
+---@class LE3DirectionalLight
+LE3DirectionalLight = {}
+---@class LE3PointLight
+LE3PointLight = {}
+---@class LE3SpotLight
+LE3SpotLight = {}
 
 -----------------------------------------------------------------
 
@@ -105,6 +115,19 @@ function LE3Scene.add_free_camera(scene, name) end
 ---@param scene LE3Scene
 ---@param name string
 function LE3Scene.add_orbit_camera(scene, name) end
+
+---@param scene LE3Scene
+---@param name string
+function LE3Scene.add_ambient_light(scene, name) end
+---@param scene LE3Scene
+---@param name string
+function LE3Scene.add_directional_light(scene, name) end
+---@param scene LE3Scene
+---@param name string
+function LE3Scene.add_point_light(scene, name) end
+---@param scene LE3Scene
+---@param name string
+function LE3Scene.add_spot_light(scene, name) end
 
 ---@param scene LE3Scene
 ---@param name string
@@ -203,3 +226,17 @@ function LE3OrbitCamera.set_origin(camera, x, y, z) end
 
 -----------------------------------------------------------------
 
+function LE3Light.get_color(light) end
+function LE3Light.set_color(light, r, g, b) end
+function LE3Light.get_intensity(light) end
+function LE3Light.set_intensity(light, value) end
+function LE3PointLight.get_attn_const(light) end
+function LE3PointLight.get_attn_linear(light) end
+function LE3PointLight.get_attn_exp(light) end
+function LE3PointLight.set_attn_const(light, value) end
+function LE3PointLight.set_attn_linear(light, value) end
+function LE3PointLight.set_attn_exp(light, value) end
+function LE3SpotLight.get_cutoff(light) end
+function LE3SpotLight.get_outer_cutoff(light) end
+function LE3SpotLight.set_cutoff(light, value) end
+function LE3SpotLight.set_outer_cutoff(light, value) end

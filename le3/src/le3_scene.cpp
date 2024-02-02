@@ -37,8 +37,14 @@ void LE3Scene::update(float deltaTime) {
     m_pRoot->update(deltaTime);
 }
 void LE3Scene::draw(LE3ShaderPtr shaderOverride) {
-    if (shaderOverride == nullptr) for (auto kv : m_pShaders) applyMainCamera(kv.second);
-    else applyMainCamera(shaderOverride);
+    if (shaderOverride == nullptr) for (auto kv : m_pShaders) {
+        applyMainCamera(kv.second);
+        m_lightManager.renderLights(kv.second, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
+    }
+    else { 
+        applyMainCamera(shaderOverride);
+        m_lightManager.renderLights(shaderOverride, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
+    }
     m_drawQueue.draw(shaderOverride);
 }
 
@@ -118,6 +124,31 @@ void LE3Scene::addOrbitCamera(std::string name, std::string parent) {
     LE3CameraPtr obj = std::make_shared<LE3OrbitCamera>();
     attachObject(name, obj, parent);
     attachCamera(obj);
+}
+
+void LE3Scene::addAmbientLight(std::string name, std::string parent) {
+    assertObjectName(name);
+    LE3AmbientLightPtr light = std::make_shared<LE3AmbientLight>();
+    attachObject(name, light, parent);
+    m_lightManager.setAmbientLight(light);
+}
+void LE3Scene::addDirectionalLight(std::string name, std::string parent) {
+    assertObjectName(name);
+    LE3DirectionalLightPtr light = std::make_shared<LE3DirectionalLight>();
+    attachObject(name, light, parent);
+    m_lightManager.addDirectionalLight(light);
+}
+void LE3Scene::addPointLight(std::string name, std::string parent) {
+    assertObjectName(name);
+    LE3PointLightPtr light = std::make_shared<LE3PointLight>();
+    attachObject(name, light, parent);
+    m_lightManager.addPointLight(light);
+}
+void LE3Scene::addSpotLight(std::string name, std::string parent) {
+    assertObjectName(name);
+    LE3SpotLightPtr light = std::make_shared<LE3SpotLight>();
+    attachObject(name, light, parent);
+    m_lightManager.addSpotLight(light);
 }
 
 // --------------------------------------------------------------------------------

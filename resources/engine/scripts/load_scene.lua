@@ -16,6 +16,8 @@ local function load_LE3Scene_objects(scene, scene_data_table)
     local object_classes = {
         Empty = LE3Object,
         FreeCamera = LE3FreeCamera, OrbitCamera = LE3OrbitCamera,
+        AmbientLight = LE3AmbientLight, DirectionalLight = LE3DirectionalLight,
+        PointLight = LE3PointLight, SpotLight = LE3SpotLight,
         StaticModel = LE3StaticModel,
         Box = LE3Box,
     }

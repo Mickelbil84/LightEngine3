@@ -12,6 +12,7 @@
 #include "le3_draw_queue.h"
 #include "le3_primitives.h"
 #include "le3_scene_root.h"
+#include "le3_light_manager.h"
 #include "le3_engine_systems.h"
 
 namespace le3 {
@@ -52,6 +53,11 @@ namespace le3 {
         void addFreeCamera(std::string name, std::string parent = "");
         void addOrbitCamera(std::string name, std::string parent = "");
 
+        void addAmbientLight(std::string name, std::string parent = "");
+        void addDirectionalLight(std::string name, std::string parent = "");
+        void addPointLight(std::string name, std::string parent = "");
+        void addSpotLight(std::string name, std::string parent = "");
+
         LE3SceneRootPtr getSceneRoot() const { return m_pRoot; }
         LE3ObjectPtr& getObject(std::string name) { return m_pObjects[name]; }
         LE3CameraPtr& getMainCamera() { return m_pMainCamera; }
@@ -68,6 +74,7 @@ namespace le3 {
         std::map<std::string, LE3ObjectPtr> m_pObjects;
         std::map<std::string, LE3ObjectPtr> m_pPrototypes; // Objects that are not present in scene, but can be duplicated
         LE3DrawQueue m_drawQueue;
+        LE3LightManager m_lightManager;
         
         void assertObjectName(std::string name);
         void attachObject(std::string name, LE3ObjectPtr obj, std::string parent);
