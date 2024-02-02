@@ -40,6 +40,7 @@ namespace le3 {
     int luaopen_LE3Camera(lua_State* L);
     int luaopen_LE3OrbitCamera(lua_State* L);
     int luaopen_LE3FreeCamera(lua_State* L);
+    int luaopen_LE3Box(lua_State* L);
 
     void bindLE3Types(lua_State* L); // Is called when initializing the script system
 }

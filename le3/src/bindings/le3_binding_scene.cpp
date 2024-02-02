@@ -75,12 +75,19 @@ static int bnd_LE3Scene_addEmptyObject(lua_State* L) {
     return 0;
 }
 
-static int bnd_LE3Scene_addCube(lua_State* L) {
+static int bnd_LE3Scene_addBox(lua_State* L) {
     int idx = 1;
     LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
     std::string name = LE3GetScriptSystem().getString(idx++);
     std::string materialName = LE3GetScriptSystem().getString(idx++);
-    scene->addCube(name, materialName);
+    float x0 = LE3GetScriptSystem().getNumber(idx++);
+    float y0 = LE3GetScriptSystem().getNumber(idx++);
+    float z0 = LE3GetScriptSystem().getNumber(idx++);
+    float width = LE3GetScriptSystem().getNumber(idx++);
+    float height = LE3GetScriptSystem().getNumber(idx++);
+    float depth = LE3GetScriptSystem().getNumber(idx++);
+    glm::vec3 position(x0, y0, z0), extent(width, height, depth);
+    scene->addBox(name, materialName, position, extent);
     return 0;
 }
 
@@ -150,7 +157,7 @@ static const luaL_Reg LE3SceneLib[] = {
     {"get_static_mesh", bnd_LE3Scene_getStaticMesh},
 
     {"add_empty_object", bnd_LE3Scene_addEmptyObject},
-    {"add_cube", bnd_LE3Scene_addCube},
+    {"add_box", bnd_LE3Scene_addBox},
     {"add_static_model", bnd_LE3Scene_addStaticModel},
 
     {"add_free_camera", bnd_LE3Scene_addFreeCamera},

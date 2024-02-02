@@ -29,6 +29,8 @@ LE3Camera = {}
 LE3OrbitCamera = {}
 ---@class LE3FreeCamera
 LE3FreeCamera = {}
+---@class LE3Box
+LE3Box = {}
 
 
 -----------------------------------------------------------------
@@ -82,7 +84,13 @@ function LE3Scene.add_empty_object(scene, name) end
 ---@param scene LE3Scene
 ---@param name string
 ---@param materialName string
-function LE3Scene.add_cube(scene, name, materialName) end
+---@param x0 number
+---@param y0 number
+---@param z0 number
+---@param width number
+---@param height number
+---@param depth number
+function LE3Scene.add_box(scene, name, materialName, x0, y0, z0, width, height, depth) end
 
 ---@param scene LE3Scene
 ---@param name string

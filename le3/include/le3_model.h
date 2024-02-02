@@ -19,7 +19,7 @@ namespace le3 {
 
         LE3MeshPtr<LE3VertexType> getMesh() { return m_pMesh; }
 
-    private:
+    protected:
         LE3MeshPtr<LE3VertexType> m_pMesh;
     };
 

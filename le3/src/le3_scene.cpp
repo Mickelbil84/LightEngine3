@@ -90,10 +90,9 @@ void LE3Scene::addEmptyObject(std::string name, std::string parent) {
 }
 
 
-void LE3Scene::addCube(std::string name, std::string materialName, glm::vec3 position, glm::vec3 extent, std::string parent) {
+void LE3Scene::addBox(std::string name, std::string materialName, glm::vec3 position, glm::vec3 extent, std::string parent) {
     assertObjectName(name);
-    LE3StaticMeshPtr mesh = createBox(position.x, position.y, position.z, extent.x, extent.y, extent.z);
-    LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, m_pMaterials[materialName]); // TODO: engine default shader + material
+    LE3BoxPtr obj = std::make_shared<LE3Box>(position.x, position.y, position.z, extent.x, extent.y, extent.z, m_pMaterials[materialName]); // TODO: engine default shader + material
     attachObject(name, obj, parent);
     m_drawQueue.addObject(obj);
 }

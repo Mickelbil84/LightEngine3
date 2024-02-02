@@ -67,6 +67,13 @@ Scene.Objects = {
         Position = {0.0, 0.0, 0.0}
     },
     {
+        Type = "Box",
+        Name = "floor",
+        MaterialName = "M_default",
+        BoxPosition = {0, -0.1, 0},
+        BoxExtent = {50, 0.1, 50}
+    },
+    {
         Type = "FreeCamera",
         Name = "cameraFree",
         Position = {0.0, 0.5, 3.0}

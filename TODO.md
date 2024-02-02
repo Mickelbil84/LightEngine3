@@ -1,12 +1,12 @@
-TODO: Lua functions for table -> object (and call parent functions)
-TODO: Lua integration (basic) and scene serialization with lua
-TODO: Engine & Game config (with Lua?)
+TODO: Primitive object types
 TODO: Lights
 TODO: Framebuffers in scene: for main, shadows, etc. 
 TODO: Test framebuffer with ImGui
 TODO: Shadowmaps
 TODO: Visual Debugs
 TODO: Skeletal Meshes and Animations 
+TODO: Lua save scene (object -> table)
+TODO: Engine & Game config (with Lua?)
 TODO: Conditional integration of ImGui
 TODO: Physics and Collision detection
 

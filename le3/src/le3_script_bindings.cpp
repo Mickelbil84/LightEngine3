@@ -17,4 +17,5 @@ void le3::bindLE3Types(lua_State* L) {
     luaL_requiref(L, "LE3Camera", le3::luaopen_LE3Camera, 1);
     luaL_requiref(L, "LE3OrbitCamera", le3::luaopen_LE3OrbitCamera, 1);
     luaL_requiref(L, "LE3FreeCamera", le3::luaopen_LE3FreeCamera, 1);
+    luaL_requiref(L, "LE3Box", le3::luaopen_LE3Box, 1);
 }
