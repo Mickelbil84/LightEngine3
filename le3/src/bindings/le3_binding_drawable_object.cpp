@@ -52,7 +52,7 @@ static const luaL_Reg LE3DrawableObjectLib[] = {
     {"get_draw_priority", bnd_LE3DrawableObject_getDrawPriority},
     {"set_draw_priority", bnd_LE3DrawableObject_setDrawPriority},
     {"get_material", bnd_LE3DrawableObject_getMaterial},
-    {"set_material", bnd_LE3DrawableObject_setMaterial},
+    // {"set_material", bnd_LE3DrawableObject_setMaterial},
     {"get_hidden", bnd_LE3DrawableObject_getHidden},
     {"set_hidden", bnd_LE3DrawableObject_setHidden},
     {NULL, NULL}

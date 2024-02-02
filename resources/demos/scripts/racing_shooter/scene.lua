@@ -90,20 +90,20 @@ Scene.Objects = {
     },
     {
         Type = "StaticModel",
+        Name = "carBody",
         MeshName = "SM_carBody",
         MaterialName = "M_carBody",
-        
     }
 }
 
 Scene.ObjectRelations = {
-    {"cameraFree", "player"},
-    {"cameraOrbit", "car"},
-    {"carBody", "car"},
-    {"wheelsFront", "car"},
-    {"wheelsBack", "car"},
-    {"wheel1", "wheelsFront"},
-    {"wheel2", "wheelsFront"},
-    {"wheel3", "wheelsBack"},
-    {"wheel4", "wheelsBack"},
+    -- {"cameraFree", "player"},
+    -- {"cameraOrbit", "car"},
+    -- {"carBody", "car"},
+    -- {"wheelsFront", "car"},
+    -- {"wheelsBack", "car"},
+    -- {"wheel1", "wheelsFront"},
+    -- {"wheel2", "wheelsFront"},
+    -- {"wheel3", "wheelsBack"},
+    -- {"wheel4", "wheelsBack"},
 }

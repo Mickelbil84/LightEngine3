@@ -127,6 +127,15 @@ static int bnd_LE3Scene_reparent(lua_State* L) {
     return 0;
 }
 
+static int bnd_LE3Scene_getObject(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    std::string name = LE3GetScriptSystem().getString(idx++);
+    LE3ObjectPtr& object = scene->getObject(name);
+    LE3GetScriptSystem().pushUserType<LE3ObjectPtr>(&object);
+    return 1;
+}
+
 static const luaL_Reg LE3SceneLib[] = {
     {"add_shader", bnd_LE3Scene_addShader},
     {"get_shader", bnd_LE3Scene_getShader},
@@ -149,6 +158,8 @@ static const luaL_Reg LE3SceneLib[] = {
     {"set_main_camera", bnd_LE3Scene_setMainCamera},
 
     {"reparent", bnd_LE3Scene_reparent},
+
+    {"get_object", bnd_LE3Scene_getObject},
 
     {NULL, NULL}
 };

@@ -53,8 +53,8 @@ namespace le3 {
         void addOrbitCamera(std::string name, std::string parent = "");
 
         LE3SceneRootPtr getSceneRoot() const { return m_pRoot; }
-        LE3ObjectPtr getObject(std::string name) { return m_pObjects[name]; }
-        LE3CameraPtr getMainCamera() { return m_pMainCamera; }
+        LE3ObjectPtr& getObject(std::string name) { return m_pObjects[name]; }
+        LE3CameraPtr& getMainCamera() { return m_pMainCamera; }
         void setMainCamera(std::string camera);
 
     private:

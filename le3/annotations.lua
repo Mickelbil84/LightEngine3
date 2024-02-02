@@ -13,6 +13,8 @@ LE3StaticMesh = {}
 
 ---@class LE3Transform
 LE3Transform = {}
+---@class LE3Object
+LE3Object = {}
 ---@class LE3SceneRoot
 LE3SceneRoot = {}
 ---@class LE3StaticModel
@@ -105,6 +107,12 @@ function LE3Scene.set_main_camera(scene, name) end
 ---@param parent string
 function LE3Scene.reparent(scene, child, parent) end
 
+---@param scene LE3Scene
+---@param name string
+---@return LE3Object
+function LE3Scene.get_object(scene, name) end
+
+
 -----------------------------------------------------------------
 
 ---@param material LE3Material
@@ -153,4 +161,37 @@ function LE3Material.set_reflection_intensity(material, val) end
 ---@param x number
 ---@param y number
 function LE3Material.set_tiling(material, x, y) end
+
+-----------------------------------------------------------------
+
+function LE3Transform.get_position(transform) end
+function LE3Transform.get_rotation(transform) end
+function LE3Transform.get_scale(transform) end
+function LE3Transform.set_position(transform, x, y, z) end
+function LE3Transform.set_rotation(transform, w, x, y, z) end
+function LE3Transform.set_scale(transform, x, y, z) end
+
+-----------------------------------------------------------------
+
+function LE3Object.get_transform(object) end
+
+-----------------------------------------------------------------
+
+function LE3DrawableObject.get_draw_priority(object) end
+function LE3DrawableObject.set_draw_priority(object, priority) end
+function LE3DrawableObject.get_material(object) end
+-- function LE3DrawableObject.set_material(object, material) end
+function LE3DrawableObject.get_hidden(object) end
+function LE3DrawableObject.set_hidden(object, hidden) end
+
+-----------------------------------------------------------------
+
+function LE3Camera.get_fov(camera) end
+function LE3Camera.set_fov(camera, fov) end
+function LE3OrbitCamera.get_offset(camera) end
+function LE3OrbitCamera.set_offset(camera, offset) end
+function LE3OrbitCamera.get_origin(camera) end
+function LE3OrbitCamera.set_origin(camera, x, y, z) end
+
+-----------------------------------------------------------------
 
