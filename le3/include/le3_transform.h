@@ -20,6 +20,7 @@ namespace le3 {
         void addPositionY(float amount);
         void addPositionZ(float amount);
 
+        void setRotation(glm::quat rotation);
         void setRotationRPY(float roll, float pitch, float yaw);
         void addRotationX(float amount);
         void addRotationY(float amount);

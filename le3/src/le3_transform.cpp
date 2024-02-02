@@ -46,6 +46,9 @@ void LE3Transform::addPositionZ(float amount) {
     m_position.z += amount;
 }
 
+void LE3Transform::setRotation(glm::quat rotation) {
+    m_rotation = rotation;
+}
 void LE3Transform::setRotationRPY(float roll, float pitch, float yaw) {
     m_rotation = glm::quat(glm::vec3(pitch, yaw, roll));
 }
