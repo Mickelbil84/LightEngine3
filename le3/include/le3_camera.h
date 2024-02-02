@@ -22,6 +22,8 @@ namespace le3 {
 
         float getAspectRatio() const { return m_aspectRatio; }
         void setAspectRatio(float aspectRatio) { m_aspectRatio = aspectRatio; }
+        
+        float getFov() const { return m_fov; }
         void setFov(float fov) { m_fov = fov; }
 
         void addPitchYaw(float pitch, float yaw) { m_pitch += pitch; m_yaw += yaw; }
