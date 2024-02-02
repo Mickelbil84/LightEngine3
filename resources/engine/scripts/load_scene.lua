@@ -25,6 +25,10 @@ local function load_LE3Scene_objects(scene, scene_data_table)
             object_classes[object.Type].load(scene, object, nil)
         end
     end
+    for _, edge in ipairs(scene_data_table.ObjectRelations) do 
+        local child = edge[1]; local parent = edge[2]
+        LE3Scene.reparent(scene, child, parent)
+    end
 end
 
 function load_LE3Scene(scene, scene_data_table)

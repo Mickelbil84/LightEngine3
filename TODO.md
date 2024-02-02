@@ -18,3 +18,4 @@ TODO: Control window title
 TODO: Make backups of archive (perhaps engine feature?)
 TODO: LE3DatFileSystem delete files
 TODO: Quiet exception handling
+TODO: Efficient aspect ratio update for cameras

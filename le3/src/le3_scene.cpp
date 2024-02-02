@@ -160,5 +160,11 @@ void LE3Scene::setMainCamera(std::string camera) {
     if (!m_pObjects.contains(camera)) throw std::runtime_error(format("Object '{}' does not exist", camera));
     LE3CameraPtr pCamera = std::dynamic_pointer_cast<LE3Camera>(m_pObjects[camera]);
     if (!pCamera) throw std::runtime_error(format("Object '{}' is not a camera", camera));
+
+    if (m_pMainCamera) {
+        // Copy old aspect ratio
+        pCamera->setAspectRatio(m_pMainCamera->getAspectRatio());
+    }
+
     m_pMainCamera = pCamera;
 }

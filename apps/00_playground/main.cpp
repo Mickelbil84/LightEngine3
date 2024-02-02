@@ -13,24 +13,32 @@ using fmt::format, fmt::print;
 #include <le3.h>
 using namespace le3;
 
+class A {
+public:
+    void foo() { print("(foo) Class A\n"); }
+    virtual void bar() { print("(bar) Class A\n"); }
+};
+using APtr = std::shared_ptr<A>;
+
+class B : public A {
+public:
+    void foo() { print("(foo) Class B\n"); }
+    virtual void bar() { print("(bar) Class B\n"); }
+};
+using BPtr = std::shared_ptr<B>;
+
 
 int main() {
-    LE3DatFileSystem datFilesystem;
-    datFilesystem.addArchive("engine", "engine.dat");
+    APtr obj = std::dynamic_pointer_cast<A>(std::make_shared<B>());
+    obj->foo();
+    obj->bar();
 
-    // datFilesystem.appendFile("engine", 
-    //     "/engine/shaders/blinn_phong/blinn_phong.vs.comp", 
-    //     "./resources/shaders/blinn_phong/blinn_phong.vs", true);
-    // datFilesystem.appendFile("engine", 
-    //     "/engine/shaders/blinn_phong/blinn_phong.fs.comp", 
-    //     "./resources/shaders/blinn_phong/blinn_phong.fs", true);
-
-    for (auto path : datFilesystem.getFilesFromDir("/engine")) {
-        print("{}\n", path);
-        bool shouldDecompress = path.ends_with(".comp");
-        print("{}\n----------------------------\n\n", datFilesystem.getFileContent(path, shouldDecompress).toString());
-    }
-
+    void* tmp = reinterpret_cast<void*>((APtr*)&obj);
+    BPtr* obj_ = reinterpret_cast<BPtr*>(tmp);
+    (*obj_)->foo();
+    (*obj_)->bar();
 
     return 0;
 }
+
+

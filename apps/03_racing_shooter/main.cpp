@@ -22,63 +22,8 @@ public:
         LE3GetDatFileSystem().addArchive("demos", "demos.dat");
         m_scene.init();
         m_scene.load("/demos/scripts/racing_shooter/scene.lua");
-
-        /////////////////
-
-        // m_scene.addEmptyObject("player");
-        // m_scene.getObject("player")->getTransform().setPosition(glm::vec3(0.f, 0.f, 0.f));
-
-        // m_scene.addFreeCamera("cameraFree", "player");
-        // m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
-        // m_scene.getMainCamera()->getTransform().setPosition(glm::vec3(.0f, 0.5f, 3.f));
-
-        // m_scene.addOrbitCamera("cameraOrbit", "player");
-        // std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setAspectRatio(m_engineState.getAspectRatio());
-        // std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(orbitOffset);
         
-        // m_scene.addCube("cube", "M_default", glm::vec3(0.f, -0.1f, 0.f), glm::vec3(50.f, 0.1f, 50.f));
-
-        // for (int i = 0; i < 10; i++) {
-        //     m_scene.addCube(format("block{}", 2 * i), "M_default", glm::vec3(-2.f + i, 0.5f, 2.f), glm::vec3(.5f));
-        //     m_scene.addCube(format("block{}", 2 * i + 1), "M_default", glm::vec3(-2.f + i, 0.5f, -2.f), glm::vec3(.5f));
-        // }
-
-        // m_scene.addEmptyObject("car");
-        // m_scene.getObject("car")->getTransform().setScale(2.5f);
-
-        // m_scene.addStaticModel("carBody", "SM_carBody", "M_carBody", "car");
-        // m_scene.getObject("carBody")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
-        // m_scene.getObject("carBody")->getTransform().setScale(0.3f);
-        // m_scene.getObject("carBody")->getTransform().setPosition(glm::vec3(-2.06f * 0.3f, 0.f, 0.f));
-
-        // m_scene.getObject("cameraOrbit")->reparent(m_scene.getObject("car"));
-        // // std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOrigin(glm::vec3(3.f, 0.f, 0.f));
-
-        // m_scene.addEmptyObject("wheelsFront", "car");
-        // m_scene.getObject("wheelsFront")->getTransform().setPosition(glm::vec3(.285f -2.06f * 0.3f, 0.095f, 0.f));
-        // m_scene.addEmptyObject("wheelsBack", "car");
-        // m_scene.getObject("wheelsBack")->getTransform().setPosition(glm::vec3(1.035f -2.06f * 0.3f, 0.095f, 0.f));
-        
-        // m_scene.addStaticModel("wheel1", "SM_carWheel", "M_wheel", "wheelsFront");
-        // m_scene.getObject("wheel1")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.3f));
-        // m_scene.getObject("wheel1")->getTransform().setScale(0.33f);
-        // m_scene.getObject("wheel1")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
-
-        // m_scene.addStaticModel("wheel2", "SM_carWheel", "M_wheel", "wheelsFront");
-        // m_scene.getObject("wheel2")->getTransform().setPosition(glm::vec3(0.f, 0.f, .3f));
-        // m_scene.getObject("wheel2")->getTransform().setScale(0.33f);
-        // m_scene.getObject("wheel2")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
-
-        // m_scene.addStaticModel("wheel3", "SM_carWheel", "M_wheel", "wheelsBack");
-        // m_scene.getObject("wheel3")->getTransform().setPosition(glm::vec3(0.f, 0.f, -.3f));
-        // m_scene.getObject("wheel3")->getTransform().setScale(0.33f);
-        // m_scene.getObject("wheel3")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, 3.14159265f / 2.f);
-
-        // m_scene.addStaticModel("wheel4", "SM_carWheel", "M_wheel", "wheelsBack");
-        // m_scene.getObject("wheel4")->getTransform().setPosition(glm::vec3(0.f, 0.f, .3f));
-        // m_scene.getObject("wheel4")->getTransform().setScale(0.33f);
-        // m_scene.getObject("wheel4")->getTransform().setRotationRPY(-3.14159265f / 2.f, 0.f, -3.14159265f / 2.f);
-
+        m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
     }
     void update(float deltaTime) {
         updateGUI();
@@ -92,13 +37,13 @@ public:
         std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(orbitOffset);
 
         // Move car forward
-        // glm::vec3 carPos = m_scene.getObject("car")->getTransform().getPosition();
-        // carPos.x += -1.f * deltaTime * carSpeed;
-        // if (carPos.x < -3.f) carPos.x = 7.f;
-        // m_scene.getObject("car")->getTransform().setPosition(carPos);
+        glm::vec3 carPos = m_scene.getObject("car")->getTransform().getPosition();
+        carPos.x += -1.f * deltaTime * carSpeed;
+        if (carPos.x < -3.f) carPos.x = 7.f;
+        m_scene.getObject("car")->getTransform().setPosition(carPos);
         
-        // for (int i = 1; i <= 4; i++)
-        //     m_scene.getObject(format("wheel{}", i))->getTransform().addRotationZ(1.9f * carSpeed * deltaTime);
+        for (int i = 1; i <= 4; i++)
+            m_scene.getObject(format("wheel{}", i))->getTransform().addRotationZ(1.9f * carSpeed * deltaTime);
 
         // Update scene
         m_scene.update(deltaTime);  
