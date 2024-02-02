@@ -11,6 +11,24 @@ LE3Material = {}
 ---@class LE3StaticMesh
 LE3StaticMesh = {}
 
+---@class LE3Transform
+LE3Transform = {}
+---@class LE3SceneRoot
+LE3SceneRoot = {}
+---@class LE3StaticModel
+LE3StaticModel = {}
+---@class LE3Input
+LE3Input = {}
+---@class LE3DrawableObject
+LE3DrawableObject = {}
+---@class LE3Camera
+LE3Camera = {}
+---@class LE3OrbitCamera
+LE3OrbitCamera = {}
+---@class LE3FreeCamera
+LE3FreeCamera = {}
+
+
 -----------------------------------------------------------------
 
 ---@param scene LE3Scene
