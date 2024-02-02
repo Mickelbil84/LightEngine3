@@ -49,7 +49,7 @@ Scene.Materials = {
         ReflectionIntensity = 0.2
     }
 }
-Scene.Meshes = {
+Scene.StaticMeshes = {
     {
         Name = "SM_carBody",
         Path = "/demos/models/cars/Car Body.fbx"
