@@ -18,6 +18,13 @@
 
 
 namespace le3 {
+
+    template<typename T>
+    std::shared_ptr<T> getUserType_LE3Object(int idx) {
+        LE3ObjectPtr* object = LE3GetScriptSystem().getUserType<LE3ObjectPtr>(idx++);
+        return std::dynamic_pointer_cast<T>(*object);
+    }
+
     int luaopen_LE3Scene(lua_State* L);
     int luaopen_LE3Shader(lua_State* L);
     int luaopen_LE3Texture(lua_State* L);

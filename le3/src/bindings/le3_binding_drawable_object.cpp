@@ -4,47 +4,47 @@ using namespace le3;
 
 static int bnd_LE3DrawableObject_getDrawPriority(lua_State* L) {
     int idx = 1;
-    LE3DrawableObjectPtr* object = LE3GetScriptSystem().getUserType<LE3DrawableObjectPtr>(idx++);
-    LE3GetScriptSystem().pushNumber((*object)->getDrawPriority());
+    LE3DrawableObjectPtr object = getUserType_LE3Object<LE3DrawableObject>(idx++);
+    LE3GetScriptSystem().pushNumber((object)->getDrawPriority());
     return 1;
 }
 
 static int bnd_LE3DrawableObject_setDrawPriority(lua_State* L) {
     int idx = 1;
-    LE3DrawableObjectPtr* object = LE3GetScriptSystem().getUserType<LE3DrawableObjectPtr>(idx++);
+    LE3DrawableObjectPtr object = getUserType_LE3Object<LE3DrawableObject>(idx++);
     LE3DrawPriority priority = (LE3DrawPriority) (int)LE3GetScriptSystem().getNumber(idx++);
-    (*object)->setDrawPriority(priority);
+    (object)->setDrawPriority(priority);
     return 0;
 }
 
 static int bnd_LE3DrawableObject_getMaterial(lua_State* L) {
     int idx = 1;
-    LE3DrawableObjectPtr* object = LE3GetScriptSystem().getUserType<LE3DrawableObjectPtr>(idx++);
-    LE3MaterialPtr& material = (*object)->getMaterial();
+    LE3DrawableObjectPtr object = getUserType_LE3Object<LE3DrawableObject>(idx++);
+    LE3MaterialPtr& material = (object)->getMaterial();
     LE3GetScriptSystem().pushUserType<LE3MaterialPtr>(&material);
     return 1;
 }
 
 static int bnd_LE3DrawableObject_setMaterial(lua_State* L) {
     int idx = 1;
-    LE3DrawableObjectPtr* object = LE3GetScriptSystem().getUserType<LE3DrawableObjectPtr>(idx++);
+    LE3DrawableObjectPtr object = getUserType_LE3Object<LE3DrawableObject>(idx++);
     LE3MaterialPtr* material = LE3GetScriptSystem().getUserType<LE3MaterialPtr>(idx++);
-    (*object)->setMaterial(*material);
+    (object)->setMaterial(*material);
     return 0;
 }
 
 static int bnd_LE3DrawableObject_getHidden(lua_State* L) {
     int idx = 1;
-    LE3DrawableObjectPtr* object = LE3GetScriptSystem().getUserType<LE3DrawableObjectPtr>(idx++);
-    LE3GetScriptSystem().pushBool((*object)->isHidden());
+    LE3DrawableObjectPtr object = getUserType_LE3Object<LE3DrawableObject>(idx++);
+    LE3GetScriptSystem().pushBool((object)->isHidden());
     return 1;
 }
 
 static int bnd_LE3DrawableObject_setHidden(lua_State* L) {
     int idx = 1;
-    LE3DrawableObjectPtr* object = LE3GetScriptSystem().getUserType<LE3DrawableObjectPtr>(idx++);
+    LE3DrawableObjectPtr object = getUserType_LE3Object<LE3DrawableObject>(idx++);
     bool hidden = LE3GetScriptSystem().getBool(idx++);
-    (*object)->setHidden(hidden);
+    (object)->setHidden(hidden);
     return 0;
 }
 
@@ -71,6 +71,6 @@ void bnd_LE3DrawPriority(lua_State* L) {
 
 int le3::luaopen_LE3DrawableObject(lua_State* L) {
     luaL_newlib(L, LE3DrawableObjectLib);
-    // bnd_LE3DrawPriority();
+    bnd_LE3DrawPriority(L);
     return 1;
 }

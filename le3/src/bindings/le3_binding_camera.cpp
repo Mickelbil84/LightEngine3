@@ -4,16 +4,16 @@ using namespace le3;
 
 static int bnd_LE3Camera_getFov(lua_State* L) {
     int idx = 1;
-    LE3CameraPtr* camera = LE3GetScriptSystem().getUserType<LE3CameraPtr>(idx++);
-    LE3GetScriptSystem().pushNumber((*camera)->getFov());
+    LE3CameraPtr camera = getUserType_LE3Object<LE3Camera>(idx++);
+    LE3GetScriptSystem().pushNumber(camera->getFov());
     return 1;
 }
 
 static int bnd_LE3Camera_setFov(lua_State* L) {
     int idx = 1;
-    LE3CameraPtr* camera = LE3GetScriptSystem().getUserType<LE3CameraPtr>(idx++);
+    LE3CameraPtr camera = getUserType_LE3Object<LE3Camera>(idx++);
     float fov = LE3GetScriptSystem().getNumber(idx++);
-    (*camera)->setFov(fov);
+    camera->setFov(fov);
     return 0;
 }
 
@@ -32,23 +32,23 @@ int le3::luaopen_LE3Camera(lua_State* L) {
 
 static int bnd_LE3Camera_getOffset(lua_State* L) {
     int idx = 1;
-    LE3OrbitCameraPtr* camera = LE3GetScriptSystem().getUserType<LE3OrbitCameraPtr>(idx++);
-    LE3GetScriptSystem().pushNumber((*camera)->getOffset());
+    LE3OrbitCameraPtr camera = getUserType_LE3Object<LE3OrbitCamera>(idx++);
+    LE3GetScriptSystem().pushNumber((camera)->getOffset());
     return 1;
 }
 
 static int bnd_LE3Camera_setOffset(lua_State* L) {
     int idx = 1;
-    LE3OrbitCameraPtr* camera = LE3GetScriptSystem().getUserType<LE3OrbitCameraPtr>(idx++);
+    LE3OrbitCameraPtr camera = getUserType_LE3Object<LE3OrbitCamera>(idx++);
     float offset = LE3GetScriptSystem().getNumber(idx++);
-    (*camera)->setOffset(offset);
+    (camera)->setOffset(offset);
     return 0;
 }
 
 static int bnd_LE3Camera_getOrigin(lua_State* L) {
     int idx = 1;
-    LE3OrbitCameraPtr* camera = LE3GetScriptSystem().getUserType<LE3OrbitCameraPtr>(idx++);
-    glm::vec3 origin = (*camera)->getOrigin();
+    LE3OrbitCameraPtr camera = getUserType_LE3Object<LE3OrbitCamera>(idx++);
+    glm::vec3 origin = (camera)->getOrigin();
     LE3GetScriptSystem().pushNumber(origin.x);
     LE3GetScriptSystem().pushNumber(origin.y);
     LE3GetScriptSystem().pushNumber(origin.z);
@@ -57,11 +57,11 @@ static int bnd_LE3Camera_getOrigin(lua_State* L) {
 
 static int bnd_LE3Camera_setOrigin(lua_State* L) {
     int idx = 1;
-    LE3OrbitCameraPtr* camera = LE3GetScriptSystem().getUserType<LE3OrbitCameraPtr>(idx++);
+    LE3OrbitCameraPtr camera = getUserType_LE3Object<LE3OrbitCamera>(idx++);
     float x = LE3GetScriptSystem().getNumber(idx++);
     float y = LE3GetScriptSystem().getNumber(idx++);
     float z = LE3GetScriptSystem().getNumber(idx++);
-    (*camera)->setOrigin(glm::vec3(x, y, z));
+    (camera)->setOrigin(glm::vec3(x, y, z));
     return 0;
 }
 
