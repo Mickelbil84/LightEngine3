@@ -51,6 +51,12 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_material.cpp
     src/bindings/le3_binding_static_mesh.cpp
     src/bindings/le3_binding_object.cpp
+    src/bindings/le3_binding_transform.cpp
+    src/bindings/le3_binding_scene_root.cpp
+    src/bindings/le3_binding_model.cpp
+    src/bindings/le3_binding_input.cpp
+    src/bindings/le3_binding_drawable_object.cpp
+    src/bindings/le3_binding_camera.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp

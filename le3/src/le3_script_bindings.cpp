@@ -9,4 +9,12 @@ void le3::bindLE3Types(lua_State* L) {
     luaL_requiref(L, "LE3StaticMesh", le3::luaopen_LE3StaticMesh, 1);
 
     luaL_requiref(L, "LE3Object", le3::luaopen_LE3Object, 1);
+    luaL_requiref(L, "LE3Transform", le3::luaopen_LE3Transform, 1);
+    luaL_requiref(L, "LE3SceneRoot", le3::luaopen_LE3SceneRoot, 1);
+    luaL_requiref(L, "LE3StaticModel", le3::luaopen_LE3StaticModel, 1);
+    luaL_requiref(L, "LE3Input", le3::luaopen_LE3Input, 1);
+    luaL_requiref(L, "LE3DrawableObject", le3::luaopen_LE3DrawableObject, 1);
+    luaL_requiref(L, "LE3Camera", le3::luaopen_LE3Camera, 1);
+    luaL_requiref(L, "LE3OrbitCamera", le3::luaopen_LE3OrbitCamera, 1);
+    luaL_requiref(L, "LE3FreeCamera", le3::luaopen_LE3FreeCamera, 1);
 }

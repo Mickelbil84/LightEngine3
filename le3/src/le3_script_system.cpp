@@ -48,6 +48,6 @@ void LE3ScriptSystem::getGlobal(std::string name) {
 
 void LE3ScriptSystem::callFunction(int numArgs, int numResults) {
     if (lua_pcall(L, numArgs, numResults, 0) != 0) {
-        luaL_error(L, "Error in running function: ...");
+        lua_error(L);
     }
 }
