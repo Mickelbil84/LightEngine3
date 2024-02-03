@@ -20,7 +20,7 @@ public:
 
     void init() {
         LE3GetDatFileSystem().addArchive("demos", "demos.dat");
-        m_scene.init();
+        m_scene.init(m_engineState.getWindowWidth(), m_engineState.getWindowHeight());
         m_scene.load("/demos/scripts/racing_shooter/scene.lua");
         
         m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
@@ -75,6 +75,7 @@ public:
 
     void render() {
         m_scene.draw();
+        m_scene.drawPostProcess();
     }
 
     void handleInput(LE3Input input) {

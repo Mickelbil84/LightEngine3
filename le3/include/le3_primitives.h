@@ -5,6 +5,7 @@
 
 namespace le3 {
     LE3MeshPtr<LE3Vertex3p3c> createHelloOpenGLTriangle();
+    LE3ScreenRectPtr createScreenRect();
     LE3MeshPtr<LE3Vertex> createBox(float x0, float y0, float z0, float width, float height, float depth);
 
     class LE3Box : public LE3StaticModel {

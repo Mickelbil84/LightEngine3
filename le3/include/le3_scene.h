@@ -12,20 +12,24 @@
 #include "le3_draw_queue.h"
 #include "le3_primitives.h"
 #include "le3_scene_root.h"
+#include "le3_framebuffer.h"
 #include "le3_light_manager.h"
 #include "le3_engine_systems.h"
 
 namespace le3 {
     class LE3Scene {
     public:
-        void init();
+        void init(int width, int height);
         void reset();
+
+        void resize(int width, int height);
 
         // Path to Lua file that creates a (global) table "Scene"
         void load(std::string path);
         
         void update(float deltaTime);
-        void draw(LE3ShaderPtr shaderOverride = nullptr);
+        void draw(LE3ShaderPtr shaderOverride = nullptr, LE3FramebufferPtr buffer = nullptr, bool depth = true);
+        void drawPostProcess();
 
         // Shaders
         void addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
@@ -75,6 +79,10 @@ namespace le3 {
         std::map<std::string, LE3ObjectPtr> m_pPrototypes; // Objects that are not present in scene, but can be duplicated
         LE3DrawQueue m_drawQueue;
         LE3LightManager m_lightManager;
+
+        LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer;
+        LE3ShaderPtr m_postProcessShader;
+        int m_width, m_height;
         
         void assertObjectName(std::string name);
         void attachObject(std::string name, LE3ObjectPtr obj, std::string parent);

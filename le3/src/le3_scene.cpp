@@ -5,21 +5,31 @@ using namespace le3;
 #include <sstream>
 #include <stdexcept>
 
+#include <gl/glew.h>
+
 #include <fmt/core.h>
 using fmt::format;
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-void LE3Scene::init() {
+void LE3Scene::init(int width, int height) {
     m_pRoot = std::make_shared<LE3SceneRoot>();
     m_pMainCamera = nullptr;
+    resize(width, height);
+
+
+    // Load post process shader
+    // TODO: move to some engine subsystem
+    std::string vertexShaderSource = readFile("/engine/shaders/postprocess/ppvert.vs");
+    std::string fragmentShaderSource = readFile("/engine/shaders/postprocess/ppbasic.fs");
+    m_postProcessShader = std::make_shared<LE3Shader>(vertexShaderSource, fragmentShaderSource);
 }
 void LE3Scene::reset() {
     m_pShaders.clear();
     m_pObjects.clear();
     m_pPrototypes.clear();
-    init();
+    init(m_width, m_height);
 }
 
 void LE3Scene::load(std::string path) {
@@ -33,10 +43,26 @@ void LE3Scene::load(std::string path) {
     LE3GetScriptSystem().callFunction(2, 0);
 }
 
+
+void LE3Scene::resize(int width, int height)
+{
+    m_width = width; m_height = height;
+    m_rawBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
+    m_postProcessBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
+}
+
+
 void LE3Scene::update(float deltaTime) {
     m_pRoot->update(deltaTime);
 }
-void LE3Scene::draw(LE3ShaderPtr shaderOverride) {
+void LE3Scene::draw(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer, bool depth) {
+    if (buffer == nullptr) buffer = m_rawBuffer;
+    
+    buffer->bind();
+    glClearColor(1.f, 1.f, 1.f, 1.f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    if (depth) glEnable(GL_DEPTH_TEST); else glDisable(GL_DEPTH_TEST);
+
     if (shaderOverride == nullptr) for (auto kv : m_pShaders) {
         applyMainCamera(kv.second);
         m_lightManager.renderLights(kv.second, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
@@ -46,6 +72,19 @@ void LE3Scene::draw(LE3ShaderPtr shaderOverride) {
         m_lightManager.renderLights(shaderOverride, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
     }
     m_drawQueue.draw(shaderOverride);
+}
+
+void LE3Scene::drawPostProcess() {
+    if (!m_postProcessShader) return;
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); 
+    glClear(GL_COLOR_BUFFER_BIT);
+    glDisable(GL_DEPTH_TEST);
+
+    m_postProcessShader->use();
+    m_rawBuffer->useColorTexture();
+    LE3EngineSystems::instance().getScreenRect()->draw();
 }
 
 void LE3Scene::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {

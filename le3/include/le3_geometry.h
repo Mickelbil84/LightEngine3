@@ -82,8 +82,11 @@ namespace le3 {
     using LE3Vertex = LE3Vertex3p2t3n3tn3b;
     using LE3VertexSkeletal = LE3Vertex3p2t3n3tn3b4b4w;
 
+    using LE3ScreenRect = LE3Mesh<LE3Vertex3p>;
     using LE3StaticMesh = LE3Mesh<LE3Vertex>;
     using LE3SkeletalMesh = LE3Mesh<LE3VertexSkeletal>;
+
+    using LE3ScreenRectPtr = std::shared_ptr<LE3ScreenRect>;
     using LE3StaticMeshPtr = std::shared_ptr<LE3StaticMesh>;
     using LE3SkeletalMeshPtr = std::shared_ptr<LE3SkeletalMesh>;
 

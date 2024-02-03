@@ -13,6 +13,19 @@ LE3MeshPtr<LE3Vertex3p3c> le3::createHelloOpenGLTriangle() {
     return std::make_shared<LE3Mesh<LE3Vertex3p3c>>(vertices);
 }
 
+LE3ScreenRectPtr le3::createScreenRect() {
+    std::vector<LE3Vertex3p> vertices(6);
+
+    vertices[0].position[0] = -1.f; vertices[0].position[1] = -1.f; vertices[0].position[2] = 0.f;
+    vertices[1].position[0] =  1.f; vertices[1].position[1] = -1.f; vertices[1].position[2] = 0.f;
+    vertices[2].position[0] =  1.f; vertices[2].position[1] =  1.f; vertices[2].position[2] = 0.f;
+
+    vertices[3].position[0] = -1.f; vertices[3].position[1] = -1.f; vertices[3].position[2] = 0.f;
+    vertices[4].position[0] =  1.f; vertices[4].position[1] =  1.f; vertices[4].position[2] = 0.f;
+    vertices[5].position[0] = -1.f; vertices[5].position[1] =  1.f; vertices[5].position[2] = 0.f;
+    return std::make_shared<LE3Mesh<LE3Vertex3p>>(vertices);
+}
+
 LE3MeshPtr<LE3Vertex> le3::createBox(float x0, float y0, float z0, float width, float height, float depth) {
     float hw = .5f * width;
     float hh = .5f * height;

@@ -20,7 +20,7 @@ public:
     void init() {
         LE3GetDatFileSystem().addArchive("demos", "demos.dat");
 
-        m_scene.init();
+        m_scene.init(m_engineState.getWindowWidth(), m_engineState.getWindowHeight());
 
         /////////////////
 
