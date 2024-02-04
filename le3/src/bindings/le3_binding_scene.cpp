@@ -172,6 +172,22 @@ static int bnd_LE3Scene_getObject(lua_State* L) {
     return 1;
 }
 
+static int bnd_LE3Scene_getBackgroundColor(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    glm::vec3 color = scene->getBackgroundColor();
+    LE3GetScriptSystem().pushNumber(color.x);
+    LE3GetScriptSystem().pushNumber(color.y);
+    LE3GetScriptSystem().pushNumber(color.z);
+    return 3;
+}
+
+static int bnd_LE3Scene_setBackgroundColor(lua_State* L) {
+    int idx = 1;
+    LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
+    
+}
+
 static const luaL_Reg LE3SceneLib[] = {
     {"add_shader", bnd_LE3Scene_addShader},
     {"get_shader", bnd_LE3Scene_getShader},

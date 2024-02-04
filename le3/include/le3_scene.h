@@ -16,6 +16,16 @@
 #include "le3_light_manager.h"
 
 namespace le3 {
+    struct LE3SceneViewport {
+        LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer;
+        LE3ShaderPtr m_postProcessShader;
+        LE3CameraPtr m_pCamera; 
+
+        int m_width, m_height;
+
+        void resize(int width, int height) {} // TODO: ...
+    };
+
     class LE3Scene {
     public:
         void init(int width, int height);
@@ -71,6 +81,10 @@ namespace le3 {
         LE3CameraPtr& getMainCamera() { return m_pMainCamera; }
         void setMainCamera(std::string camera);
 
+        // Misc
+        glm::vec3 getBackgroundColor() const { return m_backgroundColor; }
+        void setBackgroundColor(glm::vec3 backgroundColor) { m_backgroundColor = backgroundColor; }
+
     private:
         std::map<std::string, LE3ShaderPtr> m_pShaders;
         std::map<std::string, LE3MaterialPtr> m_pMaterials;
@@ -83,6 +97,8 @@ namespace le3 {
         std::map<std::string, LE3ObjectPtr> m_pPrototypes; // Objects that are not present in scene, but can be duplicated
         LE3DrawQueue m_drawQueue;
         LE3LightManager m_lightManager;
+
+        glm::vec3 m_backgroundColor = glm::vec3(1.f);
 
         LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer;
         LE3ShaderPtr m_postProcessShader;

@@ -22,8 +22,10 @@ using APtr = std::shared_ptr<A>;
 
 class B : public A {
 public:
-    void foo() { print("(foo) Class B\n"); }
+    void foo() { print("(foo) Class B [{}]\n", this->num); }
     virtual void bar() { print("(bar) Class B\n"); }
+
+    int num = 3;
 };
 using BPtr = std::shared_ptr<B>;
 

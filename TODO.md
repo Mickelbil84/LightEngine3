@@ -1,3 +1,4 @@
+TODO: Return the Lua macros for easier bindings
 TODO: Support multiple viewports (each has its own camera)
 TODO: Shadowmaps
 TODO: Visual Debugs
