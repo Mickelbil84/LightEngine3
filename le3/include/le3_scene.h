@@ -14,7 +14,6 @@
 #include "le3_scene_root.h"
 #include "le3_framebuffer.h"
 #include "le3_light_manager.h"
-#include "le3_engine_systems.h"
 
 namespace le3 {
     class LE3Scene {
@@ -28,8 +27,13 @@ namespace le3 {
         void load(std::string path);
         
         void update(float deltaTime);
-        void draw(LE3ShaderPtr shaderOverride = nullptr, LE3FramebufferPtr buffer = nullptr, bool depth = true);
+        void draw();
+        void drawObjects(LE3ShaderPtr shaderOverride = nullptr, LE3FramebufferPtr buffer = nullptr, bool depth = true);
         void drawPostProcess();
+
+        // Set false if we want to render to the inner postProccess buffer
+        void setRenderDirectly(bool renderDirectly) { m_bRenderDirectly = renderDirectly; }
+        LE3FramebufferPtr getSceneFramebuffer() { return m_postProcessBuffer; } // Applicable only if !m_bRenderDirectly
 
         // Shaders
         void addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
@@ -83,6 +87,7 @@ namespace le3 {
         LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer;
         LE3ShaderPtr m_postProcessShader;
         int m_width, m_height;
+        bool m_bRenderDirectly = true;
         
         void assertObjectName(std::string name);
         void attachObject(std::string name, LE3ObjectPtr obj, std::string parent);

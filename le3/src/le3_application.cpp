@@ -94,7 +94,7 @@ void LE3Application::handleInput() {
     SDL_GetRelativeMouseState(&input.xrel, &input.yrel);
     getKeyboardInput(input);
 
-    if (m_pGameLogic->m_engineState.isFocused())
+    if (m_pGameLogic->m_engineState.isFocused() || m_pGameLogic->m_engineState.getFocusedOverride())
         m_pGameLogic->handleInput(input);
 
     m_lastInput = input;

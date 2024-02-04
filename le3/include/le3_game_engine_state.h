@@ -16,6 +16,8 @@ namespace le3 {
         inline bool isRelativeMouse() const { return m_bReltaiveMouse; }
 
         inline bool isFocused() const { return m_bFocused; } // True only if window is focused (and not on GUI)
+        inline void setFocusedOverride(bool override) { m_bFocusedOverride = override; } // If set to true, ignore window focus and propagate user input
+        inline bool getFocusedOverride() const { return m_bFocusedOverride; }
 
     private:
         float m_elapsedTime = 0.f;
@@ -23,7 +25,7 @@ namespace le3 {
         bool m_bWantsQuit = false;
         bool m_bWantsRelativeMouse = false;
         bool m_bReltaiveMouse = false;
-        bool m_bFocused = true;
+        bool m_bFocused = true, m_bFocusedOverride = false;
 
     public:
         friend class LE3Application;

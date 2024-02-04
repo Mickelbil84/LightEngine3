@@ -7,6 +7,8 @@ using namespace le3;
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "le3_engine_systems.h"
+
 #include <fmt/core.h>
 using fmt::format;
 

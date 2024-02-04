@@ -19,6 +19,11 @@ namespace le3 {
         void useColorTexture();
         void useDepthTexture();
 
+        uint32_t getColorTexture() const { return m_color; }
+
+        inline int getWidth() const { return m_width; }
+        inline int getHeight() const { return m_height; }
+
     protected:
         uint32_t m_fbo = -1;
         uint32_t m_color = -1, m_depthStencil = -1;

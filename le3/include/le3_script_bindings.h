@@ -17,6 +17,8 @@
 #include "le3_scene_root.h"
 #include "le3_drawable_object.h"
 
+#include "le3_engine_systems.h"
+
 
 namespace le3 {
 

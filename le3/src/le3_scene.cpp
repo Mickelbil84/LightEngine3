@@ -13,6 +13,8 @@ using fmt::format;
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+#include "le3_engine_systems.h"
+
 void LE3Scene::init(int width, int height) {
     m_pRoot = std::make_shared<LE3SceneRoot>();
     m_pMainCamera = nullptr;
@@ -49,18 +51,37 @@ void LE3Scene::resize(int width, int height)
     m_width = width; m_height = height;
     m_rawBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_postProcessBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
+    if (m_pMainCamera) {
+        m_pMainCamera->setAspectRatio((float)m_width / (float)m_height);
+    }
 }
 
 
 void LE3Scene::update(float deltaTime) {
     m_pRoot->update(deltaTime);
 }
-void LE3Scene::draw(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer, bool depth) {
+
+void LE3Scene::draw() {
+    // TODO: Draw the scene once for each shadowmap
+    // ...
+
+    // Draw the scene as is
+    drawObjects();
+
+    // Draw once again to the post process buffer
+    drawPostProcess();
+
+    // Revert back to normal drawing
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer, bool depth) {
     if (buffer == nullptr) buffer = m_rawBuffer;
     
     buffer->bind();
     glClearColor(1.f, 1.f, 1.f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    glViewport(0, 0, m_rawBuffer->getWidth(), m_rawBuffer->getHeight());
     if (depth) glEnable(GL_DEPTH_TEST); else glDisable(GL_DEPTH_TEST);
 
     if (shaderOverride == nullptr) for (auto kv : m_pShaders) {
@@ -77,10 +98,12 @@ void LE3Scene::draw(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer, bool 
 void LE3Scene::drawPostProcess() {
     if (!m_postProcessShader) return;
     
-    glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
+    if (m_bRenderDirectly) glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    else m_postProcessBuffer->bind();
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f); 
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
+    glViewport(0, 0, m_postProcessBuffer->getWidth(), m_postProcessBuffer->getHeight());
 
     m_postProcessShader->use();
     m_rawBuffer->useColorTexture();
