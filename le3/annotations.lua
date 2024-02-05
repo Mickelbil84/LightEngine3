@@ -1,5 +1,8 @@
 ---@meta
 
+---@class LE3EngineConfig
+LE3EngineConfig = {}
+
 ---@class LE3Scene
 LE3Scene = {}
 ---@class LE3Shader
@@ -42,6 +45,10 @@ LE3DirectionalLight = {}
 LE3PointLight = {}
 ---@class LE3SpotLight
 LE3SpotLight = {}
+
+-----------------------------------------------------------------
+
+function LE3EngineConfig.set_imgui_style(col_idx, r, g, b, a) end
 
 -----------------------------------------------------------------
 

@@ -2,6 +2,8 @@
 using namespace le3;
 
 void le3::bindLE3Types(lua_State* L) {
+    luaL_requiref(L, "LE3EngineConfig", le3::luaopen_LE3EngineConfig, 1);
+
     luaL_requiref(L, "LE3Scene", le3::luaopen_LE3Scene, 1);
     luaL_requiref(L, "LE3Shader", le3::luaopen_LE3Shader, 1);
     luaL_requiref(L, "LE3Texture", le3::luaopen_LE3Texture, 1);

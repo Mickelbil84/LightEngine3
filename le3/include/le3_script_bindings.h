@@ -28,6 +28,8 @@ namespace le3 {
         return std::dynamic_pointer_cast<T>(*object);
     }
 
+    int luaopen_LE3EngineConfig(lua_State* L);
+
     int luaopen_LE3Scene(lua_State* L);
     int luaopen_LE3Shader(lua_State* L);
     int luaopen_LE3Texture(lua_State* L);

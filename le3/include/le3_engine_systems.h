@@ -16,6 +16,31 @@ namespace le3 {
             return *instance_;
         }
 
+        // Called before initializing any other system (so that we can call bare-bones code)
+        void preload() {
+            // Load engine data, config and scripts
+            g_datFilesystem.addArchive("engine", "engine.dat");
+            std::string dirs[] = {
+                "/engine/config", "/engine/scripts"
+            };
+            for (int i = 0; i < sizeof(dirs) / sizeof(std::string); i++) {
+                for (auto filename : g_datFilesystem.getFilesFromDir(dirs[i])) {
+                    std::string content = g_datFilesystem.getFileContent(filename).toString();
+                    g_scriptSystem.doString(content);
+                }
+            }
+        }
+
+        void init() {
+            // Create a new screen rect
+            g_screenRect = createScreenRect();
+
+            // Once everyhing is loaded, we can apply our configs
+            // (on everything that is done from the Lua script engine)
+            g_scriptSystem.getGlobal("apply_all_configs");
+            g_scriptSystem.callFunction(0, 0);
+        }
+
         inline LE3DatFileSystem& getDatFileSystem() { return g_datFilesystem; }
         inline LE3ScriptSystem& getScriptSystem() { return g_scriptSystem; }
         inline LE3ImGuiUtils& getImGuiUtils() { return g_imGuiUtils; }
@@ -23,15 +48,6 @@ namespace le3 {
 
     private:
         LE3EngineSystems() {
-            // Load engine data and scripts
-            g_datFilesystem.addArchive("engine", "engine.dat");
-            for (auto filename : g_datFilesystem.getFilesFromDir("/engine/scripts")) {
-                std::string content = g_datFilesystem.getFileContent(filename).toString();
-                g_scriptSystem.doString(content);
-            }
-
-            // Create a new screen rect
-            g_screenRect = createScreenRect();
         }
 
         LE3DatFileSystem g_datFilesystem;

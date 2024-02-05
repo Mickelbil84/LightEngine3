@@ -12,6 +12,8 @@ using fmt::format, fmt::print;
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_opengl3.h>
 
+#include "le3_engine_systems.h"
+
 using fmt::format;
 
 
@@ -53,9 +55,11 @@ void LE3Application::run() {
 }
 
 void LE3Application::init() {
+    LE3EngineSystems::instance().preload();
     _initSDL();
     _initOpenGL();
     _initImGui();
+    LE3EngineSystems::instance().init();
     m_pGameLogic->init();
 }
 
@@ -207,6 +211,37 @@ void LE3Application::_initImGui() {
 
     ImGui_ImplSDL2_InitForOpenGL(m_pInternal->m_pWindow.get(), m_pInternal->m_glContext);
     ImGui_ImplOpenGL3_Init();
+    
+    style.Alpha = 1.0;
+    style.DisabledAlpha = 0.6000000238418579;
+    style.WindowPadding = ImVec2(8.0, 8.0);
+    style.WindowRounding = 0.0;
+    style.WindowBorderSize = 1.0;
+    style.WindowMinSize = ImVec2(32.0, 32.0);
+    style.WindowTitleAlign = ImVec2(0.0, 0.5);
+    style.WindowMenuButtonPosition = ImGuiDir_Left;
+    style.ChildRounding = 0.0;
+    style.ChildBorderSize = 1.0;
+    style.PopupRounding = 0.0;
+    style.PopupBorderSize = 1.0;
+    style.FramePadding = ImVec2(4.0, 3.0);
+    style.FrameRounding = 0.0;
+    style.FrameBorderSize = 0.0;
+    style.ItemSpacing = ImVec2(8.0, 4.0);
+    style.ItemInnerSpacing = ImVec2(4.0, 4.0);
+    style.CellPadding = ImVec2(4.0, 2.0);
+    style.IndentSpacing = 21.0;
+    style.ColumnsMinSpacing = 6.0;
+    style.ScrollbarSize = 14.0;
+    style.ScrollbarRounding = 9.0;
+    style.GrabMinSize = 10.0;
+    style.GrabRounding = 0.0;
+    style.TabRounding = 4.0;
+    style.TabBorderSize = 0.0;
+    style.TabMinWidthForCloseButton = 0.0;
+    style.ColorButtonPosition = ImGuiDir_Right;
+    style.ButtonTextAlign = ImVec2(0.5, 0.5);
+    style.SelectableTextAlign = ImVec2(0.0, 0.0);
 }
 
 void LE3Application::_handleNotifys() {
