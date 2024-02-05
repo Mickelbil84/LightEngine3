@@ -33,8 +33,6 @@ LE3PointLight.load = function (scene, tbl, res)
     end
     LE3PointLight.__base.load(scene, tbl, res)
 
-    print("hi")
-
     if (tbl.AttnConst ~= nil) then LE3PointLight.set_attn_const(res, tbl.AttnConst) end
     if (tbl.AttnLinear ~= nil) then LE3PointLight.set_attn_linear(res, tbl.AttnLinear) end
     if (tbl.AttnExp ~= nil) then LE3PointLight.set_attn_exp(res, tbl.AttnExp) end
