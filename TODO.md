@@ -1,3 +1,4 @@
+TODO: LE3Scene - set background color (also from lua, serialization)
 TODO: Return the Lua macros for easier bindings
 TODO: Support multiple viewports (each has its own camera)
 TODO: Shadowmaps
