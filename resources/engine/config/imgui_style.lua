@@ -1,3 +1,4 @@
+-- Taken from: https://github.com/Patitotective/ImThemes
 LightTheme = {
     ImGuiCol_Text = {0.0 / 255.0, 0.0/255.0, 0.0/255.0, 1.0},
     ImGuiCol_TextDisabled = {153.0 / 255.0, 153.0/255.0, 153.0/255.0, 1.0},
@@ -54,6 +55,7 @@ LightTheme = {
     ImGuiCol_ModalWindowDimBg = {51.0 / 255.0, 51.0/255.0, 51.0/255.0, 0.3499999940395355},
 }
 
+-- Taken from: https://github.com/Patitotective/ImThemes
 DraculaTheme = {
     ImGuiCol_Text = {187/255, 187/255, 187/255, 1.0},
     ImGuiCol_TextDisabled = {88/255, 88/255, 88/255, 1.0},
@@ -110,6 +112,7 @@ DraculaTheme = {
     ImGuiCol_ModalWindowDimBg = {204/255, 204/255, 204/255, 0.3499999940395355},
 }
 
+-- Taken from: https://github.com/pthom/hello_imgui/tree/master
 ShadesOfGrayTheme = {
     ImGuiCol_Text = {0.09803921729326248, 0.09803921729326248, 0.09803921729326248, 1.0}, 
     ImGuiCol_TextDisabled = {0.4980392158031464, 0.4980392158031464, 0.4980392158031464, 1.0}, 
@@ -171,6 +174,8 @@ ShadesOfGrayTheme = {
     ImGuiCol_TabUnfocusedActive     = {0.70, 0.80, 0.93, 1.00}, 
 }
 
+
+-- My own (minor, but significant) modification
 GrayscaleLightTheme = {}
 for key, color in pairs(LightTheme) do
     local avg = (color[1] + color[2] + color[3]) / 3.0
