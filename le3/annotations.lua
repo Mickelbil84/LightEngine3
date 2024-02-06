@@ -150,6 +150,9 @@ function LE3Scene.reparent(scene, child, parent) end
 ---@return LE3Object
 function LE3Scene.get_object(scene, name) end
 
+function LE3Scene.get_background_color(scene) end
+function LE3Scene.set_background_color(scene, r, g, b) end
+
 
 -----------------------------------------------------------------
 

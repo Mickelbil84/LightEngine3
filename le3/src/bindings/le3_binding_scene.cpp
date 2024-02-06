@@ -185,7 +185,11 @@ static int bnd_LE3Scene_getBackgroundColor(lua_State* L) {
 static int bnd_LE3Scene_setBackgroundColor(lua_State* L) {
     int idx = 1;
     LE3Scene* scene = LE3GetScriptSystem().getUserType<LE3Scene>(idx++);
-    
+    float r = LE3GetScriptSystem().getNumber(idx++);
+    float g = LE3GetScriptSystem().getNumber(idx++);
+    float b = LE3GetScriptSystem().getNumber(idx++);
+    scene->setBackgroundColor(glm::vec3(r, g, b));
+    return 0;
 }
 
 static const luaL_Reg LE3SceneLib[] = {
@@ -217,6 +221,9 @@ static const luaL_Reg LE3SceneLib[] = {
     {"reparent", bnd_LE3Scene_reparent},
 
     {"get_object", bnd_LE3Scene_getObject},
+
+    {"get_background_color", bnd_LE3Scene_getBackgroundColor},
+    {"set_background_color", bnd_LE3Scene_setBackgroundColor},
 
     {NULL, NULL}
 };

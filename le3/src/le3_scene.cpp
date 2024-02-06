@@ -8,7 +8,7 @@ using namespace le3;
 #include <gl/glew.h>
 
 #include <fmt/core.h>
-using fmt::format;
+using fmt::format, fmt::print;
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -79,8 +79,9 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
     if (buffer == nullptr) buffer = m_rawBuffer;
     
     buffer->bind();
-    glClearColor(1.f, 1.f, 1.f, 1.f);
+    glClearColor(m_backgroundColor.r, m_backgroundColor.g, m_backgroundColor.b, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    print("{} {} {}\n", m_backgroundColor.r, m_backgroundColor.g, m_backgroundColor.b);
     glViewport(0, 0, m_rawBuffer->getWidth(), m_rawBuffer->getHeight());
     if (depth) glEnable(GL_DEPTH_TEST); else glDisable(GL_DEPTH_TEST);
 

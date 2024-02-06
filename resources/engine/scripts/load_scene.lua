@@ -34,7 +34,12 @@ local function load_LE3Scene_objects(scene, scene_data_table)
     end
 end
 
+function load_LE3Scene_settings(scene, settings)
+    if settings.BackgroundColor ~= nil then LE3Scene.set_background_color(scene, table.unpack(settings.BackgroundColor)) end
+end
+
 function load_LE3Scene(scene, scene_data_table)
     load_LE3Scene_assets(scene, scene_data_table)
     load_LE3Scene_objects(scene, scene_data_table)
+    load_LE3Scene_settings(scene, scene_data_table.Settings)
 end

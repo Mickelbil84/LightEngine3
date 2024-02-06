@@ -191,3 +191,8 @@ Scene.ObjectRelations = {
     {"wheel3", "wheelsBack"},
     {"wheel4", "wheelsBack"},
 }
+
+-- Scene settings
+Scene.Settings = {
+    BackgroundColor = {100/255, 149/255, 253/255}
+}
