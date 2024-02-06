@@ -81,7 +81,6 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
     buffer->bind();
     glClearColor(m_backgroundColor.r, m_backgroundColor.g, m_backgroundColor.b, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    print("{} {} {}\n", m_backgroundColor.r, m_backgroundColor.g, m_backgroundColor.b);
     glViewport(0, 0, m_rawBuffer->getWidth(), m_rawBuffer->getHeight());
     if (depth) glEnable(GL_DEPTH_TEST); else glDisable(GL_DEPTH_TEST);
 
