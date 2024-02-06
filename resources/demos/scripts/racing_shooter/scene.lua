@@ -78,14 +78,14 @@ Scene.Objects = {
         Name = "pointLight01",
         -- Position = {-2, 1.1, 0},
         Position = {-1, 1.1, 0},
-        Color = {0, 0.9, 1.0},
-        Intensity = 0.9,
+        Color = {0, 0.9, 0.3},
+        Intensity = 0.3,
     },
     {
         Type = "SpotLight",
         Name = "spotLight01",
         Position = {1.3, 1.1, 0},
-        Color = {0, 0.9, 1.0},
+        Color = {0, 0.9, 0.3},
         Intensity = 0.1,
     },
     {
