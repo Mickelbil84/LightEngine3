@@ -107,7 +107,7 @@ void LE3Scene::drawPostProcess() {
 
     m_postProcessShader->use();
     m_rawBuffer->useColorTexture();
-    LE3EngineSystems::instance().getScreenRect()->draw();
+    LE3GetAssetManager().getScreenRect()->draw();
 }
 
 void LE3Scene::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {

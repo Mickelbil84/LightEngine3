@@ -46,6 +46,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_light_manager.cpp
     src/le3_framebuffer.cpp
     src/le3_imgui_utils.cpp
+    src/le3_asset_manager.cpp
     
     src/le3_script_system.cpp
     src/le3_script_bindings.cpp

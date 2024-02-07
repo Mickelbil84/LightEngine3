@@ -6,6 +6,7 @@
 #include "le3_script_system.h"
 #include "le3_primitives.h"
 #include "le3_imgui_utils.h"
+#include "le3_asset_manager.h"
 
 namespace le3 {
     // Singleton for various (global) engine systems, which are not specific to any scene
@@ -32,8 +33,8 @@ namespace le3 {
         }
 
         void init() {
-            // Create a new screen rect
-            g_screenRect = createScreenRect();
+            // Init the asset manager
+            g_assetManager.init();
 
             // Once everyhing is loaded, we can apply our configs
             // (on everything that is done from the Lua script engine)
@@ -43,9 +44,9 @@ namespace le3 {
 
         inline LE3DatFileSystem& getDatFileSystem() { return g_datFilesystem; }
         inline LE3ScriptSystem& getScriptSystem() { return g_scriptSystem; }
+        inline LE3AssetManager& getAssetManager() { return g_assetManager; }
         inline LE3ImGuiUtils& getImGuiUtils() { return g_imGuiUtils; }
-        inline LE3ScreenRectPtr getScreenRect() { return g_screenRect; }
-
+        
     private:
         LE3EngineSystems() {
         }
@@ -53,10 +54,11 @@ namespace le3 {
         LE3DatFileSystem g_datFilesystem;
         LE3ScriptSystem g_scriptSystem;
         LE3ImGuiUtils g_imGuiUtils;
-        LE3ScreenRectPtr g_screenRect;
+        LE3AssetManager g_assetManager;
     };
 
     #define LE3GetDatFileSystem LE3EngineSystems::instance().getDatFileSystem
     #define LE3GetScriptSystem LE3EngineSystems::instance().getScriptSystem
+    #define LE3GetAssetManager LE3EngineSystems::instance().getAssetManager
     #define LE3GetImGuiUtils LE3EngineSystems::instance().getImGuiUtils
 }
