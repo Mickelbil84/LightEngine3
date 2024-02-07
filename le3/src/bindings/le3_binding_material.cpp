@@ -99,7 +99,8 @@ FEND()
 
 FBIND(LE3Material, set_tiling)
     GET_UDATA(material, LE3MaterialPtr)
-    GET_NUMBER(x) GET_NUMBER(y)
+    GET_NUMBER(x)
+    GET_NUMBER(y)
     (*material)->tilingX = x; (*material)->tilingY = y;
 FEND()
 FBIND(LE3Material, get_tiling)

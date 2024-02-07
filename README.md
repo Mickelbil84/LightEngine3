@@ -67,9 +67,10 @@ NOTE: To ignore glm's CMake warning, you need to edit glmConfig.cmake in glm ins
 * Add `REGISTER(LE3Classname);` in `le3_script_bindings.cpp`
 * Add a new file `src/bindings/le3_binding_XXX.cpp` and implement `LIB(LE3Classname)` (and the binding functions)
 * Add `src/bindings/le3_binding_XXX.cpp` the the le3 `CMakeLists.txt`
-* Add annotations to `annotations.lua` (optional, but useful)
 * If applicable, add serialization code in `resources/engine/scripts/bindings` 
 * Also add the class to `load_scene.lua`)
+
+Annotations are auto-generated during build!
 
 ## Acknowledgments
 

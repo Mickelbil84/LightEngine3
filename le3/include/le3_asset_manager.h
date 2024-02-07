@@ -1,16 +1,55 @@
 #pragma once
 
+#include <map>
+#include <string>
+
 #include "le3_model.h"
+#include "le3_shader.h"
+#include "le3_texture.h"
+#include "le3_geometry.h"
 
 namespace le3 {
+
+    const std::string DEFAULT_SHADER = "S_default";
+    const std::string DEFAULT_POSTPROCESS_SHADER = "S_defaultPostProcess";
+
     class LE3AssetManager {
     public:
         void init();
+
+        // Shaders
+        void addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
+        void addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource);
+        inline LE3ShaderPtr& getShader(std::string name) { return m_pShaders[name]; }
+        inline std::map<std::string, LE3ShaderPtr> getShaders() { return m_pShaders; }
+
+        // Materials
+        void addMaterial(std::string name, std::string shaderName);
+        inline LE3MaterialPtr& getMaterial(std::string name) { return m_pMaterials[name]; }
+
+        // Textures
+        void addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate = true);
+        void addTexture(std::string name, std::string filename, bool interpolate = true);
+        inline LE3TexturePtr& getTexture(std::string name) { return m_pTextures[name]; }
+
+        // Meshes
+        void addStaticMesh(std::string name, std::string filename);
+        inline LE3StaticMeshPtr& getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
 
         inline LE3ScreenRectPtr getScreenRect() { return m_screenRect; }
 
 
     private:
+        // Asset maps
+        std::map<std::string, LE3ShaderPtr> m_pShaders;
+        std::map<std::string, LE3MaterialPtr> m_pMaterials;
+        std::map<std::string, LE3TexturePtr> m_pTextures;
+        std::map<std::string, LE3StaticMeshPtr> m_pStaticMeshes;
+
         LE3ScreenRectPtr m_screenRect = nullptr; // Create this crucial geometry only once
+
+        // Helper methods
+        std::string readFile(std::string filename);
+        LE3StaticMeshPtr loadStaticMesh(std::string filename); // Implemented in `le3_assimp.cpp`
     }; 
 }

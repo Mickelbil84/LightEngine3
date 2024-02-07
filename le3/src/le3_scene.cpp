@@ -10,9 +10,6 @@ using namespace le3;
 #include <fmt/core.h>
 using fmt::format, fmt::print;
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
 #include "le3_engine_systems.h"
 
 void LE3Scene::init(int width, int height) {
@@ -20,17 +17,11 @@ void LE3Scene::init(int width, int height) {
     m_pMainCamera = nullptr;
     resize(width, height);
 
-
     // Load post process shader
-    // TODO: move to some engine subsystem
-    std::string vertexShaderSource = readFile("/engine/shaders/postprocess/ppvert.vs");
-    std::string fragmentShaderSource = readFile("/engine/shaders/postprocess/ppbasic.fs");
-    m_postProcessShader = std::make_shared<LE3Shader>(vertexShaderSource, fragmentShaderSource);
+    m_postProcessShader = LE3GetAssetManager().getShader(DEFAULT_POSTPROCESS_SHADER);
 }
 void LE3Scene::reset() {
-    m_pShaders.clear();
     m_pObjects.clear();
-    m_pPrototypes.clear();
     init(m_width, m_height);
 }
 
@@ -84,7 +75,7 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
     glViewport(0, 0, m_rawBuffer->getWidth(), m_rawBuffer->getHeight());
     if (depth) glEnable(GL_DEPTH_TEST); else glDisable(GL_DEPTH_TEST);
 
-    if (shaderOverride == nullptr) for (auto kv : m_pShaders) {
+    if (shaderOverride == nullptr) for (auto kv : LE3GetAssetManager().getShaders()) {
         applyMainCamera(kv.second);
         m_lightManager.renderLights(kv.second, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
     }
@@ -110,45 +101,6 @@ void LE3Scene::drawPostProcess() {
     LE3GetAssetManager().getScreenRect()->draw();
 }
 
-void LE3Scene::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {
-    std::string vertexShaderSource = readFile(vertexShaderPath);
-    std::string fragmentShaderSource = readFile(fragmentShaderPath);
-    addShaderFromSource(name, vertexShaderSource, fragmentShaderSource);
-}
-void LE3Scene::addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource) {
-    if (m_pShaders.contains(name)) throw std::runtime_error(format("Shader [{}] already exists", name));
-    m_pShaders[name] = std::make_shared<LE3Shader>(vertexShaderSource, fragmentShaderSource);
-}
-
-void LE3Scene::addMaterial(std::string name, std::string shaderName) {
-    if (m_pMaterials.contains(name)) throw std::runtime_error(format("Material [{}] already exists", name));
-    if (!m_pShaders.contains(shaderName)) throw std::runtime_error(format("Cannot create material [{}]: shader [{}] does not exist", name, shaderName));
-    m_pMaterials[name] = std::make_shared<LE3Material>(m_pShaders[shaderName]);
-}
-
-void LE3Scene::addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate) {
-    if (m_pTextures.contains(name)) throw std::runtime_error(format("Texture [{}] already exists", name));
-    m_pTextures[name] = std::make_shared<LE3Texture>(data, width, height, nChannels, interpolate);
-}
-void LE3Scene::addTexture(std::string name, std::string filename, bool interpolate) {
-    int width, height, nChannels;
-    unsigned char* rawData;
-    std::vector<unsigned char> data;
-
-    LE3DatBuffer buffer = LE3GetDatFileSystem().getFileContent(filename);
-    // rawData = stbi_load(filename.c_str(), &width, &height, &nChannels, 0);
-    rawData = stbi_load_from_memory((u_char*)&buffer.data[0], buffer.data.size(), &width, &height, &nChannels, 0);
-    if (!rawData) throw std::runtime_error(format("Could not load texture from path: {}", filename));
-    std::copy(&rawData[0], &rawData[width * height * nChannels - 1], std::back_inserter(data));
-    stbi_image_free(rawData);
-    addTexture(name, data, width, height, nChannels, interpolate);
-}
-
-void LE3Scene::addStaticMesh(std::string name, std::string filename) {
-    if (m_pStaticMeshes.contains(name)) throw std::runtime_error(format("Static mesh [{}] already exists", name));
-    m_pStaticMeshes[name] = loadStaticMesh(filename);
-}
-
 // -----------
 
 void LE3Scene::addEmptyObject(std::string name, std::string parent) {
@@ -160,15 +112,15 @@ void LE3Scene::addEmptyObject(std::string name, std::string parent) {
 
 void LE3Scene::addBox(std::string name, std::string materialName, glm::vec3 position, glm::vec3 extent, std::string parent) {
     assertObjectName(name);
-    LE3BoxPtr obj = std::make_shared<LE3Box>(position.x, position.y, position.z, extent.x, extent.y, extent.z, m_pMaterials[materialName]); // TODO: engine default shader + material
+    LE3BoxPtr obj = std::make_shared<LE3Box>(position.x, position.y, position.z, extent.x, extent.y, extent.z, LE3GetAssetManager().getMaterial(materialName)); // TODO: engine default shader + material
     attachObject(name, obj, parent);
     m_drawQueue.addObject(obj);
 }
 
 void LE3Scene::addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent) {
     assertObjectName(name);
-    LE3StaticMeshPtr mesh = m_pStaticMeshes[meshName];
-    LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, m_pMaterials[materialName]);
+    LE3StaticMeshPtr mesh = LE3GetAssetManager().getStaticMesh(meshName);
+    LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, LE3GetAssetManager().getMaterial(materialName));
     attachObject(name, obj, parent);
     m_drawQueue.addObject(obj);
 }
@@ -214,15 +166,6 @@ void LE3Scene::addSpotLight(std::string name, std::string parent) {
 }
 
 // --------------------------------------------------------------------------------
-
-std::string LE3Scene::readFile(std::string filename) {
-    // std::ifstream ifs(filename);
-    // if (!ifs.good()) throw std::runtime_error(format("Could not open file:\n\t{}\n", filename));
-    // std::stringstream ss;
-    // ss << ifs.rdbuf();
-    // return ss.str();
-    return LE3GetDatFileSystem().getFileContent(filename).toString();
-}
 
 void LE3Scene::assertObjectName(std::string name) { 
     if (name.size() == 0) throw std::runtime_error(format("Empty name is not allowed"));

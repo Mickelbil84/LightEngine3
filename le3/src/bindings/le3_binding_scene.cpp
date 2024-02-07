@@ -2,61 +2,6 @@
 #include "le3_engine_systems.h"
 using namespace le3;
 
-FBIND(LE3Scene, add_shader) 
-    GET_UDATA(scene, LE3Scene)
-    GET_STRING(name)
-    GET_STRING(vertexSource)
-    GET_STRING(fragmentSource)
-    scene->addShaderFromFile(name, vertexSource, fragmentSource);
-FEND()
-FBIND(LE3Scene, get_shader)
-    GET_UDATA(scene, LE3Scene)
-    GET_STRING(name)
-    LE3ShaderPtr& shader = scene->getShader(name);
-    PUSH_UDATA(&shader, LE3ShaderPtr)
-FEND()
-
-FBIND(LE3Scene, add_texture)
-    GET_UDATA(scene, LE3Scene)
-    GET_STRING(name)
-    GET_STRING(filename)
-    GET_BOOL(interpolate)
-    scene->addTexture(name, filename, interpolate);
-FEND()
-FBIND(LE3Scene, get_texture)
-    GET_UDATA(scene, LE3Scene)
-    GET_STRING(name)
-    LE3TexturePtr& texture = scene->getTexture(name);
-    PUSH_UDATA(&texture, LE3TexturePtr)
-FEND()
-
-FBIND(LE3Scene, add_material)
-    GET_UDATA(scene, LE3Scene)
-    GET_STRING(name)
-    GET_STRING(shaderName)
-    scene->addMaterial(name, shaderName);
-FEND()
-FBIND(LE3Scene, get_material)
-    GET_UDATA(scene, LE3Scene)
-    GET_STRING(name)
-    LE3MaterialPtr& texture = scene->getMaterial(name);
-    PUSH_UDATA(&texture, LE3MaterialPtr)
-FEND()
-
-FBIND(LE3Scene, add_static_mesh)
-    GET_UDATA(scene, LE3Scene)
-    GET_STRING(name)
-    GET_STRING(filename)
-    scene->addStaticMesh(name, filename);
-FEND()
-FBIND(LE3Scene, get_static_mesh)
-    GET_UDATA(scene, LE3Scene)
-    GET_STRING(name)
-    LE3StaticMeshPtr& mesh = scene->getStaticMesh(name);
-    PUSH_UDATA(&mesh, LE3StaticMeshPtr)
-FEND()
-
-// --------
 
 FBIND(LE3Scene, add_empty_object)
     GET_UDATA(scene, LE3Scene)
@@ -69,7 +14,9 @@ FBIND(LE3Scene, add_box)
     GET_STRING(name)
     GET_STRING(materialName)
     GET_VEC3(position)
-    GET_NUMBER(extentX) GET_NUMBER(extentY) GET_NUMBER(extentZ)
+    GET_NUMBER(extentX) 
+    GET_NUMBER(extentY) 
+    GET_NUMBER(extentZ)
     glm::vec3 extent(extentX, extentY, extentZ);
     scene->addBox(name, materialName, position, extent);
 FEND()
@@ -147,10 +94,6 @@ FBIND_SETTER_VEC3(LE3Scene, set_background_color, setBackgroundColor)
 // --------
 
 LIB(LE3Scene,
-    add_shader, get_shader,
-    add_texture, get_texture,
-    add_material, get_material,
-    add_static_mesh, get_static_mesh,
     add_empty_object,
     add_box, 
     add_static_model,

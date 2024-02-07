@@ -135,6 +135,7 @@ namespace le3 {
     /////////////////////
 
     LOPEN_DECLARE(LE3EngineConfig);
+    LOPEN_DECLARE(LE3AssetManager);
 
     LOPEN_DECLARE(LE3Scene);
     LOPEN_DECLARE(LE3Shader);

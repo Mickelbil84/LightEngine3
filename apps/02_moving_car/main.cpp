@@ -24,15 +24,15 @@ public:
 
         /////////////////
 
-        m_scene.addShaderFromFile(
+        LE3GetAssetManager().addShaderFromFile(
             "hello_opengl",
             "/demos/shaders/moving_car/moving_car.vs",
             "/demos/shaders/moving_car/moving_car.fs"
         );
-        m_scene.addMaterial("default", "hello_opengl");
+        LE3GetAssetManager().addMaterial("default", "hello_opengl");
 
-        m_scene.addStaticMesh("carBody",  "/demos/models/cars/Car Body.fbx");
-        m_scene.addStaticMesh("carWheel",  "/demos/models/cars/Car Wheel.fbx");
+        LE3GetAssetManager().addStaticMesh("carBody",  "/demos/models/cars/Car Body.fbx");
+        LE3GetAssetManager().addStaticMesh("carWheel",  "/demos/models/cars/Car Wheel.fbx");
 
         /////////////////
 

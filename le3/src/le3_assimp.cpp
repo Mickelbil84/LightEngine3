@@ -21,7 +21,7 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
 // ------------------------------------------------
 
 
-LE3StaticMeshPtr LE3Scene::loadStaticMesh(std::string filename) {
+LE3StaticMeshPtr LE3AssetManager::loadStaticMesh(std::string filename) {
     LE3StaticMeshPtr mesh;
 
     LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(filename);

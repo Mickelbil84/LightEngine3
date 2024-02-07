@@ -1,4 +1,3 @@
-TODO: Decouple asset manager to Engine Systems
 TODO: Decouple scene graph to different struct, hold pointer to it
 TODO: Support multiple viewports (each has its own camera) through inspector scene
 TODO: Shadowmaps
@@ -20,4 +19,3 @@ TODO: Make backups of archive (perhaps engine feature?)
 TODO: LE3DatFileSystem delete files
 TODO: Quiet exception handling
 TODO: Efficient aspect ratio update for cameras
-TODO: Python code to auto-generate bindings

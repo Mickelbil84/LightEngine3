@@ -1,3 +1,3 @@
-LE3StaticMesh.load = function(scene, mesh)
-    LE3Scene.add_static_mesh(scene, mesh.Name, mesh.Path)
+LE3StaticMesh.load = function(mesh)
+    LE3AssetManager.add_static_mesh(mesh.Name, mesh.Path)
 end

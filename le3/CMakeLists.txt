@@ -39,7 +39,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_light.cpp
     src/le3_scene_root.cpp
     src/le3_draw_queue.cpp
-    src/le3_scene_assimp.cpp
+    src/le3_assimp.cpp
     src/le3_texture.cpp
     src/le3_dat_archive.cpp
     src/le3_dat_filesystem.cpp
@@ -65,6 +65,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_primitives.cpp
     src/bindings/le3_binding_light.cpp
     src/bindings/le3_binding_engine_config.cpp
+    src/bindings/le3_binding_asset_manager.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp
@@ -82,6 +83,15 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp ${LUA_LIBRARIES})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+
+# Auto generate lua bindings
+add_custom_target(
+    gen_annotations ALL
+    COMMAND python ${CMAKE_SOURCE_DIR}/tools/gen_annotations/gen_annotations.py ${CMAKE_CURRENT_SOURCE_DIR}/annotations.lua ${CMAKE_CURRENT_SOURCE_DIR}/src/bindings
+    BYPRODUCTS annotations.lua
+    COMMENT "Auto generate lua bindings"
+)
+add_dependencies(${PROJECT_NAME} gen_annotations)
 
 
 #############

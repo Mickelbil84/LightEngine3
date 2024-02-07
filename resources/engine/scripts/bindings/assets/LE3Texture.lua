@@ -1,4 +1,4 @@
-LE3Texture.load = function(scene, texture_table)
+LE3Texture.load = function(texture_table)
     if texture_table.Interpolate == nil then texture_table.Interpolate = true end
-    LE3Scene.add_texture(scene, texture_table.Name, texture_table.Path, texture_table.Interpolate)
+    LE3AssetManager.add_texture(texture_table.Name, texture_table.Path, texture_table.Interpolate)
 end

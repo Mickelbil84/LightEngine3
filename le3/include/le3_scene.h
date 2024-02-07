@@ -45,24 +45,6 @@ namespace le3 {
         void setRenderDirectly(bool renderDirectly) { m_bRenderDirectly = renderDirectly; }
         LE3FramebufferPtr getSceneFramebuffer() { return m_postProcessBuffer; } // Applicable only if !m_bRenderDirectly
 
-        // Shaders
-        void addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
-        void addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource);
-        inline LE3ShaderPtr& getShader(std::string name) { return m_pShaders[name]; }
-
-        // Materials
-        void addMaterial(std::string name, std::string shaderName);
-        inline LE3MaterialPtr& getMaterial(std::string name) { return m_pMaterials[name]; }
-
-        // Textures
-        void addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate = true);
-        void addTexture(std::string name, std::string filename, bool interpolate = true);
-        inline LE3TexturePtr& getTexture(std::string name) { return m_pTextures[name]; }
-
-        // Meshes
-        void addStaticMesh(std::string name, std::string filename);
-        inline LE3StaticMeshPtr& getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
-
         // Object factory
         void addEmptyObject(std::string name, std::string parent = "");
         void addBox(std::string name, std::string materialName, glm::vec3 position = glm::vec3(0.f), glm::vec3 extent = glm::vec3(1.f), std::string parent = "");
@@ -86,15 +68,9 @@ namespace le3 {
         void setBackgroundColor(glm::vec3 backgroundColor) { m_backgroundColor = backgroundColor; }
 
     private:
-        std::map<std::string, LE3ShaderPtr> m_pShaders;
-        std::map<std::string, LE3MaterialPtr> m_pMaterials;
-        std::map<std::string, LE3TexturePtr> m_pTextures;
-        std::map<std::string, LE3StaticMeshPtr> m_pStaticMeshes;
-
         LE3SceneRootPtr m_pRoot; // NOTE: root is not in pObjects
         LE3CameraPtr m_pMainCamera; 
         std::map<std::string, LE3ObjectPtr> m_pObjects;
-        std::map<std::string, LE3ObjectPtr> m_pPrototypes; // Objects that are not present in scene, but can be duplicated
         LE3DrawQueue m_drawQueue;
         LE3LightManager m_lightManager;
 
@@ -110,9 +86,5 @@ namespace le3 {
         void attachCamera(LE3CameraPtr pCamera);
 
         void applyMainCamera(LE3ShaderPtr shader);
-
-        // Helper methods
-        std::string readFile(std::string filename);
-        LE3StaticMeshPtr loadStaticMesh(std::string filename); // Implemented in le3_scene_assimp.cpp
     };
 }

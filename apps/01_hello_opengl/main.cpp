@@ -9,7 +9,7 @@ public:
     void init() {
         LE3GetDatFileSystem().addArchive("demos", "demos.dat");
 
-        m_scene.addShaderFromFile(
+        LE3GetAssetManager().addShaderFromFile(
             "hello_opengl",
             "/demos/shaders/hello_opengl/hello_opengl.vs",
             "/demos/shaders/hello_opengl/hello_opengl.fs"
@@ -21,7 +21,7 @@ public:
         // ImGui::ShowDemoWindow();
     }
     void render() {
-        m_scene.getShader("hello_opengl")->use();
+        LE3GetAssetManager().getShader("hello_opengl")->use();
         m_triangle->draw();
     }
 };
