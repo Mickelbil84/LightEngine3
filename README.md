@@ -63,9 +63,9 @@ NOTE: To ignore glm's CMake warning, you need to edit glmConfig.cmake in glm ins
 
 ### Things to remember when binding LE3 types to Lua
 
-* Declare `luaopen_XXX`` in `le3_script_bindings.h`
-* Add `luaL_requiref(L, XXX, luaopen_XXX, 1);` in `le3_script_bindings.cpp`
-* Add a new file `src/bindings/le3_binding_XXX.cpp` and implement `luaopen_XXX` (and the binding functions)
+* Declare `LOPEN_DECLARE(LE3Classname);`` in `le3_script_bindings.h`
+* Add `REGISTER(LE3Classname);` in `le3_script_bindings.cpp`
+* Add a new file `src/bindings/le3_binding_XXX.cpp` and implement `LIB(LE3Classname)` (and the binding functions)
 * Add `src/bindings/le3_binding_XXX.cpp` the the le3 `CMakeLists.txt`
 * Add annotations to `annotations.lua` (optional, but useful)
 * If applicable, add serialization code in `resources/engine/scripts/bindings` 
