@@ -2,112 +2,121 @@
 #include "le3_engine_systems.h"
 using namespace le3;
 
-static int bnd_LE3Material_setDiffuseColor(lua_State* L) {
-    int idx = 1;
-    LE3MaterialPtr* material = LE3GetScriptSystem().getUserType<LE3MaterialPtr>(idx++);
-    float r = LE3GetScriptSystem().getNumber(idx++);
-    float g = LE3GetScriptSystem().getNumber(idx++);
-    float b = LE3GetScriptSystem().getNumber(idx++);
-    float a = LE3GetScriptSystem().getNumber(idx++);
-    (*material)->diffuseColor = glm::vec4(r, g, b, a);
-    return 0;
-}
 
-static int bnd_LE3Material_setDiffuseTexture(lua_State* L) {
-    int idx = 1;
-    LE3MaterialPtr* material = LE3GetScriptSystem().getUserType<LE3MaterialPtr>(idx++);
-    LE3TexturePtr* texture = LE3GetScriptSystem().getUserType<LE3TexturePtr>(idx++);
+FBIND(LE3Material, set_diffuse_color)
+    GET_UDATA(material, LE3MaterialPtr)
+    GET_VEC4(color)
+    (*material)->diffuseColor = color;
+FEND()
+FBIND(LE3Material, get_diffuse_color)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_VEC4((*material)->diffuseColor)
+FEND()
+
+FBIND(LE3Material, set_diffuse_texture)
+    GET_UDATA(material, LE3MaterialPtr)
+    GET_UDATA(texture, LE3TexturePtr)
     (*material)->diffuseTexture = *texture;
     (*material)->bUseDiffuseTexture = (texture != nullptr);
-    return 0;
-}
+FEND()
+FBIND(LE3Material, get_diffuse_texture)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_UDATA(&((*material)->diffuseTexture), LE3TexturePtr)
+FEND()
 
-static int bnd_LE3Material_setSpecularColor(lua_State* L) {
-    int idx = 1;
-    LE3MaterialPtr* material = LE3GetScriptSystem().getUserType<LE3MaterialPtr>(idx++);
-    float r = LE3GetScriptSystem().getNumber(idx++);
-    float g = LE3GetScriptSystem().getNumber(idx++);
-    float b = LE3GetScriptSystem().getNumber(idx++);
-    float a = LE3GetScriptSystem().getNumber(idx++);
-    (*material)->specularColor = glm::vec4(r, g, b, a);
-    return 0;
-}
 
-static int bnd_LE3Material_setSpecularIntensity(lua_State* L) {
-    int idx = 1;
-    LE3MaterialPtr* material = LE3GetScriptSystem().getUserType<LE3MaterialPtr>(idx++);
-    float val = LE3GetScriptSystem().getNumber(idx++);
+FBIND(LE3Material, set_specular_color)
+    GET_UDATA(material, LE3MaterialPtr)
+    GET_VEC3(color)
+    (*material)->specularColor = color;
+FEND()
+FBIND(LE3Material, get_specular_color)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_VEC3((*material)->specularColor)
+FEND()
+
+FBIND(LE3Material, set_specular_intensity)
+    GET_UDATA(material, LE3MaterialPtr)
+    GET_NUMBER(val)
     (*material)->specularIntensity = val;
-    return 0;
-}
+FEND()
+FBIND(LE3Material, get_specular_intensity)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_NUMBER((*material)->specularIntensity)
+FEND()
 
-static int bnd_LE3Material_setShininess(lua_State* L) {
-    int idx = 1;
-    LE3MaterialPtr* material = LE3GetScriptSystem().getUserType<LE3MaterialPtr>(idx++);
-    float val = LE3GetScriptSystem().getNumber(idx++);
+FBIND(LE3Material, set_shininess)
+    GET_UDATA(material, LE3MaterialPtr)
+    GET_NUMBER(val)
     (*material)->shininess = val;
-    return 0;
-}
+FEND()
+FBIND(LE3Material, get_shininess)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_NUMBER((*material)->shininess)
+FEND()
 
-static int bnd_LE3Material_setSpecularTexture(lua_State* L) {
-    int idx = 1;
-    LE3MaterialPtr* material = LE3GetScriptSystem().getUserType<LE3MaterialPtr>(idx++);
-    LE3TexturePtr* texture = LE3GetScriptSystem().getUserType<LE3TexturePtr>(idx++);
+FBIND(LE3Material, set_specular_texture)
+    GET_UDATA(material, LE3MaterialPtr)
+    GET_UDATA(texture, LE3TexturePtr)
     (*material)->specularTexture = *texture;
-    (*material)->bUseSpecularTexture = (texture == nullptr);
-    return 0;
-}
+    (*material)->bUseSpecularTexture = (texture != nullptr);
+FEND()
+FBIND(LE3Material, get_specular_texture)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_UDATA(&((*material)->specularTexture), LE3TexturePtr)
+FEND()
 
-static int bnd_LE3Material_setNormalTexture(lua_State* L) {
-    int idx = 1;
-    LE3MaterialPtr* material = LE3GetScriptSystem().getUserType<LE3MaterialPtr>(idx++);
-    LE3TexturePtr* texture = LE3GetScriptSystem().getUserType<LE3TexturePtr>(idx++);
+FBIND(LE3Material, set_normal_texture)
+    GET_UDATA(material, LE3MaterialPtr)
+    GET_UDATA(texture, LE3TexturePtr)
     (*material)->normalTexture = *texture;
-    (*material)->bUseNormalTexture = (texture == nullptr);
-    return 0;
-}
+    (*material)->bUseNormalTexture = (texture != nullptr);
+FEND()
+FBIND(LE3Material, get_normal_texture)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_UDATA(&((*material)->normalTexture), LE3TexturePtr)
+FEND()
 
-static int bnd_LE3Material_setCubemap(lua_State* L) {
-    int idx = 1;
-    LE3MaterialPtr* material = LE3GetScriptSystem().getUserType<LE3MaterialPtr>(idx++);
-    LE3TexturePtr* texture = LE3GetScriptSystem().getUserType<LE3TexturePtr>(idx++);
+FBIND(LE3Material, set_cubemap)
+    GET_UDATA(material, LE3MaterialPtr)
+    GET_UDATA(texture, LE3TexturePtr)
     (*material)->cubemap = *texture;
-    return 0;
-}
+FEND()
+FBIND(LE3Material, get_cubemap)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_UDATA(&((*material)->cubemap), LE3TexturePtr)
+FEND()
 
-static int bnd_LE3Material_setReflectionIntensity(lua_State* L) {
-    int idx = 1;
-    LE3MaterialPtr* material = LE3GetScriptSystem().getUserType<LE3MaterialPtr>(idx++);
-    float val = LE3GetScriptSystem().getNumber(idx++);
+FBIND(LE3Material, set_reflection_intensity)
+    GET_UDATA(material, LE3MaterialPtr)
+    GET_NUMBER(val)
     (*material)->reflectionIntensity = val;
-    return 0;
-}
+FEND()
+FBIND(LE3Material, get_reflection_intensity)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_NUMBER((*material)->reflectionIntensity)
+FEND()
 
-static int bnd_LE3Material_setTiling(lua_State* L) {
-    int idx = 1;
-    LE3MaterialPtr* material = LE3GetScriptSystem().getUserType<LE3MaterialPtr>(idx++);
-    float x = LE3GetScriptSystem().getNumber(idx++);
-    float y = LE3GetScriptSystem().getNumber(idx++);
-    (*material)->tilingX = x;
-    (*material)->tilingY = y;
-    return 0;
-}
+FBIND(LE3Material, set_tiling)
+    GET_UDATA(material, LE3MaterialPtr)
+    GET_NUMBER(x) GET_NUMBER(y)
+    (*material)->tilingX = x; (*material)->tilingY = y;
+FEND()
+FBIND(LE3Material, get_tiling)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_NUMBER((*material)->tilingX)
+    PUSH_NUMBER((*material)->tilingY)
+FEND()
 
-static const luaL_Reg LE3MaterialLib[] = {
-    {"set_diffuse_color", bnd_LE3Material_setDiffuseColor},
-    {"set_diffuse_texture", bnd_LE3Material_setDiffuseTexture},
-    {"set_specular_color", bnd_LE3Material_setSpecularColor},
-    {"set_specular_intensity", bnd_LE3Material_setSpecularIntensity},
-    {"set_shininess", bnd_LE3Material_setShininess},
-    {"set_specular_texture", bnd_LE3Material_setSpecularTexture},
-    {"set_normal_texture", bnd_LE3Material_setNormalTexture},
-    {"set_cubemap", bnd_LE3Material_setCubemap},
-    {"set_reflection_intensity", bnd_LE3Material_setReflectionIntensity},
-    {"set_tiling", bnd_LE3Material_setTiling},
-    {NULL, NULL}
-};
-
-int le3::luaopen_LE3Material(lua_State* L) {
-    luaL_newlib(L, LE3MaterialLib);
-    return 1;
-}
+LIB(LE3Material,
+    set_diffuse_color, get_diffuse_color,
+    set_diffuse_texture, get_diffuse_texture,
+    set_specular_color, get_specular_color,
+    set_specular_intensity, get_specular_intensity,
+    set_shininess, get_shininess,
+    set_specular_texture, get_specular_texture,
+    set_normal_texture, get_normal_texture,
+    set_cubemap, get_cubemap,
+    set_reflection_intensity, get_reflection_intensity,
+    set_tiling, get_tiling
+)

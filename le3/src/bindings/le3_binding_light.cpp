@@ -2,51 +2,21 @@
 #include "le3_engine_systems.h"
 using namespace le3;
 
-static int bnd_LE3Light_getColor(lua_State* L) {
-    int idx = 1;
-    LE3LightPtr light = getUserType_LE3Object<LE3Light>(idx++);
-    glm::vec3 color = light->getColor();
-    LE3GetScriptSystem().pushNumber(color.x);
-    LE3GetScriptSystem().pushNumber(color.y);
-    LE3GetScriptSystem().pushNumber(color.z);
-    return 3;
-}
-static int bnd_LE3Light_setColor(lua_State* L) {
-    int idx = 1;
-    LE3LightPtr light = getUserType_LE3Object<LE3Light>(idx++);
-    float x = LE3GetScriptSystem().getNumber(idx++);
-    float y = LE3GetScriptSystem().getNumber(idx++);
-    float z = LE3GetScriptSystem().getNumber(idx++);
-    glm::vec3 color(x, y, z);
-    light->setColor(color);
-    return 0;
-}
-static int bnd_LE3Light_getIntensity(lua_State* L) {
-    int idx = 1;
-    LE3LightPtr light = getUserType_LE3Object<LE3Light>(idx++);
-    LE3GetScriptSystem().pushNumber(light->getIntensity());
-    return 1;
-}
-static int bnd_LE3Light_setIntensity(lua_State* L) {
-    int idx = 1;
-    LE3LightPtr light = getUserType_LE3Object<LE3Light>(idx++);
-    float value = LE3GetScriptSystem().getNumber(idx++);
-    light->setIntensity(value);
-    return 0;
-}
+FBIND_OBJECT_GETTER_VEC3(LE3Light, get_color, getColor)
+FBIND_OBJECT_SETTER_VEC3(LE3Light, set_color, setColor)
+FBIND_OBJECT_GETTER_NUMBER(LE3Light, get_intensity, getIntensity)
+FBIND_OBJECT_SETTER_NUMBER(LE3Light, set_intensity, setIntensity)
 
-static const luaL_Reg LE3LightLib[] = {
-    {"get_color", bnd_LE3Light_getColor},
-    {"set_color", bnd_LE3Light_setColor},
-    {"get_intensity", bnd_LE3Light_getIntensity},
-    {"set_intensity", bnd_LE3Light_setIntensity},
-    {NULL, NULL}
-};
+// LBIND(LE3Light)
+//     LADD(LE3Light, get_color)
+//     LADD(LE3Light, set_color)
+//     LADD(LE3Light, get_intensity)
+//     LADD(LE3Light, set_intensity)
+// LEND()
 
-int le3::luaopen_LE3Light(lua_State* L) {
-    luaL_newlib(L, LE3LightLib);
-    return 1;
-}
+LIB(LE3Light, get_color, set_color, get_intensity, set_intensity)
+
+// LOPEN(LE3Light)
 
 // ----------------------------------------------------------------
 

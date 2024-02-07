@@ -1,4 +1,6 @@
+TODO: Consider LuaBridge?
 TODO: Return the Lua macros for easier bindings
+TODO: Python code to auto-generate bindings
 TODO: Decouple asset manager to Engine Systems
 TODO: Decouple scene graph to different struct, hold pointer to it
 TODO: Support multiple viewports (each has its own camera) through inspector scene

@@ -2,28 +2,35 @@
 using namespace le3;
 
 void le3::bindLE3Types(lua_State* L) {
-    luaL_requiref(L, "LE3EngineConfig", le3::luaopen_LE3EngineConfig, 1);
+    REGISTER(LE3EngineConfig);
 
-    luaL_requiref(L, "LE3Scene", le3::luaopen_LE3Scene, 1);
-    luaL_requiref(L, "LE3Shader", le3::luaopen_LE3Shader, 1);
-    luaL_requiref(L, "LE3Texture", le3::luaopen_LE3Texture, 1);
-    luaL_requiref(L, "LE3Material", le3::luaopen_LE3Material, 1);
-    luaL_requiref(L, "LE3StaticMesh", le3::luaopen_LE3StaticMesh, 1);
+    REGISTER(LE3Scene);
+    REGISTER(LE3Shader);
+    REGISTER(LE3Texture);
+    REGISTER(LE3Material);
+    REGISTER(LE3StaticMesh);
 
-    luaL_requiref(L, "LE3Object", le3::luaopen_LE3Object, 1);
-    luaL_requiref(L, "LE3Transform", le3::luaopen_LE3Transform, 1);
-    luaL_requiref(L, "LE3SceneRoot", le3::luaopen_LE3SceneRoot, 1);
-    luaL_requiref(L, "LE3StaticModel", le3::luaopen_LE3StaticModel, 1);
-    luaL_requiref(L, "LE3Input", le3::luaopen_LE3Input, 1);
-    luaL_requiref(L, "LE3DrawableObject", le3::luaopen_LE3DrawableObject, 1);
-    luaL_requiref(L, "LE3Camera", le3::luaopen_LE3Camera, 1);
-    luaL_requiref(L, "LE3OrbitCamera", le3::luaopen_LE3OrbitCamera, 1);
-    luaL_requiref(L, "LE3FreeCamera", le3::luaopen_LE3FreeCamera, 1);
-    luaL_requiref(L, "LE3Box", le3::luaopen_LE3Box, 1);
+    REGISTER(LE3Object);
+    REGISTER(LE3Transform);
+    REGISTER(LE3SceneRoot);
+    REGISTER(LE3StaticModel);
+    REGISTER(LE3Input);
+    REGISTER(LE3DrawableObject);
+    REGISTER(LE3Camera);
+    REGISTER(LE3OrbitCamera);
+    REGISTER(LE3FreeCamera);
+    REGISTER(LE3Box);
 
-    luaL_requiref(L, "LE3Light", le3::luaopen_LE3Light, 1);
-    luaL_requiref(L, "LE3AmbientLight", le3::luaopen_LE3AmbientLight, 1);
-    luaL_requiref(L, "LE3DirectionalLight", le3::luaopen_LE3DirectionalLight, 1);
-    luaL_requiref(L, "LE3PointLight", le3::luaopen_LE3PointLight, 1);
-    luaL_requiref(L, "LE3SpotLight", le3::luaopen_LE3SpotLight, 1);
+    REGISTER(LE3Light);
+    REGISTER(LE3AmbientLight);
+    REGISTER(LE3DirectionalLight);
+    REGISTER(LE3PointLight);
+    REGISTER(LE3SpotLight);
+
+    // Bind enums
+    // TODO: simpler code for that also
+    SET_GLOBAL_NUMBER(L, "DRAW_PRIORITY_LOW", 0);
+    SET_GLOBAL_NUMBER(L, "DRAW_PRIORITY_MEDIUM", 1);
+    SET_GLOBAL_NUMBER(L, "DRAW_PRIORITY_HIGH", 2);
+    SET_GLOBAL_NUMBER(L, "DRAW_PRIORITY_UI", 3);
 }
