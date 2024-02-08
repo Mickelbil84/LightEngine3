@@ -9,5 +9,6 @@ namespace le3 {
     class LE3ImGuiUtils {
     public:
         void addSceneViewport(std::string title, LE3Scene& scene, LE3GameEngineState& engineState);
+        void addDepthFramebufferViewport(std::string title, LE3FramebufferPtr& buffer);
     };
 }

@@ -12,10 +12,12 @@ class Demo03_RacingShooter : public LE3GameLogic {
 public:
     LE3Scene m_scene, m_inspector;
     glm::vec3 cameraVelocity, cameraRotation;
+    
 
     // Gui panel info
     float orbitOffset = 3.f;
     float carSpeed = .0f;
+    float sun_RPY[3] = {0.f, 0.f, 0.f};
 
 
     float walkSpeed = 2.2f, sensitivity = 0.005f;
@@ -47,6 +49,9 @@ public:
         scene->getMainCamera()->moveUp(deltaTime * walkSpeed * cameraVelocity.z);
 
         std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(orbitOffset);
+
+        // Setup sunlight
+        scene->getObject("sunLight")->getTransform().setRotationRPY(sun_RPY[0], sun_RPY[1], sun_RPY[2]);
 
         // Move car forward
         glm::vec3 carPos = m_scene.getObject("car")->getTransform().getPosition();
@@ -113,7 +118,9 @@ public:
         
         
         LE3GetImGuiUtils().addSceneViewport("Viewport", m_scene, m_engineState);
-        LE3GetImGuiUtils().addSceneViewport("Viewport2", m_inspector, m_engineState);
+        // LE3GetImGuiUtils().addSceneViewport("Viewport2", m_inspector, m_engineState);
+        LE3DirectionalLightPtr sunlight = std::dynamic_pointer_cast<LE3DirectionalLight>(m_scene.getObject("sunLight"));
+        LE3GetImGuiUtils().addDepthFramebufferViewport("Viewport2", sunlight->getShadowMap());
 
         ImGui::Begin("Demo 03: Racing Shooter", nullptr, ImGuiWindowFlags_NoMove);
         if (ImGui::CollapsingHeader("Camera Control", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -132,6 +139,9 @@ public:
         if (ImGui::CollapsingHeader("Camera Control", ImGuiTreeNodeFlags_DefaultOpen)) {
             ImGui::Text("Car Speed:");
             ImGui::SliderFloat("##carSpeed", &carSpeed, 0.f, 3.f);
+        }
+        if (ImGui::CollapsingHeader("Sunlight Control", ImGuiTreeNodeFlags_DefaultOpen)) {
+            ImGui::SliderFloat3("Sunlight Rotation", sun_RPY, -M_PI, M_PI);
         }
         ImGui::End();
     }

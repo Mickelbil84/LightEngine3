@@ -1,3 +1,3 @@
 LE3EngineConfig.Rendering = {
-    ShadowMapResolution = 1024
+    ShadowMapResolution = 2048
 }

@@ -25,6 +25,7 @@ namespace le3 {
         uint32_t getBindIdx() const { return m_bindIdx; }
 
         uint32_t getColorTexture() const { return m_color; }
+        uint32_t getDepthStencilTexture() const { return m_depthStencil; }
 
         inline int getWidth() const { return m_width; }
         inline int getHeight() const { return m_height; }
