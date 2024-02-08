@@ -12,6 +12,7 @@ namespace le3 {
 
     const std::string DEFAULT_SHADER = "S_default";
     const std::string DEFAULT_POSTPROCESS_SHADER = "S_defaultPostProcess";
+    const std::string DEFAULT_SHADOWMAP_SHADER = "S_shadowmap";
 
     class LE3AssetManager {
     public:

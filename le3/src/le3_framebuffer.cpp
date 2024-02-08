@@ -44,14 +44,14 @@ void LE3Framebuffer::bind()
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 }
 
-void LE3Framebuffer::useColorTexture()
+void LE3Framebuffer::useColorTexture(int i)
 {
-    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE0 + i);
     glBindTexture(GL_TEXTURE_2D, m_color);
 }
 
-void LE3Framebuffer::useDepthTexture()
+void LE3Framebuffer::useDepthTexture(int i)
 {
-    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE0 + i);
     glBindTexture(GL_TEXTURE_2D, m_depthStencil);
 }

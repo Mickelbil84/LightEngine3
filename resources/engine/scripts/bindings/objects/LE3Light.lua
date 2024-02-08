@@ -23,6 +23,11 @@ LE3DirectionalLight.load = function (scene, tbl, res)
         res = LE3Scene.get_object(scene, tbl.Name)
     end
     LE3DirectionalLight.__base.load(scene, tbl, res)
+
+    if (tbl.HasShadowMap) then LE3DirectionalLight.add_shadow_map(res, LE3EngineConfig.Rendering.ShadowMapResolution) end
+
+    print(LE3DirectionalLight.get_direction(res))
+    print(LE3Transform.get_rotation(LE3Object.get_transform(res)))
 end
 
 LE3PointLight.__base = LE3Light
@@ -48,4 +53,6 @@ LE3SpotLight.load = function (scene, tbl, res)
 
     if (tbl.Cutoff ~= nil) then LE3SpotLight.set_cutoff(res, tbl.Cutoff) end
     if (tbl.OuterCutoff ~= nil) then LE3SpotLight.set_outer_cutoff(res, tbl.OuterCutoff) end
+
+    if (tbl.HasShadowMap) then LE3SpotLight.add_shadow_map(res, LE3EngineConfig.Rendering.ShadowMapResolution) end
 end

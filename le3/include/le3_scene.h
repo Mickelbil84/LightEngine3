@@ -37,6 +37,7 @@ namespace le3 {
         
         void update(float deltaTime);
         void draw();
+        void drawLights();
         void drawObjects(LE3ShaderPtr shaderOverride = nullptr, LE3FramebufferPtr buffer = nullptr, bool depth = true);
         void drawPostProcess();
 

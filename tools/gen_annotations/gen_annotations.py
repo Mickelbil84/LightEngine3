@@ -71,6 +71,7 @@ def read_getters_setters(lines):
             varname = varname.replace('get_', '').replace('set_', '')
             d = params if 'SETTER' in line else returns
             init_method(klass, func_name)
+            params[func_name].append(("self", klass))
             add_params_or_returns(d, func_name, varname, ttype)
 
 def read_empty_libs(lines):

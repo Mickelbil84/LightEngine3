@@ -81,27 +81,43 @@ function LE3AssetManager.get_static_mesh(name) end
 ---@return LE3Texture
 function LE3AssetManager.get_texture(name) end
 
+---@param self LE3Camera
 ---@return number
-function LE3Camera.get_fov() end
+function LE3Camera.get_fov(self) end
 
+---@param self LE3Camera
 ---@param fov number
-function LE3Camera.set_fov(fov) end
+function LE3Camera.set_fov(self, fov) end
 
+---@param light LE3DirectionalLight
+---@param resolution number
+function LE3DirectionalLight.add_shadow_map(light, resolution) end
+
+---@param self LE3DirectionalLight
 ---@return number
-function LE3DrawableObject.get_draw_priority() end
+---@return number
+---@return number
+function LE3DirectionalLight.get_direction(self) end
 
+---@param self LE3DrawableObject
+---@return number
+function LE3DrawableObject.get_draw_priority(self) end
+
+---@param self LE3DrawableObject
 ---@return boolean
-function LE3DrawableObject.get_hidden() end
+function LE3DrawableObject.get_hidden(self) end
 
 ---@param self LE3DrawableObject
 ---@return LE3Material
 function LE3DrawableObject.get_material(self) end
 
+---@param self LE3DrawableObject
 ---@param draw_priority number
-function LE3DrawableObject.set_draw_priority(draw_priority) end
+function LE3DrawableObject.set_draw_priority(self, draw_priority) end
 
+---@param self LE3DrawableObject
 ---@param hidden boolean
-function LE3DrawableObject.set_hidden(hidden) end
+function LE3DrawableObject.set_hidden(self, hidden) end
 
 ---@param tmp number
 ---@param color_x number
@@ -110,21 +126,25 @@ function LE3DrawableObject.set_hidden(hidden) end
 ---@param color_w number
 function LE3EngineConfig.set_imgui_style(tmp, color_x, color_y, color_z, color_w) end
 
+---@param self LE3Light
 ---@return number
 ---@return number
 ---@return number
-function LE3Light.get_color() end
+function LE3Light.get_color(self) end
 
+---@param self LE3Light
 ---@return number
-function LE3Light.get_intensity() end
+function LE3Light.get_intensity(self) end
 
+---@param self LE3Light
 ---@param color_x number
 ---@param color_y number
 ---@param color_z number
-function LE3Light.set_color(color_x, color_y, color_z) end
+function LE3Light.set_color(self, color_x, color_y, color_z) end
 
+---@param self LE3Light
 ---@param intensity number
-function LE3Light.set_intensity(intensity) end
+function LE3Light.set_intensity(self, intensity) end
 
 ---@param material LE3Material
 ---@return LE3Texture
@@ -222,39 +242,49 @@ function LE3Material.set_tiling(material, x, y) end
 ---@return LE3Transform
 function LE3Object.get_transform(obj) end
 
+---@param self LE3OrbitCamera
 ---@return number
-function LE3OrbitCamera.get_offset() end
+function LE3OrbitCamera.get_offset(self) end
 
+---@param self LE3OrbitCamera
 ---@return number
 ---@return number
 ---@return number
-function LE3OrbitCamera.get_origin() end
+function LE3OrbitCamera.get_origin(self) end
 
+---@param self LE3OrbitCamera
 ---@param offset number
-function LE3OrbitCamera.set_offset(offset) end
+function LE3OrbitCamera.set_offset(self, offset) end
 
+---@param self LE3OrbitCamera
 ---@param origin_x number
 ---@param origin_y number
 ---@param origin_z number
-function LE3OrbitCamera.set_origin(origin_x, origin_y, origin_z) end
+function LE3OrbitCamera.set_origin(self, origin_x, origin_y, origin_z) end
 
+---@param self LE3PointLight
 ---@return number
-function LE3PointLight.get_attn_const() end
+function LE3PointLight.get_attn_const(self) end
 
+---@param self LE3PointLight
 ---@return number
-function LE3PointLight.get_attn_exp() end
+function LE3PointLight.get_attn_exp(self) end
 
+---@param self LE3PointLight
 ---@return number
-function LE3PointLight.get_attn_linear() end
+function LE3PointLight.get_attn_linear(self) end
 
+---@param self LE3PointLight
 ---@param attn_const number
-function LE3PointLight.set_attn_const(attn_const) end
+function LE3PointLight.set_attn_const(self, attn_const) end
 
+---@param self LE3PointLight
 ---@param attn_exp number
-function LE3PointLight.set_attn_exp(attn_exp) end
+function LE3PointLight.set_attn_exp(self, attn_exp) end
 
+---@param self LE3PointLight
 ---@param attn_linear number
-function LE3PointLight.set_attn_linear(attn_linear) end
+function LE3PointLight.set_attn_linear(self, attn_linear) end
 
 ---@param scene LE3Scene
 ---@param name string
@@ -301,10 +331,11 @@ function LE3Scene.add_spot_light(scene, name) end
 ---@param materialName string
 function LE3Scene.add_static_model(scene, name, meshName, materialName) end
 
+---@param self LE3Scene
 ---@return number
 ---@return number
 ---@return number
-function LE3Scene.get_background_color() end
+function LE3Scene.get_background_color(self) end
 
 ---@param scene LE3Scene
 ---@param name string
@@ -316,56 +347,71 @@ function LE3Scene.get_object(scene, name) end
 ---@param parent string
 function LE3Scene.reparent(scene, child, parent) end
 
+---@param self LE3Scene
 ---@param background_color_x number
 ---@param background_color_y number
 ---@param background_color_z number
-function LE3Scene.set_background_color(background_color_x, background_color_y, background_color_z) end
+function LE3Scene.set_background_color(self, background_color_x, background_color_y, background_color_z) end
 
 ---@param scene LE3Scene
 ---@param camera string
 function LE3Scene.set_main_camera(scene, camera) end
 
----@return number
-function LE3SpotLight.get_cutoff() end
+---@param light LE3SpotLight
+---@param resolution number
+function LE3SpotLight.add_shadow_map(light, resolution) end
 
+---@param self LE3SpotLight
 ---@return number
-function LE3SpotLight.get_outer_cutoff() end
+function LE3SpotLight.get_cutoff(self) end
 
+---@param self LE3SpotLight
+---@return number
+function LE3SpotLight.get_outer_cutoff(self) end
+
+---@param self LE3SpotLight
 ---@param cutoff number
-function LE3SpotLight.set_cutoff(cutoff) end
+function LE3SpotLight.set_cutoff(self, cutoff) end
 
+---@param self LE3SpotLight
 ---@param outer_cutoff number
-function LE3SpotLight.set_outer_cutoff(outer_cutoff) end
+function LE3SpotLight.set_outer_cutoff(self, outer_cutoff) end
 
+---@param self LE3Transform
 ---@return number
 ---@return number
 ---@return number
-function LE3Transform.get_position() end
+function LE3Transform.get_position(self) end
 
+---@param self LE3Transform
 ---@return number
 ---@return number
 ---@return number
 ---@return number
-function LE3Transform.get_rotation() end
+function LE3Transform.get_rotation(self) end
 
+---@param self LE3Transform
 ---@return number
 ---@return number
 ---@return number
-function LE3Transform.get_scale() end
+function LE3Transform.get_scale(self) end
 
+---@param self LE3Transform
 ---@param position_x number
 ---@param position_y number
 ---@param position_z number
-function LE3Transform.set_position(position_x, position_y, position_z) end
+function LE3Transform.set_position(self, position_x, position_y, position_z) end
 
+---@param self LE3Transform
 ---@param rotation_w number
 ---@param rotation_x number
 ---@param rotation_y number
 ---@param rotation_z number
-function LE3Transform.set_rotation(rotation_w, rotation_x, rotation_y, rotation_z) end
+function LE3Transform.set_rotation(self, rotation_w, rotation_x, rotation_y, rotation_z) end
 
+---@param self LE3Transform
 ---@param scale_x number
 ---@param scale_y number
 ---@param scale_z number
-function LE3Transform.set_scale(scale_x, scale_y, scale_z) end
+function LE3Transform.set_scale(self, scale_x, scale_y, scale_z) end
 

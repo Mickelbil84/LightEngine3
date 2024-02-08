@@ -16,8 +16,13 @@ namespace le3 {
 
         void bind();
 
-        void useColorTexture();
-        void useDepthTexture();
+        void useColorTexture(int i = 0);
+        void useDepthTexture(int i = 0);
+
+        // This is a helper, useful for shadowmaps
+        // The bindnig index of the buffer textures is done manually anyway
+        void setBindIdx(int idx) { m_bindIdx = idx; }
+        uint32_t getBindIdx() const { return m_bindIdx; }
 
         uint32_t getColorTexture() const { return m_color; }
 
@@ -27,6 +32,7 @@ namespace le3 {
     protected:
         uint32_t m_fbo = -1;
         uint32_t m_color = -1, m_depthStencil = -1;
+        uint32_t m_bindIdx = 0;
 
         int m_width, m_height;
     };

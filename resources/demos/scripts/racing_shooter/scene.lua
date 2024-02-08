@@ -71,7 +71,8 @@ Scene.Objects = {
         Type = "DirectionalLight",
         Name = "sunLight",
         Intensity = 0.5,
-        Rotation = {0.9961947, 0, 0.08715574, 0}
+        Rotation = {-0.9961947, 0, -0.08715574, 0},
+        HasShadowMap = true,
     },
     {
         Type = "PointLight",

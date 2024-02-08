@@ -29,9 +29,14 @@ void LE3LightManager::renderDirectionalLights(LE3ShaderPtr pShader, glm::vec3 ca
     for (int i = 0; i < m_pDirectionalLights.size(); i++)
     {
         if (i >= MAX_DIRECTIONAL_LIGHTS) break;
+        LE3FramebufferPtr shadowMap = m_pDirectionalLights[i]->getShadowMap();
+        if (shadowMap) shadowMap->useDepthTexture(shadowMap->getBindIdx());
         pShader->uniform(format("directionalLights[{}].color", i), m_pDirectionalLights[i]->getColor());
         pShader->uniform(format("directionalLights[{}].intensity", i), m_pDirectionalLights[i]->getIntensity());
         pShader->uniform(format("directionalLights[{}].direction", i), m_pDirectionalLights[i]->getDirection());
+        pShader->uniform(fmt::format("directionalLights[{}].bEnableShadows", i), (GLuint)(shadowMap != nullptr));
+        pShader->uniform(fmt::format("directionalLights[{}].shadowMap", i), shadowMap->getBindIdx());
+        pShader->uniform(fmt::format("dirLightViewMatrix[{}]", i), m_pDirectionalLights[i]->getViewMatrix(cameraPos));
     }
 }
 void LE3LightManager::renderPointLights(LE3ShaderPtr pShader) {

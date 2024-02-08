@@ -59,7 +59,7 @@ void LE3Scene::update(float deltaTime) {
 
 void LE3Scene::draw() {
     // TODO: Draw the scene once for each shadowmap
-    // ...
+    drawLights();
 
     // Draw the scene as is
     drawObjects();
@@ -69,6 +69,22 @@ void LE3Scene::draw() {
 
     // Revert back to normal drawing
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void LE3Scene::drawLights() {
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT); // Solve Peter-Panning
+    GLuint shadowMapIdx = SHADOW_MAP_INDEX;
+    glm::vec3 cameraPos = m_pMainCamera->getWorldMatrix()[3];
+    for (auto light : m_sceneGraph->m_lightManager.getDirectionalLights()) {
+        if (!light->getShadowMap()) continue;
+        LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER)->use();
+        LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER)->uniform("lightMatrix", light->getViewMatrix(cameraPos));
+        drawObjects(LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER), light->getShadowMap(), true);
+        light->getShadowMap()->setBindIdx(shadowMapIdx++);
+    }
+    glCullFace(GL_BACK); 
+    glDisable(GL_CULL_FACE);
 }
 
 void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer, bool depth) {

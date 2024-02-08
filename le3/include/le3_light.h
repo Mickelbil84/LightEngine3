@@ -1,6 +1,7 @@
 #pragma once
 
 #include "le3_object.h"
+#include "le3_framebuffer.h"
 
 namespace le3{
     constexpr int MAX_DIRECTIONAL_LIGHTS = 4;
@@ -9,6 +10,20 @@ namespace le3{
 
     const glm::vec3 DEFAULT_LIGHT_DIRECTION = glm::vec3(0.f, -1.f, 0.f);
 
+    class LE3HasShadows {
+    public:
+        void addShadowMap(int resolution) {
+            shadowMap = std::make_shared<LE3Framebuffer>(resolution, resolution, LE3FramebufferType::LE3_FRAMEBUFFER_DEPTH_STENCIL, true);
+        }
+        void deleteShadowMap() {
+            shadowMap = nullptr;
+        }
+        LE3FramebufferPtr& getShadowMap() { return shadowMap; }
+        
+
+    protected:
+        LE3FramebufferPtr shadowMap = nullptr;
+    };
 
     class LE3Light : public LE3Object {
     public:
@@ -32,10 +47,22 @@ namespace le3{
     };
     using LE3AmbientLightPtr = std::shared_ptr<LE3AmbientLight>;
 
-    class LE3DirectionalLight : public LE3Light {
+    class LE3DirectionalLight : public LE3Light, public LE3HasShadows {
     public:
         LE3DirectionalLight(glm::vec3 color = glm::vec3(1.f), float intensity=0.8f) : LE3Light(color, intensity) {}
         glm::vec3 getDirection() const { return getWorldMatrix() * glm::vec4(DEFAULT_LIGHT_DIRECTION, 0.f); }
+
+        glm::mat4 getViewMatrix(glm::vec3 pos) const {
+            float delta_plane = 20.f;
+            glm::mat4 lightProjection = glm::ortho(
+                pos.x - delta_plane, pos.x + delta_plane, 
+                pos.y - delta_plane, pos.y + delta_plane, 
+                pos.z - 2.f, pos.z + 100.f);
+            // To combat linearly dependant columns in look-at matrix, we add a very small noise to the up vector
+            // glm::mat4 lightView = glm::lookAt(pos, pos + GetDirection(), glm::vec3(0.f, .999f, 0.04471017781f));
+            glm::mat4 lightView = glm::lookAt(-delta_plane * getDirection(), glm::vec3(0.f), glm::vec3(0.f, .999f, 0.04471017781f));
+            return lightProjection * lightView;
+        }
     };
     using LE3DirectionalLightPtr = std::shared_ptr<LE3DirectionalLight>;
 
@@ -61,7 +88,7 @@ namespace le3{
     };
     using LE3PointLightPtr = std::shared_ptr<LE3PointLight>;
 
-    class LE3SpotLight : public LE3Light {
+    class LE3SpotLight : public LE3Light, public LE3HasShadows {
     public:
         LE3SpotLight(glm::vec3 color=glm::vec3(1.f), float intensity=0.8f, float cutoff=0.91f, float outer_cutoff=0.82f) :
             LE3Light(color, intensity), 
