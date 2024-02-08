@@ -28,7 +28,7 @@ public:
         m_scene.resize(1024, 1024);
 
         m_inspector.init_inspector(100, 100, m_scene);
-        m_inspector.setMainCamera("cameraOrbit");
+        m_inspector.setMainCamera("inspector");
         m_inspector.setRenderDirectly(false);
         m_inspector.getMainCamera()->setPitchYaw(-0.35, -0.87);
         

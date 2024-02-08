@@ -111,6 +111,11 @@ Scene.Objects = {
         Offset = 3.0
     },
     {
+        Type = "OrbitCamera",
+        Name = "inspector",
+        Offset = 5.0
+    },
+    {
         Type = "Cube",
         Name = "cube",
         MaterialName = "M_default",

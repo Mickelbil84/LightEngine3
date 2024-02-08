@@ -99,10 +99,15 @@ def gen_method_annotation(method):
     return res
 
 def gen_annotations_content(bindings_dir):
+    global classes, methods
     res = "---@meta\n\n"
 
     for file in os.listdir(bindings_dir):
         parse_binding_file(os.path.join(bindings_dir, file))
+
+    # Make sure everything is ordered
+    classes = sorted(list(classes))
+    methods = sorted(list(methods))
 
     res += gen_class_annotations()
     res += '\n\n--------------------------------------\n\n'
