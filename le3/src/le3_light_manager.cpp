@@ -35,7 +35,7 @@ void LE3LightManager::renderDirectionalLights(LE3ShaderPtr pShader, glm::vec3 ca
         pShader->uniform(format("directionalLights[{}].intensity", i), m_pDirectionalLights[i]->getIntensity());
         pShader->uniform(format("directionalLights[{}].direction", i), m_pDirectionalLights[i]->getDirection());
         pShader->uniform(fmt::format("directionalLights[{}].bEnableShadows", i), (GLuint)(shadowMap != nullptr));
-        pShader->uniform(fmt::format("directionalLights[{}].shadowMap", i), shadowMap->getBindIdx());
+        if (shadowMap) pShader->uniform(fmt::format("directionalLights[{}].shadowMap", i), shadowMap->getBindIdx());
         pShader->uniform(fmt::format("dirLightViewMatrix[{}]", i), m_pDirectionalLights[i]->getViewMatrix(cameraPos));
     }
 }
@@ -64,11 +64,16 @@ void LE3LightManager::renderSpotLights(LE3ShaderPtr pShader) {
     for (int i = 0; i < m_pSpotLights.size(); i++)
     {
         if (i >= MAX_SPOT_LIGHTS) break;
+        LE3FramebufferPtr shadowMap = m_pSpotLights[i]->getShadowMap();
+        if (shadowMap) shadowMap->useDepthTexture(shadowMap->getBindIdx());
         pShader->uniform(format("spotLights[{}].color", i), m_pSpotLights[i]->getColor());
         pShader->uniform(format("spotLights[{}].intensity", i), m_pSpotLights[i]->getIntensity());
         pShader->uniform(format("spotLights[{}].position", i), m_pSpotLights[i]->getPosition());
         pShader->uniform(format("spotLights[{}].direction", i), m_pSpotLights[i]->getDirection());
         pShader->uniform(format("spotLights[{}].cutoff", i), m_pSpotLights[i]->getCutoff());
         pShader->uniform(format("spotLights[{}].outer_cutoff", i), m_pSpotLights[i]->getOuterCutoff());
+        pShader->uniform(fmt::format("spotLights[{}].bEnableShadows", i), (GLuint)(shadowMap != nullptr));
+        if (shadowMap)  pShader->uniform(fmt::format("spotLights[{}].shadowMap", i), shadowMap->getBindIdx());
+        if (shadowMap)  pShader->uniform(fmt::format("spotLightViewMatrix[{}]", i), m_pSpotLights[i]->getViewMatrix());
     }
 }

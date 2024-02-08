@@ -115,12 +115,10 @@ public:
 
         ImGui::End();
 
-        
-        
         LE3GetImGuiUtils().addSceneViewport("Viewport", m_scene, m_engineState);
-        // LE3GetImGuiUtils().addSceneViewport("Viewport2", m_inspector, m_engineState);
-        LE3DirectionalLightPtr sunlight = std::dynamic_pointer_cast<LE3DirectionalLight>(m_scene.getObject("sunLight"));
-        LE3GetImGuiUtils().addDepthFramebufferViewport("Viewport2", sunlight->getShadowMap());
+        LE3GetImGuiUtils().addSceneViewport("Viewport2", m_inspector, m_engineState);
+        // LE3DirectionalLightPtr sunlight = std::dynamic_pointer_cast<LE3DirectionalLight>(m_scene.getObject("sunLight"));
+        // LE3GetImGuiUtils().addDepthFramebufferViewport("Viewport2", sunlight->getShadowMap());
 
         ImGui::Begin("Demo 03: Racing Shooter", nullptr, ImGuiWindowFlags_NoMove);
         if (ImGui::CollapsingHeader("Camera Control", ImGuiTreeNodeFlags_DefaultOpen)) {

@@ -12,6 +12,7 @@ namespace le3 {
         inline void setAmbientLight(LE3AmbientLightPtr ambientLight) { m_pAmbientLight = ambientLight; }
         inline LE3AmbientLightPtr getAmbientLight() { return m_pAmbientLight; }
         inline std::vector<LE3DirectionalLightPtr>& getDirectionalLights() { return m_pDirectionalLights; }
+        inline std::vector<LE3SpotLightPtr>& getSpotLights() { return m_pSpotLights; }
 
         inline void addDirectionalLight(LE3DirectionalLightPtr directionalLight) { m_pDirectionalLights.push_back(directionalLight); }
         inline void addPointLight(LE3PointLightPtr pointLight) { m_pPointLights.push_back(pointLight); }

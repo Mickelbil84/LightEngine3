@@ -103,6 +103,15 @@ namespace le3{
         inline void setCutoff(float cutoff) { this->cutoff = cutoff; }
         inline void setOuterCutoff(float outer_cutoff) {this->outer_cutoff = outer_cutoff; }
 
+        glm::mat4 getViewMatrix() {
+            float delta_plane = 25.f;
+            glm::vec3 pos = getPosition();
+            glm::mat4 lightProjection = glm::perspective(glm::radians(90.f), 1.f, .5f, 40.f);
+            // To combat linearly dependant columns in look-at matrix, we add a very small noise to the up vector
+            glm::mat4 lightView = glm::lookAt(pos, pos + getDirection(), glm::vec3(0.f, .999f, 0.04471017781f));
+            return lightProjection * lightView;
+        }
+
     protected:
         float cutoff, outer_cutoff;
     };

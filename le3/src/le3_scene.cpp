@@ -83,6 +83,13 @@ void LE3Scene::drawLights() {
         drawObjects(LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER), light->getShadowMap(), true, true);
         light->getShadowMap()->setBindIdx(shadowMapIdx++);
     }
+    for (auto light : m_sceneGraph->m_lightManager.getSpotLights()) {
+        if (!light->getShadowMap()) continue;
+        LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER)->use();
+        LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER)->uniform("lightMatrix", light->getViewMatrix());
+        drawObjects(LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER), light->getShadowMap(), true, true);
+        light->getShadowMap()->setBindIdx(shadowMapIdx++);
+    }
     glCullFace(GL_BACK); 
     glDisable(GL_CULL_FACE);
 }

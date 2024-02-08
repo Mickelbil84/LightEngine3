@@ -86,8 +86,11 @@ Scene.Objects = {
         Type = "SpotLight",
         Name = "spotLight01",
         Position = {1.3, 1.1, 0},
-        Color = {0, 0.9, 0.3},
-        Intensity = 0.1,
+        Color = {0.9, 0.9, 0.9},
+        -- Rotation = {-0.9961947, 0, 0.08715574, 0},
+        -- Rotation = {0, 0, 0, 1},
+        Intensity = 0.8,
+        HasShadowMap = true,
     },
     {
         Type = "Empty",
