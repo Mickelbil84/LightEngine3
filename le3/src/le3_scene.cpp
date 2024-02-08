@@ -13,15 +13,20 @@ using fmt::format, fmt::print;
 #include "le3_engine_systems.h"
 
 void LE3Scene::init(int width, int height) {
-    m_pRoot = std::make_shared<LE3SceneRoot>();
+    m_sceneGraph = std::make_shared<LE3SceneGraph>();
+    m_sceneGraph->m_pRoot = std::make_shared<LE3SceneRoot>();
     m_pMainCamera = nullptr;
     resize(width, height);
 
     // Load post process shader
     m_postProcessShader = LE3GetAssetManager().getShader(DEFAULT_POSTPROCESS_SHADER);
 }
+void LE3Scene::init_inspector(int width, int height, LE3Scene& original) {
+    init(width, height);
+    m_sceneGraph = original.m_sceneGraph;
+}
 void LE3Scene::reset() {
-    m_pObjects.clear();
+    m_sceneGraph->m_pObjects.clear();
     init(m_width, m_height);
 }
 
@@ -49,7 +54,7 @@ void LE3Scene::resize(int width, int height)
 
 
 void LE3Scene::update(float deltaTime) {
-    m_pRoot->update(deltaTime);
+    m_sceneGraph->m_pRoot->update(deltaTime);
 }
 
 void LE3Scene::draw() {
@@ -77,13 +82,13 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
 
     if (shaderOverride == nullptr) for (auto kv : LE3GetAssetManager().getShaders()) {
         applyMainCamera(kv.second);
-        m_lightManager.renderLights(kv.second, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
+        m_sceneGraph->m_lightManager.renderLights(kv.second, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
     }
     else { 
         applyMainCamera(shaderOverride);
-        m_lightManager.renderLights(shaderOverride, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
+        m_sceneGraph->m_lightManager.renderLights(shaderOverride, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
     }
-    m_drawQueue.draw(shaderOverride);
+    m_sceneGraph->m_drawQueue.draw(shaderOverride);
 }
 
 void LE3Scene::drawPostProcess() {
@@ -114,7 +119,7 @@ void LE3Scene::addBox(std::string name, std::string materialName, glm::vec3 posi
     assertObjectName(name);
     LE3BoxPtr obj = std::make_shared<LE3Box>(position.x, position.y, position.z, extent.x, extent.y, extent.z, LE3GetAssetManager().getMaterial(materialName)); // TODO: engine default shader + material
     attachObject(name, obj, parent);
-    m_drawQueue.addObject(obj);
+    m_sceneGraph->m_drawQueue.addObject(obj);
 }
 
 void LE3Scene::addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent) {
@@ -122,7 +127,7 @@ void LE3Scene::addStaticModel(std::string name, std::string meshName, std::strin
     LE3StaticMeshPtr mesh = LE3GetAssetManager().getStaticMesh(meshName);
     LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, LE3GetAssetManager().getMaterial(materialName));
     attachObject(name, obj, parent);
-    m_drawQueue.addObject(obj);
+    m_sceneGraph->m_drawQueue.addObject(obj);
 }
 
 
@@ -144,38 +149,38 @@ void LE3Scene::addAmbientLight(std::string name, std::string parent) {
     assertObjectName(name);
     LE3AmbientLightPtr light = std::make_shared<LE3AmbientLight>();
     attachObject(name, light, parent);
-    m_lightManager.setAmbientLight(light);
+    m_sceneGraph->m_lightManager.setAmbientLight(light);
 }
 void LE3Scene::addDirectionalLight(std::string name, std::string parent) {
     assertObjectName(name);
     LE3DirectionalLightPtr light = std::make_shared<LE3DirectionalLight>();
     attachObject(name, light, parent);
-    m_lightManager.addDirectionalLight(light);
+    m_sceneGraph->m_lightManager.addDirectionalLight(light);
 }
 void LE3Scene::addPointLight(std::string name, std::string parent) {
     assertObjectName(name);
     LE3PointLightPtr light = std::make_shared<LE3PointLight>();
     attachObject(name, light, parent);
-    m_lightManager.addPointLight(light);
+    m_sceneGraph->m_lightManager.addPointLight(light);
 }
 void LE3Scene::addSpotLight(std::string name, std::string parent) {
     assertObjectName(name);
     LE3SpotLightPtr light = std::make_shared<LE3SpotLight>();
     attachObject(name, light, parent);
-    m_lightManager.addSpotLight(light);
+    m_sceneGraph->m_lightManager.addSpotLight(light);
 }
 
 // --------------------------------------------------------------------------------
 
 void LE3Scene::assertObjectName(std::string name) { 
     if (name.size() == 0) throw std::runtime_error(format("Empty name is not allowed"));
-    if (m_pObjects.contains(name)) throw std::runtime_error(format("Object '{}' already exists", name));
+    if (m_sceneGraph->m_pObjects.contains(name)) throw std::runtime_error(format("Object '{}' already exists", name));
 }
 
 void LE3Scene::attachObject(std::string name, LE3ObjectPtr obj, std::string parent) {
-    m_pObjects[name] = obj;
-    LE3ObjectPtr pParent = m_pRoot;
-    if (m_pObjects.contains(parent)) pParent = m_pObjects[parent];
+    m_sceneGraph->m_pObjects[name] = obj;
+    LE3ObjectPtr pParent = m_sceneGraph->m_pRoot;
+    if (m_sceneGraph->m_pObjects.contains(parent)) pParent = m_sceneGraph->m_pObjects[parent];
     obj->reparent(pParent);
 }
 
@@ -192,8 +197,8 @@ void LE3Scene::applyMainCamera(LE3ShaderPtr shader) {
 }
 
 void LE3Scene::setMainCamera(std::string camera) {
-    if (!m_pObjects.contains(camera)) throw std::runtime_error(format("Object '{}' does not exist", camera));
-    LE3CameraPtr pCamera = std::dynamic_pointer_cast<LE3Camera>(m_pObjects[camera]);
+    if (!m_sceneGraph->m_pObjects.contains(camera)) throw std::runtime_error(format("Object '{}' does not exist", camera));
+    LE3CameraPtr pCamera = std::dynamic_pointer_cast<LE3Camera>(m_sceneGraph->m_pObjects[camera]);
     if (!pCamera) throw std::runtime_error(format("Object '{}' is not a camera", camera));
 
     if (m_pMainCamera) {

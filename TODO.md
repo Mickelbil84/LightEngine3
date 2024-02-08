@@ -1,5 +1,3 @@
-TODO: Decouple scene graph to different struct, hold pointer to it
-TODO: Support multiple viewports (each has its own camera) through inspector scene
 TODO: Shadowmaps
 TODO: Visual Debugs
 TODO: Skeletal Meshes and Animations 

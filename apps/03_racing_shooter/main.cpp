@@ -10,7 +10,7 @@ using fmt::print, fmt::format;
 
 class Demo03_RacingShooter : public LE3GameLogic {
 public:
-    LE3Scene m_scene;
+    LE3Scene m_scene, m_inspector;
     glm::vec3 cameraVelocity, cameraRotation;
 
     // Gui panel info
@@ -26,6 +26,11 @@ public:
         m_scene.load("/demos/scripts/racing_shooter/scene.lua");
         m_scene.setRenderDirectly(false);
         m_scene.resize(1024, 1024);
+
+        m_inspector.init_inspector(100, 100, m_scene);
+        m_inspector.setMainCamera("cameraOrbit");
+        m_inspector.setRenderDirectly(false);
+        m_inspector.getMainCamera()->setPitchYaw(-0.35, -0.87);
         
         // m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
         m_scene.getMainCamera()->setAspectRatio(1.f);
@@ -34,10 +39,12 @@ public:
         updateGUI();
 
         // Setup FPS camera
-        m_scene.getMainCamera()->addPitchYaw(sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
-        m_scene.getMainCamera()->moveForward(deltaTime * walkSpeed * cameraVelocity.y);
-        m_scene.getMainCamera()->moveRight(deltaTime * walkSpeed * cameraVelocity.x);
-        m_scene.getMainCamera()->moveUp(deltaTime * walkSpeed * cameraVelocity.z);
+        LE3Scene* scene = &m_scene;
+        if (m_engineState.getFocusOverrider() == "Viewport2") scene = &m_inspector;
+        scene->getMainCamera()->addPitchYaw(sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
+        scene->getMainCamera()->moveForward(deltaTime * walkSpeed * cameraVelocity.y);
+        scene->getMainCamera()->moveRight(deltaTime * walkSpeed * cameraVelocity.x);
+        scene->getMainCamera()->moveUp(deltaTime * walkSpeed * cameraVelocity.z);
 
         std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(orbitOffset);
 
@@ -75,12 +82,13 @@ public:
             ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace);
             ImGui::DockBuilderSetNodeSize(dockspace_id, viewport->Size);
             auto dock_id_left = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.8f, nullptr, &dockspace_id);
-            // auto dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.5f, nullptr, &dockspace_id);
-            // auto dock_id_down = ImGui::DockBuilderSplitNode(dock_id_right, ImGuiDir_Down, 0.5f, nullptr, &dock_id_right);
+            // auto dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.5f, nullptr, &dockspace_id);
+            auto dock_id_down = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.5f, nullptr, &dockspace_id);
             
 
             ImGui::DockBuilderDockWindow("Demo 03: Racing Shooter", dockspace_id);
             ImGui::DockBuilderDockWindow("Viewport", dock_id_left);
+            ImGui::DockBuilderDockWindow("Viewport2", dock_id_down);
             ImGui::DockBuilderFinish(dockspace_id);
 
         }
@@ -105,7 +113,7 @@ public:
         
         
         LE3GetImGuiUtils().addSceneViewport("Viewport", m_scene, m_engineState);
-        // LE3GetImGuiUtils().addSceneViewport("Viewport2", m_scene, m_engineState);
+        LE3GetImGuiUtils().addSceneViewport("Viewport2", m_inspector, m_engineState);
 
         ImGui::Begin("Demo 03: Racing Shooter", nullptr, ImGuiWindowFlags_NoMove);
         if (ImGui::CollapsingHeader("Camera Control", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -130,6 +138,7 @@ public:
 
     void render() {
         m_scene.draw();
+        m_inspector.draw();
     }
 
     void handleInput(LE3Input input) {

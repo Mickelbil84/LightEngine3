@@ -27,6 +27,9 @@ namespace le3 {
         void setFov(float fov) { m_fov = fov; }
 
         void addPitchYaw(float pitch, float yaw) { m_pitch += pitch; m_yaw += yaw; }
+        void setPitchYaw(float pitch, float yaw) { m_pitch = pitch; m_yaw = yaw; }
+        float getPitch() const { return m_pitch; }
+        float getYaw() const { return m_yaw; }
 
     protected:
         float m_aspectRatio, m_fov;

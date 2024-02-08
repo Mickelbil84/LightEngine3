@@ -16,19 +16,18 @@
 #include "le3_light_manager.h"
 
 namespace le3 {
-    struct LE3SceneViewport {
-        LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer;
-        LE3ShaderPtr m_postProcessShader;
-        LE3CameraPtr m_pCamera; 
-
-        int m_width, m_height;
-
-        void resize(int width, int height) {} // TODO: ...
+    struct LE3SceneGraph {
+        LE3SceneRootPtr m_pRoot; // NOTE: root is not in pObjects
+        std::map<std::string, LE3ObjectPtr> m_pObjects;
+        LE3DrawQueue m_drawQueue;
+        LE3LightManager m_lightManager;
     };
+    using LE3SceneGraphPtr = std::shared_ptr<LE3SceneGraph>;
 
     class LE3Scene {
     public:
         void init(int width, int height);
+        void init_inspector(int width, int height, LE3Scene& original); // Observe another scene by sharing a scene graph
         void reset();
 
         void resize(int width, int height);
@@ -58,8 +57,8 @@ namespace le3 {
         void addPointLight(std::string name, std::string parent = "");
         void addSpotLight(std::string name, std::string parent = "");
 
-        LE3SceneRootPtr getSceneRoot() const { return m_pRoot; }
-        LE3ObjectPtr& getObject(std::string name) { return m_pObjects[name]; }
+        LE3SceneRootPtr getSceneRoot() const { return m_sceneGraph->m_pRoot; }
+        LE3ObjectPtr& getObject(std::string name) { return m_sceneGraph->m_pObjects[name]; }
         LE3CameraPtr& getMainCamera() { return m_pMainCamera; }
         void setMainCamera(std::string camera);
 
@@ -68,11 +67,7 @@ namespace le3 {
         void setBackgroundColor(glm::vec3 backgroundColor) { m_backgroundColor = backgroundColor; }
 
     private:
-        LE3SceneRootPtr m_pRoot; // NOTE: root is not in pObjects
-        LE3CameraPtr m_pMainCamera; 
-        std::map<std::string, LE3ObjectPtr> m_pObjects;
-        LE3DrawQueue m_drawQueue;
-        LE3LightManager m_lightManager;
+        LE3SceneGraphPtr m_sceneGraph;
 
         glm::vec3 m_backgroundColor = glm::vec3(1.f);
 
@@ -80,6 +75,7 @@ namespace le3 {
         LE3ShaderPtr m_postProcessShader;
         int m_width, m_height;
         bool m_bRenderDirectly = true;
+        LE3CameraPtr m_pMainCamera; 
         
         void assertObjectName(std::string name);
         void attachObject(std::string name, LE3ObjectPtr obj, std::string parent);
