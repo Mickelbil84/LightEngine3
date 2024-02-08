@@ -80,14 +80,14 @@ void LE3Scene::drawLights() {
         if (!light->getShadowMap()) continue;
         LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER)->use();
         LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER)->uniform("lightMatrix", light->getViewMatrix(cameraPos));
-        drawObjects(LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER), light->getShadowMap(), true);
+        drawObjects(LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER), light->getShadowMap(), true, true);
         light->getShadowMap()->setBindIdx(shadowMapIdx++);
     }
     glCullFace(GL_BACK); 
     glDisable(GL_CULL_FACE);
 }
 
-void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer, bool depth) {
+void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer, bool depth, bool shadowPhase) {
     if (buffer == nullptr) buffer = m_rawBuffer;
     
     buffer->bind();
@@ -104,7 +104,7 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
         applyMainCamera(shaderOverride);
         m_sceneGraph->m_lightManager.renderLights(shaderOverride, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
     }
-    m_sceneGraph->m_drawQueue.draw(shaderOverride);
+    m_sceneGraph->m_drawQueue.draw(shaderOverride, shadowPhase);
 }
 
 void LE3Scene::drawPostProcess() {

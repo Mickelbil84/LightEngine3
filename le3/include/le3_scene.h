@@ -38,7 +38,7 @@ namespace le3 {
         void update(float deltaTime);
         void draw();
         void drawLights();
-        void drawObjects(LE3ShaderPtr shaderOverride = nullptr, LE3FramebufferPtr buffer = nullptr, bool depth = true);
+        void drawObjects(LE3ShaderPtr shaderOverride = nullptr, LE3FramebufferPtr buffer = nullptr, bool depth = true, bool shadowPhase = false);
         void drawPostProcess();
 
         // Set false if we want to render to the inner postProccess buffer

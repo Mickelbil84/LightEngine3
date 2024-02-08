@@ -25,9 +25,6 @@ LE3DirectionalLight.load = function (scene, tbl, res)
     LE3DirectionalLight.__base.load(scene, tbl, res)
 
     if (tbl.HasShadowMap) then LE3DirectionalLight.add_shadow_map(res, LE3EngineConfig.Rendering.ShadowMapResolution) end
-
-    print(LE3DirectionalLight.get_direction(res))
-    print(LE3Transform.get_rotation(LE3Object.get_transform(res)))
 end
 
 LE3PointLight.__base = LE3Light

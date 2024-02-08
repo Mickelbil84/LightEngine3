@@ -99,7 +99,8 @@ Scene.Objects = {
         Name = "floor",
         MaterialName = "M_default",
         BoxPosition = {0, -0.1, 0},
-        BoxExtent = {50, 0.1, 50}
+        BoxExtent = {50, 0.1, 50},
+        CastShadow = false
     },
     {
         Type = "FreeCamera",

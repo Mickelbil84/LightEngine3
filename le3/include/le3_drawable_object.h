@@ -18,7 +18,7 @@ namespace le3 {
         LE3DrawableObject(LE3MaterialPtr pMaterial) : 
             m_pMaterial(pMaterial), 
             m_drawPriority(LE3DrawPriority::DRAW_PRIORITY_LOW),
-            m_bHidden(false)
+            m_bHidden(false), m_bCastShadow(true)
         {}
 
         virtual void draw() = 0;
@@ -32,10 +32,13 @@ namespace le3 {
         inline bool isHidden() const { return m_bHidden; }
         inline void setHidden(bool hidden) { m_bHidden = hidden; }
 
+        inline bool getCastShadow() const { return m_bCastShadow; }
+        inline void setCastShadow(bool castShadow) { m_bCastShadow = castShadow; }
+
     protected:
         LE3MaterialPtr m_pMaterial;
         LE3DrawPriority m_drawPriority;
-        bool m_bHidden;
+        bool m_bHidden, m_bCastShadow;
     };
     using LE3DrawableObjectPtr = std::shared_ptr<LE3DrawableObject>;
 }

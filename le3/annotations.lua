@@ -100,6 +100,10 @@ function LE3DirectionalLight.add_shadow_map(light, resolution) end
 function LE3DirectionalLight.get_direction(self) end
 
 ---@param self LE3DrawableObject
+---@return boolean
+function LE3DrawableObject.get_cast_shadow(self) end
+
+---@param self LE3DrawableObject
 ---@return number
 function LE3DrawableObject.get_draw_priority(self) end
 
@@ -110,6 +114,10 @@ function LE3DrawableObject.get_hidden(self) end
 ---@param self LE3DrawableObject
 ---@return LE3Material
 function LE3DrawableObject.get_material(self) end
+
+---@param self LE3DrawableObject
+---@param cast_shadow boolean
+function LE3DrawableObject.set_cast_shadow(self, cast_shadow) end
 
 ---@param self LE3DrawableObject
 ---@param draw_priority number

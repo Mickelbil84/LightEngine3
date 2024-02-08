@@ -9,7 +9,7 @@ LE3DrawQueue::LE3DrawQueue() {
     }
 }
 
-void LE3DrawQueue::draw(LE3ShaderPtr shaderOverride) {
+void LE3DrawQueue::draw(LE3ShaderPtr shaderOverride, bool shadowPhase) {
     if (shaderOverride != nullptr) shaderOverride->use();
     for (
         int priority = LE3DrawPriority::DRAW_PRIORITY_LOW; 
@@ -20,7 +20,7 @@ void LE3DrawQueue::draw(LE3ShaderPtr shaderOverride) {
             for (auto object : kv.second) {
                 if (object.expired()) continue;
                 auto objectPtr = object.lock();
-                if (objectPtr->isHidden()) continue;
+                if (objectPtr->isHidden() || (!objectPtr->getCastShadow() && shadowPhase)) continue;
                 if (shader == nullptr) {
                     shader = objectPtr->getMaterial()->shader;
                     shader->use();

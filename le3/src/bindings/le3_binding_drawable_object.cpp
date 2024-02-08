@@ -15,8 +15,12 @@ FEND()
 FBIND_OBJECT_GETTER_BOOL(LE3DrawableObject, get_hidden, isHidden)
 FBIND_OBJECT_SETTER_BOOL(LE3DrawableObject, set_hidden, setHidden)
 
+FBIND_OBJECT_GETTER_BOOL(LE3DrawableObject, get_cast_shadow, getCastShadow)
+FBIND_OBJECT_SETTER_BOOL(LE3DrawableObject, set_cast_shadow, setCastShadow)
+
 LIB(LE3DrawableObject,
     get_draw_priority, set_draw_priority,
     get_material,
-    get_hidden, set_hidden
+    get_hidden, set_hidden,
+    get_cast_shadow, set_cast_shadow
 )
