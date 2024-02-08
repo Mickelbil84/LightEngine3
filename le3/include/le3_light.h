@@ -53,6 +53,7 @@ namespace le3{
         glm::vec3 getDirection() const { return getWorldMatrix() * glm::vec4(DEFAULT_LIGHT_DIRECTION, 0.f); }
 
         glm::mat4 getViewMatrix(glm::vec3 pos) const {
+            // TODO: decouple this to engine settings
             float delta_plane = 10.f;
             glm::mat4 lightProjection = glm::ortho(
                 pos.x - delta_plane, pos.x + delta_plane, 
@@ -60,7 +61,8 @@ namespace le3{
                 pos.z - 2.f, pos.z + 100.f);
             // To combat linearly dependant columns in look-at matrix, we add a very small noise to the up vector
             // glm::mat4 lightView = glm::lookAt(pos, pos + getDirection(), glm::vec3(0.f, .999f, 0.04471017781f));
-            glm::mat4 lightView = glm::lookAt(-delta_plane * getDirection(), glm::vec3(0.f), glm::vec3(0.f, .999f, 0.04471017781f));
+            // glm::mat4 lightView = glm::lookAt(-delta_plane * getDirection(), glm::vec3(0.f), glm::vec3(0.f, .999f, 0.04471017781f));
+            glm::mat4 lightView = glm::lookAt(pos-delta_plane * getDirection(), pos, glm::vec3(0.f, .999f, 0.04471017781f));
             return lightProjection * lightView;
         }
     };
