@@ -8,6 +8,9 @@ namespace le3 {
     LE3ScreenRectPtr createScreenRect();
     LE3MeshPtr<LE3Vertex> createBox(float x0, float y0, float z0, float width, float height, float depth);
 
+    LE3MeshPtr<LE3Vertex3p> createDebugLine();
+    LE3MeshPtr<LE3Vertex3p> createDebugBox();
+
     class LE3Box : public LE3StaticModel {
     public:
         LE3Box(float x0, float y0, float z0, float width, float height, float depth, LE3MaterialPtr pMaterial) : 

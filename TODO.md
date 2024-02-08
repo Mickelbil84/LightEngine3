@@ -1,5 +1,3 @@
-TODO: Shadowmaps
-TODO: Visual Debugs
 TODO: Skeletal Meshes and Animations 
 TODO: Physics and Collision detection
 TODO: Lua save scene (object -> table)

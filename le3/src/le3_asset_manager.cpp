@@ -12,9 +12,13 @@ using fmt::format;
 
 void LE3AssetManager::init() {
     m_screenRect = createScreenRect();
+    
+    m_debugLine = createDebugLine();
+    m_debugBox = createDebugBox();
 
     addShaderFromFile(DEFAULT_POSTPROCESS_SHADER, "/engine/shaders/postprocess/ppvert.vs", "/engine/shaders/postprocess/ppbasic.fs");
     addShaderFromFile(DEFAULT_SHADOWMAP_SHADER, "/engine/shaders/shadowmap/shadowmap.vs", "/engine/shaders/shadowmap/shadowmap.fs");
+    addShaderFromFile(DEFAULT_DEBUG_SHADER, "/engine/shaders/debug/debug.vs", "/engine/shaders/debug/debug.fs");
 }
 
 void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {

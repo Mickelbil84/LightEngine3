@@ -3,7 +3,7 @@
 namespace le3 {
     // Engine state is updated within the LE3Application
     // Members are specifically private (for LE3GameLogic) as they are read-only.
-    struct LE3GameEngineState {
+    struct LE3EngineState {
     public:
         inline float getElapsedTime() const { return m_elapsedTime; }
 

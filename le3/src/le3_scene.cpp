@@ -58,11 +58,14 @@ void LE3Scene::update(float deltaTime) {
 }
 
 void LE3Scene::draw() {
-    // TODO: Draw the scene once for each shadowmap
+    // Draw the scene once for each shadowmap
     drawLights();
 
     // Draw the scene as is
+    // Also, one of the objects might try to do visual debug, so set the active camera
+    LE3GetVisualDebug().setActiveCamera(m_pMainCamera);
     drawObjects();
+    LE3GetVisualDebug().setActiveCamera(nullptr);
 
     // Draw once again to the post process buffer
     drawPostProcess();

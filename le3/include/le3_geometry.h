@@ -65,6 +65,7 @@ namespace le3 {
 
         void draw() { drawTriangles(); }
         void drawTriangles();
+        void drawLines();
     
     protected:
         uint32_t m_vao = -1, m_vbo = -1, m_ibo = -1, m_count;

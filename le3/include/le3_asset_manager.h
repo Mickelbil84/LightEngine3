@@ -13,6 +13,7 @@ namespace le3 {
     const std::string DEFAULT_SHADER = "S_default";
     const std::string DEFAULT_POSTPROCESS_SHADER = "S_defaultPostProcess";
     const std::string DEFAULT_SHADOWMAP_SHADER = "S_shadowmap";
+    const std::string DEFAULT_DEBUG_SHADER = "S_debug";
 
     class LE3AssetManager {
     public:
@@ -38,6 +39,8 @@ namespace le3 {
         inline LE3StaticMeshPtr& getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
 
         inline LE3ScreenRectPtr getScreenRect() { return m_screenRect; }
+        inline LE3MeshPtr<LE3Vertex3p> getDebugLine() { return m_debugLine; }
+        inline LE3MeshPtr<LE3Vertex3p> getDebugBox() { return m_debugBox; }
 
 
     private:
@@ -48,6 +51,9 @@ namespace le3 {
         std::map<std::string, LE3StaticMeshPtr> m_pStaticMeshes;
 
         LE3ScreenRectPtr m_screenRect = nullptr; // Create this crucial geometry only once
+
+        // Debug meshes
+        LE3MeshPtr<LE3Vertex3p> m_debugLine, m_debugBox;
 
         // Helper methods
         std::string readFile(std::string filename);

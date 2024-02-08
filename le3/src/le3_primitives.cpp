@@ -1,6 +1,34 @@
 #include "le3_primitives.h"
 using namespace le3;
 
+LE3MeshPtr<LE3Vertex3p> le3::createDebugLine() {
+    std::vector<LE3Vertex3p> vertices(2);
+    vertices[0].position[0] = 0.f; vertices[0].position[1] = 0.f; vertices[0].position[2] = 0.f;
+    vertices[1].position[0] = 1.f; vertices[1].position[1] = 1.f; vertices[1].position[2] = 1.f;
+    return std::make_shared<LE3Mesh<LE3Vertex3p>>(vertices);
+}
+LE3MeshPtr<LE3Vertex3p> le3::createDebugBox() {
+    std::vector<LE3Vertex3p> buffer;
+    std::vector<glm::vec3> verts;
+    verts.push_back(glm::vec3(-.5f, .5f, .5f));
+    verts.push_back(glm::vec3(-.5f, .5f, -.5f));
+    verts.push_back(glm::vec3(.5f, .5f, -.5f));
+    verts.push_back(glm::vec3(.5f, .5f, .5f));
+    verts.push_back(glm::vec3(-.5f, -.5f, .5f));
+    verts.push_back(glm::vec3(-.5f, -.5f, -.5f));
+    verts.push_back(glm::vec3(.5f, -.5f, -.5f));
+    verts.push_back(glm::vec3(.5f, -.5f, .5f));
+    char indices[] = {
+        1,2 ,2,3, 3,4, 4,1,
+        5,6, 6,7, 7,8, 8,5,
+        1,5, 2,6, 3,7, 4,8
+    };
+
+    for (int i = 0; i < 24; i++)
+        buffer.push_back(vertexFromGLM(verts[indices[i]-1]));
+    return std::make_shared<LE3Mesh<LE3Vertex3p>>(buffer);
+}
+
 LE3MeshPtr<LE3Vertex3p3c> le3::createHelloOpenGLTriangle() {
     std::vector<LE3Vertex3p3c> vertices(3);
     vertices[0].position[0] = .5f * -1.f; vertices[0].position[1] = .5f * -1.f; vertices[0].position[2] = .5f * 0.f;

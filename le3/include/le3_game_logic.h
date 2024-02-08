@@ -1,7 +1,7 @@
 #pragma once
 
 #include "le3_input.h"
-#include "le3_game_engine_state.h"
+#include "le3_engine_state.h"
 
 namespace le3 {
     ////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@ namespace le3 {
         virtual void shutdown() {}
 
     protected:
-        LE3GameEngineState m_engineState;
+        LE3EngineState m_engineState;
     
     public:
         friend class LE3Application;

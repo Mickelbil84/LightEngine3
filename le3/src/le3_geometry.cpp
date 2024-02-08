@@ -53,6 +53,11 @@ void LE3Mesh<LE3VertexType>::drawTriangles() {
 }
 
 template<typename LE3VertexType>
+void LE3Mesh<LE3VertexType>::drawLines() {
+    draw(GL_LINES);
+}
+
+template<typename LE3VertexType>
 void LE3Mesh<LE3VertexType>::draw(int mode) {
     glBindVertexArray(m_vao);
     if (m_bIndexed) glDrawElements(mode, m_count, GL_UNSIGNED_INT, NULL);

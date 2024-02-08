@@ -3,7 +3,7 @@ using namespace le3;
 
 #include "_imgui.h"
 
-void LE3ImGuiUtils::addSceneViewport(std::string title, LE3Scene& scene, LE3GameEngineState& engineState) {
+void LE3ImGuiUtils::addSceneViewport(std::string title, LE3Scene& scene, LE3EngineState& engineState) {
     ImGui::Begin(title.c_str(), nullptr, ImGuiWindowFlags_NoMove);
             
     // Handle resize
