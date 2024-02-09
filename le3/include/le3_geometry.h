@@ -72,6 +72,7 @@ namespace le3 {
         LE3Skeleton& getSkeleton() { return m_skeleton; }
         void setSkeleton(LE3Skeleton skeleton) { m_skeleton = skeleton; }
         std::map<std::string, LE3AnimationTrack>& getAnimationTracks() { return m_animationTracks; }
+        void addAnimationTrack(std::string name, LE3AnimationTrack track) { m_animationTracks[name] = track; }
     
     protected:
         uint32_t m_vao = -1, m_vbo = -1, m_ibo = -1, m_count;

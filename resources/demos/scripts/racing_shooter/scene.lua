@@ -81,7 +81,21 @@ Scene.StaticMeshes = {
 Scene.SkeletalMeshes = {
     {
         Name = "SK_soldier",
-        Path = "/demos/models/animations/soldier/SK_soldier.fbx"
+        Path = "/demos/models/animations/soldier/SK_soldier.fbx",
+        Animations = {
+            {
+                Name = "ANIM_fire",
+                Path = "/demos/models/animations/soldier/ANIM_soldier_rifle_fire.fbx"
+            },
+            {
+                Name = "ANIM_idle",
+                Path = "/demos/models/animations/soldier/ANIM_soldier_rifle_idle.fbx"
+            },
+            {
+                Name = "ANIM_walk",
+                Path = "/demos/models/animations/soldier/ANIM_soldier_rifle_walk.fbx"
+            }
+        }
     }
 }
 
@@ -217,7 +231,7 @@ Scene.Objects = {
         Name = "soldier",
         MeshName = "SK_soldier",
         MaterialName = "M_soldier",
-        Position = {0, 0, -2},
+        Position = {0, -0.05, -2},
         Scale = {0.01, 0.01, 0.01}
     }
 }

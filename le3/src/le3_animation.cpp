@@ -1,7 +1,7 @@
 #include "le3_animation.h"
 using namespace le3;
 
-LE3AnimationTrack::LE3AnimationTrack(LE3Skeleton& skeleton) : skeleton(skeleton) {
+LE3AnimationTrack::LE3AnimationTrack() {
 }
 
 void LE3AnimationTrack::loadAnimationTrack(const aiScene* scene, unsigned int trackIdx)
@@ -15,7 +15,7 @@ void LE3AnimationTrack::loadAnimationTrack(const aiScene* scene, unsigned int tr
     {
         aiNodeAnim* nodeAnim = animation->mChannels[i];
         std::string boneName = std::string(nodeAnim->mNodeName.C_Str());
-        std::shared_ptr<LE3Bone> bone = this->skeleton.getBone(boneName);
+        std::shared_ptr<LE3Bone> bone = this->skeleton->getBone(boneName);
         if (!bone) continue;
 
         for (int j = 0; j < nodeAnim->mNumPositionKeys; ++j)
@@ -55,7 +55,7 @@ void LE3AnimationTrack::updateBoneMatrices(float animationTime)
 {
     boneMatrices.clear();
     // Set the local keyframe matrices
-    for (auto bone : skeleton.m_bones)
+    for (auto bone : skeleton->m_bones)
     {
         if (!positionKeyframes[bone].size() || !rotationKeyframes[bone].size() || !scaleKeyframes[bone].size())
         {
@@ -69,7 +69,7 @@ void LE3AnimationTrack::updateBoneMatrices(float animationTime)
     }
 
     // Get the bone matrices
-    for (auto bone : skeleton.m_bones)
+    for (auto bone : skeleton->m_bones)
         boneMatrices.push_back(bone->getTransform() * bone->offset);
 }
 

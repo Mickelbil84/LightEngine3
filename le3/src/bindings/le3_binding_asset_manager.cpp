@@ -59,11 +59,17 @@ FBIND(LE3AssetManager, get_skeletal_mesh)
     LE3SkeletalMeshPtr& mesh = LE3GetAssetManager().getSkeletalMesh(name);
     PUSH_UDATA(&mesh, LE3SkeletalMeshPtr)
 FEND()
+FBIND(LE3AssetManager, add_skeletal_animation)
+    GET_STRING(name)
+    GET_STRING(animationPath)
+    GET_STRING(meshName)
+    LE3GetAssetManager().addSkeletalAnimation(name, animationPath, meshName);
+FEND()
 
 LIB(LE3AssetManager,
     add_shader, get_shader,
     add_texture, get_texture,
     add_material, get_material,
     add_static_mesh, get_static_mesh,
-    add_skeletal_mesh, get_skeletal_mesh
+    add_skeletal_mesh, get_skeletal_mesh, add_skeletal_animation
 )

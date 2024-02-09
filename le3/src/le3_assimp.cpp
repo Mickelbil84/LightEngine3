@@ -82,8 +82,8 @@ LE3SkeletalMeshPtr LE3AssetManager::loadSkeletalMesh(std::string meshPath)
     AssimpGetNodeVector(scene->mRootNode, nodes);
     AssimpSkeletonHierarchy(skeleton, nodes);
 
-    _DBG_SkeletalPrint(skeleton);
-    _DBG_aiScenePrint(scene);
+    // _DBG_SkeletalPrint(skeleton);
+    // _DBG_aiScenePrint(scene);
 
     LE3SkeletalMeshPtr mesh = std::make_shared<LE3SkeletalMesh>(buffer, indices);
     mesh->setSkeleton(skeleton);
@@ -248,7 +248,6 @@ void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes)
     }
 }
 
-
 void _DBG_SkeletalPrint(LE3Skeleton& skeleton)
 {
     print("m_globalInverseTransform:\n");
@@ -281,6 +280,28 @@ void _DBG_aiScenePrint(const aiScene* scene)
     print("\tNum Position Keys = {}\n", nodeAnim->mNumPositionKeys);
     print("\tNum Rotation Keys = {}\n", nodeAnim->mNumRotationKeys);
     print("\tNum Scale Keys = {}\n", nodeAnim->mNumScalingKeys);
+}
+
+void LE3AssetManager::addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName) {
+    LE3SkeletalMeshPtr mesh = getSkeletalMesh(meshName);
+
+    Assimp::Importer importer;
+    LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(animationPath);
+    const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 
+        aiProcess_FlipUVs |
+        aiProcess_Triangulate | 
+        aiProcess_CalcTangentSpace
+    );
+    if (!scene) throw std::runtime_error(format("Could not load animation: {}", animationPath));
+
+    // Load Animations (currently only the first one)
+    for (int i = 0; i < scene->mNumAnimations; ++i) {
+        LE3AnimationTrack animTrack;
+        animTrack.skeleton = &mesh->getSkeleton();
+        animTrack.loadAnimationTrack(scene, i);
+        mesh->addAnimationTrack(name, animTrack);
+        break;
+    }
 }
 
 // void LE3AssetManager::AddAnimationPath(std::string name, std::string animationPath, std::string skeletalMeshName)

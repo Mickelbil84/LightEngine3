@@ -36,13 +36,13 @@ namespace le3 {
 
     struct LE3AnimationTrack {
     public:
-        LE3AnimationTrack(LE3Skeleton& skeleton);
+        LE3AnimationTrack();
 
         std::string name;
         float duration;
         int ticksPerSecond;
 
-        LE3Skeleton& skeleton;
+        LE3Skeleton* skeleton;
         std::map<LE3BonePtr, std::vector<LE3PositionKeyframe>> positionKeyframes;
         std::map<LE3BonePtr, std::vector<LE3RotationKeyframe>> rotationKeyframes;
         std::map<LE3BonePtr, std::vector<LE3ScaleKeyframe>> scaleKeyframes;

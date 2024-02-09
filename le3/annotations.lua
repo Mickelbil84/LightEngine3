@@ -61,6 +61,11 @@ function LE3AssetManager.add_material(name, shaderName) end
 function LE3AssetManager.add_shader(name, vertexSource, fragmentSource) end
 
 ---@param name string
+---@param animationPath string
+---@param meshName string
+function LE3AssetManager.add_skeletal_animation(name, animationPath, meshName) end
+
+---@param name string
 ---@param filename string
 function LE3AssetManager.add_skeletal_mesh(name, filename) end
 

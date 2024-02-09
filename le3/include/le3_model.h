@@ -15,7 +15,8 @@ namespace le3 {
     public:
         LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial);
 
-        virtual void draw();
+        virtual void update(float deltaTime);
+        virtual void draw(LE3ShaderPtr shaderOverride = nullptr);
 
         LE3MeshPtr<LE3VertexType> getMesh() { return m_pMesh; }
 
@@ -23,7 +24,10 @@ namespace le3 {
 
     protected:
         LE3MeshPtr<LE3VertexType> m_pMesh;
-        std::string m_currentAnimation; // If skeletal
+
+        // If skeletal
+        std::string m_currentAnimation; 
+        float m_animationTime = 0.f;
     };
 
     using LE3StaticModel =LE3Model<LE3Vertex>;

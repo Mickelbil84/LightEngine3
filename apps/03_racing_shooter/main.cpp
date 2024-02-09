@@ -36,6 +36,11 @@ public:
         
         // m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
         m_scene.getMainCamera()->setAspectRatio(1.f);
+
+
+        // Setup initial animation demo
+        LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(m_scene.getObject("soldier"));
+        soldier->setCurrentAnimation("ANIM_idle");
     }
     void update(float deltaTime) {
         updateGUI();
@@ -141,6 +146,31 @@ public:
         if (ImGui::CollapsingHeader("Sunlight Control", ImGuiTreeNodeFlags_DefaultOpen)) {
             ImGui::SliderFloat3("Sunlight Rotation", sun_RPY, -M_PI, M_PI);
         }
+        if (ImGui::CollapsingHeader("Animation Control", ImGuiTreeNodeFlags_DefaultOpen)) {
+            const char* items[] = { "ANIM_idle", "ANIM_walk", "ANIM_fire" };
+            static int item_current_idx = 0; // Here we store our selection data as an index.
+            int last_selected = item_current_idx;
+            const char* combo_preview_value = items[item_current_idx];  // Pass in the preview value visible before opening the combo (it could be anything)
+            if (ImGui::BeginCombo("Soldier Animation", combo_preview_value, 0))
+            {
+                for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+                {
+                    const bool is_selected = (item_current_idx == n);
+                    if (ImGui::Selectable(items[n], is_selected))
+                        item_current_idx = n;
+
+                    // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                    if (is_selected)
+                        ImGui::SetItemDefaultFocus();
+                }
+                ImGui::EndCombo();
+            }
+            if (last_selected != item_current_idx) {
+                LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(m_scene.getObject("soldier"));
+                soldier->setCurrentAnimation(items[item_current_idx]);
+            }
+        }
+
         ImGui::End();
     }
 

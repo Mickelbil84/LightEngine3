@@ -66,10 +66,6 @@ void LE3AssetManager::addSkeletalMesh(std::string name, std::string filename) {
     m_pSkeletalMeshes[name] = loadSkeletalMesh(filename);
 }
 
-void LE3AssetManager::addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName) {
-    
-}
-
 
 
 std::string LE3AssetManager::readFile(std::string filename) {

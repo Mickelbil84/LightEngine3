@@ -40,7 +40,7 @@ namespace le3 {
 
         void addSkeletalMesh(std::string name, std::string filename);
         inline LE3SkeletalMeshPtr& getSkeletalMesh(std::string name) { return m_pSkeletalMeshes[name]; }
-        void addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName);
+        void addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName); // Implemented in `le3_assimp.cpp`
 
         inline LE3ScreenRectPtr getScreenRect() { return m_screenRect; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugLine() { return m_debugLine; }

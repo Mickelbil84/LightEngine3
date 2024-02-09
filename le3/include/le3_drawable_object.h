@@ -21,7 +21,7 @@ namespace le3 {
             m_bHidden(false), m_bCastShadow(true)
         {}
 
-        virtual void draw() = 0;
+        virtual void draw(LE3ShaderPtr shaderOverride) = 0;
 
         inline LE3DrawPriority getDrawPriority() const { return m_drawPriority; }
         inline void setDrawPriority(LE3DrawPriority drawPriority) { m_drawPriority = drawPriority; }

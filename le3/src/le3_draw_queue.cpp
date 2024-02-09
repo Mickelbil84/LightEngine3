@@ -26,7 +26,7 @@ void LE3DrawQueue::draw(LE3ShaderPtr shaderOverride, bool shadowPhase) {
                     shader->use();
                 }
                 shader->uniform("model", objectPtr->getWorldMatrix());
-                objectPtr->draw();
+                objectPtr->draw(shaderOverride);
             }
         }
     }
