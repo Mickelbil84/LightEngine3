@@ -46,6 +46,7 @@ namespace le3 {
     #define GET_UDATA(varname, type) type* varname = (type*)(LE3GetScriptSystem().getUserType<type>(idx++));
     #define GET_UDATA_OBJECT(varname, type) std::shared_ptr<type> varname = le3::getUserType_LE3Object<type>(idx++);
     #define GET_VEC3(varname) GET_NUMBER(x) GET_NUMBER(y) GET_NUMBER(z) glm::vec3 varname(x, y, z);
+    #define GET_VEC3_(varname) GET_NUMBER(varname##x) GET_NUMBER(varname##y) GET_NUMBER(varname##z) glm::vec3 varname(varname##x, varname##y, varname##z);
     #define GET_VEC4(varname) GET_NUMBER(x) GET_NUMBER(y) GET_NUMBER(z) GET_NUMBER(w) glm::vec4 varname(x, y, z, w);
     #define GET_QUAT(varname) GET_NUMBER(w) GET_NUMBER(x) GET_NUMBER(y) GET_NUMBER(z)  glm::quat varname(w, x, y, z);
 
@@ -137,6 +138,7 @@ namespace le3 {
 
     LOPEN_DECLARE(LE3EngineConfig);
     LOPEN_DECLARE(LE3AssetManager);
+    LOPEN_DECLARE(LE3VisualDebug);
 
     LOPEN_DECLARE(LE3Scene);
     LOPEN_DECLARE(LE3Shader);

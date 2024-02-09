@@ -71,6 +71,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_engine_config.cpp
     src/bindings/le3_binding_asset_manager.cpp
     src/bindings/le3_binding_script_object.cpp
+    src/bindings/le3_binding_visual_debug.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp

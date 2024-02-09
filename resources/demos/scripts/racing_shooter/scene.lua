@@ -167,66 +167,17 @@ Scene.Objects = {
         Scale = {50.0, 0.1, 50.0}
     },
     {
-        -- Type = "Empty",
         Type = "ScriptObject",
         Classname = "Car",
         Name = "car",
         Scale = {2.5, 2.5, 2.5}
     },
     {
-        Type = "StaticModel",
-        Name = "carBody",
-        MeshName = "SM_carBody",
-        MaterialName = "M_carBody",
-        Rotation = {0.5, -0.5, -0.5, -0.5},
-        Scale = {0.3, 0.3, 0.3},
-        Position = {-2.06 * 0.3, 0, 0}
-    },
-    {
-        Type = "Empty",
-        Name = "wheelsFront",
-        Position = {.285 -2.06 * 0.3, 0.095, 0.}
-    },
-    {
-        Type = "Empty",
-        Name = "wheelsBack",
-        Position = {1.035 -2.06 * 0.3, 0.095, 0.}
-    },
-    {
-        Type = "StaticModel",
-        Name = "wheel1",
-        MeshName = "SM_carWheel",
-        MaterialName = "M_wheel",
-        Position = {0, 0, -0.3},
-        Scale = {0.33, 0.33, 0.33},
-        Rotation = {0.5, 0.5, 0.5, -0.5}
-    },
-    {
-        Type = "StaticModel",
-        Name = "wheel2",
-        MeshName = "SM_carWheel",
-        MaterialName = "M_wheel",
-        Position = {0, 0, 0.3},
-        Scale = {0.33, 0.33, 0.33},
-        Rotation = {0.5, -0.5, -0.5, -0.5}
-    },
-    {
-        Type = "StaticModel",
-        Name = "wheel3",
-        MeshName = "SM_carWheel",
-        MaterialName = "M_wheel",
-        Position = {0, 0, -0.3},
-        Scale = {0.33, 0.33, 0.33},
-        Rotation = {0.5, 0.5, 0.5, -0.5}
-    },
-    {
-        Type = "StaticModel",
-        Name = "wheel4",
-        MeshName = "SM_carWheel",
-        MaterialName = "M_wheel",
-        Position = {0, 0, 0.3},
-        Scale = {0.33, 0.33, 0.33},
-        Rotation = {0.5, -0.5, -0.5, -0.5}
+        Type = "ScriptObject",
+        Classname = "Car",
+        Name = "car2",
+        Scale = {2.5, 2.5, 2.5},
+        Position = {0, 0, 2}
     },
     {
         Type = "SkeletalModel",
@@ -242,13 +193,6 @@ Scene.ObjectRelations = {
     {"cameraFree", "player"},
     {"cameraOrbit", "car"},
     {"pointLight01", "car"},
-    {"carBody", "car"},
-    {"wheelsFront", "car"},
-    {"wheelsBack", "car"},
-    {"wheel1", "wheelsFront"},
-    {"wheel2", "wheelsFront"},
-    {"wheel3", "wheelsBack"},
-    {"wheel4", "wheelsBack"},
 }
 
 -- Scene settings

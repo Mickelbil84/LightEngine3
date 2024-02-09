@@ -64,13 +64,13 @@ public:
         scene->getObject("sunLight")->getTransform().setRotationRPY(sun_RPY[0], sun_RPY[1], sun_RPY[2]);
 
         // Move car forward
-        glm::vec3 carPos = m_scene.getObject("car")->getTransform().getPosition();
-        carPos.x += -1.f * deltaTime * carSpeed;
-        if (carPos.x < -3.f) carPos.x = 7.f;
-        m_scene.getObject("car")->getTransform().setPosition(carPos);
+        // glm::vec3 carPos = m_scene.getObject("car")->getTransform().getPosition();
+        // carPos.x += -1.f * deltaTime * carSpeed;
+        // if (carPos.x < -3.f) carPos.x = 7.f;
+        // m_scene.getObject("car")->getTransform().setPosition(carPos);
         
-        for (int i = 1; i <= 4; i++)
-            m_scene.getObject(format("wheel{}", i))->getTransform().addRotationZ(1.9f * carSpeed * deltaTime);
+        // for (int i = 1; i <= 4; i++)
+        //     m_scene.getObject(format("wheel{}", i))->getTransform().addRotationZ(1.9f * carSpeed * deltaTime);
 
         // Update scene
         m_scene.update(deltaTime);  

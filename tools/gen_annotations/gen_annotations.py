@@ -16,7 +16,7 @@ def add_params_or_returns(d, func_name, varname, ttype):
     lookups = {
         'bool': 'boolean', 'enum': 'number'
     }
-
+    ttype = ttype.replace('_', '')
     if ttype not in ['VEC3', 'VEC4', 'QUAT']:
         if not ttype.startswith("LE3"):
             ttype = ttype.lower()

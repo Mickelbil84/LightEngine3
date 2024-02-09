@@ -50,6 +50,8 @@ LE3StaticModel = {}
 LE3Texture = {}
 ---@class LE3Transform
 LE3Transform = {}
+---@class LE3VisualDebug
+LE3VisualDebug = {}
 
 --------------------------------------
 
@@ -452,4 +454,30 @@ function LE3Transform.set_rotation(self, rotation_w, rotation_x, rotation_y, rot
 ---@param scale_y number
 ---@param scale_z number
 function LE3Transform.set_scale(self, scale_x, scale_y, scale_z) end
+
+---@param position_x number
+---@param position_y number
+---@param position_z number
+---@param rotation_w number
+---@param rotation_x number
+---@param rotation_y number
+---@param rotation_z number
+---@param scale_x number
+---@param scale_y number
+---@param scale_z number
+---@param color_x number
+---@param color_y number
+---@param color_z number
+function LE3VisualDebug.draw_debug_box(position_x, position_y, position_z, rotation_w, rotation_x, rotation_y, rotation_z, scale_x, scale_y, scale_z, color_x, color_y, color_z) end
+
+---@param start_x number
+---@param start_y number
+---@param start_z number
+---@param end_x number
+---@param end_y number
+---@param end_z number
+---@param color_x number
+---@param color_y number
+---@param color_z number
+function LE3VisualDebug.draw_debug_line(start_x, start_y, start_z, end_x, end_y, end_z, color_x, color_y, color_z) end
 
