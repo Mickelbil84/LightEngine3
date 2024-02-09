@@ -5,6 +5,10 @@ LE3ScriptObject.load = function (scene, tbl, res)
     LE3Scene.add_script_object(scene, tbl.Name, tbl.Classname)
     res = LE3Scene.get_object(scene, tbl.Name)
     LE3ScriptObject.__base.load(scene, tbl, res)
+    
+    _G[tbl.Classname]._refs[tbl.Name].object = res
+    _G[tbl.Classname]._refs[tbl.Name].transform = LE3Object.get_transform(res)
+    _G[tbl.Classname]._refs[tbl.Name]:init()
 end
 
 function LE3ScriptObject:new()

@@ -9,9 +9,8 @@ using fmt::format;
 LE3ScriptObject::LE3ScriptObject(std::string classname, std::string ref) :
     LE3DrawableObject(nullptr), classname(classname), ref(ref) {
     LE3GetScriptSystem().doString(
-        format("{}._refs[\"{}\"] = {}:new(); {}._refs[\"{}\"]:init(); {}._refs[\"{}\"]._ref = \"{}\"",
+        format("{}._refs[\"{}\"] = {}:new(); {}._refs[\"{}\"]._ref = \"{}\"",
             classname, ref, classname, 
-            classname, ref,
             classname, ref, ref));
 }
 
