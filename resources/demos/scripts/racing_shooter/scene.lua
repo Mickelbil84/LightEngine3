@@ -167,7 +167,9 @@ Scene.Objects = {
         Scale = {50.0, 0.1, 50.0}
     },
     {
-        Type = "Empty",
+        -- Type = "Empty",
+        Type = "ScriptObject",
+        Classname = "Car",
         Name = "car",
         Scale = {2.5, 2.5, 2.5}
     },

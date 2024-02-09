@@ -24,6 +24,12 @@ public:
 
     void init() {
         LE3GetDatFileSystem().addArchive("demos", "demos.dat");
+
+        // Load all demo scripts
+        for (auto script : LE3GetDatFileSystem().getFilesFromDir("/demos/scripts/racing_shooter")) {
+            LE3GetScriptSystem().doFile(script);
+        }
+
         m_scene.init(m_engineState.getWindowWidth(), m_engineState.getWindowHeight());
         m_scene.load("/demos/scripts/racing_shooter/scene.lua");
         m_scene.setRenderDirectly(false);
@@ -36,7 +42,6 @@ public:
         
         // m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
         m_scene.getMainCamera()->setAspectRatio(1.f);
-
 
         // Setup initial animation demo
         LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(m_scene.getObject("soldier"));

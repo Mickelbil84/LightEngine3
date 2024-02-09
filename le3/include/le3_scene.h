@@ -14,6 +14,7 @@
 #include "le3_scene_root.h"
 #include "le3_framebuffer.h"
 #include "le3_light_manager.h"
+#include "le3_script_object.h"
 
 namespace le3 {
     struct LE3SceneGraph {
@@ -58,6 +59,8 @@ namespace le3 {
         void addDirectionalLight(std::string name, std::string parent = "");
         void addPointLight(std::string name, std::string parent = "");
         void addSpotLight(std::string name, std::string parent = "");
+
+        void addScriptObject(std::string name, std::string classname, std::string parent = "");
 
         LE3SceneRootPtr getSceneRoot() const { return m_sceneGraph->m_pRoot; }
         LE3ObjectPtr& getObject(std::string name) { return m_sceneGraph->m_pObjects[name]; }

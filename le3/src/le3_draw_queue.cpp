@@ -21,11 +21,11 @@ void LE3DrawQueue::draw(LE3ShaderPtr shaderOverride, bool shadowPhase) {
                 if (object.expired()) continue;
                 auto objectPtr = object.lock();
                 if (objectPtr->isHidden() || (!objectPtr->getCastShadow() && shadowPhase)) continue;
-                if (shader == nullptr) {
+                if (shader == nullptr && objectPtr->getMaterial()) {
                     shader = objectPtr->getMaterial()->shader;
                     shader->use();
                 }
-                shader->uniform("model", objectPtr->getWorldMatrix());
+                if (shader) shader->uniform("model", objectPtr->getWorldMatrix());
                 objectPtr->draw(shaderOverride);
             }
         }
@@ -37,7 +37,8 @@ void LE3DrawQueue::addObject(std::weak_ptr<LE3DrawableObject> object) {
     if (!objectPtr) return;
 
     LE3DrawPriority priority = objectPtr->getDrawPriority();
-    int key = objectPtr->getMaterial()->shader->key();
+    int key = -1;
+    if (objectPtr->getMaterial()) key = objectPtr->getMaterial()->shader->key();
     if (!m_drawQueue[priority].contains(key)) m_drawQueue[priority][key] = std::vector<std::weak_ptr<LE3DrawableObject>>();
     m_drawQueue[priority][key].push_back(object);
 }

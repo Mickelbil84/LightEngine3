@@ -15,6 +15,7 @@
 #include "le3_object.h"
 #include "le3_transform.h"
 #include "le3_scene_root.h"
+#include "le3_script_object.h"
 #include "le3_drawable_object.h"
 
 #include "le3_engine_systems.h"
@@ -146,6 +147,7 @@ namespace le3 {
 
     LOPEN_DECLARE(LE3Transform);
     LOPEN_DECLARE(LE3Object);
+    LOPEN_DECLARE(LE3ScriptObject);
     LOPEN_DECLARE(LE3SceneRoot);
     LOPEN_DECLARE(LE3StaticModel);
     LOPEN_DECLARE(LE3SkeletalModel);

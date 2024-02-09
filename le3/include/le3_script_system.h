@@ -24,6 +24,7 @@ namespace le3 {
 
         void setGlobal(std::string name); // set recently pushed var on stack as global
         void getGlobal(std::string name); // push global var to stack
+        void getField(std::string field); // push field from table (the table is on top of stack) to stack
 
         bool getBool(int index);
         double getNumber(int index);
@@ -35,6 +36,7 @@ namespace le3 {
         }
 
         void callFunction(int numArgs, int numResults);
+        void pushValue(int index);
 
     private:
         lua_State* L = nullptr;

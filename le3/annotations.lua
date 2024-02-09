@@ -32,6 +32,8 @@ LE3PointLight = {}
 LE3Scene = {}
 ---@class LE3SceneRoot
 LE3SceneRoot = {}
+---@class LE3ScriptObject
+LE3ScriptObject = {}
 ---@class LE3Shader
 LE3Shader = {}
 ---@class LE3SkeletalMesh
@@ -345,6 +347,11 @@ function LE3Scene.add_orbit_camera(scene, name) end
 ---@param scene LE3Scene
 ---@param name string
 function LE3Scene.add_point_light(scene, name) end
+
+---@param scene LE3Scene
+---@param name string
+---@param classname string
+function LE3Scene.add_script_object(scene, name, classname) end
 
 ---@param scene LE3Scene
 ---@param name string

@@ -51,8 +51,16 @@ void LE3ScriptSystem::getGlobal(std::string name) {
     lua_getglobal(L, name.c_str());
 }
 
+void LE3ScriptSystem::getField(std::string field) {
+    lua_getfield(L, -1, field.c_str());
+}
+
 void LE3ScriptSystem::callFunction(int numArgs, int numResults) {
     if (lua_pcall(L, numArgs, numResults, 0) != 0) {
         lua_error(L);
     }
+}
+
+void LE3ScriptSystem::pushValue(int index) {
+    lua_pushvalue(L, index);
 }

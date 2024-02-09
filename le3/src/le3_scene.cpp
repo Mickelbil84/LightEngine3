@@ -164,6 +164,12 @@ void LE3Scene::addSkeletalModel(std::string name, std::string meshName, std::str
     m_sceneGraph->m_drawQueue.addObject(obj);
 }
 
+void LE3Scene::addScriptObject(std::string name, std::string classname, std::string parent) {
+    assertObjectName(name);
+    LE3ScriptObjectPtr obj = std::make_shared<LE3ScriptObject>(classname, name);
+    attachObject(name, obj, parent);
+    m_sceneGraph->m_drawQueue.addObject(obj);
+}
 
 void LE3Scene::addFreeCamera(std::string name, std::string parent) {
     assertObjectName(name);
