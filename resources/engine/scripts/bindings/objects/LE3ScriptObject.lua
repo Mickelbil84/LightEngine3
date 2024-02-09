@@ -6,9 +6,13 @@ LE3ScriptObject.load = function (scene, tbl, res)
     res = LE3Scene.get_object(scene, tbl.Name)
     LE3ScriptObject.__base.load(scene, tbl, res)
     
+    -- Add relevant pointers to the lua object class
     _G[tbl.Classname]._refs[tbl.Name].object = res
     _G[tbl.Classname]._refs[tbl.Name].transform = LE3Object.get_transform(res)
+    _G[tbl.Classname]._refs[tbl.Name].scene = scene
+    _G[tbl.Classname]._refs[tbl.Name].name = tbl.Name
     _G[tbl.Classname]._refs[tbl.Name]:init()
+    return res
 end
 
 function LE3ScriptObject:new()
