@@ -60,6 +60,18 @@ void LE3AssetManager::addStaticMesh(std::string name, std::string filename) {
     m_pStaticMeshes[name] = loadStaticMesh(filename);
 }
 
+
+void LE3AssetManager::addSkeletalMesh(std::string name, std::string filename) {
+    if (m_pSkeletalMeshes.contains(name)) throw std::runtime_error(format("Skeletal mesh [{}] already exists", name));
+    m_pSkeletalMeshes[name] = loadSkeletalMesh(filename);
+}
+
+void LE3AssetManager::addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName) {
+    
+}
+
+
+
 std::string LE3AssetManager::readFile(std::string filename) {
     return LE3GetDatFileSystem().getFileContent(filename).toString();
 }

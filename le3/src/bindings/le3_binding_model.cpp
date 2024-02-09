@@ -4,3 +4,4 @@ using namespace le3;
 
 
 LIB(LE3StaticModel)
+LIB(LE3SkeletalModel)

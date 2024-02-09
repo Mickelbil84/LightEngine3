@@ -5,6 +5,8 @@
 
 #include <glm/glm.hpp>
 
+#include "le3_skeleton.h"
+#include "le3_animation.h"
 
 namespace le3 {
     constexpr int MAX_BONES_PER_VERTEX = 8;
@@ -66,6 +68,10 @@ namespace le3 {
         void draw() { drawTriangles(); }
         void drawTriangles();
         void drawLines();
+
+        LE3Skeleton& getSkeleton() { return m_skeleton; }
+        void setSkeleton(LE3Skeleton skeleton) { m_skeleton = skeleton; }
+        std::map<std::string, LE3AnimationTrack>& getAnimationTracks() { return m_animationTracks; }
     
     protected:
         uint32_t m_vao = -1, m_vbo = -1, m_ibo = -1, m_count;
@@ -74,7 +80,10 @@ namespace le3 {
         void loadMeshData(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices);
         void draw(int mode);
 
-        // TODO: Skeleton + animation
+        // In case of a skeletal mesh
+        LE3Skeleton m_skeleton;
+        std::map<std::string, LE3AnimationTrack> m_animationTracks;
+
     };
     template<typename LE3VertexType>
     using LE3MeshPtr = std::shared_ptr<LE3Mesh<LE3VertexType>>;

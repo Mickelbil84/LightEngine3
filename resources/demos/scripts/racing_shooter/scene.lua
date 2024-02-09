@@ -22,6 +22,18 @@ Scene.Textures = {
     {
         Name = "T_basilica",
         Path = "/demos/textures/cubemaps/basilica.png"
+    },
+    {
+        Name = "T_DIF_soldier",
+        Path = "/demos/textures/animations/soldier/T_DIF_soldier.png"
+    },
+    {
+        Name = "T_NRM_soldier",
+        Path = "/demos/textures/animations/soldier/T_NRM_soldier.png"
+    },
+    {
+        Name = "T_SPC_soldier",
+        Path = "/demos/textures/animations/soldier/T_SPC_soldier.png"
     }
 }
 Scene.Materials = {
@@ -47,6 +59,13 @@ Scene.Materials = {
         Shininess = 128,
         Cubemap = "T_basilica",
         ReflectionIntensity = 0.2
+    },
+    {
+        Name = "M_soldier",
+        ShaderName = "S_default",
+        DiffuseTexture = "T_DIF_soldier",
+        NormalTexture = "T_NRM_soldier",
+        SpecularTexture = "T_SPC_soldier"
     }
 }
 Scene.StaticMeshes = {
@@ -57,6 +76,12 @@ Scene.StaticMeshes = {
     {
         Name = "SM_carWheel",
         Path = "/demos/models/cars/Car Wheel.fbx"
+    }
+}
+Scene.SkeletalMeshes = {
+    {
+        Name = "SK_soldier",
+        Path = "/demos/models/animations/soldier/SK_soldier.fbx"
     }
 }
 
@@ -186,6 +211,14 @@ Scene.Objects = {
         Position = {0, 0, 0.3},
         Scale = {0.33, 0.33, 0.33},
         Rotation = {0.5, -0.5, -0.5, -0.5}
+    },
+    {
+        Type = "SkeletalModel",
+        Name = "soldier",
+        MeshName = "SK_soldier",
+        MaterialName = "M_soldier",
+        Position = {0, 0, -2},
+        Scale = {0.01, 0.01, 0.01}
     }
 }
 

@@ -142,11 +142,13 @@ namespace le3 {
     LOPEN_DECLARE(LE3Texture);
     LOPEN_DECLARE(LE3Material);
     LOPEN_DECLARE(LE3StaticMesh);
+    LOPEN_DECLARE(LE3SkeletalMesh);
 
     LOPEN_DECLARE(LE3Transform);
     LOPEN_DECLARE(LE3Object);
     LOPEN_DECLARE(LE3SceneRoot);
     LOPEN_DECLARE(LE3StaticModel);
+    LOPEN_DECLARE(LE3SkeletalModel);
     LOPEN_DECLARE(LE3Input);
     LOPEN_DECLARE(LE3DrawableObject);
     LOPEN_DECLARE(LE3Camera);

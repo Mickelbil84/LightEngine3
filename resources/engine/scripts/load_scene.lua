@@ -1,6 +1,6 @@
 local function load_LE3Scene_assets(scene, scene_data_table)
     local asset_classes = {
-        [1] = {Shaders = LE3Shader, Textures = LE3Texture, StaticMeshes = LE3StaticMesh},
+        [1] = {Shaders = LE3Shader, Textures = LE3Texture, StaticMeshes = LE3StaticMesh, SkeletalMeshes = LE3SkeletalMesh},
         [2] = {Materials = LE3Material}
     }
     for _, class_dict in pairs(asset_classes) do
@@ -18,7 +18,7 @@ local function load_LE3Scene_objects(scene, scene_data_table)
         FreeCamera = LE3FreeCamera, OrbitCamera = LE3OrbitCamera,
         AmbientLight = LE3AmbientLight, DirectionalLight = LE3DirectionalLight,
         PointLight = LE3PointLight, SpotLight = LE3SpotLight,
-        StaticModel = LE3StaticModel,
+        StaticModel = LE3StaticModel, SkeletalModel = LE3SkeletalModel,
         Box = LE3Box,
     }
     for _, object in ipairs(scene_data_table.Objects) do

@@ -38,6 +38,10 @@ namespace le3 {
         void addStaticMesh(std::string name, std::string filename);
         inline LE3StaticMeshPtr& getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
 
+        void addSkeletalMesh(std::string name, std::string filename);
+        inline LE3SkeletalMeshPtr& getSkeletalMesh(std::string name) { return m_pSkeletalMeshes[name]; }
+        void addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName);
+
         inline LE3ScreenRectPtr getScreenRect() { return m_screenRect; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugLine() { return m_debugLine; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugBox() { return m_debugBox; }
@@ -49,6 +53,7 @@ namespace le3 {
         std::map<std::string, LE3MaterialPtr> m_pMaterials;
         std::map<std::string, LE3TexturePtr> m_pTextures;
         std::map<std::string, LE3StaticMeshPtr> m_pStaticMeshes;
+        std::map<std::string, LE3SkeletalMeshPtr> m_pSkeletalMeshes;
 
         LE3ScreenRectPtr m_screenRect = nullptr; // Create this crucial geometry only once
 
@@ -58,5 +63,6 @@ namespace le3 {
         // Helper methods
         std::string readFile(std::string filename);
         LE3StaticMeshPtr loadStaticMesh(std::string filename); // Implemented in `le3_assimp.cpp`
+        LE3SkeletalMeshPtr loadSkeletalMesh(std::string filename); // Implemented in `le3_assimp.cpp`
     }; 
 }

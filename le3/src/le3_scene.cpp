@@ -156,6 +156,14 @@ void LE3Scene::addStaticModel(std::string name, std::string meshName, std::strin
     m_sceneGraph->m_drawQueue.addObject(obj);
 }
 
+void LE3Scene::addSkeletalModel(std::string name, std::string meshName, std::string materialName, std::string parent) {
+    assertObjectName(name);
+    LE3SkeletalMeshPtr mesh = LE3GetAssetManager().getSkeletalMesh(meshName);
+    LE3SkeletalModelPtr obj = std::make_shared<LE3SkeletalModel>(mesh, LE3GetAssetManager().getMaterial(materialName));
+    attachObject(name, obj, parent);
+    m_sceneGraph->m_drawQueue.addObject(obj);
+}
+
 
 void LE3Scene::addFreeCamera(std::string name, std::string parent) {
     assertObjectName(name);

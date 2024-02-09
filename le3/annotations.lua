@@ -34,6 +34,10 @@ LE3Scene = {}
 LE3SceneRoot = {}
 ---@class LE3Shader
 LE3Shader = {}
+---@class LE3SkeletalMesh
+LE3SkeletalMesh = {}
+---@class LE3SkeletalModel
+LE3SkeletalModel = {}
 ---@class LE3SpotLight
 LE3SpotLight = {}
 ---@class LE3StaticMesh
@@ -58,6 +62,10 @@ function LE3AssetManager.add_shader(name, vertexSource, fragmentSource) end
 
 ---@param name string
 ---@param filename string
+function LE3AssetManager.add_skeletal_mesh(name, filename) end
+
+---@param name string
+---@param filename string
 function LE3AssetManager.add_static_mesh(name, filename) end
 
 ---@param name string
@@ -72,6 +80,10 @@ function LE3AssetManager.get_material(name) end
 ---@param name string
 ---@return LE3Shader
 function LE3AssetManager.get_shader(name) end
+
+---@param name string
+---@return LE3SkeletalMesh
+function LE3AssetManager.get_skeletal_mesh(name) end
 
 ---@param name string
 ---@return LE3StaticMesh
@@ -328,6 +340,12 @@ function LE3Scene.add_orbit_camera(scene, name) end
 ---@param scene LE3Scene
 ---@param name string
 function LE3Scene.add_point_light(scene, name) end
+
+---@param scene LE3Scene
+---@param name string
+---@param meshName string
+---@param materialName string
+function LE3Scene.add_skeletal_model(scene, name, meshName, materialName) end
 
 ---@param scene LE3Scene
 ---@param name string

@@ -48,6 +48,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_imgui_utils.cpp
     src/le3_asset_manager.cpp
     src/le3_visual_debug.cpp
+    src/le3_skeleton.cpp
+    src/le3_animation.cpp
     
     src/le3_script_system.cpp
     src/le3_script_bindings.cpp
@@ -55,7 +57,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_shader.cpp
     src/bindings/le3_binding_texture.cpp
     src/bindings/le3_binding_material.cpp
-    src/bindings/le3_binding_static_mesh.cpp
+    src/bindings/le3_binding_geometry.cpp
     src/bindings/le3_binding_object.cpp
     src/bindings/le3_binding_transform.cpp
     src/bindings/le3_binding_scene_root.cpp

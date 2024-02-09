@@ -19,8 +19,11 @@ namespace le3 {
 
         LE3MeshPtr<LE3VertexType> getMesh() { return m_pMesh; }
 
+        void setCurrentAnimation(std::string animationName) { m_currentAnimation = animationName; }
+
     protected:
         LE3MeshPtr<LE3VertexType> m_pMesh;
+        std::string m_currentAnimation; // If skeletal
     };
 
     using LE3StaticModel =LE3Model<LE3Vertex>;

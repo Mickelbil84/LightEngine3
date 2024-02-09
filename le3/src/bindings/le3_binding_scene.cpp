@@ -29,6 +29,14 @@ FBIND(LE3Scene, add_static_model)
     scene->addStaticModel(name, meshName, materialName);
 FEND()
 
+FBIND(LE3Scene, add_skeletal_model)
+    GET_UDATA(scene, LE3Scene)
+    GET_STRING(name)
+    GET_STRING(meshName)
+    GET_STRING(materialName)
+    scene->addSkeletalModel(name, meshName, materialName);
+FEND()
+
 FBIND(LE3Scene, add_free_camera)
     GET_UDATA(scene, LE3Scene)
     GET_STRING(name)
@@ -96,7 +104,7 @@ FBIND_SETTER_VEC3(LE3Scene, set_background_color, setBackgroundColor)
 LIB(LE3Scene,
     add_empty_object,
     add_box, 
-    add_static_model,
+    add_static_model, add_skeletal_model,
     add_free_camera, add_orbit_camera, set_main_camera,
     add_ambient_light, add_directional_light, add_point_light, add_spot_light,
     reparent, get_object,

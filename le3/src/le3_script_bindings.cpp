@@ -10,11 +10,13 @@ void le3::bindLE3Types(lua_State* L) {
     REGISTER(LE3Texture);
     REGISTER(LE3Material);
     REGISTER(LE3StaticMesh);
+    REGISTER(LE3SkeletalMesh);
 
     REGISTER(LE3Object);
     REGISTER(LE3Transform);
     REGISTER(LE3SceneRoot);
     REGISTER(LE3StaticModel);
+    REGISTER(LE3SkeletalModel);
     REGISTER(LE3Input);
     REGISTER(LE3DrawableObject);
     REGISTER(LE3Camera);
