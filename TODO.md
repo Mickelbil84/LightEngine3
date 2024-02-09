@@ -1,4 +1,4 @@
-TODO: LE3ScriptObject
+TODO: LE3ScriptObject (which can also draw debug..)
 TODO: Physics and Collision detection
 TODO: Lua save scene (object -> table)
 TODO: LE3 Editor (once again)
