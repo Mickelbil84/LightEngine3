@@ -6,5 +6,5 @@ LE3DrawableObject.load = function (scene, tbl, res)
     if tbl.DrawPriority ~= nil then LE3DrawableObject.set_draw_priority(res, tbl.DrawPriority) end
     if tbl.Hidden ~= nil then LE3DrawableObject.set_hidden(res, tbl.Hidden) end
     if tbl.CastShadow ~= nil then LE3DrawableObject.set_cast_shadow(res, tbl.CastShadow) end
-    return res
+    return {ptr = res, name = tbl.Name}
 end

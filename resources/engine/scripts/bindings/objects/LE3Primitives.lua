@@ -7,5 +7,5 @@ LE3Box.load = function (scene, tbl, res)
         res = LE3Scene.get_object(scene, tbl.Name)
     end
     LE3Box.__base.load(scene, tbl, res)
-    return res
+    return {ptr = res, name = tbl.Name}
 end

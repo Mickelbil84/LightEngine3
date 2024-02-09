@@ -5,7 +5,7 @@ LE3StaticModel.load = function (scene, tbl, res)
         res = LE3Scene.get_object(scene, tbl.Name)
     end
     LE3StaticModel.__base.load(scene, tbl, res)
-    return res
+    return {ptr = res, name = tbl.Name}
 end
 
 LE3SkeletalModel.__base = LE3DrawableObject
@@ -15,5 +15,5 @@ LE3SkeletalModel.load = function (scene, tbl, res)
         res = LE3Scene.get_object(scene, tbl.Name)
     end
     LE3SkeletalModel.__base.load(scene, tbl, res)
-    return res
+    return {ptr = res, name = tbl.Name}
 end

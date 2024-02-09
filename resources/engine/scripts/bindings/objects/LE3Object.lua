@@ -4,5 +4,5 @@ LE3Object.load = function (scene, tbl, res)
         res = LE3Scene.get_object(scene, tbl.Name)
     end
     LE3Transform.load(LE3Object.get_transform(res), tbl)
-    return res
+    return {ptr = res, name = tbl.Name}
 end

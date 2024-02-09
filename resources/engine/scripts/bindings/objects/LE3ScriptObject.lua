@@ -12,7 +12,7 @@ LE3ScriptObject.load = function (scene, tbl, res)
     _G[tbl.Classname]._refs[tbl.Name].scene = scene
     _G[tbl.Classname]._refs[tbl.Name].name = tbl.Name
     _G[tbl.Classname]._refs[tbl.Name]:init()
-    return res
+    return {ptr = res, name = tbl.Name}
 end
 
 function LE3ScriptObject:new()

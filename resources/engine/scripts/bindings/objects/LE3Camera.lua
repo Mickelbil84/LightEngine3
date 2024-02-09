@@ -13,7 +13,7 @@ LE3FreeCamera.load = function (scene, tbl, res)
         res = LE3Scene.get_object(scene, tbl.Name)
     end
     LE3FreeCamera.__base.load(scene, tbl, res)
-    return res
+    return {ptr = res, name = tbl.Name}
 end
 
 LE3OrbitCamera.__base = LE3Camera
@@ -26,5 +26,5 @@ LE3OrbitCamera.load = function (scene, tbl, res)
 
     if tbl.Offset ~= nil then LE3OrbitCamera.set_offset(res, tbl.Offset) end
     if tbl.Origin ~= nil then LE3OrbitCamera.set_origin(res, table.unpack(tbl.Origin)) end
-    return res
+    return {ptr = res, name = tbl.Name}
 end
