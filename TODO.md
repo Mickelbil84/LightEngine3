@@ -1,4 +1,3 @@
-TODO: Skeletal Meshes and Animations 
 TODO: LE3ScriptObject
 TODO: Physics and Collision detection
 TODO: Lua save scene (object -> table)
