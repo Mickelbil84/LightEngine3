@@ -6,9 +6,13 @@
 #include <fmt/core.h>
 using fmt::format, fmt::print;
 
-#include <lua.hpp>
-#include <lauxlib.h>
-#include <lualib.h>
+#if __has_include("lua.hpp")
+    #include <lua.hpp>
+    #include <lauxlib.h>
+#else
+    #include <lua5.4/lua.hpp>
+    #include <lua5.4/lauxlib.h>
+#endif
 
 #include <le3.h>
 using namespace le3;

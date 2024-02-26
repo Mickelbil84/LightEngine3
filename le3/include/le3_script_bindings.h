@@ -1,7 +1,12 @@
 #pragma once
 
-#include <lua.hpp>
-#include <lauxlib.h>
+#if __has_include("lua.hpp")
+    #include <lua.hpp>
+    #include <lauxlib.h>
+#else
+    #include <lua5.4/lua.hpp>
+    #include <lua5.4/lauxlib.h>
+#endif
 
 #include "le3_input.h"
 #include "le3_light.h"
