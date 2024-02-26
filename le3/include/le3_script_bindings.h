@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lua.hpp>
+#include <lua.h>
 #include <lauxlib.h>
 
 #include "le3_input.h"

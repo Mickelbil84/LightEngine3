@@ -6,7 +6,7 @@
 #include <fmt/core.h>
 using fmt::format, fmt::print;
 
-#include <lua.hpp>
+#include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
 
