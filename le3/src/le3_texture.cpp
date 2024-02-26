@@ -1,7 +1,11 @@
 #include "le3_texture.h"
 using namespace le3;
 
+#ifdef __linux__
+#include <GL/glew.h>
+#else
 #include <gl/glew.h>
+#endif
 
 LE3Texture::LE3Texture(std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate) {
     GLenum format = nChannels < 4 ? GL_RGB : GL_RGBA;

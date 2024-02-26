@@ -1,7 +1,11 @@
 #include "le3_geometry.h"
 using namespace le3;
 
+#ifdef __linux__
+#include <GL/glew.h>
+#else
 #include <gl/glew.h>
+#endif
 
 
 template<typename LE3VertexType>

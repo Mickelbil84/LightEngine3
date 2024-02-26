@@ -3,7 +3,11 @@ using namespace le3;
 
 #include <stdexcept>
 
+#ifdef __linux__
+#include <GL/glew.h>
+#else
 #include <gl/glew.h>
+#endif
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

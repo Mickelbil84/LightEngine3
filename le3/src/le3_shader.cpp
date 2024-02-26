@@ -6,7 +6,11 @@ using namespace le3;
 #include <fmt/core.h>
 using fmt::format;
 
+#ifdef __linux__
+#include <GL/glew.h>
+#else
 #include <gl/glew.h>
+#endif
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 

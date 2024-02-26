@@ -3,7 +3,11 @@ using namespace le3;
 
 #include <stdexcept>
 
+#ifdef __linux__
+#include <GL/glew.h>
+#else
 #include <gl/glew.h>
+#endif
 
 
 LE3Framebuffer::LE3Framebuffer(int width, int height, LE3FramebufferType type, bool interpolate) : m_width(width), m_height(height) {

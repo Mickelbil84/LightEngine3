@@ -6,7 +6,11 @@ using namespace le3;
 #include <fmt/core.h>
 using fmt::format, fmt::print;
 
+#ifdef __linux__
+#include <GL/glew.h>
+#else
 #include <gl/glew.h>
+#endif
 #include <SDL2/SDL.h>
 
 #include <imgui.h>

@@ -1,7 +1,11 @@
 #include "le3_light_manager.h"
 using namespace le3;
 
+#ifdef __linux__
+#include <GL/glew.h>
+#else
 #include <gl/glew.h>
+#endif
 #include <fmt/core.h>
 using fmt::format;
 
