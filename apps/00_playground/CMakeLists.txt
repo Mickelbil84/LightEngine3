@@ -6,7 +6,7 @@ find_package(assimp REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
 include_directories(
-    ${LUA_INCLUDE_DIR} 
+    ${LUA_INCLUDE_DIR} ${GLEW_INCLUDE_DIRS}
 )
 
 add_executable(${PROJECT_NAME} main.cpp)
