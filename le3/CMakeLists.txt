@@ -20,6 +20,7 @@ include_directories(${CMAKE_SOURCE_DIR}/third-party/stb)
 include_directories(${CMAKE_SOURCE_DIR}/third-party/imgui)
 include_directories(${CMAKE_SOURCE_DIR}/third-party/gzip-hpp/include)
 
+message(ERROR ${LUA_INCLUDE_DIR})
 
 add_library(${PROJECT_NAME} SHARED)
 
