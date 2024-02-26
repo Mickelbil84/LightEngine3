@@ -10,5 +10,5 @@ include_directories(
 )
 
 add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt ${LUA_LIBRARIES} assimp::assimp)
+target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt ${LUA_LIBRARIES} assimp::assimp glm::glm)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
