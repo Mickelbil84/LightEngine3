@@ -23,41 +23,40 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
         build_type: [Release]
-        c_compiler: [gcc, clang, cl]
-        include:
-          - os: windows-latest
-            c_compiler: cl
-            cpp_compiler: cl
-          - os: ubuntu-latest
-            c_compiler: gcc
-            cpp_compiler: g++
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
-          - os: macos-latest
-            c_compiler: clang
-            cpp_compiler: clang++
-        exclude:
-          - os: windows-latest
-            c_compiler: gcc
-          - os: windows-latest
-            c_compiler: clang
-          - os: ubuntu-latest
-            c_compiler: cl
-          - os: macos-latest
-            c_compiler: cl
-          - os: macos-latest
-            c_compiler: gcc
+        # c_compiler: [gcc, clang, cl]
+        c_compiler: [gcc]
+        # include:
+        #   - os: windows-latest
+        #     c_compiler: cl
+        #     cpp_compiler: cl
+        #   - os: ubuntu-latest
+        #     c_compiler: gcc
+        #     cpp_compiler: g++
+        #   - os: ubuntu-latest
+        #     c_compiler: clang
+        #     cpp_compiler: clang++
+        #   - os: macos-latest
+        #     c_compiler: clang
+        #     cpp_compiler: clang++
+        # exclude:
+        #   - os: windows-latest
+        #     c_compiler: gcc
+        #   - os: windows-latest
+        #     c_compiler: clang
+        #   - os: ubuntu-latest
+        #     c_compiler: cl
+        #   - os: macos-latest
+        #     c_compiler: cl
+        #   - os: macos-latest
+        #     c_compiler: gcc
 
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: 'true'
-
-    - uses: ilammy/msvc-dev-cmd@v1
-    - uses: leafo/gh-actions-lua@v10
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
@@ -88,7 +87,6 @@ jobs:
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake"
-        -DCMAKE_PREFIX_PATH="/home/runner/work/LightEngine3/LightEngine3/.lua/"
         -S ${{ github.workspace }}
 
     - name: Build

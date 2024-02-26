@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <lua.h>
+#include <lua.hpp>
 #include <lauxlib.h>
 
 namespace le3 {
