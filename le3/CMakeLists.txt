@@ -23,6 +23,10 @@ include_directories(${CMAKE_SOURCE_DIR}/third-party/gzip-hpp/include)
 
 add_library(${PROJECT_NAME} SHARED)
 
+if (NOT DEFINED LUA_LIBRARIES)
+    set(LUA_LIBRARIES lua::lua)
+endif()
+
 set(public_headers
 )
 

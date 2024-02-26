@@ -9,6 +9,10 @@ include_directories(
     ${LUA_INCLUDE_DIR} ${GLEW_INCLUDE_DIRS}
 )
 
+if (NOT DEFINED LUA_LIBRARIES)
+    set(LUA_LIBRARIES lua::lua)
+endif()
+
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt ${LUA_LIBRARIES} assimp::assimp glm::glm)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
