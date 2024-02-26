@@ -1,10 +1,6 @@
 #include "le3_animation.h"
 using namespace le3;
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
 LE3AnimationTrack::LE3AnimationTrack() {
 }
 
