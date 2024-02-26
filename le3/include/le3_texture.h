@@ -1,24 +1,20 @@
 #pragma once
-#include <string>
-#include <gl/glew.h>
 
-class LE3Texture
-{
-public:
-    void Load(std::string filePath);
-    void Use(GLuint activeTexture = 0);
-    void Delete();
+#include <memory>
+#include <vector>
 
-    GLuint GetTextureID() const;
+namespace le3 {
+    class LE3Texture {
+    public:
+        LE3Texture(std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate);
+        ~LE3Texture();
 
-    void SetName(std::string name);
-    std::string GetName() const;
+        void use(uint32_t activeTexture = 0);
 
-    static bool g_bPS1TextureMode;
+        inline uint32_t getTextureID() const { return m_texture; }
 
-private:
-    static unsigned char* LoadXPM(std::string xpmStr, int* x, int* y, int* n);
-
-    GLuint m_texture;
-    std::string m_name;
-};
+    protected:
+        uint32_t m_texture = -1;
+    };
+    using LE3TexturePtr = std::shared_ptr<LE3Texture>;
+}

@@ -1,12 +1,10 @@
 #include "le3_animation.h"
-#include <iostream>
+using namespace le3;
 
-LE3AnimationTrack::LE3AnimationTrack(LE3Skeleton* skeleton) : skeleton(skeleton)
-{
-
+LE3AnimationTrack::LE3AnimationTrack() {
 }
 
-void LE3AnimationTrack::LoadAnimationTrack(const aiScene* scene, unsigned int trackIdx)
+void LE3AnimationTrack::loadAnimationTrack(const aiScene* scene, unsigned int trackIdx)
 {    
     aiAnimation* animation = scene->mAnimations[trackIdx];
     this->name = std::string(animation->mName.C_Str());
@@ -17,7 +15,7 @@ void LE3AnimationTrack::LoadAnimationTrack(const aiScene* scene, unsigned int tr
     {
         aiNodeAnim* nodeAnim = animation->mChannels[i];
         std::string boneName = std::string(nodeAnim->mNodeName.C_Str());
-        std::shared_ptr<LE3Bone> bone = this->skeleton->GetBone(boneName);
+        std::shared_ptr<LE3Bone> bone = this->skeleton->getBone(boneName);
         if (!bone) continue;
 
         for (int j = 0; j < nodeAnim->mNumPositionKeys; ++j)
@@ -53,7 +51,7 @@ void LE3AnimationTrack::LoadAnimationTrack(const aiScene* scene, unsigned int tr
     }
 }
 
-void LE3AnimationTrack::UpdateBoneMatrices(float animationTime)
+void LE3AnimationTrack::updateBoneMatrices(float animationTime)
 {
     boneMatrices.clear();
     // Set the local keyframe matrices
@@ -64,24 +62,24 @@ void LE3AnimationTrack::UpdateBoneMatrices(float animationTime)
             bone->transform = glm::mat4(1.f);
             continue;
         }
-        glm::mat4 translation = PositionKeyframeInterpolation(bone, animationTime);
-        glm::mat4 rotation = RotationKeyframeInterpolation(bone, animationTime);
-        glm::mat4 scale = ScaleKeyframeInterpolation(bone, animationTime);
+        glm::mat4 translation = positionKeyframeInterpolation(bone, animationTime);
+        glm::mat4 rotation = rotationKeyframeInterpolation(bone, animationTime);
+        glm::mat4 scale = scaleKeyframeInterpolation(bone, animationTime);
         bone->transform = translation * rotation * scale;
     }
 
     // Get the bone matrices
     for (auto bone : skeleton->m_bones)
-        boneMatrices.push_back(bone->GetTransform() * bone->offset);
+        boneMatrices.push_back(bone->getTransform() * bone->offset);
 }
 
-std::vector<glm::mat4> LE3AnimationTrack::GetBoneMatrices()
+std::vector<glm::mat4> LE3AnimationTrack::getBoneMatrices()
 {
     return boneMatrices;
 }
 
 
-glm::mat4 LE3AnimationTrack::PositionKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
+glm::mat4 LE3AnimationTrack::positionKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
 {
     if (!positionKeyframes[bone].size())
         return glm::mat4(1.f);
@@ -97,7 +95,7 @@ glm::mat4 LE3AnimationTrack::PositionKeyframeInterpolation(std::shared_ptr<LE3Bo
 
     return glm::translate(interpolatedPosition);
 }
-glm::mat4 LE3AnimationTrack::RotationKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
+glm::mat4 LE3AnimationTrack::rotationKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
 {
     if (!rotationKeyframes[bone].size())
         return glm::mat4(1.f);
@@ -115,7 +113,7 @@ glm::mat4 LE3AnimationTrack::RotationKeyframeInterpolation(std::shared_ptr<LE3Bo
 
     return glm::toMat4(interpolatedRotation);
 }
-glm::mat4 LE3AnimationTrack::ScaleKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
+glm::mat4 LE3AnimationTrack::scaleKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime)
 {
     if (!scaleKeyframes[bone].size())
         return glm::mat4(1.f);

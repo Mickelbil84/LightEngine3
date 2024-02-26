@@ -1,90 +1,56 @@
 #pragma once
 
+#include <memory>
+
 #include <glm/glm.hpp>
 
-#include <cereal/cereal.hpp>
-#include <cereal/types/string.hpp>
-
-#include "le3_shader.h"
 #include "le3_texture.h"
-#include "le3_utils.h"
+#include "le3_shader.h"
 
-#define DIFFUSE_TEXTURE_INDEX 1
-#define SPECULAR_TEXTURE_INDEX 2
-#define NORMAL_TEXTURE_INDEX 3
-#define CUBEMAP_TEXTURE_INDEX 4
-#define SHADOW_MAP_INDEX 6
 
-struct LE3Material
-{
-public:
-    LE3Material();
-    LE3Material(LE3Shader* shader);
+namespace le3 {
+    enum TEXTURE_INDEX {
+        DIFFUSE_TEXTURE_INDEX = 1,
+        SPECULAR_TEXTURE_INDEX = 2,
+        NORMAL_TEXTURE_INDEX = 3,
+        CUBEMAP_TEXTURE_INDEX = 4,
+        SHADOW_MAP_INDEX = 6
+    };
 
-    void SetShader(LE3Shader* shader);
-    void SetDiffuseTexture(LE3Texture* texture);
-    void SetSpecularTexture(LE3Texture* texture);
-    void SetNormalTexture(LE3Texture* texture);
-    void SetCubemap(LE3Texture* cubemap);
+    struct LE3Material {
+    public:
+        LE3Material(LE3ShaderPtr shader) : shader(shader) {}
 
-    std::string shaderName;
+        void apply();
 
-    // Diffuse
-    glm::vec4 diffuseColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.f);
-    std::string diffuseTextureName;
-    bool bUseDiffuseTexture = false;
+        ///////////////
+        // Members
+        ///////////////
+        LE3ShaderPtr shader;
 
-    // Specular
-    glm::vec3 specularColor = glm::vec3(1.f, 1.f, 1.f);
-    float specularIntensity = 1.f;
-    float shininess = 16.f;
-    std::string specularTextureName;
-    bool bUseSpecularTexture = false;
+        // Diffuse
+        glm::vec4 diffuseColor = glm::vec4(.8f, .8f, .8f, 1.f);
+        LE3TexturePtr diffuseTexture = nullptr;
+        bool bUseDiffuseTexture = false;
 
-    // Normal
-    std::string normalTextureName;
-    bool bUseNormalTexture = false;
+        // Specular
+        glm::vec3 specularColor = glm::vec3(1.f, 1.f, 1.f);
+        float specularIntensity = 1.f;
+        float shininess = 16.f;
+        LE3TexturePtr specularTexture = nullptr;
+        bool bUseSpecularTexture = false;
 
-    // Cubemap
-    std::string cubemapName;
-    float reflectionIntensity = 0.f;
+        // Normal
+        LE3TexturePtr normalTexture = nullptr;
+        bool bUseNormalTexture = false;
 
-    float tilingX=1.f, tilingY=1.f;
+        // Cubemap
+        LE3TexturePtr cubemap = nullptr;
+        float reflectionIntensity = 0.f;
 
-    // Pointers
-    LE3Texture* diffuseTexture;
-    LE3Texture* specularTexture;
-    LE3Texture* normalTexture;
-    LE3Texture* cubemap;
+        // General settings
+        float tilingX=1.f, tilingY=1.f;
+    };
 
-    // Sends material information to a given shader, and binds all relevant textures
-    void Apply();
-    LE3Shader* GetShader() const;
-
-    template <class Archive>
-    void serialize( Archive & ar )
-    {
-        ar(CEREAL_NVP(shaderName));
-
-        ar(CEREAL_NVP(diffuseColor));
-        ar(CEREAL_NVP(diffuseTextureName));
-        ar(CEREAL_NVP(bUseDiffuseTexture));
-
-        ar(CEREAL_NVP(specularColor));
-        ar(CEREAL_NVP(specularIntensity));
-        ar(CEREAL_NVP(shininess));
-        ar(CEREAL_NVP(specularTextureName));
-        ar(CEREAL_NVP(bUseSpecularTexture));
-
-        ar(CEREAL_NVP(normalTextureName));
-        ar(CEREAL_NVP(bUseNormalTexture));
-
-        ar(CEREAL_NVP(cubemapName));
-        ar(CEREAL_NVP(reflectionIntensity));
-
-        ar(CEREAL_NVP(tilingX), CEREAL_NVP(tilingY));
-    }
-
-protected:
-    LE3Shader* pShader;
-};
+    using LE3MaterialPtr = std::shared_ptr<LE3Material>;
+}

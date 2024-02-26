@@ -1,24 +1,28 @@
 #include "le3_skeleton.h"
+using namespace le3;
 
-glm::mat4 LE3Bone::GetTransform()
+
+glm::mat4 LE3Bone::getTransform()
 {
     glm::mat4 res = transform;
-    if (parent)
-        res = parent->GetTransform() * res;
+    if (parent) res = parent->getTransform() * res;
     return res;
 }
 
-void LE3Skeleton::AddBone(std::string boneName)
+
+void LE3Skeleton::addBone(std::string name)
 {
-    if (GetBone(boneName)) return;
-    std::shared_ptr<LE3Bone> pBone = std::make_shared<LE3Bone>();
-    pBone->name = boneName;
-    pBone->id = (GLuint)m_bones.size();
-    m_bones.push_back(pBone);
-    m_boneMapping[boneName] = pBone;
+    if (getBone(name)) return;
+    LE3BonePtr bone = std::make_shared<LE3Bone>();
+    bone->name = name;
+    bone->id = (uint32_t)m_bones.size();
+    m_bones.push_back(bone);
+    m_boneMapping[name] = bone;
 }
-std::shared_ptr<LE3Bone> LE3Skeleton::GetBone(std::string boneName)
+
+
+LE3BonePtr LE3Skeleton::getBone(std::string boneName)
 {
-    if (m_boneMapping.find(boneName) == m_boneMapping.end()) return nullptr;
+    if (!m_boneMapping.contains(boneName)) return nullptr;
     return m_boneMapping[boneName];
 }

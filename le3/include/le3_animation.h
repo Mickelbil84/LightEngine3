@@ -17,44 +17,45 @@
 
 #include "le3_skeleton.h"
 
-struct LE3PositionKeyframe
-{
-    float timestamp;
-    glm::vec3 position;
-};
-struct LE3RotationKeyframe
-{
-    float timestamp;
-    glm::quat rotation;
-};
-struct LE3ScaleKeyframe
-{
-    float timestamp;
-    glm::vec3 scale;
-};
+namespace le3 {
+    struct LE3PositionKeyframe
+    {
+        float timestamp;
+        glm::vec3 position;
+    };
+    struct LE3RotationKeyframe
+    {
+        float timestamp;
+        glm::quat rotation;
+    };
+    struct LE3ScaleKeyframe
+    {
+        float timestamp;
+        glm::vec3 scale;
+    };
 
-struct LE3AnimationTrack
-{
-public:
-    LE3AnimationTrack(LE3Skeleton* skeleton=nullptr);
+    struct LE3AnimationTrack {
+    public:
+        LE3AnimationTrack();
 
-    std::string name;
-    float duration;
-    int ticksPerSecond;
+        std::string name;
+        float duration;
+        int ticksPerSecond;
 
-    LE3Skeleton* skeleton;
-    std::map<std::shared_ptr<LE3Bone>, std::vector<LE3PositionKeyframe>> positionKeyframes;
-    std::map<std::shared_ptr<LE3Bone>, std::vector<LE3RotationKeyframe>> rotationKeyframes;
-    std::map<std::shared_ptr<LE3Bone>, std::vector<LE3ScaleKeyframe>> scaleKeyframes;
-    std::vector<glm::mat4> boneMatrices;
+        LE3Skeleton* skeleton;
+        std::map<LE3BonePtr, std::vector<LE3PositionKeyframe>> positionKeyframes;
+        std::map<LE3BonePtr, std::vector<LE3RotationKeyframe>> rotationKeyframes;
+        std::map<LE3BonePtr, std::vector<LE3ScaleKeyframe>> scaleKeyframes;
+        std::vector<glm::mat4> boneMatrices;
 
-    void LoadAnimationTrack(const aiScene* scene, unsigned int trackIdx);
-    void UpdateBoneMatrices(float animationTime);
-    std::vector<glm::mat4> GetBoneMatrices();
+        void loadAnimationTrack(const aiScene* scene, unsigned int trackIdx);
+        void updateBoneMatrices(float animationTime);
+        std::vector<glm::mat4> getBoneMatrices();
 
-protected:
-    glm::mat4 PositionKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime);
-    glm::mat4 RotationKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime);
-    glm::mat4 ScaleKeyframeInterpolation(std::shared_ptr<LE3Bone> bone, float animationTime);
-};
+    protected:
+        glm::mat4 positionKeyframeInterpolation(LE3BonePtr bone, float animationTime);
+        glm::mat4 rotationKeyframeInterpolation(LE3BonePtr bone, float animationTime);
+        glm::mat4 scaleKeyframeInterpolation(LE3BonePtr bone, float animationTime);
+    };
 
+}

@@ -1,28 +1,21 @@
 #pragma once
 
-#include "le3_mesh.h"
-#include "le3_shader.h"
 #include "le3_camera.h"
-#include "le3_primitives.h"
 
-class LE3VisualDebug
-{
-public:
-    // Generates all shaders and meshes for debugging.
-    // Note that this initializes static members. 
-    // Should only be called once, at the initialization of the program
-    static void Init(LE3Camera* camera);
+namespace le3 {
 
-    static void DrawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 color);
-    static void DrawDebugCube(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color);
-    static void DrawDebugCube(glm::mat4 modelMatrix, glm::vec3 color);
+    class LE3VisualDebug {
+    public:
+        inline void setActiveCamera(LE3CameraPtr camera) { m_activeCamera = camera; }
 
-    static bool g_bDrawCollision;
-    static bool g_bDrawBulletCollision;
-    static bool g_bDrawSkeleton;
-private:
-    static LE3Mesh<LE3Vertex3p> *m_pDebugCube, *m_pDebugCylinder, *m_pDebugCone, *m_pDebugLine;
-    static LE3Shader* m_pDebugShader;
-    static LE3Camera* m_pCamera;
-};
+        void drawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 color);
 
+        void drawDebugBox(glm::vec3 position, glm::quat rotation, glm::vec3 scale, glm::vec3 color);
+        void drawDebugBox(glm::mat4 modelMatrix, glm::vec3 color);
+
+    private:
+        LE3CameraPtr m_activeCamera = nullptr;
+
+        void setupDebugShader(glm::mat4 modelMatrix, glm::vec3 color);
+    };
+}

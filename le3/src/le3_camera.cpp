@@ -1,185 +1,51 @@
 #include "le3_camera.h"
+using namespace le3;
 
 LE3Camera::LE3Camera() : 
-    LE3Object("camera"),
-    m_forward(glm::vec3(0.f, 0.f, -1.f)),
-    m_up(glm::vec3(0.f, 1.f, 0.f)),
-    m_right(glm::vec3(1.f, 0.f, 0.f)),
-    b_lastModelMatrixValid(false),
-    m_fov(glm::radians(45.f))
-{
-    // Look forward by default
-    m_rotation.y = glm::radians(-90.f);
+    m_fov(glm::radians(45.f)), m_aspectRatio(1.f),
+    m_pitch(0.f), m_yaw(0.f) {
+    // By default, make the camera facing forward
+    // m_transform.addRotationY(glm::radians(-90.f));
 }
 
-void LE3Camera::Update(double deltaTime)
-{
-    LE3Object::Update(deltaTime);
-
-    // Clamp pitch value
-    if (m_rotation.x > glm::radians(89.f))
-        m_rotation.x = glm::radians(89.f);
-    if (m_rotation.x < glm::radians(-89.f))
-        m_rotation.x = glm::radians(-89.f);
-
-    // Update forward vector
-    m_forward.x = cos(m_rotation.y) * cos(m_rotation.x);
-    m_forward.y = sin(m_rotation.x);
-    m_forward.z = sin(m_rotation.y) * cos(m_rotation.x);
-    m_forward = glm::normalize(m_forward);
-
-    // Update right vector, which forward x world up
-    m_right = glm::cross(m_forward, glm::vec3(0.f, 1.f, 0.f));
-    m_right = glm::normalize(m_right);
-
-    // Finally update the camera up vector
-    m_up = glm::cross(m_right, m_forward);
+void LE3Camera::update(float deltaTime) {
+    updateCameraDirections();
+    LE3Object::update(deltaTime);
 }
 
-void LE3Camera::UpdateLocalModelMatrix()
-{
-    m_localModelMatrix = glm::inverse(GetViewMatrix());
-    // Inverse by hand - NOT more efficient + NOT more stable
-    // glm::mat4 viewMatrix = GetViewMatrix();
-    
-    // glm::mat4 R_ = GetViewMatrix();
-    // R_[3] = glm::vec4(0.f, 0.f, 0.f, 1.f);
-    // R_ = glm::transpose(R_);
-
-    // glm::mat4 T_ = glm::mat4(1.f);
-    // T_[3] = -viewMatrix[3];
-    // T_[3][3] = 1.f;
-
-    // m_localModelMatrix = R_ * T_;
-
-    // if (!b_lastModelMatrixValid)
-    // {
-    //     b_lastModelMatrixValid = true;
-    //     m_lastModelMatrix = m_localModelMatrix;
-    //     return;
-    // }
-
-    // glm::mat4 newModelMatrix = 0.5f * (m_localModelMatrix + m_lastModelMatrix);
-    // m_lastModelMatrix = m_localModelMatrix;
-    // m_localModelMatrix = newModelMatrix;
+glm::mat4 LE3Camera::getViewMatrix() {
+    return glm::inverse(getWorldMatrix());
+}
+glm::mat4 LE3Camera::getProjectionMatrix(float aspectRatio) {
+    if (aspectRatio < 0) aspectRatio = m_aspectRatio;
+    return glm::perspective(m_fov, aspectRatio, .1f, 100.f);
 }
 
-glm::mat4 LE3Camera::GetViewMatrix() const
-{
-    return glm::lookAt(m_position, m_position + m_forward, m_up);
+LE3OrbitCamera::LE3OrbitCamera() : LE3Camera(), m_origin(glm::vec3(0.f)), m_offset(0.f) {
 }
 
-glm::mat4 LE3Camera::GetProjectionMatrix(float aspectRatio) const
-{
-    if (aspectRatio < 0)
-        aspectRatio = m_aspectRatio;
-    return glm::perspective(m_fov, aspectRatio, 0.1f, 100.f);
+void LE3OrbitCamera::update(float deltaTime) {
+    m_transform.setOrbit(0.f, m_pitch, m_yaw, m_origin, m_offset);
+    LE3Camera::update(deltaTime);
 }
 
-glm::vec3 LE3Camera::GetForward() const
-{
-    return m_forward;
+void LE3OrbitCamera::updateCameraDirections() {
+    m_forwawrd = m_origin - m_offset; //- glm::vec3(getWorldMatrix()[3]);
+    m_right = glm::cross(m_forwawrd, glm::vec3(0.f, 1.f, 0.f));
+    m_up = glm::cross(m_right, m_forwawrd);
 }
 
-glm::vec3 LE3Camera::GetRight() const
-{
-    return m_right;
+LE3FreeCamera::LE3FreeCamera() : LE3Camera() {
 }
 
-glm::vec3 LE3Camera::GetUp() const
-{
-    return m_up;
+void LE3FreeCamera::update(float deltaTime) {
+    m_transform.setRotationRPY(0.f, m_pitch, m_yaw);
+    LE3Camera::update(deltaTime);
 }
 
-float LE3Camera::GetAspectRatio() const
-{
-    return m_aspectRatio;
-}
-void LE3Camera::SetAspectRatio(float aspectRatio)
-{
-    m_aspectRatio = aspectRatio;
-}
-void LE3Camera::SetFOV(float fov)
-{
-    m_fov = fov;
-}
-
-LE3FPSCamera::LE3FPSCamera(float walkSpeed, float lookSensitivity) : 
-    LE3Camera(),
-    m_walkSpeed(walkSpeed),
-    m_lookSensitivity(lookSensitivity),
-    m_moveVelocity(glm::vec2(0.f)),
-    m_lookVelocity(glm::vec2(0.f))
-{
-}
-
-void LE3FPSCamera::Update(double deltaTime)
-{
-    glm::vec3 floorForward = m_forward;
-    floorForward.y = 0.f;
-    floorForward = glm::normalize(floorForward);
-    m_position += (float)deltaTime * m_walkSpeed * m_moveVelocity.y * floorForward;
-    m_position += (float)deltaTime * m_walkSpeed * m_moveVelocity.x * m_right;
-    AddRotationY(m_lookSensitivity * m_lookVelocity.x);
-    AddRotationX(m_lookSensitivity * m_lookVelocity.y);
-
-    LE3Camera::Update(deltaTime);
-}
-
-void LE3FPSCamera::SetMoveVelocityX(float x)
-{
-    m_moveVelocity.x = x;
-}
-void LE3FPSCamera::SetMoveVelocityY(float y)
-{
-    m_moveVelocity.y = y;
-}
-void LE3FPSCamera::SetLookVelocityX(float x)
-{
-    m_lookVelocity.x = x;
-}
-void LE3FPSCamera::SetLookVelocityY(float y)
-{
-    m_lookVelocity.y = y;
-}
-
-LE3FreeCamera::LE3FreeCamera(float walkSpeed, float lookSensitivity) : 
-    LE3Camera(),
-    m_walkSpeed(walkSpeed),
-    m_lookSensitivity(lookSensitivity),
-    m_moveVelocity(glm::vec3(0.f)),
-    m_lookVelocity(glm::vec2(0.f))
-{
-}
-
-void LE3FreeCamera::Update(double deltaTime)
-{
-    m_position += (float)deltaTime * m_walkSpeed * m_moveVelocity.y * m_forward;
-    m_position += (float)deltaTime * m_walkSpeed * m_moveVelocity.x * m_right;
-    m_position += (float)deltaTime * m_walkSpeed * m_moveVelocity.z * m_up;
-    AddRotationY(m_lookSensitivity * m_lookVelocity.x);
-    AddRotationX(m_lookSensitivity * m_lookVelocity.y);
-
-    LE3Camera::Update(deltaTime);
-}
-
-void LE3FreeCamera::SetMoveVelocityX(float x)
-{
-    m_moveVelocity.x = x;
-}
-void LE3FreeCamera::SetMoveVelocityY(float y)
-{
-    m_moveVelocity.y = y;
-}
-void LE3FreeCamera::SetMoveVelocityZ(float z)
-{
-    m_moveVelocity.z = z;
-}
-void LE3FreeCamera::SetLookVelocityX(float x)
-{
-    m_lookVelocity.x = x;
-}
-void LE3FreeCamera::SetLookVelocityY(float y)
-{
-    m_lookVelocity.y = y;
+void LE3FreeCamera::updateCameraDirections() {
+    glm::quat rotation = m_transform.getRotation();
+    m_forwawrd = rotation * glm::vec3(0.f, 0.f, -1.f);
+    m_right = rotation * glm::vec3(1.f, 0.f, 0.f);
+    m_up = rotation * glm::vec3(0.f, 1.f, 0.f);
 }

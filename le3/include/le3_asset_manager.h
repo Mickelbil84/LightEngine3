@@ -3,159 +3,66 @@
 #include <map>
 #include <string>
 
-#include <cereal/cereal.hpp>
-#include <cereal/types/map.hpp>
-#include <cereal/types/string.hpp>
-
-#include "le3_utils.h"
-#include "le3_mesh.h"
+#include "le3_model.h"
 #include "le3_shader.h"
 #include "le3_texture.h"
-#include "le3_material.h"
-#include "le3_animation.h"
-#include "le3_primitives.h"
+#include "le3_geometry.h"
 
-const char gPrimitivePathPrefix = '$';
-const char gPrimitivePathDelimiter = '_';
-extern const char* gTokenBox;
-extern const char* gTokenCylinder;
-extern const char* gTokenCone;
-extern const char* gTokenTorus;
-extern const char* gTokenSphere;
+namespace le3 {
 
-struct LE3PrimitiveTokens
-{
-    std::string token;
-    std::vector<float> params;
-};
-LE3PrimitiveTokens ParsePrimitivePath(std::string primitiveDescription);
+    const std::string DEFAULT_SHADER = "S_default";
+    const std::string DEFAULT_POSTPROCESS_SHADER = "S_defaultPostProcess";
+    const std::string DEFAULT_SHADOWMAP_SHADER = "S_shadowmap";
+    const std::string DEFAULT_DEBUG_SHADER = "S_debug";
 
-struct LE3AssetPath
-{
-    LE3AssetPath();
+    class LE3AssetManager {
+    public:
+        void init();
 
-    std::string path;
-    bool bIsLoaded;
+        // Shaders
+        void addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
+        void addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource);
+        inline LE3ShaderPtr& getShader(std::string name) { return m_pShaders[name]; }
+        inline std::map<std::string, LE3ShaderPtr> getShaders() { return m_pShaders; }
 
-    template <class Archive>
-    void serialize(Archive & ar)
-    {
-        ar(CEREAL_NVP(path));
-    }
-};
+        // Materials
+        void addMaterial(std::string name, std::string shaderName);
+        inline LE3MaterialPtr& getMaterial(std::string name) { return m_pMaterials[name]; }
 
-struct LE3ShaderPath
-{
-    LE3ShaderPath();
+        // Textures
+        void addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate = true);
+        void addTexture(std::string name, std::string filename, bool interpolate = true);
+        inline LE3TexturePtr& getTexture(std::string name) { return m_pTextures[name]; }
 
-    std::string vertexShaderPath, fragmentShaderPath;
-    bool bIsLoaded;
+        // Meshes
+        void addStaticMesh(std::string name, std::string filename);
+        inline LE3StaticMeshPtr& getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
 
-    template <class Archive>
-    void serialize(Archive & ar)
-    {
-        ar(CEREAL_NVP(vertexShaderPath));
-        ar(CEREAL_NVP(fragmentShaderPath));
-    }
-};
+        void addSkeletalMesh(std::string name, std::string filename);
+        inline LE3SkeletalMeshPtr& getSkeletalMesh(std::string name) { return m_pSkeletalMeshes[name]; }
+        void addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName); // Implemented in `le3_assimp.cpp`
 
-struct LE3AnimationPath
-{
-    LE3AnimationPath();
-
-    std::string path;
-    std::string skeletalMeshName;
-    bool bIsLoaded;
-
-    template <class Archive>
-    void serialize(Archive & ar)
-    {
-        ar(CEREAL_NVP(path));
-        ar(CEREAL_NVP(skeletalMeshName));
-    }
-};
-
-class LE3AssetManager
-{
-public:
-    void Clear();
-
-    void AddMeshPath(std::string name, std::string meshPath);
-    void LoadMesh(std::string name, std::vector<LE3Vertex> data);
-    void LoadMesh(std::string name, std::string meshPath);
-    void LoadMeshPrimitive(std::string name, std::string primitiveDescription);
-    LE3Mesh<LE3Vertex>* GetMesh(std::string name);
-
-    void AddSkeletalMeshPath(std::string name, std::string meshPath);
-    void LoadSkeletalMesh(std::string name, std::string meshPath);
-    LE3Mesh<LE3VertexSkeletal>* GetSkeletalMesh(std::string name);
-
-    void AddAnimationPath(std::string name, std::string animationPath, std::string skeletalMeshName);
-    void LoadAnimations(std::string animationName); // Loads only the first animation from a given file
-
-    void AddTexturePath(std::string name, std::string texturePath);
-    void LoadTexture(std::string name, std::string texturePath);
-    LE3Texture* GetTexture(std::string name);
-
-    void AddShaderPath(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
-    void LoadShader(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
-    LE3Shader* GetShader(std::string name);
-
-    void CreateMaterial(std::string name, std::string shaderName);
-    LE3Material* GetMaterial(std::string name);
-
-    /*
-    *  Meshes and Textures can also be added lazily, and loaded on demand
-    */
-    std::map<std::string, LE3AssetPath> m_meshesPaths;
-    std::map<std::string, LE3AssetPath> m_skeletalMeshesPaths;
-    std::map<std::string, LE3AnimationPath> m_animationPaths;
-    std::map<std::string, LE3AssetPath> m_texturesPaths;
-    std::map<std::string, LE3ShaderPath> m_shadersPaths;
-
-    std::map<std::string, LE3Mesh<LE3Vertex>> m_meshes;
-    std::map<std::string, LE3Mesh<LE3VertexSkeletal>> m_skeletalMeshes;
-    std::map<std::string, LE3Shader> m_shaders;
-    std::map<std::string, LE3Texture> m_textures;
-    std::map<std::string, LE3Material> m_materials;
-
-    template <class Archive>
-    void save( Archive & ar ) const
-    {
-        ar(CEREAL_NVP(m_meshesPaths));
-        ar(CEREAL_NVP(m_skeletalMeshesPaths));
-        ar(CEREAL_NVP(m_animationPaths));
-        ar(CEREAL_NVP(m_texturesPaths));
-        ar(CEREAL_NVP(m_shadersPaths));
-        ar(CEREAL_NVP(m_materials));
-    }
-
-    template <class Archive>
-    void load( Archive & ar )
-    {
-        ar(m_meshesPaths);
-        ar(m_skeletalMeshesPaths);
-        ar(m_animationPaths);
-        ar(m_texturesPaths);
-        ar(m_shadersPaths);
-        ar(m_materials);
-
-        for (auto& [name, material] : m_materials)
-        {
-            material.SetShader(GetShader(material.shaderName));
-            if (material.diffuseTextureName.size())
-                material.SetDiffuseTexture(GetTexture(material.diffuseTextureName));
-            if (material.specularTextureName.size())
-                material.SetSpecularTexture(GetTexture(material.specularTextureName));
-            if (material.normalTextureName.size())
-                material.SetNormalTexture(GetTexture(material.normalTextureName));
-            if (material.cubemapName.size())
-                material.SetCubemap(GetTexture(material.cubemapName));
-        }
-
-        for (auto& [name, ap] : m_animationPaths)
-            LoadAnimations(name);
-    }
+        inline LE3ScreenRectPtr getScreenRect() { return m_screenRect; }
+        inline LE3MeshPtr<LE3Vertex3p> getDebugLine() { return m_debugLine; }
+        inline LE3MeshPtr<LE3Vertex3p> getDebugBox() { return m_debugBox; }
 
 
-};
+    private:
+        // Asset maps
+        std::map<std::string, LE3ShaderPtr> m_pShaders;
+        std::map<std::string, LE3MaterialPtr> m_pMaterials;
+        std::map<std::string, LE3TexturePtr> m_pTextures;
+        std::map<std::string, LE3StaticMeshPtr> m_pStaticMeshes;
+        std::map<std::string, LE3SkeletalMeshPtr> m_pSkeletalMeshes;
+
+        LE3ScreenRectPtr m_screenRect = nullptr; // Create this crucial geometry only once
+
+        // Debug meshes
+        LE3MeshPtr<LE3Vertex3p> m_debugLine, m_debugBox;
+
+        // Helper methods
+        std::string readFile(std::string filename);
+        LE3StaticMeshPtr loadStaticMesh(std::string filename); // Implemented in `le3_assimp.cpp`
+        LE3SkeletalMeshPtr loadSkeletalMesh(std::string filename); // Implemented in `le3_assimp.cpp`
+    }; 
+}

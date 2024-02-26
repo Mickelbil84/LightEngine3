@@ -2,84 +2,69 @@
 
 #include "le3_object.h"
 
-#include <gl/glew.h>
-#include <glm/glm.hpp>
-#include <glm/gtx/transform.hpp>
+namespace le3 {
+    class LE3Camera : public LE3Object {
+    public:
+        LE3Camera();
 
-// Abstract class describing a virtual camera
-class LE3Camera : public LE3Object
-{
-public:
-    LE3Camera();
+        virtual void update(float deltaTime);
 
-    // Update method, called once every frame
-    virtual void Update(double deltaTime);
+        glm::mat4 getViewMatrix();
+        glm::mat4 getProjectionMatrix(float aspectRatio=-1.f);
 
-    // Returns the view matrix for the given camera
-    glm::mat4 GetViewMatrix() const;
-    // Returns the projection matrix for the given camera
-    glm::mat4 GetProjectionMatrix(float aspectRatio=-1.f) const;
-    // Returns camera's forward vector
-    glm::vec3 GetForward() const;
-    // Returns camera's right vector
-    glm::vec3 GetRight() const;
-    // Returns camera's up vector
-    glm::vec3 GetUp() const;
+        glm::vec3 getForward() const { return m_forwawrd; }
+        glm::vec3 getRight() const { return m_right; }
+        glm::vec3 getUp() const { return m_up; }
 
-    float GetAspectRatio() const;
-    void SetAspectRatio(float aspectRatio);
-    void SetFOV(float fov);
+        void moveForward(float amount) { m_transform.addPosition(amount * m_forwawrd); }
+        void moveRight(float amount) { m_transform.addPosition(amount * m_right); }
+        void moveUp(float amount) { m_transform.addPosition(amount * m_up); }
 
-protected:
-    void UpdateLocalModelMatrix();
-    glm::mat4 m_lastModelMatrix;
-    bool b_lastModelMatrixValid;
+        float getAspectRatio() const { return m_aspectRatio; }
+        void setAspectRatio(float aspectRatio) { m_aspectRatio = aspectRatio; }
+        
+        float getFov() const { return m_fov; }
+        void setFov(float fov) { m_fov = fov; }
 
-    glm::vec3 m_forward, m_up, m_right;
-    float m_aspectRatio, m_fov;
-};
+        void addPitchYaw(float pitch, float yaw) { m_pitch += pitch; m_yaw += yaw; }
+        void setPitchYaw(float pitch, float yaw) { m_pitch = pitch; m_yaw = yaw; }
+        float getPitch() const { return m_pitch; }
+        float getYaw() const { return m_yaw; }
 
-class LE3FPSCamera : public LE3Camera
-{
-public:
-    LE3FPSCamera(float walkSpeed = 2.2f, float lookSensitivity = 0.005f);
+    protected:
+        float m_aspectRatio, m_fov;
+        float m_pitch, m_yaw;
+        glm::vec3 m_forwawrd, m_right, m_up;
 
-    // Update method, called once every frame
-    virtual void Update(double deltaTime);
+        virtual void updateCameraDirections() = 0;
+    };
+    using LE3CameraPtr = std::shared_ptr<LE3Camera>;
 
-    void SetMoveVelocityX(float x);
-    void SetMoveVelocityY(float y);
-    void SetLookVelocityX(float x);
-    void SetLookVelocityY(float y);
+    class LE3OrbitCamera : public LE3Camera {
+    public:     
+        LE3OrbitCamera();
 
+        virtual void update(float deltaTime);
 
-protected:
-    float m_walkSpeed, m_lookSensitivity;
-    glm::vec2 m_moveVelocity, m_lookVelocity;
-};
+        float getOffset() const { return m_offset; }
+        void setOffset(float offset) { m_offset = offset; }
+        glm::vec3 getOrigin() const { return m_origin; }
+        void setOrigin(glm::vec3 origin) { m_origin = origin; }
 
-class LE3FreeCamera : public LE3Camera
-{
-public:
-    LE3FreeCamera(float walkSpeed = 2.2f, float lookSensitivity = 0.005f);
+    protected:
+        glm::vec3 m_origin;
+        float m_offset;
+        virtual void updateCameraDirections();
+    };
+    using LE3OrbitCameraPtr = std::shared_ptr<LE3OrbitCamera>;
 
-    // Update method, called once every frame
-    virtual void Update(double deltaTime);
+    class LE3FreeCamera : public LE3Camera {
+    public:     
+        LE3FreeCamera();
 
-    void SetMoveVelocityX(float x);
-    void SetMoveVelocityY(float y);
-    void SetMoveVelocityZ(float z);
-    void SetLookVelocityX(float x);
-    void SetLookVelocityY(float y);
-
-
-protected:
-    float m_walkSpeed, m_lookSensitivity;
-    glm::vec3 m_moveVelocity;
-    glm::vec2 m_lookVelocity;
-};
-
-CEREAL_REGISTER_TYPE(LE3Camera);
-CEREAL_REGISTER_TYPE(LE3FreeCamera);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(LE3Object, LE3Camera);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(LE3Camera, LE3FreeCamera);
+        virtual void update(float deltaTime);
+    protected:
+        virtual void updateCameraDirections();
+    };
+    using LE3FreeCameraPtr = std::shared_ptr<LE3FreeCamera>;
+}

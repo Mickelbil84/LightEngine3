@@ -1,0 +1,9 @@
+[submodule "third-party/stb"]
+	path = third-party/stb
+	url = git@github.com:nothings/stb.git
+[submodule "third-party/imgui"]
+	path = third-party/imgui
+	url = git@github.com:ocornut/imgui.git
+[submodule "third-party/gzip-hpp"]
+	path = third-party/gzip-hpp
+	url = git@github.com:mapbox/gzip-hpp.git

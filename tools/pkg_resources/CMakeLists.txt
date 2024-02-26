@@ -1,0 +1,27 @@
+project("pkg-resources" VERSION 0.1)
+
+find_package(fmt REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(Lua REQUIRED)
+include_directories(${GLEW_INCLUDE_DIRS} ${LUA_INCLUDE_DIR})
+
+add_executable(${PROJECT_NAME} main.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+
+
+if (WIN32)
+    add_custom_command(
+        TARGET ${PROJECT_NAME}
+        POST_BUILD
+        COMMAND 
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${CMAKE_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>
+    )
+else()
+    add_custom_command(
+        TARGET ${PROJECT_NAME}
+        POST_BUILD
+        COMMAND 
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources ${CMAKE_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    )
+endif()

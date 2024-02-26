@@ -18,6 +18,8 @@ the entire framework. During my MSc degree I decided to once again tackle this p
 via CMake, and developing a library (and not just an executable) from the outset, so that the framework could also be used in external projects.
 Also the first game engine I have seriously learned was the Unreal Engine 3 hence the name "LightEngine3" has a nice, familiar sound (at least for me).
 
+Even this new version, V2, is a (once again) re-write of LightEngine, made during my PhD. With even better CMake integration, Lua bindings and better framework, utilizing smart pointers and RAII. 
+
 ## Installation and Usage
 
 TODO: Write detailed installation guide.
@@ -51,7 +53,25 @@ Installation is done simply with CMake.
 6. Run: `brew install glew`
 7. Run: `brew install glm`
 8. Run: `brew install assimp`
-9. Run: `brew install wxwidgets`
-10. Run: `brew install bullet`
+9. Run: `brew install wxwidgets` [No longer required]
+10. Run: `brew install bullet` [No longer required]
 11. Run: `brew install fmt`
-12. Run: `brew install cereal`
+12. Run: `brew install cxxopts`
+
+NOTE: To ignore glm's CMake warning, you need to edit glmConfig.cmake in glm installation to increase CMake version to 3.6.
+(This is also a recent [as of January 2024] commit on glm's repository from July 2023).
+
+### Things to remember when binding LE3 types to Lua
+
+* Declare `LOPEN_DECLARE(LE3Classname);`` in `le3_script_bindings.h`
+* Add `REGISTER(LE3Classname);` in `le3_script_bindings.cpp`
+* Add a new file `src/bindings/le3_binding_XXX.cpp` and implement `LIB(LE3Classname)` (and the binding functions)
+* Add `src/bindings/le3_binding_XXX.cpp` the the le3 `CMakeLists.txt`
+* If applicable, add serialization code in `resources/engine/scripts/bindings` 
+* Also add the class to `load_scene.lua`)
+
+Annotations are auto-generated during build!
+
+## Acknowledgments
+
+Car model: [link](https://sketchfab.com/3d-models/free-concept-car-025-public-domain-cc0-e3a65443d3e44c33b594cec591c01c05)

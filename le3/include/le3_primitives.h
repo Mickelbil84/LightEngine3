@@ -1,39 +1,39 @@
 #pragma once
 
-#include <vector>
-#include <glm/glm.hpp>
-#include "le3_vertex.h"
+#include "le3_model.h"
+#include "le3_geometry.h"
 
-// Appends an isosceles triangle to a given vector vertex buffer
-void AddIsoscelesTriangle(std::vector<LE3Vertex3p>& buffer, 
-    GLfloat x0, GLfloat y0, GLfloat z0,
-    GLfloat width, GLfloat height);
+namespace le3 {
+    LE3MeshPtr<LE3Vertex3p3c> createHelloOpenGLTriangle();
+    LE3ScreenRectPtr createScreenRect();
+    LE3MeshPtr<LE3Vertex> createBox(float x0, float y0, float z0, float width, float height, float depth);
 
-// Adds the "Hello OpenGL" triangle, with different color for each vertex
-void AddHelloOpenGLTriangle(std::vector<LE3Vertex3p3c>& buffer);
+    LE3MeshPtr<LE3Vertex3p> createDebugLine();
+    LE3MeshPtr<LE3Vertex3p> createDebugBox();
 
-// Appends an axis-aligned box to a given vector vertex buffer
-void AddBox(std::vector<LE3Vertex>& buffer,
-    GLfloat x0, GLfloat y0, GLfloat z0,
-    GLfloat width, GLfloat height, GLfloat depth);
-void AddDebugBox(std::vector<LE3Vertex3p>& buffer);
+    class LE3Box : public LE3StaticModel {
+    public:
+        LE3Box(float x0, float y0, float z0, float width, float height, float depth, LE3MaterialPtr pMaterial) : 
+            LE3StaticModel(nullptr, pMaterial) {
+            rebuild(x0, y0, z0, width, height, depth);
+        }
 
-// Appends a cylinder to a given vector vertex buffer
-void AddCylinder(std::vector<LE3Vertex>& buffer,
-    GLfloat x0, GLfloat y0, GLfloat z0,
-    GLfloat radius, GLfloat height, GLushort resolution, GLushort withCaps = 0);
+        inline float getX0() const { return x0; }
+        inline float getY0() const { return y0; }
+        inline float getZ0() const { return z0; }
+        inline float getWidth() const { return width; }
+        inline float getHeight() const { return height; }
+        inline float getDepth() const { return depth; }
 
-// Appends a cone to a given vector vertex buffer
-void AddCone(std::vector<LE3Vertex>& buffer,
-    GLfloat x0, GLfloat y0, GLfloat z0,
-    GLfloat radius, GLfloat height, GLushort resolution);
+        void rebuild(float x0, float y0, float z0, float width, float height, float depth) {
+            this->x0 = x0; this->y0 = y0; this->z0 = z0;
+            this->width = width; this->height = height; this->depth = depth;
+            m_pMesh = createBox(x0, y0, z0, width, height, depth);
+        }
 
-// Appends a sphere to a given vector vertex buffer
-void AddSphere(std::vector<LE3Vertex>& buffer,
-    GLfloat x0, GLfloat y0, GLfloat z0,
-    GLfloat radius, GLushort resolution);
-
-// Appends a torus to a given vector vertex buffer
-void AddTorus(std::vector<LE3Vertex>& buffer,
-    GLfloat x0, GLfloat y0, GLfloat z0,
-    GLfloat majorRadius, GLfloat minorRadius, GLushort resolution);
+    protected:
+        float x0, y0, z0;
+        float width, height, depth;
+    };
+    using LE3BoxPtr = std::shared_ptr<LE3Box>;
+};
