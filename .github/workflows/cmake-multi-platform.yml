@@ -61,6 +61,10 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+    - name: Install libegl
+      run: sudo apt-get install -y libegl-dev libegl1-mesa-dev
+      if: matrix.os == 'ubuntu-latest'
+
     - name: Get Conan
       uses: turtlebrowser/get-conan@main
 
