@@ -3,6 +3,7 @@ project(00-playground)
 find_package(fmt REQUIRED)
 find_package(Lua REQUIRED)
 find_package(assimp REQUIRED)
+find_package(glm CONFIG REQUIRED)
 
 include_directories(
     ${LUA_INCLUDE_DIR} 
