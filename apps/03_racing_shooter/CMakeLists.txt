@@ -8,6 +8,10 @@ find_package(assimp REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS} ${LUA_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/third-party/imgui)
 
+if (NOT DEFINED LUA_LIBRARIES)
+    set(LUA_LIBRARIES lua::lua)
+endif()
+
 add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt glm::glm assimp::assimp)
+target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
