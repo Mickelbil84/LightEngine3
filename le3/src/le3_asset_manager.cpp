@@ -1,6 +1,8 @@
 #include "le3_asset_manager.h"
 using namespace le3;
 
+#include <stdexcept>
+
 #include <fmt/core.h>
 using fmt::format;
 
@@ -48,7 +50,7 @@ void LE3AssetManager::addTexture(std::string name, std::string filename, bool in
 
     LE3DatBuffer buffer = LE3GetDatFileSystem().getFileContent(filename);
     // rawData = stbi_load(filename.c_str(), &width, &height, &nChannels, 0);
-    rawData = stbi_load_from_memory((u_char*)&buffer.data[0], buffer.data.size(), &width, &height, &nChannels, 0);
+    rawData = stbi_load_from_memory((uint8_t*)&buffer.data[0], buffer.data.size(), &width, &height, &nChannels, 0);
     if (!rawData) throw std::runtime_error(format("Could not load texture from path: {}", filename));
     std::copy(&rawData[0], &rawData[width * height * nChannels - 1], std::back_inserter(data));
     stbi_image_free(rawData);

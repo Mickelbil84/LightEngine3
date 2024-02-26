@@ -13,10 +13,7 @@ namespace le3 {
     // Singleton for various (global) engine systems, which are not specific to any scene
     class LE3EngineSystems {
     public:
-        static LE3EngineSystems& instance() {
-            static LE3EngineSystems* instance_ = new LE3EngineSystems();
-            return *instance_;
-        }
+        static LE3EngineSystems& instance();
 
         // Called before initializing any other system (so that we can call bare-bones code)
         void preload() {

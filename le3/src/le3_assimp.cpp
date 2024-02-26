@@ -1,6 +1,8 @@
 #include "le3_scene.h"
 using namespace le3;
 
+#include <stdexcept>
+
 #include <gl/glew.h>
 
 #include <assimp/Importer.hpp>

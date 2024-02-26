@@ -1,6 +1,8 @@
 #include "le3_shader.h"
 using namespace le3;
 
+#include <stdexcept>
+
 #include <fmt/core.h>
 using fmt::format;
 

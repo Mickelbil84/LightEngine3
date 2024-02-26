@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <filesystem>
 
 #include <fmt/core.h>
@@ -17,11 +18,17 @@ void recurseDirectory(std::filesystem::directory_entry entry, std::vector<std::s
         recurseDirectory(childEntry, res);
 }
 
+void fixPath(std::string& path) {
+    std::replace(path.begin(), path.end(), '\\', '/');
+}
+
 int main(int argc, char** argv) {
     LE3DatFileSystem datFilesystem;
 
-    const std::string rootDir = std::string(argv[1]);
-    const std::string outDir = std::string(argv[2]);
+    std::string rootDir = std::string(argv[1]);
+    std::string outDir = std::string(argv[2]);
+    fixPath(rootDir);
+    fixPath(outDir);
 
     for (const auto& entry : std::filesystem::directory_iterator(rootDir)) {
         if (!entry.is_directory() || entry.path().filename().string().starts_with('.')) continue;
@@ -35,7 +42,8 @@ int main(int argc, char** argv) {
         print("Archive {} @ {}\n", archiveName, archivePath);
 
         for (auto file : files) {
-            // print("{}| {} --> {}\n", archiveName, file, file.substr(rootDir.size()));
+            fixPath(file);
+            print("{}| {} --> {}\n", archiveName, file, file.substr(rootDir.size()));
             datFilesystem.appendFile(archiveName, file.substr(rootDir.size()), file, true);
         }
     }

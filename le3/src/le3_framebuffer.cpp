@@ -1,6 +1,8 @@
 #include "le3_framebuffer.h"
 using namespace le3;
 
+#include <stdexcept>
+
 #include <gl/glew.h>
 
 

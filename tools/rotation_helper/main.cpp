@@ -1,6 +1,10 @@
 #include <string>
 #include <vector>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+
 #include <cxxopts.hpp>
 #include <fmt/core.h>
 using fmt::format, fmt::print;

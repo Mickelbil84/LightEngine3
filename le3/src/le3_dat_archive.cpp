@@ -1,6 +1,8 @@
 #include "le3_dat_archive.h"
 using namespace le3;
 
+#include <stdexcept>
+
 #include <fmt/core.h>
 using fmt::format;
 
