@@ -65,7 +65,9 @@ Scene.Materials = {
         ShaderName = "S_default",
         DiffuseTexture = "T_DIF_soldier",
         NormalTexture = "T_NRM_soldier",
-        SpecularTexture = "T_SPC_soldier"
+        SpecularTexture = "T_SPC_soldier",
+        SpecularIntensity = 2.0,
+        Shininess = 128,
     }
 }
 Scene.StaticMeshes = {
@@ -124,7 +126,7 @@ Scene.Objects = {
     {
         Type = "SpotLight",
         Name = "spotLight01",
-        Position = {1.3, 1.1, 0},
+        Position = {-2.3, 1.1, 0},
         Color = {0.9, 0.9, 0.9},
         -- Rotation = {-0.9961947, 0, 0.08715574, 0},
         -- Rotation = {0, 0, 0, 1},
@@ -140,7 +142,7 @@ Scene.Objects = {
         Type = "Box",
         Name = "floor",
         MaterialName = "M_default",
-        BoxPosition = {0, -0.1, 0},
+        BoxPosition = {0, -0.05, 0},
         BoxExtent = {50, 0.1, 50},
         CastShadow = false
     },
@@ -160,31 +162,25 @@ Scene.Objects = {
         Offset = 5.0
     },
     {
-        Type = "Cube",
-        Name = "cube",
-        MaterialName = "M_default",
-        Position = {0.0, -0.1, 0.0},
-        Scale = {50.0, 0.1, 50.0}
-    },
-    {
         Type = "ScriptObject",
         Classname = "Car",
         Name = "car",
-        Scale = {2.5, 2.5, 2.5}
+        Scale = {2.5, 2.5, 2.5},
+        Position = {-3, 0.05, 0}
     },
     {
         Type = "ScriptObject",
         Classname = "Car",
         Name = "car2",
         Scale = {2.5, 2.5, 2.5},
-        Position = {0, 0, 2}
+        Position = {-2, 0.05, 2}
     },
     {
         Type = "SkeletalModel",
         Name = "soldier",
         MeshName = "SK_soldier",
         MaterialName = "M_soldier",
-        Position = {0, -0.05, -2},
+        Position = {0, 0, -2},
         Scale = {0.01, 0.01, 0.01}
     }
 }
