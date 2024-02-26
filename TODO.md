@@ -1,4 +1,5 @@
-TODO: Physics and Collision detection
+TODO: Physics and Collision detection (Jolt physics)
+TODO: BSP
 TODO: Lua save scene (object -> table)
 TODO: LE3 Editor (once again)
 TODO: Engine & Game config (with Lua?)
