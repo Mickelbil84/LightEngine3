@@ -1,6 +1,9 @@
 #include <le3.h>
 using namespace le3;
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 #include <fmt/core.h>
 using fmt::print, fmt::format;
 

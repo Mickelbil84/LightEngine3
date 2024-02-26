@@ -5,7 +5,9 @@ set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib )
 set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 if (WIN32)
-  add_compile_options(/bigobj)
+    add_compile_options(/bigobj)
+    add_compile_options(/Zc:preprocessor)
+    add_compile_options(/wd5105 /wd4244 /wd4305 /wd4267 /wd4068 /wd4018 /wd4312 /wd4146)
 endif ()
 
 # Disable -Wdeprecated-volatile from glm
@@ -47,10 +49,30 @@ add_subdirectory(tools)
 # )
 # endif()
 
-add_custom_target(
-    pkg-resources-tgt ALL
-    COMMAND 
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 
-    DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources 
-)
+
+# if (WIN32)
+#     # add_custom_target(
+#     #     pkg-resources-tgt ALL
+#     #     COMMAND 
+#     #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>
+
+#     #     DEPENDS 
+#     #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}\\$<CONFIG>\\pkg-resources.exe
+#     #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}\\$<CONFIG>\\le3.dll
+#     # )
+#     # add_custom_command(
+#     #     TARGET pkg_resources
+#     #     POST_BUILD
+#     #     COMMAND 
+#     #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>
+#     # )
+# else()
+#     add_custom_target(
+#         pkg-resources-tgt ALL
+#         COMMAND 
+#             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+
+#         DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources 
+#     )
+# endif()

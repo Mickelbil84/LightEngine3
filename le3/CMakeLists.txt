@@ -8,6 +8,7 @@ find_package(SDL2 REQUIRED)
 find_package(assimp REQUIRED)
 find_package(Bullet REQUIRED)
 find_package(glm CONFIG REQUIRED)
+find_package(ZLIB REQUIRED)
 
 if(MSVC)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
@@ -51,6 +52,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_skeleton.cpp
     src/le3_animation.cpp
     src/le3_script_object.cpp
+    src/le3_engine_systems.cpp
     
     src/le3_script_system.cpp
     src/le3_script_bindings.cpp
@@ -87,7 +89,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp ${LUA_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp ${LUA_LIBRARIES} ${ZLIB_LIBRARIES})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 # Auto generate lua bindings
