@@ -4,18 +4,17 @@ using namespace le3;
 #include <stdexcept>
 
 #include <fmt/core.h>
-using fmt::format;
 
 #include <gzip/compress.hpp>
 #include <gzip/decompress.hpp>
 
 std::string LE3FileInfo::str() {
-    return format("({}) '{}' @ {} [{}]", pathLen, path, offset, packedSize);
+    return fmt::format("({}) '{}' @ {} [{}]", pathLen, path, offset, packedSize);
 }
 
 LE3DatBuffer LE3DatBuffer::loadFromSystem(std::string path, bool compressed) {
     std::ifstream ifile(path, std::ios::binary);
-    if (!ifile.good()) throw std::runtime_error(format("Could not load file '{}'", path));
+    if (!ifile.good()) throw std::runtime_error(fmt::format("Could not load file '{}'", path));
     LE3DatBuffer buffer; buffer.bCompressed = compressed;
     buffer.readBuffer(std::istreambuf_iterator<char>(ifile), std::istreambuf_iterator<char>());
     ifile.close();
@@ -91,7 +90,7 @@ void LE3DatArchive::loadArchive() {
 }
 void LE3DatArchive::openArchive() {
     m_archiveFile = std::fstream(m_archivePath, std::ios::binary | std::ios::in | std::ios::out);
-    if (!m_archiveFile) throw std::runtime_error(format("Could not open *.dat file '{}'", m_archivePath));
+    if (!m_archiveFile) throw std::runtime_error(fmt::format("Could not open *.dat file '{}'", m_archivePath));
 }
 void LE3DatArchive::closeArchive() {
     if (m_archiveFile) m_archiveFile.close();
@@ -196,7 +195,7 @@ void LE3DatArchive::writeDataSize() {
 }
 
 LE3DatBuffer LE3DatArchive::getFileContent(std::string path, bool shouldDecompress) {
-    if (!m_fileInfos.contains(path)) throw std::runtime_error(format("Path '{}' does not exist in archive", path));
+    if (!m_fileInfos.contains(path)) throw std::runtime_error(fmt::format("Path '{}' does not exist in archive", path));
     LE3FileInfo fileInfo = m_fileInfos[path];
 
     char* tmp = new char[fileInfo.packedSize];

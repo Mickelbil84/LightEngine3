@@ -12,7 +12,6 @@ using namespace le3;
 #endif
 
 #include <fmt/core.h>
-using fmt::format, fmt::print;
 
 #include "le3_engine_systems.h"
 
@@ -217,8 +216,8 @@ void LE3Scene::addSpotLight(std::string name, std::string parent) {
 // --------------------------------------------------------------------------------
 
 void LE3Scene::assertObjectName(std::string name) { 
-    if (name.size() == 0) throw std::runtime_error(format("Empty name is not allowed"));
-    if (m_sceneGraph->m_pObjects.contains(name)) throw std::runtime_error(format("Object '{}' already exists", name));
+    if (name.size() == 0) throw std::runtime_error(fmt::format("Empty name is not allowed"));
+    if (m_sceneGraph->m_pObjects.contains(name)) throw std::runtime_error(fmt::format("Object '{}' already exists", name));
 }
 
 void LE3Scene::attachObject(std::string name, LE3ObjectPtr obj, std::string parent) {
@@ -241,9 +240,9 @@ void LE3Scene::applyMainCamera(LE3ShaderPtr shader) {
 }
 
 void LE3Scene::setMainCamera(std::string camera) {
-    if (!m_sceneGraph->m_pObjects.contains(camera)) throw std::runtime_error(format("Object '{}' does not exist", camera));
+    if (!m_sceneGraph->m_pObjects.contains(camera)) throw std::runtime_error(fmt::format("Object '{}' does not exist", camera));
     LE3CameraPtr pCamera = std::dynamic_pointer_cast<LE3Camera>(m_sceneGraph->m_pObjects[camera]);
-    if (!pCamera) throw std::runtime_error(format("Object '{}' is not a camera", camera));
+    if (!pCamera) throw std::runtime_error(fmt::format("Object '{}' is not a camera", camera));
 
     if (m_pMainCamera) {
         // Copy old aspect ratio

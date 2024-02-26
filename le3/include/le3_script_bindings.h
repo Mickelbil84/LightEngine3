@@ -3,9 +3,12 @@
 #if __has_include("lua.hpp")
     #include <lua.hpp>
     #include <lauxlib.h>
-#else
+#elif __has_include("lua5.4/lua.hpp")
     #include <lua5.4/lua.hpp>
     #include <lua5.4/lauxlib.h>
+#else
+    #include <lua/lua.hpp>
+    #include <lua/lauxlib.h>
 #endif
 
 #include "le3_input.h"

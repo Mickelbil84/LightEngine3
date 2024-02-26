@@ -2,7 +2,6 @@
 using namespace le3;
 
 #include <fmt/core.h>
-using fmt::format;
 
 template<typename LE3VertexType>
 LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial) :
@@ -36,7 +35,7 @@ void LE3Model<LE3VertexType>::draw(LE3ShaderPtr shaderOverride) {
     // else for (int idx = 0; idx < m_pMesh->getSkeleton().m_bones.size(); idx++)
     //     boneMatrices.push_back(glm::mat4(1.f));
     for (int idx = 0; idx < boneMatrices.size(); idx++)
-        shaderOverride->uniform(format("boneMatrices[{}]", idx), boneMatrices[idx]);
+        shaderOverride->uniform(fmt::format("boneMatrices[{}]", idx), boneMatrices[idx]);
     
     shaderOverride->uniform("bIsSkeletal", (uint32_t)(m_currentAnimation.size() > 0));
     if (m_pMesh) m_pMesh->draw();

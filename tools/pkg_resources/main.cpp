@@ -4,7 +4,6 @@
 #include <filesystem>
 
 #include <fmt/core.h>
-using fmt::format, fmt::print;
 
 #include <le3.h>
 using namespace le3;
@@ -39,11 +38,11 @@ int main(int argc, char** argv) {
         std::string archiveName = entry.path().filename().string();
         std::string archivePath = outDir + "/" + archiveName + ".dat";
         datFilesystem.addArchive(archiveName, archivePath);
-        print("Archive {} @ {}\n", archiveName, archivePath);
+        fmt::print("Archive {} @ {}\n", archiveName, archivePath);
 
         for (auto file : files) {
             fixPath(file);
-            print("{}| {} --> {}\n", archiveName, file, file.substr(rootDir.size()));
+            fmt::print("{}| {} --> {}\n", archiveName, file, file.substr(rootDir.size()));
             datFilesystem.appendFile(archiveName, file.substr(rootDir.size()), file, true);
         }
     }

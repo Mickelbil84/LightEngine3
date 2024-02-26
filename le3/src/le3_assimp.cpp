@@ -16,7 +16,6 @@ using namespace le3;
 #include "le3_engine_systems.h"
 
 #include <fmt/core.h>
-using fmt::format, fmt::print;
 
 void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene);
 void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, LE3Skeleton& skeleton, aiNode* node, const aiScene* scene);
@@ -56,7 +55,7 @@ LE3StaticMeshPtr LE3AssetManager::loadStaticMesh(std::string filename) {
         aiProcess_Triangulate | 
         aiProcess_CalcTangentSpace
     );
-    if (!scene) throw std::runtime_error(format("Could not load static mesh: {}", filename));
+    if (!scene) throw std::runtime_error(fmt::format("Could not load static mesh: {}", filename));
 
     std::vector<LE3Vertex> buffer;
     std::vector<GLuint> indices; 
@@ -74,7 +73,7 @@ LE3SkeletalMeshPtr LE3AssetManager::loadSkeletalMesh(std::string meshPath)
         aiProcess_Triangulate | 
         aiProcess_CalcTangentSpace
     );
-    if (!scene) throw std::runtime_error(format("Could not load skeletal mesh: {}", meshPath));
+    if (!scene) throw std::runtime_error(fmt::format("Could not load skeletal mesh: {}", meshPath));
 
     std::vector<LE3VertexSkeletal> buffer;
     std::vector<GLuint> indices;
@@ -256,36 +255,36 @@ void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes)
 
 void _DBG_SkeletalPrint(LE3Skeleton& skeleton)
 {
-    print("m_globalInverseTransform:\n");
+    fmt::print("m_globalInverseTransform:\n");
     // printMatrix(skeleton.m_globalInverseTransform);
-    print("\n");
+    fmt::print("\n");
 
     for (auto bone : skeleton.m_bones)
     {
-        print("Bone: {}\n", bone->name);
+        fmt::print("Bone: {}\n", bone->name);
         // printMatrix(bone->offset);
-        print("\n");
+        fmt::print("\n");
     }
-    print("\n");
+    fmt::print("\n");
 }
 
 void _DBG_aiScenePrint(const aiScene* scene)
 {
-    print("Num Animations: {}\n\n", scene->mNumAnimations);
+    fmt::print("Num Animations: {}\n\n", scene->mNumAnimations);
 
     aiAnimation* animation = scene->mAnimations[0];
-    print("Animation Metadata:\n");
-    print("\tDuration = {}\n", animation->mDuration);
-    print("\tName = {}\n", animation->mName.C_Str());
-    print("\tNum Channels = {}\n", animation->mNumChannels);
-    print("\tTicks Per Second = {}\n", animation->mTicksPerSecond);
+    fmt::print("Animation Metadata:\n");
+    fmt::print("\tDuration = {}\n", animation->mDuration);
+    fmt::print("\tName = {}\n", animation->mName.C_Str());
+    fmt::print("\tNum Channels = {}\n", animation->mNumChannels);
+    fmt::print("\tTicks Per Second = {}\n", animation->mTicksPerSecond);
 
     aiNodeAnim* nodeAnim = animation->mChannels[1];
-    print("\nNode 1:\n");
-    print("\tName = {}\n", nodeAnim->mNodeName.C_Str());
-    print("\tNum Position Keys = {}\n", nodeAnim->mNumPositionKeys);
-    print("\tNum Rotation Keys = {}\n", nodeAnim->mNumRotationKeys);
-    print("\tNum Scale Keys = {}\n", nodeAnim->mNumScalingKeys);
+    fmt::print("\nNode 1:\n");
+    fmt::print("\tName = {}\n", nodeAnim->mNodeName.C_Str());
+    fmt::print("\tNum Position Keys = {}\n", nodeAnim->mNumPositionKeys);
+    fmt::print("\tNum Rotation Keys = {}\n", nodeAnim->mNumRotationKeys);
+    fmt::print("\tNum Scale Keys = {}\n", nodeAnim->mNumScalingKeys);
 }
 
 void LE3AssetManager::addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName) {
@@ -298,7 +297,7 @@ void LE3AssetManager::addSkeletalAnimation(std::string name, std::string animati
         aiProcess_Triangulate | 
         aiProcess_CalcTangentSpace
     );
-    if (!scene) throw std::runtime_error(format("Could not load animation: {}", animationPath));
+    if (!scene) throw std::runtime_error(fmt::format("Could not load animation: {}", animationPath));
 
     // Load Animations (currently only the first one)
     for (int i = 0; i < scene->mNumAnimations; ++i) {

@@ -7,7 +7,6 @@
 
 #include <cxxopts.hpp>
 #include <fmt/core.h>
-using fmt::format, fmt::print;
 
 #define CXXOPTS_VECTOR_DELIMITER ','
 
@@ -21,7 +20,7 @@ void deg_to_rad(std::vector<double>& v) {
 void rpy_to_quat(std::vector<double> v) {
     LE3Transform trans; trans.setRotationRPY(v[0], v[1], v[2]);
     glm::quat q = trans.getRotation();
-    print("{}, {}, {}, {}\n", q.w, q.x, q.y, q.z);
+    fmt::print("{}, {}, {}, {}\n", q.w, q.x, q.y, q.z);
 }
 
 
@@ -37,7 +36,7 @@ int main(int argc, char** argv) {
     auto result = options.parse(argc, argv);
 
     if (result.count("help")) {
-        print("{}\n", options.help()); 
+        fmt::print("{}\n", options.help()); 
         return 0;
     }
 
@@ -45,14 +44,14 @@ int main(int argc, char** argv) {
     std::string typeout = result["typeout"].as<std::string>();
     std::vector<double> v = result["vector"].as<std::vector<double>>();
 
-    std::string cvt = format("{}->{}", typein, typeout);
+    std::string cvt = fmt::format("{}->{}", typein, typeout);
 
     bool use_deg = result.count("degrees");
     if (use_deg) deg_to_rad(v);
 
     if (cvt == "rpy->quat") rpy_to_quat(v);
-    else if (typein == typeout) print("Don't be silly\n");
-    else print("Unsupported convertion {}\n", cvt);
+    else if (typein == typeout) fmt::print("Don't be silly\n");
+    else fmt::print("Unsupported convertion {}\n", cvt);
 
     return 0;
 }

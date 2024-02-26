@@ -4,7 +4,6 @@ using namespace le3;
 #include <stdexcept>
 
 #include <fmt/core.h>
-using fmt::format;
 
 #include <queue>
 
@@ -65,7 +64,7 @@ LE3DatFileNode* LE3DatFileSystem::addFileNode(std::string path, std::string arch
 
 std::vector<std::string> LE3DatFileSystem::getFilesFromDir(std::string dirPath, bool recurse) {
     std::vector<std::string> res;
-    if (!m_fileNodes.contains(dirPath)) throw std::runtime_error(format("Directory '{}' does not exist in any archive", dirPath));
+    if (!m_fileNodes.contains(dirPath)) throw std::runtime_error(fmt::format("Directory '{}' does not exist in any archive", dirPath));
     if (!m_fileNodes[dirPath].isDirectory) return res;
 
     if (!recurse) {
@@ -88,6 +87,6 @@ std::vector<std::string> LE3DatFileSystem::getFilesFromDir(std::string dirPath, 
 }
 
 LE3DatBuffer LE3DatFileSystem::getFileContent(std::string filepath, bool shouldDecompress) {
-    if (!m_fileNodes.contains(filepath)) throw std::runtime_error(format("File '{}' does not exist in any archive", filepath));
+    if (!m_fileNodes.contains(filepath)) throw std::runtime_error(fmt::format("File '{}' does not exist in any archive", filepath));
     return m_archives[m_fileNodes[filepath].archiveName]->getFileContent(filepath, shouldDecompress);
 }

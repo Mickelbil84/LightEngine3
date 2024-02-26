@@ -5,7 +5,6 @@ using namespace le3;
 #include <math.h>
 
 #include <fmt/core.h>
-using fmt::print, fmt::format;
 
 #include <glm/gtx/string_cast.hpp>
 
@@ -73,7 +72,7 @@ public:
         // m_scene.getObject("car")->getTransform().setPosition(carPos);
         
         // for (int i = 1; i <= 4; i++)
-        //     m_scene.getObject(format("wheel{}", i))->getTransform().addRotationZ(1.9f * carSpeed * deltaTime);
+        //     m_scene.getObject(fmt::format("wheel{}", i))->getTransform().addRotationZ(1.9f * carSpeed * deltaTime);
 
         // Update scene
         m_scene.update(deltaTime);  

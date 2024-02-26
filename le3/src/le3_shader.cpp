@@ -4,7 +4,6 @@ using namespace le3;
 #include <stdexcept>
 
 #include <fmt/core.h>
-using fmt::format;
 
 #ifdef __linux__
 #include <GL/glew.h>
@@ -29,7 +28,7 @@ LE3Shader::LE3Shader(std::string vertexShaderSource, std::string fragmentShaderS
     if (status != GL_TRUE) {
         char infoLog[2048];
         glGetProgramInfoLog(m_program, 2048, nullptr, infoLog);
-        throw std::runtime_error(format("Link error:\n\n{}\n", infoLog));
+        throw std::runtime_error(fmt::format("Link error:\n\n{}\n", infoLog));
     }
 
     glDeleteShader(vertexShader);
@@ -71,7 +70,7 @@ unsigned int LE3Shader::compileShaderFromSource(std::string shaderSource, int ty
     if (status != GL_TRUE) {
         char infoLog[2048];
         glGetShaderInfoLog(shader, 2048, nullptr, infoLog);
-        throw std::runtime_error(format("Compile error:\n\n{}\n", infoLog));
+        throw std::runtime_error(fmt::format("Compile error:\n\n{}\n", infoLog));
     }
     return shader;
 }

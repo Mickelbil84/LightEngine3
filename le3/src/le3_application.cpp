@@ -4,7 +4,6 @@ using namespace le3;
 #include <stdexcept>
 
 #include <fmt/core.h>
-using fmt::format, fmt::print;
 
 #ifdef __linux__
 #include <GL/glew.h>
@@ -19,8 +18,6 @@ using fmt::format, fmt::print;
 #include <backends/imgui_impl_opengl3.h>
 
 #include "le3_engine_systems.h"
-
-using fmt::format;
 
 
 struct LE3Application::_Internal {
@@ -55,7 +52,6 @@ void LE3Application::run() {
         m_pGameLogic->m_engineState.m_elapsedTime += m_deltaTime;
         if (m_deltaTime < 1.0 / (double)120) // TODO: move into settings file!
             SDL_Delay(Uint32((1.0 / (double)120 - m_deltaTime) * 1000));
-        // print("FPS: {}\n",1.f / m_deltaTime);
     }
     shutdown();
 }
@@ -158,7 +154,7 @@ void LE3Application::shutdown() {
 
 void LE3Application::_initSDL() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-        throw std::runtime_error(format("Could not initialize SDL: {}\n", SDL_GetError()));
+        throw std::runtime_error(fmt::format("Could not initialize SDL: {}\n", SDL_GetError()));
     
     // TODO: Enumerate largest version of OpenGL and GLSL on device
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -177,7 +173,7 @@ void LE3Application::_initSDL() {
     SDL_SetRelativeMouseMode((SDL_bool)m_pGameLogic->m_engineState.m_bReltaiveMouse);
 
     if (!m_pInternal->m_pWindow)
-        throw std::runtime_error(format("Could not create SDL window: {}\n", SDL_GetError()));
+        throw std::runtime_error(fmt::format("Could not create SDL window: {}\n", SDL_GetError()));
     m_pInternal->m_glContext = SDL_GL_CreateContext(m_pInternal->m_pWindow.get());
     m_pGameLogic->m_engineState.m_windowWidth = 1200;
     m_pGameLogic->m_engineState.m_windowHeight = 800;
@@ -189,7 +185,7 @@ void LE3Application::_initSDL() {
 }
 void LE3Application::_initOpenGL() {
     if (glewInit() != GLEW_OK)
-        throw std::runtime_error(format("Could not init GLEW: {}", (char *)glewGetErrorString(glewInit())));
+        throw std::runtime_error(fmt::format("Could not init GLEW: {}", (char *)glewGetErrorString(glewInit())));
     
     glEnable(GL_DEPTH_TEST);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

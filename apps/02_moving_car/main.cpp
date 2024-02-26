@@ -2,7 +2,6 @@
 using namespace le3;
 
 #include <fmt/core.h>
-using fmt::print, fmt::format;
 
 #include <glm/gtx/string_cast.hpp>
 
@@ -50,8 +49,8 @@ public:
         m_scene.addBox("cube", "default", glm::vec3(0.f, -0.1f, 0.f), glm::vec3(50.f, 0.1f, 50.f));
 
         for (int i = 0; i < 10; i++) {
-            m_scene.addBox(format("block{}", 2 * i), "default", glm::vec3(-2.f + i, 0.5f, 2.f), glm::vec3(.5f));
-            m_scene.addBox(format("block{}", 2 * i + 1), "default", glm::vec3(-2.f + i, 0.5f, -2.f), glm::vec3(.5f));
+            m_scene.addBox(fmt::format("block{}", 2 * i), "default", glm::vec3(-2.f + i, 0.5f, 2.f), glm::vec3(.5f));
+            m_scene.addBox(fmt::format("block{}", 2 * i + 1), "default", glm::vec3(-2.f + i, 0.5f, -2.f), glm::vec3(.5f));
         }
 
         m_scene.addEmptyObject("car");
@@ -109,7 +108,7 @@ public:
         m_scene.getObject("car")->getTransform().setPosition(carPos);
         
         for (int i = 1; i <= 4; i++)
-            m_scene.getObject(format("wheel{}", i))->getTransform().addRotationZ(1.9f * deltaTime);
+            m_scene.getObject(fmt::format("wheel{}", i))->getTransform().addRotationZ(1.9f * deltaTime);
 
         // Update scene
         m_scene.update(deltaTime);  
