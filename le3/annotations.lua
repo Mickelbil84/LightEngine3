@@ -26,6 +26,8 @@ LE3Material = {}
 LE3Object = {}
 ---@class LE3OrbitCamera
 LE3OrbitCamera = {}
+---@class LE3PointCloud
+LE3PointCloud = {}
 ---@class LE3PointLight
 LE3PointLight = {}
 ---@class LE3Scene
@@ -291,6 +293,22 @@ function LE3OrbitCamera.set_offset(self, offset) end
 ---@param origin_z number
 function LE3OrbitCamera.set_origin(self, origin_x, origin_y, origin_z) end
 
+---@param obj LE3PointCloud
+---@param position_x number
+---@param position_y number
+---@param position_z number
+---@param normal_x number
+---@param normal_y number
+---@param normal_z number
+function LE3PointCloud.add_point(obj, position_x, position_y, position_z, normal_x, normal_y, normal_z) end
+
+---@param obj LE3PointCloud
+function LE3PointCloud.create(obj) end
+
+---@param self LE3PointCloud
+---@param point_size number
+function LE3PointCloud.set_point_size(self, point_size) end
+
 ---@param self LE3PointLight
 ---@return number
 function LE3PointLight.get_attn_const(self) end
@@ -345,6 +363,11 @@ function LE3Scene.add_free_camera(scene, name) end
 ---@param scene LE3Scene
 ---@param name string
 function LE3Scene.add_orbit_camera(scene, name) end
+
+---@param scene LE3Scene
+---@param name string
+---@param materialName string
+function LE3Scene.add_point_cloud(scene, name, materialName) end
 
 ---@param scene LE3Scene
 ---@param name string

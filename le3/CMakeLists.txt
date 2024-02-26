@@ -57,6 +57,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_animation.cpp
     src/le3_script_object.cpp
     src/le3_engine_systems.cpp
+    src/le3_point_cloud.cpp
     
     src/le3_script_system.cpp
     src/le3_script_bindings.cpp
@@ -78,6 +79,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_asset_manager.cpp
     src/bindings/le3_binding_script_object.cpp
     src/bindings/le3_binding_visual_debug.cpp
+    src/bindings/le3_binding_point_cloud.cpp
 
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
     ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp

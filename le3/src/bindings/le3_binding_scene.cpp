@@ -37,6 +37,13 @@ FBIND(LE3Scene, add_skeletal_model)
     scene->addSkeletalModel(name, meshName, materialName);
 FEND()
 
+FBIND(LE3Scene, add_point_cloud)
+    GET_UDATA(scene, LE3Scene)
+    GET_STRING(name)
+    GET_STRING(materialName)
+    scene->addPointCloud(name, materialName);
+FEND()
+
 FBIND(LE3Scene, add_script_object)
     GET_UDATA(scene, LE3Scene)
     GET_STRING(name)
@@ -111,7 +118,7 @@ FBIND_SETTER_VEC3(LE3Scene, set_background_color, setBackgroundColor)
 LIB(LE3Scene,
     add_empty_object, add_script_object,
     add_box, 
-    add_static_model, add_skeletal_model,
+    add_static_model, add_skeletal_model, add_point_cloud,
     add_free_camera, add_orbit_camera, set_main_camera,
     add_ambient_light, add_directional_light, add_point_light, add_spot_light,
     reparent, get_object,

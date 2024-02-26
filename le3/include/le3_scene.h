@@ -15,6 +15,7 @@
 #include "le3_framebuffer.h"
 #include "le3_light_manager.h"
 #include "le3_script_object.h"
+#include "le3_point_cloud.h"
 
 namespace le3 {
     struct LE3SceneGraph {
@@ -51,6 +52,7 @@ namespace le3 {
         void addBox(std::string name, std::string materialName, glm::vec3 position = glm::vec3(0.f), glm::vec3 extent = glm::vec3(1.f), std::string parent = "");
         void addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent = "");
         void addSkeletalModel(std::string name, std::string meshName, std::string materialName, std::string parent = "");
+        void addPointCloud(std::string name, std::string materialName, std::string parent = "");
 
         void addFreeCamera(std::string name, std::string parent = "");
         void addOrbitCamera(std::string name, std::string parent = "");

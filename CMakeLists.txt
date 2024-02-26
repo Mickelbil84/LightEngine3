@@ -51,7 +51,7 @@ add_subdirectory(tools)
 
 
 
-# if (WIN32)
+if (WIN32)
 #     # add_custom_target(
 #     #     pkg-resources-tgt ALL
 #     #     COMMAND 
@@ -67,12 +67,12 @@ add_subdirectory(tools)
 #     #     COMMAND 
 #     #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>
 #     # )
-# else()
-#     add_custom_target(
-#         pkg-resources-tgt ALL
-#         COMMAND 
-#             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+else()
+    add_custom_target(
+        pkg-resources-tgt ALL
+        COMMAND 
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 
-#         DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources 
-#     )
-# endif()
+        DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources 
+    )
+endif()

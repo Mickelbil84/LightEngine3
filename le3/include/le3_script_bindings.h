@@ -73,7 +73,7 @@ namespace le3 {
 
     // Easier binding syntax
     #define FNAME(type, foo) type##_##foo
-    #define FBIND(type, foo) static int FNAME(type, foo)(lua_State* L) { int idx = 1, rcount = 0;
+    #define FBIND(type, foo) static int FNAME(type, foo)(lua_State* L) { int idx = 1, rcount = 0, tmpidx;
     #define FEND() return rcount; }
     #define LBIND(type) static const luaL_Reg type##_lib[] = {
     #define LADD(type, foo) {#foo, FNAME(type, foo)},
@@ -161,6 +161,7 @@ namespace le3 {
     LOPEN_DECLARE(LE3SceneRoot);
     LOPEN_DECLARE(LE3StaticModel);
     LOPEN_DECLARE(LE3SkeletalModel);
+    LOPEN_DECLARE(LE3PointCloud);
     LOPEN_DECLARE(LE3Input);
     LOPEN_DECLARE(LE3DrawableObject);
     LOPEN_DECLARE(LE3Camera);

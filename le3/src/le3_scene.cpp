@@ -167,6 +167,13 @@ void LE3Scene::addSkeletalModel(std::string name, std::string meshName, std::str
     m_sceneGraph->m_drawQueue.addObject(obj);
 }
 
+void LE3Scene::addPointCloud(std::string name, std::string materialName, std::string parent) {
+    assertObjectName(name);
+    LE3PointCloudPtr obj = std::make_shared<LE3PointCloud>(LE3GetAssetManager().getMaterial(materialName));
+    attachObject(name, obj, parent);
+    m_sceneGraph->m_drawQueue.addObject(obj);
+}
+
 void LE3Scene::addScriptObject(std::string name, std::string classname, std::string parent) {
     assertObjectName(name);
     LE3ScriptObjectPtr obj = std::make_shared<LE3ScriptObject>(classname, name);

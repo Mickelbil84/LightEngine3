@@ -62,6 +62,12 @@ void LE3Mesh<LE3VertexType>::drawLines() {
 }
 
 template<typename LE3VertexType>
+void LE3Mesh<LE3VertexType>::drawPoints(float pointSize) {
+    glPointSize(pointSize);
+    draw(GL_POINTS);
+}
+
+template<typename LE3VertexType>
 void LE3Mesh<LE3VertexType>::draw(int mode) {
     glBindVertexArray(m_vao);
     if (m_bIndexed) glDrawElements(mode, m_count, GL_UNSIGNED_INT, NULL);

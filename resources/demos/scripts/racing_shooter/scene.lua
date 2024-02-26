@@ -182,6 +182,11 @@ Scene.Objects = {
         MaterialName = "M_soldier",
         Position = {0, 0, -2},
         Scale = {0.01, 0.01, 0.01}
+    },
+    {
+        Type = "ScriptObject",
+        Classname = "PointCloudDemo",
+        Name = "_pcdemo",
     }
 }
 

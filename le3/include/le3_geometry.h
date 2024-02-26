@@ -68,6 +68,7 @@ namespace le3 {
         void draw() { drawTriangles(); }
         void drawTriangles();
         void drawLines();
+        void drawPoints(float pointSize);
 
         LE3Skeleton& getSkeleton() { return m_skeleton; }
         void setSkeleton(LE3Skeleton skeleton) { m_skeleton = skeleton; }
