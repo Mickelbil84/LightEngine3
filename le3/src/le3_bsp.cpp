@@ -1,4 +1,5 @@
 #include "le3_bsp.h"
+#include "le3_engine_systems.h"
 using namespace le3;
 
 #include <fmt/core.h>
@@ -232,7 +233,7 @@ std::string le3::toSTL(std::vector<LE3BSP_Triangle> soup) {
     std::string res = "solid le3bsp\n";
 
     for (auto tri : soup) {
-        glm::dvec3 normal = LE3BSP_Hyperplane::getTriangleNormal(tri);
+        glm::dvec3 normal = -LE3BSP_Hyperplane::getTriangleNormal(tri);
         res += fmt::format("facet normal {} {} {}\n", normal.x, normal.y, normal.z);
         res += "\touter loop\n";
         for (int i = 0; i < tri.size(); ++i)
@@ -242,4 +243,70 @@ std::string le3::toSTL(std::vector<LE3BSP_Triangle> soup) {
     }
     res += "endsolid le3bsp\n";
     return res;
+}
+
+// ---------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
+
+
+void LE3BSPBrush::draw(LE3ShaderPtr shaderOverride) {
+    if (shaderOverride) return;
+    LE3GetVisualDebug().drawDebugBox(this->getWorldMatrix(), glm::vec3(0.5f, 0.f, 0.125f));
+}
+
+LE3BSPManager::LE3BSPManager() {
+}
+
+void LE3BSPManager::build() {
+
+    std::shared_ptr<LE3BSP_Node> root = nullptr;
+
+    for (int phase = LE3_BRUSH_ADDITIVE; phase <= LE3_BRUSH_SUBTRACTIVE; ++phase) {
+        for (auto brush : m_brushes) {
+            LE3BSPBrushPtr brushPtr = brush.lock(); if (!brushPtr) continue;
+            if (brushPtr->getBrushType() != phase) continue;
+
+            std::vector<LE3BSP_Triangle> triangles = getCubeFaces(glm::dvec3(0.f), glm::dvec3(1.f));
+            for (int i = 0; i < triangles.size(); ++i) {
+                for (int j = 0; j < 3; j++) {
+                    glm::vec4 tmp = brushPtr->getWorldMatrix() * glm::vec4(triangles[i][j], 1.0);
+                    triangles[i][j] = glm::dvec3(tmp);
+                }
+            }
+
+            if (!root) {
+                if (phase == LE3_BRUSH_SUBTRACTIVE) triangles = negateFaces(triangles);
+                root = buildBSPT(triangles);
+            } else {
+                LE3BSP_CSG_Op op = phase == LE3_BRUSH_ADDITIVE ? UNION : DIFF;
+                root = CSGOP(op, root, triangles);
+            }
+        }
+    }
+
+    std::vector<LE3BSP_Triangle> soup = LE3BSP_Node::toMesh(root);
+    m_geometry.clear();
+
+    for (auto face : soup) {
+        glm::vec3 normal = -LE3BSP_Hyperplane::getTriangleNormal(face);
+        for (int i = 0; i < 3; i++)
+            m_geometry.push_back(vertexFromGLM(
+                face[i], glm::vec2(0.f), normal
+            ));
+    }
+
+
+}
+void LE3BSPManager::setShowBrushes(bool showBrushes) {
+    for (auto& brush : m_brushes) {
+        std::shared_ptr<LE3BSPBrush> brushPtr = brush.lock();
+        if (brushPtr) brushPtr->setHidden(!showBrushes);
+    }
+}
+void LE3BSPManager::addBrush(std::weak_ptr<LE3BSPBrush> brush) {
+    m_brushes.push_back(brush);
 }

@@ -174,6 +174,15 @@ void LE3Scene::addPointCloud(std::string name, std::string materialName, std::st
     m_sceneGraph->m_drawQueue.addObject(obj);
 }
 
+void LE3Scene::addBSPBrush(std::string name, LE3BSPBrushType brushType) {
+    assertObjectName(name);
+    LE3BSPBrushPtr obj = std::make_shared<LE3BSPBrush>();
+    obj->setBrushType(brushType);
+    attachObject(name, obj, "");
+    m_sceneGraph->m_drawQueue.addObject(obj);
+    m_sceneGraph->m_bspManager.addBrush(obj);
+}
+
 void LE3Scene::addScriptObject(std::string name, std::string classname, std::string parent) {
     assertObjectName(name);
     LE3ScriptObjectPtr obj = std::make_shared<LE3ScriptObject>(classname, name);
@@ -257,4 +266,14 @@ void LE3Scene::setMainCamera(std::string camera) {
     }
 
     m_pMainCamera = pCamera;
+}
+
+void LE3Scene::buildBSP() {
+    m_sceneGraph->m_bspManager.build();
+    std::vector<LE3Vertex> geometry = m_sceneGraph->m_bspManager.getGeometry();
+    LE3StaticMeshPtr mesh = std::make_shared<LE3StaticMesh>(geometry);
+    if (m_sceneGraph->m_pObjects.contains(LE3_BSP_MESH_NAME)) m_sceneGraph->m_pObjects[LE3_BSP_MESH_NAME]->reparent(nullptr); // TODO: Call scene's "delete" method
+    m_sceneGraph->m_pObjects[LE3_BSP_MESH_NAME] = std::make_shared<LE3StaticModel>(mesh, LE3GetAssetManager().getMaterial("M_default")); // TODO: Make sure we have some default material
+    m_sceneGraph->m_pObjects[LE3_BSP_MESH_NAME]->reparent(m_sceneGraph->m_pRoot);
+    m_sceneGraph->m_drawQueue.addObject(std::dynamic_pointer_cast<LE3DrawableObject>(m_sceneGraph->m_pObjects[LE3_BSP_MESH_NAME]));
 }

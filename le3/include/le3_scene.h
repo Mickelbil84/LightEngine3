@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 
+#include "le3_bsp.h"
 #include "le3_model.h"
 #include "le3_material.h"
 #include "le3_camera.h"
@@ -22,6 +23,7 @@ namespace le3 {
         LE3SceneRootPtr m_pRoot; // NOTE: root is not in pObjects
         std::map<std::string, LE3ObjectPtr> m_pObjects;
         LE3DrawQueue m_drawQueue;
+        LE3BSPManager m_bspManager;
         LE3LightManager m_lightManager;
     };
     using LE3SceneGraphPtr = std::shared_ptr<LE3SceneGraph>;
@@ -54,6 +56,9 @@ namespace le3 {
         void addSkeletalModel(std::string name, std::string meshName, std::string materialName, std::string parent = "");
         void addPointCloud(std::string name, std::string materialName, std::string parent = "");
 
+        void addBSPBrush(std::string name, LE3BSPBrushType brushType = LE3_BRUSH_ADDITIVE);
+        void buildBSP();
+
         void addFreeCamera(std::string name, std::string parent = "");
         void addOrbitCamera(std::string name, std::string parent = "");
 
@@ -68,6 +73,8 @@ namespace le3 {
         LE3ObjectPtr& getObject(std::string name) { return m_sceneGraph->m_pObjects[name]; }
         LE3CameraPtr& getMainCamera() { return m_pMainCamera; }
         void setMainCamera(std::string camera);
+
+        LE3BSPManager& getBSPManager() { return m_sceneGraph->m_bspManager; }
 
         // Misc
         glm::vec3 getBackgroundColor() const { return m_backgroundColor; }
