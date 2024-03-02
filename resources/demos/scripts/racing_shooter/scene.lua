@@ -165,23 +165,23 @@ Scene.Objects = {
         Type = "ScriptObject",
         Classname = "Car",
         Name = "car",
-        Scale = {2.5, 2.5, 2.5},
-        Position = {-3, 0.05, 0}
+        Scale = {2.5 * 0.75, 2.5 * 0.75, 2.75 * 0.5},
+        Position = {0.3, 0.0, -1}
     },
-    {
-        Type = "ScriptObject",
-        Classname = "Car",
-        Name = "car2",
-        Scale = {2.5, 2.5, 2.5},
-        Position = {-2, 0.05, 2}
-    },
+    -- {
+    --     Type = "ScriptObject",
+    --     Classname = "Car",
+    --     Name = "car2",
+    --     Scale = {2.5 * 0.75, 2.5 * 0.75, 2.75 * 0.5},
+    --     Position = {-2, 0.05, 2}
+    -- },
     {
         Type = "SkeletalModel",
         Name = "soldier",
         MeshName = "SK_soldier",
         MaterialName = "M_soldier",
-        Position = {0, 0, -2},
-        Scale = {0.01, 0.01, 0.01}
+        Position = {0.8, 0, 0},
+        Scale = {0.005, 0.005, 0.005}
     },
     {
         Type = "ScriptObject",
