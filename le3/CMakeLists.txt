@@ -58,6 +58,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_script_object.cpp
     src/le3_engine_systems.cpp
     src/le3_point_cloud.cpp
+    src/le3_bsp.cpp
     
     src/le3_script_system.cpp
     src/le3_script_bindings.cpp

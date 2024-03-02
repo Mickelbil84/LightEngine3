@@ -3,6 +3,7 @@ using namespace le3;
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <random>
 
 #include <fmt/core.h>
 
@@ -48,6 +49,41 @@ public:
         // Setup initial animation demo
         LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(m_scene.getObject("soldier"));
         soldier->setCurrentAnimation("ANIM_idle");
+
+        ///////////////
+        // BSP DEMO
+        ///////////////
+        std::vector<LE3BSP_Triangle> c1 = getCubeFaces(glm::dvec3(1.28, 0.64, 0.04), glm::dvec3(2.56, 1.28, 0.08));
+        std::vector<LE3BSP_Triangle> c2 = getCubeFaces(glm::dvec3(0.72 + 0.32 + 0.32 + 1.04 / 2, 0.96 / 2 + 0.16, 0.04), glm::dvec3(1.04, 0.8, 0.08));
+        std::vector<LE3BSP_Triangle> c3 = getCubeFaces(glm::dvec3(0.72, 0.96 / 2, 0.04), glm::dvec3(0.64, 0.96, 0.08));
+
+        std::shared_ptr<LE3BSP_Node> root = buildBSPT(c1);
+        root = CSGOP(DIFF, root, c2);
+        root = CSGOP(DIFF, root, c3);
+
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_real_distribution<> dis(-0.5, 0.5);
+        std::vector<glm::vec3> bspPoints;
+        while(bspPoints.size() < 100000) {
+            float x = dis(gen) * 3 * 2; float y = dis(gen) * 1.5 * 2; float z = dis(gen) * 0.1 * 2;
+            glm::vec3 pt(x, y, z);
+            if (classifyPoint(root, pt) == IN) bspPoints.push_back(pt);
+        }
+
+        fmt::print("{} {} {}\n", bspPoints[0].x, bspPoints[0].y, bspPoints[0].z);
+
+        m_scene.addPointCloud("bspPoints", "M_default");
+        std::dynamic_pointer_cast<LE3PointCloud>(m_scene.getObject("bspPoints"))->addPoints(bspPoints);
+        std::dynamic_pointer_cast<LE3PointCloud>(m_scene.getObject("bspPoints"))->create();
+        std::dynamic_pointer_cast<LE3PointCloud>(m_scene.getObject("bspPoints"))->setPointSize(5.f);
+
+
+        std::vector<LE3BSP_Triangle> soup = LE3BSP_Node::toMesh(root);
+        std::string soupstr = toSTL(soup);
+        std::ofstream fp("le3bsp.stl");
+        fp << soupstr;
+        fp.close();
     }
     void update(float deltaTime) {
         updateGUI();
