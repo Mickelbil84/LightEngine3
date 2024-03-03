@@ -7,7 +7,7 @@ set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 if (WIN32)
     add_compile_options(/bigobj)
     add_compile_options(/Zc:preprocessor)
-    add_compile_options(/wd5105 /wd4244 /wd4305 /wd4267 /wd4068 /wd4018 /wd4312 /wd4146)
+    add_compile_options(/wd5105 /wd4244 /wd4305 /wd4267 /wd4068 /wd4018 /wd4312 /wd4146 /wd4101)
 endif ()
 
 # Disable -Wdeprecated-volatile from glm
