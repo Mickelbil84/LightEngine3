@@ -19,6 +19,7 @@ namespace le3 {
         virtual void draw(LE3ShaderPtr shaderOverride = nullptr);
 
         LE3MeshPtr<LE3VertexType> getMesh() { return m_pMesh; }
+        void setMesh(LE3MeshPtr<LE3VertexType> pMesh) { m_pMesh = pMesh; }
 
         void setCurrentAnimation(std::string animationName) { m_currentAnimation = animationName; }
 
