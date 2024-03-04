@@ -82,14 +82,14 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_visual_debug.cpp
     src/bindings/le3_binding_point_cloud.cpp
 
-    ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui.cpp
-    ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_demo.cpp
-    ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_draw.cpp
-    ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_tables.cpp
-    ${CMAKE_SOURCE_DIR}/third-party/imgui/imgui_widgets.cpp
-    ${CMAKE_SOURCE_DIR}/third-party/imgui/misc/cpp/imgui_stdlib.cpp
-    ${CMAKE_SOURCE_DIR}/third-party/imgui/backends/imgui_impl_sdl2.cpp
-    ${CMAKE_SOURCE_DIR}/third-party/imgui/backends/imgui_impl_opengl3.cpp
+    ${PROJECT_SOURCE_DIR}/../third-party/imgui/imgui.cpp
+    ${PROJECT_SOURCE_DIR}/../third-party/imgui/imgui_demo.cpp
+    ${PROJECT_SOURCE_DIR}/../third-party/imgui/imgui_draw.cpp
+    ${PROJECT_SOURCE_DIR}/../third-party/imgui/imgui_tables.cpp
+    ${PROJECT_SOURCE_DIR}/../third-party/imgui/imgui_widgets.cpp
+    ${PROJECT_SOURCE_DIR}/../third-party/imgui/misc/cpp/imgui_stdlib.cpp
+    ${PROJECT_SOURCE_DIR}/../third-party/imgui/backends/imgui_impl_sdl2.cpp
+    ${PROJECT_SOURCE_DIR}/../third-party/imgui/backends/imgui_impl_opengl3.cpp
 )
 target_include_directories(${PROJECT_NAME} PUBLIC 
     # ${PROJECT_SOURCE_DIR}/include
