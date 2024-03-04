@@ -153,7 +153,8 @@ void LE3Scene::addBox(std::string name, std::string materialName, glm::vec3 posi
 
 void LE3Scene::addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent) {
     assertObjectName(name);
-    LE3StaticMeshPtr mesh = LE3GetAssetManager().getStaticMesh(meshName);
+    LE3StaticMeshPtr mesh = nullptr; 
+    if (meshName != "") mesh = LE3GetAssetManager().getStaticMesh(meshName);
     LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, LE3GetAssetManager().getMaterial(materialName));
     attachObject(name, obj, parent);
     m_sceneGraph->m_drawQueue.addObject(obj);
