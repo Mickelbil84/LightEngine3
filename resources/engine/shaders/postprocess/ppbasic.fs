@@ -39,8 +39,8 @@ void main()
     
     // Original color
     vec3 orgColor = vec3(texture(screenTexture, uv));
+    fColor = vec4(orgColor, 1.0);
 
-    vec3 ps3brown = vec3(144.0, 120.0, 90.0) / 255.0 + 0.2;
-
-    fColor = vec4(orgColor * ps3brown, 1.0);
+    // vec3 ps3brown = vec3(144.0, 120.0, 90.0) / 255.0 + 0.2;
+    // fColor = vec4(orgColor * ps3brown, 1.0);
 }

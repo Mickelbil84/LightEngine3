@@ -175,8 +175,9 @@ void LE3Application::_initSDL() {
     if (!m_pInternal->m_pWindow)
         throw std::runtime_error(fmt::format("Could not create SDL window: {}\n", SDL_GetError()));
     m_pInternal->m_glContext = SDL_GL_CreateContext(m_pInternal->m_pWindow.get());
-    m_pGameLogic->m_engineState.m_windowWidth = 1200;
-    m_pGameLogic->m_engineState.m_windowHeight = 800;
+    SDL_GetWindowSize(m_pInternal->m_pWindow.get(),
+        &m_pGameLogic->m_engineState.m_windowWidth,
+        &m_pGameLogic->m_engineState.m_windowHeight);
 
     m_prevTime = m_currTime = SDL_GetPerformanceCounter();
 
