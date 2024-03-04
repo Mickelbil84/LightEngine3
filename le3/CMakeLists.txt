@@ -16,9 +16,9 @@ if(MSVC)
 endif()
 
 include_directories(${LUA_INCLUDE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/third-party/stb)
-include_directories(${CMAKE_SOURCE_DIR}/third-party/imgui)
-include_directories(${CMAKE_SOURCE_DIR}/third-party/gzip-hpp/include)
+include_directories(${PROJECT_SOURCE_DIR}/../third-party/stb)
+include_directories(${PROJECT_SOURCE_DIR}/../third-party/imgui)
+include_directories(${PROJECT_SOURCE_DIR}/../third-party/gzip-hpp/include)
 
 
 add_library(${PROJECT_NAME} SHARED)
