@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
 
         for (auto file : files) {
             fixPath(file);
-            fmt::print("{}| {} --> {}\n", archiveName, file, file.substr(rootDir.size()));
+            // fmt::print("{}| {} --> {}\n", archiveName, file, file.substr(rootDir.size()));
             datFilesystem.appendFile(archiveName, file.substr(rootDir.size()), file, true);
         }
     }
