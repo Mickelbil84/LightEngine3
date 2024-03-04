@@ -161,13 +161,13 @@ namespace le3 {
 
 
         glEnableVertexAttribArray(6);
-        glVertexAttribPointer(6, 4, GL_INT, GL_FALSE, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
+        glVertexAttribIPointer(6, 4, GL_INT, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
             reinterpret_cast<void*>(offsetof(LE3Vertex3p2t3n3tn3b4b4w, bones)));
         glEnableVertexAttribArray(7);
         glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
             reinterpret_cast<void*>(offsetof(LE3Vertex3p2t3n3tn3b4b4w, weights)));
         glEnableVertexAttribArray(8);
-        glVertexAttribPointer(8, 4, GL_INT, GL_FALSE, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
+        glVertexAttribIPointer(8, 4, GL_INT, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
             reinterpret_cast<void*>(offsetof(LE3Vertex3p2t3n3tn3b4b4w, bones2)));
         glEnableVertexAttribArray(9);
         glVertexAttribPointer(9, 4, GL_FLOAT, GL_FALSE, sizeof(LE3Vertex3p2t3n3tn3b4b4w), 
