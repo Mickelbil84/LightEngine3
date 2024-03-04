@@ -102,7 +102,7 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 # Auto generate lua bindings
 add_custom_target(
     gen_annotations ALL
-    COMMAND python ${CMAKE_SOURCE_DIR}/tools/gen_annotations/gen_annotations.py ${CMAKE_CURRENT_SOURCE_DIR}/annotations.lua ${CMAKE_CURRENT_SOURCE_DIR}/src/bindings
+    COMMAND python ${PROJECT_SOURCE_DIR}/../tools/gen_annotations/gen_annotations.py ${CMAKE_CURRENT_SOURCE_DIR}/annotations.lua ${CMAKE_CURRENT_SOURCE_DIR}/src/bindings
     BYPRODUCTS annotations.lua
     COMMENT "Auto generate lua bindings"
 )

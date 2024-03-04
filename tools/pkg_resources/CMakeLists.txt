@@ -21,7 +21,7 @@ if (WIN32)
         TARGET ${PROJECT_NAME}
         POST_BUILD
         COMMAND 
-            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${CMAKE_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${PROJECT_SOURCE_DIR}/../../resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>
     )
 else()
     # add_custom_command(
