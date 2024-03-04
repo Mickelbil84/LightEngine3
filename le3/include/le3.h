@@ -13,3 +13,5 @@
 #include "le3_dat_archive.h"
 #include "le3_dat_filesystem.h"
 #include "le3_engine_systems.h"
+
+#include "le3_simple_demo.h"
