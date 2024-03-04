@@ -6,10 +6,10 @@
 namespace le3 {
     class LE3SimpleDemo : public LE3GameLogic {
     public:
-        void init();
-        void update(float deltaTime);
-        void render();
-        void handleInput(LE3Input input);
+        virtual void init();
+        virtual void update(float deltaTime);
+        virtual void render();
+        virtual void handleInput(LE3Input input);
 
     protected:
         LE3Scene m_scene;
