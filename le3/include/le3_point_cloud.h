@@ -23,6 +23,7 @@ namespace le3 {
         void addPoints(std::vector<glm::vec3> positions);
         void addPoints(std::vector<glm::vec3> positions, glm::vec3 normal);
         void addPoints(std::vector<glm::vec3> positions, std::vector<glm::vec3> normals);
+        void clear();
 
         void create();
 

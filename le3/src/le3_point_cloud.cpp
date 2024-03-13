@@ -38,6 +38,9 @@ void LE3PointCloud::addPoints(std::vector<glm::vec3> positions, std::vector<glm:
         m_points.push_back(vertexFromGLM(positions[idx], glm::vec2(), normals[idx]));
     } 
 }
+void LE3PointCloud::clear() {
+    m_points.clear();
+}
 
 void LE3PointCloud::create() {
     m_pMesh = std::make_shared<LE3StaticMesh>(m_points);
