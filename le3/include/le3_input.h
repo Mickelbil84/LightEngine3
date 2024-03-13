@@ -12,7 +12,7 @@ namespace le3 {
         std::vector<std::string> keyDownEvt;
         std::vector<std::string> keyUpEvt;
 
-        bool bLeftMouseDown, bRightMouseDown;
+        bool bLeftMouseDown = false, bRightMouseDown = false;
         int32_t xrel, yrel;
 
         bool isKeyDownEvent(std::string key) { return std::find(keyDownEvt.begin(), keyDownEvt.end(), key) != keyDownEvt.end(); }
