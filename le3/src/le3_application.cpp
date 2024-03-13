@@ -95,6 +95,12 @@ void LE3Application::handleInput() {
             input.keyUpEvt.push_back(m_sdlKeyMapping[e.key.keysym.scancode]);
         }
 
+        if (e.type == SDL_WINDOWEVENT) {
+            SDL_GetWindowSize(m_pInternal->m_pWindow.get(),
+                &m_pGameLogic->m_engineState.m_windowWidth,
+                &m_pGameLogic->m_engineState.m_windowHeight);
+        }
+
         ImGui_ImplSDL2_ProcessEvent(&e);
     }
     SDL_GetRelativeMouseState(&input.xrel, &input.yrel);

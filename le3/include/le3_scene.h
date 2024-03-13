@@ -70,9 +70,14 @@ namespace le3 {
         void addScriptObject(std::string name, std::string classname, std::string parent = "");
 
         LE3SceneRootPtr getSceneRoot() const { return m_sceneGraph->m_pRoot; }
-        LE3ObjectPtr& getObject(std::string name) { return m_sceneGraph->m_pObjects[name]; }
         LE3CameraPtr& getMainCamera() { return m_pMainCamera; }
         void setMainCamera(std::string camera);
+
+        inline LE3ObjectPtr& getObject(std::string name) { return m_sceneGraph->m_pObjects[name]; }
+        template <typename T>
+        std::shared_ptr<T> getObject(std::string name) {
+            return std::dynamic_pointer_cast<T>(getObject(name));
+        }
 
         LE3BSPManager& getBSPManager() { return m_sceneGraph->m_bspManager; }
 
