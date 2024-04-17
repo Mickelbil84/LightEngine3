@@ -9,6 +9,7 @@ namespace le3 {
         virtual void init();
         virtual void update(float deltaTime);
         virtual void render();
+        virtual void renderDebug();
         virtual void handleInput(LE3Input input);
 
     protected:

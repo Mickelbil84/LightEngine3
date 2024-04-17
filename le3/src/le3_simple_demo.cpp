@@ -14,6 +14,8 @@ void LE3SimpleDemo::init() {
     
     m_scene.addDirectionalLight("sun");
     std::dynamic_pointer_cast<LE3DirectionalLight>(m_scene.getObject("sun"))->getTransform().setRotationRPY(0.785, 0.785, 0.785);
+
+    m_scene.drawDebug = [this]() { this->renderDebug(); };
 }
 
 void LE3SimpleDemo::update(float deltaTime) {
@@ -29,6 +31,8 @@ void LE3SimpleDemo::update(float deltaTime) {
 void LE3SimpleDemo::render() {
     m_scene.draw();
 }
+
+void LE3SimpleDemo::renderDebug() {}
 
 void LE3SimpleDemo::handleInput(LE3Input input) {
     if (input.keys["KEY_ESCAPE"]) m_engineState.notifyWantsQuit();

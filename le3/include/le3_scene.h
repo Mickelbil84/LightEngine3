@@ -86,6 +86,9 @@ namespace le3 {
         glm::vec3 getBackgroundColor() const { return m_backgroundColor; }
         void setBackgroundColor(glm::vec3 backgroundColor) { m_backgroundColor = backgroundColor; }
 
+
+        std::function<void()> drawDebug = nullptr;
+
     private:
         LE3SceneGraphPtr m_sceneGraph;
 

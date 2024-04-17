@@ -68,6 +68,7 @@ void LE3Scene::draw() {
     // Also, one of the objects might try to do visual debug, so set the active camera
     LE3GetVisualDebug().setActiveCamera(m_pMainCamera);
     drawObjects();
+    if (drawDebug) drawDebug();
     LE3GetVisualDebug().setActiveCamera(nullptr);
 
     // Draw once again to the post process buffer
