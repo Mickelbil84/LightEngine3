@@ -138,95 +138,83 @@ void LE3Scene::drawPostProcess() {
 // -----------
 
 void LE3Scene::addEmptyObject(std::string name, std::string parent) {
-    assertObjectName(name);
     LE3ObjectPtr obj = std::make_shared<LE3Object>();
-    attachObject(name, obj, parent);
+    addCustomObject(name, obj, parent);
 }
 
 
 void LE3Scene::addBox(std::string name, std::string materialName, glm::vec3 position, glm::vec3 extent, std::string parent) {
-    assertObjectName(name);
     LE3BoxPtr obj = std::make_shared<LE3Box>(position.x, position.y, position.z, extent.x, extent.y, extent.z, LE3GetAssetManager().getMaterial(materialName)); // TODO: engine default shader + material
-    attachObject(name, obj, parent);
-    m_sceneGraph->m_drawQueue.addObject(obj);
+    addCustomObject(name, obj, parent);
 }
 
 void LE3Scene::addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent) {
-    assertObjectName(name);
     LE3StaticMeshPtr mesh = nullptr; 
     if (meshName != "") mesh = LE3GetAssetManager().getStaticMesh(meshName);
     LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, LE3GetAssetManager().getMaterial(materialName));
-    attachObject(name, obj, parent);
-    m_sceneGraph->m_drawQueue.addObject(obj);
+    addCustomObject(name, obj, parent);
 }
 
 void LE3Scene::addSkeletalModel(std::string name, std::string meshName, std::string materialName, std::string parent) {
-    assertObjectName(name);
     LE3SkeletalMeshPtr mesh = LE3GetAssetManager().getSkeletalMesh(meshName);
     LE3SkeletalModelPtr obj = std::make_shared<LE3SkeletalModel>(mesh, LE3GetAssetManager().getMaterial(materialName));
-    attachObject(name, obj, parent);
-    m_sceneGraph->m_drawQueue.addObject(obj);
+    addCustomObject(name, obj, parent);
 }
 
 void LE3Scene::addPointCloud(std::string name, std::string materialName, std::string parent) {
-    assertObjectName(name);
     LE3PointCloudPtr obj = std::make_shared<LE3PointCloud>(LE3GetAssetManager().getMaterial(materialName));
-    attachObject(name, obj, parent);
-    m_sceneGraph->m_drawQueue.addObject(obj);
+    addCustomObject(name, obj, parent);
 }
 
 void LE3Scene::addBSPBrush(std::string name, LE3BSPBrushType brushType) {
-    assertObjectName(name);
     LE3BSPBrushPtr obj = std::make_shared<LE3BSPBrush>();
     obj->setBrushType(brushType);
-    attachObject(name, obj, "");
-    m_sceneGraph->m_drawQueue.addObject(obj);
+    addCustomObject(name, obj, "");
     m_sceneGraph->m_bspManager.addBrush(obj);
 }
 
 void LE3Scene::addScriptObject(std::string name, std::string classname, std::string parent) {
-    assertObjectName(name);
     LE3ScriptObjectPtr obj = std::make_shared<LE3ScriptObject>(classname, name);
+    addCustomObject(name, obj, parent);
+}
+
+void LE3Scene::addCustomObject(std::string name, std::shared_ptr<LE3Object> obj, std::string parent) {
+    assertObjectName(name);
     attachObject(name, obj, parent);
-    m_sceneGraph->m_drawQueue.addObject(obj);
+    LE3DrawableObjectPtr drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(obj);
+    if (drawableObj) m_sceneGraph->m_drawQueue.addObject(drawableObj);
 }
 
 void LE3Scene::addFreeCamera(std::string name, std::string parent) {
-    assertObjectName(name);
     LE3CameraPtr obj = std::make_shared<LE3FreeCamera>();
-    attachObject(name, obj, parent);
+    addCustomObject(name, obj, parent);
     attachCamera(obj);
     
 }
 void LE3Scene::addOrbitCamera(std::string name, std::string parent) {
-    assertObjectName(name);
     LE3CameraPtr obj = std::make_shared<LE3OrbitCamera>();
-    attachObject(name, obj, parent);
+    addCustomObject(name, obj, parent);
     attachCamera(obj);
 }
 
 void LE3Scene::addAmbientLight(std::string name, std::string parent) {
-    assertObjectName(name);
     LE3AmbientLightPtr light = std::make_shared<LE3AmbientLight>();
-    attachObject(name, light, parent);
+    addCustomObject(name, light, parent);
     m_sceneGraph->m_lightManager.setAmbientLight(light);
 }
 void LE3Scene::addDirectionalLight(std::string name, std::string parent) {
-    assertObjectName(name);
     LE3DirectionalLightPtr light = std::make_shared<LE3DirectionalLight>();
-    attachObject(name, light, parent);
+    addCustomObject(name, light, parent);
     m_sceneGraph->m_lightManager.addDirectionalLight(light);
 }
 void LE3Scene::addPointLight(std::string name, std::string parent) {
-    assertObjectName(name);
     LE3PointLightPtr light = std::make_shared<LE3PointLight>();
-    attachObject(name, light, parent);
+    addCustomObject(name, light, parent);
     m_sceneGraph->m_lightManager.addPointLight(light);
 }
 void LE3Scene::addSpotLight(std::string name, std::string parent) {
-    assertObjectName(name);
     LE3SpotLightPtr light = std::make_shared<LE3SpotLight>();
-    attachObject(name, light, parent);
+    addCustomObject(name, light, parent);
     m_sceneGraph->m_lightManager.addSpotLight(light);
 }
 

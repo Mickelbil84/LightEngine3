@@ -68,6 +68,7 @@ namespace le3 {
         void addSpotLight(std::string name, std::string parent = "");
 
         void addScriptObject(std::string name, std::string classname, std::string parent = "");
+        void addCustomObject(std::string name, std::shared_ptr<LE3Object> obj, std::string parent = ""); // DANGER! Use with caution
 
         LE3SceneRootPtr getSceneRoot() const { return m_sceneGraph->m_pRoot; }
         LE3CameraPtr& getMainCamera() { return m_pMainCamera; }
