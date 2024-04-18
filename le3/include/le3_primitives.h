@@ -7,9 +7,14 @@ namespace le3 {
     LE3MeshPtr<LE3Vertex3p3c> createHelloOpenGLTriangle();
     LE3ScreenRectPtr createScreenRect();
     LE3MeshPtr<LE3Vertex> createBox(float x0, float y0, float z0, float width, float height, float depth);
+    LE3MeshPtr<LE3Vertex> createCylinder(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps = true);
 
     LE3MeshPtr<LE3Vertex3p> createDebugLine();
     LE3MeshPtr<LE3Vertex3p> createDebugBox();
+    LE3MeshPtr<LE3Vertex3p> createDebugCylinder();
+
+    std::vector<LE3Vertex> _createCylinderBuffer(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps);
+
 
     class LE3Box : public LE3StaticModel {
     public:

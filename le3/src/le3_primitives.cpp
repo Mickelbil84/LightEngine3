@@ -140,3 +140,54 @@ LE3MeshPtr<LE3Vertex> le3::createBox(float x0, float y0, float z0, float width, 
 
     return std::make_shared<LE3Mesh<LE3Vertex>>(buffer);
 }
+
+std::vector<LE3Vertex> le3::_createCylinderBuffer(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
+    glm::vec3 centerBottom(x0, y0, z0), centerTop(x0, y0 + height, z0);
+    std::vector<glm::vec3> circle;
+    for (int i = 0; i < resolution; ++i) {
+        float theta = (float)i / (float)resolution * 2.f * M_PI;
+        circle.push_back(glm::vec3(cosf(theta), 0.f, sinf(theta)));
+    }
+
+    std::vector<LE3Vertex> buffer;
+
+    for (int i = 0; i < resolution; ++i) {
+        int i_ = (i+1) % resolution;
+
+        if (withCaps) {
+            buffer.push_back(vertexFromGLM(centerBottom + circle[i_], 0.25f * (glm::vec2(circle[i_].x, circle[i_].z) + 1.f), glm::vec3(0.f, -1.f, 0.f)));
+            buffer.push_back(vertexFromGLM(centerBottom + circle[i], 0.25f * (glm::vec2(circle[i].x, circle[i].z) + 1.f), glm::vec3(0.f, -1.f, 0.f)));
+            buffer.push_back(vertexFromGLM(centerBottom, 0.25f * (glm::vec2(0.f) + 1.f), glm::vec3(0.f, -1.f, 0.f)));
+
+            buffer.push_back(vertexFromGLM(centerTop + circle[i_], 0.25f * (glm::vec2(circle[i_].x, circle[i_].z) + 1.f) + glm::vec2(0.f, 0.5f), glm::vec3(0.f, 1.f, 0.f)));
+            buffer.push_back(vertexFromGLM(centerTop + circle[i], 0.25f * (glm::vec2(circle[i].x, circle[i].z) + 1.f) + glm::vec2(0.f, 0.5f), glm::vec3(0.f, 1.f, 0.f)));
+            buffer.push_back(vertexFromGLM(centerTop, 0.25f * (glm::vec2(0.f) + 1.f) + glm::vec2(0.f, 0.5f), glm::vec3(0.f, 1.f, 0.f)));
+        }
+
+        LE3Vertex v1 = vertexFromGLM(centerBottom + circle[i_], glm::vec2((float)(i+1.f) / (float)(resolution+1.f), 0.f), circle[i_]);
+        LE3Vertex v2 = vertexFromGLM(centerBottom + circle[i], glm::vec2((float)(i) / (float)(resolution+1.f), 0.f), circle[i]);
+        LE3Vertex v3 = vertexFromGLM(centerTop + circle[i], glm::vec2((float)(i) / (float)(resolution+1.f), 1.f), circle[i]);
+        LE3Vertex v4 = vertexFromGLM(centerTop + circle[i_], glm::vec2((float)(i+1.f) / (float)(resolution+1.f), 1.f), circle[i_]);
+        buffer.push_back(v1);buffer.push_back(v2);buffer.push_back(v3);
+        buffer.push_back(v1);buffer.push_back(v3);buffer.push_back(v4);
+    }
+
+    return buffer;
+}
+
+LE3MeshPtr<LE3Vertex> le3::createCylinder(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
+    std::vector<LE3Vertex> buffer = le3::_createCylinderBuffer(x0, y0, z0, radius, height, resolution, withCaps);
+    return std::make_shared<LE3StaticMesh>(buffer);
+}
+
+LE3MeshPtr<LE3Vertex3p> le3::createDebugCylinder() {
+    std::vector<LE3Vertex> tmpBuffer = le3::_createCylinderBuffer(0.f, 0.f, 0.f, 1.f, 1.f, 8, true);
+    std::vector<LE3Vertex3p> buffer;
+    for (int i = 0; i < tmpBuffer.size(); i += 3) {
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i].position[0], tmpBuffer[i].position[1], tmpBuffer[i].position[2])));
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i+1].position[0], tmpBuffer[i+1].position[1], tmpBuffer[i+1].position[2])));
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i+2].position[0], tmpBuffer[i+2].position[1], tmpBuffer[i+2].position[2])));
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i].position[0], tmpBuffer[i].position[1], tmpBuffer[i].position[2])));
+    }
+    return std::make_shared<LE3Mesh<LE3Vertex3p>>(buffer);
+}

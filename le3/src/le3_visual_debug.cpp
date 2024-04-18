@@ -3,6 +3,8 @@ using namespace le3;
 
 #include "le3_engine_systems.h"
 
+#include <GL/glew.h>
+
 void LE3VisualDebug::drawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 color) {
     if (!m_activeCamera) return;
     glm::mat4 model = glm::translate(glm::mat4(1.f), start) * glm::scale(glm::mat4(1.f), end - start);
@@ -23,6 +25,18 @@ void LE3VisualDebug::drawDebugBox(glm::mat4 modelMatrix, glm::vec3 color) {
     setupDebugShader(modelMatrix, color);
     LE3GetAssetManager().getDebugBox()->drawLines();
 }
+
+void LE3VisualDebug::drawDebugCylinder(glm::vec3 position, float radius, float height, glm::vec3 color) {
+    if (!m_activeCamera) return;
+    LE3Transform transform;
+    transform.setPosition(position);
+    transform.setScale(glm::vec3(radius, height, radius));
+    setupDebugShader(transform.getTransformMatrix(), color);
+    LE3GetAssetManager().getDebugCylinder()->drawLines();
+}
+
+
+// -------------------------------
 
 void LE3VisualDebug::setupDebugShader(glm::mat4 modelMatrix, glm::vec3 color) {
     LE3ShaderPtr debugShader = LE3GetAssetManager().getShader(DEFAULT_DEBUG_SHADER);

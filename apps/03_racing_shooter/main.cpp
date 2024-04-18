@@ -38,6 +38,7 @@ public:
         m_scene.load("/demos/scripts/racing_shooter/scene.lua");
         m_scene.setRenderDirectly(false);
         m_scene.resize(1024, 1024);
+        m_scene.drawDebug = [this]() { this->renderDebug(); };
 
         m_inspector.init_inspector(100, 100, m_scene);
         m_inspector.setMainCamera("inspector");
@@ -214,6 +215,10 @@ public:
     void render() {
         m_scene.draw();
         m_inspector.draw();
+    }
+
+    void renderDebug() {
+        LE3GetVisualDebug().drawDebugCylinder(glm::vec3(0.f), 1.f, 2.f, glm::vec3(1.f, 1.f, 0.f));
     }
 
     void handleInput(LE3Input input) {

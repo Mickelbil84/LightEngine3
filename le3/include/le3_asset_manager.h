@@ -45,6 +45,7 @@ namespace le3 {
         inline LE3ScreenRectPtr getScreenRect() { return m_screenRect; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugLine() { return m_debugLine; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugBox() { return m_debugBox; }
+        inline LE3MeshPtr<LE3Vertex3p> getDebugCylinder() { return m_debugCylinder; }
 
 
     private:
@@ -58,7 +59,7 @@ namespace le3 {
         LE3ScreenRectPtr m_screenRect = nullptr; // Create this crucial geometry only once
 
         // Debug meshes
-        LE3MeshPtr<LE3Vertex3p> m_debugLine, m_debugBox;
+        LE3MeshPtr<LE3Vertex3p> m_debugLine, m_debugBox, m_debugCylinder;
 
         // Helper methods
         std::string readFile(std::string filename);
