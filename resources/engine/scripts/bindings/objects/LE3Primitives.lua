@@ -19,3 +19,13 @@ LE3Cylinder.load = function (scene, tbl, res)
     LE3Cylinder.__base.load(scene, tbl, res)
     return {ptr = res, name = tbl.Name}
 end
+
+LE3Cone.__base = LE3StaticModel
+LE3Cone.load = function (scene, tbl, res)
+    if (res == nil) then
+        LE3Scene.add_cone(scene, tbl.Name, tbl.MaterialName, 0, 0, 0, tbl.Radius, tbl.Height, tbl.Resolution, tbl.WithCaps)
+        res = LE3Scene.get_object(scene, tbl.Name)
+    end
+    LE3Cone.__base.load(scene, tbl, res)
+    return {ptr = res, name = tbl.Name}
+end

@@ -8,6 +8,8 @@ LE3AssetManager = {}
 LE3Box = {}
 ---@class LE3Camera
 LE3Camera = {}
+---@class LE3Cone
+LE3Cone = {}
 ---@class LE3Cylinder
 LE3Cylinder = {}
 ---@class LE3DirectionalLight
@@ -349,6 +351,18 @@ function LE3Scene.add_ambient_light(scene, name) end
 ---@param extentY number
 ---@param extentZ number
 function LE3Scene.add_box(scene, name, materialName, position_x, position_y, position_z, extentX, extentY, extentZ) end
+
+---@param scene LE3Scene
+---@param name string
+---@param materialName string
+---@param position_x number
+---@param position_y number
+---@param position_z number
+---@param radius number
+---@param height number
+---@param resolution number
+---@param withCaps boolean
+function LE3Scene.add_cone(scene, name, materialName, position_x, position_y, position_z, radius, height, resolution, withCaps) end
 
 ---@param scene LE3Scene
 ---@param name string

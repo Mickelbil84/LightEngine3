@@ -76,7 +76,11 @@ Scene.Materials = {
     {
         Name = "M_cylinder",
         ShaderName = "S_default",
-        DiffuseTexture = "T_cylinder"
+        DiffuseTexture = "T_cylinder",
+        SpecularIntensity = 2.0,
+        Shininess = 32,
+        Cubemap = "T_basilica",
+        ReflectionIntensity = 0.02
     }
 }
 Scene.StaticMeshes = {
@@ -204,7 +208,18 @@ Scene.Objects = {
         Position = {1,1,1},
         Radius = 0.25,
         Height = 1.0,
-        Resolution = 16,
+        Resolution = 32,
+        WithCaps = true
+    },
+
+    {
+        Type = "Cone",
+        Name = "con1",
+        MaterialName = "M_cylinder",
+        Position = {1.6,1,1},
+        Radius = 0.25,
+        Height = 1.0,
+        Resolution = 32,
         WithCaps = true
     },
 }

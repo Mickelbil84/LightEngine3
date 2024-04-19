@@ -27,6 +27,7 @@ void le3::bindLE3Types(lua_State* L) {
     REGISTER(LE3FreeCamera);
     REGISTER(LE3Box);
     REGISTER(LE3Cylinder);
+    REGISTER(LE3Cone);
 
     REGISTER(LE3Light);
     REGISTER(LE3AmbientLight);

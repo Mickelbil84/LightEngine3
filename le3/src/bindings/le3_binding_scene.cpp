@@ -33,6 +33,18 @@ FBIND(LE3Scene, add_cylinder)
     scene->addCylinder(name, materialName, position, radius, height, resolution, withCaps);
 FEND()
 
+FBIND(LE3Scene, add_cone)
+    GET_UDATA(scene, LE3Scene)
+    GET_STRING(name)
+    GET_STRING(materialName)
+    GET_VEC3(position)
+    GET_NUMBER(radius)
+    GET_NUMBER(height)
+    GET_NUMBER(resolution)
+    GET_BOOL(withCaps)
+    scene->addCone(name, materialName, position, radius, height, resolution, withCaps);
+FEND()
+
 FBIND(LE3Scene, add_static_model)
     GET_UDATA(scene, LE3Scene)
     GET_STRING(name)
@@ -129,7 +141,7 @@ FBIND_SETTER_VEC3(LE3Scene, set_background_color, setBackgroundColor)
 
 LIB(LE3Scene,
     add_empty_object, add_script_object,
-    add_box, add_cylinder,
+    add_box, add_cylinder, add_cone,
     add_static_model, add_skeletal_model, add_point_cloud,
     add_free_camera, add_orbit_camera, set_main_camera,
     add_ambient_light, add_directional_light, add_point_light, add_spot_light,
