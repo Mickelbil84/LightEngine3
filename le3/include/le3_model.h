@@ -31,8 +31,8 @@ namespace le3 {
         float m_animationTime = 0.f;
     };
 
-    using LE3StaticModel =LE3Model<LE3Vertex>;
-    using LE3SkeletalModel =LE3Model<LE3VertexSkeletal>;
+    using LE3StaticModel = LE3Model<LE3Vertex>;
+    using LE3SkeletalModel = LE3Model<LE3VertexSkeletal>;
     using LE3StaticModelPtr = std::shared_ptr<LE3StaticModel>;
     using LE3SkeletalModelPtr = std::shared_ptr<LE3SkeletalModel>;
 }

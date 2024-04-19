@@ -237,3 +237,16 @@ LE3MeshPtr<LE3Vertex3p> le3::createDebugCone() {
     }
     return std::make_shared<LE3Mesh<LE3Vertex3p>>(buffer);
 }
+
+LE3MeshPtr<LE3Vertex> le3::createGizmoArrow() {
+    // TODO: Make constants in engine config
+    std::vector<LE3Vertex> buffer = le3::_createCylinderBuffer(0.f, 0.f, 0.f, 0.015f, 0.5f, 8, true);
+    std::vector<LE3Vertex> cone = le3::_createConeBuffer(0.f, 0.5f, 0.f, 0.035f, 0.065f, 8, true);
+    std::copy(cone.begin(), cone.end(), std::back_inserter(buffer));
+    return std::make_shared<LE3StaticMesh>(buffer);
+}
+
+LE3MeshPtr<LE3Vertex> le3::createGizmoCenter() {
+    // TODO: Make constants in engine config
+    return createBox(0.f, 0.f, 0.f, 0.06f, 0.06f, 0.06f);
+}

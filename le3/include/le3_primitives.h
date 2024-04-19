@@ -11,6 +11,9 @@ namespace le3 {
     LE3MeshPtr<LE3Vertex> createBox(float x0, float y0, float z0, float width, float height, float depth);
     LE3MeshPtr<LE3Vertex> createCylinder(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps = true);
     LE3MeshPtr<LE3Vertex> createCone(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps = true);
+    
+    LE3MeshPtr<LE3Vertex> createGizmoArrow();
+    LE3MeshPtr<LE3Vertex> createGizmoCenter();
 
     LE3MeshPtr<LE3Vertex3p> createDebugLine();
     LE3MeshPtr<LE3Vertex3p> createDebugBox();

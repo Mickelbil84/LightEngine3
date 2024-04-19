@@ -12,6 +12,7 @@ namespace le3 {
         glm::mat4 getViewMatrix();
         glm::mat4 getProjectionMatrix(float aspectRatio=-1.f);
 
+        glm::vec3 getPosition() const { return glm::vec3(getWorldMatrix()[3]); }
         glm::vec3 getForward() const { return m_forwawrd; }
         glm::vec3 getRight() const { return m_right; }
         glm::vec3 getUp() const { return m_up; }

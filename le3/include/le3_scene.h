@@ -10,6 +10,7 @@
 #include "le3_object.h"
 #include "le3_shader.h"
 #include "le3_texture.h"
+#include "le3_gizmo.h"
 #include "le3_draw_queue.h"
 #include "le3_primitives.h"
 #include "le3_scene_root.h"
@@ -102,6 +103,7 @@ namespace le3 {
         int m_width, m_height;
         bool m_bRenderDirectly = true;
         LE3CameraPtr m_pMainCamera; 
+        LE3GizmoPtr m_pGizmo;
         
         void assertObjectName(std::string name);
         void attachObject(std::string name, LE3ObjectPtr obj, std::string parent);

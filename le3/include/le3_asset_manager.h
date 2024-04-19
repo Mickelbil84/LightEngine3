@@ -9,11 +9,15 @@
 #include "le3_geometry.h"
 
 namespace le3 {
+    const std::string DEFAULT_ENGINE_PREFIX = "__ENGINE__";
 
     const std::string DEFAULT_SHADER = "S_default";
     const std::string DEFAULT_POSTPROCESS_SHADER = "S_defaultPostProcess";
     const std::string DEFAULT_SHADOWMAP_SHADER = "S_shadowmap";
     const std::string DEFAULT_DEBUG_SHADER = "S_debug";
+    const std::string DEFAULT_GIZMO_SHADER = "S_gizmo";
+
+    const std::string DEFAULT_GIZMO_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_gizmo";
 
     class LE3AssetManager {
     public:
@@ -48,6 +52,9 @@ namespace le3 {
         inline LE3MeshPtr<LE3Vertex3p> getDebugCylinder() { return m_debugCylinder; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugCone() { return m_debugCone; }
 
+        inline LE3StaticMeshPtr getGizmoArrowMesh() { return m_gizmoArrow; }
+        inline LE3StaticMeshPtr getGizmoCenterMesh() { return m_gizmoCenter; }
+
 
     private:
         // Asset maps
@@ -61,6 +68,7 @@ namespace le3 {
 
         // Debug meshes
         LE3MeshPtr<LE3Vertex3p> m_debugLine, m_debugBox, m_debugCylinder, m_debugCone;
+        LE3StaticMeshPtr m_gizmoArrow, m_gizmoCenter;
 
         // Helper methods
         std::string readFile(std::string filename);

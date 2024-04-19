@@ -21,6 +21,9 @@ void LE3Scene::init(int width, int height) {
     m_pMainCamera = nullptr;
     resize(width, height);
 
+    m_pGizmo = std::make_shared<LE3Gizmo>();
+    addCustomObject(DEFAULT_ENGINE_PREFIX + "gizmo", m_pGizmo);
+
     // Load post process shader
     m_postProcessShader = LE3GetAssetManager().getShader(DEFAULT_POSTPROCESS_SHADER);
 }
@@ -57,6 +60,7 @@ void LE3Scene::resize(int width, int height)
 
 
 void LE3Scene::update(float deltaTime) {
+    m_pGizmo->updateScale(m_pMainCamera->getPosition());    
     m_sceneGraph->m_pRoot->update(deltaTime);
 }
 
