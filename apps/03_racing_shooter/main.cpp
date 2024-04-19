@@ -218,7 +218,7 @@ public:
     }
 
     void renderDebug() {
-        LE3GetVisualDebug().drawDebugCylinder(glm::vec3(0.f), 1.f, 2.f, glm::vec3(1.f, 1.f, 0.f));
+        LE3GetVisualDebug().drawDebugCone(glm::vec3(0.f), 1.f, 2.f, glm::vec3(1.f, 1.f, 0.f));
     }
 
     void handleInput(LE3Input input) {

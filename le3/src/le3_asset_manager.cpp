@@ -17,6 +17,7 @@ void LE3AssetManager::init() {
     m_debugLine = createDebugLine();
     m_debugBox = createDebugBox();
     m_debugCylinder = createDebugCylinder();
+    m_debugCone = createDebugCone();
 
     addShaderFromFile(DEFAULT_POSTPROCESS_SHADER, "/engine/shaders/postprocess/ppvert.vs", "/engine/shaders/postprocess/ppbasic.fs");
     addShaderFromFile(DEFAULT_SHADOWMAP_SHADER, "/engine/shaders/shadowmap/shadowmap.vs", "/engine/shaders/shadowmap/shadowmap.fs");

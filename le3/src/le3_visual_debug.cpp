@@ -35,6 +35,15 @@ void LE3VisualDebug::drawDebugCylinder(glm::vec3 position, float radius, float h
     LE3GetAssetManager().getDebugCylinder()->drawLines();
 }
 
+void LE3VisualDebug::drawDebugCone(glm::vec3 position, float radius, float height, glm::vec3 color) {
+    if (!m_activeCamera) return;
+    LE3Transform transform;
+    transform.setPosition(position);
+    transform.setScale(glm::vec3(radius, height, radius));
+    setupDebugShader(transform.getTransformMatrix(), color);
+    LE3GetAssetManager().getDebugCone()->drawLines();
+}
+
 
 // -------------------------------
 
