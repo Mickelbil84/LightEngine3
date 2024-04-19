@@ -52,6 +52,8 @@ namespace le3 {
         // Object factory
         void addEmptyObject(std::string name, std::string parent = "");
         void addBox(std::string name, std::string materialName, glm::vec3 position = glm::vec3(0.f), glm::vec3 extent = glm::vec3(1.f), std::string parent = "");
+        void addCylinder(std::string name, std::string materialName, glm::vec3 position = glm::vec3(0.f), float radius = 1.f, float height = 1.f, int resolution = 16, bool withCaps = true, std::string parent = "");
+
         void addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent = "");
         void addSkeletalModel(std::string name, std::string meshName, std::string materialName, std::string parent = "");
         void addPointCloud(std::string name, std::string materialName, std::string parent = "");

@@ -34,7 +34,11 @@ Scene.Textures = {
     {
         Name = "T_SPC_soldier",
         Path = "/demos/textures/animations/soldier/T_SPC_soldier.png"
-    }
+    },
+    {
+        Name = "T_cylinder",
+        Path = "/demos/textures/cylinder.png"
+    },
 }
 Scene.Materials = {
     {
@@ -68,6 +72,11 @@ Scene.Materials = {
         SpecularTexture = "T_SPC_soldier",
         SpecularIntensity = 2.0,
         Shininess = 128,
+    },
+    {
+        Name = "M_cylinder",
+        ShaderName = "S_default",
+        DiffuseTexture = "T_cylinder"
     }
 }
 Scene.StaticMeshes = {
@@ -187,7 +196,17 @@ Scene.Objects = {
         Type = "ScriptObject",
         Classname = "PointCloudDemo",
         Name = "_pcdemo",
-    }
+    },
+    {
+        Type = "Cylinder",
+        Name = "cyl1",
+        MaterialName = "M_cylinder",
+        Position = {1,1,1},
+        Radius = 0.25,
+        Height = 1,
+        Resolution = 16,
+        WithCaps = true
+    },
 }
 
 Scene.ObjectRelations = {

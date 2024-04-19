@@ -149,6 +149,13 @@ void LE3Scene::addBox(std::string name, std::string materialName, glm::vec3 posi
     addCustomObject(name, obj, parent);
 }
 
+
+void LE3Scene::addCylinder(std::string name, std::string materialName, glm::vec3 position, float radius, float height, int resolution, bool withCaps, std::string parent) {
+    LE3CylinderPtr obj = std::make_shared<LE3Cylinder>(position.x, position.y, position.z, radius, height, resolution, withCaps, LE3GetAssetManager().getMaterial(materialName)); // TODO: engine default shader + material
+    addCustomObject(name, obj, parent);
+}
+
+
 void LE3Scene::addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent) {
     LE3StaticMeshPtr mesh = nullptr; 
     if (meshName != "") mesh = LE3GetAssetManager().getStaticMesh(meshName);

@@ -155,19 +155,19 @@ std::vector<LE3Vertex> le3::_createCylinderBuffer(float x0, float y0, float z0, 
         int i_ = (i+1) % resolution;
 
         if (withCaps) {
-            buffer.push_back(vertexFromGLM(centerBottom + circle[i_], 0.25f * (glm::vec2(circle[i_].x, circle[i_].z) + 1.f), glm::vec3(0.f, -1.f, 0.f)));
-            buffer.push_back(vertexFromGLM(centerBottom + circle[i], 0.25f * (glm::vec2(circle[i].x, circle[i].z) + 1.f), glm::vec3(0.f, -1.f, 0.f)));
+            buffer.push_back(vertexFromGLM(centerBottom + radius * circle[i_], 0.25f * (glm::vec2(circle[i_].x, circle[i_].z) + 1.f), glm::vec3(0.f, -1.f, 0.f)));
+            buffer.push_back(vertexFromGLM(centerBottom + radius * circle[i], 0.25f * (glm::vec2(circle[i].x, circle[i].z) + 1.f), glm::vec3(0.f, -1.f, 0.f)));
             buffer.push_back(vertexFromGLM(centerBottom, 0.25f * (glm::vec2(0.f) + 1.f), glm::vec3(0.f, -1.f, 0.f)));
 
-            buffer.push_back(vertexFromGLM(centerTop + circle[i_], 0.25f * (glm::vec2(circle[i_].x, circle[i_].z) + 1.f) + glm::vec2(0.f, 0.5f), glm::vec3(0.f, 1.f, 0.f)));
-            buffer.push_back(vertexFromGLM(centerTop + circle[i], 0.25f * (glm::vec2(circle[i].x, circle[i].z) + 1.f) + glm::vec2(0.f, 0.5f), glm::vec3(0.f, 1.f, 0.f)));
+            buffer.push_back(vertexFromGLM(centerTop + radius * circle[i_], 0.25f * (glm::vec2(circle[i_].x, circle[i_].z) + 1.f) + glm::vec2(0.f, 0.5f), glm::vec3(0.f, 1.f, 0.f)));
+            buffer.push_back(vertexFromGLM(centerTop + radius * circle[i], 0.25f * (glm::vec2(circle[i].x, circle[i].z) + 1.f) + glm::vec2(0.f, 0.5f), glm::vec3(0.f, 1.f, 0.f)));
             buffer.push_back(vertexFromGLM(centerTop, 0.25f * (glm::vec2(0.f) + 1.f) + glm::vec2(0.f, 0.5f), glm::vec3(0.f, 1.f, 0.f)));
         }
 
-        LE3Vertex v1 = vertexFromGLM(centerBottom + circle[i_], glm::vec2((float)(i+1.f) / (float)(resolution+1.f), 0.f), circle[i_]);
-        LE3Vertex v2 = vertexFromGLM(centerBottom + circle[i], glm::vec2((float)(i) / (float)(resolution+1.f), 0.f), circle[i]);
-        LE3Vertex v3 = vertexFromGLM(centerTop + circle[i], glm::vec2((float)(i) / (float)(resolution+1.f), 1.f), circle[i]);
-        LE3Vertex v4 = vertexFromGLM(centerTop + circle[i_], glm::vec2((float)(i+1.f) / (float)(resolution+1.f), 1.f), circle[i_]);
+        LE3Vertex v1 = vertexFromGLM(centerBottom + radius * circle[i_], 0.5f * glm::vec2((float)(i+1.f) / (float)(resolution+1.f), 0.f) + 0.5f, circle[i_]);
+        LE3Vertex v2 = vertexFromGLM(centerBottom + radius * circle[i], 0.5f * glm::vec2((float)(i) / (float)(resolution+1.f), 0.f) + 0.5f, circle[i]);
+        LE3Vertex v3 = vertexFromGLM(centerTop + radius * circle[i], 0.5f * glm::vec2((float)(i) / (float)(resolution+1.f), 1.f) + 0.5f, circle[i]);
+        LE3Vertex v4 = vertexFromGLM(centerTop + radius * circle[i_], 0.5f * glm::vec2((float)(i+1.f) / (float)(resolution+1.f), 1.f) + 0.5f, circle[i_]);
         buffer.push_back(v1);buffer.push_back(v2);buffer.push_back(v3);
         buffer.push_back(v1);buffer.push_back(v3);buffer.push_back(v4);
     }
