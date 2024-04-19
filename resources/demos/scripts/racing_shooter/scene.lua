@@ -203,7 +203,7 @@ Scene.Objects = {
         MaterialName = "M_cylinder",
         Position = {1,1,1},
         Radius = 0.25,
-        Height = 1,
+        Height = 1.0,
         Resolution = 16,
         WithCaps = true
     },
