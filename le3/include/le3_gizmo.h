@@ -15,7 +15,9 @@ namespace le3 {
     public:
         LE3Gizmo();
         void draw(LE3ShaderPtr shaderOverride);    
-        void updateScale(glm::vec3 cameraPos);
+        void update(float deltaTime);
+
+    private:
     };
     using LE3GizmoPtr = std::shared_ptr<LE3Gizmo>;
 }

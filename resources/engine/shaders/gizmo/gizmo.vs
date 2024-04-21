@@ -6,7 +6,11 @@ layout(location = 2) in vec3 vNormal;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+
 uniform int gizmoAxis;
+uniform vec3 gizmoPos;
+uniform vec3 cameraPos;
+uniform float gizmoScale;
 
 out vec3 normal;
 out vec3 gizmoColor;
@@ -38,8 +42,18 @@ vec3 getGizmoColor() {
     return vec3(0.8);
 }
 
+mat4 getGizmoScale() {
+    float scale = length(gizmoPos - cameraPos) * gizmoScale;
+    return mat4(
+        scale, 0, 0, 0, 
+        0, scale, 0, 0,
+        0, 0, scale, 0,
+        0, 0, 0, 1
+    );
+}
+
 void main() {
-    gl_Position = projection * view * model * getGizmoAxisRot() * vPosition;
+    gl_Position = projection * view * model * getGizmoAxisRot() * getGizmoScale() * vPosition;
     normal = vNormal;
     gizmoColor = getGizmoColor();
 }
