@@ -34,7 +34,7 @@ public:
             LE3GetScriptSystem().doFile(script);
         }
 
-        LE3GetSceneManager().createScene("scene", m_engineState, "/demos/scripts/racing_shooter/scene.lua");
+        LE3GetSceneManager().createScene("scene", m_engineState, "/demos/scenes/racing_shooter.lua");
         LE3GetSceneManager().getScene("scene")->setRenderDirectly(false);
         LE3GetSceneManager().getScene("scene")->resize(1024, 1024);
         LE3GetSceneManager().getScene("scene")->drawDebug = [this]() { this->renderDebug(); };
