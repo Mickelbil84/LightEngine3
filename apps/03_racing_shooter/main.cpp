@@ -13,7 +13,7 @@ using namespace le3;
 
 class Demo03_RacingShooter : public LE3GameLogic {
 public:
-    LE3Scene m_scene, m_inspector;
+    // LE3Scene m_scene, m_inspector;
     glm::vec3 cameraVelocity, cameraRotation;
     
 
@@ -34,57 +34,68 @@ public:
             LE3GetScriptSystem().doFile(script);
         }
 
-        m_scene.init(m_engineState.getWindowWidth(), m_engineState.getWindowHeight());
-        m_scene.load("/demos/scripts/racing_shooter/scene.lua");
-        m_scene.setRenderDirectly(false);
-        m_scene.resize(1024, 1024);
-        m_scene.drawDebug = [this]() { this->renderDebug(); };
+        LE3GetSceneManager().createScene("scene", m_engineState, "/demos/scripts/racing_shooter/scene.lua");
+        LE3GetSceneManager().getScene("scene")->setRenderDirectly(false);
+        LE3GetSceneManager().getScene("scene")->resize(1024, 1024);
+        LE3GetSceneManager().getScene("scene")->drawDebug = [this]() { this->renderDebug(); };
 
-        m_inspector.init_inspector(100, 100, m_scene);
-        m_inspector.setMainCamera("inspector");
-        m_inspector.setRenderDirectly(false);
-        m_inspector.getMainCamera()->setPitchYaw(-0.35, -0.87);
+        LE3GetSceneManager().createInspectedScene("inspector", m_engineState, "scene");
+        LE3GetSceneManager().getScene("inspector")->setMainCamera("inspector");
+        LE3GetSceneManager().getScene("inspector")->setRenderDirectly(false);
+        LE3GetSceneManager().getScene("inspector")->getMainCamera()->setPitchYaw(-0.35, -0.87);
+
+
+        // m_scene.init(m_engineState.getWindowWidth(), m_engineState.getWindowHeight());
+        // m_scene.load("/demos/scripts/racing_shooter/scene.lua");
+        // m_scene.setRenderDirectly(false);
+        // m_scene.resize(1024, 1024);
+        // m_scene.drawDebug = [this]() { this->renderDebug(); };
+
+        // m_inspector.init_inspector(100, 100, m_scene);
+        // m_inspector.setMainCamera("inspector");
+        // m_inspector.setRenderDirectly(false);
+        // m_inspector.getMainCamera()->setPitchYaw(-0.35, -0.87);
         
         // m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
-        m_scene.getMainCamera()->setAspectRatio(1.f);
+        // m_scene.getMainCamera()->setAspectRatio(1.f);
 
         // Setup initial animation demo
-        LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(m_scene.getObject("soldier"));
+        LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(LE3GetSceneManager().getScene("scene")->getObject("soldier"));
         soldier->setCurrentAnimation("ANIM_idle");
 
         ///////////////
         // BSP DEMO
         ///////////////
-        m_scene.addBSPBrush("bsp_c1");
-        m_scene.getObject("bsp_c1")->getTransform().setPosition(glm::vec3(1.28, 0.64, 0.04));
-        m_scene.getObject("bsp_c1")->getTransform().setScale(glm::vec3(2.56, 1.28, 0.08));
-        m_scene.getObject("bsp_c1")->update(0.f);
-        m_scene.addBSPBrush("bsp_c2", LE3_BRUSH_SUBTRACTIVE);
-        m_scene.getObject("bsp_c2")->getTransform().setPosition(glm::vec3(0.72 + 0.32 + 0.32 + 1.04 / 2, 0.96 / 2 + 0.16, 0.04));
-        m_scene.getObject("bsp_c2")->getTransform().setScale(glm::vec3(1.04, 0.8, 0.08));
-        m_scene.getObject("bsp_c2")->update(0.f);
-        m_scene.addBSPBrush("bsp_c3", LE3_BRUSH_SUBTRACTIVE);
-        m_scene.getObject("bsp_c3")->getTransform().setPosition(glm::vec3(0.72, 0.96 / 2, 0.04));
-        m_scene.getObject("bsp_c3")->getTransform().setScale(glm::vec3(0.64, 0.96, 0.08));
-        m_scene.getObject("bsp_c3")->update(0.f);
+        LE3GetSceneManager().getScene("scene")->addBSPBrush("bsp_c1");
+        LE3GetSceneManager().getScene("scene")->getObject("bsp_c1")->getTransform().setPosition(glm::vec3(1.28, 0.64, 0.04));
+        LE3GetSceneManager().getScene("scene")->getObject("bsp_c1")->getTransform().setScale(glm::vec3(2.56, 1.28, 0.08));
+        LE3GetSceneManager().getScene("scene")->getObject("bsp_c1")->update(0.f);
+        LE3GetSceneManager().getScene("scene")->addBSPBrush("bsp_c2", LE3_BRUSH_SUBTRACTIVE);
+        LE3GetSceneManager().getScene("scene")->getObject("bsp_c2")->getTransform().setPosition(glm::vec3(0.72 + 0.32 + 0.32 + 1.04 / 2, 0.96 / 2 + 0.16, 0.04));
+        LE3GetSceneManager().getScene("scene")->getObject("bsp_c2")->getTransform().setScale(glm::vec3(1.04, 0.8, 0.08));
+        LE3GetSceneManager().getScene("scene")->getObject("bsp_c2")->update(0.f);
+        LE3GetSceneManager().getScene("scene")->addBSPBrush("bsp_c3", LE3_BRUSH_SUBTRACTIVE);
+        LE3GetSceneManager().getScene("scene")->getObject("bsp_c3")->getTransform().setPosition(glm::vec3(0.72, 0.96 / 2, 0.04));
+        LE3GetSceneManager().getScene("scene")->getObject("bsp_c3")->getTransform().setScale(glm::vec3(0.64, 0.96, 0.08));
+        LE3GetSceneManager().getScene("scene")->getObject("bsp_c3")->update(0.f);
 
-        m_scene.getBSPManager().setShowBrushes(false);
+        LE3GetSceneManager().getScene("scene")->getBSPManager().setShowBrushes(false);
     }
     void update(float deltaTime) {
         updateGUI();
 
         // Setup FPS camera
-        LE3Scene* scene = &m_scene;
-        if (m_engineState.getFocusOverrider() == "Viewport2") scene = &m_inspector;
-        scene->getMainCamera()->addPitchYaw(sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
-        scene->getMainCamera()->moveForward(deltaTime * walkSpeed * cameraVelocity.y);
-        scene->getMainCamera()->moveRight(deltaTime * walkSpeed * cameraVelocity.x);
-        scene->getMainCamera()->moveUp(deltaTime * walkSpeed * cameraVelocity.z);
+        std::string scene = "scene";
+        if (m_engineState.getFocusOverrider() == "Viewport2") scene = "inspector";
+        LE3GetSceneManager().getScene(scene)->getMainCamera()->addPitchYaw(sensitivity * cameraRotation.y, -sensitivity * cameraRotation.x);
+        LE3GetSceneManager().getScene(scene)->getMainCamera()->moveForward(deltaTime * walkSpeed * cameraVelocity.y);
+        LE3GetSceneManager().getScene(scene)->getMainCamera()->moveRight(deltaTime * walkSpeed * cameraVelocity.x);
+        LE3GetSceneManager().getScene(scene)->getMainCamera()->moveUp(deltaTime * walkSpeed * cameraVelocity.z);
 
-        std::dynamic_pointer_cast<LE3OrbitCamera>(m_scene.getObject("cameraOrbit"))->setOffset(orbitOffset);
+        std::dynamic_pointer_cast<LE3OrbitCamera>(LE3GetSceneManager().getScene("scene")->getObject("cameraOrbit"))->setOffset(orbitOffset);
 
         // Setup sunlight
-        scene->getObject("sunLight")->getTransform().setRotationRPY(sun_RPY[0], sun_RPY[1], sun_RPY[2]);
+        LE3GetSceneManager().getScene(scene)->getObject("sunLight")->getTransform().setRotationRPY(sun_RPY[0], sun_RPY[1], sun_RPY[2]);
 
         // Move car forward
         // glm::vec3 carPos = m_scene.getObject("car")->getTransform().getPosition();
@@ -96,7 +107,7 @@ public:
         //     m_scene.getObject(fmt::format("wheel{}", i))->getTransform().addRotationZ(1.9f * carSpeed * deltaTime);
 
         // Update scene
-        m_scene.update(deltaTime);  
+        LE3GetSceneManager().getScene("scene")->update(deltaTime);  
     }
 
     void updateGUI() {
@@ -148,18 +159,18 @@ public:
 
         ImGui::End();
 
-        LE3GetImGuiUtils().addSceneViewport("Viewport", m_scene, m_engineState);
-        LE3GetImGuiUtils().addSceneViewport("Viewport2", m_inspector, m_engineState);
+        LE3GetImGuiUtils().addSceneViewport("Viewport", *LE3GetSceneManager().getScene("scene"), m_engineState);
+        LE3GetImGuiUtils().addSceneViewport("Viewport2", *LE3GetSceneManager().getScene("inspector"), m_engineState);
         // LE3DirectionalLightPtr sunlight = std::dynamic_pointer_cast<LE3DirectionalLight>(m_scene.getObject("sunLight"));
         // LE3GetImGuiUtils().addDepthFramebufferViewport("Viewport2", sunlight->getShadowMap());
 
         ImGui::Begin("Demo 03: Racing Shooter", nullptr, ImGuiWindowFlags_NoMove);
         if (ImGui::CollapsingHeader("Camera Control", ImGuiTreeNodeFlags_DefaultOpen)) {
             if (ImGui::Button("Set FPS (Free) Camera")) {
-                m_scene.setMainCamera("cameraFree");
+                LE3GetSceneManager().getScene("scene")->setMainCamera("cameraFree");
             }
             if (ImGui::Button("Set TPS (Orbit) Camera")) {
-                m_scene.setMainCamera("cameraOrbit");
+                LE3GetSceneManager().getScene("scene")->setMainCamera("cameraOrbit");
             }
             ImGui::Text("Orbit Offset:");
             ImGui::SliderFloat("##orbitOffset", &orbitOffset, 0.f, 5.f);
@@ -194,17 +205,17 @@ public:
                 ImGui::EndCombo();
             }
             if (last_selected != item_current_idx) {
-                LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(m_scene.getObject("soldier"));
+                LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(LE3GetSceneManager().getScene("scene")->getObject("soldier"));
                 soldier->setCurrentAnimation(items[item_current_idx]);
             }
         }
         if (ImGui::CollapsingHeader("BSP Control", ImGuiTreeNodeFlags_DefaultOpen)) {
             if (ImGui::Button("Toggle Brushes")) {
                 bspShown = !bspShown;
-                m_scene.getBSPManager().setShowBrushes(bspShown);
+                LE3GetSceneManager().getScene("scene")->getBSPManager().setShowBrushes(bspShown);
             }
             if (ImGui::Button("Build")) {
-                m_scene.buildBSP();
+                LE3GetSceneManager().getScene("scene")->buildBSP();
             }
         }
 
@@ -213,8 +224,8 @@ public:
     }
 
     void render() {
-        m_scene.draw();
-        m_inspector.draw();
+        LE3GetSceneManager().getScene("scene")->draw();
+        LE3GetSceneManager().getScene("inspector")->draw();
     }
 
     void renderDebug() {

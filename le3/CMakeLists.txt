@@ -61,6 +61,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_bsp.cpp
     src/le3_simple_demo.cpp
     src/le3_gizmo.cpp
+    src/le3_scene_manager.cpp
     
     src/le3_script_system.cpp
     src/le3_script_bindings.cpp

@@ -31,6 +31,8 @@ namespace le3 {
 
     class LE3Scene {
     public:
+        LE3Scene(std::string name = "") : m_name(name) {}
+
         void init(int width, int height);
         void init_inspector(int width, int height, LE3Scene& original); // Observe another scene by sharing a scene graph
         void reset();
@@ -95,6 +97,7 @@ namespace le3 {
 
     private:
         LE3SceneGraphPtr m_sceneGraph;
+        std::string m_name;
 
         glm::vec3 m_backgroundColor = glm::vec3(1.f);
 
@@ -111,4 +114,5 @@ namespace le3 {
 
         void applyMainCamera(LE3ShaderPtr shader);
     };
+    using LE3ScenePtr = std::shared_ptr<LE3Scene>;
 }

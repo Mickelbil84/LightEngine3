@@ -60,11 +60,13 @@ void LE3Scene::resize(int width, int height)
 
 
 void LE3Scene::update(float deltaTime) {
-    m_pGizmo->updateScale(m_pMainCamera->getPosition());    
+    LE3GetSceneManager().setActiveScene(m_name);
     m_sceneGraph->m_pRoot->update(deltaTime);
 }
 
 void LE3Scene::draw() {
+    LE3GetSceneManager().setActiveScene(m_name);
+
     // Draw the scene once for each shadowmap
     drawLights();
 
