@@ -44,20 +44,9 @@ public:
         LE3GetSceneManager().getScene("inspector")->setRenderDirectly(false);
         LE3GetSceneManager().getScene("inspector")->getMainCamera()->setPitchYaw(-0.35, -0.87);
 
-
-        // m_scene.init(m_engineState.getWindowWidth(), m_engineState.getWindowHeight());
-        // m_scene.load("/demos/scripts/racing_shooter/scene.lua");
-        // m_scene.setRenderDirectly(false);
-        // m_scene.resize(1024, 1024);
-        // m_scene.drawDebug = [this]() { this->renderDebug(); };
-
-        // m_inspector.init_inspector(100, 100, m_scene);
-        // m_inspector.setMainCamera("inspector");
-        // m_inspector.setRenderDirectly(false);
-        // m_inspector.getMainCamera()->setPitchYaw(-0.35, -0.87);
-        
-        // m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
-        // m_scene.getMainCamera()->setAspectRatio(1.f);
+        LE3GizmoPtr gizmo = std::make_shared<LE3Gizmo>();
+        LE3GetSceneManager().getScene("scene")->addCustomObject(DEFAULT_ENGINE_PREFIX + "gizmo", gizmo);
+        LE3GetSceneManager().getScene("inspector")->addInspectedUpdate(DEFAULT_ENGINE_PREFIX + "gizmo");
 
         // Setup initial animation demo
         LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(LE3GetSceneManager().getScene("scene")->getObject("soldier"));

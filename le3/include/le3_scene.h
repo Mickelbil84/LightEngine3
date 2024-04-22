@@ -80,6 +80,8 @@ namespace le3 {
         LE3CameraPtr& getMainCamera() { return m_pMainCamera; }
         void setMainCamera(std::string camera);
 
+        void addInspectedUpdate(std::string name) { if (!m_bInspected) return; m_inspectedUpdate.push_back(getObject(name)); }
+
         inline LE3ObjectPtr& getObject(std::string name) { return m_sceneGraph->m_pObjects[name]; }
         template <typename T>
         std::shared_ptr<T> getObject(std::string name) {
@@ -99,6 +101,10 @@ namespace le3 {
         LE3SceneGraphPtr m_sceneGraph;
         std::string m_name;
 
+        // For inspector scenes (update only very specific objects)
+        bool m_bInspected;
+        std::vector<LE3ObjectPtr> m_inspectedUpdate;
+
         glm::vec3 m_backgroundColor = glm::vec3(1.f);
 
         LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer;
@@ -106,7 +112,6 @@ namespace le3 {
         int m_width, m_height;
         bool m_bRenderDirectly = true;
         LE3CameraPtr m_pMainCamera; 
-        LE3GizmoPtr m_pGizmo;
         
         void assertObjectName(std::string name);
         void attachObject(std::string name, LE3ObjectPtr obj, std::string parent);

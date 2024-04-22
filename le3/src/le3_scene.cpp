@@ -20,9 +20,7 @@ void LE3Scene::init(int width, int height) {
     m_sceneGraph->m_pRoot = std::make_shared<LE3SceneRoot>();
     m_pMainCamera = nullptr;
     resize(width, height);
-
-    m_pGizmo = std::make_shared<LE3Gizmo>();
-    addCustomObject(DEFAULT_ENGINE_PREFIX + "gizmo", m_pGizmo);
+    m_bInspected = false;
 
     // Load post process shader
     m_postProcessShader = LE3GetAssetManager().getShader(DEFAULT_POSTPROCESS_SHADER);
@@ -30,6 +28,7 @@ void LE3Scene::init(int width, int height) {
 void LE3Scene::init_inspector(int width, int height, LE3Scene& original) {
     init(width, height);
     m_sceneGraph = original.m_sceneGraph;
+    m_bInspected = true;
 }
 void LE3Scene::reset() {
     m_sceneGraph->m_pObjects.clear();
@@ -61,7 +60,8 @@ void LE3Scene::resize(int width, int height)
 
 void LE3Scene::update(float deltaTime) {
     LE3GetSceneManager().setActiveScene(m_name);
-    m_sceneGraph->m_pRoot->update(deltaTime);
+    if (!m_bInspected) m_sceneGraph->m_pRoot->update(deltaTime);
+    else for (auto obj : m_inspectedUpdate) obj->update(deltaTime);
 }
 
 void LE3Scene::draw() {
