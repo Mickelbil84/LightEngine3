@@ -54,6 +54,6 @@ mat4 getGizmoScale() {
 
 void main() {
     gl_Position = projection * view * model * getGizmoAxisRot() * getGizmoScale() * vPosition;
-    normal = vNormal;
+    normal = normalize(vNormal);
     gizmoColor = getGizmoColor();
 }
