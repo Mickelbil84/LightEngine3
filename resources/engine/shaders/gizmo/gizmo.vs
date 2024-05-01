@@ -8,6 +8,7 @@ uniform mat4 view;
 uniform mat4 projection;
 
 uniform int gizmoAxis;
+uniform int hoveredAxis;
 uniform vec3 gizmoPos;
 uniform vec3 cameraPos;
 uniform float gizmoScale;
@@ -36,6 +37,7 @@ mat4 getGizmoAxisRot() {
 }
 
 vec3 getGizmoColor() {
+    if (gizmoAxis == hoveredAxis) return vec3(1, 1, 0);
     if (gizmoAxis == 0) return vec3(1, 0, 0);
     if (gizmoAxis == 1) return vec3(0, 1, 0);
     if (gizmoAxis == 2) return vec3(0, 0, 1);

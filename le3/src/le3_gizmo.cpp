@@ -7,7 +7,8 @@ using namespace le3;
 #include <fmt/core.h>
 
 LE3Gizmo::LE3Gizmo() :
-    LE3DrawableObject(LE3GetAssetManager().getMaterial(DEFAULT_GIZMO_MATERIAL))
+    LE3DrawableObject(LE3GetAssetManager().getMaterial(DEFAULT_GIZMO_MATERIAL)),
+    m_hoveredAxis(LE3_GIZMO_AXIS_NONE)
 {
     setDrawPriority(DRAW_PRIORITY_UI);
 }
@@ -19,6 +20,7 @@ void LE3Gizmo::draw(LE3ShaderPtr shaderOverride) {
     m_pMaterial->shader->uniform("gizmoPos", m_transform.getPosition());
     m_pMaterial->shader->uniform("cameraPos", LE3GetActiveScene()->getMainCamera()->getPosition());
     m_pMaterial->shader->uniform("gizmoScale", 0.3f); // TODO: move to engine config
+    m_pMaterial->shader->uniform("hoveredAxis", (unsigned int)m_hoveredAxis);
 
     // glDisable(GL_DEPTH_TEST);
     glClear(GL_DEPTH_BUFFER_BIT); // since we draw at UI level, clearing the depth bit should be fine
