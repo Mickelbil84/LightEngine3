@@ -61,7 +61,7 @@ void LE3Scene::resize(int width, int height)
 void LE3Scene::update(float deltaTime) {
     LE3GetSceneManager().setActiveScene(m_name);
     if (!m_bInspected) m_sceneGraph->m_pRoot->update(deltaTime);
-    else for (auto obj : m_inspectedUpdate) obj->update(deltaTime);
+    else for (auto obj : m_sceneGraph->m_inspectedUpdate) obj->update(deltaTime);
 }
 
 void LE3Scene::draw() {
@@ -284,4 +284,12 @@ void LE3Scene::buildBSP() {
     m_sceneGraph->m_pObjects[LE3_BSP_MESH_NAME] = std::make_shared<LE3StaticModel>(mesh, LE3GetAssetManager().getMaterial("M_default")); // TODO: Make sure we have some default material
     m_sceneGraph->m_pObjects[LE3_BSP_MESH_NAME]->reparent(m_sceneGraph->m_pRoot);
     m_sceneGraph->m_drawQueue.addObject(std::dynamic_pointer_cast<LE3DrawableObject>(m_sceneGraph->m_pObjects[LE3_BSP_MESH_NAME]));
+}
+
+glm::vec3 LE3Scene::getCursorLocation() {
+    return LE3GetImGuiUtils().getRelativeCursor(m_width, m_height, m_offsetX, m_offsetY);
+}
+
+void LE3Scene::updateOffset(int offsetX, int offsetY) {
+    m_offsetX = offsetX; m_offsetY = offsetY;
 }

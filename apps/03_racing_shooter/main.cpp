@@ -95,8 +95,8 @@ public:
         // for (int i = 1; i <= 4; i++)
         //     m_scene.getObject(fmt::format("wheel{}", i))->getTransform().addRotationZ(1.9f * carSpeed * deltaTime);
 
-        // Update scene
-        LE3GetSceneManager().getScene("scene")->update(deltaTime);  
+        // Update scenes
+        LE3GetSceneManager().updateScenes(deltaTime);
     }
 
     void updateGUI() {

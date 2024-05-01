@@ -8,6 +8,7 @@
 namespace le3 {
     class LE3SceneManager {
     public:
+        void updateScenes(float deltaTime);
         void createScene(std::string name, LE3EngineState& engineState, std::string scenePath = "");
         void createInspectedScene(std::string name, LE3EngineState& engineState, std::string inspected);
         inline LE3ScenePtr getActiveScene() { return m_scenes[m_activeSceneName]; }

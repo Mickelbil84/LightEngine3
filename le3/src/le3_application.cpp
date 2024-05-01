@@ -104,6 +104,7 @@ void LE3Application::handleInput() {
         ImGui_ImplSDL2_ProcessEvent(&e);
     }
     SDL_GetRelativeMouseState(&input.xrel, &input.yrel);
+    SDL_GetMouseState(&input.mouseX, &input.mouseY);
     getKeyboardInput(input);
 
     if (m_pGameLogic->m_engineState.isFocused() || m_pGameLogic->m_engineState.getFocusedOverride())

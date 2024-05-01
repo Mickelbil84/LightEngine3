@@ -12,3 +12,9 @@ void LE3SceneManager::createInspectedScene(std::string name, LE3EngineState& eng
     m_scenes[name] = std::make_shared<LE3Scene>(name);
     m_scenes[name]->init_inspector(engineState.getWindowWidth(), engineState.getWindowHeight(), *m_scenes[inspected]);
 }
+
+void LE3SceneManager::updateScenes(float deltaTime) {
+    for (auto [name, scene] : m_scenes) {
+        scene->update(deltaTime);
+    }
+}

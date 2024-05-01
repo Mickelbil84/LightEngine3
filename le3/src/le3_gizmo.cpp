@@ -35,4 +35,12 @@ void LE3Gizmo::draw(LE3ShaderPtr shaderOverride) {
 
 void LE3Gizmo::update(float deltaTime) {
     LE3DrawableObject::update(deltaTime);
+
+    glm::vec3 cursor = LE3GetActiveScene()->getCursorLocation();
+    if (cursor.z <= 0.f) {
+        fmt::print("{}: none\n", LE3GetActiveScene()->getName());
+        return;
+    }
+    if (cursor.x >= 0.f) fmt::print("{}: x >= 0\n", LE3GetActiveScene()->getName());
+    else fmt::print("{}: x < 0\n", LE3GetActiveScene()->getName());
 }

@@ -26,18 +26,21 @@ namespace le3 {
         LE3DrawQueue m_drawQueue;
         LE3BSPManager m_bspManager;
         LE3LightManager m_lightManager;
+        std::vector<LE3ObjectPtr> m_inspectedUpdate;
     };
     using LE3SceneGraphPtr = std::shared_ptr<LE3SceneGraph>;
 
     class LE3Scene {
     public:
         LE3Scene(std::string name = "") : m_name(name) {}
+        std::string getName() const { return m_name; }
 
         void init(int width, int height);
         void init_inspector(int width, int height, LE3Scene& original); // Observe another scene by sharing a scene graph
         void reset();
 
         void resize(int width, int height);
+        void updateOffset(int offsetX, int offsetY);
 
         // Path to Lua file that creates a (global) table "Scene"
         void load(std::string path);
@@ -80,7 +83,7 @@ namespace le3 {
         LE3CameraPtr& getMainCamera() { return m_pMainCamera; }
         void setMainCamera(std::string camera);
 
-        void addInspectedUpdate(std::string name) { if (!m_bInspected) return; m_inspectedUpdate.push_back(getObject(name)); }
+        void addInspectedUpdate(std::string name) { if (!m_bInspected) return; m_sceneGraph->m_inspectedUpdate.push_back(getObject(name)); }
 
         inline LE3ObjectPtr& getObject(std::string name) { return m_sceneGraph->m_pObjects[name]; }
         template <typename T>
@@ -94,6 +97,10 @@ namespace le3 {
         glm::vec3 getBackgroundColor() const { return m_backgroundColor; }
         void setBackgroundColor(glm::vec3 backgroundColor) { m_backgroundColor = backgroundColor; }
 
+        // Returns the global cursor location in the scene's region, normalized to [-1, 1]
+        // This also includes the case for multiple scenes rendering at the same time
+        // The cursor is only relevant if the z coord is > 0.f
+        glm::vec3 getCursorLocation();
 
         std::function<void()> drawDebug = nullptr;
 
@@ -103,13 +110,13 @@ namespace le3 {
 
         // For inspector scenes (update only very specific objects)
         bool m_bInspected;
-        std::vector<LE3ObjectPtr> m_inspectedUpdate;
 
         glm::vec3 m_backgroundColor = glm::vec3(1.f);
 
         LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer;
         LE3ShaderPtr m_postProcessShader;
         int m_width, m_height;
+        int m_offsetX = 0, m_offsetY = 0;
         bool m_bRenderDirectly = true;
         LE3CameraPtr m_pMainCamera; 
         
