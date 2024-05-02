@@ -10,7 +10,8 @@ void LE3ImGuiUtils::addSceneViewport(std::string title, LE3Scene& scene, LE3Engi
     // Handle resize
     ImVec2 view = ImGui::GetContentRegionAvail();
     ImVec2 pos = ImGui::GetWindowPos();
-    scene.updateOffset(pos.x, pos.y);
+    ImVec2 size = ImGui::GetWindowSize();
+    scene.updateOffset(pos.x + (size.x - view.x) / 2, pos.y + (size.y - view.y) / 2);
     if (
         view.x != scene.getSceneFramebuffer()->getWidth() ||
         view.y != scene.getSceneFramebuffer()->getHeight()) {
@@ -52,6 +53,7 @@ glm::vec3 LE3ImGuiUtils::getRelativeCursor(int width, int height, int offsetX, i
         return result;
     }
     result = result * 2.f - 1.f;
+    result.y =  -result.y;
     result.z = 1.f;
     return result;
 }

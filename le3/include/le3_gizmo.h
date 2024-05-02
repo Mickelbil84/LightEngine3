@@ -20,6 +20,11 @@ namespace le3 {
 
     private:
         LE3GizmoAxis m_hoveredAxis;
+
+        float distanceToLineAxis(glm::vec2 point, LE3GizmoAxis axis);
+        void handleHovers();
+
+        glm::mat4 gizmoTransform(LE3GizmoAxis gizmoAxis);
     };
     using LE3GizmoPtr = std::shared_ptr<LE3Gizmo>;
 }
