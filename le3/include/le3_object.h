@@ -15,6 +15,10 @@ namespace le3 {
 
         virtual void update(float deltaTime);
 
+        // Are called before and after the update method, only for non inspector scenes
+        virtual void preUpdate() {}
+        virtual void postUpdate() {}
+
         std::shared_ptr<LE3Object> getParent() { return m_pParent; }
         std::vector<std::shared_ptr<LE3Object>> getChildren() const { return m_pChildren; }
 

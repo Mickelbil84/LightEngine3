@@ -17,9 +17,12 @@ namespace le3 {
         LE3Gizmo();
         void draw(LE3ShaderPtr shaderOverride);    
         void update(float deltaTime);
+        void preUpdate();
+        void postUpdate();
 
     private:
         LE3GizmoAxis m_hoveredAxis;
+        int m_hoveredCnt;
 
         float distanceToLineAxis(glm::vec2 point, LE3GizmoAxis axis);
         void handleHovers();

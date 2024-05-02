@@ -15,6 +15,12 @@ void LE3SceneManager::createInspectedScene(std::string name, LE3EngineState& eng
 
 void LE3SceneManager::updateScenes(float deltaTime) {
     for (auto [name, scene] : m_scenes) {
+        if (!scene->isInspected()) scene->preUpdate();
+    }
+    for (auto [name, scene] : m_scenes) {
         scene->update(deltaTime);
+    }
+    for (auto [name, scene] : m_scenes) {
+        if (!scene->isInspected()) scene->postUpdate();
     }
 }

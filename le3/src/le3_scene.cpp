@@ -64,6 +64,16 @@ void LE3Scene::update(float deltaTime) {
     else for (auto obj : m_sceneGraph->m_inspectedUpdate) obj->update(deltaTime);
 }
 
+void LE3Scene::preUpdate() {
+    LE3GetSceneManager().setActiveScene(m_name);
+    m_sceneGraph->m_pRoot->preUpdate();
+}
+
+void LE3Scene::postUpdate() {
+    LE3GetSceneManager().setActiveScene(m_name);
+    m_sceneGraph->m_pRoot->postUpdate();
+}
+
 void LE3Scene::draw() {
     LE3GetSceneManager().setActiveScene(m_name);
 

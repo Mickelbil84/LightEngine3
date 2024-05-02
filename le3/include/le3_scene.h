@@ -46,6 +46,8 @@ namespace le3 {
         void load(std::string path);
         
         void update(float deltaTime);
+        void preUpdate();
+        void postUpdate();
         void draw();
         void drawLights();
         void drawObjects(LE3ShaderPtr shaderOverride = nullptr, LE3FramebufferPtr buffer = nullptr, bool depth = true, bool shadowPhase = false);
@@ -84,6 +86,7 @@ namespace le3 {
         void setMainCamera(std::string camera);
 
         void addInspectedUpdate(std::string name) { if (!m_bInspected) return; m_sceneGraph->m_inspectedUpdate.push_back(getObject(name)); }
+        bool isInspected() const { return m_bInspected; }
 
         inline LE3ObjectPtr& getObject(std::string name) { return m_sceneGraph->m_pObjects[name]; }
         template <typename T>

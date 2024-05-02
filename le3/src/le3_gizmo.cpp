@@ -65,21 +65,27 @@ glm::mat4 LE3Gizmo::gizmoTransform(LE3GizmoAxis gizmoAxis) {
     return gizmoAxisRot * gizmoScale;
 }
 
+void LE3Gizmo::preUpdate() {
+    m_hoveredCnt = 0;
+}
+
 void LE3Gizmo::update(float deltaTime) {
     LE3DrawableObject::update(deltaTime);
 
-    m_hoveredAxis = LE3_GIZMO_AXIS_NONE;
     glm::vec3 cursorRaw = LE3GetActiveScene()->getCursorLocation();
     if (cursorRaw.z < 0) return;
     glm::vec2 cursor(cursorRaw);
 
-    float threshold = 0.02f; // TODO: Move to constants
-    int cnt = 0;
+    float threshold = 0.05f; // TODO: Move to constants
 
-    if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_X) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_X; cnt++; }
-    if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Y) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Y; cnt++; }
-    if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Z) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Z; cnt++; }
-    if (cnt == 3) m_hoveredAxis = LE3_GIZMO_AXIS_ALL;
+    if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_X) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_X; m_hoveredCnt++; }
+    if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Y) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Y; m_hoveredCnt++; }
+    if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Z) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Z; m_hoveredCnt++; }
+    if (m_hoveredCnt == 3) m_hoveredAxis = LE3_GIZMO_AXIS_ALL;
+}
+
+void LE3Gizmo::postUpdate() {
+    if (m_hoveredCnt == 0) m_hoveredAxis = LE3_GIZMO_AXIS_NONE;
 }
 
 float LE3Gizmo::distanceToLineAxis(glm::vec2 point, LE3GizmoAxis axis) {
@@ -101,3 +107,4 @@ float LE3Gizmo::distanceToLineAxis(glm::vec2 point, LE3GizmoAxis axis) {
 
     return distancePointLineSegment(screenBase, screenTip, point);
 }
+
