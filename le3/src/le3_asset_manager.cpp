@@ -64,9 +64,9 @@ void LE3AssetManager::addTexture(std::string name, std::string filename, bool in
     addTexture(name, data, width, height, nChannels, interpolate);
 }
 
-void LE3AssetManager::addStaticMesh(std::string name, std::string filename) {
+void LE3AssetManager::addStaticMesh(std::string name, std::string filename, bool keepData) {
     if (m_pStaticMeshes.contains(name)) throw std::runtime_error(fmt::format("Static mesh [{}] already exists", name));
-    m_pStaticMeshes[name] = loadStaticMesh(filename);
+    m_pStaticMeshes[name] = loadStaticMesh(filename, keepData);
 }
 
 

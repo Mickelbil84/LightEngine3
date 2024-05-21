@@ -15,8 +15,12 @@ LE3Mesh<LE3VertexType>::LE3Mesh(std::vector<LE3VertexType>& data) {
 }
 
 template<typename LE3VertexType>
-LE3Mesh<LE3VertexType>::LE3Mesh(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices) {
+LE3Mesh<LE3VertexType>::LE3Mesh(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices, bool keepData) {
     loadMeshData(data, indices);
+    if (keepData) {
+        m_keptData = data;
+        m_keptIndices = indices;
+    }
 }
 
 template<typename LE3VertexType>

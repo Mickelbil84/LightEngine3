@@ -39,7 +39,7 @@ inline glm::mat4 aiMatrix4x4toGLM(aiMatrix4x4& mtx)
 // ------------------------------------------------
 
 
-LE3StaticMeshPtr LE3AssetManager::loadStaticMesh(std::string filename) {
+LE3StaticMeshPtr LE3AssetManager::loadStaticMesh(std::string filename, bool keepData) {
     LE3StaticMeshPtr mesh;
 
     LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(filename);

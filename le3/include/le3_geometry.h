@@ -62,7 +62,7 @@ namespace le3 {
     class LE3Mesh {
     public:
         LE3Mesh(std::vector<LE3VertexType>& data);
-        LE3Mesh(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices);
+        LE3Mesh(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices, bool keepData = false);
         ~LE3Mesh();
 
         void draw() { drawTriangles(); }
@@ -75,12 +75,19 @@ namespace le3 {
         std::map<std::string, LE3AnimationTrack>& getAnimationTracks() { return m_animationTracks; }
         void addAnimationTrack(std::string name, LE3AnimationTrack track) { m_animationTracks[name] = track; }
     
+        std::vector<LE3VertexType>& getKeptData() { return m_keptData; }   
+        std::vector<uint32_t>& getKeptIndices() { return m_keptIndices; }
+
     protected:
         uint32_t m_vao = -1, m_vbo = -1, m_ibo = -1, m_count;
         bool m_bIndexed;
 
         void loadMeshData(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices);
         void draw(int mode);
+
+        // For keeping data
+        std::vector<LE3VertexType> m_keptData;
+        std::vector<uint32_t> m_keptIndices;
 
         // In case of a skeletal mesh
         LE3Skeleton m_skeleton;

@@ -39,7 +39,7 @@ namespace le3 {
         inline LE3TexturePtr& getTexture(std::string name) { return m_pTextures[name]; }
 
         // Meshes
-        void addStaticMesh(std::string name, std::string filename);
+        void addStaticMesh(std::string name, std::string filename, bool keepData = false);
         inline LE3StaticMeshPtr& getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
 
         void addSkeletalMesh(std::string name, std::string filename);
@@ -72,7 +72,7 @@ namespace le3 {
 
         // Helper methods
         std::string readFile(std::string filename);
-        LE3StaticMeshPtr loadStaticMesh(std::string filename); // Implemented in `le3_assimp.cpp`
+        LE3StaticMeshPtr loadStaticMesh(std::string filename, bool keepData); // Implemented in `le3_assimp.cpp`
         LE3SkeletalMeshPtr loadSkeletalMesh(std::string filename); // Implemented in `le3_assimp.cpp`
     }; 
 }
