@@ -36,6 +36,7 @@ end
 
 function load_LE3Scene_settings(scene, settings)
     if settings.BackgroundColor ~= nil then LE3Scene.set_background_color(scene, table.unpack(settings.BackgroundColor)) end
+    if settings.Culling ~= nil then LE3Scene.set_culling(scene, settings.Culling) end
 end
 
 function load_LE3Scene(scene, scene_data_table)

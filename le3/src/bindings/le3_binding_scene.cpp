@@ -135,6 +135,7 @@ FEND()
 
 FBIND_GETTER_VEC3(LE3Scene, get_background_color, getBackgroundColor)
 FBIND_SETTER_VEC3(LE3Scene, set_background_color, setBackgroundColor)
+FBIND_SETTER_BOOL(LE3Scene, set_culling, setCulling)
 
 
 // --------
@@ -146,5 +147,6 @@ LIB(LE3Scene,
     add_free_camera, add_orbit_camera, set_main_camera,
     add_ambient_light, add_directional_light, add_point_light, add_spot_light,
     reparent, get_object,
-    get_background_color, set_background_color
+    get_background_color, set_background_color,
+    set_culling
 )

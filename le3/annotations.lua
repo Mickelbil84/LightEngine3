@@ -81,7 +81,8 @@ function LE3AssetManager.add_skeletal_mesh(name, filename) end
 
 ---@param name string
 ---@param filename string
-function LE3AssetManager.add_static_mesh(name, filename) end
+---@param keepData boolean
+function LE3AssetManager.add_static_mesh(name, filename, keepData) end
 
 ---@param name string
 ---@param filename string
@@ -443,6 +444,10 @@ function LE3Scene.reparent(scene, child, parent) end
 ---@param background_color_y number
 ---@param background_color_z number
 function LE3Scene.set_background_color(self, background_color_x, background_color_y, background_color_z) end
+
+---@param self LE3Scene
+---@param culling boolean
+function LE3Scene.set_culling(self, culling) end
 
 ---@param scene LE3Scene
 ---@param camera string

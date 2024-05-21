@@ -120,6 +120,8 @@ void LE3Scene::drawLights() {
 void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer, bool depth, bool shadowPhase) {
     if (buffer == nullptr) buffer = m_rawBuffer;
     
+    if (m_bCulling) glEnable(GL_CULL_FACE); else glDisable(GL_CULL_FACE);
+
     buffer->bind();
     glClearColor(m_backgroundColor.r, m_backgroundColor.g, m_backgroundColor.b, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

@@ -99,6 +99,7 @@ namespace le3 {
         // Misc
         glm::vec3 getBackgroundColor() const { return m_backgroundColor; }
         void setBackgroundColor(glm::vec3 backgroundColor) { m_backgroundColor = backgroundColor; }
+        void setCulling(bool culling) { m_bCulling = culling; }
 
         // Returns the global cursor location in the scene's region, normalized to [-1, 1]
         // This also includes the case for multiple scenes rendering at the same time
@@ -115,6 +116,7 @@ namespace le3 {
         bool m_bInspected;
 
         glm::vec3 m_backgroundColor = glm::vec3(1.f);
+        bool m_bCulling = false;
 
         LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer;
         LE3ShaderPtr m_postProcessShader;
