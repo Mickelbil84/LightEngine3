@@ -61,7 +61,7 @@ LE3StaticMeshPtr LE3AssetManager::loadStaticMesh(std::string filename, bool keep
     std::vector<GLuint> indices; 
     AssimpSceneToVertexBuffer(buffer, indices, scene->mRootNode, scene);
 
-    return std::make_shared<LE3StaticMesh>(buffer, indices);
+    return std::make_shared<LE3StaticMesh>(buffer, indices, keepData);
 }
 
 LE3SkeletalMeshPtr LE3AssetManager::loadSkeletalMesh(std::string meshPath)
