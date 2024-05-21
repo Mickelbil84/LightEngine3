@@ -41,7 +41,8 @@ FEND()
 FBIND(LE3AssetManager, add_static_mesh)
     GET_STRING(name)
     GET_STRING(filename)
-    LE3GetAssetManager().addStaticMesh(name, filename);
+    GET_BOOL(keepData)
+    LE3GetAssetManager().addStaticMesh(name, filename, keepData);
 FEND()
 FBIND(LE3AssetManager, get_static_mesh)
     GET_STRING(name)
