@@ -12,9 +12,7 @@ namespace le3 {
         virtual void renderDebug();
         virtual void handleInput(LE3Input input);
 
-    protected:
-        LE3Scene m_scene;
-        
+    protected:      
         // Viewport navigation
         glm::vec3 m_cameraVelocity, m_cameraRotation;
         glm::vec3 m_initialPosition = glm::vec3(0.f, 0.5f, 3.f);

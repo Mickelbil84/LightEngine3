@@ -4,32 +4,34 @@ using namespace le3;
 #include "le3_engine_systems.h"
 
 void LE3SimpleDemo::init() {
-    m_scene.init(m_engineState.getWindowWidth(), m_engineState.getWindowHeight());
+    LE3GetSceneManager().createScene("scene", m_engineState);
+
+    LE3GetSceneManager().getActiveScene()->init(m_engineState.getWindowWidth(), m_engineState.getWindowHeight());
     LE3GetAssetManager().addShaderFromFile("S_default", "/engine/shaders/blinn_phong/blinn_phong.vs", "/engine/shaders/blinn_phong/blinn_phong.fs");
     LE3GetAssetManager().addMaterial("M_default", "S_default");
 
-    m_scene.addFreeCamera("camera");
-    m_scene.getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
-    m_scene.getMainCamera()->getTransform().setPosition(m_initialPosition);
+    LE3GetSceneManager().getActiveScene()->addFreeCamera("camera");
+    LE3GetSceneManager().getActiveScene()->getMainCamera()->setAspectRatio(m_engineState.getAspectRatio());
+    LE3GetSceneManager().getActiveScene()->getMainCamera()->getTransform().setPosition(m_initialPosition);
     
-    m_scene.addDirectionalLight("sun");
-    std::dynamic_pointer_cast<LE3DirectionalLight>(m_scene.getObject("sun"))->getTransform().setRotationRPY(0.785, 0.785, 0.785);
+    LE3GetSceneManager().getActiveScene()->addDirectionalLight("sun");
+    std::dynamic_pointer_cast<LE3DirectionalLight>(LE3GetSceneManager().getActiveScene()->getObject("sun"))->getTransform().setRotationRPY(0.785, 0.785, 0.785);
 
-    m_scene.drawDebug = [this]() { this->renderDebug(); };
+    LE3GetSceneManager().getActiveScene()->drawDebug = [this]() { this->renderDebug(); };
 }
 
 void LE3SimpleDemo::update(float deltaTime) {
     // Setup FPS camera
-    m_scene.getMainCamera()->addPitchYaw(m_sensitivity * m_cameraRotation.y, -m_sensitivity * m_cameraRotation.x);
-    m_scene.getMainCamera()->moveForward(deltaTime * m_walkSpeed * m_cameraVelocity.y);
-    m_scene.getMainCamera()->moveRight(deltaTime * m_walkSpeed * m_cameraVelocity.x);
-    m_scene.getMainCamera()->moveUp(deltaTime * m_walkSpeed * m_cameraVelocity.z);
+    LE3GetSceneManager().getActiveScene()->getMainCamera()->addPitchYaw(m_sensitivity * m_cameraRotation.y, -m_sensitivity * m_cameraRotation.x);
+    LE3GetSceneManager().getActiveScene()->getMainCamera()->moveForward(deltaTime * m_walkSpeed * m_cameraVelocity.y);
+    LE3GetSceneManager().getActiveScene()->getMainCamera()->moveRight(deltaTime * m_walkSpeed * m_cameraVelocity.x);
+    LE3GetSceneManager().getActiveScene()->getMainCamera()->moveUp(deltaTime * m_walkSpeed * m_cameraVelocity.z);
 
-    m_scene.update(deltaTime);
+    LE3GetSceneManager().getActiveScene()->update(deltaTime);
 }
 
 void LE3SimpleDemo::render() {
-    m_scene.draw();
+    LE3GetSceneManager().getActiveScene()->draw();
 }
 
 void LE3SimpleDemo::renderDebug() {}
