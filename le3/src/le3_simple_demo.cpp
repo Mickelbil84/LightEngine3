@@ -27,7 +27,7 @@ void LE3SimpleDemo::update(float deltaTime) {
     LE3GetSceneManager().getActiveScene()->getMainCamera()->moveRight(deltaTime * m_walkSpeed * m_cameraVelocity.x);
     LE3GetSceneManager().getActiveScene()->getMainCamera()->moveUp(deltaTime * m_walkSpeed * m_cameraVelocity.z);
 
-    LE3GetSceneManager().getActiveScene()->update(deltaTime);
+    LE3GetSceneManager().updateScenes(deltaTime);
 }
 
 void LE3SimpleDemo::render() {
