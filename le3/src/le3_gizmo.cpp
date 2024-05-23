@@ -72,6 +72,8 @@ void LE3Gizmo::preUpdate() {
 void LE3Gizmo::update(float deltaTime) {
     LE3DrawableObject::update(deltaTime);
 
+    if (!m_bIsHoverable) return;
+
     glm::vec3 cursorRaw = LE3GetActiveScene()->getCursorLocation();
     if (cursorRaw.z < 0) return;
     glm::vec2 cursor(cursorRaw);

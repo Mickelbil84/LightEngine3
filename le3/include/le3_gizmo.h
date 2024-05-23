@@ -20,9 +20,12 @@ namespace le3 {
         void preUpdate();
         void postUpdate();
 
+        void setHoverable(bool hoverable) { m_bIsHoverable = hoverable; }  
+
     private:
         LE3GizmoAxis m_hoveredAxis;
         int m_hoveredCnt;
+        bool m_bIsHoverable = true;
 
         float distanceToLineAxis(glm::vec2 point, LE3GizmoAxis axis);
         void handleHovers();
