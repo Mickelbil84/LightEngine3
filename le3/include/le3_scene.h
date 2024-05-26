@@ -55,6 +55,7 @@ namespace le3 {
 
         // Set false if we want to render to the inner postProccess buffer
         void setRenderDirectly(bool renderDirectly) { m_bRenderDirectly = renderDirectly; }
+        bool isRenderDirectly() { return m_bRenderDirectly; }
         LE3FramebufferPtr getSceneFramebuffer() { return m_postProcessBuffer; } // Applicable only if !m_bRenderDirectly
 
         // Object factory

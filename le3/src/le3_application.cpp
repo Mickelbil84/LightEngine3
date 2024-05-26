@@ -96,9 +96,16 @@ void LE3Application::handleInput() {
         }
 
         if (e.type == SDL_WINDOWEVENT) {
-            SDL_GetWindowSize(m_pInternal->m_pWindow.get(),
-                &m_pGameLogic->m_engineState.m_windowWidth,
-                &m_pGameLogic->m_engineState.m_windowHeight);
+            if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
+                SDL_GetWindowSize(m_pInternal->m_pWindow.get(),
+                    &m_pGameLogic->m_engineState.m_windowWidth,
+                    &m_pGameLogic->m_engineState.m_windowHeight);
+            
+                for (auto scene : LE3GetSceneManager().getScenes()) {
+                    if (scene.second->isRenderDirectly())
+                        scene.second->resize(m_pGameLogic->m_engineState.m_windowWidth, m_pGameLogic->m_engineState.m_windowHeight);
+                }
+            }
         }
 
         ImGui_ImplSDL2_ProcessEvent(&e);

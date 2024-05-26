@@ -14,6 +14,7 @@ namespace le3 {
         inline LE3ScenePtr getActiveScene() { return m_scenes[m_activeSceneName]; }
         inline LE3ScenePtr getScene(std::string name) { return m_scenes[name]; }
         inline void setActiveScene(std::string name) { m_activeSceneName = name; }
+        std::map<std::string, LE3ScenePtr> getScenes() { return m_scenes; }
 
     private:
         std::map<std::string, LE3ScenePtr> m_scenes;
