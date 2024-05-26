@@ -61,6 +61,7 @@ glm::mat4 LE3Gizmo::gizmoTransform(LE3GizmoAxis gizmoAxis) {
     glm::vec3 cameraPos = LE3GetActiveScene()->getMainCamera()->getPosition();
     float scale = glm::length(m_transform.getPosition() - cameraPos) * 0.3f;
     glm::mat4 gizmoScale = glm::scale(glm::mat4(1.f), glm::vec3(scale));
+    if (!m_bIsDynamicScale) gizmoScale = glm::mat4(1.f);
 
     return gizmoAxisRot * gizmoScale;
 }

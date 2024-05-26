@@ -21,11 +21,12 @@ namespace le3 {
         void postUpdate();
 
         void setHoverable(bool hoverable) { m_bIsHoverable = hoverable; }  
+        void setDynamicScale(bool dynamicScale) { m_bIsDynamicScale = dynamicScale; } 
 
     private:
         LE3GizmoAxis m_hoveredAxis;
         int m_hoveredCnt;
-        bool m_bIsHoverable = true;
+        bool m_bIsHoverable = true, m_bIsDynamicScale = true;
 
         float distanceToLineAxis(glm::vec2 point, LE3GizmoAxis axis);
         void handleHovers();
