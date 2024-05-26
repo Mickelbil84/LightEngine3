@@ -21,6 +21,7 @@ void LE3Gizmo::draw(LE3ShaderPtr shaderOverride) {
 
     // glDisable(GL_DEPTH_TEST);
     glClear(GL_DEPTH_BUFFER_BIT); // since we draw at UI level, clearing the depth bit should be fine
+    glDisable(GL_CULL_FACE);
     m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_X);
     m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_X));
     LE3GetAssetManager().getGizmoArrowMesh()->draw();
