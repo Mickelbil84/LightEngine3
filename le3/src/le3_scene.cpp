@@ -125,7 +125,7 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
     buffer->bind();
     glClearColor(m_backgroundColor.r, m_backgroundColor.g, m_backgroundColor.b, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    glViewport(0, 0, m_width, m_height);
+    glViewport(0, 0, buffer->getWidth(), buffer->getHeight());
     if (depth) glEnable(GL_DEPTH_TEST); else glDisable(GL_DEPTH_TEST);
 
     if (shaderOverride == nullptr) for (auto kv : LE3GetAssetManager().getShaders()) {
@@ -147,7 +147,7 @@ void LE3Scene::drawPostProcess() {
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f); 
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
-    glViewport(0, 0, m_width, m_height);
+    glViewport(0, 0, m_postProcessBuffer->getWidth(), m_postProcessBuffer->getHeight());
 
     m_postProcessShader->use();
     m_rawBuffer->useColorTexture();
