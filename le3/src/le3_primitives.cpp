@@ -1,6 +1,10 @@
 #include "le3_primitives.h"
 using namespace le3;
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 LE3MeshPtr<LE3Vertex3p> le3::createDebugLine() {
     std::vector<LE3Vertex3p> vertices(2);
     vertices[0].position[0] = 0.f; vertices[0].position[1] = 0.f; vertices[0].position[2] = 0.f;

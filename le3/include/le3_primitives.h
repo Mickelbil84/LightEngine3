@@ -3,7 +3,6 @@
 #include "le3_model.h"
 #include "le3_geometry.h"
 
-#include <math.h>
 #include <fmt/core.h>
 
 namespace le3 {
