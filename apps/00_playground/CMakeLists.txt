@@ -3,7 +3,9 @@ if (LE3_WITH_DEMOS)
 
     find_package(fmt REQUIRED)
     find_package(Lua REQUIRED)
-    find_package(assimp REQUIRED)
+    set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+find_package(assimp REQUIRED)
     find_package(glm CONFIG REQUIRED)
 
     include_directories(
