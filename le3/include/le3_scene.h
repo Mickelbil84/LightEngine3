@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <functional>
 
 #include "le3_bsp.h"
 #include "le3_model.h"
