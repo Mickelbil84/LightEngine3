@@ -4,6 +4,7 @@
 [submodule "third-party/imgui"]
 	path = third-party/imgui
 	url = git@github.com:ocornut/imgui.git
+	branch = docking
 [submodule "third-party/gzip-hpp"]
 	path = third-party/gzip-hpp
 	url = git@github.com:mapbox/gzip-hpp.git
