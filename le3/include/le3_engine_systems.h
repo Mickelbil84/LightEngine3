@@ -9,6 +9,7 @@
 #include "le3_asset_manager.h"
 #include "le3_visual_debug.h"
 #include "le3_scene_manager.h"
+#include "le3_editor_manager.h"
 
 namespace le3 {
     // Singleton for various (global) engine systems, which are not specific to any scene
@@ -47,6 +48,7 @@ namespace le3 {
         inline LE3VisualDebug& getVisualDebug() { return g_visualDebug; }
         inline LE3ImGuiUtils& getImGuiUtils() { return g_imGuiUtils; }
         inline LE3SceneManager& getSceneManager() { return g_sceneManager; }
+        inline LE3EditorManager& getEditorManager() { return g_editorManager; }
         
     private:
         LE3EngineSystems() {
@@ -58,6 +60,7 @@ namespace le3 {
         LE3AssetManager g_assetManager;
         LE3VisualDebug g_visualDebug;
         LE3SceneManager g_sceneManager;
+        LE3EditorManager g_editorManager;
     };
 
     #define LE3GetDatFileSystem LE3EngineSystems::instance().getDatFileSystem
@@ -66,6 +69,7 @@ namespace le3 {
     #define LE3GetVisualDebug LE3EngineSystems::instance().getVisualDebug
     #define LE3GetImGuiUtils LE3EngineSystems::instance().getImGuiUtils
     #define LE3GetSceneManager LE3EngineSystems::instance().getSceneManager
+    #define LE3GetEditorManager LE3EngineSystems::instance().getEditorManager
 
     #define LE3GetActiveScene LE3GetSceneManager().getActiveScene
 }

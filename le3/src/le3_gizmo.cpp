@@ -86,6 +86,8 @@ void LE3Gizmo::update(float deltaTime) {
     if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Y) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Y; m_hoveredCnt++; }
     if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Z) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Z; m_hoveredCnt++; }
     if (m_hoveredCnt == 3) m_hoveredAxis = LE3_GIZMO_AXIS_ALL;
+
+    LE3GetEditorManager().setActiveEdit((m_hoveredAxis != LE3_GIZMO_AXIS_NONE) && LE3GetEditorManager().isMouseDown());
 }
 
 void LE3Gizmo::postUpdate() {

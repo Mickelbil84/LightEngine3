@@ -230,23 +230,25 @@ public:
         ////////////////////////
         // Camera Movement
         ////////////////////////
-        cameraVelocity = glm::vec3();
-        cameraRotation = glm::vec3();
-        if (input.bLeftMouseDown || m_engineState.isRelativeMouse()) {
-            if (input.keys["KEY_W"]) cameraVelocity.y = 1.f;
-            else if (input.keys["KEY_S"]) cameraVelocity.y = -1.f;
-            else cameraVelocity.y = 0.f;
+        if (!LE3GetEditorManager().isActiveEdit()) {
+            cameraVelocity = glm::vec3();
+            cameraRotation = glm::vec3();
+            if (input.bLeftMouseDown || m_engineState.isRelativeMouse()) {
+                if (input.keys["KEY_W"]) cameraVelocity.y = 1.f;
+                else if (input.keys["KEY_S"]) cameraVelocity.y = -1.f;
+                else cameraVelocity.y = 0.f;
 
-            if (input.keys["KEY_D"]) cameraVelocity.x = 1.f;
-            else if (input.keys["KEY_A"]) cameraVelocity.x = -1.f;
-            else cameraVelocity.x = 0.f;
+                if (input.keys["KEY_D"]) cameraVelocity.x = 1.f;
+                else if (input.keys["KEY_A"]) cameraVelocity.x = -1.f;
+                else cameraVelocity.x = 0.f;
 
-            if (input.keys["KEY_E"]) cameraVelocity.z = 1.f;
-            else if (input.keys["KEY_Q"]) cameraVelocity.z = -1.f;
-            else cameraVelocity.z = 0.f;
+                if (input.keys["KEY_E"]) cameraVelocity.z = 1.f;
+                else if (input.keys["KEY_Q"]) cameraVelocity.z = -1.f;
+                else cameraVelocity.z = 0.f;
 
-            cameraRotation.x = (float)input.xrel;
-            cameraRotation.y = -(float)input.yrel;
+                cameraRotation.x = (float)input.xrel;
+                cameraRotation.y = -(float)input.yrel;
+            }
         }
     }
 };
