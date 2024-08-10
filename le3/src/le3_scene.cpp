@@ -80,14 +80,20 @@ void LE3Scene::draw() {
 
     // Draw the scene once for each shadowmap
     drawLights();
+    // Draw the scene, but only rendering object IDs
+    drawObjectIDs();
+    updateHoveredObject();
 
     // Draw the scene as is
     // Also, one of the objects might try to do visual debug, so set the active camera
     LE3GetVisualDebug().setActiveCamera(m_pMainCamera);
     drawObjects();
-    drawObjectIDs();
     if (drawDebug) drawDebug();
     LE3GetVisualDebug().setActiveCamera(nullptr);
+
+    
+    
+    
 
     // Draw once again to the post process buffer
     drawPostProcess();
@@ -148,7 +154,10 @@ void LE3Scene::drawObjectIDs() {
         if (auto drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(kv.second)) drawableObj->setDrawID(drawID);
         drawID++;
     }
+    glm::vec3 bacgroundColor = getBackgroundColor();
+    setBackgroundColor(glm::vec3(0.f));
     drawObjects(LE3GetAssetManager().getShader(DEFAULT_OBJECTID_SHADER), m_objectIdsBuffer, true, false);
+    setBackgroundColor(bacgroundColor);
 }
 
 void LE3Scene::drawPostProcess() {
@@ -316,4 +325,39 @@ glm::vec3 LE3Scene::getCursorLocation() {
 
 void LE3Scene::updateOffset(int offsetX, int offsetY) {
     m_offsetX = offsetX; m_offsetY = offsetY;
+}
+
+LE3ObjectPtr LE3Scene::getObjectByID(uint32_t oid) {
+    if (oid == 0) return nullptr;
+
+    for (auto kv : m_sceneGraph->m_pObjects) {
+        if (auto drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(kv.second)) {
+            if (drawableObj->getDrawID() == oid) return drawableObj;
+        }
+    }
+
+    return nullptr;
+}
+LE3ObjectPtr LE3Scene::getObjectByID(glm::vec4 color) {
+    // Based on http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-an-opengl-hack/
+    int oid = color[0] + color[1] * 256 + color[2] * 256 * 256;
+    return getObjectByID(oid);
+}
+
+std::string LE3Scene::getObjectName(LE3ObjectPtr obj) {
+    for (auto& it : m_sceneGraph->m_pObjects) {
+        if (it.second == obj) return it.first;
+    }
+    return "";
+}
+
+void LE3Scene::updateHoveredObject() {
+    glm::vec3 mouse = 0.5f * (getCursorLocation() + 1.f);
+    mouse.x *= m_width; mouse.y *= m_height;
+
+    if (mouse.z > 0.f) {
+        glm::vec4 pixel = m_objectIdsBuffer->readPixel(mouse) * 255.f;
+        LE3ObjectPtr obj = getObjectByID(pixel);
+        LE3GetEditorManager().setHoveredObject(obj);
+    }
 }

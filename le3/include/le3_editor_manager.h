@@ -1,5 +1,7 @@
 #pragma once 
 
+#include "le3_object.h"
+
 namespace le3 {
     class LE3EditorManager {
     public:
@@ -11,15 +13,19 @@ namespace le3 {
         void setActiveEdit(bool activeEdit) { m_bActiveEdit = activeEdit; }
         bool isEditBlocked() { return m_bEditBlocked; }
         void setEditBlocked(bool editBlocked) { m_bEditBlocked = editBlocked; }
-        
 
         void setMouseRel(int xrel, int yrel) { m_xrel = xrel; m_yrel = yrel; }
         int getMouseRelX() { return m_xrel; }
         int getMouseRelY() { return m_yrel; }
 
+        LE3ObjectPtr getHoveredObject() { return m_pHoveredObject; }
+        void setHoveredObject(LE3ObjectPtr hoveredObject) { m_pHoveredObject = hoveredObject; }
+
     private:
         bool m_bMouseDown = false;
         bool m_bActiveEdit = false, m_bEditBlocked = false;
         int m_xrel, m_yrel;
+
+        LE3ObjectPtr m_pHoveredObject = nullptr;
     };
 }

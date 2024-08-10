@@ -65,3 +65,11 @@ void LE3Framebuffer::useDepthTexture(int i)
     glActiveTexture(GL_TEXTURE0 + i);
     glBindTexture(GL_TEXTURE_2D, m_depthStencil);
 }
+
+glm::vec4 LE3Framebuffer::readPixel(glm::vec2 pos) {
+    bind();
+    glReadBuffer(GL_COLOR_ATTACHMENT0);
+    glm::vec4 pixel;
+    glReadPixels((int)pos.x, (int)pos.y, 1, 1, GL_RGBA, GL_FLOAT, &pixel[0]);
+    return pixel;
+}

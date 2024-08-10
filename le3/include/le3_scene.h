@@ -96,6 +96,7 @@ namespace le3 {
         std::shared_ptr<T> getObject(std::string name) {
             return std::dynamic_pointer_cast<T>(getObject(name));
         }
+        std::string getObjectName(LE3ObjectPtr obj);
 
         LE3BSPManager& getBSPManager() { return m_sceneGraph->m_bspManager; }
 
@@ -133,6 +134,10 @@ namespace le3 {
         void attachCamera(LE3CameraPtr pCamera);
 
         void applyMainCamera(LE3ShaderPtr shader);
+
+        LE3ObjectPtr getObjectByID(uint32_t oid);
+        LE3ObjectPtr getObjectByID(glm::vec4 color);
+        void updateHoveredObject();
     };
     using LE3ScenePtr = std::shared_ptr<LE3Scene>;
 }

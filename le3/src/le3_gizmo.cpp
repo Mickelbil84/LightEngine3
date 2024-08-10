@@ -97,7 +97,6 @@ void LE3Gizmo::update(float deltaTime) {
         m_dragStartX = LE3GetEditorManager().getMouseRelX();
         m_dragStartY = LE3GetEditorManager().getMouseRelY();
         m_dragStartPos = m_transform.getPosition();
-        fmt::print("Dragging started\n");
     }
     m_bIsDragging = isDragging;
     if (!LE3GetEditorManager().isMouseDown()) m_bIsDragging = false; // Stop dragging when mouse is released

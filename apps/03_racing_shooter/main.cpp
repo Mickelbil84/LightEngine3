@@ -207,6 +207,10 @@ public:
                 LE3GetSceneManager().getScene("scene")->buildBSP();
             }
         }
+        if (ImGui::CollapsingHeader("Hovered Object", ImGuiTreeNodeFlags_DefaultOpen)) {
+            std::string hoveredObject = LE3GetActiveScene()->getObjectName(LE3GetEditorManager().getHoveredObject());
+            ImGui::Text("Hovered Object: %s", hoveredObject.c_str());
+        }
 
 
         ImGui::End();

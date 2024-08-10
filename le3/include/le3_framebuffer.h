@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include <glm/glm.hpp>
+
 namespace le3 {
     
     enum LE3FramebufferType {
@@ -29,6 +31,8 @@ namespace le3 {
 
         inline int getWidth() const { return m_width; }
         inline int getHeight() const { return m_height; }
+
+        glm::vec4 readPixel(glm::vec2 pos);
 
     protected:
         uint32_t m_fbo = -1;
