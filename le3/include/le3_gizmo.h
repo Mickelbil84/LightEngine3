@@ -28,8 +28,13 @@ namespace le3 {
         int m_hoveredCnt;
         bool m_bIsHoverable = true, m_bIsDynamicScale = true;
 
+        bool m_bIsDragging = false;
+        int m_dragStartX, m_dragStartY;
+        glm::vec3 m_dragStartPos;
+
+        glm::vec3 getAxisLine(LE3GizmoAxis axis);
+        void getAxisScreen(LE3GizmoAxis axis, glm::vec2& base, glm::vec2& tip);
         float distanceToLineAxis(glm::vec2 point, LE3GizmoAxis axis);
-        void handleHovers();
 
         glm::mat4 gizmoTransform(LE3GizmoAxis gizmoAxis);
     };

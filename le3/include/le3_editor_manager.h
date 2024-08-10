@@ -9,9 +9,17 @@ namespace le3 {
         // Active edit is when something is being modified, and animations/camera movement/etc. should be frozen
         bool isActiveEdit() { return m_bActiveEdit; }
         void setActiveEdit(bool activeEdit) { m_bActiveEdit = activeEdit; }
+        bool isEditBlocked() { return m_bEditBlocked; }
+        void setEditBlocked(bool editBlocked) { m_bEditBlocked = editBlocked; }
+        
+
+        void setMouseRel(int xrel, int yrel) { m_xrel = xrel; m_yrel = yrel; }
+        int getMouseRelX() { return m_xrel; }
+        int getMouseRelY() { return m_yrel; }
 
     private:
         bool m_bMouseDown = false;
-        bool m_bActiveEdit = false;
+        bool m_bActiveEdit = false, m_bEditBlocked = false;
+        int m_xrel, m_yrel;
     };
 }

@@ -113,7 +113,9 @@ void LE3Application::handleInput() {
     SDL_GetRelativeMouseState(&input.xrel, &input.yrel);
     SDL_GetMouseState(&input.mouseX, &input.mouseY);
     getKeyboardInput(input);
-    LE3GetEditorManager().setMouseDown(input.bLeftMouseDown); // Editor manager should know about mouse down state
+    // Editor manager should know about mouse state
+    LE3GetEditorManager().setMouseDown(input.bLeftMouseDown);
+    LE3GetEditorManager().setMouseRel(input.xrel, input.yrel);
 
     if (m_pGameLogic->m_engineState.isFocused() || m_pGameLogic->m_engineState.getFocusedOverride())
         m_pGameLogic->handleInput(input);

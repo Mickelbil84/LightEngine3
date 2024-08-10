@@ -72,9 +72,8 @@ void LE3Gizmo::preUpdate() {
 }
 
 void LE3Gizmo::update(float deltaTime) {
-    LE3DrawableObject::update(deltaTime);
-
     if (!m_bIsHoverable) return;
+    if (LE3GetEditorManager().isEditBlocked()) return;
 
     glm::vec3 cursorRaw = LE3GetActiveScene()->getCursorLocation();
     if (cursorRaw.z < 0) return;
@@ -82,35 +81,74 @@ void LE3Gizmo::update(float deltaTime) {
 
     float threshold = 0.05f; // TODO: Move to constants
 
-    if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_X) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_X; m_hoveredCnt++; }
-    if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Y) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Y; m_hoveredCnt++; }
-    if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Z) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Z; m_hoveredCnt++; }
-    if (m_hoveredCnt == 3) m_hoveredAxis = LE3_GIZMO_AXIS_ALL;
+    if (!m_bIsDragging) { // If we already dragging, don't update hovered axis
+        if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_X) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_X; m_hoveredCnt++; }
+        if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Y) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Y; m_hoveredCnt++; }
+        if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Z) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Z; m_hoveredCnt++; }
+        if (m_hoveredCnt == 3) m_hoveredAxis = LE3_GIZMO_AXIS_ALL;
+    }
+    else {
+        m_hoveredCnt++;
+    }
 
-    LE3GetEditorManager().setActiveEdit((m_hoveredAxis != LE3_GIZMO_AXIS_NONE) && LE3GetEditorManager().isMouseDown());
+    // Gizmo drag
+    bool isDragging = LE3GetEditorManager().isMouseDown() && (m_hoveredAxis != LE3_GIZMO_AXIS_NONE) || m_bIsDragging;
+    if (isDragging && !m_bIsDragging) {
+        m_dragStartX = LE3GetEditorManager().getMouseRelX();
+        m_dragStartY = LE3GetEditorManager().getMouseRelY();
+        m_dragStartPos = m_transform.getPosition();
+        fmt::print("Dragging started\n");
+    }
+    m_bIsDragging = isDragging;
+    if (!LE3GetEditorManager().isMouseDown()) m_bIsDragging = false; // Stop dragging when mouse is released
+
+    LE3GetEditorManager().setActiveEdit(m_bIsDragging);
+    if (m_bIsDragging) {
+        glm::vec2 base, tip;
+        getAxisScreen(m_hoveredAxis, base, tip);
+
+        int xrel = LE3GetEditorManager().getMouseRelX();
+        int yrel = LE3GetEditorManager().getMouseRelY();
+        float dx = xrel - m_dragStartX;
+        float dy = yrel - m_dragStartY;
+
+        float gizmoDragSpeed = 0.010f;
+        float t = glm::dot(glm::vec2(dx, dy), tip - base);
+        glm::vec3 projection = gizmoDragSpeed * t * getAxisLine(m_hoveredAxis);
+
+        m_transform.setPosition(m_transform.getPosition() + projection);
+    }
+    
+    LE3DrawableObject::update(deltaTime);
 }
 
 void LE3Gizmo::postUpdate() {
     if (m_hoveredCnt == 0) m_hoveredAxis = LE3_GIZMO_AXIS_NONE;
 }
 
-float LE3Gizmo::distanceToLineAxis(glm::vec2 point, LE3GizmoAxis axis) {
+void LE3Gizmo::getAxisScreen(LE3GizmoAxis axis, glm::vec2& base, glm::vec2& tip) {
     glm::mat4 PVM = 
         LE3GetActiveScene()->getMainCamera()->getProjectionMatrix() *
         LE3GetActiveScene()->getMainCamera()->getViewMatrix() *
         getWorldMatrix() * gizmoTransform(axis);
-    glm::vec4 base = PVM * glm::vec4(0.f, 0.f, 0.f, 1.f);
-    glm::vec4 tip = PVM * glm::vec4(0.f, 0.565f, 0.f, 1.f);
-    base /= base.w; base /= base.z;
-    tip /= tip.w; tip /= tip.z;
+    glm::vec4 worldBase = PVM * glm::vec4(0.f, 0.f, 0.f, 1.f);
+    glm::vec4 worldTip = PVM * glm::vec4(0.f, 0.565f, 0.f, 1.f);
+    worldBase /= worldBase.w; worldBase /= worldBase.z;
+    worldTip /= worldTip.w; worldTip /= worldTip.z;
 
-    glm::vec2 screenBase = glm::vec2(base);
-    glm::vec2 screenTip = glm::vec2(tip);
-    
+    base = glm::vec2(worldBase);
+    tip = glm::vec2(worldTip);
+}
 
-    // fmt::print("base: ({}, {}), tip: ({}, {}), point: ({}, {})\n", 
-    //     screenBase.x, screenBase.y, screenTip.x, screenTip.y, point.x, point.y);
-
+float LE3Gizmo::distanceToLineAxis(glm::vec2 point, LE3GizmoAxis axis) {
+    glm::vec2 screenBase, screenTip;
+    getAxisScreen(axis, screenBase, screenTip);
     return distancePointLineSegment(screenBase, screenTip, point);
 }
 
+glm::vec3 LE3Gizmo::getAxisLine(LE3GizmoAxis axis) {
+    if (axis == LE3_GIZMO_AXIS_X) return glm::vec3(1.f, 0.f, 0.f);
+    if (axis == LE3_GIZMO_AXIS_Y) return glm::vec3(0.f, -1.f, 0.f);
+    if (axis == LE3_GIZMO_AXIS_Z) return glm::vec3(0.f, 0.f, 1.f);
+    return glm::vec3(0.f);
+}

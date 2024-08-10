@@ -230,9 +230,9 @@ public:
         ////////////////////////
         // Camera Movement
         ////////////////////////
+        cameraVelocity = glm::vec3();
+        cameraRotation = glm::vec3();
         if (!LE3GetEditorManager().isActiveEdit()) {
-            cameraVelocity = glm::vec3();
-            cameraRotation = glm::vec3();
             if (input.bLeftMouseDown || m_engineState.isRelativeMouse()) {
                 if (input.keys["KEY_W"]) cameraVelocity.y = 1.f;
                 else if (input.keys["KEY_S"]) cameraVelocity.y = -1.f;
@@ -250,6 +250,9 @@ public:
                 cameraRotation.y = -(float)input.yrel;
             }
         }
+        // If camera already moves, block edit
+        LE3GetEditorManager().setEditBlocked(glm::length(cameraVelocity) > 0.f || glm::length(cameraRotation) > 0.f);
+        
     }
 };
 
