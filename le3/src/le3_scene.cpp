@@ -51,6 +51,7 @@ void LE3Scene::resize(int width, int height)
 {
     m_width = width; m_height = height;
     m_rawBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
+    m_objectIdsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_postProcessBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     if (m_pMainCamera) {
         m_pMainCamera->setAspectRatio((float)m_width / (float)m_height);
@@ -84,6 +85,7 @@ void LE3Scene::draw() {
     // Also, one of the objects might try to do visual debug, so set the active camera
     LE3GetVisualDebug().setActiveCamera(m_pMainCamera);
     drawObjects();
+    drawObjectIDs();
     if (drawDebug) drawDebug();
     LE3GetVisualDebug().setActiveCamera(nullptr);
 
@@ -137,6 +139,16 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
         m_sceneGraph->m_lightManager.renderLights(shaderOverride, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
     }
     m_sceneGraph->m_drawQueue.draw(shaderOverride, shadowPhase);
+}
+
+void LE3Scene::drawObjectIDs() {
+    uint32_t drawID = 0;
+    // TODO: Update object IDs rarely
+    for (auto kv : m_sceneGraph->m_pObjects) {
+        if (auto drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(kv.second)) drawableObj->setDrawID(drawID);
+        drawID++;
+    }
+    drawObjects(LE3GetAssetManager().getShader(DEFAULT_OBJECTID_SHADER), m_objectIdsBuffer, true, false);
 }
 
 void LE3Scene::drawPostProcess() {

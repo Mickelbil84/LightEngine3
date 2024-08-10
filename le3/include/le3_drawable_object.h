@@ -35,10 +35,14 @@ namespace le3 {
         inline bool getCastShadow() const { return m_bCastShadow; }
         inline void setCastShadow(bool castShadow) { m_bCastShadow = castShadow; }
 
+        inline void setDrawID(uint32_t drawID) { m_drawID = drawID; } 
+        inline uint32_t getDrawID() const { return m_drawID; }
+
     protected:
         LE3MaterialPtr m_pMaterial;
         LE3DrawPriority m_drawPriority;
         bool m_bHidden, m_bCastShadow;
+        uint32_t m_drawID;
     };
     using LE3DrawableObjectPtr = std::shared_ptr<LE3DrawableObject>;
 }

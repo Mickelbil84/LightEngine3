@@ -1,6 +1,8 @@
 #include "le3_draw_queue.h"
 using namespace le3;
 
+#include <fmt/core.h>
+
 LE3DrawQueue::LE3DrawQueue() {
     for (
         int priority = LE3DrawPriority::DRAW_PRIORITY_LOW; 
@@ -23,9 +25,12 @@ void LE3DrawQueue::draw(LE3ShaderPtr shaderOverride, bool shadowPhase) {
                 if (objectPtr->isHidden() || (!objectPtr->getCastShadow() && shadowPhase)) continue;
                 if (shader == nullptr && objectPtr->getMaterial()) {
                     shader = objectPtr->getMaterial()->shader;
-                    shader->use();
                 }
-                if (shader) shader->uniform("model", objectPtr->getWorldMatrix());
+                if (shader) {
+                    shader->use();
+                    shader->uniform("model", objectPtr->getWorldMatrix());
+                    shader->uniform("objectID", objectPtr->getDrawID());
+                }
                 objectPtr->draw(shaderOverride);
             }
         }
