@@ -3,6 +3,12 @@ using namespace le3;
 
 #include <fmt/core.h>
 
+#ifdef __linux__
+#include <GL/glew.h>
+#else
+#include <gl/glew.h>
+#endif
+
 LE3DrawQueue::LE3DrawQueue() {
     for (
         int priority = LE3DrawPriority::DRAW_PRIORITY_LOW; 
@@ -17,7 +23,9 @@ void LE3DrawQueue::draw(LE3ShaderPtr shaderOverride, bool shadowPhase) {
         int priority = LE3DrawPriority::DRAW_PRIORITY_LOW; 
         priority <= LE3DrawPriority::DRAW_PRIORITY_END; ++priority) {
         
+        if (priority == LE3DrawPriority::DRAW_PRIORITY_END) glDepthMask(GL_FALSE);
         for (auto kv : m_drawQueue[(LE3DrawPriority)priority]) {
+
             LE3ShaderPtr shader = shaderOverride;
             for (auto object : kv.second) {
                 if (object.expired()) continue;
@@ -34,6 +42,7 @@ void LE3DrawQueue::draw(LE3ShaderPtr shaderOverride, bool shadowPhase) {
                 objectPtr->draw(shaderOverride);
             }
         }
+        if (priority == LE3DrawPriority::DRAW_PRIORITY_END) glDepthMask(GL_TRUE);
     }
 }
 
