@@ -11,6 +11,7 @@ namespace le3 {
     public:
         LE3Application(std::unique_ptr<LE3GameLogic> pGameLogic);
         void run(); // Main game loop
+        void init();
 
     protected:
         std::unique_ptr<LE3GameLogic> m_pGameLogic;
@@ -24,7 +25,6 @@ namespace le3 {
         float m_deltaTime;
         LE3Input m_lastInput;
 
-        void init();
         void handleInput();
         void update();
         void render();
