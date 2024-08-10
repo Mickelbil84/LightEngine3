@@ -4,8 +4,9 @@ using namespace le3;
 #include <fmt/core.h>
 
 template<typename LE3VertexType>
-LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial) :
+LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority) :
     LE3DrawableObject(pMaterial), m_pMesh(pMesh) {
+        m_drawPriority = priority;
 }
 
 template<typename LE3VertexType>

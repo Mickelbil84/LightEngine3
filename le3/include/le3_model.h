@@ -13,7 +13,7 @@ namespace le3 {
     template<typename LE3VertexType>
     class LE3Model : public LE3DrawableObject {
     public:
-        LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial);
+        LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority = DRAW_PRIORITY_LOW);
 
         virtual void update(float deltaTime);
         virtual void draw(LE3ShaderPtr shaderOverride = nullptr);

@@ -200,10 +200,10 @@ void LE3Scene::addCone(std::string name, std::string materialName, glm::vec3 pos
 }
 
 
-void LE3Scene::addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent) {
+void LE3Scene::addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent, LE3DrawPriority priority) {
     LE3StaticMeshPtr mesh = nullptr; 
     if (meshName != "") mesh = LE3GetAssetManager().getStaticMesh(meshName);
-    LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, LE3GetAssetManager().getMaterial(materialName));
+    LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, LE3GetAssetManager().getMaterial(materialName), priority);
     addCustomObject(name, obj, parent);
 }
 
