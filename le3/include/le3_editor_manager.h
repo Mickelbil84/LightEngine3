@@ -1,6 +1,7 @@
 #pragma once 
 
 #include "le3_object.h"
+#include "le3_gizmo.h"
 
 namespace le3 {
     class LE3EditorManager {
@@ -21,11 +22,20 @@ namespace le3 {
         LE3ObjectPtr getHoveredObject() { return m_pHoveredObject; }
         void setHoveredObject(LE3ObjectPtr hoveredObject) { m_pHoveredObject = hoveredObject; }
 
+        LE3ObjectPtr getSelectedObject() { return m_pSelectedObject; }
+        void setSelectedObject() { 
+            m_pSelectedObject = m_pHoveredObject; 
+            if (m_pGizmo) m_pGizmo->onObjectSelected(m_pSelectedObject); 
+        }
+
+        void registerGizmo(LE3GizmoPtr pGizmo) { m_pGizmo = pGizmo; }
+
     private:
         bool m_bMouseDown = false;
         bool m_bActiveEdit = false, m_bEditBlocked = false;
         int m_xrel, m_yrel;
 
-        LE3ObjectPtr m_pHoveredObject = nullptr;
+        LE3ObjectPtr m_pHoveredObject = nullptr, m_pSelectedObject = nullptr;
+        LE3GizmoPtr m_pGizmo;
     };
 }

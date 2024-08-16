@@ -116,6 +116,23 @@ void LE3Gizmo::update(float deltaTime) {
         glm::vec3 projection = gizmoDragSpeed * t * getAxisLine(m_hoveredAxis);
 
         m_transform.setPosition(m_transform.getPosition() + projection);
+
+        // Update the selected object
+        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelectedObject()) {
+            // glm::vec3 delta = m_transform.getPosition() - m_dragStartPos;
+            // pObject->getTransform().setPosition(pObject->getTransform().getPosition() + projection);
+
+            // Object global = parent * local == gizmo global
+            // local == parent^-1 * gizmo global
+            glm::mat4 parentMatrix(1.f);
+            if (pObject->getParent()) parentMatrix = pObject->getParent()->getWorldMatrix();
+            glm::mat4 local = glm::inverse(parentMatrix) * glm::translate(m_transform.getPosition());
+            pObject->getTransform().setPosition(glm::vec3(local[3]));
+        }
+        m_dragStartPos = m_transform.getPosition();
+    }
+    else if (LE3GetEditorManager().isMouseDown()) { // If we click to select
+        LE3GetEditorManager().setSelectedObject();
     }
     
     LE3DrawableObject::update(deltaTime);
@@ -150,4 +167,16 @@ glm::vec3 LE3Gizmo::getAxisLine(LE3GizmoAxis axis) {
     if (axis == LE3_GIZMO_AXIS_Y) return glm::vec3(0.f, -1.f, 0.f);
     if (axis == LE3_GIZMO_AXIS_Z) return glm::vec3(0.f, 0.f, 1.f);
     return glm::vec3(0.f);
+}
+
+void LE3Gizmo::onObjectSelected(LE3ObjectPtr pObject) {
+    if (!pObject) {
+        setHidden(true);
+        return;
+    }
+    setHidden(false);
+    m_transform.setPosition(pObject->getWorldPosition());
+    m_selectGizmoInitialTransform = getWorldMatrix();
+    m_selectObjectInitialTransform = pObject->getTransform().getTransformMatrix();
+    m_pSelectedObject = pObject;
 }

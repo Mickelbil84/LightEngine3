@@ -12,6 +12,7 @@ namespace le3 {
         inline LE3Transform& getTransform() { return m_transform; }
 
         inline glm::mat4 getWorldMatrix() const { return m_worldMatrix; }
+        inline glm::vec3 getWorldPosition() const { return glm::vec3(m_worldMatrix[3]); }
 
         virtual void update(float deltaTime);
 

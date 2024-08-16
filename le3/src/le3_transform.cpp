@@ -23,6 +23,12 @@ glm::mat4 LE3Transform::getTransformMatrix() const {
     return res;
 }
 
+void LE3Transform::fromTransformMatrix(glm::mat4 transformMatrix) {
+    m_position = glm::vec3(transformMatrix[3]);
+    m_rotation = glm::quat_cast(transformMatrix);
+    m_scale = glm::vec3(glm::length(glm::vec3(transformMatrix[0])), glm::length(glm::vec3(transformMatrix[1])), glm::length(glm::vec3(transformMatrix[2])));
+}
+
 glm::vec3 LE3Transform::getPosition() const {
     return m_position;
 }

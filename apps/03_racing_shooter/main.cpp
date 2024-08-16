@@ -47,6 +47,7 @@ public:
         LE3GizmoPtr gizmo = std::make_shared<LE3Gizmo>();
         LE3GetSceneManager().getScene("scene")->addCustomObject(DEFAULT_ENGINE_PREFIX + "gizmo", gizmo);
         LE3GetSceneManager().getScene("inspector")->addInspectedUpdate(DEFAULT_ENGINE_PREFIX + "gizmo");
+        LE3GetEditorManager().registerGizmo(gizmo);
 
         // Setup initial animation demo
         LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(LE3GetSceneManager().getScene("scene")->getObject("soldier"));
@@ -237,7 +238,7 @@ public:
         cameraVelocity = glm::vec3();
         cameraRotation = glm::vec3();
         if (!LE3GetEditorManager().isActiveEdit()) {
-            if (input.bLeftMouseDown || m_engineState.isRelativeMouse()) {
+            if (input.bRightMouseDown || m_engineState.isRelativeMouse()) {
                 if (input.keys["KEY_W"]) cameraVelocity.y = 1.f;
                 else if (input.keys["KEY_S"]) cameraVelocity.y = -1.f;
                 else cameraVelocity.y = 0.f;
