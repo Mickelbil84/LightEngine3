@@ -48,6 +48,7 @@ public:
         LE3GetSceneManager().getScene("scene")->addCustomObject(DEFAULT_ENGINE_PREFIX + "gizmo", gizmo);
         LE3GetSceneManager().getScene("inspector")->addInspectedUpdate(DEFAULT_ENGINE_PREFIX + "gizmo");
         LE3GetEditorManager().registerGizmo(gizmo);
+        gizmo->setHidden(true);
 
         // Setup initial animation demo
         LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(LE3GetSceneManager().getScene("scene")->getObject("soldier"));
