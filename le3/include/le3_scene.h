@@ -104,6 +104,8 @@ namespace le3 {
         glm::vec3 getBackgroundColor() const { return m_backgroundColor; }
         void setBackgroundColor(glm::vec3 backgroundColor) { m_backgroundColor = backgroundColor; }
         void setCulling(bool culling) { m_bCulling = culling; }
+        int getWidth() const { return m_width; }
+        int getHeight() const { return m_height; }
 
         // Returns the global cursor location in the scene's region, normalized to [-1, 1]
         // This also includes the case for multiple scenes rendering at the same time
