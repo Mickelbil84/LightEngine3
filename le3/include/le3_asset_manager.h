@@ -42,6 +42,7 @@ namespace le3 {
         // Meshes
         void addStaticMesh(std::string name, std::string filename, bool keepData = false);
         inline LE3StaticMeshPtr& getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
+        void searchStaticMeshes(std::string prefix, std::vector<std::string>& out);
 
         void addSkeletalMesh(std::string name, std::string filename);
         inline LE3SkeletalMeshPtr& getSkeletalMesh(std::string name) { return m_pSkeletalMeshes[name]; }

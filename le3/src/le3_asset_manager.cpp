@@ -70,6 +70,12 @@ void LE3AssetManager::addStaticMesh(std::string name, std::string filename, bool
     m_pStaticMeshes[name] = loadStaticMesh(filename, keepData);
 }
 
+void LE3AssetManager::searchStaticMeshes(std::string prefix, std::vector<std::string>& out) {
+    for (auto [name, mesh] : m_pStaticMeshes) {
+        if (name.find(prefix) == 0) out.push_back(name);
+    }
+}
+
 
 void LE3AssetManager::addSkeletalMesh(std::string name, std::string filename) {
     if (m_pSkeletalMeshes.contains(name)) throw std::runtime_error(fmt::format("Skeletal mesh [{}] already exists", name));
