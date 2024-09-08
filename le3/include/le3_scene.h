@@ -91,7 +91,10 @@ namespace le3 {
         void addInspectedUpdate(std::string name) { if (!m_bInspected) return; m_sceneGraph->m_inspectedUpdate.push_back(getObject(name)); }
         bool isInspected() const { return m_bInspected; }
 
-        inline LE3ObjectPtr& getObject(std::string name) { return m_sceneGraph->m_pObjects[name]; }
+        inline LE3ObjectPtr& getObject(std::string name) { 
+            if (!m_sceneGraph->m_pObjects.contains(name)) return m_nullptr;
+            return m_sceneGraph->m_pObjects[name]; 
+        }
         template <typename T>
         std::shared_ptr<T> getObject(std::string name) {
             return std::dynamic_pointer_cast<T>(getObject(name));
@@ -116,6 +119,7 @@ namespace le3 {
 
     private:
         LE3SceneGraphPtr m_sceneGraph;
+        LE3ObjectPtr m_nullptr = nullptr;
         std::string m_name;
 
         // For inspector scenes (update only very specific objects)
