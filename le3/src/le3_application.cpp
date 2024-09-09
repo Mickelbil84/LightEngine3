@@ -35,6 +35,10 @@ LE3Application::LE3Application(std::unique_ptr<LE3GameLogic> pGameLogic) :
     createSDLKeyMapping();
 }
 
+LE3Application::LE3Application() {
+    m_pGameLogic = nullptr;
+    m_bHeadless = true;
+}
 
 void LE3Application::run() {
     init();
@@ -58,11 +62,13 @@ void LE3Application::run() {
 
 void LE3Application::init() {
     LE3EngineSystems::instance().preload();
-    _initSDL();
-    _initOpenGL();
-    _initImGui();
+    if (!m_bHeadless) {
+        _initSDL();
+        _initOpenGL();
+        _initImGui();
+    }
     LE3EngineSystems::instance().init();
-    m_pGameLogic->init();
+    if(m_pGameLogic) m_pGameLogic->init();
 }
 
 void LE3Application::handleInput() {
