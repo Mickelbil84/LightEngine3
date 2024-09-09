@@ -18,7 +18,7 @@ namespace le3 {
         static LE3EngineSystems& instance();
 
         // Called before initializing any other system (so that we can call bare-bones code)
-        void preload() {
+        void preload(bool headless = false) {
             // Load engine data, config and scripts
             g_datFilesystem.addArchive("engine", "engine.dat");
             std::string dirs[] = {
@@ -30,6 +30,8 @@ namespace le3 {
                     g_scriptSystem.doString(content);
                 }
             }
+
+            g_headlessEngine = headless;
         }
 
         void init() {
@@ -49,6 +51,7 @@ namespace le3 {
         inline LE3ImGuiUtils& getImGuiUtils() { return g_imGuiUtils; }
         inline LE3SceneManager& getSceneManager() { return g_sceneManager; }
         inline LE3EditorManager& getEditorManager() { return g_editorManager; }
+        inline bool isHeadless() { return g_headlessEngine; }
         
     private:
         LE3EngineSystems() {
@@ -61,6 +64,8 @@ namespace le3 {
         LE3VisualDebug g_visualDebug;
         LE3SceneManager g_sceneManager;
         LE3EditorManager g_editorManager;
+
+        bool g_headlessEngine;
     };
 
     #define LE3GetDatFileSystem LE3EngineSystems::instance().getDatFileSystem

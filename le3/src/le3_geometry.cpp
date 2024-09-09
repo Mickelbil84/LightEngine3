@@ -7,6 +7,8 @@ using namespace le3;
 #include <gl/glew.h>
 #endif
 
+#include "le3_engine_systems.h"
+
 
 template<typename LE3VertexType>
 LE3Mesh<LE3VertexType>::LE3Mesh(std::vector<LE3VertexType>& data) {
@@ -32,6 +34,7 @@ LE3Mesh<LE3VertexType>::~LE3Mesh() {
 
 template<typename LE3VertexType>
 void LE3Mesh<LE3VertexType>::loadMeshData(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices) {
+    if (LE3EngineSystems::instance().isHeadless()) return; // Allow loading meshes also in headless mode
     m_bIndexed = indices.size() != 0;
 
     glGenVertexArrays(1, &m_vao);

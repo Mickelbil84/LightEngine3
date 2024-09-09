@@ -61,7 +61,7 @@ void LE3Application::run() {
 }
 
 void LE3Application::init() {
-    LE3EngineSystems::instance().preload();
+    LE3EngineSystems::instance().preload(m_bHeadless);
     if (m_bHeadless) return;
     _initSDL();
     _initOpenGL();
