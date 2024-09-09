@@ -27,6 +27,7 @@ LE3Mesh<LE3VertexType>::LE3Mesh(std::vector<LE3VertexType>& data, std::vector<ui
 
 template<typename LE3VertexType>
 LE3Mesh<LE3VertexType>::~LE3Mesh() {
+    if (LE3EngineSystems::instance().isHeadless()) return; // Allow loading meshes also in headless mode
     if (m_ibo >= 0) glDeleteBuffers(1, &m_ibo);
     if (m_vbo >= 0) glDeleteBuffers(1, &m_vbo);
     if (m_vao >= 0) glDeleteVertexArrays(1, &m_vao);
