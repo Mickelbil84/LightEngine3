@@ -62,13 +62,12 @@ void LE3Application::run() {
 
 void LE3Application::init() {
     LE3EngineSystems::instance().preload();
-    if (!m_bHeadless) {
-        _initSDL();
-        _initOpenGL();
-        _initImGui();
-    }
+    if (m_bHeadless) return;
+    _initSDL();
+    _initOpenGL();
+    _initImGui();
     LE3EngineSystems::instance().init();
-    if(m_pGameLogic) m_pGameLogic->init();
+    m_pGameLogic->init();
 }
 
 void LE3Application::handleInput() {
