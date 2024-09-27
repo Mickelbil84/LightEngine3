@@ -118,7 +118,7 @@ void LE3Gizmo::update(float deltaTime) {
         m_transform.setPosition(m_transform.getPosition() + projection);
 
         // Update the selected object
-        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelectedObject()) {
+        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelectedObject().lock()) {
             // glm::vec3 delta = m_transform.getPosition() - m_dragStartPos;
             // pObject->getTransform().setPosition(pObject->getTransform().getPosition() + projection);
 
@@ -169,7 +169,8 @@ glm::vec3 LE3Gizmo::getAxisLine(LE3GizmoAxis axis) {
     return glm::vec3(0.f);
 }
 
-void LE3Gizmo::onObjectSelected(LE3ObjectPtr pObject) {
+void LE3Gizmo::onObjectSelected(LE3ObjectWeakPtr wpObject) {
+    LE3ObjectPtr pObject = wpObject.lock();
     if (!pObject) {
         setHidden(true);
         return;

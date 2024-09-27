@@ -19,10 +19,10 @@ namespace le3 {
         int getMouseRelX() { return m_xrel; }
         int getMouseRelY() { return m_yrel; }
 
-        LE3ObjectPtr getHoveredObject() { return m_pHoveredObject; }
-        void setHoveredObject(LE3ObjectPtr hoveredObject) { m_pHoveredObject = hoveredObject; }
+        LE3ObjectWeakPtr getHoveredObject() { return m_pHoveredObject; }
+        void setHoveredObject(LE3ObjectWeakPtr hoveredObject) { m_pHoveredObject = hoveredObject; }
 
-        LE3ObjectPtr getSelectedObject() { return m_pSelectedObject; }
+        LE3ObjectWeakPtr getSelectedObject() { return m_pSelectedObject; }
         void setSelectedObject() { 
             m_pSelectedObject = m_pHoveredObject; 
             if (m_pGizmo) m_pGizmo->onObjectSelected(m_pSelectedObject); 
@@ -35,7 +35,7 @@ namespace le3 {
         bool m_bActiveEdit = false, m_bEditBlocked = false;
         int m_xrel, m_yrel;
 
-        LE3ObjectPtr m_pHoveredObject = nullptr, m_pSelectedObject = nullptr;
+        LE3ObjectWeakPtr m_pHoveredObject, m_pSelectedObject;
         LE3GizmoPtr m_pGizmo;
     };
 }

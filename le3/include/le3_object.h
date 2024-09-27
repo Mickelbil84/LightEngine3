@@ -37,4 +37,5 @@ namespace le3 {
         glm::mat4 m_worldMatrix = glm::mat4(1.f);
     };
     using LE3ObjectPtr = std::shared_ptr<LE3Object>;
+    using LE3ObjectWeakPtr = std::weak_ptr<LE3Object>;
 }

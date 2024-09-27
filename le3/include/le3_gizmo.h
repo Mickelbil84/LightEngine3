@@ -23,7 +23,7 @@ namespace le3 {
         void setHoverable(bool hoverable) { m_bIsHoverable = hoverable; }  
         void setDynamicScale(bool dynamicScale) { m_bIsDynamicScale = dynamicScale; } 
 
-        void onObjectSelected(LE3ObjectPtr pObject);
+        void onObjectSelected(LE3ObjectWeakPtr pObject);
 
     private:
         LE3GizmoAxis m_hoveredAxis;
@@ -31,7 +31,7 @@ namespace le3 {
         bool m_bIsHoverable = true, m_bIsDynamicScale = true;
         
         glm::mat4 m_selectObjectInitialTransform, m_selectGizmoInitialTransform;
-        LE3ObjectPtr m_pSelectedObject; // To verify that we track the correct object
+        LE3ObjectWeakPtr m_pSelectedObject; // To verify that we track the correct object
 
 
         bool m_bIsDragging = false;
