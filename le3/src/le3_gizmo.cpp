@@ -140,6 +140,10 @@ void LE3Gizmo::update(float deltaTime) {
 
 void LE3Gizmo::postUpdate() {
     if (m_hoveredCnt == 0) m_hoveredAxis = LE3_GIZMO_AXIS_NONE;
+    if (!LE3GetEditorManager().getSelectedObject().lock()) {
+        setHidden(true);
+        return;
+    }
 }
 
 void LE3Gizmo::getAxisScreen(LE3GizmoAxis axis, glm::vec2& base, glm::vec2& tip) {
