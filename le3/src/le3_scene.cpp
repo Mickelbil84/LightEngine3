@@ -62,7 +62,8 @@ void LE3Scene::resize(int width, int height)
 void LE3Scene::update(float deltaTime) {
     LE3GetSceneManager().setActiveScene(m_name);
     if (!m_bInspected) m_sceneGraph->m_pRoot->update(deltaTime);
-    else for (auto obj : m_sceneGraph->m_inspectedUpdate) obj->update(deltaTime);
+    else for (auto obj : m_sceneGraph->m_inspectedUpdate)
+        if (auto pObject = obj.lock()) pObject->update(deltaTime);
 }
 
 void LE3Scene::preUpdate() {
@@ -360,4 +361,12 @@ void LE3Scene::updateHoveredObject() {
         LE3ObjectPtr obj = getObjectByID(pixel);
         LE3GetEditorManager().setHoveredObject(obj);
     }
+}
+
+void LE3Scene::deleteObject(std::string name) {
+    if (!m_sceneGraph->m_pObjects.contains(name)) return;
+    for (auto child : m_sceneGraph->m_pObjects[name]->getChildren()) 
+        deleteObject(getObjectName(child));
+    m_sceneGraph->m_pObjects[name]->reparent(nullptr);
+    m_sceneGraph->m_pObjects.erase(name);
 }

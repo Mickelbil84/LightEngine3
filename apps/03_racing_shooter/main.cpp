@@ -71,6 +71,7 @@ public:
         LE3GetSceneManager().getScene("scene")->getObject("bsp_c3")->update(0.f);
 
         LE3GetSceneManager().getScene("scene")->getBSPManager().setShowBrushes(false);
+
     }
     void update(float deltaTime) {
         updateGUI();
@@ -97,7 +98,7 @@ public:
         // for (int i = 1; i <= 4; i++)
         //     m_scene.getObject(fmt::format("wheel{}", i))->getTransform().addRotationZ(1.9f * carSpeed * deltaTime);
 
-        // Update scenes
+        // Update scenes        
         LE3GetSceneManager().updateScenes(deltaTime);
     }
 
@@ -212,6 +213,10 @@ public:
         if (ImGui::CollapsingHeader("Hovered Object", ImGuiTreeNodeFlags_DefaultOpen)) {
             std::string hoveredObject = LE3GetActiveScene()->getObjectName(LE3GetEditorManager().getHoveredObject().lock());
             ImGui::Text("Hovered Object: %s", hoveredObject.c_str());
+        }
+
+        if (ImGui::CollapsingHeader("Deleting Test", ImGuiTreeNodeFlags_DefaultOpen)) {
+            if (ImGui::Button("Delete car")) LE3GetSceneManager().getScene("scene")->deleteObject("car");
         }
 
 

@@ -226,7 +226,7 @@ Scene.Objects = {
 
 Scene.ObjectRelations = {
     {"cameraFree", "player"},
-    {"cameraOrbit", "car"},
+    -- {"cameraOrbit", "car"},
     {"pointLight01", "car"},
 }
 

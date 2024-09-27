@@ -27,7 +27,7 @@ namespace le3 {
         LE3DrawQueue m_drawQueue;
         LE3BSPManager m_bspManager;
         LE3LightManager m_lightManager;
-        std::vector<LE3ObjectPtr> m_inspectedUpdate;
+        std::vector<LE3ObjectWeakPtr> m_inspectedUpdate;
     };
     using LE3SceneGraphPtr = std::shared_ptr<LE3SceneGraph>;
 
@@ -83,6 +83,8 @@ namespace le3 {
 
         void addScriptObject(std::string name, std::string classname, std::string parent = "");
         void addCustomObject(std::string name, std::shared_ptr<LE3Object> obj, std::string parent = ""); // DANGER! Use with caution
+
+        void deleteObject(std::string name);
 
         LE3SceneRootPtr getSceneRoot() const { return m_sceneGraph->m_pRoot; }
         LE3CameraPtr& getMainCamera() { return m_pMainCamera; }

@@ -14,7 +14,7 @@ void LE3Object::reparent(std::shared_ptr<LE3Object> newParent) {
             m_pParent->m_pChildren.end());
     }
     m_pParent = newParent;
-    m_pParent->m_pChildren.push_back(shared_from_this());
+    if (m_pParent) m_pParent->m_pChildren.push_back(shared_from_this());
 }
 void LE3Object::appendChild(std::shared_ptr<LE3Object> pChild) {
     pChild->reparent(shared_from_this());
