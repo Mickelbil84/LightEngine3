@@ -4,6 +4,7 @@ using namespace le3;
 #include <imgui_internal.h>
 
 void LE3EditorGUI::init() {
+    
 }
 
 void LE3EditorGUI::update(float deltaTime) {
