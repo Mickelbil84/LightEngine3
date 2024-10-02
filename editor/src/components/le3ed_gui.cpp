@@ -4,7 +4,8 @@ using namespace le3;
 #include <imgui_internal.h>
 
 void LE3EditorGUI::init() {
-    
+    LE3GetAssetManager().addTexture("icon_new", "/editor/icons/icon_new.png");
+    LE3GetAssetManager().getTexture("icon_new")->getTextureID();
 }
 
 void LE3EditorGUI::update(float deltaTime) {
@@ -30,7 +31,7 @@ void LE3EditorGUI::update(float deltaTime) {
 
         ImGuiID dock_toolbar, dock_toolbox, dock_mainView, dock_sidepanelTop, dock_sidepanelBottom;
 
-        dock_toolbox = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.89f, nullptr, &dock_toolbar);
+        dock_toolbox = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.9f, nullptr, &dock_toolbar);
         dock_mainView = ImGui::DockBuilderSplitNode(dock_toolbox, ImGuiDir_Right, 0.9f, nullptr, &dock_toolbox);
         dock_sidepanelTop = ImGui::DockBuilderSplitNode(dock_mainView, ImGuiDir_Right, 0.3f, nullptr, &dock_mainView);
         dock_sidepanelBottom = ImGui::DockBuilderSplitNode(dock_sidepanelTop, ImGuiDir_Down, 0.5f, nullptr, &dock_sidepanelTop);
@@ -46,7 +47,7 @@ void LE3EditorGUI::update(float deltaTime) {
 
         ImVec2 toolbarSize = ImGui::DockBuilderGetNode(dock_toolbar)->Size;
         int orgToolbarY = toolbarSize.y;
-        toolbarSize.y = 16;
+        toolbarSize.y = 48;
         ImGui::DockBuilderSetNodeSize(dock_toolbar, toolbarSize);
 
         ImVec2 toolboxSize = ImGui::DockBuilderGetNode(dock_toolbox)->Size;
@@ -85,10 +86,16 @@ void LE3EditorGUI::update(float deltaTime) {
     }
     ImGui::End();
 
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(0.f, 0.f));
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.f, 0.f, 0.f, 0.f));
+
     ImGui::Begin("##Toolbar", nullptr, ImGuiWindowFlags_NoMove | 
             ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | 
             ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_AlwaysAutoResize);
-        ImGui::SameLine(); ImGui::Button("New");
+
+        ImGui::SameLine(); ImGui::ImageButton("New", reinterpret_cast<void*>(LE3GetAssetManager().getTexture("icon_new")->getTextureID()), ImVec2(24, 24));
         ImGui::SameLine(); ImGui::Button("Open");
         ImGui::SameLine(); ImGui::Button("Save");
         ImGui::SameLine(); ImGui::Button("Save As");
@@ -101,7 +108,11 @@ void LE3EditorGUI::update(float deltaTime) {
         ImGui::SameLine(); ImGui::Button("Rotate");
         ImGui::SameLine(); ImGui::Button("Scale");
         ImGui::SameLine(); ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+
     ImGui::End();
+
+    ImGui::PopStyleColor(1);
+    ImGui::PopStyleVar(3);
 
     ImGui::Begin("##Toolbox", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
     ImGui::Button("LOL");
