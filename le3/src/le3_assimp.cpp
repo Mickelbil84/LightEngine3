@@ -40,16 +40,8 @@ inline glm::mat4 aiMatrix4x4toGLM(aiMatrix4x4& mtx)
 
 
 LE3StaticMeshPtr LE3AssetManager::loadStaticMesh(std::string filename, bool keepData) {
-    LE3StaticMeshPtr mesh;
-
-    LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(filename);
-
     Assimp::Importer importer;
-    // const aiScene* scene = importer.ReadFile(filename,
-    //     aiProcess_FlipUVs |
-    //     aiProcess_Triangulate | 
-    //     aiProcess_CalcTangentSpace
-    // );
+    LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(filename);
     std::string pHint = filename.substr(filename.find_last_of(".") + 1);
     const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 
         aiProcess_FlipUVs |
@@ -61,6 +53,7 @@ LE3StaticMeshPtr LE3AssetManager::loadStaticMesh(std::string filename, bool keep
 
     std::vector<LE3Vertex> buffer;
     std::vector<GLuint> indices; 
+    LE3StaticMeshPtr mesh;
     AssimpSceneToVertexBuffer(buffer, indices, scene->mRootNode, scene);
 
     return std::make_shared<LE3StaticMesh>(buffer, indices, keepData);
@@ -69,13 +62,15 @@ LE3StaticMeshPtr LE3AssetManager::loadStaticMesh(std::string filename, bool keep
 LE3SkeletalMeshPtr LE3AssetManager::loadSkeletalMesh(std::string meshPath)
 {
     Assimp::Importer importer;
+    std::string pHint = meshPath.substr(meshPath.find_last_of(".") + 1);
     LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(meshPath);
     const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 
         aiProcess_FlipUVs |
         aiProcess_Triangulate | 
-        aiProcess_CalcTangentSpace
+        aiProcess_CalcTangentSpace,
+        pHint.c_str()
     );
-    if (!scene) throw std::runtime_error(fmt::format("Could not load skeletal mesh: {}", meshPath));
+    if (!scene) throw std::runtime_error(fmt::format("Could not load skeletal mesh: {}\n{}", meshPath, importer.GetErrorString()));
 
     std::vector<LE3VertexSkeletal> buffer;
     std::vector<GLuint> indices;
@@ -294,10 +289,12 @@ void LE3AssetManager::addSkeletalAnimation(std::string name, std::string animati
 
     Assimp::Importer importer;
     LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(animationPath);
+    std::string pHint = animationPath.substr(animationPath.find_last_of(".") + 1);
     const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 
         aiProcess_FlipUVs |
         aiProcess_Triangulate | 
-        aiProcess_CalcTangentSpace
+        aiProcess_CalcTangentSpace,
+        pHint.c_str()
     );
     if (!scene) throw std::runtime_error(fmt::format("Could not load animation: {}", animationPath));
 
