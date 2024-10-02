@@ -16,6 +16,7 @@ endif()
 add_executable(${PROJECT_NAME} 
     src/main.cpp
 
+    src/le3ed_gui.cpp
     src/le3ed_logic.cpp
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES})
