@@ -50,12 +50,14 @@ LE3StaticMeshPtr LE3AssetManager::loadStaticMesh(std::string filename, bool keep
     //     aiProcess_Triangulate | 
     //     aiProcess_CalcTangentSpace
     // );
+    std::string pHint = filename.substr(filename.find_last_of(".") + 1);
     const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 
         aiProcess_FlipUVs |
         aiProcess_Triangulate | 
-        aiProcess_CalcTangentSpace
+        aiProcess_CalcTangentSpace, 
+        pHint.c_str() // Bugfix: support newer versions of assimps
     );
-    if (!scene) throw std::runtime_error(fmt::format("Could not load static mesh: {}", filename));
+    if (!scene) throw std::runtime_error(fmt::format("Could not load static mesh: {}\n{}", filename, importer.GetErrorString()));
 
     std::vector<LE3Vertex> buffer;
     std::vector<GLuint> indices; 
