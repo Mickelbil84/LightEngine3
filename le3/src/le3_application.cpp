@@ -250,7 +250,7 @@ void LE3Application::_initImGui() {
     style.ChildBorderSize = 1.0;
     style.PopupRounding = 0.0;
     style.PopupBorderSize = 1.0;
-    style.FramePadding = ImVec2(4.0, 3.0);
+    style.FramePadding = ImVec2(5.0, 4.0);
     style.FrameRounding = 0.0;
     style.FrameBorderSize = 0.0;
     style.ItemSpacing = ImVec2(8.0, 4.0);
@@ -268,6 +268,8 @@ void LE3Application::_initImGui() {
     style.ColorButtonPosition = ImGuiDir_Right;
     style.ButtonTextAlign = ImVec2(0.5, 0.5);
     style.SelectableTextAlign = ImVec2(0.0, 0.0);
+
+
 }
 
 void LE3Application::_handleNotifys() {

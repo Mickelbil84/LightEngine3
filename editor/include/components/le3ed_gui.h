@@ -1,6 +1,8 @@
 #pragma once
 
 #include "le3ed_component.h"
+#include "widgets/le3ed_toolbar.h"
+#include "widgets/le3ed_toolbox.h"
 
 namespace le3 {
     class LE3EditorGUI : public LE3EditorComponent{
@@ -8,5 +10,11 @@ namespace le3 {
         LE3ED_COMPONENT_DEAFULT_CTOR(LE3EditorGUI)
         void init();
         void update(float deltaTime);
+
+    private:
+        void setupLayout();
+
+        LE3EditorToolbar m_toolbar;
+        LE3EditorToolbox m_toolbox;
     };
 }
