@@ -15,9 +15,10 @@ endif()
 
 add_executable(${PROJECT_NAME} 
     src/main.cpp
-
-    src/le3ed_gui.cpp
     src/le3ed_logic.cpp
+
+    src/components/le3ed_gui.cpp
+    src/components/le3ed_scenes.cpp
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
