@@ -10,6 +10,8 @@ void LE3EditorTabScene::init() {
         ImGuiTableFlags_NoBordersInBody;
 }
 void LE3EditorTabScene::update() {
+    ImGui::Checkbox("Show hidden engine objects", &m_bShowEngineObjects);
+
     if (ImGui::BeginTable("##SceneTreeView", 2, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);    
         ImGui::TableSetupColumn("Type", ImGuiTableColumnFlags_NoHide);
@@ -23,6 +25,10 @@ void LE3EditorTabScene::update() {
 }
 
 void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
+    if (!m_bShowEngineObjects && obj->getName().starts_with(DEFAULT_ENGINE_PREFIX)) {
+        return;
+    }
+    
     ImGui::TableNextRow();
     ImGui::TableNextColumn();
 

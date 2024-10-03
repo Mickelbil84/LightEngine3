@@ -12,5 +12,6 @@ namespace le3 {
         void recurseSceneTree(LE3ObjectPtr obj);
 
         ImGuiTableFlags flags;
+        bool m_bShowEngineObjects = false;
     };
 }
