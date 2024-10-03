@@ -3,7 +3,9 @@
 #include <vector>
 
 #include <le3.h>
+#include "le3ed_constants.h"
 #include "le3ed_toolbar_button.h"
+
 
 namespace le3 {
     class LE3EditorToolbar {

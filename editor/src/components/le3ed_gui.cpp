@@ -60,11 +60,9 @@ void LE3EditorGUI::update(float deltaTime) {
     LE3GetImGuiUtils().addSceneViewport("Viewport", *LE3GetSceneManager().getScene("scene"), m_engineState);
 
     ImGui::Begin("SidepanelTop", nullptr, ImGuiWindowFlags_NoMove);
-    ImGui::Button("SidepanelTop");
     ImGui::End();
 
-    ImGui::Begin("SidepanelBottom", nullptr, ImGuiWindowFlags_NoMove);
-    ImGui::Button("SidepanelBottom");
+    ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoMove);
     ImGui::End();
 
 }
@@ -91,29 +89,30 @@ void LE3EditorGUI::setupLayout() {
         ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace);
         ImGui::DockBuilderSetNodeSize(dockspace_id, viewport->Size);
 
-        ImGuiID dock_toolbar, dock_toolbox, dock_mainView, dock_sidepanelTop, dock_sidepanelBottom;
+        ImGuiID dock_toolbar, dock_toolbox, dock_mainView, dock_sidepanelTop, dock_properties;
 
         dock_toolbox = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.95f, nullptr, &dock_toolbar);
         dock_mainView = ImGui::DockBuilderSplitNode(dock_toolbox, ImGuiDir_Right, 0.9f, nullptr, &dock_toolbox);
-        dock_sidepanelTop = ImGui::DockBuilderSplitNode(dock_mainView, ImGuiDir_Right, 0.3f, nullptr, &dock_mainView);
-        dock_sidepanelBottom = ImGui::DockBuilderSplitNode(dock_sidepanelTop, ImGuiDir_Down, 0.5f, nullptr, &dock_sidepanelTop);
+        dock_sidepanelTop = ImGui::DockBuilderSplitNode(dock_mainView, ImGuiDir_Right, 0.2f, nullptr, &dock_mainView);
+        dock_properties = ImGui::DockBuilderSplitNode(dock_sidepanelTop, ImGuiDir_Down, 0.5f, nullptr, &dock_sidepanelTop);
 
         ImGui::DockBuilderDockWindow("##Toolbar", dock_toolbar);
         ImGui::DockBuilderDockWindow("##Toolbox", dock_toolbox);
         ImGui::DockBuilderDockWindow("Viewport", dock_mainView);
         ImGui::DockBuilderDockWindow("SidepanelTop", dock_sidepanelTop);
-        ImGui::DockBuilderDockWindow("SidepanelBottom", dock_sidepanelBottom);
+        ImGui::DockBuilderDockWindow("Properties", dock_properties);
 
         ImGui::DockBuilderGetNode(dock_toolbar)->LocalFlags |= ImGuiDockNodeFlags_NoTabBar | ImGuiDockNodeFlags_NoResize;
         ImGui::DockBuilderGetNode(dock_toolbox)->LocalFlags |= ImGuiDockNodeFlags_NoTabBar | ImGuiDockNodeFlags_NoResize;
+        ImGui::DockBuilderGetNode(dock_sidepanelTop)->LocalFlags |= ImGuiDockNodeFlags_NoTabBar;
 
         ImVec2 toolbarSize = ImGui::DockBuilderGetNode(dock_toolbar)->Size;
         int orgToolbarY = toolbarSize.y;
-        toolbarSize.y = 36;
+        toolbarSize.y = LE3ED_TOOLBAR_HEIGHT;
         ImGui::DockBuilderSetNodeSize(dock_toolbar, toolbarSize);
 
         ImVec2 toolboxSize = ImGui::DockBuilderGetNode(dock_toolbox)->Size;
-        toolboxSize.x = 36;
+        toolboxSize.x = LE3ED_TOOLBAR_HEIGHT;
         toolboxSize.y = toolboxSize.y + orgToolbarY - toolbarSize.y;
         ImGui::DockBuilderSetNodeSize(dock_toolbox, toolboxSize);
 

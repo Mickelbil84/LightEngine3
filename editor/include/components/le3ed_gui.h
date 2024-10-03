@@ -1,6 +1,7 @@
 #pragma once
 
 #include "le3ed_component.h"
+#include "le3ed_constants.h"
 #include "widgets/le3ed_toolbar.h"
 #include "widgets/le3ed_toolbox.h"
 
@@ -15,6 +16,6 @@ namespace le3 {
         void setupLayout();
 
         LE3EditorToolbar m_toolbar;
-        LE3EditorToolbox m_toolbox;
+        LE3EditorToolbox m_toolbox;        
     };
 }

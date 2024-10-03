@@ -24,6 +24,9 @@ void LE3EditorToolbox::update() {
             ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
             continue;
         }
-        ImGui::ImageButton(button.name.c_str(), reinterpret_cast<void*>(LE3GetAssetManager().getTexture(button.iconName)->getTextureID()), ImVec2(24, 24));
+        ImGui::ImageButton(
+            button.name.c_str(), 
+            reinterpret_cast<void*>(LE3GetAssetManager().getTexture(button.iconName)->getTextureID()), 
+            ImVec2(LE3ED_TOOLBAR_BUTTON_SIZE, LE3ED_TOOLBAR_BUTTON_SIZE));
     }
 }
