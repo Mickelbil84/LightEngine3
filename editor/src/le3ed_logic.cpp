@@ -15,6 +15,8 @@ void LE3EditorLogic::init() {
     // Init Subsystems;
     for (auto component : m_pComponents) component->init();
 
+    LE3GetScriptSystem().doFile("/editor/scripts/widgets_properties.lua");
+
     // TEMP
     LE3GetDatFileSystem().addArchive("demos", "demos.dat");
     LE3GetAssetManager().addShaderFromFile(
@@ -55,6 +57,14 @@ void LE3EditorLogic::init() {
 }
 void LE3EditorLogic::update(float deltaTime) {
     for (auto component : m_pComponents) component->update(deltaTime);
+
+    // TEMP
+    if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelectedObject().lock()) {
+        LE3GetScriptSystem().getGlobal("test");
+        LE3GetScriptSystem().pushNumber(17);
+        LE3GetScriptSystem().pushUserType(&pObject);
+        LE3GetScriptSystem().callFunction(2, 0);
+    }
 }
 void LE3EditorLogic::render() {
     for (auto component : m_pComponents) component->render();
