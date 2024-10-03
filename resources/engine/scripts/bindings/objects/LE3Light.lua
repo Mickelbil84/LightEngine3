@@ -7,6 +7,12 @@ LE3Light.load = function (scene, tbl, res)
     if (tbl.Intensity ~= nil) then LE3Light.set_intensity(res, tbl.Intensity) end
     return {ptr = res, name = tbl.Name}
 end
+LE3Light.save = function (object)
+    local tbl = LE3Light.__base.save(object)
+    tbl.Color = {LE3Light.get_color(object)}
+    tbl.Intensity = LE3Light.get_intensity(object)
+    return tbl
+end
 
 LE3AmbientLight.__base = LE3Light
 LE3AmbientLight.load = function (scene, tbl, res)
@@ -16,6 +22,10 @@ LE3AmbientLight.load = function (scene, tbl, res)
     end
     LE3AmbientLight.__base.load(scene, tbl, res)
     return {ptr = res, name = tbl.Name}
+end
+LE3AmbientLight.save = function (object)
+    local tbl = LE3AmbientLight.__base.save(object)
+    return tbl
 end
 
 LE3DirectionalLight.__base = LE3Light
@@ -28,6 +38,11 @@ LE3DirectionalLight.load = function (scene, tbl, res)
 
     if (tbl.HasShadowMap) then LE3DirectionalLight.add_shadow_map(res, LE3EngineConfig.Rendering.ShadowMapResolution) end
     return {ptr = res, name = tbl.Name}
+end
+LE3DirectionalLight.save = function (object)
+    local tbl = LE3DirectionalLight.__base.save(object)
+    tbl.HasShadowMap = LE3DirectionalLight.has_shadow_map(object)
+    return tbl
 end
 
 LE3PointLight.__base = LE3Light
@@ -43,6 +58,13 @@ LE3PointLight.load = function (scene, tbl, res)
     if (tbl.AttnExp ~= nil) then LE3PointLight.set_attn_exp(res, tbl.AttnExp) end
     return {ptr = res, name = tbl.Name}
 end
+LE3PointLight.save = function (object)
+    local tbl = LE3PointLight.__base.save(object)
+    tbl.AttnConst = LE3PointLight.get_attn_const(object)
+    tbl.AttnLinear = LE3PointLight.get_attn_linear(object)
+    tbl.AttnExp = LE3PointLight.get_attn_exp(object)
+    return tbl
+end
 
 LE3SpotLight.__base = LE3Light
 LE3SpotLight.load = function (scene, tbl, res)
@@ -57,4 +79,11 @@ LE3SpotLight.load = function (scene, tbl, res)
 
     if (tbl.HasShadowMap) then LE3SpotLight.add_shadow_map(res, LE3EngineConfig.Rendering.ShadowMapResolution) end
     return {ptr = res, name = tbl.Name}
+end
+LE3SpotLight.save = function (object)
+    local tbl = LE3SpotLight.__base.save(object)
+    tbl.Cutoff = LE3SpotLight.get_cutoff(object)
+    tbl.OuterCutoff = LE3SpotLight.get_outer_cutoff(object)
+    tbl.HasShadowMap = LE3SpotLight.has_shadow_map(object)
+    return tbl
 end

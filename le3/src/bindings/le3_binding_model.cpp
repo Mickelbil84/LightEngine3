@@ -2,6 +2,16 @@
 #include "le3_engine_systems.h"
 using namespace le3;
 
+FBIND_OBJECT_GETTER_STRING(LE3StaticModel, get_mesh_name, getMeshName)
+FBIND_OBJECT_GETTER_STRING(LE3StaticModel, get_material_name, getMaterialName)
+LIB(LE3StaticModel, 
+    get_mesh_name, 
+    get_material_name
+)
 
-LIB(LE3StaticModel)
-LIB(LE3SkeletalModel)
+FBIND_OBJECT_GETTER_STRING(LE3SkeletalModel, get_mesh_name, getMeshName)
+FBIND_OBJECT_GETTER_STRING(LE3SkeletalModel, get_material_name, getMaterialName)
+LIB(LE3SkeletalModel, 
+    get_mesh_name, 
+    get_material_name
+)

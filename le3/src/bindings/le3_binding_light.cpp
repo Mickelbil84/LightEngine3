@@ -21,12 +21,13 @@ FBIND(LE3DirectionalLight, add_shadow_map)
     GET_NUMBER(resolution)
     light->addShadowMap((int)resolution);
 FEND()
+FBIND_OBJECT_GETTER_BOOL(LE3DirectionalLight, has_shadow_map, hasShadowMap)
 
 FBIND_OBJECT_GETTER_VEC3(LE3DirectionalLight, get_direction, getDirection)
 
 LIB(LE3DirectionalLight,
-    add_shadow_map,
-    get_direction
+    add_shadow_map, has_shadow_map,
+    get_direction,
 )
 
 // ----------------------------------------------------------------
@@ -50,6 +51,7 @@ FBIND_OBJECT_GETTER_NUMBER(LE3SpotLight, get_cutoff, getCutoff)
 FBIND_OBJECT_SETTER_NUMBER(LE3SpotLight, set_cutoff, setCutoff)
 FBIND_OBJECT_GETTER_NUMBER(LE3SpotLight, get_outer_cutoff, getOuterCutoff)
 FBIND_OBJECT_SETTER_NUMBER(LE3SpotLight, set_outer_cutoff, setOuterCutoff)
+FBIND_OBJECT_GETTER_BOOL(LE3SpotLight, has_shadow_map, hasShadowMap)
 
 FBIND(LE3SpotLight, add_shadow_map)
     GET_UDATA_OBJECT(light, LE3SpotLight)
@@ -60,5 +62,5 @@ FEND()
 LIB(LE3SpotLight, 
     get_cutoff, set_cutoff,
     get_outer_cutoff, set_outer_cutoff,
-    add_shadow_map
+    add_shadow_map, has_shadow_map
 )

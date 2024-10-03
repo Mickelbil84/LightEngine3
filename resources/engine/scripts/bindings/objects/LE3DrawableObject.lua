@@ -8,3 +8,10 @@ LE3DrawableObject.load = function (scene, tbl, res)
     if tbl.CastShadow ~= nil then LE3DrawableObject.set_cast_shadow(res, tbl.CastShadow) end
     return {ptr = res, name = tbl.Name}
 end
+LE3DrawableObject.save = function (object)
+    local tbl = LE3DrawableObject.__base.save(object)
+    tbl.DrawPriority = LE3DrawableObject.get_draw_priority(object)
+    tbl.Hidden = LE3DrawableObject.get_hidden(object)
+    tbl.CastShadow = LE3DrawableObject.get_cast_shadow(object)
+    return tbl
+end

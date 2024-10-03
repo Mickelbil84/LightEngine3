@@ -40,6 +40,9 @@ namespace le3 {
         inline float getHeight() const { return height; }
         inline float getDepth() const { return depth; }
 
+        inline glm::vec3 getBoxPosition() const { return glm::vec3(x0, y0, z0); } 
+        inline glm::vec3 getBoxExtent() const { return glm::vec3(width, height, depth); }
+
         void rebuild(float x0, float y0, float z0, float width, float height, float depth) {
             this->x0 = x0; this->y0 = y0; this->z0 = z0;
             this->width = width; this->height = height; this->depth = depth;

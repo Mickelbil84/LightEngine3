@@ -109,6 +109,18 @@ function LE3AssetManager.get_static_mesh(name) end
 ---@return LE3Texture
 function LE3AssetManager.get_texture(name) end
 
+---@param self LE3Box
+---@return number
+---@return number
+---@return number
+function LE3Box.get_box_extent(self) end
+
+---@param self LE3Box
+---@return number
+---@return number
+---@return number
+function LE3Box.get_box_position(self) end
+
 ---@param self LE3Camera
 ---@return number
 function LE3Camera.get_fov(self) end
@@ -116,6 +128,62 @@ function LE3Camera.get_fov(self) end
 ---@param self LE3Camera
 ---@param fov number
 function LE3Camera.set_fov(self, fov) end
+
+---@param self LE3Cone
+---@return number
+function LE3Cone.get_height(self) end
+
+---@param self LE3Cone
+---@return number
+function LE3Cone.get_radius(self) end
+
+---@param self LE3Cone
+---@return number
+function LE3Cone.get_resolution(self) end
+
+---@param self LE3Cone
+---@return boolean
+function LE3Cone.get_with_caps(self) end
+
+---@param self LE3Cone
+---@return number
+function LE3Cone.get_x0(self) end
+
+---@param self LE3Cone
+---@return number
+function LE3Cone.get_y0(self) end
+
+---@param self LE3Cone
+---@return number
+function LE3Cone.get_z0(self) end
+
+---@param self LE3Cylinder
+---@return number
+function LE3Cylinder.get_height(self) end
+
+---@param self LE3Cylinder
+---@return number
+function LE3Cylinder.get_radius(self) end
+
+---@param self LE3Cylinder
+---@return number
+function LE3Cylinder.get_resolution(self) end
+
+---@param self LE3Cylinder
+---@return boolean
+function LE3Cylinder.get_with_caps(self) end
+
+---@param self LE3Cylinder
+---@return number
+function LE3Cylinder.get_x0(self) end
+
+---@param self LE3Cylinder
+---@return number
+function LE3Cylinder.get_y0(self) end
+
+---@param self LE3Cylinder
+---@return number
+function LE3Cylinder.get_z0(self) end
 
 ---@param light LE3DirectionalLight
 ---@param resolution number
@@ -126,6 +194,10 @@ function LE3DirectionalLight.add_shadow_map(light, resolution) end
 ---@return number
 ---@return number
 function LE3DirectionalLight.get_direction(self) end
+
+---@param self LE3DirectionalLight
+---@return boolean
+function LE3DirectionalLight.has_shadow_map(self) end
 
 ---@param self LE3DrawableObject
 ---@return boolean
@@ -461,6 +533,14 @@ function LE3Scene.set_culling(self, culling) end
 ---@param camera string
 function LE3Scene.set_main_camera(scene, camera) end
 
+---@param self LE3SkeletalModel
+---@return string
+function LE3SkeletalModel.get_material_name(self) end
+
+---@param self LE3SkeletalModel
+---@return string
+function LE3SkeletalModel.get_mesh_name(self) end
+
 ---@param light LE3SpotLight
 ---@param resolution number
 function LE3SpotLight.add_shadow_map(light, resolution) end
@@ -474,12 +554,24 @@ function LE3SpotLight.get_cutoff(self) end
 function LE3SpotLight.get_outer_cutoff(self) end
 
 ---@param self LE3SpotLight
+---@return boolean
+function LE3SpotLight.has_shadow_map(self) end
+
+---@param self LE3SpotLight
 ---@param cutoff number
 function LE3SpotLight.set_cutoff(self, cutoff) end
 
 ---@param self LE3SpotLight
 ---@param outer_cutoff number
 function LE3SpotLight.set_outer_cutoff(self, outer_cutoff) end
+
+---@param self LE3StaticModel
+---@return string
+function LE3StaticModel.get_material_name(self) end
+
+---@param self LE3StaticModel
+---@return string
+function LE3StaticModel.get_mesh_name(self) end
 
 ---@param self LE3Transform
 ---@return number

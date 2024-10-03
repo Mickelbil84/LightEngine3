@@ -61,7 +61,8 @@ void LE3EditorLogic::update(float deltaTime) {
     // TEMP
     if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelectedObject().lock()) {
         LE3GetScriptSystem().getGlobal("test");
-        LE3GetScriptSystem().pushNumber(17);
+        std::string meshName = std::dynamic_pointer_cast<LE3StaticModel>(pObject)->getMeshName();
+        LE3GetScriptSystem().pushString(meshName);
         LE3GetScriptSystem().pushUserType(&pObject);
         LE3GetScriptSystem().callFunction(2, 0);
     }

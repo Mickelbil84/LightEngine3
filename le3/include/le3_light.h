@@ -19,6 +19,7 @@ namespace le3{
             shadowMap = nullptr;
         }
         LE3FramebufferPtr& getShadowMap() { return shadowMap; }
+        bool hasShadowMap() { return shadowMap != nullptr; }
         
 
     protected:
