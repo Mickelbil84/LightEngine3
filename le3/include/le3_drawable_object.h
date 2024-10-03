@@ -20,6 +20,7 @@ namespace le3 {
             m_drawPriority(LE3DrawPriority::DRAW_PRIORITY_LOW),
             m_bHidden(false), m_bCastShadow(true)
         {}
+        LE3_TYPE_RETURN(LE3DrawableObject)
 
         virtual void draw(LE3ShaderPtr shaderOverride) = 0;
 

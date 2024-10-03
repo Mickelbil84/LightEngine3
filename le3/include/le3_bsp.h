@@ -20,6 +20,7 @@ namespace le3 {
     class LE3BSPBrush : public LE3DrawableObject {
     public:
         LE3BSPBrush() : LE3DrawableObject(nullptr), m_brushType(LE3_BRUSH_ADDITIVE) {}
+        LE3_TYPE_RETURN(LE3BSPBrush)
 
         LE3BSPBrushType getBrushType() const { return m_brushType; }
         void setBrushType(LE3BSPBrushType brushType) { m_brushType = brushType; }

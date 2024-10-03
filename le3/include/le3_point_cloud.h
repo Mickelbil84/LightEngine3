@@ -14,6 +14,7 @@ namespace le3 {
     class LE3PointCloud : public LE3DrawableObject {
     public:
         LE3PointCloud(LE3MaterialPtr pMaterial);
+        LE3_TYPE_RETURN(LE3PointCloud)
 
         virtual void update(float deltaTime);
         virtual void draw(LE3ShaderPtr shaderOverride = nullptr);

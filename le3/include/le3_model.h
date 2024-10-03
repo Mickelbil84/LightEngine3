@@ -14,6 +14,7 @@ namespace le3 {
     class LE3Model : public LE3DrawableObject {
     public:
         LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority = DRAW_PRIORITY_LOW);
+        LE3_TYPE_RETURN(LE3Model)
 
         virtual void update(float deltaTime);
         virtual void draw(LE3ShaderPtr shaderOverride = nullptr);

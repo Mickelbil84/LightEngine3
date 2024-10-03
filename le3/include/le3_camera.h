@@ -6,6 +6,7 @@ namespace le3 {
     class LE3Camera : public LE3Object {
     public:
         LE3Camera();
+        LE3_TYPE_RETURN(LE3Camera)
 
         virtual void update(float deltaTime);
 
@@ -44,6 +45,7 @@ namespace le3 {
     class LE3OrbitCamera : public LE3Camera {
     public:     
         LE3OrbitCamera();
+        LE3_TYPE_RETURN(LE3OrbitCamera)
 
         virtual void update(float deltaTime);
 
@@ -62,6 +64,7 @@ namespace le3 {
     class LE3FreeCamera : public LE3Camera {
     public:     
         LE3FreeCamera();
+        LE3_TYPE_RETURN(LE3FreeCamera)
 
         virtual void update(float deltaTime);
     protected:

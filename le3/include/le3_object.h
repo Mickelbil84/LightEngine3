@@ -7,9 +7,13 @@
 
 #include "le3_transform.h"
 
+#define LE3_TYPE_RETURN(cls) virtual std::string getObjectType() const { return #cls; }
+
 namespace le3 {
     class LE3Object : public std::enable_shared_from_this<LE3Object> {
     public:
+        LE3_TYPE_RETURN(LE3Object)
+
         inline LE3Transform& getTransform() { return m_transform; }
 
         inline glm::mat4 getWorldMatrix() const { return m_worldMatrix; }

@@ -15,6 +15,8 @@ namespace le3 {
     class LE3Gizmo : public LE3DrawableObject {
     public:
         LE3Gizmo();
+        LE3_TYPE_RETURN(LE3Gizmo)
+        
         void draw(LE3ShaderPtr shaderOverride);    
         void update(float deltaTime);
         void preUpdate();

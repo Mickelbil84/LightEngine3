@@ -31,6 +31,7 @@ namespace le3 {
             LE3StaticModel(nullptr, pMaterial) {
             rebuild(x0, y0, z0, width, height, depth);
         }
+        LE3_TYPE_RETURN(LE3Box)
 
         inline float getX0() const { return x0; }
         inline float getY0() const { return y0; }
@@ -58,6 +59,7 @@ namespace le3 {
             fmt::print("radius {} | height {} | resolution {}\n", radius, height, resolution);
             rebuild(x0, y0, z0, radius, height, resolution, withCaps);
         }
+        LE3_TYPE_RETURN(LE3Cylinder)
 
         inline float getX0() const { return x0; }
         inline float getY0() const { return y0; }
@@ -88,6 +90,7 @@ namespace le3 {
             fmt::print("radius {} | height {} | resolution {}\n", radius, height, resolution);
             rebuild(x0, y0, z0, radius, height, resolution, withCaps);
         }
+        LE3_TYPE_RETURN(LE3Cone)
 
         inline float getX0() const { return x0; }
         inline float getY0() const { return y0; }

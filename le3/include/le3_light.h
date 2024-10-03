@@ -28,6 +28,7 @@ namespace le3{
     class LE3Light : public LE3Object {
     public:
         LE3Light(glm::vec3 color, float intensity) : color(color), intensity(intensity) {}
+        LE3_TYPE_RETURN(LE3Light)
 
         inline glm::vec3 getColor() const { return color; }
         inline void setColor(glm::vec3 color) { this->color = color; }
@@ -44,12 +45,15 @@ namespace le3{
     class LE3AmbientLight : public LE3Light {
     public:
         LE3AmbientLight(glm::vec3 color = glm::vec3(1.f), float intensity=0.1f) : LE3Light(color, intensity) {}
+        LE3_TYPE_RETURN(LE3AmbientLight)
     };
     using LE3AmbientLightPtr = std::shared_ptr<LE3AmbientLight>;
 
     class LE3DirectionalLight : public LE3Light, public LE3HasShadows {
     public:
         LE3DirectionalLight(glm::vec3 color = glm::vec3(1.f), float intensity=0.8f) : LE3Light(color, intensity) {}
+        LE3_TYPE_RETURN(LE3DirectionalLight)
+
         glm::vec3 getDirection() const { return getWorldMatrix() * glm::vec4(DEFAULT_LIGHT_DIRECTION, 0.f); }
 
         glm::mat4 getViewMatrix(glm::vec3 pos) const {
@@ -75,6 +79,7 @@ namespace le3{
             LE3Light(color, intensity), 
             attn_const(attn_const), attn_linear(attn_linear), attn_exp(attn_exp)
         {}
+        LE3_TYPE_RETURN(LE3PointLight)
 
         glm::vec3 getPosition() const { return glm::vec3(getWorldMatrix()[3]); }
 
@@ -96,6 +101,7 @@ namespace le3{
             LE3Light(color, intensity), 
             cutoff(cutoff), outer_cutoff(outer_cutoff)
         {}
+        LE3_TYPE_RETURN(LE3SpotLight)
 
         glm::vec3 getDirection() const { return getWorldMatrix() * glm::vec4(DEFAULT_LIGHT_DIRECTION, 0.f); }
         glm::vec3 getPosition() const { return glm::vec3(getWorldMatrix()[3]); }

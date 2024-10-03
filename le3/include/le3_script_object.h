@@ -9,6 +9,7 @@ namespace le3 {
     class LE3ScriptObject : public LE3DrawableObject {
     public:
         LE3ScriptObject(std::string classname, std::string ref);
+        LE3_TYPE_RETURN(LE3ScriptObject)
 
         virtual void update(float deltaTime);
         virtual void draw(LE3ShaderPtr shaderOverride);
