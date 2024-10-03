@@ -279,6 +279,10 @@ function LE3Material.set_tiling(material, x, y) end
 function LE3Object.get_name(obj) end
 
 ---@param obj LE3Object
+---@return string
+function LE3Object.get_object_type(obj) end
+
+---@param obj LE3Object
 ---@return LE3Transform
 function LE3Object.get_transform(obj) end
 

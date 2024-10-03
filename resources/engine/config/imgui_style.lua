@@ -24,9 +24,10 @@ LightTheme = {
     ImGuiCol_Button = {66.0 / 255.0, 150.0/255.0, 249.0/255.0, 0.4000000059604645},
     ImGuiCol_ButtonHovered = {66.0 / 255.0, 150.0/255.0, 249.0/255.0, 1.0},
     ImGuiCol_ButtonActive = {15.0 / 255.0, 135.0/255.0, 249.0/255.0, 1.0},
-    ImGuiCol_Header = {66.0 / 255.0, 150.0/255.0, 249.0/255.0, 0.3100000023841858},
-    ImGuiCol_HeaderHovered = {66.0 / 255.0, 150.0/255.0, 249.0/255.0, 0.800000011920929},
-    ImGuiCol_HeaderActive = {66.0 / 255.0, 150.0/255.0, 249.0/255.0, 1.0},
+    ImGuiCol_Header = {0.6, 0.6, 0.6, 1.0},
+    ImGuiCol_HeaderHovered = {0.7, 0.7, 0.7, 1.0},
+    ImGuiCol_HeaderActive = {0.7, 0.7, 0.7, 1.0},
+
     ImGuiCol_Separator = {99.0 / 255.0, 99.0/255.0, 99.0/255.0, 0.6200000047683716},
     ImGuiCol_SeparatorHovered = {35.0 / 255.0, 112.0/255.0, 204.0/255.0, 0.7799999713897705},
     ImGuiCol_SeparatorActive = {35.0 / 255.0, 112.0/255.0, 204.0/255.0, 1.0},
