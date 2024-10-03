@@ -17,7 +17,9 @@ void LE3EditorTabScene::update() {
         ImGui::TableSetupColumn("Type", ImGuiTableColumnFlags_NoHide);
         ImGui::TableHeadersRow();
 
+        ImGui::BeginMultiSelect(ImGuiMultiSelectFlags_SingleSelect);
         recurseSceneTree(LE3GetSceneManager().getScene("scene")->getSceneRoot());
+        ImGui::EndMultiSelect();
 
         ImGui::EndTable();
     }
@@ -43,7 +45,12 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
     }
 
     if (obj->getChildren().size() > 0) {
+        
         bool open = ImGui::TreeNodeEx(obj->getName().c_str(), ImGuiTreeNodeFlags_SpanAllColumns | selected);
+        if (ImGui::IsItemClicked()) {
+            LE3GetEditorManager().setSelectedObject(obj);
+            LE3GetSceneManager().updateScenes(0);
+        }
         ImGui::TableNextColumn();
         ImGui::TextDisabled("%s", obj->getObjectType().c_str());
         if (open) {
@@ -57,6 +64,10 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
         ImGui::TreeNodeEx(obj->getName().c_str(), 
             ImGuiTreeNodeFlags_SpanAllColumns | ImGuiTreeNodeFlags_Leaf | 
             ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | selected);
+        if (ImGui::IsItemClicked()) {
+            LE3GetEditorManager().setSelectedObject(obj);
+            LE3GetSceneManager().updateScenes(0);
+        }
         ImGui::TableNextColumn();
         ImGui::TextDisabled("%s", obj->getObjectType().c_str());
     }

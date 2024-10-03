@@ -76,7 +76,10 @@ void LE3Gizmo::update(float deltaTime) {
     if (LE3GetEditorManager().isEditBlocked()) return;
 
     glm::vec3 cursorRaw = LE3GetActiveScene()->getCursorLocation();
-    if (cursorRaw.z < 0) return;
+    if (cursorRaw.z < 0) {
+        LE3DrawableObject::update(deltaTime);
+        return;
+    }
     glm::vec2 cursor(cursorRaw);
 
     float threshold = 0.05f; // TODO: Move to constants

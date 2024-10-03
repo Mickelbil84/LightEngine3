@@ -24,7 +24,11 @@ namespace le3 {
 
         LE3ObjectWeakPtr getSelectedObject() { return m_pSelectedObject; }
         void setSelectedObject() { 
-            m_pSelectedObject = m_pHoveredObject; 
+            setSelectedObject(m_pHoveredObject); 
+        }
+        void setSelectedObject(LE3ObjectWeakPtr selectedObject) { 
+            m_pSelectedObject = selectedObject; 
+            m_pHoveredObject.reset();
             if (m_pGizmo) m_pGizmo->onObjectSelected(m_pSelectedObject); 
         }
 
