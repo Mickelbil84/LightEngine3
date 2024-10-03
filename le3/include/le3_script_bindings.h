@@ -177,5 +177,7 @@ namespace le3 {
     LOPEN_DECLARE(LE3PointLight);
     LOPEN_DECLARE(LE3SpotLight);
 
+    LOPEN_DECLARE(ImGui);
+
     void bindLE3Types(lua_State* L); // Is called when initializing the script system
 }

@@ -1,5 +1,7 @@
 ---@meta
 
+---@class ImGui
+ImGui = {}
 ---@class LE3AmbientLight
 LE3AmbientLight = {}
 ---@class LE3AssetManager
@@ -60,6 +62,10 @@ LE3Transform = {}
 LE3VisualDebug = {}
 
 --------------------------------------
+
+---@param label string
+---@return boolean
+function ImGui.CollapsingHeader(label) end
 
 ---@param name string
 ---@param shaderName string

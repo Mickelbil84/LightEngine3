@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
     src/widgets/le3ed_toolbox.cpp
     src/widgets/le3ed_tab_scene.cpp
     src/widgets/le3ed_sidepanel_top.cpp
+    src/widgets/le3ed_properties_panel.cpp
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)

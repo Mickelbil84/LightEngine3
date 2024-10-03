@@ -14,6 +14,7 @@ void LE3EditorGUI::init() {
     m_toolbar.init();
     m_toolbox.init();
     m_sidepanelTop.init();
+    m_propertiesPanel.init();
 }
 
 void LE3EditorGUI::update(float deltaTime) {
@@ -65,6 +66,7 @@ void LE3EditorGUI::update(float deltaTime) {
     ImGui::End();
 
     ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoMove);
+        m_propertiesPanel.update();
     ImGui::End();
 
 }

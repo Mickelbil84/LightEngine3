@@ -5,6 +5,7 @@
 #include "widgets/le3ed_toolbar.h"
 #include "widgets/le3ed_toolbox.h"
 #include "widgets/le3ed_sidepanel_top.h"
+#include "widgets/le3ed_properties_panel.h"
 
 namespace le3 {
     class LE3EditorGUI : public LE3EditorComponent{
@@ -19,5 +20,6 @@ namespace le3 {
         LE3EditorToolbar m_toolbar;
         LE3EditorToolbox m_toolbox;        
         LE3EditorSidepanelTop m_sidepanelTop;
+        LE3EditorPropertiesPanel m_propertiesPanel;
     };
 }
