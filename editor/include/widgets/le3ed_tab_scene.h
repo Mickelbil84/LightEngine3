@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 #include <le3.h>
 
 namespace le3 {
@@ -13,5 +15,6 @@ namespace le3 {
 
         ImGuiTableFlags flags;
         bool m_bShowEngineObjects = false;
+        std::map<std::string, bool> m_openStatus;
     };
 }

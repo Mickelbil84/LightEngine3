@@ -34,20 +34,26 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
     ImGui::TableNextRow();
     ImGui::TableNextColumn();
 
-    ImGuiTreeNodeFlags selected = 0;
+    ImGuiTreeNodeFlags extraFlags = 0;
+    bool shouldOpen = false;
+    if (m_openStatus.contains(obj->getName())) {
+        shouldOpen = m_openStatus[obj->getName()];
+    }
     LE3ObjectPtr ptr = LE3GetEditorManager().getSelectedObject().lock();
+    if (obj == ptr) extraFlags |= ImGuiTreeNodeFlags_Selected;
     while (ptr) {
         if (obj == ptr) {
-            selected = ImGuiTreeNodeFlags_Selected;
+            shouldOpen = true;
             break;
         }
         ptr = ptr->getParent();
     }
 
     if (obj->getChildren().size() > 0) {
-        
-        bool open = ImGui::TreeNodeEx(obj->getName().c_str(), ImGuiTreeNodeFlags_SpanAllColumns | selected);
-        if (ImGui::IsItemClicked()) {
+        ImGui::SetNextItemOpen(shouldOpen);
+        bool open = ImGui::TreeNodeEx(obj->getName().c_str(), ImGuiTreeNodeFlags_SpanAllColumns | extraFlags);
+        m_openStatus[obj->getName()] = open;
+        if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
             LE3GetEditorManager().setSelectedObject(obj);
             LE3GetSceneManager().updateScenes(0);
         }
@@ -63,8 +69,8 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
     else {
         ImGui::TreeNodeEx(obj->getName().c_str(), 
             ImGuiTreeNodeFlags_SpanAllColumns | ImGuiTreeNodeFlags_Leaf | 
-            ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | selected);
-        if (ImGui::IsItemClicked()) {
+            ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | extraFlags);
+        if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
             LE3GetEditorManager().setSelectedObject(obj);
             LE3GetSceneManager().updateScenes(0);
         }
