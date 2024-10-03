@@ -13,6 +13,7 @@ void LE3EditorGUI::init() {
     }
     m_toolbar.init();
     m_toolbox.init();
+    m_sidepanelTop.init();
 }
 
 void LE3EditorGUI::update(float deltaTime) {
@@ -60,6 +61,7 @@ void LE3EditorGUI::update(float deltaTime) {
     LE3GetImGuiUtils().addSceneViewport("Viewport", *LE3GetSceneManager().getScene("scene"), m_engineState);
 
     ImGui::Begin("SidepanelTop", nullptr, ImGuiWindowFlags_NoMove);
+        m_sidepanelTop.update();
     ImGui::End();
 
     ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoMove);
