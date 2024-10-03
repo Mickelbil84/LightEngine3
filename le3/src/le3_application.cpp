@@ -264,6 +264,7 @@ void LE3Application::_initImGui() {
     style.GrabRounding = 0.0;
     style.TabRounding = 4.0;
     style.TabBorderSize = 0.0;
+    style.TabBarOverlineSize = 0.0;
     style.TabMinWidthForCloseButton = 0.0;
     style.ColorButtonPosition = ImGuiDir_Right;
     style.ButtonTextAlign = ImVec2(0.5, 0.5);
