@@ -27,7 +27,7 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
     ImGui::TableNextColumn();
 
     if (obj->getChildren().size() > 0) {
-        bool open = ImGui::TreeNodeEx("node", ImGuiTreeNodeFlags_SpanAllColumns);
+        bool open = ImGui::TreeNodeEx(obj->getName().c_str(), ImGuiTreeNodeFlags_SpanAllColumns);
         ImGui::TableNextColumn();
         ImGui::TextDisabled("--");
         if (open) {
@@ -38,7 +38,7 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
         }
     }
     else {
-        ImGui::TreeNodeEx("node", 
+        ImGui::TreeNodeEx(obj->getName().c_str(), 
             ImGuiTreeNodeFlags_SpanAllColumns | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen);
         ImGui::TableNextColumn();
         ImGui::TextDisabled("--");

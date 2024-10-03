@@ -5,7 +5,7 @@
 namespace le3 {
     class LE3SceneRoot : public LE3Object {
     public:
-        LE3SceneRoot() : LE3Object() {}
+        LE3SceneRoot() : LE3Object() {setName("root");}
         virtual void update(float deltaTime) { updateRecurse(deltaTime, shared_from_this()); }
         virtual void preUpdate() { preUpdateRecurse(shared_from_this()); }
         virtual void postUpdate() { postUpdateRecurse(shared_from_this()); }

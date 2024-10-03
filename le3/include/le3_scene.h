@@ -101,7 +101,7 @@ namespace le3 {
         std::shared_ptr<T> getObject(std::string name) {
             return std::dynamic_pointer_cast<T>(getObject(name));
         }
-        std::string getObjectName(LE3ObjectPtr obj);
+        // std::string getObjectName(LE3ObjectPtr obj);
 
         LE3BSPManager& getBSPManager() { return m_sceneGraph->m_bspManager; }
 

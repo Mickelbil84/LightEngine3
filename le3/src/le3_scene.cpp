@@ -92,10 +92,6 @@ void LE3Scene::draw() {
     if (drawDebug) drawDebug();
     LE3GetVisualDebug().setActiveCamera(nullptr);
 
-    
-    
-    
-
     // Draw once again to the post process buffer
     drawPostProcess();
 
@@ -233,6 +229,7 @@ void LE3Scene::addScriptObject(std::string name, std::string classname, std::str
 
 void LE3Scene::addCustomObject(std::string name, std::shared_ptr<LE3Object> obj, std::string parent) {
     assertObjectName(name);
+    obj->setName(name);
     attachObject(name, obj, parent);
     LE3DrawableObjectPtr drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(obj);
     if (drawableObj) m_sceneGraph->m_drawQueue.addObject(drawableObj);
@@ -345,12 +342,13 @@ LE3ObjectPtr LE3Scene::getObjectByID(glm::vec4 color) {
     return getObjectByID(oid);
 }
 
-std::string LE3Scene::getObjectName(LE3ObjectPtr obj) {
-    for (auto& it : m_sceneGraph->m_pObjects) {
-        if (it.second == obj) return it.first;
-    }
-    return "";
-}
+// std::string LE3Scene::getObjectName(LE3ObjectPtr obj) {
+//     // for (auto& it : m_sceneGraph->m_pObjects) {
+//     //     if (it.second == obj) return it.first;
+//     // }
+//     // return "";
+//     return obj->getName();
+// }
 
 void LE3Scene::updateHoveredObject() {
     glm::vec3 mouse = 0.5f * (getCursorLocation() + 1.f);
@@ -366,7 +364,7 @@ void LE3Scene::updateHoveredObject() {
 void LE3Scene::deleteObject(std::string name) {
     if (!m_sceneGraph->m_pObjects.contains(name)) return;
     for (auto child : m_sceneGraph->m_pObjects[name]->getChildren()) 
-        deleteObject(getObjectName(child));
+        deleteObject(child->getName());
     m_sceneGraph->m_pObjects[name]->reparent(nullptr);
     m_sceneGraph->m_pObjects.erase(name);
 }

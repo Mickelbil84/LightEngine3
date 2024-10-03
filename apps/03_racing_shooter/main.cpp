@@ -211,7 +211,7 @@ public:
             }
         }
         if (ImGui::CollapsingHeader("Hovered Object", ImGuiTreeNodeFlags_DefaultOpen)) {
-            std::string hoveredObject = LE3GetActiveScene()->getObjectName(LE3GetEditorManager().getHoveredObject().lock());
+            std::string hoveredObject = LE3GetEditorManager().getHoveredObject().lock()->getName();
             ImGui::Text("Hovered Object: %s", hoveredObject.c_str());
         }
 

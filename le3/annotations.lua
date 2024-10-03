@@ -275,6 +275,10 @@ function LE3Material.set_specular_texture(material, texture) end
 function LE3Material.set_tiling(material, x, y) end
 
 ---@param obj LE3Object
+---@return string
+function LE3Object.get_name(obj) end
+
+---@param obj LE3Object
 ---@return LE3Transform
 function LE3Object.get_transform(obj) end
 

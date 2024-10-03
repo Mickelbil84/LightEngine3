@@ -7,7 +7,11 @@ FBIND(LE3Object, get_transform)
     LE3Transform& transform = obj->getTransform();
     PUSH_UDATA(&transform, LE3Transform)
 FEND()
+FBIND(LE3Object, get_name)
+    GET_UDATA_OBJECT(obj, LE3Object)
+    PUSH_STRING(obj->getName())
+FEND()
 
 LIB(LE3Object,
-    get_transform
+    get_transform, get_name
 )

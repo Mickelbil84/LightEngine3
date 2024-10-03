@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <memory>
 #include <vector>
 #include <algorithm>
@@ -26,6 +27,9 @@ namespace le3 {
         void reparent(std::shared_ptr<LE3Object> newParent);
         void appendChild(std::shared_ptr<LE3Object> pChild);
 
+        void setName(const std::string& name) { m_name = name; } // Use with causion, renaming should be done via scene
+        std::string getName() const { return m_name; }
+
     protected:
         LE3Transform m_transform;
 
@@ -34,6 +38,7 @@ namespace le3 {
         std::shared_ptr<LE3Object> m_pParent = nullptr;
         std::vector<std::shared_ptr<LE3Object>> m_pChildren;
 
+        std::string m_name = "";
         glm::mat4 m_worldMatrix = glm::mat4(1.f);
     };
     using LE3ObjectPtr = std::shared_ptr<LE3Object>;
