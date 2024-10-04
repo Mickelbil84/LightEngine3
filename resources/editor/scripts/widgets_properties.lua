@@ -49,6 +49,10 @@ function show_property(property, tbl)
         local value = tbl[property.name]
         tbl[property.name]  = table.pack(ImGui.InputFloat4(property.name, table.unpack(value)))
     end
+    if property.type == "color" then
+        local value = tbl[property.name]
+        tbl[property.name]  = table.pack(ImGui.ColorEdit3(property.name, table.unpack(value)))
+    end
     if property.type == "transform" then
         if (ImGui.TreeNode(property.name)) then
             for _, property_ in ipairs(LE3Transform.properties) do

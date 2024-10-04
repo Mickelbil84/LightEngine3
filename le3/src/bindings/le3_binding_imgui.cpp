@@ -25,6 +25,15 @@ FBIND(ImGui, InputText)
     PUSH_STRING(std::string(buffer))
 FEND()
 
+FBIND(ImGui, ColorEdit3)
+    GET_STRING(label)
+    GET_VEC3(prev)
+    float vec[3] = {prev.x, prev.y, prev.z};
+    ImGui::ColorEdit3(label.c_str(), vec);
+    glm::vec3 result(vec[0], vec[1], vec[2]);
+    PUSH_VEC3(result)
+FEND()
+
 FBIND(ImGui, Checkbox)
     GET_STRING(label)
     GET_BOOL(prev)
@@ -69,6 +78,6 @@ FEND()
 
 LIB(ImGui,
     CollapsingHeader, TreeNode, TreePop,
-    InputText, Checkbox,
+    InputText, Checkbox, ColorEdit3,
     InputInt, InputFloat, InputFloat3, InputFloat4
 )

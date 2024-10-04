@@ -73,6 +73,15 @@ function ImGui.Checkbox(label, prev) end
 function ImGui.CollapsingHeader(label) end
 
 ---@param label string
+---@param prev_x number
+---@param prev_y number
+---@param prev_z number
+---@return number
+---@return number
+---@return number
+function ImGui.ColorEdit3(label, prev_x, prev_y, prev_z) end
+
+---@param label string
 ---@param prev number
 ---@return number
 function ImGui.InputFloat(label, prev) end

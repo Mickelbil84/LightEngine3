@@ -55,6 +55,13 @@ void LE3EditorScenes::initScenes() {
         LE3GetSceneManager().createInspectedScene(fmt::format("inspector{}", i), m_engineState, "scene");
         LE3GetSceneManager().getScene(fmt::format("inspector{}", i))->setRenderDirectly(false);
     }
+
+    // TODO: TEMP
+    // Load all demo scripts
+    for (auto script : LE3GetDatFileSystem().getFilesFromDir("/demos/scripts/racing_shooter")) {
+        LE3GetScriptSystem().doFile(script);
+    }
+    LE3GetSceneManager().getScene("scene")->load("/demos/scenes/racing_shooter.lua");
 }
 void LE3EditorScenes::initGizmo() {
     LE3GizmoPtr gizmo = std::make_shared<LE3Gizmo>();

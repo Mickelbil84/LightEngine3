@@ -20,7 +20,7 @@ LE3Light.save = function (object)
 end
 LE3Light.title = "LE3Light"
 LE3Light.properties = {
-    {name = "Color", type = "float3"},
+    {name = "Color", type = "color"},
     {name = "Intensity", type = "float"}
 }
 

@@ -20,7 +20,7 @@ LE3ScriptObject.rebuild = function (object, tbl)
 end
 LE3ScriptObject.save = function (object)
     local tbl = LE3ScriptObject.__base.save(object)
-    tbl.Classname = object.classname
+    -- tbl.Classname = _G[tbl.]
     return tbl
 end
 LE3ScriptObject.title = "LE3ScriptObject"
