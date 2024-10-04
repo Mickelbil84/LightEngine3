@@ -8,6 +8,12 @@ LE3DrawableObject.load = function (scene, tbl, res)
     if tbl.CastShadow ~= nil then LE3DrawableObject.set_cast_shadow(res, tbl.CastShadow) end
     return {ptr = res, name = tbl.Name}
 end
+LE3DrawableObject.rebuild = function (object, tbl)
+    LE3DrawableObject.__base.rebuild(object, tbl)
+    if tbl.DrawPriority ~= nil then LE3DrawableObject.set_draw_priority(object, tbl.DrawPriority) end
+    if tbl.Hidden ~= nil then LE3DrawableObject.set_hidden(object, tbl.Hidden) end
+    if tbl.CastShadow ~= nil then LE3DrawableObject.set_cast_shadow(object, tbl.CastShadow) end
+end
 LE3DrawableObject.save = function (object)
     local tbl = LE3DrawableObject.__base.save(object)
     tbl.DrawPriority = LE3DrawableObject.get_draw_priority(object)
@@ -15,3 +21,9 @@ LE3DrawableObject.save = function (object)
     tbl.CastShadow = LE3DrawableObject.get_cast_shadow(object)
     return tbl
 end
+LE3DrawableObject.title = "LE3DrawableObject"
+LE3DrawableObject.properties = {
+    {name = "DrawPriority", type = "int"},
+    {name = "Hidden", type = "bool"},
+    {name = "CastShadow", type = "bool"}
+}

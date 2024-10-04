@@ -57,7 +57,9 @@ void LE3ScriptSystem::getField(std::string field) {
 
 void LE3ScriptSystem::callFunction(int numArgs, int numResults) {
     if (lua_pcall(L, numArgs, numResults, 0) != 0) {
-        lua_error(L);
+        try { lua_error(L);}
+        catch (...) {
+        }
     }
 }
 

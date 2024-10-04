@@ -77,6 +77,10 @@ void LE3Gizmo::update(float deltaTime) {
 
     glm::vec3 cursorRaw = LE3GetActiveScene()->getCursorLocation();
     if (cursorRaw.z < 0) {
+        // When updaing position outside of scene view, update gizmo position
+        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelectedObject().lock()) {
+            m_transform.setPosition(pObject->getWorldPosition());
+        }
         LE3DrawableObject::update(deltaTime);
         return;
     }

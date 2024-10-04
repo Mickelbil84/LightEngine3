@@ -15,11 +15,15 @@ LE3ScriptObject.load = function (scene, tbl, res)
     _G[tbl.Classname]._refs[tbl.Name]:init()
     return {ptr = res, name = tbl.Name}
 end
+LE3ScriptObject.rebuild = function (object, tbl)
+    LE3ScriptObject.__base.rebuild(object, tbl)
+end
 LE3ScriptObject.save = function (object)
     local tbl = LE3ScriptObject.__base.save(object)
     tbl.Classname = object.classname
     return tbl
 end
+LE3ScriptObject.title = "LE3ScriptObject"
 
 function LE3ScriptObject:new()
     obj = {}

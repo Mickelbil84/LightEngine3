@@ -64,8 +64,18 @@ LE3VisualDebug = {}
 --------------------------------------
 
 ---@param label string
+---@param prev boolean
+---@return boolean
+function ImGui.Checkbox(label, prev) end
+
+---@param label string
 ---@return boolean
 function ImGui.CollapsingHeader(label) end
+
+---@param label string
+---@param prev number
+---@return number
+function ImGui.InputFloat(label, prev) end
 
 ---@param label string
 ---@param prev_x number
@@ -75,6 +85,33 @@ function ImGui.CollapsingHeader(label) end
 ---@return number
 ---@return number
 function ImGui.InputFloat3(label, prev_x, prev_y, prev_z) end
+
+---@param label string
+---@param prev_w number
+---@param prev_x number
+---@param prev_y number
+---@param prev_z number
+---@return number
+---@return number
+---@return number
+---@return number
+function ImGui.InputFloat4(label, prev_w, prev_x, prev_y, prev_z) end
+
+---@param label string
+---@param prev int
+---@return number
+function ImGui.InputInt(label, prev) end
+
+---@param label string
+---@param prev string
+---@return string
+function ImGui.InputText(label, prev) end
+
+---@param label string
+---@return boolean
+function ImGui.TreeNode(label) end
+
+function ImGui.TreePop() end
 
 ---@param name string
 ---@param shaderName string
@@ -556,6 +593,14 @@ function LE3SkeletalModel.get_material_name(self) end
 ---@return string
 function LE3SkeletalModel.get_mesh_name(self) end
 
+---@param self LE3SkeletalModel
+---@param material_name string
+function LE3SkeletalModel.set_material_name(self, material_name) end
+
+---@param self LE3SkeletalModel
+---@param mesh_name string
+function LE3SkeletalModel.set_mesh_name(self, mesh_name) end
+
 ---@param light LE3SpotLight
 ---@param resolution number
 function LE3SpotLight.add_shadow_map(light, resolution) end
@@ -587,6 +632,14 @@ function LE3StaticModel.get_material_name(self) end
 ---@param self LE3StaticModel
 ---@return string
 function LE3StaticModel.get_mesh_name(self) end
+
+---@param self LE3StaticModel
+---@param material_name string
+function LE3StaticModel.set_material_name(self, material_name) end
+
+---@param self LE3StaticModel
+---@param mesh_name string
+function LE3StaticModel.set_mesh_name(self, mesh_name) end
 
 ---@param self LE3Transform
 ---@return number
