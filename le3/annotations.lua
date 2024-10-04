@@ -67,6 +67,15 @@ LE3VisualDebug = {}
 ---@return boolean
 function ImGui.CollapsingHeader(label) end
 
+---@param label string
+---@param prev_x number
+---@param prev_y number
+---@param prev_z number
+---@return number
+---@return number
+---@return number
+function ImGui.InputFloat3(label, prev_x, prev_y, prev_z) end
+
 ---@param name string
 ---@param shaderName string
 function LE3AssetManager.add_material(name, shaderName) end
