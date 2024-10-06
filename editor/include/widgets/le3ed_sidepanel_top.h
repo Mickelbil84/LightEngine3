@@ -3,6 +3,7 @@
 #include <le3.h>
 
 #include "le3ed_tab_scene.h"
+#include "le3ed_tab_assets.h"
 #include "le3ed_tab_content.h"
 
 namespace le3 {
@@ -13,6 +14,7 @@ namespace le3 {
 
     private:
         LE3EditorTabScene m_tabScene;
+        LE3EditorTabAssets m_tabAssets;
         LE3EditorTabContent m_tabContent;
     };
 }

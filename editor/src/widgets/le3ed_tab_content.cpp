@@ -9,7 +9,8 @@ void LE3EditorTabContent::init() {
         ImGuiTableFlags_BordersOuterH | 
         ImGuiTableFlags_Resizable | 
         ImGuiTableFlags_RowBg | 
-        ImGuiTableFlags_NoBordersInBody;
+        ImGuiTableFlags_NoBordersInBody |
+        ImGuiTableFlags_ScrollX;
 }
 void LE3EditorTabContent::update() {
     updateArchiveList();

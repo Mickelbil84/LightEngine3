@@ -35,6 +35,7 @@ void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShad
     std::string vertexShaderSource = readFile(vertexShaderPath);
     std::string fragmentShaderSource = readFile(fragmentShaderPath);
     addShaderFromSource(name, vertexShaderSource, fragmentShaderSource);
+    m_shadersPaths[name] = std::make_pair(vertexShaderPath, fragmentShaderPath);
 }
 void LE3AssetManager::addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource) {
     if (m_pShaders.contains(name)) throw std::runtime_error(fmt::format("Shader [{}] already exists", name));
@@ -63,11 +64,13 @@ void LE3AssetManager::addTexture(std::string name, std::string filename, bool in
     std::copy(&rawData[0], &rawData[width * height * nChannels - 1], std::back_inserter(data));
     stbi_image_free(rawData);
     addTexture(name, data, width, height, nChannels, interpolate);
+    m_texturesPaths[name] = filename;
 }
 
 void LE3AssetManager::addStaticMesh(std::string name, std::string filename, bool keepData) {
     if (m_pStaticMeshes.contains(name)) throw std::runtime_error(fmt::format("Static mesh [{}] already exists", name));
     m_pStaticMeshes[name] = loadStaticMesh(filename, keepData);
+    m_meshesPaths[name] = filename;
 }
 
 void LE3AssetManager::searchStaticMeshes(std::string prefix, std::vector<std::string>& out) {
@@ -80,9 +83,8 @@ void LE3AssetManager::searchStaticMeshes(std::string prefix, std::vector<std::st
 void LE3AssetManager::addSkeletalMesh(std::string name, std::string filename) {
     if (m_pSkeletalMeshes.contains(name)) throw std::runtime_error(fmt::format("Skeletal mesh [{}] already exists", name));
     m_pSkeletalMeshes[name] = loadSkeletalMesh(filename);
+    m_meshesPaths[name] = filename;
 }
-
-
 
 std::string LE3AssetManager::readFile(std::string filename) {
     return LE3GetDatFileSystem().getFileContent(filename).toString();

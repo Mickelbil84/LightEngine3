@@ -20,7 +20,7 @@ FBIND(ImGui, InputText)
     GET_STRING(label)
     GET_STRING(prev)
     char buffer[256];
-    strcpy(buffer, prev.c_str());
+    strcpy_s(buffer, prev.c_str());
     ImGui::InputText(label.c_str(), buffer, 256);
     PUSH_STRING(std::string(buffer))
 FEND()

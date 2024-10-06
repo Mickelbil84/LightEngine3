@@ -57,6 +57,10 @@ namespace le3 {
         inline LE3StaticMeshPtr getGizmoArrowMesh() { return m_gizmoArrow; }
         inline LE3StaticMeshPtr getGizmoCenterMesh() { return m_gizmoCenter; }
 
+        inline std::map<std::string, std::pair<std::string, std::string>> getShadersPaths() { return m_shadersPaths; }
+        inline std::map<std::string, std::string> getTexturesPaths() { return m_texturesPaths; }
+        inline std::map<std::string, std::string> getMeshesPaths() { return m_meshesPaths; }
+
 
     private:
         // Asset maps
@@ -65,6 +69,11 @@ namespace le3 {
         std::map<std::string, LE3TexturePtr> m_pTextures;
         std::map<std::string, LE3StaticMeshPtr> m_pStaticMeshes;
         std::map<std::string, LE3SkeletalMeshPtr> m_pSkeletalMeshes;
+
+        // Asset paths
+        std::map<std::string, std::pair<std::string, std::string>> m_shadersPaths;
+        std::map<std::string, std::string> m_texturesPaths;
+        std::map<std::string, std::string> m_meshesPaths;
 
         LE3ScreenRectPtr m_screenRect = nullptr; // Create this crucial geometry only once
 

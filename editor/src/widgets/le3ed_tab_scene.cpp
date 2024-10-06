@@ -7,7 +7,8 @@ void LE3EditorTabScene::init() {
         ImGuiTableFlags_BordersOuterH | 
         ImGuiTableFlags_Resizable | 
         ImGuiTableFlags_RowBg | 
-        ImGuiTableFlags_NoBordersInBody;
+        ImGuiTableFlags_NoBordersInBody |
+        ImGuiTableFlags_ScrollX;
 }
 void LE3EditorTabScene::update() {
     ImGui::Checkbox("Show hidden engine objects", &m_bShowEngineObjects);
