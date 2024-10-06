@@ -3,6 +3,7 @@
 #include <le3.h>
 
 #include "le3ed_tab_scene.h"
+#include "le3ed_tab_content.h"
 
 namespace le3 {
     class LE3EditorSidepanelTop {
@@ -12,5 +13,6 @@ namespace le3 {
 
     private:
         LE3EditorTabScene m_tabScene;
+        LE3EditorTabContent m_tabContent;
     };
 }

@@ -50,7 +50,7 @@ LE3DatFileNode* LE3DatFileSystem::addFileNode(std::string path, std::string arch
 
     auto lastIdx = path.find_last_of('/');
     std::string parentPath = path.substr(0, lastIdx);
-    LE3DatFileNode* parent = addFileNode(parentPath, "", true);
+    LE3DatFileNode* parent = addFileNode(parentPath, archiveName, true);
 
     LE3DatFileNode fileNode;
     fileNode.path = path; fileNode.archiveName = archiveName;
@@ -86,7 +86,22 @@ std::vector<std::string> LE3DatFileSystem::getFilesFromDir(std::string dirPath, 
     return res;
 }
 
+LE3FileInfo LE3DatFileSystem::getFileInfo(std::string filepath) {
+    if (!m_fileNodes.contains(filepath)) throw std::runtime_error(fmt::format("File '{}' does not exist in any archive", filepath));
+    LE3DatFileNode node = m_fileNodes[filepath];
+    return m_archives[node.archiveName]->getFileInfo(filepath);
+}
+
 LE3DatBuffer LE3DatFileSystem::getFileContent(std::string filepath, bool shouldDecompress) {
     if (!m_fileNodes.contains(filepath)) throw std::runtime_error(fmt::format("File '{}' does not exist in any archive", filepath));
     return m_archives[m_fileNodes[filepath].archiveName]->getFileContent(filepath, shouldDecompress);
+}
+
+std::vector<std::string> LE3DatFileSystem::getAvailableArchives() {
+    return m_archiveNames;
+}
+
+LE3DatFileNode* LE3DatFileSystem::getFileNode(std::string path) {
+    if (!m_fileNodes.contains(path)) throw std::runtime_error(fmt::format("File '{}' does not exist in any archive", path));
+    return &m_fileNodes[path];
 }

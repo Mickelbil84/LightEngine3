@@ -68,6 +68,7 @@ namespace le3 {
         void appendFile(std::string path, LE3DatBuffer fileBuffer, bool shouldCompress = true);
         void defragmentArchive();
 
+        LE3FileInfo getFileInfo(std::string path);
         LE3DatBuffer getFileContent(std::string path, bool shouldDecompress = true);
         
     private:

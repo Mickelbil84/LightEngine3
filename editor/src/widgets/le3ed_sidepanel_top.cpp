@@ -5,6 +5,7 @@ using namespace le3;
 
 void LE3EditorSidepanelTop::init() {
     m_tabScene.init();
+    m_tabContent.init();
 }
 void LE3EditorSidepanelTop::update() {
     if (ImGui::BeginTabBar("##SidepanelTopTabs", ImGuiTabBarFlags_None)) {
@@ -17,7 +18,7 @@ void LE3EditorSidepanelTop::update() {
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Content")) {
-            ImGui::Text("Content");
+            m_tabContent.update();
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();

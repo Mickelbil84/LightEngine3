@@ -194,6 +194,11 @@ void LE3DatArchive::writeDataSize() {
     flushArchive();
 }
 
+LE3FileInfo LE3DatArchive::getFileInfo(std::string path) {
+    if (!m_fileInfos.contains(path)) throw std::runtime_error(fmt::format("Path '{}' does not exist in archive", path));
+    return m_fileInfos[path];
+}
+
 LE3DatBuffer LE3DatArchive::getFileContent(std::string path, bool shouldDecompress) {
     if (!m_fileInfos.contains(path)) throw std::runtime_error(fmt::format("Path '{}' does not exist in archive", path));
     LE3FileInfo fileInfo = m_fileInfos[path];

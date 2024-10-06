@@ -24,7 +24,11 @@ namespace le3 {
         void defragmentArchives();
 
         std::vector<std::string> getFilesFromDir(std::string dirPath, bool recurse = true);
+        LE3FileInfo getFileInfo(std::string path);
         LE3DatBuffer getFileContent(std::string filepath, bool shouldDecompress = true);
+        LE3DatFileNode* getFileNode(std::string path);
+
+        std::vector<std::string> getAvailableArchives();
 
     private:
         std::map<std::string, LE3DatArchivePtr> m_archives;
