@@ -106,14 +106,44 @@ void LE3EditorTabAssets::updateMaterials() {
     }
 }
 void LE3EditorTabAssets::updateTextures() {
+    std::map<std::string, std::string> texturesPaths = LE3GetAssetManager().getTexturesPaths();
 
+    addEngineAssetsCheckbox();
+    if (ImGui::Button("Add")) {
+        // ...
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Delete")) {
+        // ...
+    }
+
+    if (ImGui::BeginTable("##TexturesTable", 2, flags)) {
+        ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
+        ImGui::TableSetupColumn("Path", ImGuiTableColumnFlags_NoHide);
+        ImGui::TableHeadersRow();
+
+        for (auto& [name, path] : texturesPaths) {
+            if (!m_bShowEngineAssets && isEngineAsset(name, path)) continue;
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            ImGui::Selectable(name.c_str());
+            if (ImGui::IsItemClicked()) {
+                // ...
+            }
+            ImGui::TableNextColumn();
+            ImGui::Text(path.c_str());
+        }
+
+        ImGui::EndTable();
+    }
 }
 void LE3EditorTabAssets::updateMeshes() {
-
+    
 }
 
 bool LE3EditorTabAssets::isEngineAsset(std::string name, std::string path) {
     if (name.starts_with(DEFAULT_ENGINE_PREFIX)) return true;
     if (path.starts_with("/engine")) return true;
+    if (path.starts_with("/editor")) return true;
     return false;
 }
