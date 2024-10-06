@@ -26,6 +26,18 @@ void LE3EditorTabContent::updateArchiveList() {
 }
 
 void LE3EditorTabContent::updateTreeView() {
+    if (ImGui::Button("Expand All")) {
+        for (auto& [path, open] : m_openStatus) {
+            m_openStatus[path] = true;
+        }
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Collapse All")) {
+        for (auto& [path, open] : m_openStatus) {
+            m_openStatus[path] = false;
+        }
+    }
+
     if (ImGui::BeginTable("##ContentTreeView", 2, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
         ImGui::TableSetupColumn("Size", ImGuiTableColumnFlags_NoHide);
@@ -43,7 +55,7 @@ void LE3EditorTabContent::recurseContentTree(LE3DatFileNode* node) {
     ImGui::TableNextColumn();
 
     ImGuiTreeNodeFlags extraFlags = 0;
-    bool shouldOpen = false;
+    bool shouldOpen = true;
     if (m_openStatus.contains(node->path)) {
         shouldOpen = m_openStatus[node->path];
     }
