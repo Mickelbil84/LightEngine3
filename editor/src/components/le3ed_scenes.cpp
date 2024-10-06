@@ -40,7 +40,7 @@ void LE3EditorScenes::initCameras() {
     LE3GetSceneManager().getScene("inspector3")->setMainCamera(DEFAULT_ENGINE_PREFIX + "topCamera");
 
     // Offset cameras
-    LE3GetSceneManager().getScene("scene")->getMainCamera()->getTransform().setPosition(glm::vec3(0.f, 0.5f, 5.f));
+    // LE3GetSceneManager().getScene("scene")->getMainCamera()->getTransform().setPosition(glm::vec3(0.f, 0.5f, 5.f));
 }
 void LE3EditorScenes::initScenes() {
     LE3GetSceneManager().createScene("scene", m_engineState);

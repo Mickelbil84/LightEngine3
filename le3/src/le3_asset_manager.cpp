@@ -87,6 +87,10 @@ void LE3AssetManager::addSkeletalMesh(std::string name, std::string filename) {
     m_meshesPaths[name] = filename;
 }
 
+bool LE3AssetManager::isSkeletalMesh(std::string name) {
+    return m_pSkeletalMeshes.contains(name);
+}
+
 std::string LE3AssetManager::readFile(std::string filename) {
     return LE3GetDatFileSystem().getFileContent(filename).toString();
 }

@@ -138,7 +138,49 @@ void LE3EditorTabAssets::updateTextures() {
     }
 }
 void LE3EditorTabAssets::updateMeshes() {
-    
+    std::map<std::string, std::string> meshesPaths = LE3GetAssetManager().getMeshesPaths();
+
+    addEngineAssetsCheckbox();
+    if (ImGui::Button("Add")) {
+        // ...
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Delete")) {
+        // ...
+    }
+
+    if (ImGui::BeginTable("##MeshesTable", 3, flags)) {
+        ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
+        ImGui::TableSetupColumn("Skeletal", ImGuiTableColumnFlags_NoHide);
+        ImGui::TableSetupColumn("Path", ImGuiTableColumnFlags_NoHide);
+        ImGui::TableHeadersRow();
+
+        for (auto& [name, path] : meshesPaths) {
+            if (!m_bShowEngineAssets && isEngineAsset(name, path)) continue;
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            ImGui::Selectable(name.c_str());
+            if (ImGui::IsItemClicked()) {
+                // ...
+            }
+
+            ImGui::TableNextColumn();
+            if (LE3GetAssetManager().isSkeletalMesh(name)) {
+                ImGui::Image(
+                    reinterpret_cast<void*>(
+                        LE3GetAssetManager().getTexture("icon_tick")->getTextureID()
+                    ), ImVec2(16, 16));
+            }
+            else {
+                ImGui::Text("");
+            }
+
+            ImGui::TableNextColumn();
+            ImGui::Text(path.c_str());
+        }
+
+        ImGui::EndTable();
+    }
 }
 
 bool LE3EditorTabAssets::isEngineAsset(std::string name, std::string path) {
