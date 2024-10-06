@@ -32,6 +32,9 @@ namespace le3 {
             if (m_pGizmo) m_pGizmo->onObjectSelected(m_pSelectedObject); 
         }
 
+        std::string getSelectedFile() const { return m_selectedFile; }
+        void setSelectedFile(std::string path) { m_selectedFile = path; }
+
         void registerGizmo(LE3GizmoPtr pGizmo) { m_pGizmo = pGizmo; }
 
     private:
@@ -41,5 +44,9 @@ namespace le3 {
 
         LE3ObjectWeakPtr m_pHoveredObject, m_pSelectedObject;
         LE3GizmoPtr m_pGizmo;
+
+        // Note that this is different than the selected object/asset
+        // Can be used for simpler asset creation/loading
+        std::string m_selectedFile = ""; 
     };
 }

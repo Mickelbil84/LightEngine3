@@ -46,6 +46,9 @@ void LE3EditorTabContent::recurseContentTree(LE3DatFileNode* node) {
     if (m_openStatus.contains(node->path)) {
         shouldOpen = m_openStatus[node->path];
     }
+    if (LE3GetEditorManager().getSelectedFile() == node->path) {
+        extraFlags |= ImGuiTreeNodeFlags_Selected;
+    }
 
     std::string filename = node->path;
     if (filename.ends_with("/")) filename = filename.substr(0, filename.size() - 1);
@@ -65,7 +68,12 @@ void LE3EditorTabContent::recurseContentTree(LE3DatFileNode* node) {
         }
     }
     else {
-        ImGui::Text("%s", filename.c_str());
+        ImGui::TreeNodeEx(filename.c_str(), 
+            ImGuiTreeNodeFlags_SpanAllColumns | ImGuiTreeNodeFlags_Leaf | 
+            ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | extraFlags);
+        if (ImGui::IsItemClicked()) {
+            LE3GetEditorManager().setSelectedFile(node->path);
+        }
         ImGui::TableNextColumn();
         ImGui::Text("%s", LE3EditorTabContent::formatSize(
             LE3GetDatFileSystem().getFileInfo(node->path).packedSize).c_str());
