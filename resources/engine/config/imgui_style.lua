@@ -1,7 +1,7 @@
 -- Taken from: https://github.com/Patitotective/ImThemes
 LightTheme = {
     ImGuiCol_Text = {0.0 / 255.0, 0.0/255.0, 0.0/255.0, 1.0},
-    ImGuiCol_TextDisabled = {153.0 / 255.0, 153.0/255.0, 153.0/255.0, 1.0},
+    ImGuiCol_TextDisabled = {100.0 / 255.0, 100.0/255.0, 100.0/255.0, 1.0},
     ImGuiCol_WindowBg = {239.0 / 255.0, 239.0/255.0, 239.0/255.0, 1.0},
     ImGuiCol_ChildBg = {0.0 / 255.0, 0.0/255.0, 0.0/255.0, 0.0},
     ImGuiCol_PopupBg = {255.0 / 255.0, 255.0/255.0, 255.0/255.0, 0.9800000190734863},
@@ -24,9 +24,9 @@ LightTheme = {
     ImGuiCol_Button = {66.0 / 255.0, 150.0/255.0, 249.0/255.0, 0.4000000059604645},
     ImGuiCol_ButtonHovered = {66.0 / 255.0, 150.0/255.0, 249.0/255.0, 1.0},
     ImGuiCol_ButtonActive = {15.0 / 255.0, 135.0/255.0, 249.0/255.0, 1.0},
-    ImGuiCol_Header = {0.6, 0.6, 0.6, 1.0},
-    ImGuiCol_HeaderHovered = {0.7, 0.7, 0.7, 1.0},
-    ImGuiCol_HeaderActive = {0.7, 0.7, 0.7, 1.0},
+    ImGuiCol_Header = {0.7, 0.7, 0.7, 1.0},
+    ImGuiCol_HeaderHovered = {0.8, 0.8, 0.8, 1.0},
+    ImGuiCol_HeaderActive = {0.8, 0.8, 0.8, 1.0},
 
     ImGuiCol_Separator = {99.0 / 255.0, 99.0/255.0, 99.0/255.0, 0.6200000047683716},
     ImGuiCol_SeparatorHovered = {35.0 / 255.0, 112.0/255.0, 204.0/255.0, 0.7799999713897705},

@@ -70,7 +70,7 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
         ImGui::TreeNodeEx(obj->getName().c_str(), 
             ImGuiTreeNodeFlags_SpanAllColumns | ImGuiTreeNodeFlags_Leaf | 
             ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | extraFlags);
-        if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+        if (ImGui::IsItemClicked()) {
             LE3GetEditorManager().setSelectedObject(obj);
             LE3GetSceneManager().updateScenes(0);
         }
