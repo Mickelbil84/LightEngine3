@@ -14,6 +14,10 @@ namespace le3 {
         void updateTextures();
         void updateMeshes();
 
+        void addEngineAssetsCheckbox();
+        static bool isEngineAsset(std::string name, std::string path);
+
         ImGuiTableFlags flags;
+        bool m_bShowEngineAssets;
     };
 }

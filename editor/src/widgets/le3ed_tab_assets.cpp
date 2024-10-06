@@ -2,6 +2,7 @@
 using namespace le3;
 
 void LE3EditorTabAssets::init() {
+    m_bShowEngineAssets = false;
     flags = 
         ImGuiTableFlags_BordersV | 
         ImGuiTableFlags_BordersOuterH | 
@@ -32,10 +33,15 @@ void LE3EditorTabAssets::update() {
     }
 }
 
+void LE3EditorTabAssets::addEngineAssetsCheckbox() {
+    ImGui::Checkbox("Show hidden engine assets", &m_bShowEngineAssets);
+}
+
 
 void LE3EditorTabAssets::updateShaders() {
     std::map<std::string, std::pair<std::string, std::string>> shadersPaths = LE3GetAssetManager().getShadersPaths();
 
+    addEngineAssetsCheckbox();
     if (ImGui::Button("Add")) {
         // ...
     }
@@ -51,6 +57,7 @@ void LE3EditorTabAssets::updateShaders() {
         ImGui::TableHeadersRow();
 
         for (auto& [name, paths] : shadersPaths) {
+            if (!m_bShowEngineAssets && isEngineAsset(name, paths.first)) continue;
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
             ImGui::Selectable(name.c_str());
@@ -68,6 +75,8 @@ void LE3EditorTabAssets::updateShaders() {
 }
 void LE3EditorTabAssets::updateMaterials() {
     std::map<std::string, LE3MaterialPtr> materials = LE3GetAssetManager().getMaterials();
+
+    addEngineAssetsCheckbox();
     if (ImGui::Button("Add")) {
         // ...
     }
@@ -82,6 +91,7 @@ void LE3EditorTabAssets::updateMaterials() {
         ImGui::TableHeadersRow();
 
         for (auto& [name, material] : materials) {
+            if (!m_bShowEngineAssets && isEngineAsset(name, "")) continue;
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
             ImGui::Selectable(name.c_str());
@@ -100,4 +110,10 @@ void LE3EditorTabAssets::updateTextures() {
 }
 void LE3EditorTabAssets::updateMeshes() {
 
+}
+
+bool LE3EditorTabAssets::isEngineAsset(std::string name, std::string path) {
+    if (name.starts_with(DEFAULT_ENGINE_PREFIX)) return true;
+    if (path.starts_with("/engine")) return true;
+    return false;
 }
