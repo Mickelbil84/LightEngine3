@@ -13,6 +13,18 @@ void LE3EditorTabScene::init() {
 void LE3EditorTabScene::update() {
     ImGui::Checkbox("Show hidden engine objects", &m_bShowEngineObjects);
 
+    if (ImGui::Button("Expand All")) {
+        for (auto& [path, open] : m_openStatus) {
+            m_openStatus[path] = true;
+        }
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Collapse All")) {
+        for (auto& [path, open] : m_openStatus) {
+            m_openStatus[path] = false;
+        }
+    }
+
     if (ImGui::BeginTable("##SceneTreeView", 2, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);    
         ImGui::TableSetupColumn("Type", ImGuiTableColumnFlags_NoHide);
@@ -36,7 +48,7 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
     ImGui::TableNextColumn();
 
     ImGuiTreeNodeFlags extraFlags = 0;
-    bool shouldOpen = false;
+    bool shouldOpen = true;
     if (m_openStatus.contains(obj->getName())) {
         shouldOpen = m_openStatus[obj->getName()];
     }
