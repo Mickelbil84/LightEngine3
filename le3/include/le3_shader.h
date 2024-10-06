@@ -23,7 +23,11 @@ namespace le3 {
 
         int key() const { return m_program * 2 + 1; } // Some unique key for the shader
 
+        void setName(std::string name) { m_name = name; }
+        std::string getName() const { return m_name; }
+
     private:
+        std::string m_name;
         unsigned int m_program;
         std::map<std::string, int> m_uniformLocation;
 

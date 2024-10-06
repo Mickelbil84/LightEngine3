@@ -33,6 +33,7 @@ namespace le3 {
         // Materials
         void addMaterial(std::string name, std::string shaderName);
         inline LE3MaterialPtr& getMaterial(std::string name) { return m_pMaterials[name]; }
+        inline std::map<std::string, LE3MaterialPtr> getMaterials() { return m_pMaterials; }
 
         // Textures
         void addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate = true);

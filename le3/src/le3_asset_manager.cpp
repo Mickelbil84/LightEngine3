@@ -40,6 +40,7 @@ void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShad
 void LE3AssetManager::addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource) {
     if (m_pShaders.contains(name)) throw std::runtime_error(fmt::format("Shader [{}] already exists", name));
     m_pShaders[name] = std::make_shared<LE3Shader>(vertexShaderSource, fragmentShaderSource);
+    m_pShaders[name]->setName(name);
 }
 
 void LE3AssetManager::addMaterial(std::string name, std::string shaderName) {

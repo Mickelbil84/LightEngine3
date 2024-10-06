@@ -36,6 +36,14 @@ void LE3EditorTabAssets::update() {
 void LE3EditorTabAssets::updateShaders() {
     std::map<std::string, std::pair<std::string, std::string>> shadersPaths = LE3GetAssetManager().getShadersPaths();
 
+    if (ImGui::Button("Add")) {
+        // ...
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Delete")) {
+        // ...
+    }
+
     if (ImGui::BeginTable("##ShadersTable", 3, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
         ImGui::TableSetupColumn("Path (Vertex)", ImGuiTableColumnFlags_NoHide);
@@ -59,7 +67,33 @@ void LE3EditorTabAssets::updateShaders() {
     }
 }
 void LE3EditorTabAssets::updateMaterials() {
+    std::map<std::string, LE3MaterialPtr> materials = LE3GetAssetManager().getMaterials();
+    if (ImGui::Button("Add")) {
+        // ...
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Delete")) {
+        // ...
+    }
 
+    if (ImGui::BeginTable("##MaterialsTable", 2, flags)) {
+        ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
+        ImGui::TableSetupColumn("Shader", ImGuiTableColumnFlags_NoHide);
+        ImGui::TableHeadersRow();
+
+        for (auto& [name, material] : materials) {
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            ImGui::Selectable(name.c_str());
+            if (ImGui::IsItemClicked()) {
+                // ...
+            }
+            ImGui::TableNextColumn();
+            ImGui::Text("%s", material->shader->getName().c_str());
+        }
+
+        ImGui::EndTable();
+    }
 }
 void LE3EditorTabAssets::updateTextures() {
 
