@@ -65,9 +65,9 @@ void LE3EditorTabAssets::updateShaders() {
                 // ...
             }
             ImGui::TableNextColumn();
-            ImGui::Text(paths.first.c_str());
+            ImGui::Text("%s", paths.first.c_str());
             ImGui::TableNextColumn();
-            ImGui::Text(paths.second.c_str());
+            ImGui::Text("%s", paths.second.c_str());
         }
 
         ImGui::EndTable();
@@ -131,7 +131,7 @@ void LE3EditorTabAssets::updateTextures() {
                 // ...
             }
             ImGui::TableNextColumn();
-            ImGui::Text(path.c_str());
+            ImGui::Text("%s", path.c_str());
         }
 
         ImGui::EndTable();
@@ -176,7 +176,7 @@ void LE3EditorTabAssets::updateMeshes() {
             }
 
             ImGui::TableNextColumn();
-            ImGui::Text(path.c_str());
+            ImGui::Text("%s", path.c_str());
         }
 
         ImGui::EndTable();

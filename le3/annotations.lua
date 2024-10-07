@@ -107,7 +107,7 @@ function ImGui.InputFloat3(label, prev_x, prev_y, prev_z) end
 function ImGui.InputFloat4(label, prev_w, prev_x, prev_y, prev_z) end
 
 ---@param label string
----@param prev int
+---@param prev number
 ---@return number
 function ImGui.InputInt(label, prev) end
 
