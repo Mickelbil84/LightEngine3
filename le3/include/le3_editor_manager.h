@@ -1,5 +1,7 @@
 #pragma once 
 
+#include <functional>
+
 #include "le3_object.h"
 #include "le3_gizmo.h"
 
