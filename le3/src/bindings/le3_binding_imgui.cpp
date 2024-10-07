@@ -10,7 +10,7 @@ FBIND(ImGui, CollapsingHeader)
 FEND()
 FBIND(ImGui, TreeNode)
     GET_STRING(label)
-    PUSH_BOOL(ImGui::TreeNode(label.c_str()))
+    PUSH_BOOL(ImGui::TreeNodeEx(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 FEND()
 FBIND(ImGui, TreePop)
     ImGui::TreePop();

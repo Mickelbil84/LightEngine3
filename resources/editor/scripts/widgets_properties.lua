@@ -100,4 +100,12 @@ function show_property(property, tbl)
             ImGui.TreePop()
         end
     end
+    if property.type == "group" then 
+        if (ImGui.TreeNode(property.name)) then
+            for _, property_ in ipairs(property.properties) do
+                show_property(property_, tbl)
+            end
+            ImGui.TreePop()
+        end
+    end
 end

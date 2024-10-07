@@ -60,21 +60,29 @@ LE3Material.save = function(material)
 end
 LE3Material.title = "LE3Material"
 LE3Material.properties = {
+
     {name = "Name", type = "string"},
     {name = "ShaderName", type = "string"},
+    {name = "Tiling", type = "float2"},
 
-    {name = "DiffuseColor", type = "color4"},
-    {name = "DiffuseTexture", type = "string"},
+    {name = "Diffuse", type = "group", properties = {
+        {name = "DiffuseColor", type = "color4"},
+        {name = "DiffuseTexture", type = "string"},
+    }},
 
-    {name = "SpecularColor", type = "color"},
-    {name = "SpecularIntensity", type = "float"},
-    {name = "Shininess", type = "float"},
-    {name = "SpecularTexture", type = "string"},
+    {name = "Specular", type = "group", properties = {
+        {name = "SpecularColor", type = "color4"},
+        {name = "SpecularIntensity", type = "float"},
+        {name = "Shininess", type = "float"},
+        {name = "SpecularTexture", type = "string"},
+    }},
 
-    {name = "NormalTexture", type = "string"},
+    {name = "Normal", type = "group", properties = {
+        {name = "NormalTexture", type = "string"},
+    }},
 
-    {name = "Cubemap", type = "string"},
-    {name = "ReflectionIntensity", type = "float"},
-
-    {name = "Tiling", type = "float2"}
+    {name = "Reflections", type = "group", properties = {
+        {name = "Cubemap", type = "string"},
+        {name = "ReflectionIntensity", type = "float"},
+    }}
 }
