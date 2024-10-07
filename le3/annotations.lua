@@ -158,6 +158,11 @@ function LE3AssetManager.get_material(name) end
 ---@return LE3Shader
 function LE3AssetManager.get_shader(name) end
 
+---@param shader LE3Shader
+---@return string
+---@return string
+function LE3AssetManager.get_shader_paths(shader) end
+
 ---@param name string
 ---@return LE3SkeletalMesh
 function LE3AssetManager.get_skeletal_mesh(name) end
@@ -593,6 +598,14 @@ function LE3Scene.set_culling(self, culling) end
 ---@param scene LE3Scene
 ---@param camera string
 function LE3Scene.set_main_camera(scene, camera) end
+
+---@param self LE3Shader
+---@return string
+function LE3Shader.get_name(self) end
+
+---@param self LE3Shader
+---@param name string
+function LE3Shader.set_name(self, name) end
 
 ---@param self LE3SkeletalModel
 ---@return string

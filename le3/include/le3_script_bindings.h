@@ -42,6 +42,12 @@ namespace le3 {
         return std::dynamic_pointer_cast<T>(*object);
     }
 
+    template<typename T>
+    std::shared_ptr<T> getUserType_Asset(int idx) {
+        std::shared_ptr<T>* object = LE3GetScriptSystem().getUserType<std::shared_ptr<T>>(idx++);
+        return *object;
+    }
+
     /////////////////////
     // Binding macros
     /////////////////////
@@ -53,6 +59,7 @@ namespace le3 {
     #define GET_STRING(varname) std::string varname = LE3GetScriptSystem().getString(idx++);
     #define GET_UDATA(varname, type) type* varname = (type*)(LE3GetScriptSystem().getUserType<type>(idx++));
     #define GET_UDATA_OBJECT(varname, type) std::shared_ptr<type> varname = le3::getUserType_LE3Object<type>(idx++);
+    #define GET_UDATA_ASSET(varname, type) std::shared_ptr<type> varname = le3::getUserType_Asset<type>(idx++);
     #define GET_VEC3(varname) GET_NUMBER(x) GET_NUMBER(y) GET_NUMBER(z) glm::vec3 varname(x, y, z);
     #define GET_VEC3_(varname) GET_NUMBER(varname##x) GET_NUMBER(varname##y) GET_NUMBER(varname##z) glm::vec3 varname(varname##x, varname##y, varname##z);
     #define GET_VEC4(varname) GET_NUMBER(x) GET_NUMBER(y) GET_NUMBER(z) GET_NUMBER(w) glm::vec4 varname(x, y, z, w);
@@ -106,6 +113,8 @@ namespace le3 {
     
     #define FBIND_OBJECT_GETTER(type, foo, getter, push) FBIND_GETTER_RAW(type, foo, getter, push, GET_UDATA_OBJECT)
     #define FBIND_OBJECT_SETTER(type, foo, setter, get) FBIND_SETTER_RAW(type, foo, setter, get, GET_UDATA_OBJECT)
+    #define FBIND_ASSET_GETTER(type, foo, getter, push) FBIND_GETTER_RAW(type, foo, getter, push, GET_UDATA_ASSET)
+    #define FBIND_ASSET_SETTER(type, foo, setter, get) FBIND_SETTER_RAW(type, foo, setter, get, GET_UDATA_ASSET)
     
     #define FBIND_OBJECT_GETTER_NUMBER(type, foo, getter) FBIND_OBJECT_GETTER(type, foo, getter, PUSH_NUMBER)
     #define FBIND_OBJECT_SETTER_NUMBER(type, foo, setter) FBIND_OBJECT_SETTER(type, foo, setter, GET_NUMBER)
@@ -122,6 +131,8 @@ namespace le3 {
     
     #define FBIND_OBJECT_GETTER_STRING(type, foo, getter) FBIND_OBJECT_GETTER(type, foo, getter, PUSH_STRING)
     #define FBIND_OBJECT_SETTER_STRING(type, foo, setter) FBIND_OBJECT_SETTER(type, foo, setter, GET_STRING)
+    #define FBIND_ASSET_GETTER_STRING(type, foo, getter) FBIND_ASSET_GETTER(type, foo, getter, PUSH_STRING)
+    #define FBIND_ASSET_SETTER_STRING(type, foo, setter) FBIND_ASSET_SETTER(type, foo, setter, GET_STRING)
     #define FBIND_GETTER_STRING(type, foo, getter) FBIND_GETTER_RAW(type, foo, getter, PUSH_STRING, GET_UDATA)
     #define FBIND_SETTER_STRING(type, foo, setter) FBIND_SETTER_RAW(type, foo, setter, GET_STRING, GET_UDATA)
     

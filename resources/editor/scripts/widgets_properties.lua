@@ -25,7 +25,13 @@ function update_object_properties_panel(obj)
 end
 
 function update_shader_properties_panel(shader)
-    ImGui.CollapsingHeader("LE3Shader")
+    local tbl = LE3Shader.save(shader)
+    if (ImGui.CollapsingHeader(LE3Shader.title)) then
+        for _, property in ipairs(LE3Shader.properties) do
+            show_property(property, tbl)
+        end
+    end
+    LE3Shader.rebuild(shader, tbl)
 end
 
 function update_material_properties_panel(material)

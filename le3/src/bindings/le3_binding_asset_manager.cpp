@@ -14,6 +14,12 @@ FBIND(LE3AssetManager, get_shader)
     LE3ShaderPtr& shader = LE3GetAssetManager().getShader(name);
     PUSH_UDATA(&shader, LE3ShaderPtr)
 FEND()
+FBIND(LE3AssetManager, get_shader_paths) 
+    GET_UDATA(shader, LE3ShaderPtr)
+    std::pair<std::string, std::string> paths = LE3GetAssetManager().getShadersPaths()[(*shader)->getName()];
+    PUSH_STRING(paths.first)
+    PUSH_STRING(paths.second)
+FEND()
 
 FBIND(LE3AssetManager, add_texture)
     GET_STRING(name)
@@ -68,7 +74,7 @@ FBIND(LE3AssetManager, add_skeletal_animation)
 FEND()
 
 LIB(LE3AssetManager,
-    add_shader, get_shader,
+    add_shader, get_shader, get_shader_paths,
     add_texture, get_texture,
     add_material, get_material,
     add_static_mesh, get_static_mesh,
