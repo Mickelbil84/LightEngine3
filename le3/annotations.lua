@@ -82,9 +82,25 @@ function ImGui.CollapsingHeader(label) end
 function ImGui.ColorEdit3(label, prev_x, prev_y, prev_z) end
 
 ---@param label string
+---@param prev_x number
+---@param prev_y number
+---@param prev_z number
+---@param prev_w number
+---@return number
+---@return number
+---@return number
+---@return number
+function ImGui.ColorEdit4(label, prev_x, prev_y, prev_z, prev_w) end
+
+---@param label string
 ---@param prev number
 ---@return number
 function ImGui.InputFloat(label, prev) end
+
+---@param label string
+---@param prev vec2
+---@return vec2
+function ImGui.InputFloat2(label, prev) end
 
 ---@param label string
 ---@param prev_x number

@@ -34,6 +34,15 @@ FBIND(ImGui, ColorEdit3)
     PUSH_VEC3(result)
 FEND()
 
+FBIND(ImGui, ColorEdit4)
+    GET_STRING(label)
+    GET_VEC4(prev)
+    float vec4[4] = {prev.x, prev.y, prev.z, prev.w};
+    ImGui::ColorEdit4(label.c_str(), vec4);
+    glm::vec4 result(vec4[0], vec4[1], vec4[2], vec4[3]);
+    PUSH_VEC4(result)
+FEND()
+
 FBIND(ImGui, Checkbox)
     GET_STRING(label)
     GET_BOOL(prev)
@@ -58,6 +67,15 @@ FBIND(ImGui, InputFloat)
     PUSH_NUMBER(val)
 FEND()
 
+FBIND(ImGui, InputFloat2) 
+    GET_STRING(label)
+    GET_VEC2(prev)
+    float vec[2] = {prev.x, prev.y};
+    ImGui::InputFloat2(label.c_str(), vec);
+    glm::vec2 result(vec[0], vec[1]);
+    PUSH_VEC2(result)
+FEND()
+
 FBIND(ImGui, InputFloat3) 
     GET_STRING(label)
     GET_VEC3_(prev)
@@ -78,6 +96,6 @@ FEND()
 
 LIB(ImGui,
     CollapsingHeader, TreeNode, TreePop,
-    InputText, Checkbox, ColorEdit3,
-    InputInt, InputFloat, InputFloat3, InputFloat4
+    InputText, Checkbox, ColorEdit3, ColorEdit4,
+    InputInt, InputFloat, InputFloat2, InputFloat3, InputFloat4
 )

@@ -60,6 +60,7 @@ namespace le3 {
     #define GET_UDATA(varname, type) type* varname = (type*)(LE3GetScriptSystem().getUserType<type>(idx++));
     #define GET_UDATA_OBJECT(varname, type) std::shared_ptr<type> varname = le3::getUserType_LE3Object<type>(idx++);
     #define GET_UDATA_ASSET(varname, type) std::shared_ptr<type> varname = le3::getUserType_Asset<type>(idx++);
+    #define GET_VEC2(varname) GET_NUMBER(x) GET_NUMBER(y) glm::vec2 varname(x, y);
     #define GET_VEC3(varname) GET_NUMBER(x) GET_NUMBER(y) GET_NUMBER(z) glm::vec3 varname(x, y, z);
     #define GET_VEC3_(varname) GET_NUMBER(varname##x) GET_NUMBER(varname##y) GET_NUMBER(varname##z) glm::vec3 varname(varname##x, varname##y, varname##z);
     #define GET_VEC4(varname) GET_NUMBER(x) GET_NUMBER(y) GET_NUMBER(z) GET_NUMBER(w) glm::vec4 varname(x, y, z, w);
@@ -71,6 +72,7 @@ namespace le3 {
     #define PUSH_NUMBER(n) LE3GetScriptSystem().pushNumber((n)); rcount++;
     #define PUSH_STRING(s) LE3GetScriptSystem().pushString((s)); rcount++;
     #define PUSH_UDATA(udata, type) LE3GetScriptSystem().pushUserType<type>(udata); rcount++;
+    #define PUSH_VEC2(v) PUSH_NUMBER((v).x) PUSH_NUMBER((v).y)
     #define PUSH_VEC3(v) PUSH_NUMBER((v).x) PUSH_NUMBER((v).y) PUSH_NUMBER((v).z)
     #define PUSH_VEC4(v) PUSH_NUMBER((v).x) PUSH_NUMBER((v).y) PUSH_NUMBER((v).z) PUSH_NUMBER((v).w)
     #define PUSH_QUAT(v) PUSH_NUMBER((v).w) PUSH_NUMBER((v).x) PUSH_NUMBER((v).y) PUSH_NUMBER((v).z) 

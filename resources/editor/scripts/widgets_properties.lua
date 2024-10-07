@@ -24,18 +24,22 @@ function update_object_properties_panel(obj)
     _G[ttype].rebuild(obj, tbl)
 end
 
-function update_shader_properties_panel(shader)
-    local tbl = LE3Shader.save(shader)
-    if (ImGui.CollapsingHeader(LE3Shader.title)) then
-        for _, property in ipairs(LE3Shader.properties) do
+function update_asset_properties_panel(ptr, type)
+    local tbl = type.save(ptr)
+    if (ImGui.CollapsingHeader(type.title)) then 
+        for _, property in ipairs(type.properties) do
             show_property(property, tbl)
         end
     end
-    LE3Shader.rebuild(shader, tbl)
+    type.rebuild(ptr, tbl)
+end
+
+function update_shader_properties_panel(shader)
+    update_asset_properties_panel(shader, LE3Shader)
 end
 
 function update_material_properties_panel(material)
-    ImGui.CollapsingHeader("LE3Material")
+    update_asset_properties_panel(material, LE3Material)
 end
 
 function update_texture_properties_panel(texture)
@@ -68,6 +72,10 @@ function show_property(property, tbl)
         local value = tbl[property.name]
         tbl[property.name]  = ImGui.InputFloat(property.name, value)
     end
+    if property.type == "float2" then
+        local value = tbl[property.name]
+        tbl[property.name]  = table.pack(ImGui.InputFloat2(property.name, table.unpack(value)))
+    end
     if property.type == "float3" then
         local value = tbl[property.name]
         tbl[property.name]  = table.pack(ImGui.InputFloat3(property.name, table.unpack(value)))
@@ -79,6 +87,10 @@ function show_property(property, tbl)
     if property.type == "color" then
         local value = tbl[property.name]
         tbl[property.name]  = table.pack(ImGui.ColorEdit3(property.name, table.unpack(value)))
+    end
+    if property.type == "color4" then 
+        local value = tbl[property.name]
+        tbl[property.name]  = table.pack(ImGui.ColorEdit4(property.name, table.unpack(value)))
     end
     if property.type == "transform" then
         if (ImGui.TreeNode(property.name)) then
