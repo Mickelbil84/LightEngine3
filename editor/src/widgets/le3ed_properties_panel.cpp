@@ -10,7 +10,7 @@ void LE3EditorPropertiesPanel::init() {
     LE3GetScriptSystem().doFile("/editor/scripts/widgets_properties.lua");
 }
 void LE3EditorPropertiesPanel::update() {
-    LE3ObjectPtr obj = LE3GetEditorManager().getSelectedObject().lock();
+    LE3ObjectPtr obj = LE3GetEditorManager().getSelection().pObject.lock();
     if (!obj) return;
 
     LE3GetScriptSystem().getGlobal("update_properties_panel");

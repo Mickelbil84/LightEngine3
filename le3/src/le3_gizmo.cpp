@@ -78,7 +78,7 @@ void LE3Gizmo::update(float deltaTime) {
     glm::vec3 cursorRaw = LE3GetActiveScene()->getCursorLocation();
     if (cursorRaw.z < 0) {
         // When updaing position outside of scene view, update gizmo position
-        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelectedObject().lock()) {
+        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock()) {
             m_transform.setPosition(pObject->getWorldPosition());
         }
         LE3DrawableObject::update(deltaTime);
@@ -125,7 +125,7 @@ void LE3Gizmo::update(float deltaTime) {
         m_transform.setPosition(m_transform.getPosition() + projection);
 
         // Update the selected object
-        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelectedObject().lock()) {
+        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock()) {
             // glm::vec3 delta = m_transform.getPosition() - m_dragStartPos;
             // pObject->getTransform().setPosition(pObject->getTransform().getPosition() + projection);
 
@@ -139,7 +139,7 @@ void LE3Gizmo::update(float deltaTime) {
         m_dragStartPos = m_transform.getPosition();
     }
     else if (LE3GetEditorManager().isMouseDown()) { // If we click to select
-        LE3GetEditorManager().setSelectedObject();
+        LE3GetEditorManager().getSelection().selectObject(LE3GetEditorManager().getHoveredObject());
     }
     
     LE3DrawableObject::update(deltaTime);
@@ -147,7 +147,7 @@ void LE3Gizmo::update(float deltaTime) {
 
 void LE3Gizmo::postUpdate() {
     if (m_hoveredCnt == 0) m_hoveredAxis = LE3_GIZMO_AXIS_NONE;
-    if (!LE3GetEditorManager().getSelectedObject().lock()) {
+    if (!LE3GetEditorManager().getSelection().pObject.lock()) {
         setHidden(true);
         return;
     }
