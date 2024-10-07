@@ -37,6 +37,10 @@ namespace le3 {
         // Read write methods
         template<class T> inline void writeBuffer(T out) { std::copy(data.begin(), data.end(), out); }
         template<class T> inline void readBuffer(T first, T last) { std::copy(first, last, std::back_inserter(data)); }
+        // template<class T> inline void readBuffer(T first, T last) {
+        //     data.reserve(data.size() + std::distance(first, last));
+        //     data.insert(data.end(), first, last);
+        // }
         inline void appendBuffer(LE3DatBuffer other) { readBuffer(other.data.begin(), other.data.end()); }
         inline void fromString(std::string strData) { data.clear(); readBuffer(strData.begin(), strData.end()); }
         inline std::string toString() { std::string res; writeBuffer(std::back_inserter(res)); return res; }
