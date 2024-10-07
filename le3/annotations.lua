@@ -191,6 +191,10 @@ function LE3AssetManager.get_static_mesh(name) end
 ---@return LE3Texture
 function LE3AssetManager.get_texture(name) end
 
+---@param name string
+---@return boolean
+function LE3AssetManager.has_texture(name) end
+
 ---@param self LE3Box
 ---@return number
 ---@return number
@@ -352,12 +356,20 @@ function LE3Material.get_diffuse_color(material) end
 function LE3Material.get_diffuse_texture(material) end
 
 ---@param material LE3Material
+---@return string
+function LE3Material.get_name(material) end
+
+---@param material LE3Material
 ---@return LE3Texture
 function LE3Material.get_normal_texture(material) end
 
 ---@param material LE3Material
 ---@return number
 function LE3Material.get_reflection_intensity(material) end
+
+---@param material LE3Material
+---@return LE3Shader
+function LE3Material.get_shader(material) end
 
 ---@param material LE3Material
 ---@return number
@@ -381,6 +393,18 @@ function LE3Material.get_specular_texture(material) end
 ---@return number
 ---@return number
 function LE3Material.get_tiling(material) end
+
+---@param material LE3Material
+function LE3Material.null_cubemap(material) end
+
+---@param material LE3Material
+function LE3Material.null_diffuse_texture(material) end
+
+---@param material LE3Material
+function LE3Material.null_normal_texture(material) end
+
+---@param material LE3Material
+function LE3Material.null_specular_texture(material) end
 
 ---@param material LE3Material
 ---@param texture LE3Texture
@@ -678,6 +702,13 @@ function LE3StaticModel.set_material_name(self, material_name) end
 ---@param self LE3StaticModel
 ---@param mesh_name string
 function LE3StaticModel.set_mesh_name(self, mesh_name) end
+
+---@param texture LE3Texture
+function LE3Texture.get_name(texture) end
+
+---@param self LE3Texture
+---@param name string
+function LE3Texture.set_name(self, name) end
 
 ---@param self LE3Transform
 ---@return number

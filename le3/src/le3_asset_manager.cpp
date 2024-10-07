@@ -47,11 +47,13 @@ void LE3AssetManager::addMaterial(std::string name, std::string shaderName) {
     if (m_pMaterials.contains(name)) throw std::runtime_error(fmt::format("Material [{}] already exists", name));
     if (!m_pShaders.contains(shaderName)) throw std::runtime_error(fmt::format("Cannot create material [{}]: shader [{}] does not exist", name, shaderName));
     m_pMaterials[name] = std::make_shared<LE3Material>(m_pShaders[shaderName]);
+    m_pMaterials[name]->name = name;
 }
 
 void LE3AssetManager::addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate) {
     if (m_pTextures.contains(name)) throw std::runtime_error(fmt::format("Texture [{}] already exists", name));
     m_pTextures[name] = std::make_shared<LE3Texture>(data, width, height, nChannels, interpolate);
+    m_pTextures[name]->setName(name);
 }
 
 void LE3AssetManager::addTexture(std::string name, std::string filename, bool interpolate) {

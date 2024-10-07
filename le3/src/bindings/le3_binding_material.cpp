@@ -19,6 +19,11 @@ FBIND(LE3Material, set_diffuse_texture)
     (*material)->diffuseTexture = *texture;
     (*material)->bUseDiffuseTexture = (texture != nullptr);
 FEND()
+FBIND(LE3Material, null_diffuse_texture)
+    GET_UDATA(material, LE3MaterialPtr)
+    (*material)->diffuseTexture = nullptr;
+    (*material)->bUseDiffuseTexture = false;
+FEND()
 FBIND(LE3Material, get_diffuse_texture)
     GET_UDATA(material, LE3MaterialPtr)
     PUSH_UDATA(&((*material)->diffuseTexture), LE3TexturePtr)
@@ -65,6 +70,11 @@ FBIND(LE3Material, get_specular_texture)
     GET_UDATA(material, LE3MaterialPtr)
     PUSH_UDATA(&((*material)->specularTexture), LE3TexturePtr)
 FEND()
+FBIND(LE3Material, null_specular_texture)
+    GET_UDATA(material, LE3MaterialPtr)
+    (*material)->specularTexture = nullptr;
+    (*material)->bUseSpecularTexture = false;
+FEND()
 
 FBIND(LE3Material, set_normal_texture)
     GET_UDATA(material, LE3MaterialPtr)
@@ -76,6 +86,11 @@ FBIND(LE3Material, get_normal_texture)
     GET_UDATA(material, LE3MaterialPtr)
     PUSH_UDATA(&((*material)->normalTexture), LE3TexturePtr)
 FEND()
+FBIND(LE3Material, null_normal_texture)
+    GET_UDATA(material, LE3MaterialPtr)
+    (*material)->normalTexture = nullptr;
+    (*material)->bUseNormalTexture = false;
+FEND()
 
 FBIND(LE3Material, set_cubemap)
     GET_UDATA(material, LE3MaterialPtr)
@@ -85,6 +100,10 @@ FEND()
 FBIND(LE3Material, get_cubemap)
     GET_UDATA(material, LE3MaterialPtr)
     PUSH_UDATA(&((*material)->cubemap), LE3TexturePtr)
+FEND()
+FBIND(LE3Material, null_cubemap)
+    GET_UDATA(material, LE3MaterialPtr)
+    (*material)->cubemap = nullptr;
 FEND()
 
 FBIND(LE3Material, set_reflection_intensity)
@@ -109,15 +128,26 @@ FBIND(LE3Material, get_tiling)
     PUSH_NUMBER((*material)->tilingY)
 FEND()
 
+FBIND(LE3Material, get_name)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_STRING((*material)->name)
+FEND()
+
+FBIND(LE3Material, get_shader)
+    GET_UDATA(material, LE3MaterialPtr)
+    PUSH_UDATA(&((*material)->shader), LE3ShaderPtr)
+FEND()
+
 LIB(LE3Material,
+    get_name, get_shader,
     set_diffuse_color, get_diffuse_color,
-    set_diffuse_texture, get_diffuse_texture,
+    set_diffuse_texture, get_diffuse_texture, null_diffuse_texture,
     set_specular_color, get_specular_color,
     set_specular_intensity, get_specular_intensity,
     set_shininess, get_shininess,
-    set_specular_texture, get_specular_texture,
-    set_normal_texture, get_normal_texture,
-    set_cubemap, get_cubemap,
+    set_specular_texture, get_specular_texture, null_specular_texture,
+    set_normal_texture, get_normal_texture, null_normal_texture,
+    set_cubemap, get_cubemap, null_cubemap,
     set_reflection_intensity, get_reflection_intensity,
     set_tiling, get_tiling
 )

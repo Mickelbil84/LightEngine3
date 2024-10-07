@@ -27,6 +27,7 @@ namespace le3 {
         // Members
         ///////////////
         LE3ShaderPtr shader;
+        std::string name;
 
         // Diffuse
         glm::vec4 diffuseColor = glm::vec4(.8f, .8f, .8f, 1.f);

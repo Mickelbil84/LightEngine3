@@ -39,6 +39,7 @@ namespace le3 {
         void addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate = true);
         void addTexture(std::string name, std::string filename, bool interpolate = true);
         inline LE3TexturePtr& getTexture(std::string name) { return m_pTextures[name]; }
+        bool hasTexture(std::string name) { return m_pTextures.contains(name); }
 
         // Meshes
         void addStaticMesh(std::string name, std::string filename, bool keepData = false);

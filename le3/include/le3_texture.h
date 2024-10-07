@@ -13,8 +13,13 @@ namespace le3 {
 
         inline uint32_t getTextureID() const { return m_texture; }
 
+        inline std::string getName() const { return m_name; }
+        inline void setName(std::string name) { m_name = name; }
+
+
     protected:
         uint32_t m_texture = -1;
+        std::string m_name;
     };
     using LE3TexturePtr = std::shared_ptr<LE3Texture>;
 }
