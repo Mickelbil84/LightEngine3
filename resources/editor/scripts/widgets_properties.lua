@@ -1,4 +1,4 @@
-function update_properties_panel(obj)
+function update_object_properties_panel(obj)
     local ttype = LE3Object.get_object_type(obj)
     if _G[ttype] == nil then return end
     local tbl = _G[ttype].save(obj)
@@ -23,6 +23,27 @@ function update_properties_panel(obj)
 
     _G[ttype].rebuild(obj, tbl)
 end
+
+function update_shader_properties_panel(shader)
+    ImGui.CollapsingHeader("LE3Shader")
+end
+
+function update_material_properties_panel(material)
+    ImGui.CollapsingHeader("LE3Material")
+end
+
+function update_texture_properties_panel(texture)
+    ImGui.CollapsingHeader("LE3Texture")
+end
+
+function update_static_mesh_properties_panel(static_mesh)
+    ImGui.CollapsingHeader("LE3StaticMesh")
+end
+
+function update_skeletal_mesh_properties_panel(skeletal_mesh)
+    ImGui.CollapsingHeader("LE3SkeletalMesh")
+end
+
 
 function show_property(property, tbl)
     if property.type == "string" then

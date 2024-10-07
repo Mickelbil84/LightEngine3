@@ -11,8 +11,8 @@ void LE3EditorSelection::reset() {
     pShader = nullptr;
     pMaterial = nullptr;
     pTexture = nullptr;
-    pStaticModel = nullptr;
-    pSkeletalModel = nullptr;
+    pStaticMesh = nullptr;
+    pSkeletalMesh = nullptr;
 }
 
 void LE3EditorSelection::deselect() {
@@ -42,15 +42,15 @@ void LE3EditorSelection::selectAsset(LE3TexturePtr pTexture) {
     this->pTexture = pTexture;
     this->onSelect(*this);
 }
-void LE3EditorSelection::selectAsset(LE3StaticModelPtr pStaticModel) {
+void LE3EditorSelection::selectAsset(LE3StaticMeshPtr pStaticMesh) {
     reset();
-    type = LE3SelectionType::LE3_SELECTION_ASSET_MODEL;
-    this->pStaticModel = pStaticModel;
+    type = LE3SelectionType::LE3_SELECTION_ASSET_MESH;
+    this->pStaticMesh = pStaticMesh;
     this->onSelect(*this);
 }
-void LE3EditorSelection::selectAsset(LE3SkeletalModelPtr pSkeletalModel) {
+void LE3EditorSelection::selectAsset(LE3SkeletalMeshPtr pSkeletalMesh) {
     reset();
-    type = LE3SelectionType::LE3_SELECTION_ASSET_MODEL;
-    this->pSkeletalModel = pSkeletalModel;
+    type = LE3SelectionType::LE3_SELECTION_ASSET_MESH;
+    this->pSkeletalMesh = pSkeletalMesh;
     this->onSelect(*this);
 }

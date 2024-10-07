@@ -58,11 +58,13 @@ void LE3EditorTabAssets::updateShaders() {
 
         for (auto& [name, paths] : shadersPaths) {
             if (!m_bShowEngineAssets && isEngineAsset(name, paths.first)) continue;
+            bool selected = LE3GetEditorManager().getSelection().pShader == LE3GetAssetManager().getShader(name);
+
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
-            ImGui::Selectable(name.c_str());
+            ImGui::Selectable(name.c_str(), selected, ImGuiSelectableFlags_SpanAllColumns);
             if (ImGui::IsItemClicked()) {
-                // ...
+                LE3GetEditorManager().getSelection().selectAsset(LE3GetAssetManager().getShader(name));
             }
             ImGui::TableNextColumn();
             ImGui::Text("%s", paths.first.c_str());
@@ -92,11 +94,12 @@ void LE3EditorTabAssets::updateMaterials() {
 
         for (auto& [name, material] : materials) {
             if (!m_bShowEngineAssets && isEngineAsset(name, "")) continue;
+            bool selected = LE3GetEditorManager().getSelection().pMaterial == material;
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
-            ImGui::Selectable(name.c_str());
+            ImGui::Selectable(name.c_str(), selected, ImGuiSelectableFlags_SpanAllColumns);
             if (ImGui::IsItemClicked()) {
-                // ...
+                LE3GetEditorManager().getSelection().selectAsset(material);
             }
             ImGui::TableNextColumn();
             ImGui::Text("%s", material->shader->getName().c_str());
@@ -124,11 +127,12 @@ void LE3EditorTabAssets::updateTextures() {
 
         for (auto& [name, path] : texturesPaths) {
             if (!m_bShowEngineAssets && isEngineAsset(name, path)) continue;
+            bool selected = LE3GetEditorManager().getSelection().pTexture == LE3GetAssetManager().getTexture(name);
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
-            ImGui::Selectable(name.c_str());
+            ImGui::Selectable(name.c_str(), selected, ImGuiSelectableFlags_SpanAllColumns);
             if (ImGui::IsItemClicked()) {
-                // ...
+                LE3GetEditorManager().getSelection().selectAsset(LE3GetAssetManager().getTexture(name));
             }
             ImGui::TableNextColumn();
             ImGui::Text("%s", path.c_str());
@@ -157,15 +161,26 @@ void LE3EditorTabAssets::updateMeshes() {
 
         for (auto& [name, path] : meshesPaths) {
             if (!m_bShowEngineAssets && isEngineAsset(name, path)) continue;
+            bool isSkeletal = LE3GetAssetManager().isSkeletalMesh(name);
+            bool selected = 
+                !isSkeletal && (LE3GetEditorManager().getSelection().pStaticMesh == LE3GetAssetManager().getStaticMesh(name)) ||
+                isSkeletal && (LE3GetEditorManager().getSelection().pSkeletalMesh == LE3GetAssetManager().getSkeletalMesh(name));
+
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
-            ImGui::Selectable(name.c_str());
+            ImGui::Selectable(name.c_str(), selected, ImGuiSelectableFlags_SpanAllColumns);
+
             if (ImGui::IsItemClicked()) {
-                // ...
+                if (isSkeletal) {
+                    LE3GetEditorManager().getSelection().selectAsset(LE3GetAssetManager().getSkeletalMesh(name));
+                }
+                else {
+                    LE3GetEditorManager().getSelection().selectAsset(LE3GetAssetManager().getStaticMesh(name));
+                }
             }
 
             ImGui::TableNextColumn();
-            if (LE3GetAssetManager().isSkeletalMesh(name)) {
+            if (isSkeletal) {
                 ImGui::Image(
                     reinterpret_cast<void*>(
                         LE3GetAssetManager().getTexture("icon_tick")->getTextureID()

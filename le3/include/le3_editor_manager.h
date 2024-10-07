@@ -11,7 +11,7 @@ namespace le3 {
             LE3_SELECTION_ASSET_SHADER,
             LE3_SELECTION_ASSET_MATERIAL,
             LE3_SELECTION_ASSET_TEXTURE,
-            LE3_SELECTION_ASSET_MODEL,
+            LE3_SELECTION_ASSET_MESH,
         };
 
         LE3SelectionType type;
@@ -19,8 +19,8 @@ namespace le3 {
         LE3ShaderPtr pShader;
         LE3MaterialPtr pMaterial;
         LE3TexturePtr pTexture;
-        LE3StaticModelPtr pStaticModel;
-        LE3SkeletalModelPtr pSkeletalModel;
+        LE3StaticMeshPtr pStaticMesh;
+        LE3SkeletalMeshPtr pSkeletalMesh;
 
         LE3EditorSelection();
         void reset();
@@ -30,8 +30,8 @@ namespace le3 {
         void selectAsset(LE3ShaderPtr pShader);
         void selectAsset(LE3MaterialPtr pMaterial);
         void selectAsset(LE3TexturePtr pTexture);
-        void selectAsset(LE3StaticModelPtr pStaticModel);
-        void selectAsset(LE3SkeletalModelPtr pSkeletalModel);
+        void selectAsset(LE3StaticMeshPtr pStaticMesh);
+        void selectAsset(LE3SkeletalMeshPtr pSkeletalMesh);
 
         // On select callback
         std::function<void(LE3EditorSelection&)> onSelect;
