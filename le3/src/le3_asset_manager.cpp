@@ -22,6 +22,7 @@ void LE3AssetManager::init() {
     m_gizmoArrow = createGizmoArrow();
     m_gizmoScaleArrow = createGizmoScaleArrow();
     m_gizmoCircle = createGizmoCircle();
+    m_gizmoPlane = createGizmoPlane();
     m_gizmoCenter = createGizmoCenter();
 
     addShaderFromFile(DEFAULT_POSTPROCESS_SHADER, "/engine/shaders/postprocess/ppvert.vs", "/engine/shaders/postprocess/ppbasic.fs");

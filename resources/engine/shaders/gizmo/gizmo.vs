@@ -24,11 +24,19 @@ mat4 getGizmoAxisRot() {
             0, 0, 0, 1
         );
     }
-    if (gizmoAxis == 2) {
+    if (gizmoAxis == 2 || gizmoAxis == 6) {
         return mat4(
             1, 0, 0, 0,
             0, 0, 1, 0,
             0, 1, 0, 0,
+            0, 0, 0, 1
+        );
+    }
+    if (gizmoAxis == 7) {
+        return mat4(
+            0, 0, 1, 0,
+            0, 1, 0, 0,
+            1, 0, 0, 0,
             0, 0, 0, 1
         );
     }
@@ -37,9 +45,9 @@ mat4 getGizmoAxisRot() {
 
 vec3 getGizmoColor() {
     if (gizmoAxis == hoveredAxis) return vec3(1, 1, 0);
-    if (gizmoAxis == 0) return vec3(1, 0, 0);
-    if (gizmoAxis == 1) return vec3(0, 1, 0);
-    if (gizmoAxis == 2) return vec3(0, 0, 1);
+    if (gizmoAxis == 0 || gizmoAxis == 7) return vec3(1, 0, 0);
+    if (gizmoAxis == 1 || gizmoAxis == 6) return vec3(0, 1, 0);
+    if (gizmoAxis == 2 || gizmoAxis == 5) return vec3(0, 0, 1);
     return vec3(0.8);
 }
 

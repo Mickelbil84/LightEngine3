@@ -10,6 +10,9 @@ namespace le3 {
         LE3_GIZMO_AXIS_Z = 2,
         LE3_GIZMO_AXIS_ALL = 3,
         LE3_GIZMO_AXIS_NONE = 4,
+        LE3_GIZMO_AXIS_XY = 5, // blue, default [mesh]
+        LE3_GIZMO_AXIS_XZ = 6,  // green
+        LE3_GIZMO_AXIS_YZ = 7, // red
     };
     enum LE3GizmoState {
         LE3_GIZMO_STATE_DISABLED = 0,
