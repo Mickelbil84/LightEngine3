@@ -15,6 +15,7 @@ namespace le3 {
         std::string iconName;
         std::vector<std::string> hotkey;
         std::function<void()> onClick = 0;
+        std::function<bool()> isToggled = 0;
 
         bool separator = false; // If true, ignore all other fields
     };

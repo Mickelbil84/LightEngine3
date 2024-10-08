@@ -62,6 +62,11 @@ namespace le3 {
         uint16_t m_stackTop = 0;
     };
 
+    struct LE3EditorSnap {
+        bool enabled = false;
+        float snapTranslation = 0.5f, snapRotation = 5.f, snapScale = 0.1f;
+    };
+
     class LE3EditorManager {
     public:
         LE3EditorManager() {
@@ -94,6 +99,8 @@ namespace le3 {
         void registerGizmo(LE3GizmoPtr pGizmo) { m_pGizmo = pGizmo; }
         LE3GizmoPtr& getGizmo() { return m_pGizmo; }
 
+        LE3EditorSnap& getSnap() { return m_snap; }
+
     private:
         bool m_bMouseDown = false;
         bool m_bActiveEdit = false, m_bEditBlocked = false;
@@ -102,6 +109,7 @@ namespace le3 {
         LE3ObjectWeakPtr m_pHoveredObject;
         LE3GizmoPtr m_pGizmo;
         LE3EditorSelection m_selection;
+        LE3EditorSnap m_snap;
 
         LE3EditorCommandStack m_commandStack;
 
