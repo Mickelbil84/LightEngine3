@@ -16,10 +16,18 @@ void LE3EditorToolbar::init() {
         LE3GetEditorManager().getCommandStack().redo();
     }));
     m_buttons.push_back(LE3EditorToolbarButton());
-    m_buttons.push_back(LE3EditorToolbarButton("Select", "icon_gizmo_select"));
-    m_buttons.push_back(LE3EditorToolbarButton("Move", "icon_gizmo_move"));
-    m_buttons.push_back(LE3EditorToolbarButton("Rotate", "icon_gizmo_rotate"));
-    m_buttons.push_back(LE3EditorToolbarButton("Scale", "icon_gizmo_scale"));
+    m_buttons.push_back(LE3EditorToolbarButton("Select", "icon_gizmo_select", []() {
+        LE3GetEditorManager().getGizmo()->setMode(LE3_GIZMO_MODE_SELECT);
+    }));
+    m_buttons.push_back(LE3EditorToolbarButton("Move", "icon_gizmo_move", []() {
+        LE3GetEditorManager().getGizmo()->setMode(LE3_GIZMO_MODE_TRANSLATE);
+    }));
+    m_buttons.push_back(LE3EditorToolbarButton("Rotate", "icon_gizmo_rotate", []() {
+        LE3GetEditorManager().getGizmo()->setMode(LE3_GIZMO_MODE_ROTATE);
+    }));
+    m_buttons.push_back(LE3EditorToolbarButton("Scale", "icon_gizmo_scale", []() {
+        LE3GetEditorManager().getGizmo()->setMode(LE3_GIZMO_MODE_SCALE);
+    }));
     m_buttons.push_back(LE3EditorToolbarButton());
     m_buttons.push_back(LE3EditorToolbarButton("Collision", "icon_collision"));
     m_buttons.push_back(LE3EditorToolbarButton("BulletCollision", "icon_bulletcollision"));

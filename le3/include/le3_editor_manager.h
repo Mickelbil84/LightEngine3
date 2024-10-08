@@ -93,6 +93,7 @@ namespace le3 {
         void setSelectedFile(std::string path) { m_selectedFile = path; }
 
         void registerGizmo(LE3GizmoPtr pGizmo) { m_pGizmo = pGizmo; }
+        LE3GizmoPtr& getGizmo() { return m_pGizmo; }
 
     private:
         bool m_bMouseDown = false;

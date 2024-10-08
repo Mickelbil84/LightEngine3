@@ -58,7 +58,8 @@ LE3ScreenRectPtr le3::createScreenRect() {
     return std::make_shared<LE3Mesh<LE3Vertex3p>>(vertices);
 }
 
-LE3MeshPtr<LE3Vertex> le3::createBox(float x0, float y0, float z0, float width, float height, float depth) {
+
+std::vector<LE3Vertex> le3::_createBoxBuffer(float x0, float y0, float z0, float width, float height, float depth) {
     float hw = .5f * width;
     float hh = .5f * height;
     float hd = .5f * depth;
@@ -142,6 +143,11 @@ LE3MeshPtr<LE3Vertex> le3::createBox(float x0, float y0, float z0, float width, 
     buffer.push_back(vertexFromGLM(v3, t3 * m3, n6));
     buffer.push_back(vertexFromGLM(v7, t4 * m3, n6));
 
+    return buffer;
+}
+
+LE3MeshPtr<LE3Vertex> le3::createBox(float x0, float y0, float z0, float width, float height, float depth) {
+    std::vector<LE3Vertex> buffer = _createBoxBuffer(x0, y0, z0, width, height, depth);
     return std::make_shared<LE3Mesh<LE3Vertex>>(buffer);
 }
 
@@ -247,6 +253,14 @@ LE3MeshPtr<LE3Vertex> le3::createGizmoArrow() {
     std::vector<LE3Vertex> buffer = le3::_createCylinderBuffer(0.f, 0.f, 0.f, 0.015f, 0.5f, 8, true);
     std::vector<LE3Vertex> cone = le3::_createConeBuffer(0.f, 0.5f, 0.f, 0.035f, 0.065f, 8, true);
     std::copy(cone.begin(), cone.end(), std::back_inserter(buffer));
+    return std::make_shared<LE3StaticMesh>(buffer);
+}
+
+LE3MeshPtr<LE3Vertex> le3::createGizmoScaleArrow() {
+    // TODO: Make constants in engine config
+    std::vector<LE3Vertex> buffer = le3::_createCylinderBuffer(0.f, 0.f, 0.f, 0.015f, 0.5f, 8, true);
+    std::vector<LE3Vertex> box = le3::_createBoxBuffer(0.f, 0.5f, 0.f, 0.04f, 0.04f, 0.04f);
+    std::copy(box.begin(), box.end(), std::back_inserter(buffer));
     return std::make_shared<LE3StaticMesh>(buffer);
 }
 

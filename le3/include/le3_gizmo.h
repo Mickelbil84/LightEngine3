@@ -11,6 +11,18 @@ namespace le3 {
         LE3_GIZMO_AXIS_ALL = 3,
         LE3_GIZMO_AXIS_NONE = 4,
     };
+    enum LE3GizmoState {
+        LE3_GIZMO_DISABLED = 0,
+        LE3_GIZMO_IDLE = 1,
+        LE3_GIZMO_DRAGGING = 2,
+        LE3_GIZMO_RELEASE = 3,
+    };
+    enum LE3GizmoMode {
+        LE3_GIZMO_MODE_SELECT = 0,
+        LE3_GIZMO_MODE_TRANSLATE = 1,
+        LE3_GIZMO_MODE_ROTATE = 2,
+        LE3_GIZMO_MODE_SCALE = 3,
+    };
 
     class LE3Gizmo : public LE3DrawableObject {
     public:
@@ -27,8 +39,19 @@ namespace le3 {
 
         void onObjectSelected(LE3ObjectWeakPtr pObject);
 
+        void setMode(LE3GizmoMode mode) { m_mode = mode; }
+
     private:
+
+        void drawModeSelect(LE3ShaderPtr shaderOverride);
+        void drawModeTranslate(LE3ShaderPtr shaderOverride);
+        void drawModeRotate(LE3ShaderPtr shaderOverride);
+        void drawModeScale(LE3ShaderPtr shaderOverride);
+
+        LE3GizmoMode m_mode;
+        LE3GizmoState m_state;
         LE3GizmoAxis m_hoveredAxis;
+        
         int m_hoveredCnt;
         bool m_bIsHoverable = true, m_bIsDynamicScale = true;
         

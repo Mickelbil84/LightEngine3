@@ -20,6 +20,7 @@ void LE3AssetManager::init() {
     m_debugCone = createDebugCone();
 
     m_gizmoArrow = createGizmoArrow();
+    m_gizmoScaleArrow = createGizmoScaleArrow();
     m_gizmoCenter = createGizmoCenter();
 
     addShaderFromFile(DEFAULT_POSTPROCESS_SHADER, "/engine/shaders/postprocess/ppvert.vs", "/engine/shaders/postprocess/ppbasic.fs");

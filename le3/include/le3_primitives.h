@@ -13,6 +13,7 @@ namespace le3 {
     LE3MeshPtr<LE3Vertex> createCone(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps = true);
     
     LE3MeshPtr<LE3Vertex> createGizmoArrow();
+    LE3MeshPtr<LE3Vertex> createGizmoScaleArrow();
     LE3MeshPtr<LE3Vertex> createGizmoCenter();
 
     LE3MeshPtr<LE3Vertex3p> createDebugLine();
@@ -21,6 +22,7 @@ namespace le3 {
     LE3MeshPtr<LE3Vertex3p> createDebugCone();
 
 
+    std::vector<LE3Vertex> _createBoxBuffer(float x0, float y0, float z0, float width, float height, float depth);
     std::vector<LE3Vertex> _createCylinderBuffer(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps);
     std::vector<LE3Vertex> _createConeBuffer(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps);
 

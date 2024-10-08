@@ -42,25 +42,26 @@ void LE3Gizmo::draw(LE3ShaderPtr shaderOverride) {
     m_pMaterial->apply();
     m_pMaterial->shader->uniform("hoveredAxis", (unsigned int)m_hoveredAxis);
 
-    // glDisable(GL_DEPTH_TEST);
     glClear(GL_DEPTH_BUFFER_BIT); // since we draw at UI level, clearing the depth bit should be fine
     glDisable(GL_CULL_FACE);
-    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_X);
-    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_X));
-    LE3GetAssetManager().getGizmoArrowMesh()->draw();
 
-    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_Y);
-    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_Y));
-    LE3GetAssetManager().getGizmoArrowMesh()->draw();
-
-    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_Z);
-    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_Z));
-    LE3GetAssetManager().getGizmoArrowMesh()->draw();
-
-    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_ALL);
-    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_ALL));
-    LE3GetAssetManager().getGizmoCenterMesh()->draw();
-    // glEnable(GL_DEPTH_TEST);
+    switch (m_mode)
+    {
+    case LE3_GIZMO_MODE_SELECT:
+        drawModeSelect(shaderOverride);
+        break;
+    case LE3_GIZMO_MODE_TRANSLATE:
+        drawModeTranslate(shaderOverride);
+        break;
+    case LE3_GIZMO_MODE_ROTATE:
+        drawModeRotate(shaderOverride);
+        break;
+    case LE3_GIZMO_MODE_SCALE: 
+        drawModeScale(shaderOverride);
+        break;
+    default:
+        break;
+    }
 } 
 
 glm::mat4 LE3Gizmo::gizmoTransform(LE3GizmoAxis gizmoAxis) {
@@ -229,4 +230,53 @@ void LE3Gizmo::onObjectSelected(LE3ObjectWeakPtr wpObject) {
     m_selectGizmoInitialTransform = getWorldMatrix();
     m_selectObjectInitialTransform = pObject->getTransform().getTransformMatrix();
     m_pSelectedObject = pObject;
+}
+
+
+// --------------------------------------------------------------------------------------------
+
+void LE3Gizmo::drawModeSelect(LE3ShaderPtr shaderOverride) {
+    float scaleFactor = 0.33f; // TODO: Move to constants
+    glm::mat4 transform = scaleFactor * gizmoTransform(LE3_GIZMO_AXIS_ALL);
+    transform[3] *= 1 / scaleFactor;
+
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_ALL);
+    m_pMaterial->shader->uniform("gizmoTransform", transform);
+    LE3GetAssetManager().getGizmoCenterMesh()->draw();
+}
+void LE3Gizmo::drawModeTranslate(LE3ShaderPtr shaderOverride) {
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_X);
+    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_X));
+    LE3GetAssetManager().getGizmoArrowMesh()->draw();
+
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_Y);
+    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_Y));
+    LE3GetAssetManager().getGizmoArrowMesh()->draw();
+
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_Z);
+    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_Z));
+    LE3GetAssetManager().getGizmoArrowMesh()->draw();
+
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_ALL);
+    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_ALL));
+    LE3GetAssetManager().getGizmoCenterMesh()->draw();
+}
+void LE3Gizmo::drawModeRotate(LE3ShaderPtr shaderOverride) {
+}
+void LE3Gizmo::drawModeScale(LE3ShaderPtr shaderOverride) {
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_X);
+    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_X));
+    LE3GetAssetManager().getGizmoScaleArrowMesh()->draw();
+
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_Y);
+    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_Y));
+    LE3GetAssetManager().getGizmoScaleArrowMesh()->draw();
+
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_Z);
+    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_Z));
+    LE3GetAssetManager().getGizmoScaleArrowMesh()->draw();
+
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_ALL);
+    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_ALL));
+    LE3GetAssetManager().getGizmoCenterMesh()->draw();
 }
