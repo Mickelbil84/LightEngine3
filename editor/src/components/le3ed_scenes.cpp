@@ -1,4 +1,5 @@
 #include "components/le3ed_scenes.h"
+#include "le3ed_editor_systems.h"
 using namespace le3;
 
 void LE3EditorScenes::init() {
@@ -8,6 +9,13 @@ void LE3EditorScenes::init() {
     initScenes();
     initCameras();
     initGizmo();
+
+    // Bind scene hotkeys
+    LE3EditorSystems::instance().getHotkeysComponent()->bindHotkey({"KEY_UP"}, []() {
+        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock()) {
+            LE3GetEditorManager().getSelection().selectObject(pObject->getParent());
+        }
+    });
 }
 void LE3EditorScenes::update(float deltaTime) {
     // Update camera control
