@@ -98,9 +98,11 @@ function ImGui.ColorEdit4(label, prev_x, prev_y, prev_z, prev_w) end
 function ImGui.InputFloat(label, prev) end
 
 ---@param label string
----@param prev vec2
----@return vec2
-function ImGui.InputFloat2(label, prev) end
+---@param prev_x number
+---@param prev_y number
+---@return number
+---@return number
+function ImGui.InputFloat2(label, prev_x, prev_y) end
 
 ---@param label string
 ---@param prev_x number

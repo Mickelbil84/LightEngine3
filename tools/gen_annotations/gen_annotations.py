@@ -17,14 +17,17 @@ def add_params_or_returns(d, func_name, varname, ttype):
         'bool': 'boolean', 'enum': 'number', 'int': 'number'
     }
     ttype = ttype.replace('_', '')
-    if ttype not in ['VEC3', 'VEC4', 'QUAT']:
+    if ttype not in ['VEC2', 'VEC3', 'VEC4', 'QUAT']:
         if not ttype.startswith("LE3"):
             ttype = ttype.lower()
         if ttype in lookups:
             ttype = lookups[ttype]
         d[func_name].append((varname, ttype))
     else:
-        if ttype == "VEC3":
+        if ttype == "VEC2":
+            d[func_name].append((varname + '_x', 'number'))
+            d[func_name].append((varname + '_y', 'number'))
+        elif ttype == "VEC3":
             d[func_name].append((varname + '_x', 'number'))
             d[func_name].append((varname + '_y', 'number'))
             d[func_name].append((varname + '_z', 'number'))
