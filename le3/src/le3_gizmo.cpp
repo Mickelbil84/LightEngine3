@@ -7,6 +7,8 @@ using namespace le3;
 
 #include <fmt/core.h>
 
+// TODO: Move to constants throughot the entire file..
+
 namespace le3 {
     class LE3GizmoReleaseCommand : public LE3EditorCommand {
     public:
@@ -301,5 +303,27 @@ LE3GizmoAxis LE3Gizmo::getHoveredAxisTranslateScale(glm::mat4 projViewMatrix, gl
     return LE3_GIZMO_AXIS_NONE;
 }
 LE3GizmoAxis LE3Gizmo::getHoveredAxisRotate(glm::mat4 projViewMatrix, glm::vec2 cursorPosition) {
+    const LE3GizmoAxis axes[] = { LE3_GIZMO_AXIS_X, LE3_GIZMO_AXIS_Y, LE3_GIZMO_AXIS_Z };
+    const float gizmoMajorRadius = 0.25f;
+    const float gizmoSelectionThreshold = 0.05f;
+
+    for (LE3GizmoAxis axis : axes) {
+        std::vector<glm::vec2> pointsScreen;
+        glm::mat4 modelMatrix = m_transform.getTransformMatrix() * gizmoTransform(axis);
+        for (int i = 0; i < 32; i++) {
+            float theta = (float)i / 31.f * 2.f * M_PI;
+            glm::vec3 pWorld = glm::vec3(modelMatrix * glm::vec4(gizmoMajorRadius * cosf(theta), 0.f, gizmoMajorRadius * sinf(theta), 1.f));
+            pointsScreen.push_back(worldToScreen(projViewMatrix, pWorld));
+        }
+        float dist = -1.f;
+        for (int i = 0; i < pointsScreen.size(); i++) {
+            glm::vec2 pScreen = pointsScreen[i];
+            glm::vec2 qScreen = pointsScreen[(i+1) % pointsScreen.size()];
+            float tmp = distancePointLineSegment(pScreen, qScreen, cursorPosition);
+            if ((tmp < dist) || (dist < 0.f)) dist = tmp;
+        }
+        if (dist < gizmoSelectionThreshold) return axis;
+    }
+
     return LE3_GIZMO_AXIS_NONE;
 }
