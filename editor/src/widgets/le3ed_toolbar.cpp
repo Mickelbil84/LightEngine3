@@ -1,4 +1,5 @@
 #include "widgets/le3ed_toolbar.h"
+#include "le3ed_editor_systems.h"
 using namespace le3;
 
 #include <imgui_internal.h>
@@ -9,29 +10,47 @@ void LE3EditorToolbar::init() {
     m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save"));
     m_buttons.push_back(LE3EditorToolbarButton("SaveAs", "icon_saveas"));
     m_buttons.push_back(LE3EditorToolbarButton());
+
+    // -------
+
     m_buttons.push_back(LE3EditorToolbarButton("Undo", "icon_undo", []() {
         LE3GetEditorManager().getCommandStack().undo();
     }));
+    m_buttons.back().setupHotkey({"KEY_Z", "KEY_LGUI"});
     m_buttons.push_back(LE3EditorToolbarButton("Redo", "icon_redo", []() {
         LE3GetEditorManager().getCommandStack().redo();
     }));
+    m_buttons.back().setupHotkey({"KEY_Y", "KEY_LGUI"});
     m_buttons.push_back(LE3EditorToolbarButton());
+
+    // -------
+
     m_buttons.push_back(LE3EditorToolbarButton("Select", "icon_gizmo_select", []() {
         LE3GetEditorManager().getGizmo()->setMode(LE3_GIZMO_MODE_SELECT);
     }));
+    m_buttons.back().setupHotkey({"KEY_Q"});
     m_buttons.push_back(LE3EditorToolbarButton("Move", "icon_gizmo_move", []() {
         LE3GetEditorManager().getGizmo()->setMode(LE3_GIZMO_MODE_TRANSLATE);
     }));
+    m_buttons.back().setupHotkey({"KEY_W"});
     m_buttons.push_back(LE3EditorToolbarButton("Rotate", "icon_gizmo_rotate", []() {
         LE3GetEditorManager().getGizmo()->setMode(LE3_GIZMO_MODE_ROTATE);
     }));
+    m_buttons.back().setupHotkey({"KEY_E"});
     m_buttons.push_back(LE3EditorToolbarButton("Scale", "icon_gizmo_scale", []() {
         LE3GetEditorManager().getGizmo()->setMode(LE3_GIZMO_MODE_SCALE);
     }));
+    m_buttons.back().setupHotkey({"KEY_R"});
     m_buttons.push_back(LE3EditorToolbarButton());
+
+    // -------
+
     m_buttons.push_back(LE3EditorToolbarButton("Collision", "icon_collision"));
     m_buttons.push_back(LE3EditorToolbarButton("BulletCollision", "icon_bulletcollision"));
     m_buttons.push_back(LE3EditorToolbarButton());
+
+    // -------
+
     m_buttons.push_back(LE3EditorToolbarButton("Reparent", "icon_reparent"));
     m_buttons.push_back(LE3EditorToolbarButton("Duplicate", "icon_duplicate"));
 

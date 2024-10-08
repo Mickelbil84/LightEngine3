@@ -4,6 +4,7 @@
 
 #include "components/le3ed_gui.h"
 #include "components/le3ed_scenes.h"
+#include "components/le3ed_hotkeys.h"
 
 namespace le3 {
     class LE3EditorLogic  : public LE3GameLogic {
@@ -20,5 +21,6 @@ namespace le3 {
         std::vector<LE3EditorComponent*> m_pComponents;
         LE3EditorGUI m_gui;
         LE3EditorScenes m_scenes;
+        LE3EditorHotkeys m_hotkeys;
     };
 }

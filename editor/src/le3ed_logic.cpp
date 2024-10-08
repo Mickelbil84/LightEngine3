@@ -1,13 +1,20 @@
 #include "le3ed_logic.h"
+#include "le3ed_editor_systems.h"
 using namespace le3;
 
 #include <fmt/core.h>
 
 LE3EditorLogic::LE3EditorLogic() :
         m_gui(m_engineState), 
-        m_scenes(m_engineState) {
+        m_scenes(m_engineState),
+        m_hotkeys(m_engineState) {
     m_pComponents.push_back(&m_gui);
     m_pComponents.push_back(&m_scenes);
+    m_pComponents.push_back(&m_hotkeys);
+
+    LE3EditorSystems::instance().setGUIComponent(&m_gui);
+    LE3EditorSystems::instance().setScenesComponent(&m_scenes);
+    LE3EditorSystems::instance().setHotkeysComponent(&m_hotkeys);
 }
 
 void LE3EditorLogic::init() {

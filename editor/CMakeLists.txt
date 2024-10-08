@@ -16,9 +16,11 @@ endif()
 add_executable(${PROJECT_NAME} 
     src/main.cpp
     src/le3ed_logic.cpp
+    src/le3ed_editor_systems.cpp
 
     src/components/le3ed_gui.cpp
     src/components/le3ed_scenes.cpp
+    src/components/le3ed_hotkeys.cpp
 
     src/widgets/le3ed_toolbar.cpp
     src/widgets/le3ed_toolbox.cpp
@@ -26,6 +28,7 @@ add_executable(${PROJECT_NAME}
     src/widgets/le3ed_tab_assets.cpp
     src/widgets/le3ed_tab_content.cpp
     src/widgets/le3ed_sidepanel_top.cpp
+    src/widgets/le3ed_toolbar_button.cpp
     src/widgets/le3ed_properties_panel.cpp
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES})
