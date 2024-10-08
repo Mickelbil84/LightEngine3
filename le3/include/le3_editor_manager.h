@@ -66,7 +66,6 @@ namespace le3 {
     public:
         LE3EditorManager() {
             m_selection.onSelect = [this](LE3EditorSelection& selection) {
-                if (m_pGizmo) m_pGizmo->onObjectSelected(selection.pObject);
             };
         }
 

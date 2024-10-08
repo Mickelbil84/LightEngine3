@@ -31,13 +31,9 @@ namespace le3 {
         
         void draw(LE3ShaderPtr shaderOverride);    
         void update(float deltaTime);
-        void preUpdate();
-        void postUpdate();
 
         void setHoverable(bool hoverable) { m_bIsHoverable = hoverable; }  
         void setDynamicScale(bool dynamicScale) { m_bIsDynamicScale = dynamicScale; } 
-
-        void onObjectSelected(LE3ObjectWeakPtr pObject);
 
         void setMode(LE3GizmoMode mode) { m_mode = mode; m_state = LE3_GIZMO_STATE_IDLE; }
 
@@ -64,17 +60,11 @@ namespace le3 {
         
         bool m_bIsHoverable = true, m_bIsDynamicScale = true;
         
-        glm::mat4 m_selectObjectInitialTransform, m_selectGizmoInitialTransform;
-        LE3ObjectWeakPtr m_pSelectedObject; // To verify that we track the correct object
-
         int m_dragFrames = 0;
-        glm::vec3 m_dragDelta;
         glm::vec2 m_dragCursortStart;
+        glm::mat4 m_selectObjectInitialTransform;
 
         glm::vec3 getAxisLine(LE3GizmoAxis axis);
-        void getAxisScreen(LE3GizmoAxis axis, glm::vec2& base, glm::vec2& tip);
-        float distanceToLineAxis(glm::vec2 point, LE3GizmoAxis axis);
-
         glm::mat4 gizmoTransform(LE3GizmoAxis gizmoAxis);
     };
     using LE3GizmoPtr = std::shared_ptr<LE3Gizmo>;
