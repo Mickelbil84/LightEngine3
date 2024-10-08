@@ -16,3 +16,17 @@ glm::vec2 le3::worldToScreen(glm::mat4 projViewMatrix, glm::vec3 p) {
     glm::vec3 ndc = glm::vec3(res) / res.w;
     return glm::vec2(res.x / res.w, res.y / res.w);
 }
+
+glm::vec3 le3::posFromMatrix(glm::mat4 matrix) {
+    return glm::vec3(matrix[3]);
+}
+glm::vec3 le3::scaleFromMatrix(glm::mat4 matrix) {
+    return glm::vec3(glm::length(glm::vec3(matrix[0])), glm::length(glm::vec3(matrix[1])), glm::length(glm::vec3(matrix[2])));
+}
+glm::quat le3::rotFromMatrix(glm::mat4 matrix) {
+    return glm::quat_cast(glm::mat3(
+        glm::normalize(glm::vec3(matrix[0])),
+        glm::normalize(glm::vec3(matrix[1])),
+        glm::normalize(glm::vec3(matrix[2]))
+    ));
+}

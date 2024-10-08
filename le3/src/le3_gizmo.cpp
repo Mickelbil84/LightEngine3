@@ -221,7 +221,7 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
     }
 
     const float gizmoAxisLength = 0.565f;
-    float gizmoDragSpeed = 1.0f;
+    float gizmoDragSpeed = 4.0f;
 
     glm::mat4 projViewMatrix = LE3GetActiveScene()->getMainCamera()->getProjectionMatrix() * LE3GetActiveScene()->getMainCamera()->getViewMatrix();
     glm::mat4 modelMatrix = getWorldMatrix() * gizmoTransform(m_hoveredAxis);
@@ -249,6 +249,16 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
             glm::length(m_selectObjectInitialTransform[1]),
             glm::length(m_selectObjectInitialTransform[2]));
         pObject->getTransform().setScale(originalScale + gizmoDragSpeed * projection);
+    }
+    if (m_mode == LE3_GIZMO_MODE_ROTATE) {
+        float tmp = 0.5 * (dx + dy);
+        float t = glm::dot(glm::vec2(tmp, tmp), glm::normalize(qScreen - pScreen));
+        // glm::vec3 projection = t * getAxisLine(m_hoveredAxis);
+        // glm::vec3 delta = projection;
+        // glm::vec3 rpy = rpyFromMatrix(m_selectObjectInitialTransform) + gizmoDragSpeed * delta;
+        glm::quat originalRotation = rotFromMatrix(m_selectObjectInitialTransform);
+        glm::quat delta = glm::angleAxis(gizmoDragSpeed * t, getAxisLine(m_hoveredAxis));
+        pObject->getTransform().setRotation(delta * originalRotation);
     }
 
 }
@@ -304,7 +314,7 @@ LE3GizmoAxis LE3Gizmo::getHoveredAxisTranslateScale(glm::mat4 projViewMatrix, gl
 }
 LE3GizmoAxis LE3Gizmo::getHoveredAxisRotate(glm::mat4 projViewMatrix, glm::vec2 cursorPosition) {
     const LE3GizmoAxis axes[] = { LE3_GIZMO_AXIS_X, LE3_GIZMO_AXIS_Y, LE3_GIZMO_AXIS_Z };
-    const float gizmoMajorRadius = 0.25f;
+    const float gizmoMajorRadius = 0.4f;
     const float gizmoSelectionThreshold = 0.05f;
 
     for (LE3GizmoAxis axis : axes) {

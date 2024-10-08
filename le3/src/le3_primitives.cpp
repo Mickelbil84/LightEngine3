@@ -319,7 +319,7 @@ LE3MeshPtr<LE3Vertex> le3::createGizmoScaleArrow() {
 }
 
 LE3MeshPtr<LE3Vertex> le3::createGizmoCircle() {
-    return createTorus(0.f, 0.f, 0.f, 0.25f, 0.01f, 32);
+    return createTorus(0.f, 0.f, 0.f, 0.4f, 0.01f, 32);
 }
 
 LE3MeshPtr<LE3Vertex> le3::createGizmoCenter() {

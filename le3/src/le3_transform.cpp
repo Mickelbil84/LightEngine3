@@ -1,4 +1,5 @@
 #include "le3_transform.h"
+#include "le3_math_utils.h"
 using namespace le3;
 
 #ifndef GLM_ENABLE_EXPERIMENTAL
@@ -24,14 +25,9 @@ glm::mat4 LE3Transform::getTransformMatrix() const {
 }
 
 void LE3Transform::fromTransformMatrix(glm::mat4 transformMatrix) {
-    m_position = glm::vec3(transformMatrix[3]);
-
-    glm::vec3 v0 = glm::vec3(transformMatrix[0]);
-    glm::vec3 v1 = glm::vec3(transformMatrix[1]);
-    glm::vec3 v2 = glm::vec3(transformMatrix[2]);
-    m_scale = glm::vec3(glm::length(v0), glm::length(v1), glm::length(v2));
-    glm::mat3 rotationMatrix = glm::mat3(v0 / m_scale.x, v1 / m_scale.y, v2 / m_scale.z);
-    m_rotation = glm::quat_cast(rotationMatrix);
+    m_position = posFromMatrix(transformMatrix);
+    m_scale = scaleFromMatrix(transformMatrix);
+    m_rotation = rotFromMatrix(transformMatrix);
 }
 
 glm::vec3 LE3Transform::getPosition() const {
@@ -64,7 +60,11 @@ void LE3Transform::setRotation(glm::quat rotation) {
     m_rotation = rotation;
 }
 void LE3Transform::setRotationRPY(float roll, float pitch, float yaw) {
-    m_rotation = glm::quat(glm::vec3(pitch, yaw, roll));
+    // m_rotation = glm::quat(glm::vec3(pitch, yaw, roll));
+    glm::mat4 rx = glm::eulerAngleX(pitch);
+    glm::mat4 ry = glm::eulerAngleY(yaw);
+    glm::mat4 rz = glm::eulerAngleZ(roll);
+    m_rotation = glm::quat_cast(rz * ry * rx);
 }
 void LE3Transform::setOrbit(float roll, float pitch, float yaw, glm::vec3 origin, float offset) {
     glm::vec3 target = glm::vec3(0.f, 0.f, offset) - origin;
