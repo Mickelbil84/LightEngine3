@@ -39,7 +39,7 @@ namespace le3 {
 
         void onObjectSelected(LE3ObjectWeakPtr pObject);
 
-        void setMode(LE3GizmoMode mode) { m_mode = mode; }
+        void setMode(LE3GizmoMode mode) { m_mode = mode; m_state = LE3_GIZMO_STATE_IDLE; }
 
     private:
 
@@ -62,17 +62,13 @@ namespace le3 {
         LE3GizmoState m_state;
         LE3GizmoAxis m_hoveredAxis;
         
-        int m_hoveredCnt;
         bool m_bIsHoverable = true, m_bIsDynamicScale = true;
         
         glm::mat4 m_selectObjectInitialTransform, m_selectGizmoInitialTransform;
         LE3ObjectWeakPtr m_pSelectedObject; // To verify that we track the correct object
 
-
-        bool m_bIsDragging = false;
         int m_dragFrames = 0;
-        int m_dragStartX, m_dragStartY;
-        glm::vec3 m_dragStartPos;
+        glm::vec3 m_dragDelta;
 
         glm::vec3 getAxisLine(LE3GizmoAxis axis);
         void getAxisScreen(LE3GizmoAxis axis, glm::vec2& base, glm::vec2& tip);

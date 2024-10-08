@@ -72,7 +72,7 @@ void LE3EditorScenes::initGizmo() {
     // for (int i = 0; i < 4; i++)
     //     LE3GetSceneManager().getScene(fmt::format("inspector{}", i))->addInspectedUpdate(DEFAULT_ENGINE_PREFIX + "gizmo");
     LE3GetEditorManager().registerGizmo(gizmo);
-    gizmo->setHidden(true);
+    gizmo->setHidden(false);
 }
 
 void LE3EditorScenes::handleInput(LE3Input input) {

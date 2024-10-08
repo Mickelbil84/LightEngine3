@@ -74,38 +74,10 @@ void LE3Gizmo::postUpdate() {
 }
 
 
-// void LE3Gizmo::preUpdate() {
-//     m_hoveredCnt = 0;
-// }
-
 // void LE3Gizmo::update(float deltaTime) {
 //     if (!m_bIsHoverable) return;
 //     if (LE3GetEditorManager().isEditBlocked()) return;
 
-//     glm::vec3 cursorRaw = LE3GetActiveScene()->getCursorLocation();
-//     if (cursorRaw.z < 0) {
-//         // When updaing position outside of scene view, update gizmo position
-//         if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock()) {
-//             m_transform.setPosition(pObject->getWorldPosition());
-//         }
-//         LE3DrawableObject::update(deltaTime);
-//         return;
-//     }
-//     glm::vec2 cursor(cursorRaw);
-
-//     float threshold = 0.05f; // TODO: Move to constants
-
-//     if (!m_bIsDragging) { // If we already dragging, don't update hovered axis
-//         if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_X) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_X; m_hoveredCnt++; }
-//         if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Y) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Y; m_hoveredCnt++; }
-//         if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Z) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Z; m_hoveredCnt++; }
-//         if (m_hoveredCnt == 3) m_hoveredAxis = LE3_GIZMO_AXIS_ALL;
-//         m_dragFrames = 0;
-//     }
-//     else {
-//         m_hoveredCnt++;
-//         m_dragFrames++;
-//     }
 
 //     // Gizmo drag
 //     bool isDragging = LE3GetEditorManager().isMouseDown() && (m_hoveredAxis != LE3_GIZMO_AXIS_NONE) || m_bIsDragging;
@@ -167,13 +139,6 @@ void LE3Gizmo::postUpdate() {
 //     LE3DrawableObject::update(deltaTime);
 // }
 
-// void LE3Gizmo::postUpdate() {
-//     if (m_hoveredCnt == 0) m_hoveredAxis = LE3_GIZMO_AXIS_NONE;
-//     if (!LE3GetEditorManager().getSelection().pObject.lock()) {
-//         setHidden(true);
-//         return;
-//     }
-// }
 
 void LE3Gizmo::getAxisScreen(LE3GizmoAxis axis, glm::vec2& base, glm::vec2& tip) {
     glm::mat4 PVM = 
@@ -203,16 +168,16 @@ glm::vec3 LE3Gizmo::getAxisLine(LE3GizmoAxis axis) {
 }
 
 void LE3Gizmo::onObjectSelected(LE3ObjectWeakPtr wpObject) {
-    LE3ObjectPtr pObject = wpObject.lock();
-    if (!pObject) {
-        setHidden(true);
-        return;
-    }
-    setHidden(false);
-    m_transform.setPosition(pObject->getWorldPosition());
-    m_selectGizmoInitialTransform = getWorldMatrix();
-    m_selectObjectInitialTransform = pObject->getTransform().getTransformMatrix();
-    m_pSelectedObject = pObject;
+    // LE3ObjectPtr pObject = wpObject.lock();
+    // if (!pObject) {
+    //     setHidden(true);
+    //     return;
+    // }
+    // setHidden(false);
+    // m_transform.setPosition(pObject->getWorldPosition());
+    // m_selectGizmoInitialTransform = getWorldMatrix();
+    // m_selectObjectInitialTransform = pObject->getTransform().getTransformMatrix();
+    // m_pSelectedObject = pObject;
 }
 
 
@@ -308,6 +273,10 @@ void LE3Gizmo::updateStateIdle(float deltaTime) {
         m_state = LE3_GIZMO_STATE_DISABLED;
         return;
     }
+    // When updaing position outside of scene view, update gizmo position
+    if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock()) {
+        m_transform.setPosition(pObject->getWorldPosition());
+    }
 
     // Gizmo hover update
     m_hoveredAxis = getHoveredAxis();
@@ -319,12 +288,69 @@ void LE3Gizmo::updateStateIdle(float deltaTime) {
         m_hoveredAxis == LE3_GIZMO_AXIS_NONE) {
         LE3GetEditorManager().getSelection().selectObject(LE3GetEditorManager().getHoveredObject());
     }
+
+    // Gizmo drag initialization handling (if hover)
+    if (isMouseDown() && m_hoveredAxis != LE3_GIZMO_AXIS_NONE) {
+        m_dragFrames++;
+        if (m_dragFrames > 10) {
+            m_state = LE3_GIZMO_STATE_DRAGGING;    
+            m_dragDelta = glm::vec3(0.f);
+            m_selectObjectInitialTransform = LE3GetEditorManager().getSelection().pObject.lock()->getTransform().getTransformMatrix();
+        }
+    }
+    if (!isMouseDown()) {
+        m_dragFrames = 0;
+    }
 }
 void LE3Gizmo::updateStateDragging(float deltaTime) {
+    if (!isMouseDown()) {
+        m_state = LE3_GIZMO_STATE_RELEASE;
+        return;
+    }
+
+    if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock()) {
+        m_transform.setPosition(pObject->getWorldPosition());
+    }
+
+    const float gizmoAxisLength = 0.565f;
+    float gizmoDragSpeed = 0.010f;
+
+    glm::mat4 projViewMatrix = LE3GetActiveScene()->getMainCamera()->getProjectionMatrix() * LE3GetActiveScene()->getMainCamera()->getViewMatrix();
+    glm::mat4 modelMatrix = getWorldMatrix() * gizmoTransform(m_hoveredAxis);
+    glm::vec3 pWorld = glm::vec3(modelMatrix * glm::vec4(0.f, 0.f, 0.f, 1.f));
+    glm::vec3 qWorld = glm::vec3(modelMatrix * glm::vec4(0.f, 0.565f, 0.f, 1.f));
+    glm::vec2 pScreen = worldToScreen(projViewMatrix, pWorld);
+    glm::vec2 qScreen = worldToScreen(projViewMatrix, qWorld);
+
+    float dx = LE3GetEditorManager().getMouseRelX(); 
+    float dy = LE3GetEditorManager().getMouseRelY();
+
+    LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock();
+
+    if (m_mode == LE3_GIZMO_MODE_TRANSLATE) {
+        float t = glm::dot(glm::vec2(dx, dy), qScreen - pScreen);
+        glm::vec3 projection = t * getAxisLine(m_hoveredAxis);
+        m_dragDelta += gizmoDragSpeed * projection;
+        pObject->getTransform().setPosition(glm::vec3(m_selectObjectInitialTransform[3]) + m_dragDelta);
+    }
+    if (m_mode == LE3_GIZMO_MODE_SCALE) {
+        float t = glm::dot(glm::vec2(dx, dy), qScreen - pScreen);
+        glm::vec3 projection = t * getAxisLine(m_hoveredAxis);
+        m_dragDelta += gizmoDragSpeed * projection;
+        glm::vec3 originalScale = glm::vec3(
+            glm::length(m_selectObjectInitialTransform[0]),
+            glm::length(m_selectObjectInitialTransform[1]),
+            glm::length(m_selectObjectInitialTransform[2]));
+        pObject->getTransform().setScale(originalScale + m_dragDelta);
+    }
+
 
 }
 void LE3Gizmo::updateStateRelease(float deltaTime) {
 
+
+
+    m_state = LE3_GIZMO_STATE_IDLE;
 }
 
 bool LE3Gizmo::isMouseDown() {
@@ -343,6 +369,8 @@ LE3GizmoAxis LE3Gizmo::getHoveredAxis() {
         return getHoveredAxisTranslateScale(projViewMatrix, cursorPosition);
     if (m_mode == LE3_GIZMO_MODE_ROTATE)
         return getHoveredAxisRotate(projViewMatrix, cursorPosition);
+
+    return LE3_GIZMO_AXIS_NONE;
 }
 LE3GizmoAxis LE3Gizmo::getHoveredAxisTranslateScale(glm::mat4 projViewMatrix, glm::vec2 cursorPosition) {
     const LE3GizmoAxis axes[] = { LE3_GIZMO_AXIS_X, LE3_GIZMO_AXIS_Y, LE3_GIZMO_AXIS_Z };
