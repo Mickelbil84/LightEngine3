@@ -41,8 +41,10 @@ void LE3EditorToolbar::init() {
         LE3GetEditorManager().getGizmo()->setMode(LE3_GIZMO_MODE_SCALE);
     }));
     m_buttons.back().setupHotkey({"KEY_R"});
+    m_buttons.push_back(LE3EditorToolbarButton("Snap", "icon_magnet", []() {
+    }));
+    m_buttons.back().setupHotkey({"KEY_X"});
     m_buttons.push_back(LE3EditorToolbarButton());
-
     // -------
 
     m_buttons.push_back(LE3EditorToolbarButton("Collision", "icon_collision"));
