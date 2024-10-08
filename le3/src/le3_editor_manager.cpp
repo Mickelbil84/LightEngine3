@@ -60,3 +60,20 @@ void LE3EditorSelection::selectAsset(LE3SkeletalMeshPtr pSkeletalMesh) {
     this->pSkeletalMesh = pSkeletalMesh;
     this->onSelect(*this);
 }
+
+void LE3EditorCommandStack::execute(LE3EditorCommandPtr pCommand) {
+    if (m_stackTop < m_pCommands.size()) m_pCommands.resize(m_stackTop);
+    m_pCommands.push_back(std::move(pCommand));
+    m_pCommands.back()->execute();
+    m_stackTop++;
+}
+void LE3EditorCommandStack::undo() {
+    if (m_stackTop == 0) return;
+    m_pCommands[m_stackTop - 1]->undo();
+    m_stackTop--;
+}
+void LE3EditorCommandStack::redo() {
+    if (m_stackTop == m_pCommands.size()) return;
+    m_pCommands[m_stackTop]->execute();
+    m_stackTop++;
+}

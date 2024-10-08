@@ -5,6 +5,10 @@
 #include "le3_object.h"
 #include "le3_gizmo.h"
 
+/*
+* The editor manager is integrated into the engine systems since some of its methods might also be useful for the game/apps themselves.
+*/
+
 namespace le3 {
     struct LE3EditorSelection {
         enum LE3SelectionType {
@@ -39,6 +43,25 @@ namespace le3 {
         std::function<void(LE3EditorSelection&)> onSelect;
     };
 
+    class LE3EditorCommand {
+    public:
+        virtual ~LE3EditorCommand() {}
+        virtual void execute() = 0;
+        virtual void undo() = 0;
+    };
+    using LE3EditorCommandPtr = std::unique_ptr<LE3EditorCommand>;
+
+    class LE3EditorCommandStack {
+    public:
+        void execute(LE3EditorCommandPtr pCommand);
+        void undo();
+        void redo();
+
+    private:
+        std::vector<LE3EditorCommandPtr> m_pCommands;
+        uint16_t m_stackTop = 0;
+    };
+
     class LE3EditorManager {
     public:
         LE3EditorManager() {
@@ -63,17 +86,8 @@ namespace le3 {
         LE3ObjectWeakPtr getHoveredObject() { return m_pHoveredObject; }
         void setHoveredObject(LE3ObjectWeakPtr hoveredObject) { m_pHoveredObject = hoveredObject; }
 
-        // LE3ObjectWeakPtr getSelectedObject() { return m_pSelectedObject; }
-        // void setSelectedObject() { 
-        //     setSelectedObject(m_pHoveredObject); 
-        // }
-        // void setSelectedObject(LE3ObjectWeakPtr selectedObject) { 
-        //     m_pSelectedObject = selectedObject; 
-        //     m_pHoveredObject.reset();
-        //     if (m_pGizmo) m_pGizmo->onObjectSelected(m_pSelectedObject); 
-        // }
-
         LE3EditorSelection& getSelection() { return m_selection; }
+        LE3EditorCommandStack& getCommandStack() { return m_commandStack; }
 
         std::string getSelectedFile() const { return m_selectedFile; }
         void setSelectedFile(std::string path) { m_selectedFile = path; }
@@ -88,6 +102,8 @@ namespace le3 {
         LE3ObjectWeakPtr m_pHoveredObject;
         LE3GizmoPtr m_pGizmo;
         LE3EditorSelection m_selection;
+
+        LE3EditorCommandStack m_commandStack;
 
         // Note that this is different than the selected object/asset
         // Can be used for simpler asset creation/loading
