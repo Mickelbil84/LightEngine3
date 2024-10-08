@@ -7,6 +7,29 @@ using namespace le3;
 
 #include <fmt/core.h>
 
+namespace le3 {
+    class LE3GizmoReleaseCommand : public LE3EditorCommand {
+    public:
+        LE3GizmoReleaseCommand(std::string objectName, glm::mat4 matrix) : m_objectName(objectName), m_matrix(matrix) {}
+
+        virtual void execute() {
+            LE3ObjectPtr pObject = LE3GetSceneManager().getActiveScene()->getObject(m_objectName);
+            glm::mat4 newTransform = m_matrix * pObject->getTransform().getTransformMatrix();
+            pObject->getTransform().fromTransformMatrix(newTransform);
+        }
+
+        virtual void undo() {
+            LE3ObjectPtr pObject = LE3GetSceneManager().getActiveScene()->getObject(m_objectName);
+            glm::mat4 newTransform = glm::inverse(m_matrix) * pObject->getTransform().getTransformMatrix();
+            pObject->getTransform().fromTransformMatrix(newTransform);
+        }
+
+    private:
+        std::string m_objectName;
+        glm::mat4 m_matrix;
+    };
+}
+
 LE3Gizmo::LE3Gizmo() :
     LE3DrawableObject(LE3GetAssetManager().getMaterial(DEFAULT_GIZMO_MATERIAL)),
     m_hoveredAxis(LE3_GIZMO_AXIS_NONE)
@@ -93,9 +116,11 @@ void LE3Gizmo::update(float deltaTime) {
         if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Y) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Y; m_hoveredCnt++; }
         if (distanceToLineAxis(cursor, LE3_GIZMO_AXIS_Z) < threshold) { m_hoveredAxis = LE3_GIZMO_AXIS_Z; m_hoveredCnt++; }
         if (m_hoveredCnt == 3) m_hoveredAxis = LE3_GIZMO_AXIS_ALL;
+        m_dragFrames = 0;
     }
     else {
         m_hoveredCnt++;
+        m_dragFrames++;
     }
 
     // Gizmo drag
@@ -106,6 +131,19 @@ void LE3Gizmo::update(float deltaTime) {
         m_dragStartPos = m_transform.getPosition();
     }
     m_bIsDragging = isDragging;
+
+    // We check that the drag is long enough, so that we don't register a drag event when clicking
+    if (m_bIsDragging && !LE3GetEditorManager().isMouseDown() && (m_dragFrames > 10)) { // Drag release event
+        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock()) {
+            glm::mat4 objectTargetTransform = pObject->getTransform().getTransformMatrix();
+            glm::mat4 deltaTransform = objectTargetTransform * glm::inverse(m_selectObjectInitialTransform);
+            
+            pObject->getTransform().fromTransformMatrix(m_selectObjectInitialTransform);
+            LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3GizmoReleaseCommand>(pObject->getName(), deltaTransform));
+            m_selectObjectInitialTransform = pObject->getTransform().getTransformMatrix();
+        }
+    }
+
     if (!LE3GetEditorManager().isMouseDown()) m_bIsDragging = false; // Stop dragging when mouse is released
 
     LE3GetEditorManager().setActiveEdit(m_bIsDragging);

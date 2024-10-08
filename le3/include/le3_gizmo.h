@@ -37,6 +37,7 @@ namespace le3 {
 
 
         bool m_bIsDragging = false;
+        int m_dragFrames = 0;
         int m_dragStartX, m_dragStartY;
         glm::vec3 m_dragStartPos;
 

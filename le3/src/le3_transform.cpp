@@ -25,8 +25,13 @@ glm::mat4 LE3Transform::getTransformMatrix() const {
 
 void LE3Transform::fromTransformMatrix(glm::mat4 transformMatrix) {
     m_position = glm::vec3(transformMatrix[3]);
-    m_rotation = glm::quat_cast(transformMatrix);
-    m_scale = glm::vec3(glm::length(glm::vec3(transformMatrix[0])), glm::length(glm::vec3(transformMatrix[1])), glm::length(glm::vec3(transformMatrix[2])));
+
+    glm::vec3 v0 = glm::vec3(transformMatrix[0]);
+    glm::vec3 v1 = glm::vec3(transformMatrix[1]);
+    glm::vec3 v2 = glm::vec3(transformMatrix[2]);
+    m_scale = glm::vec3(glm::length(v0), glm::length(v1), glm::length(v2));
+    glm::mat3 rotationMatrix = glm::mat3(v0 / m_scale.x, v1 / m_scale.y, v2 / m_scale.z);
+    m_rotation = glm::quat_cast(rotationMatrix);
 }
 
 glm::vec3 LE3Transform::getPosition() const {
