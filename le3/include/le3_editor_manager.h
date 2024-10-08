@@ -64,7 +64,7 @@ namespace le3 {
 
     struct LE3EditorSnap {
         bool enabled = false;
-        float snapTranslation = 0.5f, snapRotation = 5.f, snapScale = 0.1f;
+        float snapTranslation = 0.5f, snapRotation = 15.f, snapScale = 0.1f;
     };
 
     class LE3EditorManager {

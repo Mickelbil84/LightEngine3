@@ -269,11 +269,13 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
     float dy = mouseCurr.y - m_dragCursortStart.y;
 
     LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock();
+    LE3EditorSnap snap = LE3GetEditorManager().getSnap();
 
     if (m_mode == LE3_GIZMO_MODE_TRANSLATE) {
         glm::vec3 projection(0.f);
         if (m_hoveredAxis == LE3_GIZMO_AXIS_X || m_hoveredAxis == LE3_GIZMO_AXIS_Y || m_hoveredAxis == LE3_GIZMO_AXIS_Z) {
-            float t = glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
+            float t = gizmoDragSpeed * glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
+            if (snap.enabled) t = glm::round(t / snap.snapTranslation) * snap.snapTranslation;
             projection = t * getAxisLine(m_hoveredAxis);
         }
         else {
@@ -292,29 +294,33 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
                 glm::vec2 pScreen = worldToScreen(projViewMatrix, pWorld);
                 glm::vec2 qScreen = worldToScreen(projViewMatrix, qWorld);
 
-                float t = glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
+                float t = gizmoDragSpeed * glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
+                if (snap.enabled) t = glm::round(t / snap.snapTranslation) * snap.snapTranslation;
                 projection += t * getAxisLine(axis);
             }
         }
-        pObject->getTransform().setPosition(glm::vec3(m_selectObjectInitialTransform[3]) + gizmoDragSpeed * projection);
+        pObject->getTransform().setPosition(glm::vec3(m_selectObjectInitialTransform[3]) + projection);
     }
     if (m_mode == LE3_GIZMO_MODE_SCALE) {
-        float t = glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
+        float t = gizmoDragSpeed * glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
+        if (snap.enabled) t = glm::round(t / snap.snapScale) * snap.snapScale;
         glm::vec3 projection = t * getAxisLine(m_hoveredAxis);
         glm::vec3 originalScale = glm::vec3(
             glm::length(m_selectObjectInitialTransform[0]),
             glm::length(m_selectObjectInitialTransform[1]),
             glm::length(m_selectObjectInitialTransform[2]));
-        pObject->getTransform().setScale(originalScale + gizmoDragSpeed * projection);
+        pObject->getTransform().setScale(originalScale + projection);
     }
     if (m_mode == LE3_GIZMO_MODE_ROTATE) {
         float tmp = 0.5 * (dx + dy);
-        float t = glm::dot(glm::vec2(tmp, tmp), glm::normalize(qScreen - pScreen));
-        // glm::vec3 projection = t * getAxisLine(m_hoveredAxis);
-        // glm::vec3 delta = projection;
-        // glm::vec3 rpy = rpyFromMatrix(m_selectObjectInitialTransform) + gizmoDragSpeed * delta;
+        float t = gizmoDragSpeed * glm::dot(glm::vec2(tmp, tmp), glm::normalize(qScreen - pScreen));
+        if (snap.enabled) {
+            t = t / M_PI * 180.f;
+            t = glm::round(t / snap.snapRotation) * snap.snapRotation;
+            t = t / 180.f * M_PI;
+        }
         glm::quat originalRotation = rotFromMatrix(m_selectObjectInitialTransform);
-        glm::quat delta = glm::angleAxis(gizmoDragSpeed * t, getAxisLine(m_hoveredAxis));
+        glm::quat delta = glm::angleAxis(t, getAxisLine(m_hoveredAxis));
         pObject->getTransform().setRotation(delta * originalRotation);
     }
 
