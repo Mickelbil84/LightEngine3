@@ -38,3 +38,16 @@ LIB(LE3Cone,
     get_resolution,
     get_with_caps
 )
+
+FBIND_OBJECT_GETTER_NUMBER(LE3Torus, get_x0, getX0)
+FBIND_OBJECT_GETTER_NUMBER(LE3Torus, get_y0, getY0)
+FBIND_OBJECT_GETTER_NUMBER(LE3Torus, get_z0, getZ0)
+FBIND_OBJECT_GETTER_NUMBER(LE3Torus, get_major_radius, getMajorRadius)
+FBIND_OBJECT_GETTER_NUMBER(LE3Torus, get_minor_radius, getMinorRadius)
+FBIND_OBJECT_GETTER_NUMBER(LE3Torus, get_resolution, getResolution)
+LIB(LE3Torus,
+    get_x0, get_y0, get_z0,
+    get_major_radius,
+    get_minor_radius,
+    get_resolution
+)

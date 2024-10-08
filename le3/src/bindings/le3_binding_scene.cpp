@@ -45,6 +45,17 @@ FBIND(LE3Scene, add_cone)
     scene->addCone(name, materialName, position, radius, height, resolution, withCaps);
 FEND()
 
+FBIND(LE3Scene, add_torus)
+    GET_UDATA(scene, LE3Scene)
+    GET_STRING(name)
+    GET_STRING(materialName)
+    GET_VEC3(position)
+    GET_NUMBER(majorRadius)
+    GET_NUMBER(minorRadius)
+    GET_NUMBER(resolution)
+    scene->addTorus(name, materialName, position, majorRadius, minorRadius, resolution);
+FEND()
+
 FBIND(LE3Scene, add_static_model)
     GET_UDATA(scene, LE3Scene)
     GET_STRING(name)
@@ -142,7 +153,7 @@ FBIND_SETTER_BOOL(LE3Scene, set_culling, setCulling)
 
 LIB(LE3Scene,
     add_empty_object, add_script_object,
-    add_box, add_cylinder, add_cone,
+    add_box, add_cylinder, add_cone, add_torus,
     add_static_model, add_skeletal_model, add_point_cloud,
     add_free_camera, add_orbit_camera, set_main_camera,
     add_ambient_light, add_directional_light, add_point_light, add_spot_light,

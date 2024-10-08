@@ -67,3 +67,24 @@ LE3Cone.save = function (object)
     return tbl
 end
 LE3Cone.title = "LE3Cone"
+
+LE3Torus.__base = LE3StaticModel
+LE3Torus.load = function (scene, tbl, res)
+    if (res == nil) then
+        LE3Scene.add_torus(scene, tbl.Name, tbl.MaterialName, 0, 0, 0, tbl.MajorRadius, tbl.MinorRadius, tbl.Resolution)
+        res = LE3Scene.get_object(scene, tbl.Name)
+    end
+    LE3Torus.__base.load(scene, tbl, res)
+    return {ptr = res, name = tbl.Name}
+end
+LE3Torus.rebuild = function (object, tbl)
+    LE3Torus.__base.rebuild(object, tbl)
+end
+LE3Torus.save = function (object)
+    local tbl = LE3Torus.__base.save(object)
+    tbl.MajorRadius = LE3Torus.get_major_radius(object)
+    tbl.MinorRadius = LE3Torus.get_minor_radius(object)
+    tbl.Resolution = LE3Torus.get_resolution(object)
+    return tbl
+end
+LE3Torus.title = "LE3Torus"

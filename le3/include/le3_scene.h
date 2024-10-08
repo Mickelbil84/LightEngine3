@@ -65,6 +65,7 @@ namespace le3 {
         void addBox(std::string name, std::string materialName, glm::vec3 position = glm::vec3(0.f), glm::vec3 extent = glm::vec3(1.f), std::string parent = "");
         void addCylinder(std::string name, std::string materialName, glm::vec3 position = glm::vec3(0.f), float radius = 1.f, float height = 1.f, int resolution = 16, bool withCaps = true, std::string parent = "");
         void addCone(std::string name, std::string materialName, glm::vec3 position = glm::vec3(0.f), float radius = 1.f, float height = 1.f, int resolution = 16, bool withCaps = true, std::string parent = "");
+        void addTorus(std::string name, std::string materialName, glm::vec3 position = glm::vec3(0.f), float majorRadius = 1.f, float minorRadius = 0.5f, int resolution = 16, std::string parent = "");
 
         void addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent = "", LE3DrawPriority priority = DRAW_PRIORITY_LOW);
         void addSkeletalModel(std::string name, std::string meshName, std::string materialName, std::string parent = "");

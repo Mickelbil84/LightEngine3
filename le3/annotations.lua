@@ -56,6 +56,8 @@ LE3StaticMesh = {}
 LE3StaticModel = {}
 ---@class LE3Texture
 LE3Texture = {}
+---@class LE3Torus
+LE3Torus = {}
 ---@class LE3Transform
 LE3Transform = {}
 ---@class LE3VisualDebug
@@ -611,6 +613,17 @@ function LE3Scene.add_spot_light(scene, name) end
 ---@param materialName string
 function LE3Scene.add_static_model(scene, name, meshName, materialName) end
 
+---@param scene LE3Scene
+---@param name string
+---@param materialName string
+---@param position_x number
+---@param position_y number
+---@param position_z number
+---@param majorRadius number
+---@param minorRadius number
+---@param resolution number
+function LE3Scene.add_torus(scene, name, materialName, position_x, position_y, position_z, majorRadius, minorRadius, resolution) end
+
 ---@param self LE3Scene
 ---@return number
 ---@return number
@@ -711,6 +724,30 @@ function LE3Texture.get_name(texture) end
 ---@param self LE3Texture
 ---@param name string
 function LE3Texture.set_name(self, name) end
+
+---@param self LE3Torus
+---@return number
+function LE3Torus.get_major_radius(self) end
+
+---@param self LE3Torus
+---@return number
+function LE3Torus.get_minor_radius(self) end
+
+---@param self LE3Torus
+---@return number
+function LE3Torus.get_resolution(self) end
+
+---@param self LE3Torus
+---@return number
+function LE3Torus.get_x0(self) end
+
+---@param self LE3Torus
+---@return number
+function LE3Torus.get_y0(self) end
+
+---@param self LE3Torus
+---@return number
+function LE3Torus.get_z0(self) end
 
 ---@param self LE3Transform
 ---@return number

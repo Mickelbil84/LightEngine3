@@ -160,6 +160,15 @@ Scene.Objects = {
         CastShadow = false
     },
     {
+        Type = "Torus",
+        Name = "torus",
+        MaterialName = "M_default",
+        Position = {0.0, 1.5, 0.0},
+        MajorRadius = 0.2,
+        MinorRadius = 0.05,
+        Resolution = 32
+    },
+    {
         Type = "FreeCamera",
         Name = "cameraFree",
         Position = {0.0, 0.5, 3.0}
