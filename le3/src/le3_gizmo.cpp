@@ -76,6 +76,7 @@ glm::vec3 LE3Gizmo::getAxisLine(LE3GizmoAxis axis) {
     if (axis == LE3_GIZMO_AXIS_X) return glm::vec3(1.f, 0.f, 0.f);
     if (axis == LE3_GIZMO_AXIS_Y) return glm::vec3(0.f, 1.f, 0.f);
     if (axis == LE3_GIZMO_AXIS_Z) return glm::vec3(0.f, 0.f, 1.f);
+    if (axis == LE3_GIZMO_AXIS_ALL) return glm::vec3(1.f);
     return glm::vec3(0.f);
 }
 
@@ -237,8 +238,26 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
     LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock();
 
     if (m_mode == LE3_GIZMO_MODE_TRANSLATE) {
-        float t = glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
-        glm::vec3 projection = t * getAxisLine(m_hoveredAxis);
+        glm::vec3 projection(0.f);
+        if (m_hoveredAxis != LE3_GIZMO_AXIS_ALL) {
+            float t = glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
+            projection = t * getAxisLine(m_hoveredAxis);
+        }
+        else {
+            // Special treatment for all axes on the translation case
+            // (Project into each axis individually, and aggregate)
+            const LE3GizmoAxis axes[] = { LE3_GIZMO_AXIS_X, LE3_GIZMO_AXIS_Y, LE3_GIZMO_AXIS_Z };
+            for (LE3GizmoAxis axis : axes) {
+                glm::mat4 modelMatrix = getWorldMatrix() * gizmoTransform(axis);
+                glm::vec3 pWorld = glm::vec3(modelMatrix * glm::vec4(0.f, 0.f, 0.f, 1.f));
+                glm::vec3 qWorld = glm::vec3(modelMatrix * glm::vec4(0.f, gizmoAxisLength, 0.f, 1.f));
+                glm::vec2 pScreen = worldToScreen(projViewMatrix, pWorld);
+                glm::vec2 qScreen = worldToScreen(projViewMatrix, qWorld);
+
+                float t = glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
+                projection += t * getAxisLine(axis);
+            }
+        }
         pObject->getTransform().setPosition(glm::vec3(m_selectObjectInitialTransform[3]) + gizmoDragSpeed * projection);
     }
     if (m_mode == LE3_GIZMO_MODE_SCALE) {
@@ -298,6 +317,12 @@ LE3GizmoAxis LE3Gizmo::getHoveredAxisTranslateScale(glm::mat4 projViewMatrix, gl
     const LE3GizmoAxis axes[] = { LE3_GIZMO_AXIS_X, LE3_GIZMO_AXIS_Y, LE3_GIZMO_AXIS_Z };
     const float gizmoAxisLength = 0.565f;
     const float gizmoSelectionThreshold = 0.05f;
+
+    // First check for "all axes"
+    glm::vec3 centerWorld = posFromMatrix(getWorldMatrix());
+    glm::vec2 centerScreen = worldToScreen(projViewMatrix, centerWorld);
+
+    if (glm::length(centerScreen - cursorPosition) < gizmoSelectionThreshold) return LE3_GIZMO_AXIS_ALL;
 
     for (LE3GizmoAxis axis : axes) {
         glm::mat4 modelMatrix = getWorldMatrix() * gizmoTransform(axis);
