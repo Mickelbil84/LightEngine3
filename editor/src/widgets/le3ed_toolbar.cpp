@@ -9,8 +9,12 @@ void LE3EditorToolbar::init() {
     m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save"));
     m_buttons.push_back(LE3EditorToolbarButton("SaveAs", "icon_saveas"));
     m_buttons.push_back(LE3EditorToolbarButton());
-    m_buttons.push_back(LE3EditorToolbarButton("Undo", "icon_undo"));
-    m_buttons.push_back(LE3EditorToolbarButton("Redo", "icon_redo"));
+    m_buttons.push_back(LE3EditorToolbarButton("Undo", "icon_undo", []() {
+        LE3GetEditorManager().getCommandStack().undo();
+    }));
+    m_buttons.push_back(LE3EditorToolbarButton("Redo", "icon_redo", []() {
+        LE3GetEditorManager().getCommandStack().redo();
+    }));
     m_buttons.push_back(LE3EditorToolbarButton());
     m_buttons.push_back(LE3EditorToolbarButton("Select", "icon_gizmo_select"));
     m_buttons.push_back(LE3EditorToolbarButton("Move", "icon_gizmo_move"));
@@ -31,9 +35,12 @@ void LE3EditorToolbar::update() {
             ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
             continue;
         }
-        ImGui::ImageButton(
+        bool clicked = ImGui::ImageButton(
             button.name.c_str(), 
             reinterpret_cast<void*>(LE3GetAssetManager().getTexture(button.iconName)->getTextureID()), 
             ImVec2(LE3ED_TOOLBAR_BUTTON_SIZE, LE3ED_TOOLBAR_BUTTON_SIZE));
+        if (button.onClick && clicked) {
+            button.onClick();
+        }
     }
 }
