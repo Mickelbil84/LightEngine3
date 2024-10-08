@@ -34,7 +34,9 @@ namespace le3 {
 
 LE3Gizmo::LE3Gizmo() :
     LE3DrawableObject(LE3GetAssetManager().getMaterial(DEFAULT_GIZMO_MATERIAL)),
-    m_hoveredAxis(LE3_GIZMO_AXIS_NONE)
+    m_hoveredAxis(LE3_GIZMO_AXIS_NONE),
+    m_state(LE3_GIZMO_STATE_DISABLED),
+    m_mode(LE3_GIZMO_MODE_TRANSLATE)
 {
     setDrawPriority(DRAW_PRIORITY_UI);
 }
