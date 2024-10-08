@@ -69,6 +69,7 @@ namespace le3 {
 
         int m_dragFrames = 0;
         glm::vec3 m_dragDelta;
+        glm::vec2 m_dragCursortStart;
 
         glm::vec3 getAxisLine(LE3GizmoAxis axis);
         void getAxisScreen(LE3GizmoAxis axis, glm::vec2& base, glm::vec2& tip);

@@ -162,7 +162,7 @@ float LE3Gizmo::distanceToLineAxis(glm::vec2 point, LE3GizmoAxis axis) {
 
 glm::vec3 LE3Gizmo::getAxisLine(LE3GizmoAxis axis) {
     if (axis == LE3_GIZMO_AXIS_X) return glm::vec3(1.f, 0.f, 0.f);
-    if (axis == LE3_GIZMO_AXIS_Y) return glm::vec3(0.f, -1.f, 0.f);
+    if (axis == LE3_GIZMO_AXIS_Y) return glm::vec3(0.f, 1.f, 0.f);
     if (axis == LE3_GIZMO_AXIS_Z) return glm::vec3(0.f, 0.f, 1.f);
     return glm::vec3(0.f);
 }
@@ -295,6 +295,7 @@ void LE3Gizmo::updateStateIdle(float deltaTime) {
         if (m_dragFrames > 10) {
             m_state = LE3_GIZMO_STATE_DRAGGING;    
             m_dragDelta = glm::vec3(0.f);
+            m_dragCursortStart = glm::vec2(LE3GetActiveScene()->getCursorLocation());
             m_selectObjectInitialTransform = LE3GetEditorManager().getSelection().pObject.lock()->getTransform().getTransformMatrix();
         }
     }
@@ -313,7 +314,7 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
     }
 
     const float gizmoAxisLength = 0.565f;
-    float gizmoDragSpeed = 0.010f;
+    float gizmoDragSpeed = 1.0f;
 
     glm::mat4 projViewMatrix = LE3GetActiveScene()->getMainCamera()->getProjectionMatrix() * LE3GetActiveScene()->getMainCamera()->getViewMatrix();
     glm::mat4 modelMatrix = getWorldMatrix() * gizmoTransform(m_hoveredAxis);
@@ -322,28 +323,26 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
     glm::vec2 pScreen = worldToScreen(projViewMatrix, pWorld);
     glm::vec2 qScreen = worldToScreen(projViewMatrix, qWorld);
 
-    float dx = LE3GetEditorManager().getMouseRelX(); 
-    float dy = LE3GetEditorManager().getMouseRelY();
+    glm::vec2 mouseCurr = glm::vec2(LE3GetActiveScene()->getCursorLocation());
+    float dx = mouseCurr.x - m_dragCursortStart.x;
+    float dy = mouseCurr.y - m_dragCursortStart.y;
 
     LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock();
 
     if (m_mode == LE3_GIZMO_MODE_TRANSLATE) {
-        float t = glm::dot(glm::vec2(dx, dy), qScreen - pScreen);
+        float t = glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
         glm::vec3 projection = t * getAxisLine(m_hoveredAxis);
-        m_dragDelta += gizmoDragSpeed * projection;
-        pObject->getTransform().setPosition(glm::vec3(m_selectObjectInitialTransform[3]) + m_dragDelta);
+        pObject->getTransform().setPosition(glm::vec3(m_selectObjectInitialTransform[3]) + gizmoDragSpeed * projection);
     }
     if (m_mode == LE3_GIZMO_MODE_SCALE) {
-        float t = glm::dot(glm::vec2(dx, dy), qScreen - pScreen);
+        float t = glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
         glm::vec3 projection = t * getAxisLine(m_hoveredAxis);
-        m_dragDelta += gizmoDragSpeed * projection;
         glm::vec3 originalScale = glm::vec3(
             glm::length(m_selectObjectInitialTransform[0]),
             glm::length(m_selectObjectInitialTransform[1]),
             glm::length(m_selectObjectInitialTransform[2]));
-        pObject->getTransform().setScale(originalScale + m_dragDelta);
+        pObject->getTransform().setScale(originalScale + gizmoDragSpeed * projection);
     }
-
 
 }
 void LE3Gizmo::updateStateRelease(float deltaTime) {
