@@ -131,6 +131,17 @@ void LE3Gizmo::drawModeTranslate(LE3ShaderPtr shaderOverride) {
     LE3GetAssetManager().getGizmoCenterMesh()->draw();
 }
 void LE3Gizmo::drawModeRotate(LE3ShaderPtr shaderOverride) {
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_X);
+    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_X));
+    LE3GetAssetManager().getGizmoCircleMesh()->draw();
+
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_Y);
+    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_Y));
+    LE3GetAssetManager().getGizmoCircleMesh()->draw();
+
+    m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_Z);
+    m_pMaterial->shader->uniform("gizmoTransform", gizmoTransform(LE3_GIZMO_AXIS_Z));
+    LE3GetAssetManager().getGizmoCircleMesh()->draw();
 }
 void LE3Gizmo::drawModeScale(LE3ShaderPtr shaderOverride) {
     m_pMaterial->shader->uniform("gizmoAxis", (unsigned int)LE3_GIZMO_AXIS_X);

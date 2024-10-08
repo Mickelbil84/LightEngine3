@@ -15,6 +15,7 @@ namespace le3 {
     
     LE3MeshPtr<LE3Vertex> createGizmoArrow();
     LE3MeshPtr<LE3Vertex> createGizmoScaleArrow();
+    LE3MeshPtr<LE3Vertex> createGizmoCircle();
     LE3MeshPtr<LE3Vertex> createGizmoCenter();
 
     LE3MeshPtr<LE3Vertex3p> createDebugLine();

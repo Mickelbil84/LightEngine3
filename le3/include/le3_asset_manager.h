@@ -59,6 +59,7 @@ namespace le3 {
 
         inline LE3StaticMeshPtr getGizmoArrowMesh() { return m_gizmoArrow; }
         inline LE3StaticMeshPtr getGizmoScaleArrowMesh() { return m_gizmoScaleArrow; }
+        inline LE3StaticMeshPtr getGizmoCircleMesh() { return m_gizmoCircle; }
         inline LE3StaticMeshPtr getGizmoCenterMesh() { return m_gizmoCenter; }
 
         inline std::map<std::string, std::pair<std::string, std::string>> getShadersPaths() { return m_shadersPaths; }
@@ -83,7 +84,7 @@ namespace le3 {
 
         // Debug meshes
         LE3MeshPtr<LE3Vertex3p> m_debugLine, m_debugBox, m_debugCylinder, m_debugCone;
-        LE3StaticMeshPtr m_gizmoArrow, m_gizmoScaleArrow, m_gizmoCenter;
+        LE3StaticMeshPtr m_gizmoArrow, m_gizmoScaleArrow, m_gizmoCircle, m_gizmoCenter;
 
         // Helper methods
         std::string readFile(std::string filename);

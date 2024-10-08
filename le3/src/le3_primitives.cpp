@@ -318,6 +318,10 @@ LE3MeshPtr<LE3Vertex> le3::createGizmoScaleArrow() {
     return std::make_shared<LE3StaticMesh>(buffer);
 }
 
+LE3MeshPtr<LE3Vertex> le3::createGizmoCircle() {
+    return createTorus(0.f, 0.f, 0.f, 0.25f, 0.01f, 32);
+}
+
 LE3MeshPtr<LE3Vertex> le3::createGizmoCenter() {
     // TODO: Make constants in engine config
     return createBox(0.f, 0.f, 0.f, 0.06f, 0.06f, 0.06f);
