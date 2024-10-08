@@ -79,6 +79,9 @@ glm::vec3 LE3Gizmo::getAxisLine(LE3GizmoAxis axis) {
     if (axis == LE3_GIZMO_AXIS_Y) return glm::vec3(0.f, 1.f, 0.f);
     if (axis == LE3_GIZMO_AXIS_Z) return glm::vec3(0.f, 0.f, 1.f);
     if (axis == LE3_GIZMO_AXIS_ALL) return glm::vec3(1.f);
+    if (axis == LE3_GIZMO_AXIS_XY) return glm::vec3(1.f, 1.f, 0.f);
+    if (axis == LE3_GIZMO_AXIS_XZ) return glm::vec3(1.f, 0.f, 1.f);
+    if (axis == LE3_GIZMO_AXIS_YZ) return glm::vec3(0.f, 1.f, 1.f);
     return glm::vec3(0.f);
 }
 
@@ -269,15 +272,20 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
 
     if (m_mode == LE3_GIZMO_MODE_TRANSLATE) {
         glm::vec3 projection(0.f);
-        if (m_hoveredAxis != LE3_GIZMO_AXIS_ALL) {
+        if (m_hoveredAxis == LE3_GIZMO_AXIS_X || m_hoveredAxis == LE3_GIZMO_AXIS_Y || m_hoveredAxis == LE3_GIZMO_AXIS_Z) {
             float t = glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
             projection = t * getAxisLine(m_hoveredAxis);
         }
         else {
-            // Special treatment for all axes on the translation case
+            // Special treatment for [all axes / planes] on the translation case
             // (Project into each axis individually, and aggregate)
             const LE3GizmoAxis axes[] = { LE3_GIZMO_AXIS_X, LE3_GIZMO_AXIS_Y, LE3_GIZMO_AXIS_Z };
             for (LE3GizmoAxis axis : axes) {
+
+                if (m_hoveredAxis == LE3_GIZMO_AXIS_XY && axis == LE3_GIZMO_AXIS_Z) continue;
+                if (m_hoveredAxis == LE3_GIZMO_AXIS_XZ && axis == LE3_GIZMO_AXIS_Y) continue;
+                if (m_hoveredAxis == LE3_GIZMO_AXIS_YZ && axis == LE3_GIZMO_AXIS_X) continue;
+
                 glm::mat4 modelMatrix = getWorldMatrix() * gizmoTransform(axis);
                 glm::vec3 pWorld = glm::vec3(modelMatrix * glm::vec4(0.f, 0.f, 0.f, 1.f));
                 glm::vec3 qWorld = glm::vec3(modelMatrix * glm::vec4(0.f, gizmoAxisLength, 0.f, 1.f));
@@ -345,15 +353,25 @@ LE3GizmoAxis LE3Gizmo::getHoveredAxis() {
 }
 LE3GizmoAxis LE3Gizmo::getHoveredAxisTranslateScale(glm::mat4 projViewMatrix, glm::vec2 cursorPosition) {
     const LE3GizmoAxis axes[] = { LE3_GIZMO_AXIS_X, LE3_GIZMO_AXIS_Y, LE3_GIZMO_AXIS_Z };
+    const LE3GizmoAxis planes[] = { LE3_GIZMO_AXIS_XY, LE3_GIZMO_AXIS_XZ, LE3_GIZMO_AXIS_YZ };
     const float gizmoAxisLength = 0.565f;
     const float gizmoSelectionThreshold = 0.05f;
 
     // First check for "all axes"
     glm::vec3 centerWorld = posFromMatrix(getWorldMatrix());
     glm::vec2 centerScreen = worldToScreen(projViewMatrix, centerWorld);
-
     if (glm::length(centerScreen - cursorPosition) < gizmoSelectionThreshold) return LE3_GIZMO_AXIS_ALL;
 
+    // Then check for planes
+    glm::vec3 planeCenter = glm::vec3(0.25f, 0.25f, 0.f);
+    for (LE3GizmoAxis plane : planes) {
+        glm::mat4 modelMatrix = getWorldMatrix() * gizmoTransform(plane);
+        glm::vec3 pWorld = glm::vec3(modelMatrix * glm::vec4(planeCenter, 1.f));
+        glm::vec2 pScreen = worldToScreen(projViewMatrix, pWorld);
+        if (glm::length(pScreen - cursorPosition) < gizmoSelectionThreshold) return plane;
+    }
+
+    // Finally try for the axes themselves
     for (LE3GizmoAxis axis : axes) {
         glm::mat4 modelMatrix = getWorldMatrix() * gizmoTransform(axis);
         glm::vec3 pWorld = glm::vec3(modelMatrix * glm::vec4(0.f, 0.f, 0.f, 1.f));
