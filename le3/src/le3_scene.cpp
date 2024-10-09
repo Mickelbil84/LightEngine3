@@ -390,8 +390,8 @@ void LE3Scene::updateHoveredObject() {
         LE3GetEditorManager().setHoveredObject(obj);
     }
 
-    if (LE3GetEditorManager().getHoveredObject().lock())
-        fmt::print("{}\n", LE3GetEditorManager().getHoveredObject().lock()->getName());
+    // if (LE3GetEditorManager().getHoveredObject().lock())
+    //     fmt::print("{}\n", LE3GetEditorManager().getHoveredObject().lock()->getName());
 }
 
 void LE3Scene::deleteObject(std::string name) {
