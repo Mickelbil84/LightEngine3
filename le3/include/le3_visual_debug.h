@@ -16,9 +16,16 @@ namespace le3 {
         void drawDebugCylinder(glm::vec3 position, float radius, float height, glm::vec3 color);
         void drawDebugCone(glm::vec3 position, float radius, float height, glm::vec3 color);
 
+        void setDrawDebugSkeletons(bool draw) { m_bDrawDebugSkeletons = draw; }
+        bool getDrawDebugSkeletons() const { return m_bDrawDebugSkeletons; }
+
+
     private:
         LE3CameraPtr m_activeCamera = nullptr;
 
         void setupDebugShader(glm::mat4 modelMatrix, glm::vec3 color);
+
+        // Toggles
+        bool m_bDrawDebugSkeletons = false;
     };
 }

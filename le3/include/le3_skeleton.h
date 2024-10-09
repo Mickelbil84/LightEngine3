@@ -24,6 +24,7 @@ namespace le3 {
     struct LE3Skeleton {
         void addBone(std::string name);
         LE3BonePtr getBone(std::string boneName);
+        std::vector<LE3BonePtr>& getBones() { return m_bones; }
 
         glm::mat4 m_globalInverseTransform;
         std::vector<LE3BonePtr> m_bones;

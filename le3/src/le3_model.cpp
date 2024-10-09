@@ -1,7 +1,17 @@
 #include "le3_model.h"
+#include "le3_engine_systems.h"
 using namespace le3;
 
 #include <fmt/core.h>
+
+
+// TODO: Outsource this to a seperate render engine
+#ifdef __linux__
+#include <GL/glew.h>
+#else
+#include <gl/glew.h>
+#endif
+
 
 template<typename LE3VertexType>
 LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority) :
@@ -34,14 +44,30 @@ void LE3Model<LE3VertexType>::draw(LE3ShaderPtr shaderOverride) {
     bool shouldAnimate = (m_currentAnimation.size() > 0) && (m_currentAnimation != DEFAULT_EMPTY_ANIMATION_NAME);
     if (shouldAnimate)
         boneMatrices = m_pMesh->getAnimationTracks()[m_currentAnimation].getBoneMatrices();
-    // else for (int idx = 0; idx < m_pMesh->getSkeleton().m_bones.size(); idx++)
-    //     boneMatrices.push_back(glm::mat4(1.f));
+    else for (int idx = 0; idx < m_pMesh->getSkeleton().m_bones.size(); idx++)
+        boneMatrices.push_back(glm::mat4(1.f));
     for (int idx = 0; idx < boneMatrices.size(); idx++)
         shaderOverride->uniform(fmt::format("boneMatrices[{}]", idx), boneMatrices[idx]);
     
     shaderOverride->uniform("bIsSkeletal", (uint32_t)(shouldAnimate));
     if (m_pMesh) m_pMesh->draw();
     shaderOverride->uniform("bIsSkeletal", (uint32_t)false);
+
+    if (LE3GetVisualDebug().getDrawDebugSkeletons()) drawDebugSkeleton(boneMatrices);
+}
+
+template<typename LE3VertexType>
+void LE3Model<LE3VertexType>::drawDebugSkeleton(std::vector<glm::mat4> boneMatrices) {
+    glDisable(GL_DEPTH_TEST);
+    for (LE3BonePtr bone : m_pMesh->getSkeleton().getBones()) {
+        glm::mat4 modelBone = getWorldMatrix() * boneMatrices[bone->id] * glm::inverse(bone->offset);
+        LE3GetVisualDebug().drawDebugBox(modelBone[3], glm::quat(1.f, 0.f, 0.f, 0.f), glm::vec3(0.01f), glm::vec3(0.f, 1.f, 0.f));
+        if (bone->parent) {
+            glm::mat4 parentBone = getWorldMatrix() * boneMatrices[bone->parent->id] * glm::inverse(bone->parent->offset);
+            LE3GetVisualDebug().drawDebugLine(modelBone[3], parentBone[3], glm::vec3(0.f, 1.f, 0.f));
+        }
+    }
+    glEnable(GL_DEPTH_TEST);
 }
 
 namespace le3 {

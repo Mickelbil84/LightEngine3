@@ -41,7 +41,9 @@ namespace le3 {
 
         std::string m_meshName, m_materialName;
 
+
         // If skeletal
+        void drawDebugSkeleton(std::vector<glm::mat4> boneMatrices);
         std::string m_currentAnimation = DEFAULT_EMPTY_ANIMATION_NAME; 
         float m_animationTime = 0.f;
         bool m_animationPlaying = false;
