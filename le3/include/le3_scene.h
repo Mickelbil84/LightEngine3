@@ -71,7 +71,7 @@ namespace le3 {
         void addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent = "", LE3DrawPriority priority = DRAW_PRIORITY_LOW);
         void addSkeletalModel(std::string name, std::string meshName, std::string materialName, std::string parent = "");
         void addPointCloud(std::string name, std::string materialName, std::string parent = "");
-        void addSprite(std::string name, std::string materialName, std::string parent = "");
+        void addSprite(std::string name, std::string textureName, std::string parent = "");
 
         void addBSPBrush(std::string name, LE3BSPBrushType brushType = LE3_BRUSH_ADDITIVE);
         void buildBSP();

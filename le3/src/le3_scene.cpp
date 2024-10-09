@@ -228,8 +228,8 @@ void LE3Scene::addPointCloud(std::string name, std::string materialName, std::st
     addCustomObject(name, obj, parent);
 }
 
-void LE3Scene::addSprite(std::string name, std::string materialName, std::string parent) {
-    LE3SpritePtr obj = std::make_shared<LE3Sprite>(LE3GetAssetManager().getMaterial(materialName));
+void LE3Scene::addSprite(std::string name, std::string textureName, std::string parent) {
+    LE3SpritePtr obj = std::make_shared<LE3Sprite>(LE3GetAssetManager().getTexture(textureName));
     addCustomObject(name, obj, parent);
 }
 

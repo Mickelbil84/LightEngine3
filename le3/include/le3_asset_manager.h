@@ -17,6 +17,9 @@ namespace le3 {
     const std::string DEFAULT_SHADOWMAP_SHADER = "S_shadowmap";
     const std::string DEFAULT_DEBUG_SHADER = "S_debug";
     const std::string DEFAULT_GIZMO_SHADER = "S_gizmo";
+    
+    const std::string DEFAULT_SPRITE_SHADER = "S_sprite";
+    const std::string DEFAULT_SPRITE_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_sprite";
 
     const std::string DEFAULT_GIZMO_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_gizmo";
 

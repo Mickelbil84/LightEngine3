@@ -82,8 +82,8 @@ FEND()
 FBIND(LE3Scene, add_sprite)
     GET_UDATA(scene, LE3Scene)
     GET_STRING(name)
-    GET_STRING(materialName)
-    scene->addSprite(name, materialName);
+    GET_STRING(textureName)
+    scene->addSprite(name, textureName);
 FEND()
 
 FBIND(LE3Scene, add_script_object)

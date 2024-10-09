@@ -614,8 +614,8 @@ function LE3Scene.add_spot_light(scene, name) end
 
 ---@param scene LE3Scene
 ---@param name string
----@param materialName string
-function LE3Scene.add_sprite(scene, name, materialName) end
+---@param textureName string
+function LE3Scene.add_sprite(scene, name, textureName) end
 
 ---@param scene LE3Scene
 ---@param name string
