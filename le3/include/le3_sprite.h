@@ -9,6 +9,8 @@ namespace le3 {
         LE3Sprite(LE3TexturePtr pTexture);
         LE3_TYPE_RETURN(LE3Sprite)
 
+        virtual void draw(LE3ShaderPtr shaderOverride = nullptr);
+
     private:
         LE3TexturePtr m_pTexture;
     };

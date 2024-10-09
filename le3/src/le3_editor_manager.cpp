@@ -18,9 +18,15 @@ void LE3EditorSelection::reset() {
 void LE3EditorSelection::deselect() {
     reset();
 }
-void LE3EditorSelection::selectObject(LE3ObjectWeakPtr pObject) {
+void LE3EditorSelection::selectObject(LE3ObjectWeakPtr pObjectWeak) {
     reset();
-    if (pObject.expired()) return;
+    LE3ObjectPtr pObject = pObjectWeak.lock();
+    if (!pObject) return;
+
+    while (pObject->isDelegate()) {
+        pObject = pObject->getParent();
+    }
+
     type = LE3SelectionType::LE3_SELECTION_OBJECT;
     this->pObject = pObject;
     this->onSelect(*this);

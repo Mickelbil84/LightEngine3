@@ -34,6 +34,11 @@ namespace le3 {
         void setName(const std::string& name) { m_name = name; } // Use with causion, renaming should be done via scene
         std::string getName() const { return m_name; }
 
+        // A delegate object is an object whose sole purpose is to represent (usually visually) another object,
+        // its parent. For example when selecting a light sprite, we mean to select the light itself.
+        bool isDelegate() const { return m_bIsDelegate; }
+        void setIsDelegate(bool isDelegate) { m_bIsDelegate = isDelegate; }
+
     protected:
         LE3Transform m_transform;
 
@@ -44,6 +49,7 @@ namespace le3 {
 
         std::string m_name = "";
         glm::mat4 m_worldMatrix = glm::mat4(1.f);
+        bool m_bIsDelegate = false;
     };
     using LE3ObjectPtr = std::shared_ptr<LE3Object>;
     using LE3ObjectWeakPtr = std::weak_ptr<LE3Object>;
