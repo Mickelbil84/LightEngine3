@@ -29,6 +29,10 @@ void LE3EditorTabAssets::update() {
             updateMeshes();
             ImGui::EndTabItem();
         }
+        if (ImGui::BeginTabItem("Animations")) {
+            updateAnimations();
+            ImGui::EndTabItem();
+        }
         ImGui::EndTabBar();
     }
 }
@@ -192,6 +196,52 @@ void LE3EditorTabAssets::updateMeshes() {
 
             ImGui::TableNextColumn();
             ImGui::Text("%s", path.c_str());
+        }
+
+        ImGui::EndTable();
+    }
+}
+
+void LE3EditorTabAssets::updateAnimations() {
+    std::map<std::string, std::string> meshesPaths = LE3GetAssetManager().getMeshesPaths();
+    std::vector<std::string> skeletalMeshes;
+    for (auto& [name, path] : meshesPaths) {
+        if (!LE3GetAssetManager().isSkeletalMesh(name)) continue;
+        skeletalMeshes.push_back(name);
+    }
+    std::vector<const char*> skeletalMeshesLabels;
+    for (auto& mesh : skeletalMeshes) skeletalMeshesLabels.push_back(mesh.c_str());
+
+    if (skeletalMeshes.size() == 0) {
+        ImGui::Text("No skeletal meshes found");
+        return;
+    }
+
+    static int selectedSkeletalMesh = 0;
+    ImGui::Combo("Skeletal Mesh", &selectedSkeletalMesh, skeletalMeshesLabels.data(), skeletalMeshesLabels.size());
+
+    if (ImGui::Button("Add")) {
+        // ...
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Delete")) {
+        // ...
+    }
+
+    LE3SkeletalMeshPtr pSkeletalMesh = LE3GetAssetManager().getSkeletalMesh(skeletalMeshes[selectedSkeletalMesh]);
+    if (ImGui::BeginTable("##AnimationsTable", 1, flags)) {
+        ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
+        ImGui::TableHeadersRow();
+
+        for (auto& [name, track] : pSkeletalMesh->getAnimationTracks()) {
+            bool selected = (LE3GetEditorManager().getSelection().animationTrack == name) &&
+                (LE3GetEditorManager().getSelection().pSkeletalMesh == pSkeletalMesh);
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            ImGui::Selectable(name.c_str(), selected, ImGuiSelectableFlags_SpanAllColumns);
+            if (ImGui::IsItemClicked()) {
+                LE3GetEditorManager().getSelection().selectAsset(pSkeletalMesh, name);
+            }
         }
 
         ImGui::EndTable();

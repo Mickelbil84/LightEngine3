@@ -18,6 +18,7 @@ namespace le3 {
             LE3_SELECTION_ASSET_MATERIAL,
             LE3_SELECTION_ASSET_TEXTURE,
             LE3_SELECTION_ASSET_MESH,
+            LE3_SELECTION_ASSET_ANIMATION,
         };
 
         LE3SelectionType type;
@@ -27,6 +28,7 @@ namespace le3 {
         LE3TexturePtr pTexture;
         LE3StaticMeshPtr pStaticMesh;
         LE3SkeletalMeshPtr pSkeletalMesh;
+        std::string animationTrack;
 
         LE3EditorSelection();
         void reset();
@@ -38,6 +40,7 @@ namespace le3 {
         void selectAsset(LE3TexturePtr pTexture);
         void selectAsset(LE3StaticMeshPtr pStaticMesh);
         void selectAsset(LE3SkeletalMeshPtr pSkeletalMesh);
+        void selectAsset(LE3SkeletalMeshPtr pSkeletalMesh, std::string animationTrack);
 
         // On select callback
         std::function<void(LE3EditorSelection&)> onSelect;

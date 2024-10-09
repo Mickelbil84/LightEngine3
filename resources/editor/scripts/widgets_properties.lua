@@ -18,7 +18,7 @@ function update_object_properties_panel(obj)
 
         if (ImGui.CollapsingHeader(v.title)) then
             for _, property in ipairs(v.properties) do
-                show_property(property, tbl)
+                show_property(property, tbl, obj)
             end
         end
         ::continue::
@@ -57,8 +57,12 @@ function update_skeletal_mesh_properties_panel(skeletal_mesh)
     ImGui.CollapsingHeader("LE3SkeletalMesh")
 end
 
+function update_animation_properties_panel(skeletal_mesh, animation_track)
+    ImGui.CollapsingHeader("LE3Animation")
+end
 
-function show_property(property, tbl)
+
+function show_property(property, tbl, obj)
     if property.type == "string" then
         local value = tbl[property.name]
         tbl[property.name]  = ImGui.InputText(property.name, value)
@@ -109,6 +113,32 @@ function show_property(property, tbl)
                 show_property(property_, tbl)
             end
             ImGui.TreePop()
+        end
+    end
+    if property.type == "asset" then
+        show_asset_property(property, tbl, obj)
+    end
+end
+
+function show_asset_property(property, tbl, obj)
+    if property.asset_type == "animation" then
+        if (ImGui.TreeNode(property.name)) then
+            tbl[property.name] = ImGui.Combo_Animation(property.name, tbl[property.related_property], tbl[property.name])
+            if (ImGui.Button("Play")) then
+                LE3SkeletalModel.set_animation_playing(obj, true)
+            end
+            ImGui.SameLine()
+            if (ImGui.Button("Pause")) then 
+                LE3SkeletalModel.set_animation_playing(obj, false)
+            end
+            ImGui.SameLine()
+            if (ImGui.Button("Stop")) then 
+                LE3SkeletalModel.set_animation_playing(obj, false)
+                LE3SkeletalModel.reset_animation(obj)
+            end
+
+            ImGui.TreePop()
+
         end
     end
 end

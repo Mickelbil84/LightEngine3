@@ -68,6 +68,10 @@ LE3VisualDebug = {}
 --------------------------------------
 
 ---@param label string
+---@return boolean
+function ImGui.Button(label) end
+
+---@param label string
 ---@param prev boolean
 ---@return boolean
 function ImGui.Checkbox(label, prev) end
@@ -95,6 +99,12 @@ function ImGui.ColorEdit3(label, prev_x, prev_y, prev_z) end
 ---@return number
 ---@return number
 function ImGui.ColorEdit4(label, prev_x, prev_y, prev_z, prev_w) end
+
+---@param label string
+---@param meshName string
+---@param prev string
+---@return string
+function ImGui.Combo_Animation(label, meshName, prev) end
 
 ---@param label string
 ---@param prev number
@@ -137,6 +147,8 @@ function ImGui.InputInt(label, prev) end
 ---@param prev string
 ---@return string
 function ImGui.InputText(label, prev) end
+
+function ImGui.SameLine() end
 
 ---@param text string
 function ImGui.Text(text) end
@@ -674,11 +686,30 @@ function LE3Shader.set_name(self, name) end
 
 ---@param self LE3SkeletalModel
 ---@return string
+function LE3SkeletalModel.get_current_animation(self) end
+
+---@param self LE3SkeletalModel
+---@return string
 function LE3SkeletalModel.get_material_name(self) end
 
 ---@param self LE3SkeletalModel
 ---@return string
 function LE3SkeletalModel.get_mesh_name(self) end
+
+---@param self LE3SkeletalModel
+---@return boolean
+function LE3SkeletalModel.is_animation_playing(self) end
+
+---@param self LE3SkeletalModel
+function LE3SkeletalModel.reset_animation(self) end
+
+---@param self LE3SkeletalModel
+---@param animation_playing boolean
+function LE3SkeletalModel.set_animation_playing(self, animation_playing) end
+
+---@param self LE3SkeletalModel
+---@param current_animation string
+function LE3SkeletalModel.set_current_animation(self, current_animation) end
 
 ---@param self LE3SkeletalModel
 ---@param material_name string

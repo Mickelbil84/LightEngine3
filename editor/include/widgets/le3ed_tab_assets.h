@@ -13,6 +13,7 @@ namespace le3 {
         void updateMaterials();
         void updateTextures();
         void updateMeshes();
+        void updateAnimations();
 
         void addEngineAssetsCheckbox();
         static bool isEngineAsset(std::string name, std::string path);

@@ -21,6 +21,15 @@ FBIND(ImGui, Text)
     ImGui::Text("%s", text.c_str());
 FEND()
 
+FBIND(ImGui, Button)
+    GET_STRING(label)
+    PUSH_BOOL(ImGui::Button(label.c_str()))
+FEND()
+
+FBIND(ImGui, SameLine)
+    ImGui::SameLine();
+FEND()
+
 FBIND(ImGui, InputText)
     GET_STRING(label)
     GET_STRING(prev)
@@ -99,8 +108,30 @@ FBIND(ImGui, InputFloat4)
     PUSH_QUAT(result)
 FEND()
 
+
+FBIND(ImGui, Combo_Animation) 
+    GET_STRING(label)
+    GET_STRING(meshName)
+    GET_STRING(prev)
+
+    LE3SkeletalMeshPtr pSkeletalMesh = LE3GetAssetManager().getSkeletalMesh(meshName);
+    std::vector<const char*> animationNames;
+    animationNames.push_back(DEFAULT_EMPTY_ANIMATION_NAME.c_str());
+    int selected = 0, jdx = 1;
+    for (auto& [name, track] : pSkeletalMesh->getAnimationTracks()) {
+        animationNames.push_back(name.c_str());
+        if (name == prev) selected = jdx;
+        jdx++;
+    }
+    ImGui::Combo(label.c_str(), &selected, animationNames.data(), animationNames.size());
+    std::string result = animationNames[selected];
+    PUSH_STRING(result)
+FEND()
+
+
 LIB(ImGui,
-    CollapsingHeader, TreeNode, TreePop, Text,
+    CollapsingHeader, TreeNode, TreePop, Text, Button, SameLine,
     InputText, Checkbox, ColorEdit3, ColorEdit4,
-    InputInt, InputFloat, InputFloat2, InputFloat3, InputFloat4
+    InputInt, InputFloat, InputFloat2, InputFloat3, InputFloat4,
+    Combo_Animation,
 )

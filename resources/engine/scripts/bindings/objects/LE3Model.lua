@@ -31,21 +31,27 @@ LE3SkeletalModel.load = function (scene, tbl, res)
         res = LE3Scene.get_object(scene, tbl.Name)
     end
     LE3SkeletalModel.__base.load(scene, tbl, res)
+    LE3SkeletalModel.rebuild(res, tbl)
     return {ptr = res, name = tbl.Name}
 end
 LE3SkeletalModel.rebuild = function (object, tbl)
     LE3SkeletalModel.__base.rebuild(object, tbl)
     LE3SkeletalModel.set_mesh_name(object, tbl.MeshName)
     LE3SkeletalModel.set_material_name(object, tbl.MaterialName)
+
+    if tbl.CurrentAnimation == nil then tbl.CurrentAnimation = "[None]" end
+    LE3SkeletalModel.set_current_animation(object, tbl.CurrentAnimation)
 end
 LE3SkeletalModel.save = function (object)
     local tbl = LE3SkeletalModel.__base.save(object)
     tbl.MeshName = LE3SkeletalModel.get_mesh_name(object)
     tbl.MaterialName = LE3SkeletalModel.get_material_name(object)
+    tbl.CurrentAnimation = LE3SkeletalModel.get_current_animation(object)
     return tbl
 end
 LE3SkeletalModel.title = "LE3SkeletalModel"
 LE3SkeletalModel.properties = {
     {name = "MeshName", type = "string"},
-    {name = "MaterialName", type = "string"}
+    {name = "MaterialName", type = "string"},
+    {name = "CurrentAnimation", type = "asset", asset_type = "animation", related_property = "MeshName"} 
 }

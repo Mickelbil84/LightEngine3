@@ -12,8 +12,8 @@ LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPt
 template<typename LE3VertexType>
 void LE3Model<LE3VertexType>::update(float deltaTime) {
     LE3DrawableObject::update(deltaTime);
-    m_animationTime += deltaTime;
-    if (m_currentAnimation.size())
+    if (m_animationPlaying) m_animationTime += deltaTime;
+    if (m_currentAnimation.size() && (m_currentAnimation != DEFAULT_EMPTY_ANIMATION_NAME))
     {
         float ticksPerSecond = 25.f;
         if (m_pMesh->getAnimationTracks()[m_currentAnimation].ticksPerSecond)
@@ -31,14 +31,15 @@ void LE3Model<LE3VertexType>::draw(LE3ShaderPtr shaderOverride) {
 
     // Update animation, if applicable
     std::vector<glm::mat4> boneMatrices;
-    if (m_currentAnimation.size())
+    bool shouldAnimate = (m_currentAnimation.size() > 0) && (m_currentAnimation != DEFAULT_EMPTY_ANIMATION_NAME);
+    if (shouldAnimate)
         boneMatrices = m_pMesh->getAnimationTracks()[m_currentAnimation].getBoneMatrices();
     // else for (int idx = 0; idx < m_pMesh->getSkeleton().m_bones.size(); idx++)
     //     boneMatrices.push_back(glm::mat4(1.f));
     for (int idx = 0; idx < boneMatrices.size(); idx++)
         shaderOverride->uniform(fmt::format("boneMatrices[{}]", idx), boneMatrices[idx]);
     
-    shaderOverride->uniform("bIsSkeletal", (uint32_t)(m_currentAnimation.size() > 0));
+    shaderOverride->uniform("bIsSkeletal", (uint32_t)(shouldAnimate));
     if (m_pMesh) m_pMesh->draw();
     shaderOverride->uniform("bIsSkeletal", (uint32_t)false);
 }

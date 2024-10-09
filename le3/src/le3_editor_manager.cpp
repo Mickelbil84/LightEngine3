@@ -13,6 +13,7 @@ void LE3EditorSelection::reset() {
     pTexture = nullptr;
     pStaticMesh = nullptr;
     pSkeletalMesh = nullptr;
+    animationTrack = "";
 }
 
 void LE3EditorSelection::deselect() {
@@ -64,6 +65,15 @@ void LE3EditorSelection::selectAsset(LE3SkeletalMeshPtr pSkeletalMesh) {
     if (!pSkeletalMesh) return;
     type = LE3SelectionType::LE3_SELECTION_ASSET_MESH;
     this->pSkeletalMesh = pSkeletalMesh;
+    this->onSelect(*this);
+}
+
+void LE3EditorSelection::selectAsset(LE3SkeletalMeshPtr pSkeletalMesh, std::string animationTrack) {
+    reset();
+    if (!pSkeletalMesh) return;
+    type = LE3SelectionType::LE3_SELECTION_ASSET_ANIMATION;
+    this->pSkeletalMesh = pSkeletalMesh;
+    this->animationTrack = animationTrack;
     this->onSelect(*this);
 }
 

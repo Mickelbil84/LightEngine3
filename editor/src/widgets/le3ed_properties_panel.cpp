@@ -16,6 +16,7 @@ void LE3EditorPropertiesPanel::update() {
     LE3TexturePtr texture = LE3GetEditorManager().getSelection().pTexture;
     LE3StaticMeshPtr staticMesh = LE3GetEditorManager().getSelection().pStaticMesh;
     LE3SkeletalMeshPtr skeletalMesh = LE3GetEditorManager().getSelection().pSkeletalMesh;
+    std::string animationTrack = LE3GetEditorManager().getSelection().animationTrack;
 
     switch (LE3GetEditorManager().getSelection().type)
     {
@@ -56,6 +57,13 @@ void LE3EditorPropertiesPanel::update() {
         }
         break;
     
+    case LE3EditorSelection::LE3SelectionType::LE3_SELECTION_ASSET_ANIMATION:
+        LE3GetScriptSystem().getGlobal("update_animation_properties_panel");
+        LE3GetScriptSystem().pushUserType(&skeletalMesh);
+        LE3GetScriptSystem().pushString(animationTrack);
+        LE3GetScriptSystem().callFunction(2, 0);
+        break;
+
     default:
         break;
     }

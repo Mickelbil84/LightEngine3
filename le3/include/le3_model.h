@@ -10,6 +10,8 @@
 #include "le3_drawable_object.h"
 
 namespace le3 {
+    const std::string DEFAULT_EMPTY_ANIMATION_NAME = "[None]";
+
     template<typename LE3VertexType>
     class LE3Model : public LE3DrawableObject {
     public:
@@ -23,6 +25,10 @@ namespace le3 {
         void setMesh(LE3MeshPtr<LE3VertexType> pMesh) { m_pMesh = pMesh; }
 
         void setCurrentAnimation(std::string animationName) { m_currentAnimation = animationName; }
+        std::string getCurrentAnimation() const { return m_currentAnimation; }
+        void setAnimationPlaying(bool playing) { m_animationPlaying = playing; }
+        bool isAnimationPlaying() const { return m_animationPlaying; }
+        void resetAnimation() { m_animationTime = 0.f; }
 
         std::string getMeshName() const { return m_meshName; }
         void setMeshName(std::string meshName) { m_meshName = meshName; }
@@ -36,8 +42,9 @@ namespace le3 {
         std::string m_meshName, m_materialName;
 
         // If skeletal
-        std::string m_currentAnimation; 
+        std::string m_currentAnimation = DEFAULT_EMPTY_ANIMATION_NAME; 
         float m_animationTime = 0.f;
+        bool m_animationPlaying = false;
     };
 
     class LE3StaticModel : public LE3Model<LE3Vertex> {
