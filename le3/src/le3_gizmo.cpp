@@ -338,9 +338,20 @@ void LE3Gizmo::updateStateRelease(float deltaTime) {
 }
 
 bool LE3Gizmo::isMouseDown() {
+    bool bMouseDown = LE3GetEditorManager().isMouseDown();
+    bool bInsideViewport = LE3GetActiveScene()->getCursorLocation().z >= 0;
+
+    // Lock mouse when started dragging outside of viewport
+    if (!bMouseDown) m_bMouseDownLock = false;
+    if (m_bMouseDownLock) return false;
+    if (bMouseDown && !bInsideViewport) {
+        m_bMouseDownLock = true;
+        return false;
+    }
+
     // Ignore when cursor is outside!
-    if (LE3GetActiveScene()->getCursorLocation().z < 0) return false;
-    return LE3GetEditorManager().isMouseDown();
+    if (!bInsideViewport) return false;
+    return bMouseDown;
 }
 
 LE3GizmoAxis LE3Gizmo::getHoveredAxis() {

@@ -62,6 +62,7 @@ namespace le3 {
         LE3GizmoAxis m_hoveredAxis;
         
         bool m_bIsHoverable = true, m_bIsDynamicScale = true;
+        bool m_bMouseDownLock = false;
         
         int m_dragFrames = 0;
         glm::vec2 m_dragCursortStart;
