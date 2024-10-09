@@ -211,6 +211,7 @@ void LE3Gizmo::updateStateDisabled(float deltaTime) {
     if (LE3GetEditorManager().getHoveredObject().lock() && isMouseDown()) {
         LE3GetEditorManager().getSelection().selectObject(LE3GetEditorManager().getHoveredObject());
         m_state = LE3_GIZMO_STATE_IDLE;
+        setHidden(true);
     }
 
 }
@@ -222,6 +223,7 @@ void LE3Gizmo::updateStateIdle(float deltaTime) {
     // When updaing position outside of scene view, update gizmo position
     if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock()) {
         m_transform.setPosition(pObject->getWorldPosition());
+        if (isHidden()) setHidden(false);
     }
 
     // Gizmo hover update
@@ -233,6 +235,7 @@ void LE3Gizmo::updateStateIdle(float deltaTime) {
         isMouseDown() &&
         m_hoveredAxis == LE3_GIZMO_AXIS_NONE) {
         LE3GetEditorManager().getSelection().selectObject(LE3GetEditorManager().getHoveredObject());
+        setHidden(true); // After selection, hide gizmo and only show after the position was updated
     }
 
     // Gizmo drag initialization handling (if hover)
