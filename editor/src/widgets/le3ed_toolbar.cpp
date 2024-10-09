@@ -4,6 +4,8 @@ using namespace le3;
 
 #include <imgui_internal.h>
 
+
+
 void LE3EditorToolbar::init() {
     m_buttons.push_back(LE3EditorToolbarButton("New", "icon_new"));
     m_buttons.push_back(LE3EditorToolbarButton("Open", "icon_open"));
@@ -16,11 +18,11 @@ void LE3EditorToolbar::init() {
     m_buttons.push_back(LE3EditorToolbarButton("Undo", "icon_undo", []() {
         LE3GetEditorManager().getCommandStack().undo();
     }));
-    m_buttons.back().setupHotkey({"KEY_Z", "KEY_LGUI"});
+    m_buttons.back().setupHotkey({"KEY_Z", LE3ED_CTRL});
     m_buttons.push_back(LE3EditorToolbarButton("Redo", "icon_redo", []() {
         LE3GetEditorManager().getCommandStack().redo();
     }));
-    m_buttons.back().setupHotkey({"KEY_Y", "KEY_LGUI"});
+    m_buttons.back().setupHotkey({"KEY_Y", LE3ED_CTRL});
     m_buttons.push_back(LE3EditorToolbarButton());
 
     // -------
@@ -61,6 +63,7 @@ void LE3EditorToolbar::init() {
 
     m_buttons.push_back(LE3EditorToolbarButton("Reparent", "icon_reparent"));
     m_buttons.push_back(LE3EditorToolbarButton("Duplicate", "icon_duplicate"));
+    m_buttons.push_back(LE3EditorToolbarButton("Delete", "icon_delete"));
 
 }
 void LE3EditorToolbar::update() {
