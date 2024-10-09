@@ -62,7 +62,16 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
         ptr = ptr->getParent();
     }
 
-    if (obj->getChildren().size() > 0) {
+    // Special case: If we only have delegated for selection, no need for expansion (unless we want to show engine objects)
+    bool hasOnlyDelegates = obj->getChildren().size() > 0;
+    for (LE3ObjectPtr child : obj->getChildren()) {
+        if (!child->isDelegate()) {
+            hasOnlyDelegates = false;
+            break;
+        }
+    }
+
+    if ((obj->getChildren().size() > 0) && (!hasOnlyDelegates || m_bShowEngineObjects)) {
         ImGui::SetNextItemOpen(shouldOpen);
         bool open = ImGui::TreeNodeEx(obj->getName().c_str(), ImGuiTreeNodeFlags_SpanAllColumns | extraFlags);
         m_openStatus[obj->getName()] = open;

@@ -17,9 +17,14 @@ namespace le3 {
     const std::string DEFAULT_SHADOWMAP_SHADER = "S_shadowmap";
     const std::string DEFAULT_DEBUG_SHADER = "S_debug";
     const std::string DEFAULT_GIZMO_SHADER = "S_gizmo";
-    
+
     const std::string DEFAULT_SPRITE_SHADER = "S_sprite";
     const std::string DEFAULT_SPRITE_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_sprite";
+
+    const std::string SPRITE_AMBIENT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_ambient";
+    const std::string SPRITE_DIRECTIONAL_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_directional";
+    const std::string SPRITE_POINT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_point";
+    const std::string SPRITE_SPOT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_spot";
 
     const std::string DEFAULT_GIZMO_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_gizmo";
 

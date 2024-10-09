@@ -269,21 +269,33 @@ void LE3Scene::addAmbientLight(std::string name, std::string parent) {
     LE3AmbientLightPtr light = std::make_shared<LE3AmbientLight>();
     addCustomObject(name, light, parent);
     m_sceneGraph->m_lightManager.setAmbientLight(light);
+    std::string spriteName = fmt::format("{}_sprite_{}_{}", DEFAULT_ENGINE_PREFIX, name, ++m_ticket);
+    addSprite(spriteName, SPRITE_AMBIENT_LIGHT, name);
+    getObject(spriteName)->setIsDelegate(true);
 }
 void LE3Scene::addDirectionalLight(std::string name, std::string parent) {
     LE3DirectionalLightPtr light = std::make_shared<LE3DirectionalLight>();
     addCustomObject(name, light, parent);
     m_sceneGraph->m_lightManager.addDirectionalLight(light);
+    std::string spriteName = fmt::format("{}_sprite_{}_{}", DEFAULT_ENGINE_PREFIX, name, ++m_ticket);
+    addSprite(spriteName, SPRITE_DIRECTIONAL_LIGHT, name);
+    getObject(spriteName)->setIsDelegate(true);
 }
 void LE3Scene::addPointLight(std::string name, std::string parent) {
     LE3PointLightPtr light = std::make_shared<LE3PointLight>();
     addCustomObject(name, light, parent);
     m_sceneGraph->m_lightManager.addPointLight(light);
+    std::string spriteName = fmt::format("{}_sprite_{}_{}", DEFAULT_ENGINE_PREFIX, name, ++m_ticket);
+    addSprite(spriteName, SPRITE_POINT_LIGHT, name);
+    getObject(spriteName)->setIsDelegate(true);
 }
 void LE3Scene::addSpotLight(std::string name, std::string parent) {
     LE3SpotLightPtr light = std::make_shared<LE3SpotLight>();
     addCustomObject(name, light, parent);
     m_sceneGraph->m_lightManager.addSpotLight(light);
+    std::string spriteName = fmt::format("{}_sprite_{}_{}", DEFAULT_ENGINE_PREFIX, name, ++m_ticket);
+    addSprite(spriteName, SPRITE_SPOT_LIGHT, name);
+    getObject(spriteName)->setIsDelegate(true);
 }
 
 // --------------------------------------------------------------------------------
@@ -377,6 +389,9 @@ void LE3Scene::updateHoveredObject() {
         LE3ObjectPtr obj = getObjectByID(pixel);
         LE3GetEditorManager().setHoveredObject(obj);
     }
+
+    if (LE3GetEditorManager().getHoveredObject().lock())
+        fmt::print("{}\n", LE3GetEditorManager().getHoveredObject().lock()->getName());
 }
 
 void LE3Scene::deleteObject(std::string name) {

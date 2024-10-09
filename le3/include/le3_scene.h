@@ -126,6 +126,7 @@ namespace le3 {
         LE3SceneGraphPtr m_sceneGraph;
         LE3ObjectPtr m_nullptr = nullptr;
         std::string m_name;
+        uint32_t m_ticket = 0;
 
         // For inspector scenes (update only very specific objects)
         bool m_bInspected;

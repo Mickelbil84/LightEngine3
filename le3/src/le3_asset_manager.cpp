@@ -31,9 +31,15 @@ void LE3AssetManager::init() {
     addShaderFromFile(DEFAULT_GIZMO_SHADER, "/engine/shaders/gizmo/gizmo.vs", "/engine/shaders/gizmo/gizmo.fs");
     addShaderFromFile(DEFAULT_OBJECTID_SHADER, "/engine/shaders/objectid/objectid.vs", "/engine/shaders/objectid/objectid.fs");
     addShaderFromFile(DEFAULT_SPRITE_SHADER, "/engine/shaders/sprite/sprite.vs", "/engine/shaders/sprite/sprite.fs");
+    // addShaderFromFile(DEFAULT_SPRITE_SHADER, "/engine/shaders/objectid/objectid.vs", "/engine/shaders/objectid/objectid.fs");
 
     addMaterial(DEFAULT_GIZMO_MATERIAL, DEFAULT_GIZMO_SHADER);
     addMaterial(DEFAULT_SPRITE_MATERIAL, DEFAULT_SPRITE_SHADER);
+
+    addTexture(SPRITE_AMBIENT_LIGHT, "/engine/sprites/sprite_ambient.png");
+    addTexture(SPRITE_DIRECTIONAL_LIGHT, "/engine/sprites/sprite_directional.png");
+    addTexture(SPRITE_POINT_LIGHT, "/engine/sprites/sprite_point.png");
+    addTexture(SPRITE_SPOT_LIGHT, "/engine/sprites/sprite_spot.png");
 }
 
 void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {

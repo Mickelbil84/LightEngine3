@@ -13,5 +13,16 @@ LE3Sprite::LE3Sprite(LE3TexturePtr pTexture) :
 void LE3Sprite::draw(LE3ShaderPtr shaderOverride) {
     m_pMaterial->diffuseTexture = m_pTexture;
     m_pMaterial->bUseDiffuseTexture = true;
+
+    if (!shaderOverride) shaderOverride = m_pMaterial->shader;
+
+    if (shaderOverride) {
+        shaderOverride->use();
+        shaderOverride->uniform("isBillboard", (unsigned int)1);
+    }
     LE3StaticModel::draw(shaderOverride);
+    if (shaderOverride) {
+        shaderOverride->use();
+        shaderOverride->uniform("isBillboard", (unsigned int)0);
+    }
 }

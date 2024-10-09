@@ -24,8 +24,31 @@ uniform mat4 projection;
 uniform bool bIsSkeletal;
 uniform mat4 boneMatrices[MAX_NUM_BONES];
 
+uniform int isBillboard;
+
 void main()
 {
+
+    if (isBillboard > 0) {
+        float scale = length(vec3(model[0][0], model[1][0], model[2][0]));
+        scale = 0.2;
+
+        vec4 position = vec4(vPosition.x, vPosition.z, vPosition.y, 1.0);
+
+        mat4 model_norot = mat4(model);
+        model_norot[0][0] = scale; model_norot[0][1] = 0.0; model_norot[0][2] = 0.0;
+        model_norot[1][0] = 0.0; model_norot[1][1] = scale; model_norot[1][2] = 0.0;
+        model_norot[2][0] = 0.0; model_norot[2][1] = 0.0; model_norot[2][2] = scale;
+
+        mat4 inv_view = mat4(view);
+        inv_view[3][0] = 0.0;
+        inv_view[3][1] = 0.0;
+        inv_view[3][2] = 0.0;
+        inv_view = inverse(inv_view);
+        gl_Position = projection * view  * model_norot * inv_view * position;
+        return;
+    }
+
     vec4 position = vPosition;
     if (bIsSkeletal)
     {

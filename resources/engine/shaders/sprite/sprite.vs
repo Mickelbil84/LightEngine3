@@ -16,6 +16,7 @@ out vec4 normalColor;
 void main()
 {
     float scale = length(vec3(model[0][0], model[1][0], model[2][0]));
+    scale = 0.2;
 
     vec4 position = vec4(vPosition.x, vPosition.z, vPosition.y, 1.0);
 
