@@ -238,7 +238,7 @@ void LE3Gizmo::updateStateIdle(float deltaTime) {
     // Gizmo drag initialization handling (if hover)
     if (isMouseDown() && m_hoveredAxis != LE3_GIZMO_AXIS_NONE) {
         m_dragFrames++;
-        if (m_dragFrames > 10) {
+        if (m_dragFrames > 3) {
             m_state = LE3_GIZMO_STATE_DRAGGING;    
             m_dragCursortStart = glm::vec2(LE3GetActiveScene()->getCursorLocation());
             m_selectObjectInitialTransform = LE3GetEditorManager().getSelection().pObject.lock()->getTransform().getTransformMatrix();
