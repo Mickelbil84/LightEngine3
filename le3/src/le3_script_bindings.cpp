@@ -13,6 +13,7 @@ void le3::bindLE3Types(lua_State* L) {
     REGISTER(LE3StaticMesh);
     REGISTER(LE3SkeletalMesh);
     REGISTER(LE3PointCloud);
+    REGISTER(LE3Sprite);
 
     REGISTER(LE3Object);
     REGISTER(LE3ScriptObject);

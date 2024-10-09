@@ -50,6 +50,8 @@ LE3SkeletalMesh = {}
 LE3SkeletalModel = {}
 ---@class LE3SpotLight
 LE3SpotLight = {}
+---@class LE3Sprite
+LE3Sprite = {}
 ---@class LE3StaticMesh
 LE3StaticMesh = {}
 ---@class LE3StaticModel
@@ -135,6 +137,9 @@ function ImGui.InputInt(label, prev) end
 ---@param prev string
 ---@return string
 function ImGui.InputText(label, prev) end
+
+---@param text string
+function ImGui.Text(text) end
 
 ---@param label string
 ---@return boolean
@@ -606,6 +611,11 @@ function LE3Scene.add_skeletal_model(scene, name, meshName, materialName) end
 ---@param scene LE3Scene
 ---@param name string
 function LE3Scene.add_spot_light(scene, name) end
+
+---@param scene LE3Scene
+---@param name string
+---@param materialName string
+function LE3Scene.add_sprite(scene, name, materialName) end
 
 ---@param scene LE3Scene
 ---@param name string

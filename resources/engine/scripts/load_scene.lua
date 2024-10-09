@@ -20,6 +20,7 @@ local function load_LE3Scene_objects(scene, scene_data_table)
         PointLight = LE3PointLight, SpotLight = LE3SpotLight,
         StaticModel = LE3StaticModel, SkeletalModel = LE3SkeletalModel,
         Box = LE3Box, Cylinder = LE3Cylinder, Cone = LE3Cone, Torus = LE3Torus,
+        Sprite = LE3Sprite,
     }
     for _, object in ipairs(scene_data_table.Objects) do
         assert(object.Type ~= nil)

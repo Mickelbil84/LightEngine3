@@ -1,6 +1,9 @@
 function update_object_properties_panel(obj)
     local ttype = LE3Object.get_object_type(obj)
-    if _G[ttype] == nil then return end
+    if _G[ttype] == nil or _G[ttype].save == nil then 
+        ImGui.Text("Unsupported object type: " .. ttype)
+        return 
+    end
     local tbl = _G[ttype].save(obj)
 
     local hierarchy = {}

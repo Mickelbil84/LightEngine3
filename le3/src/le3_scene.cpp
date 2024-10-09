@@ -228,6 +228,11 @@ void LE3Scene::addPointCloud(std::string name, std::string materialName, std::st
     addCustomObject(name, obj, parent);
 }
 
+void LE3Scene::addSprite(std::string name, std::string materialName, std::string parent) {
+    LE3SpritePtr obj = std::make_shared<LE3Sprite>(LE3GetAssetManager().getMaterial(materialName));
+    addCustomObject(name, obj, parent);
+}
+
 void LE3Scene::addBSPBrush(std::string name, LE3BSPBrushType brushType) {
     LE3BSPBrushPtr obj = std::make_shared<LE3BSPBrush>();
     obj->setBrushType(brushType);

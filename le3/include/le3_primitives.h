@@ -8,6 +8,7 @@
 namespace le3 {
     LE3MeshPtr<LE3Vertex3p3c> createHelloOpenGLTriangle();
     LE3ScreenRectPtr createScreenRect();
+    LE3MeshPtr<LE3Vertex> createPlane(float x0, float y0, float z0, float width, float height);
     LE3MeshPtr<LE3Vertex> createBox(float x0, float y0, float z0, float width, float height, float depth);
     LE3MeshPtr<LE3Vertex> createCylinder(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps = true);
     LE3MeshPtr<LE3Vertex> createCone(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps = true);
@@ -24,7 +25,7 @@ namespace le3 {
     LE3MeshPtr<LE3Vertex3p> createDebugCylinder();
     LE3MeshPtr<LE3Vertex3p> createDebugCone();
 
-
+    std::vector<LE3Vertex> _createPlaneBuffer(float x0, float y0, float z0, float width, float height);
     std::vector<LE3Vertex> _createBoxBuffer(float x0, float y0, float z0, float width, float height, float depth);
     std::vector<LE3Vertex> _createCylinderBuffer(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps);
     std::vector<LE3Vertex> _createConeBuffer(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps);

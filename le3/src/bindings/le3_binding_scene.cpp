@@ -79,6 +79,13 @@ FBIND(LE3Scene, add_point_cloud)
     scene->addPointCloud(name, materialName);
 FEND()
 
+FBIND(LE3Scene, add_sprite)
+    GET_UDATA(scene, LE3Scene)
+    GET_STRING(name)
+    GET_STRING(materialName)
+    scene->addSprite(name, materialName);
+FEND()
+
 FBIND(LE3Scene, add_script_object)
     GET_UDATA(scene, LE3Scene)
     GET_STRING(name)
@@ -154,7 +161,7 @@ FBIND_SETTER_BOOL(LE3Scene, set_culling, setCulling)
 LIB(LE3Scene,
     add_empty_object, add_script_object,
     add_box, add_cylinder, add_cone, add_torus,
-    add_static_model, add_skeletal_model, add_point_cloud,
+    add_static_model, add_skeletal_model, add_point_cloud, add_sprite,
     add_free_camera, add_orbit_camera, set_main_camera,
     add_ambient_light, add_directional_light, add_point_light, add_spot_light,
     reparent, get_object,

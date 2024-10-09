@@ -16,6 +16,11 @@ FBIND(ImGui, TreePop)
     ImGui::TreePop();
 FEND()
 
+FBIND(ImGui, Text)
+    GET_STRING(text)
+    ImGui::Text("%s", text.c_str());
+FEND()
+
 FBIND(ImGui, InputText)
     GET_STRING(label)
     GET_STRING(prev)
@@ -95,7 +100,7 @@ FBIND(ImGui, InputFloat4)
 FEND()
 
 LIB(ImGui,
-    CollapsingHeader, TreeNode, TreePop,
+    CollapsingHeader, TreeNode, TreePop, Text,
     InputText, Checkbox, ColorEdit3, ColorEdit4,
     InputInt, InputFloat, InputFloat2, InputFloat3, InputFloat4
 )

@@ -175,6 +175,7 @@ namespace le3 {
     LOPEN_DECLARE(LE3StaticModel);
     LOPEN_DECLARE(LE3SkeletalModel);
     LOPEN_DECLARE(LE3PointCloud);
+    LOPEN_DECLARE(LE3Sprite);
     LOPEN_DECLARE(LE3Input);
     LOPEN_DECLARE(LE3DrawableObject);
     LOPEN_DECLARE(LE3Camera);

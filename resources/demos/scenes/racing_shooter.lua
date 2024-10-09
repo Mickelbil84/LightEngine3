@@ -169,6 +169,12 @@ Scene.Objects = {
         Resolution = 32
     },
     {
+        Type = "Sprite",
+        Name = "sprite",
+        MaterialName = "M_default",
+        Position = {0.0, 0.75, 0.0},
+    },
+    {
         Type = "FreeCamera",
         Name = "cameraFree",
         Position = {0.0, 0.5, 3.0}

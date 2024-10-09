@@ -58,6 +58,31 @@ LE3ScreenRectPtr le3::createScreenRect() {
     return std::make_shared<LE3Mesh<LE3Vertex3p>>(vertices);
 }
 
+std::vector<LE3Vertex> le3::_createPlaneBuffer(float x0, float y0, float z0, float width, float height) {
+    std::vector<LE3Vertex> buffer;
+    glm::vec3 v1(x0 - .5f * width, y0, z0 - .5f * height);
+    glm::vec3 v2(x0 - .5f * width, y0, z0 + .5f * height);
+    glm::vec3 v3(x0 + .5f * width, y0, z0 + .5f * height);
+    glm::vec3 v4(x0 + .5f * width, y0, z0 - .5f * height);
+    glm::vec3 n(0.f, 1.f, 0.f);
+    glm::vec2 t1(0.f, 0.f);
+    glm::vec2 t2(0.f, 1.f);
+    glm::vec2 t3(1.f, 1.f);
+    glm::vec2 t4(1.f, 0.f);
+    buffer.push_back(vertexFromGLM(v1, t1, n));
+    buffer.push_back(vertexFromGLM(v2, t2, n));
+    buffer.push_back(vertexFromGLM(v3, t3, n));
+    buffer.push_back(vertexFromGLM(v1, t1, n));
+    buffer.push_back(vertexFromGLM(v3, t3, n));
+    buffer.push_back(vertexFromGLM(v4, t4, n));
+    return buffer;
+}
+
+LE3MeshPtr<LE3Vertex> le3::createPlane(float x0, float y0, float z0, float width, float height) {
+    std::vector<LE3Vertex> buffer = _createPlaneBuffer(x0, y0, z0, width, height);
+    return std::make_shared<LE3Mesh<LE3Vertex>>(buffer);
+}
+
 
 std::vector<LE3Vertex> le3::_createBoxBuffer(float x0, float y0, float z0, float width, float height, float depth) {
     float hw = .5f * width;
