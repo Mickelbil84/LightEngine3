@@ -7,6 +7,10 @@ using namespace le3;
 
 #include <fmt/core.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 // TODO: Move to constants throughot the entire file..
 
 namespace le3 {
