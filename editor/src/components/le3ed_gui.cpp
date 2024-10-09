@@ -14,6 +14,7 @@ void LE3EditorGUI::init() {
     m_toolbar.init();
     m_toolbox.init();
     m_sidepanelTop.init();
+    m_settingsPanel.init();
     m_propertiesPanel.init();
 }
 
@@ -69,6 +70,10 @@ void LE3EditorGUI::update(float deltaTime) {
         m_propertiesPanel.update();
     ImGui::End();
 
+    ImGui::Begin("Settings", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoFocusOnAppearing);
+        m_settingsPanel.update();
+    ImGui::End();
+
 }
 
 void LE3EditorGUI::setupLayout() {
@@ -105,6 +110,7 @@ void LE3EditorGUI::setupLayout() {
         ImGui::DockBuilderDockWindow("Viewport", dock_mainView);
         ImGui::DockBuilderDockWindow("SidepanelTop", dock_sidepanelTop);
         ImGui::DockBuilderDockWindow("Properties", dock_properties);
+        ImGui::DockBuilderDockWindow("Settings", dock_properties);
 
         ImGui::DockBuilderGetNode(dock_toolbar)->LocalFlags |= ImGuiDockNodeFlags_NoTabBar | ImGuiDockNodeFlags_NoResize;
         ImGui::DockBuilderGetNode(dock_toolbox)->LocalFlags |= ImGuiDockNodeFlags_NoTabBar | ImGuiDockNodeFlags_NoResize;

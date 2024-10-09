@@ -28,6 +28,7 @@ add_executable(${PROJECT_NAME}
     src/widgets/le3ed_tab_assets.cpp
     src/widgets/le3ed_tab_content.cpp
     src/widgets/le3ed_sidepanel_top.cpp
+    src/widgets/le3ed_settings_panel.cpp
     src/widgets/le3ed_toolbar_button.cpp
     src/widgets/le3ed_properties_panel.cpp
 )
