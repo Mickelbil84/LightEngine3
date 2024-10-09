@@ -145,7 +145,7 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
 }
 
 void LE3Scene::drawObjectIDs() {
-    uint32_t drawID = 0;
+    uint32_t drawID = 1;
     // TODO: Update object IDs rarely
     for (auto kv : m_sceneGraph->m_pObjects) {
         if (auto drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(kv.second)) drawableObj->setDrawID(drawID);
