@@ -438,6 +438,10 @@ function LE3Material.set_normal_texture(materialName, textureName) end
 function LE3Material.set_reflection_intensity(materialName, val) end
 
 ---@param materialName string
+---@param shaderName string
+function LE3Material.set_shader(materialName, shaderName) end
+
+---@param materialName string
 ---@param val number
 function LE3Material.set_shininess(materialName, val) end
 

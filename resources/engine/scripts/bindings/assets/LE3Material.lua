@@ -4,6 +4,8 @@ LE3Material.load = function(tbl)
     LE3Material.rebuild(material, tbl)
 end
 LE3Material.rebuild = function(material, tbl)
+    if tbl.ShaderName ~= nil then LE3Material.set_shader(material, tbl.ShaderName) end
+
     if tbl.DiffuseColor ~= nil then LE3Material.set_diffuse_color(material, table.unpack(tbl.DiffuseColor))  end
     if tbl.DiffuseTexture ~= nil and LE3AssetManager.has_texture(tbl.DiffuseTexture) then 
         LE3Material.set_diffuse_texture(material, tbl.DiffuseTexture)

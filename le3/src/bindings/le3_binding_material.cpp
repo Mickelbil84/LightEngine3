@@ -207,9 +207,20 @@ FBIND(LE3Material, get_shader)
     if (shader) {PUSH_STRING(shader->getName())}
     else { PUSH_STRING("") }
 FEND()
+FBIND(LE3Material, set_shader)
+    GET_STRING(materialName)
+    GET_STRING(shaderName)
+    std::shared_ptr<LE3Material> material = LE3GetAssetManager().getMaterial(materialName).lock();
+    if (!material) FBREAK();
+    if (!LE3AssetManager().hasShader(shaderName)) {
+        // material->shader.reset();
+        FBREAK();
+    }
+    material->shader = LE3AssetManager().getShader(shaderName);
+FEND()
 
 LIB(LE3Material,
-    get_name, get_shader,
+    get_name, get_shader, set_shader,
     set_diffuse_color, get_diffuse_color,
     set_diffuse_texture, get_diffuse_texture, null_diffuse_texture,
     set_specular_color, get_specular_color,

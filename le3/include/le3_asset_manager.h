@@ -50,6 +50,7 @@ namespace le3 {
             return std::make_pair("", "");
         }
         void renameShader(std::string oldName, std::string newName);
+        bool hasShader(std::string name) { return m_pShaders.contains(name); }
 
         // Materials
         void addMaterial(std::string name, std::string shaderName);
