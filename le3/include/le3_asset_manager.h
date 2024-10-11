@@ -41,6 +41,14 @@ namespace le3 {
         void addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource);
         inline LE3ShaderPtr getShader(std::string name) { return m_pShaders[name]; }
         inline std::map<std::string, std::shared_ptr<LE3Shader>> getShaders() { return m_pShaders; }
+        void setShaderPaths(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {
+            if (name != "" && m_shadersPaths.contains(name))
+                m_shadersPaths[name] = std::make_pair(vertexShaderPath, fragmentShaderPath);
+        }
+        std::pair<std::string, std::string> getShaderPaths(std::string name) {
+            if (m_shadersPaths.contains(name)) return m_shadersPaths[name];
+            return std::make_pair("", "");
+        }
 
         // Materials
         void addMaterial(std::string name, std::string shaderName);

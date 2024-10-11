@@ -23,21 +23,20 @@ LE3Shader::~LE3Shader() {
 }
 
 std::pair<bool, std::string> LE3Shader::recompile(std::string vertexShaderSource, std::string fragmentShaderSource) {
-    bool success = true;
-    std::string error;
-    unsigned int vertexShader = compileShaderFromSource(vertexShaderSource, GL_VERTEX_SHADER, success, error);
-    if (!success) {
+    m_uniformLocation.clear();
+    unsigned int vertexShader = compileShaderFromSource(vertexShaderSource, GL_VERTEX_SHADER, m_shaderOk, m_errorMessage);
+    if (!m_shaderOk) {
         recompileToErrorShader();
         // TODO: Use logging system
-        fmt::print("{}\n", error);
-        return std::make_pair(false, error);
+        fmt::print("{}\n", m_errorMessage);
+        return std::make_pair(false, m_errorMessage);
     }
-    unsigned int fragmentShader = compileShaderFromSource(fragmentShaderSource, GL_FRAGMENT_SHADER, success, error);
-    if (!success) {
+    unsigned int fragmentShader = compileShaderFromSource(fragmentShaderSource, GL_FRAGMENT_SHADER, m_shaderOk, m_errorMessage);
+    if (!m_shaderOk) {
         recompileToErrorShader();
         // TODO: Use logging system
-        fmt::print("{}\n", error);
-        return std::make_pair(false, error);
+        fmt::print("{}\n", m_errorMessage);
+        return std::make_pair(false, m_errorMessage);
     }
 
     m_program = glCreateProgram();
@@ -52,14 +51,22 @@ std::pair<bool, std::string> LE3Shader::recompile(std::string vertexShaderSource
         glGetProgramInfoLog(m_program, 2048, nullptr, infoLog);
         recompileToErrorShader();
         // TODO: Use logging system
-        fmt::print("{}\n", error);
-        return std::make_pair(false, fmt::format("Link error:\n\n{}\n", infoLog));
+        m_shaderOk = false;
+        m_errorMessage = fmt::format("Link error:\n\n{}\n", infoLog);
+        fmt::print("{}\n", m_errorMessage);
+        return std::make_pair(false, m_errorMessage);
     }
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+    m_shaderOk = true;
+    m_errorMessage = "";
     return std::make_pair(true, "");
+}
+
+void LE3Shader::recompile() {
+    recompileToErrorShader();
 }
 
 void LE3Shader::use() const{
@@ -98,6 +105,8 @@ unsigned int LE3Shader::compileShaderFromSource(std::string shaderSource, int ty
         error = fmt::format("Compile error:\n\n{}\n", infoLog);
         return 0;
     }
+    success = true;
+    error = "";
     return shader;
 }
 int LE3Shader::getUniformLocation(std::string uniformName) {
@@ -107,8 +116,11 @@ int LE3Shader::getUniformLocation(std::string uniformName) {
 }
 
 void LE3Shader::recompileToErrorShader() {
+    std::string prevErr = m_errorMessage;
     recompile(
         LE3GetDatFileSystem().getFileContent(ERROR_SHADER_VERTEX_PATH).toString(),
         LE3GetDatFileSystem().getFileContent(ERROR_SHADER_FRAGMENT_PATH).toString()
     );
+    m_errorMessage = prevErr;
+    m_shaderOk = false;
 }

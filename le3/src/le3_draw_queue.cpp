@@ -10,6 +10,10 @@ using namespace le3;
 #endif
 
 LE3DrawQueue::LE3DrawQueue() {
+    clear();
+}
+
+void LE3DrawQueue::clear() {
     for (
         int priority = LE3DrawPriority::DRAW_PRIORITY_LOW; 
         priority <= LE3DrawPriority::DRAW_PRIORITY_END; ++priority) {

@@ -153,6 +153,16 @@ function ImGui.SameLine() end
 ---@param text string
 function ImGui.Text(text) end
 
+---@param color_x number
+---@param color_y number
+---@param color_z number
+---@param color_w number
+---@param text string
+function ImGui.TextColored(color_x, color_y, color_z, color_w, text) end
+
+---@param text string
+function ImGui.TextWrapped(text) end
+
 ---@param label string
 ---@return boolean
 function ImGui.TreeNode(label) end
@@ -653,11 +663,27 @@ function LE3Scene.set_main_camera(scene, camera) end
 
 ---@param shaderName string
 ---@return string
+function LE3Shader.get_error(shaderName) end
+
+---@param shaderName string
+---@return string
 function LE3Shader.get_name(shaderName) end
+
+---@param shaderName string
+---@return boolean
+function LE3Shader.is_ok(shaderName) end
+
+---@param shaderName string
+function LE3Shader.recompile(shaderName) end
 
 ---@param shaderName string
 ---@param name string
 function LE3Shader.set_name(shaderName, name) end
+
+---@param shaderName string
+---@param vertexShaderPath string
+---@param fragmentShaderPath string
+function LE3Shader.set_shader_paths(shaderName, vertexShaderPath, fragmentShaderPath) end
 
 ---@param self LE3SkeletalModel
 ---@return string

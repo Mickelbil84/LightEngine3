@@ -14,6 +14,7 @@ namespace le3 {
 
         void draw(LE3ShaderPtr shaderOverride = LE3ShaderPtr(), bool shadowPhase = false);
         void addObject(std::weak_ptr<LE3DrawableObject> object);
+        void clear();
 
     private:
         // For each priority:

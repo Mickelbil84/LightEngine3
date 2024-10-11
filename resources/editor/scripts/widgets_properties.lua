@@ -35,10 +35,27 @@ function update_asset_properties_panel(ptr, type)
         end
     end
     type.rebuild(ptr, tbl)
+    if (ImGui.Button("Save")) then
+        type.reload(ptr, tbl)
+    end
 end
 
 function update_shader_properties_panel(shader)
     update_asset_properties_panel(shader, LE3Shader)
+
+    if (ImGui.TreeNode("Shader Compile Status")) then 
+        ImGui.Text("Status:")
+        ImGui.SameLine()
+        local is_ok = LE3Shader.is_ok(shader)
+        if is_ok then 
+            ImGui.TextColored(0, 0.6, 0, 1, "OK")
+        else
+            ImGui.TextColored(0.6, 0, 0, 1, "ERROR")
+            ImGui.TextWrapped(LE3Shader.get_error(shader))
+        end
+
+        ImGui.TreePop()
+    end
 end
 
 function update_material_properties_panel(material)

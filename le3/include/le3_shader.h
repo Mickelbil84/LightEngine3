@@ -27,11 +27,17 @@ namespace le3 {
         std::string getName() const { return m_name; }
 
         std::pair<bool, std::string> recompile(std::string vertexShaderSource, std::string fragmentShaderSource);
+        void recompile();
+
+        bool isOk() const { return m_shaderOk; }
+        std::string getErrorMessage() const { return m_errorMessage; }
 
     private:
         std::string m_name;
         unsigned int m_program;
         std::map<std::string, int> m_uniformLocation;
+        bool m_shaderOk = true;
+        std::string m_errorMessage = "";
 
         // Helper methods
         unsigned int compileShaderFromSource(std::string shaderSource, int type, bool& success, std::string& error);

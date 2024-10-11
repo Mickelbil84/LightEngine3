@@ -3,6 +3,10 @@ LE3Shader.load = function (shader_table)
 end
 LE3Shader.rebuild = function (shader, tbl)
     LE3Shader.set_name(shader, tbl.Name)
+    LE3Shader.set_shader_paths(shader, tbl.VertexSource, tbl.FragmentSource)
+end
+LE3Shader.reload = function (shader)
+    LE3Shader.recompile(shader)
 end
 LE3Shader.save = function (shader)
     local name = shader

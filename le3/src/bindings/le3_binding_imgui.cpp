@@ -21,6 +21,17 @@ FBIND(ImGui, Text)
     ImGui::Text("%s", text.c_str());
 FEND()
 
+FBIND(ImGui, TextColored)
+    GET_VEC4(color)
+    GET_STRING(text)
+    ImGui::TextColored(ImVec4(color.x, color.y, color.z, color.w), "%s", text.c_str());
+FEND()
+
+FBIND(ImGui, TextWrapped)
+    GET_STRING(text)
+    ImGui::TextWrapped("%s", text.c_str());
+FEND()
+
 FBIND(ImGui, Button)
     GET_STRING(label)
     PUSH_BOOL(ImGui::Button(label.c_str()))
@@ -130,7 +141,7 @@ FEND()
 
 
 LIB(ImGui,
-    CollapsingHeader, TreeNode, TreePop, Text, Button, SameLine,
+    CollapsingHeader, TreeNode, TreePop, Text, TextColored, TextWrapped, Button, SameLine,
     InputText, Checkbox, ColorEdit3, ColorEdit4,
     InputInt, InputFloat, InputFloat2, InputFloat3, InputFloat4,
     Combo_Animation,
