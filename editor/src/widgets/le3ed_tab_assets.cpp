@@ -47,12 +47,15 @@ void LE3EditorTabAssets::updateShaders() {
 
     addEngineAssetsCheckbox();
     if (ImGui::Button("Add")) {
-        // ...
+        m_popAddShader.init();
+        ImGui::OpenPopup((LE3ED_POP_ADD_SHADER).c_str());
     }
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
         // ...
     }
+
+    m_popAddShader.update();
 
     if (ImGui::BeginTable("##ShadersTable", 3, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);

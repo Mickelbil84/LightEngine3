@@ -60,6 +60,7 @@ void LE3Scene::resize(int width, int height)
 
 
 void LE3Scene::update(float deltaTime) {
+    if (LE3GetEditorManager().isPauseSceneUpdates()) return;
     LE3GetSceneManager().setActiveScene(m_name);
     if (!m_bInspected) m_sceneGraph->m_pRoot->update(deltaTime);
     else for (auto obj : m_sceneGraph->m_inspectedUpdate)

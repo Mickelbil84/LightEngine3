@@ -43,9 +43,14 @@ void LE3AssetManager::init() {
 }
 
 void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {
-    std::string vertexShaderSource = readFile(vertexShaderPath);
-    std::string fragmentShaderSource = readFile(fragmentShaderPath);
-    addShaderFromSource(name, vertexShaderSource, fragmentShaderSource);
+    try {
+        std::string vertexShaderSource = readFile(vertexShaderPath);
+        std::string fragmentShaderSource = readFile(fragmentShaderPath);
+        addShaderFromSource(name, vertexShaderSource, fragmentShaderSource);
+    } catch (std::exception& e) {
+        fmt::print("Error loading shader from file: {}\n", e.what());
+        addShaderFromSource(name, "", "");
+    }
     m_shadersPaths[name] = std::make_pair(vertexShaderPath, fragmentShaderPath);
 }
 void LE3AssetManager::addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource) {

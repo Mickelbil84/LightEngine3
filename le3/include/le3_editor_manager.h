@@ -104,6 +104,9 @@ namespace le3 {
 
         LE3EditorSnap& getSnap() { return m_snap; }
 
+        bool isPauseSceneUpdates() { return m_bPauseSceneUpdates; }
+        void setPauseSceneUpdates(bool pauseSceneUpdates) { m_bPauseSceneUpdates = pauseSceneUpdates; }
+
     private:
         bool m_bMouseDown = false;
         bool m_bActiveEdit = false, m_bEditBlocked = false;
@@ -115,6 +118,8 @@ namespace le3 {
         LE3EditorSnap m_snap;
 
         LE3EditorCommandStack m_commandStack;
+
+        bool m_bPauseSceneUpdates = false;
 
         // Note that this is different than the selected object/asset
         // Can be used for simpler asset creation/loading

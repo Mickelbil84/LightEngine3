@@ -22,6 +22,7 @@ add_executable(${PROJECT_NAME}
     src/components/le3ed_scenes.cpp
     src/components/le3ed_hotkeys.cpp
 
+    src/widgets/le3ed_popup.cpp
     src/widgets/le3ed_toolbar.cpp
     src/widgets/le3ed_toolbox.cpp
     src/widgets/le3ed_tab_scene.cpp
@@ -31,6 +32,8 @@ add_executable(${PROJECT_NAME}
     src/widgets/le3ed_settings_panel.cpp
     src/widgets/le3ed_toolbar_button.cpp
     src/widgets/le3ed_properties_panel.cpp
+
+    src/widgets/popups/le3ed_pop_add_shader.cpp
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
