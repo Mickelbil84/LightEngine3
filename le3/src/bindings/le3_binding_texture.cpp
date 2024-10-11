@@ -3,12 +3,19 @@
 using namespace le3;
 
 
-FBIND_ASSET_SETTER_STRING(LE3Texture, set_name, setName)
+FBIND(LE3Texture, set_name)
+    GET_STRING(textureName)
+    GET_STRING(name)
+    std::shared_ptr<LE3Texture> texture = LE3GetAssetManager().getTexture(textureName).lock();
+    if (!texture) {FBREAK();}
+    texture->setName(name);
+FEND()
 
 FBIND(LE3Texture, get_name)
-    GET_UDATA(texture, LE3TexturePtr)
-    if (!(*texture)) {PUSH_STRING("")}
-    else {PUSH_STRING((*texture)->getName())}
+    GET_STRING(textureName)
+    std::shared_ptr<LE3Texture> texture = LE3GetAssetManager().getTexture(textureName).lock();
+    if (!texture) {PUSH_STRING("")}
+    else {PUSH_STRING(texture->getName())}
 FEND()
 
 LIB(LE3Texture,

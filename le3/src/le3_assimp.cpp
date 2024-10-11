@@ -39,7 +39,7 @@ inline glm::mat4 aiMatrix4x4toGLM(aiMatrix4x4& mtx)
 // ------------------------------------------------
 
 
-LE3StaticMeshPtr LE3AssetManager::loadStaticMesh(std::string filename, bool keepData) {
+std::shared_ptr<LE3StaticMesh> LE3AssetManager::loadStaticMesh(std::string filename, bool keepData) {
     Assimp::Importer importer;
     LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(filename);
     std::string pHint = filename.substr(filename.find_last_of(".") + 1);
@@ -59,7 +59,7 @@ LE3StaticMeshPtr LE3AssetManager::loadStaticMesh(std::string filename, bool keep
     return std::make_shared<LE3StaticMesh>(buffer, indices, keepData);
 }
 
-LE3SkeletalMeshPtr LE3AssetManager::loadSkeletalMesh(std::string meshPath)
+std::shared_ptr<LE3SkeletalMesh> LE3AssetManager::loadSkeletalMesh(std::string meshPath)
 {
     Assimp::Importer importer;
     std::string pHint = meshPath.substr(meshPath.find_last_of(".") + 1);
@@ -87,7 +87,7 @@ LE3SkeletalMeshPtr LE3AssetManager::loadSkeletalMesh(std::string meshPath)
     // _DBG_SkeletalPrint(skeleton);
     // _DBG_aiScenePrint(scene);
 
-    LE3SkeletalMeshPtr mesh = std::make_shared<LE3SkeletalMesh>(buffer, indices);
+    std::shared_ptr<LE3SkeletalMesh> mesh = std::make_shared<LE3SkeletalMesh>(buffer, indices);
     mesh->setSkeleton(skeleton);
     return mesh;
 }
@@ -301,9 +301,9 @@ void LE3AssetManager::addSkeletalAnimation(std::string name, std::string animati
     // Load Animations (currently only the first one)
     for (int i = 0; i < scene->mNumAnimations; ++i) {
         LE3AnimationTrack animTrack;
-        animTrack.skeleton = &mesh->getSkeleton();
+        animTrack.skeleton = &mesh.lock()->getSkeleton();
         animTrack.loadAnimationTrack(scene, i);
-        mesh->addAnimationTrack(name, animTrack);
+        mesh.lock()->addAnimationTrack(name, animTrack);
         break;
     }
 }

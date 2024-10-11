@@ -19,7 +19,7 @@ namespace le3 {
 
     class LE3BSPBrush : public LE3DrawableObject {
     public:
-        LE3BSPBrush() : LE3DrawableObject(nullptr), m_brushType(LE3_BRUSH_ADDITIVE) {}
+        LE3BSPBrush() : LE3DrawableObject(LE3MaterialPtr()), m_brushType(LE3_BRUSH_ADDITIVE) {}
         LE3_TYPE_RETURN(LE3BSPBrush)
 
         LE3BSPBrushType getBrushType() const { return m_brushType; }
@@ -41,9 +41,11 @@ namespace le3 {
         void addBrush(std::weak_ptr<LE3BSPBrush> brush);
 
         inline std::vector<LE3Vertex> getGeometry() const { return m_geometry; }
+        inline std::shared_ptr<LE3Mesh<LE3Vertex>> getGeometryMesh() const { return m_pGeometryMesh; }
 
     private:
         std::vector<std::weak_ptr<LE3BSPBrush>> m_brushes;   
         std::vector<LE3Vertex> m_geometry; 
+        std::shared_ptr<LE3Mesh<LE3Vertex>> m_pGeometryMesh;
     };
 }

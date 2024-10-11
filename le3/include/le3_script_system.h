@@ -29,6 +29,9 @@ namespace le3 {
         template<typename T> void pushUserType(T* udata) {
             lua_pushlightuserdata(L, reinterpret_cast<void*>(udata));
         }
+        template<typename T> void pushUserType(std::weak_ptr<T> udata) {
+            lua_pushlightuserdata(L, reinterpret_cast<void*>(udata));
+        }
 
         void setGlobal(std::string name); // set recently pushed var on stack as global
         void getGlobal(std::string name); // push global var to stack

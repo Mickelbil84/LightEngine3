@@ -22,5 +22,5 @@ namespace le3 {
         uint32_t m_texture = -1;
         std::string m_name;
     };
-    using LE3TexturePtr = std::shared_ptr<LE3Texture>;
+    using LE3TexturePtr = std::weak_ptr<LE3Texture>;
 }

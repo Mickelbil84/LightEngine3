@@ -17,7 +17,7 @@ namespace le3 {
         LE3_TYPE_RETURN(LE3PointCloud)
 
         virtual void update(float deltaTime);
-        virtual void draw(LE3ShaderPtr shaderOverride = nullptr);
+        virtual void draw(LE3ShaderPtr shaderOverride = LE3ShaderPtr());
 
         void addPoint(glm::vec3 position);
         void addPoint(glm::vec3 position, glm::vec3 normal);

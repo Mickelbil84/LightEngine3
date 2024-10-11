@@ -104,18 +104,19 @@ void LE3Scene::drawLights() {
     glCullFace(GL_FRONT); // Solve Peter-Panning
     GLuint shadowMapIdx = SHADOW_MAP_INDEX;
     glm::vec3 cameraPos = m_pMainCamera->getWorldMatrix()[3];
+    std::shared_ptr<LE3Shader> shadowmapShader = LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER).lock();
     for (auto light : m_sceneGraph->m_lightManager.getDirectionalLights()) {
         if (!light->getShadowMap()) continue;
-        LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER)->use();
-        LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER)->uniform("lightMatrix", light->getViewMatrix(cameraPos));
-        drawObjects(LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER), light->getShadowMap(), true, true);
+        shadowmapShader->use();
+        shadowmapShader->uniform("lightMatrix", light->getViewMatrix(cameraPos));
+        drawObjects(shadowmapShader, light->getShadowMap(), true, true);
         light->getShadowMap()->setBindIdx(shadowMapIdx++);
     }
     for (auto light : m_sceneGraph->m_lightManager.getSpotLights()) {
         if (!light->getShadowMap()) continue;
-        LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER)->use();
-        LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER)->uniform("lightMatrix", light->getViewMatrix());
-        drawObjects(LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER), light->getShadowMap(), true, true);
+        shadowmapShader->use();
+        shadowmapShader->uniform("lightMatrix", light->getViewMatrix());
+        drawObjects(shadowmapShader, light->getShadowMap(), true, true);
         light->getShadowMap()->setBindIdx(shadowMapIdx++);
     }
     glCullFace(GL_BACK); 
@@ -133,7 +134,7 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
     glViewport(0, 0, buffer->getWidth(), buffer->getHeight());
     if (depth) glEnable(GL_DEPTH_TEST); else glDisable(GL_DEPTH_TEST);
 
-    if (shaderOverride == nullptr) for (auto kv : LE3GetAssetManager().getShaders()) {
+    if (!shaderOverride.lock()) for (auto kv : LE3GetAssetManager().getShaders()) {
         applyMainCamera(kv.second);
         m_sceneGraph->m_lightManager.renderLights(kv.second, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
     }
@@ -158,7 +159,7 @@ void LE3Scene::drawObjectIDs() {
 }
 
 void LE3Scene::drawPostProcess() {
-    if (!m_postProcessShader) return;
+    if (!m_postProcessShader.lock()) return;
     
     if (m_bRenderDirectly) glBindFramebuffer(GL_FRAMEBUFFER, 0);
     else m_postProcessBuffer->bind();
@@ -167,7 +168,7 @@ void LE3Scene::drawPostProcess() {
     glDisable(GL_DEPTH_TEST);
     glViewport(0, 0, m_postProcessBuffer->getWidth(), m_postProcessBuffer->getHeight());
 
-    m_postProcessShader->use();
+    m_postProcessShader.lock()->use();
     m_rawBuffer->useColorTexture();
     LE3GetAssetManager().getScreenRect()->draw();
 }
@@ -207,7 +208,7 @@ void LE3Scene::addTorus(std::string name, std::string materialName, glm::vec3 po
 
 
 void LE3Scene::addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent, LE3DrawPriority priority) {
-    LE3StaticMeshPtr mesh = nullptr; 
+    LE3StaticMeshPtr mesh; 
     if (meshName != "") mesh = LE3GetAssetManager().getStaticMesh(meshName);
     LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, LE3GetAssetManager().getMaterial(materialName), priority);
     obj->setMeshName(meshName);
@@ -316,8 +317,10 @@ void LE3Scene::attachCamera(LE3CameraPtr pCamera) {
     if (m_pMainCamera == nullptr) m_pMainCamera = pCamera;
 }
 
-void LE3Scene::applyMainCamera(LE3ShaderPtr shader) {
+void LE3Scene::applyMainCamera(LE3ShaderPtr shaderWeak) {
     if (!m_pMainCamera) return;
+    std::shared_ptr<LE3Shader> shader = shaderWeak.lock();
+    if (!shader) return;
     shader->use();
     shader->uniform("view", m_pMainCamera->getViewMatrix());
     shader->uniform("projection", m_pMainCamera->getProjectionMatrix());
@@ -339,8 +342,7 @@ void LE3Scene::setMainCamera(std::string camera) {
 
 void LE3Scene::buildBSP() {
     m_sceneGraph->m_bspManager.build();
-    std::vector<LE3Vertex> geometry = m_sceneGraph->m_bspManager.getGeometry();
-    LE3StaticMeshPtr mesh = std::make_shared<LE3StaticMesh>(geometry);
+    LE3StaticMeshPtr mesh = m_sceneGraph->m_bspManager.getGeometryMesh();
     if (m_sceneGraph->m_pObjects.contains(LE3_BSP_MESH_NAME)) m_sceneGraph->m_pObjects[LE3_BSP_MESH_NAME]->reparent(nullptr); // TODO: Call scene's "delete" method
     m_sceneGraph->m_pObjects[LE3_BSP_MESH_NAME] = std::make_shared<LE3StaticModel>(mesh, LE3GetAssetManager().getMaterial("M_default")); // TODO: Make sure we have some default material
     m_sceneGraph->m_pObjects[LE3_BSP_MESH_NAME]->reparent(m_sceneGraph->m_pRoot);

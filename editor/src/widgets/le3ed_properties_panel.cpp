@@ -28,38 +28,38 @@ void LE3EditorPropertiesPanel::update() {
 
     case LE3EditorSelection::LE3SelectionType::LE3_SELECTION_ASSET_SHADER:
         LE3GetScriptSystem().getGlobal("update_shader_properties_panel");
-        LE3GetScriptSystem().pushUserType(&shader);
+        LE3GetScriptSystem().pushString(shader.lock()->getName());
         LE3GetScriptSystem().callFunction(1, 0);
         break;
 
     case LE3EditorSelection::LE3SelectionType::LE3_SELECTION_ASSET_MATERIAL:
         LE3GetScriptSystem().getGlobal("update_material_properties_panel");
-        LE3GetScriptSystem().pushUserType(&material);
+        LE3GetScriptSystem().pushString(material.lock()->name);
         LE3GetScriptSystem().callFunction(1, 0);
         break;
     
     case LE3EditorSelection::LE3SelectionType::LE3_SELECTION_ASSET_TEXTURE:
         LE3GetScriptSystem().getGlobal("update_texture_properties_panel");
-        LE3GetScriptSystem().pushUserType(&texture);
+        LE3GetScriptSystem().pushString(texture.lock()->getName());
         LE3GetScriptSystem().callFunction(1, 0);
         break;
 
     case LE3EditorSelection::LE3SelectionType::LE3_SELECTION_ASSET_MESH:
-        if (staticMesh) {
+        if (staticMesh.lock()) {
             LE3GetScriptSystem().getGlobal("update_static_mesh_properties_panel");
-            LE3GetScriptSystem().pushUserType(&staticMesh);
+            LE3GetScriptSystem().pushString(staticMesh.lock()->getName());
             LE3GetScriptSystem().callFunction(1, 0);
         }
-        else if (skeletalMesh) {
+        else if (skeletalMesh.lock()) {
             LE3GetScriptSystem().getGlobal("update_skeletal_mesh_properties_panel");
-            LE3GetScriptSystem().pushUserType(&skeletalMesh);
+            LE3GetScriptSystem().pushString(skeletalMesh.lock()->getName());
             LE3GetScriptSystem().callFunction(1, 0);
         }
         break;
     
     case LE3EditorSelection::LE3SelectionType::LE3_SELECTION_ASSET_ANIMATION:
         LE3GetScriptSystem().getGlobal("update_animation_properties_panel");
-        LE3GetScriptSystem().pushUserType(&skeletalMesh);
+        LE3GetScriptSystem().pushString(skeletalMesh.lock()->getName());
         LE3GetScriptSystem().pushString(animationTrack);
         LE3GetScriptSystem().callFunction(2, 0);
         break;

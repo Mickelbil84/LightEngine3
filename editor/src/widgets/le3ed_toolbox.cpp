@@ -26,7 +26,7 @@ void LE3EditorToolbox::update() {
         }
         ImGui::ImageButton(
             button.name.c_str(), 
-            reinterpret_cast<void*>(LE3GetAssetManager().getTexture(button.iconName)->getTextureID()), 
+            reinterpret_cast<void*>(LE3GetAssetManager().getTexture(button.iconName).lock()->getTextureID()), 
             ImVec2(LE3ED_TOOLBAR_BUTTON_SIZE, LE3ED_TOOLBAR_BUTTON_SIZE));
     }
 }

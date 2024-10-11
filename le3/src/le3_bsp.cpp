@@ -316,7 +316,7 @@ std::string le3::toSTL(std::vector<LE3BSP_Triangle> soup) {
 
 
 void LE3BSPBrush::draw(LE3ShaderPtr shaderOverride) {
-    if (shaderOverride) return;
+    if (shaderOverride.lock()) return;
     LE3GetVisualDebug().drawDebugBox(this->getWorldMatrix(), glm::vec3(0.5f, 0.f, 0.125f));
 }
 
@@ -361,7 +361,7 @@ void LE3BSPManager::build() {
             ));
     }
 
-
+    m_pGeometryMesh = std::make_shared<LE3Mesh<LE3Vertex>>(m_geometry);
 }
 void LE3BSPManager::setShowBrushes(bool showBrushes) {
     for (auto& brush : m_brushes) {

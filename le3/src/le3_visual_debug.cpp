@@ -9,7 +9,7 @@ void LE3VisualDebug::drawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 col
     if (!m_activeCamera) return;
     glm::mat4 model = glm::translate(glm::mat4(1.f), start) * glm::scale(glm::mat4(1.f), end - start);
     setupDebugShader(model, color);
-    LE3GetAssetManager().getDebugLine()->drawLines();
+    LE3GetAssetManager().getDebugLine().lock()->drawLines();
 }
 
 void LE3VisualDebug::drawDebugBox(glm::vec3 position, glm::quat rotation, glm::vec3 scale, glm::vec3 color) {
@@ -23,7 +23,7 @@ void LE3VisualDebug::drawDebugBox(glm::vec3 position, glm::quat rotation, glm::v
 void LE3VisualDebug::drawDebugBox(glm::mat4 modelMatrix, glm::vec3 color) {
     if (!m_activeCamera) return;
     setupDebugShader(modelMatrix, color);
-    LE3GetAssetManager().getDebugBox()->drawLines();
+    LE3GetAssetManager().getDebugBox().lock()->drawLines();
 }
 
 void LE3VisualDebug::drawDebugCylinder(glm::vec3 position, float radius, float height, glm::vec3 color) {
@@ -32,7 +32,7 @@ void LE3VisualDebug::drawDebugCylinder(glm::vec3 position, float radius, float h
     transform.setPosition(position);
     transform.setScale(glm::vec3(radius, height, radius));
     setupDebugShader(transform.getTransformMatrix(), color);
-    LE3GetAssetManager().getDebugCylinder()->drawLines();
+    LE3GetAssetManager().getDebugCylinder().lock()->drawLines();
 }
 
 void LE3VisualDebug::drawDebugCone(glm::vec3 position, float radius, float height, glm::vec3 color) {
@@ -41,14 +41,14 @@ void LE3VisualDebug::drawDebugCone(glm::vec3 position, float radius, float heigh
     transform.setPosition(position);
     transform.setScale(glm::vec3(radius, height, radius));
     setupDebugShader(transform.getTransformMatrix(), color);
-    LE3GetAssetManager().getDebugCone()->drawLines();
+    LE3GetAssetManager().getDebugCone().lock()->drawLines();
 }
 
 
 // -------------------------------
 
 void LE3VisualDebug::setupDebugShader(glm::mat4 modelMatrix, glm::vec3 color) {
-    LE3ShaderPtr debugShader = LE3GetAssetManager().getShader(DEFAULT_DEBUG_SHADER);
+    std::shared_ptr<LE3Shader> debugShader = LE3GetAssetManager().getShader(DEFAULT_DEBUG_SHADER).lock();
     debugShader->use();
     debugShader->uniform("view", m_activeCamera->getViewMatrix());
     debugShader->uniform("projection", m_activeCamera->getProjectionMatrix());

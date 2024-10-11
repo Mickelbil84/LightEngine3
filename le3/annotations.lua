@@ -187,30 +187,10 @@ function LE3AssetManager.add_static_mesh(name, filename, keepData) end
 ---@param interpolate boolean
 function LE3AssetManager.add_texture(name, filename, interpolate) end
 
----@param name string
----@return LE3Material
-function LE3AssetManager.get_material(name) end
-
----@param name string
----@return LE3Shader
-function LE3AssetManager.get_shader(name) end
-
----@param shader LE3Shader
+---@param shaderName string
 ---@return string
 ---@return string
-function LE3AssetManager.get_shader_paths(shader) end
-
----@param name string
----@return LE3SkeletalMesh
-function LE3AssetManager.get_skeletal_mesh(name) end
-
----@param name string
----@return LE3StaticMesh
-function LE3AssetManager.get_static_mesh(name) end
-
----@param name string
----@return LE3Texture
-function LE3AssetManager.get_texture(name) end
+function LE3AssetManager.get_shader_paths(shaderName) end
 
 ---@param name string
 ---@return boolean
@@ -361,117 +341,112 @@ function LE3Light.set_color(self, color_x, color_y, color_z) end
 ---@param intensity number
 function LE3Light.set_intensity(self, intensity) end
 
----@param material LE3Material
----@return LE3Texture
-function LE3Material.get_cubemap(material) end
+---@param materialName string
+function LE3Material.get_cubemap(materialName) end
 
----@param material LE3Material
+---@param materialName string
 ---@return number
 ---@return number
 ---@return number
 ---@return number
-function LE3Material.get_diffuse_color(material) end
+function LE3Material.get_diffuse_color(materialName) end
 
----@param material LE3Material
----@return LE3Texture
-function LE3Material.get_diffuse_texture(material) end
+---@param materialName string
+function LE3Material.get_diffuse_texture(materialName) end
 
----@param material LE3Material
+---@param materialName string
 ---@return string
-function LE3Material.get_name(material) end
+function LE3Material.get_name(materialName) end
 
----@param material LE3Material
----@return LE3Texture
-function LE3Material.get_normal_texture(material) end
+---@param materialName string
+function LE3Material.get_normal_texture(materialName) end
 
----@param material LE3Material
+---@param materialName string
 ---@return number
-function LE3Material.get_reflection_intensity(material) end
+function LE3Material.get_reflection_intensity(materialName) end
 
----@param material LE3Material
----@return LE3Shader
-function LE3Material.get_shader(material) end
+---@param materialName string
+function LE3Material.get_shader(materialName) end
 
----@param material LE3Material
+---@param materialName string
 ---@return number
-function LE3Material.get_shininess(material) end
+function LE3Material.get_shininess(materialName) end
 
----@param material LE3Material
+---@param materialName string
 ---@return number
 ---@return number
 ---@return number
-function LE3Material.get_specular_color(material) end
+function LE3Material.get_specular_color(materialName) end
 
----@param material LE3Material
+---@param materialName string
 ---@return number
-function LE3Material.get_specular_intensity(material) end
+function LE3Material.get_specular_intensity(materialName) end
 
----@param material LE3Material
----@return LE3Texture
-function LE3Material.get_specular_texture(material) end
+---@param materialName string
+function LE3Material.get_specular_texture(materialName) end
 
----@param material LE3Material
+---@param materialName string
 ---@return number
 ---@return number
-function LE3Material.get_tiling(material) end
+function LE3Material.get_tiling(materialName) end
 
----@param material LE3Material
-function LE3Material.null_cubemap(material) end
+---@param materialName string
+function LE3Material.null_cubemap(materialName) end
 
----@param material LE3Material
-function LE3Material.null_diffuse_texture(material) end
+---@param materialName string
+function LE3Material.null_diffuse_texture(materialName) end
 
----@param material LE3Material
-function LE3Material.null_normal_texture(material) end
+---@param materialName string
+function LE3Material.null_normal_texture(materialName) end
 
----@param material LE3Material
-function LE3Material.null_specular_texture(material) end
+---@param materialName string
+function LE3Material.null_specular_texture(materialName) end
 
----@param material LE3Material
----@param texture LE3Texture
-function LE3Material.set_cubemap(material, texture) end
+---@param materialName string
+---@param textureName string
+function LE3Material.set_cubemap(materialName, textureName) end
 
----@param material LE3Material
+---@param materialName string
 ---@param color_x number
 ---@param color_y number
 ---@param color_z number
 ---@param color_w number
-function LE3Material.set_diffuse_color(material, color_x, color_y, color_z, color_w) end
+function LE3Material.set_diffuse_color(materialName, color_x, color_y, color_z, color_w) end
 
----@param material LE3Material
----@param texture LE3Texture
-function LE3Material.set_diffuse_texture(material, texture) end
+---@param materialName string
+---@param textureName string
+function LE3Material.set_diffuse_texture(materialName, textureName) end
 
----@param material LE3Material
----@param texture LE3Texture
-function LE3Material.set_normal_texture(material, texture) end
+---@param materialName string
+---@param textureName string
+function LE3Material.set_normal_texture(materialName, textureName) end
 
----@param material LE3Material
+---@param materialName string
 ---@param val number
-function LE3Material.set_reflection_intensity(material, val) end
+function LE3Material.set_reflection_intensity(materialName, val) end
 
----@param material LE3Material
+---@param materialName string
 ---@param val number
-function LE3Material.set_shininess(material, val) end
+function LE3Material.set_shininess(materialName, val) end
 
----@param material LE3Material
+---@param materialName string
 ---@param color_x number
 ---@param color_y number
 ---@param color_z number
-function LE3Material.set_specular_color(material, color_x, color_y, color_z) end
+function LE3Material.set_specular_color(materialName, color_x, color_y, color_z) end
 
----@param material LE3Material
+---@param materialName string
 ---@param val number
-function LE3Material.set_specular_intensity(material, val) end
+function LE3Material.set_specular_intensity(materialName, val) end
 
----@param material LE3Material
----@param texture LE3Texture
-function LE3Material.set_specular_texture(material, texture) end
+---@param materialName string
+---@param textureName string
+function LE3Material.set_specular_texture(materialName, textureName) end
 
----@param material LE3Material
+---@param materialName string
 ---@param x number
 ---@param y number
-function LE3Material.set_tiling(material, x, y) end
+function LE3Material.set_tiling(materialName, x, y) end
 
 ---@param obj LE3Object
 ---@return string
@@ -676,13 +651,13 @@ function LE3Scene.set_culling(self, culling) end
 ---@param camera string
 function LE3Scene.set_main_camera(scene, camera) end
 
----@param self LE3Shader
+---@param shaderName string
 ---@return string
-function LE3Shader.get_name(self) end
+function LE3Shader.get_name(shaderName) end
 
----@param self LE3Shader
+---@param shaderName string
 ---@param name string
-function LE3Shader.set_name(self, name) end
+function LE3Shader.set_name(shaderName, name) end
 
 ---@param self LE3SkeletalModel
 ---@return string
@@ -759,12 +734,12 @@ function LE3StaticModel.set_material_name(self, material_name) end
 ---@param mesh_name string
 function LE3StaticModel.set_mesh_name(self, mesh_name) end
 
----@param texture LE3Texture
-function LE3Texture.get_name(texture) end
+---@param textureName string
+function LE3Texture.get_name(textureName) end
 
----@param self LE3Texture
+---@param textureName string
 ---@param name string
-function LE3Texture.set_name(self, name) end
+function LE3Texture.set_name(textureName, name) end
 
 ---@param self LE3Torus
 ---@return number

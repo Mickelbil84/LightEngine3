@@ -6,7 +6,7 @@ using namespace le3;
 
 
 LE3ScriptObject::LE3ScriptObject(std::string classname, std::string ref) :
-    LE3DrawableObject(nullptr), classname(classname), ref(ref) {
+    LE3DrawableObject(LE3MaterialPtr()), classname(classname), ref(ref) {
     LE3GetScriptSystem().doString(
         fmt::format("{}._refs[\"{}\"] = {}:new(); {}._refs[\"{}\"]._ref = \"{}\"",
             classname, ref, classname, 

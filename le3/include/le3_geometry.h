@@ -78,9 +78,13 @@ namespace le3 {
         std::vector<LE3VertexType>& getKeptData() { return m_keptData; }   
         std::vector<uint32_t>& getKeptIndices() { return m_keptIndices; }
 
+        std::string getName() const { return m_name; }
+        void setName(std::string name) { m_name = name; }
+
     protected:
         uint32_t m_vao = -1, m_vbo = -1, m_ibo = -1, m_count;
         bool m_bIndexed;
+        std::string m_name;
 
         void loadMeshData(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices);
         void draw(int mode);
@@ -95,7 +99,7 @@ namespace le3 {
 
     };
     template<typename LE3VertexType>
-    using LE3MeshPtr = std::shared_ptr<LE3Mesh<LE3VertexType>>;
+    using LE3MeshPtr = std::weak_ptr<LE3Mesh<LE3VertexType>>;
     
     // The default vertex type is the one with the most data (and skeletal if relevant)
     using LE3Vertex = LE3Vertex3p2t3n3tn3b;
@@ -105,9 +109,9 @@ namespace le3 {
     using LE3StaticMesh = LE3Mesh<LE3Vertex>;
     using LE3SkeletalMesh = LE3Mesh<LE3VertexSkeletal>;
 
-    using LE3ScreenRectPtr = std::shared_ptr<LE3ScreenRect>;
-    using LE3StaticMeshPtr = std::shared_ptr<LE3StaticMesh>;
-    using LE3SkeletalMeshPtr = std::shared_ptr<LE3SkeletalMesh>;
+    using LE3ScreenRectPtr = std::weak_ptr<LE3ScreenRect>;
+    using LE3StaticMeshPtr = std::weak_ptr<LE3StaticMesh>;
+    using LE3SkeletalMeshPtr = std::weak_ptr<LE3SkeletalMesh>;
 
     // Create a default vertex type using glm
     LE3Vertex vertexFromGLM(glm::vec3 position, glm::vec2 uv, glm::vec3 normal,

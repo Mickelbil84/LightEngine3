@@ -31,27 +31,27 @@ namespace le3 {
 
         // Diffuse
         glm::vec4 diffuseColor = glm::vec4(.8f, .8f, .8f, 1.f);
-        LE3TexturePtr diffuseTexture = nullptr;
+        LE3TexturePtr diffuseTexture = LE3TexturePtr();
         bool bUseDiffuseTexture = false;
 
         // Specular
         glm::vec3 specularColor = glm::vec3(1.f, 1.f, 1.f);
         float specularIntensity = 1.f;
         float shininess = 16.f;
-        LE3TexturePtr specularTexture = nullptr;
+        LE3TexturePtr specularTexture = LE3TexturePtr();
         bool bUseSpecularTexture = false;
 
         // Normal
-        LE3TexturePtr normalTexture = nullptr;
+        LE3TexturePtr normalTexture = LE3TexturePtr();
         bool bUseNormalTexture = false;
 
         // Cubemap
-        LE3TexturePtr cubemap = nullptr;
+        LE3TexturePtr cubemap = LE3TexturePtr();
         float reflectionIntensity = 0.f;
 
         // General settings
         float tilingX=1.f, tilingY=1.f;
     };
 
-    using LE3MaterialPtr = std::shared_ptr<LE3Material>;
+    using LE3MaterialPtr = std::weak_ptr<LE3Material>;
 }

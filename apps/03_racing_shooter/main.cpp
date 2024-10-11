@@ -211,8 +211,11 @@ public:
             }
         }
         if (ImGui::CollapsingHeader("Hovered Object", ImGuiTreeNodeFlags_DefaultOpen)) {
-            std::string hoveredObject = LE3GetEditorManager().getHoveredObject().lock()->getName();
-            ImGui::Text("Hovered Object: %s", hoveredObject.c_str());
+            LE3ObjectPtr hoveredObjectPtr = LE3GetEditorManager().getHoveredObject().lock();
+            if (hoveredObjectPtr) {
+                std::string hoveredObject = hoveredObjectPtr->getName();
+                ImGui::Text("Hovered Object: %s", hoveredObject.c_str());
+            }
         }
 
         if (ImGui::CollapsingHeader("Deleting Test", ImGuiTreeNodeFlags_DefaultOpen)) {

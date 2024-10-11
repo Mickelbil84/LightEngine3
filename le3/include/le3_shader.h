@@ -35,5 +35,5 @@ namespace le3 {
         unsigned int compileShaderFromSource(std::string shaderSource, int type);
         inline int getUniformLocation(std::string uniformName);
     };
-    using LE3ShaderPtr = std::shared_ptr<LE3Shader>;
+    using LE3ShaderPtr = std::weak_ptr<LE3Shader>;
 }

@@ -52,7 +52,7 @@ namespace le3 {
         void postUpdate();
         void draw();
         void drawLights();
-        void drawObjects(LE3ShaderPtr shaderOverride = nullptr, LE3FramebufferPtr buffer = nullptr, bool depth = true, bool shadowPhase = false);
+        void drawObjects(LE3ShaderPtr shaderOverride = LE3ShaderPtr(), LE3FramebufferPtr buffer = nullptr, bool depth = true, bool shadowPhase = false);
         void drawObjectIDs();
         void drawPostProcess();
 

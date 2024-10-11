@@ -19,7 +19,7 @@ namespace le3 {
         LE3_TYPE_RETURN(LE3Model)
 
         virtual void update(float deltaTime);
-        virtual void draw(LE3ShaderPtr shaderOverride = nullptr);
+        virtual void draw(LE3ShaderPtr shaderOverride = LE3ShaderPtr());
 
         LE3MeshPtr<LE3VertexType> getMesh() { return m_pMesh; }
         void setMesh(LE3MeshPtr<LE3VertexType> pMesh) { m_pMesh = pMesh; }

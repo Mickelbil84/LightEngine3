@@ -86,6 +86,7 @@ void LE3AssetManager::addTexture(std::string name, std::string filename, bool in
 void LE3AssetManager::addStaticMesh(std::string name, std::string filename, bool keepData) {
     if (m_pStaticMeshes.contains(name)) throw std::runtime_error(fmt::format("Static mesh [{}] already exists", name));
     m_pStaticMeshes[name] = loadStaticMesh(filename, keepData);
+    m_pStaticMeshes[name]->setName(name);
     m_meshesPaths[name] = filename;
 }
 
@@ -99,6 +100,7 @@ void LE3AssetManager::searchStaticMeshes(std::string prefix, std::vector<std::st
 void LE3AssetManager::addSkeletalMesh(std::string name, std::string filename) {
     if (m_pSkeletalMeshes.contains(name)) throw std::runtime_error(fmt::format("Skeletal mesh [{}] already exists", name));
     m_pSkeletalMeshes[name] = loadSkeletalMesh(filename);
+    m_pSkeletalMeshes[name]->setName(name);
     m_meshesPaths[name] = filename;
 }
 

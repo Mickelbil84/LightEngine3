@@ -5,7 +5,7 @@ LE3Shader.rebuild = function (shader, tbl)
     -- TODO: Implement
 end
 LE3Shader.save = function (shader)
-    local name = LE3Shader.get_name(shader)
+    local name = shader
     local vertex_source, fragment_source = LE3AssetManager.get_shader_paths(shader)
 
     return {

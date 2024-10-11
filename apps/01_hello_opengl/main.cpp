@@ -21,7 +21,7 @@ public:
         // ImGui::ShowDemoWindow();
     }
     void render() {
-        LE3GetAssetManager().getShader("hello_opengl")->use();
+        LE3GetAssetManager().getShader("hello_opengl").lock()->use();
         m_triangle->draw();
     }
 };

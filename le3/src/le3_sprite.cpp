@@ -3,26 +3,27 @@
 using namespace le3;
 
 LE3Sprite::LE3Sprite(LE3TexturePtr pTexture) : 
-    LE3StaticModel(nullptr, nullptr), m_pTexture(pTexture) {
+    LE3StaticModel(LE3StaticMeshPtr(), LE3MaterialPtr()), m_pTexture(pTexture) {
     setMaterial(LE3GetAssetManager().getMaterial(DEFAULT_SPRITE_MATERIAL));
     setMaterialName(DEFAULT_SPRITE_MATERIAL);
     setCastShadow(false);
-    m_pMesh = createPlane(0.f, 0.f, 0.f, 1.f, 1.f);
+    m_pMeshData = createPlane(0.f, 0.f, 0.f, 1.f, 1.f);
+    m_pMesh = m_pMeshData;
 }
 
 void LE3Sprite::draw(LE3ShaderPtr shaderOverride) {
-    m_pMaterial->diffuseTexture = m_pTexture;
-    m_pMaterial->bUseDiffuseTexture = true;
+    m_pMaterial.lock()->diffuseTexture = m_pTexture;
+    m_pMaterial.lock()->bUseDiffuseTexture = true;
 
-    if (!shaderOverride) shaderOverride = m_pMaterial->shader;
+    if (!shaderOverride.lock()) shaderOverride = m_pMaterial.lock()->shader;
 
-    if (shaderOverride) {
-        shaderOverride->use();
-        shaderOverride->uniform("isBillboard", (unsigned int)1);
+    if (shaderOverride.lock()) {
+        shaderOverride.lock()->use();
+        shaderOverride.lock()->uniform("isBillboard", (unsigned int)1);
     }
     LE3StaticModel::draw(shaderOverride);
-    if (shaderOverride) {
-        shaderOverride->use();
-        shaderOverride->uniform("isBillboard", (unsigned int)0);
+    if (shaderOverride.lock()) {
+        shaderOverride.lock()->use();
+        shaderOverride.lock()->uniform("isBillboard", (unsigned int)0);
     }
 }

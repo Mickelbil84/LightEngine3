@@ -6,24 +6,24 @@
 #include <fmt/core.h>
 
 namespace le3 {
-    LE3MeshPtr<LE3Vertex3p3c> createHelloOpenGLTriangle();
-    LE3ScreenRectPtr createScreenRect();
-    LE3MeshPtr<LE3Vertex> createPlane(float x0, float y0, float z0, float width, float height);
-    LE3MeshPtr<LE3Vertex> createBox(float x0, float y0, float z0, float width, float height, float depth);
-    LE3MeshPtr<LE3Vertex> createCylinder(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps = true);
-    LE3MeshPtr<LE3Vertex> createCone(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps = true);
-    LE3MeshPtr<LE3Vertex> createTorus(float x0, float y0, float z0, float majorRadius, float minorRadius, int resolution);
+    std::shared_ptr<LE3Mesh<LE3Vertex3p3c>> createHelloOpenGLTriangle();
+    std::shared_ptr<LE3ScreenRect> createScreenRect();
+    std::shared_ptr<LE3Mesh<LE3Vertex>> createPlane(float x0, float y0, float z0, float width, float height);
+    std::shared_ptr<LE3Mesh<LE3Vertex>> createBox(float x0, float y0, float z0, float width, float height, float depth);
+    std::shared_ptr<LE3Mesh<LE3Vertex>> createCylinder(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps = true);
+    std::shared_ptr<LE3Mesh<LE3Vertex>> createCone(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps = true);
+    std::shared_ptr<LE3Mesh<LE3Vertex>> createTorus(float x0, float y0, float z0, float majorRadius, float minorRadius, int resolution);
     
-    LE3MeshPtr<LE3Vertex> createGizmoArrow();
-    LE3MeshPtr<LE3Vertex> createGizmoScaleArrow();
-    LE3MeshPtr<LE3Vertex> createGizmoCircle();
-    LE3MeshPtr<LE3Vertex> createGizmoPlane();
-    LE3MeshPtr<LE3Vertex> createGizmoCenter();
+    std::shared_ptr<LE3Mesh<LE3Vertex>> createGizmoArrow();
+    std::shared_ptr<LE3Mesh<LE3Vertex>> createGizmoScaleArrow();
+    std::shared_ptr<LE3Mesh<LE3Vertex>> createGizmoCircle();
+    std::shared_ptr<LE3Mesh<LE3Vertex>> createGizmoPlane();
+    std::shared_ptr<LE3Mesh<LE3Vertex>> createGizmoCenter();
 
-    LE3MeshPtr<LE3Vertex3p> createDebugLine();
-    LE3MeshPtr<LE3Vertex3p> createDebugBox();
-    LE3MeshPtr<LE3Vertex3p> createDebugCylinder();
-    LE3MeshPtr<LE3Vertex3p> createDebugCone();
+    std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugLine();
+    std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugBox();
+    std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugCylinder();
+    std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugCone();
 
     std::vector<LE3Vertex> _createPlaneBuffer(float x0, float y0, float z0, float width, float height);
     std::vector<LE3Vertex> _createBoxBuffer(float x0, float y0, float z0, float width, float height, float depth);
@@ -35,7 +35,7 @@ namespace le3 {
     class LE3Box : public LE3StaticModel {
     public:
         LE3Box(float x0, float y0, float z0, float width, float height, float depth, LE3MaterialPtr pMaterial) : 
-            LE3StaticModel(nullptr, pMaterial) {
+            LE3StaticModel(LE3StaticMeshPtr(), pMaterial) {
             rebuild(x0, y0, z0, width, height, depth);
         }
         LE3_TYPE_RETURN(LE3Box)
@@ -53,19 +53,21 @@ namespace le3 {
         void rebuild(float x0, float y0, float z0, float width, float height, float depth) {
             this->x0 = x0; this->y0 = y0; this->z0 = z0;
             this->width = width; this->height = height; this->depth = depth;
-            m_pMesh = createBox(x0, y0, z0, width, height, depth);
+            m_pMeshData = createBox(x0, y0, z0, width, height, depth);
+            m_pMesh = m_pMeshData;
         }
 
     protected:
         float x0, y0, z0;
         float width, height, depth;
+        std::shared_ptr<LE3Mesh<LE3Vertex>> m_pMeshData; // At least one object needs to point to the mesh data
     };
     using LE3BoxPtr = std::shared_ptr<LE3Box>;
 
     class LE3Cylinder : public LE3StaticModel {
     public:
         LE3Cylinder(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps, LE3MaterialPtr pMaterial) :
-            LE3StaticModel(nullptr, pMaterial) {
+            LE3StaticModel(LE3StaticMeshPtr(), pMaterial) {
             rebuild(x0, y0, z0, radius, height, resolution, withCaps);
         }
         LE3_TYPE_RETURN(LE3Cylinder)
@@ -81,7 +83,8 @@ namespace le3 {
         void rebuild(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
             this->x0 = x0; this->y0 = y0; this->z0 = z0;
             this->radius = radius; this->height = height; this->resolution = resolution;
-            m_pMesh = createCylinder(x0, y0, z0, radius, height, resolution, withCaps);
+            m_pMeshData = createCylinder(x0, y0, z0, radius, height, resolution, withCaps);
+            m_pMesh = m_pMeshData;
         }
     
     protected:
@@ -89,13 +92,14 @@ namespace le3 {
         float radius, height;
         int resolution;
         bool withCaps;
+        std::shared_ptr<LE3Mesh<LE3Vertex>> m_pMeshData;
     };
     using LE3CylinderPtr = std::shared_ptr<LE3Cylinder>;
 
     class LE3Cone : public LE3StaticModel {
     public:
         LE3Cone(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps, LE3MaterialPtr pMaterial) :
-            LE3StaticModel(nullptr, pMaterial) {
+            LE3StaticModel(LE3StaticMeshPtr(), pMaterial) {
             rebuild(x0, y0, z0, radius, height, resolution, withCaps);
         }
         LE3_TYPE_RETURN(LE3Cone)
@@ -111,7 +115,8 @@ namespace le3 {
         void rebuild(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
             this->x0 = x0; this->y0 = y0; this->z0 = z0;
             this->radius = radius; this->height = height; this->resolution = resolution;
-            m_pMesh = createCone(x0, y0, z0, radius, height, resolution, withCaps);
+            m_pMeshData = createCone(x0, y0, z0, radius, height, resolution, withCaps);
+            m_pMesh = m_pMeshData;
         }
     
     protected:
@@ -119,13 +124,14 @@ namespace le3 {
         float radius, height;
         int resolution;
         bool withCaps;
+        std::shared_ptr<LE3Mesh<LE3Vertex>> m_pMeshData;
     };
     using LE3ConePtr = std::shared_ptr<LE3Cone>;
 
     class LE3Torus : public LE3StaticModel {
     public:
         LE3Torus(float x0, float y0, float z0, float majorRadius, float minorRadius, int resolution, LE3MaterialPtr pMaterial) :
-            LE3StaticModel(nullptr, pMaterial) {
+            LE3StaticModel(LE3StaticMeshPtr(), pMaterial) {
             rebuild(x0, y0, z0, majorRadius, minorRadius, resolution);
         }
         LE3_TYPE_RETURN(LE3Torus)
@@ -140,13 +146,15 @@ namespace le3 {
         void rebuild(float x0, float y0, float z0, float majorRadius, float minorRadius, int resolution) {
             this->x0 = x0; this->y0 = y0; this->z0 = z0;
             this->majorRadius = majorRadius; this->minorRadius = minorRadius; this->resolution = resolution;
-            m_pMesh = createTorus(x0, y0, z0, majorRadius, minorRadius, resolution);
+            m_pMeshData = createTorus(x0, y0, z0, majorRadius, minorRadius, resolution);
+            m_pMesh = m_pMeshData;
         }
 
     protected:
         float x0, y0, z0;
         float majorRadius, minorRadius;
         int resolution;
+        std::shared_ptr<LE3Mesh<LE3Vertex>> m_pMeshData;
     };
     using LE3TorusPtr = std::shared_ptr<LE3Torus>;
 };

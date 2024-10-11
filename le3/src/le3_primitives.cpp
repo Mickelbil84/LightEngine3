@@ -5,13 +5,13 @@ using namespace le3;
 #define M_PI 3.14159265358979323846
 #endif
 
-LE3MeshPtr<LE3Vertex3p> le3::createDebugLine() {
+std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugLine() {
     std::vector<LE3Vertex3p> vertices(2);
     vertices[0].position[0] = 0.f; vertices[0].position[1] = 0.f; vertices[0].position[2] = 0.f;
     vertices[1].position[0] = 1.f; vertices[1].position[1] = 1.f; vertices[1].position[2] = 1.f;
     return std::make_shared<LE3Mesh<LE3Vertex3p>>(vertices);
 }
-LE3MeshPtr<LE3Vertex3p> le3::createDebugBox() {
+std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugBox() {
     std::vector<LE3Vertex3p> buffer;
     std::vector<glm::vec3> verts;
     verts.push_back(glm::vec3(-.5f, .5f, .5f));
@@ -33,7 +33,7 @@ LE3MeshPtr<LE3Vertex3p> le3::createDebugBox() {
     return std::make_shared<LE3Mesh<LE3Vertex3p>>(buffer);
 }
 
-LE3MeshPtr<LE3Vertex3p3c> le3::createHelloOpenGLTriangle() {
+std::shared_ptr<LE3Mesh<LE3Vertex3p3c>> le3::createHelloOpenGLTriangle() {
     std::vector<LE3Vertex3p3c> vertices(3);
     vertices[0].position[0] = .5f * -1.f; vertices[0].position[1] = .5f * -1.f; vertices[0].position[2] = .5f * 0.f;
     vertices[1].position[0] = .5f *  0.f; vertices[1].position[1] = .5f *  1.f; vertices[1].position[2] = .5f * 0.f;
@@ -45,7 +45,7 @@ LE3MeshPtr<LE3Vertex3p3c> le3::createHelloOpenGLTriangle() {
     return std::make_shared<LE3Mesh<LE3Vertex3p3c>>(vertices);
 }
 
-LE3ScreenRectPtr le3::createScreenRect() {
+std::shared_ptr<LE3ScreenRect> le3::createScreenRect() {
     std::vector<LE3Vertex3p> vertices(6);
 
     vertices[0].position[0] = -1.f; vertices[0].position[1] = -1.f; vertices[0].position[2] = 0.f;
@@ -78,7 +78,7 @@ std::vector<LE3Vertex> le3::_createPlaneBuffer(float x0, float y0, float z0, flo
     return buffer;
 }
 
-LE3MeshPtr<LE3Vertex> le3::createPlane(float x0, float y0, float z0, float width, float height) {
+std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createPlane(float x0, float y0, float z0, float width, float height) {
     std::vector<LE3Vertex> buffer = _createPlaneBuffer(x0, y0, z0, width, height);
     return std::make_shared<LE3Mesh<LE3Vertex>>(buffer);
 }
@@ -171,7 +171,7 @@ std::vector<LE3Vertex> le3::_createBoxBuffer(float x0, float y0, float z0, float
     return buffer;
 }
 
-LE3MeshPtr<LE3Vertex> le3::createBox(float x0, float y0, float z0, float width, float height, float depth) {
+std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createBox(float x0, float y0, float z0, float width, float height, float depth) {
     std::vector<LE3Vertex> buffer = _createBoxBuffer(x0, y0, z0, width, height, depth);
     return std::make_shared<LE3Mesh<LE3Vertex>>(buffer);
 }
@@ -210,12 +210,12 @@ std::vector<LE3Vertex> le3::_createCylinderBuffer(float x0, float y0, float z0, 
     return buffer;
 }
 
-LE3MeshPtr<LE3Vertex> le3::createCylinder(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
+std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createCylinder(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
     std::vector<LE3Vertex> buffer = le3::_createCylinderBuffer(x0, y0, z0, radius, height, resolution, withCaps);
     return std::make_shared<LE3StaticMesh>(buffer);
 }
 
-LE3MeshPtr<LE3Vertex3p> le3::createDebugCylinder() {
+std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugCylinder() {
     std::vector<LE3Vertex> tmpBuffer = le3::_createCylinderBuffer(0.f, 0.f, 0.f, 1.f, 1.f, 8, true);
     std::vector<LE3Vertex3p> buffer;
     for (int i = 0; i < tmpBuffer.size(); i += 3) {
@@ -256,7 +256,7 @@ std::vector<LE3Vertex> le3::_createConeBuffer(float x0, float y0, float z0, floa
     return buffer;
 }
 
-LE3MeshPtr<LE3Vertex> le3::createCone(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
+std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createCone(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
     std::vector<LE3Vertex> buffer = le3::_createConeBuffer(x0, y0, z0, radius, height, resolution, withCaps);
     return std::make_shared<LE3StaticMesh>(buffer);
 }
@@ -309,13 +309,13 @@ std::vector<LE3Vertex> le3::_createTorusBuffer(float x0, float y0, float z0, flo
     return buffer;
 }
 
-LE3MeshPtr<LE3Vertex> le3::createTorus(float x0, float y0, float z0, float majorRadius, float minorRadius, int resolution) {
+std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createTorus(float x0, float y0, float z0, float majorRadius, float minorRadius, int resolution) {
     std::vector<LE3Vertex> buffer = le3::_createTorusBuffer(x0, y0, z0, majorRadius, minorRadius, resolution);
     return std::make_shared<LE3StaticMesh>(buffer);
 }
 
 
-LE3MeshPtr<LE3Vertex3p> le3::createDebugCone() {
+std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugCone() {
     std::vector<LE3Vertex> tmpBuffer = le3::_createConeBuffer(0.f, 0.f, 0.f, 1.f, 1.f, 8, true);
     std::vector<LE3Vertex3p> buffer;
     for (int i = 0; i < tmpBuffer.size(); i += 3) {
@@ -327,7 +327,7 @@ LE3MeshPtr<LE3Vertex3p> le3::createDebugCone() {
     return std::make_shared<LE3Mesh<LE3Vertex3p>>(buffer);
 }
 
-LE3MeshPtr<LE3Vertex> le3::createGizmoArrow() {
+std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createGizmoArrow() {
     // TODO: Make constants in engine config
     std::vector<LE3Vertex> buffer = le3::_createCylinderBuffer(0.f, 0.f, 0.f, 0.015f, 0.5f, 8, true);
     std::vector<LE3Vertex> cone = le3::_createConeBuffer(0.f, 0.5f, 0.f, 0.035f, 0.065f, 8, true);
@@ -335,7 +335,7 @@ LE3MeshPtr<LE3Vertex> le3::createGizmoArrow() {
     return std::make_shared<LE3StaticMesh>(buffer);
 }
 
-LE3MeshPtr<LE3Vertex> le3::createGizmoScaleArrow() {
+std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createGizmoScaleArrow() {
     // TODO: Make constants in engine config
     std::vector<LE3Vertex> buffer = le3::_createCylinderBuffer(0.f, 0.f, 0.f, 0.015f, 0.5f, 8, true);
     std::vector<LE3Vertex> box = le3::_createBoxBuffer(0.f, 0.5f, 0.f, 0.04f, 0.04f, 0.04f);
@@ -343,15 +343,15 @@ LE3MeshPtr<LE3Vertex> le3::createGizmoScaleArrow() {
     return std::make_shared<LE3StaticMesh>(buffer);
 }
 
-LE3MeshPtr<LE3Vertex> le3::createGizmoCircle() {
+std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createGizmoCircle() {
     return createTorus(0.f, 0.f, 0.f, 0.4f, 0.01f, 32);
 }
 
-LE3MeshPtr<LE3Vertex> le3::createGizmoPlane() {
+std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createGizmoPlane() {
     return createBox(0.25f, 0.25f, 0.f, 0.075f, 0.075f, 0.001f);
 }
 
-LE3MeshPtr<LE3Vertex> le3::createGizmoCenter() {
+std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createGizmoCenter() {
     // TODO: Make constants in engine config
     return createBox(0.f, 0.f, 0.f, 0.06f, 0.06f, 0.06f);
 }

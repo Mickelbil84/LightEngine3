@@ -42,12 +42,6 @@ namespace le3 {
         return std::dynamic_pointer_cast<T>(*object);
     }
 
-    template<typename T>
-    std::shared_ptr<T> getUserType_Asset(int idx) {
-        std::shared_ptr<T>* object = LE3GetScriptSystem().getUserType<std::shared_ptr<T>>(idx++);
-        return *object;
-    }
-
     /////////////////////
     // Binding macros
     /////////////////////
@@ -59,7 +53,7 @@ namespace le3 {
     #define GET_STRING(varname) std::string varname = LE3GetScriptSystem().getString(idx++);
     #define GET_UDATA(varname, type) type* varname = (type*)(LE3GetScriptSystem().getUserType<type>(idx++));
     #define GET_UDATA_OBJECT(varname, type) std::shared_ptr<type> varname = le3::getUserType_LE3Object<type>(idx++);
-    #define GET_UDATA_ASSET(varname, type) std::shared_ptr<type> varname = le3::getUserType_Asset<type>(idx++);
+    #define GET_UDATA_ASSET(varname, type) std::weak_ptr<type> varname = le3::getUserType_Asset<type>(idx++);
     #define GET_VEC2(varname) GET_NUMBER(x) GET_NUMBER(y) glm::vec2 varname(x, y);
     #define GET_VEC3(varname) GET_NUMBER(x) GET_NUMBER(y) GET_NUMBER(z) glm::vec3 varname(x, y, z);
     #define GET_VEC3_(varname) GET_NUMBER(varname##x) GET_NUMBER(varname##y) GET_NUMBER(varname##z) glm::vec3 varname(varname##x, varname##y, varname##z);
@@ -83,7 +77,8 @@ namespace le3 {
     // Easier binding syntax
     #define FNAME(type, foo) type##_##foo
     #define FBIND(type, foo) static int FNAME(type, foo)(lua_State* L) { int idx = 1, rcount = 0, tmpidx;
-    #define FEND() return rcount; }
+    #define FBREAK() return rcount
+    #define FEND() FBREAK(); }
     #define LBIND(type) static const luaL_Reg type##_lib[] = {
     #define LADD(type, foo) {#foo, FNAME(type, foo)},
     #define LEND() {NULL, NULL}};

@@ -16,14 +16,18 @@ void LE3LightManager::renderLights(LE3ShaderPtr pShader, glm::vec3 cameraPos) {
     renderSpotLights(pShader);
 }
 
-void LE3LightManager::renderAmbientLight(LE3ShaderPtr pShader) {
+void LE3LightManager::renderAmbientLight(LE3ShaderPtr pShaderWeak) {
+    auto pShader = pShaderWeak.lock();
+    if (!pShader) return; 
     if (m_pAmbientLight == nullptr) {
         pShader->uniform("ambientLight.color", glm::vec3(0.f)); return;
     }
     pShader->uniform("ambientLight.color", m_pAmbientLight->getColor());
     pShader->uniform("ambientLight.intensity", m_pAmbientLight->getIntensity());
 }
-void LE3LightManager::renderDirectionalLights(LE3ShaderPtr pShader, glm::vec3 cameraPos) {
+void LE3LightManager::renderDirectionalLights(LE3ShaderPtr pShaderWeak, glm::vec3 cameraPos) {
+    auto pShader = pShaderWeak.lock();
+    if (!pShader) return; 
     for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
     {
         pShader->uniform(fmt::format("directionalLights[{}].intensity", i), 0.f);
@@ -42,7 +46,9 @@ void LE3LightManager::renderDirectionalLights(LE3ShaderPtr pShader, glm::vec3 ca
         pShader->uniform(fmt::format("dirLightViewMatrix[{}]", i), m_pDirectionalLights[i]->getViewMatrix(cameraPos));
     }
 }
-void LE3LightManager::renderPointLights(LE3ShaderPtr pShader) {
+void LE3LightManager::renderPointLights(LE3ShaderPtr pShaderWeak) {
+    auto pShader = pShaderWeak.lock();
+    if (!pShader) return; 
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
     {
         pShader->uniform(fmt::format("pointLights[{}].intensity", i), 0.f);
@@ -58,7 +64,9 @@ void LE3LightManager::renderPointLights(LE3ShaderPtr pShader) {
         pShader->uniform(fmt::format("pointLights[{}].attn_exp", i), m_pPointLights[i]->getAttnExp());
     }
 }
-void LE3LightManager::renderSpotLights(LE3ShaderPtr pShader) {
+void LE3LightManager::renderSpotLights(LE3ShaderPtr pShaderWeak) {
+    auto pShader = pShaderWeak.lock();
+    if (!pShader) return; 
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
     {
         pShader->uniform(fmt::format("spotLights[{}].intensity", i), 0.f);

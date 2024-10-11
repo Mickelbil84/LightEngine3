@@ -13,10 +13,10 @@ void LE3PointCloud::update(float deltaTime) {
 
 
 void LE3PointCloud::draw(LE3ShaderPtr shaderOverride) {
-    if (m_pMaterial) m_pMaterial->apply();
-    if (m_pMaterial && !shaderOverride) shaderOverride = m_pMaterial->shader;
-    shaderOverride->uniform("bIsSkeletal", (uint32_t)0);
-    if (m_pMesh) m_pMesh->drawPoints(m_pointSize);
+    if (m_pMaterial.lock()) m_pMaterial.lock()->apply();
+    if (m_pMaterial.lock() && !shaderOverride.lock()) shaderOverride = m_pMaterial.lock()->shader;
+    shaderOverride.lock()->uniform("bIsSkeletal", (uint32_t)0);
+    if (m_pMesh.lock()) m_pMesh.lock()->drawPoints(m_pointSize);
 }
 
 void LE3PointCloud::addPoint(glm::vec3 position) {

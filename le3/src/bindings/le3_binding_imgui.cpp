@@ -118,7 +118,7 @@ FBIND(ImGui, Combo_Animation)
     std::vector<const char*> animationNames;
     animationNames.push_back(DEFAULT_EMPTY_ANIMATION_NAME.c_str());
     int selected = 0, jdx = 1;
-    for (auto& [name, track] : pSkeletalMesh->getAnimationTracks()) {
+    for (auto& [name, track] : pSkeletalMesh.lock()->getAnimationTracks()) {
         animationNames.push_back(name.c_str());
         if (name == prev) selected = jdx;
         jdx++;
