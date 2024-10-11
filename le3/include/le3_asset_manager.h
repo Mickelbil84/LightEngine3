@@ -9,6 +9,10 @@
 #include "le3_geometry.h"
 
 namespace le3 {
+
+    const std::string ERROR_SHADER_VERTEX_PATH = "/engine/shaders/error/error.vs";
+    const std::string ERROR_SHADER_FRAGMENT_PATH = "/engine/shaders/error/error.fs";
+
     const std::string DEFAULT_ENGINE_PREFIX = "__ENGINE__";
 
     const std::string DEFAULT_SHADER = "S_default";

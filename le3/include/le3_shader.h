@@ -26,14 +26,17 @@ namespace le3 {
         void setName(std::string name) { m_name = name; }
         std::string getName() const { return m_name; }
 
+        std::pair<bool, std::string> recompile(std::string vertexShaderSource, std::string fragmentShaderSource);
+
     private:
         std::string m_name;
         unsigned int m_program;
         std::map<std::string, int> m_uniformLocation;
 
         // Helper methods
-        unsigned int compileShaderFromSource(std::string shaderSource, int type);
+        unsigned int compileShaderFromSource(std::string shaderSource, int type, bool& success, std::string& error);
         inline int getUniformLocation(std::string uniformName);
+        void recompileToErrorShader();
     };
     using LE3ShaderPtr = std::weak_ptr<LE3Shader>;
 }

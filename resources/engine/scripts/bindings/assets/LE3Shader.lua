@@ -2,7 +2,7 @@ LE3Shader.load = function (shader_table)
     LE3AssetManager.add_shader(shader_table.Name, shader_table.VertexSource, shader_table.FragmentSource)
 end
 LE3Shader.rebuild = function (shader, tbl)
-    -- TODO: Implement
+    LE3Shader.set_name(shader, tbl.Name)
 end
 LE3Shader.save = function (shader)
     local name = shader
