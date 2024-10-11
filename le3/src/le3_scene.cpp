@@ -404,3 +404,12 @@ void LE3Scene::deleteObject(std::string name) {
     m_sceneGraph->m_pObjects[name]->reparent(nullptr);
     m_sceneGraph->m_pObjects.erase(name);
 }
+
+void LE3Scene::rebuild() {
+    m_sceneGraph->m_drawQueue.clear();
+    for (auto obj : m_sceneGraph->m_pObjects) {
+        if (auto drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(obj.second)) {
+            m_sceneGraph->m_drawQueue.addObject(drawableObj);
+        }
+    }
+}

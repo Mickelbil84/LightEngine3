@@ -56,6 +56,8 @@ namespace le3 {
         void drawObjectIDs();
         void drawPostProcess();
 
+        void rebuild(); // Call whenever major structural changes happen to scene graph (like shader change/deletion)
+
         // Set false if we want to render to the inner postProccess buffer
         void setRenderDirectly(bool renderDirectly) { m_bRenderDirectly = renderDirectly; }
         bool isRenderDirectly() { return m_bRenderDirectly; }

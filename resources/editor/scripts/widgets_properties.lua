@@ -36,10 +36,16 @@ function update_asset_properties_panel(ptr, type)
     end
     type.rebuild(ptr, tbl)
     ptr = tbl.Name -- in case of renames, update the "pointer"
-    if (ImGui.Button("Save")) then
-        type.reload(ptr, tbl)
+    if (type.reload ~= nil) then 
+        if (ImGui.Button("Save")) then
+            print("!!!!!!!!!!!!")
+            print(type.reload)
+            print("!!!!!!!!!!!!")
+            type.reload(ptr, tbl)
+        end
     end
 end
+
 
 function update_shader_properties_panel(shader)
     update_asset_properties_panel(shader, LE3Shader)

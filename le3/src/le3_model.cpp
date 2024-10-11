@@ -37,7 +37,13 @@ void LE3Model<LE3VertexType>::update(float deltaTime) {
 template<typename LE3VertexType>
 void LE3Model<LE3VertexType>::draw(LE3ShaderPtr shaderOverride) {
     if (m_pMaterial.lock()) m_pMaterial.lock()->apply();
-    if (m_pMaterial.lock() && !shaderOverride.lock()) shaderOverride = m_pMaterial.lock()->shader;
+    if (m_pMaterial.lock() && !shaderOverride.lock()) {
+        shaderOverride = m_pMaterial.lock()->shader;
+        // if (shaderOverride.expired()) {
+        //     shaderOverride = LE3GetAssetManager().getErrorShader(); // In case of missing shader
+        //     shaderOverride.lock()->use();
+        // }
+    }
 
     // Update animation, if applicable
     std::vector<glm::mat4> boneMatrices;

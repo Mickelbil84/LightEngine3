@@ -209,14 +209,14 @@ FBIND(LE3Material, get_shader)
 FEND()
 FBIND(LE3Material, set_shader)
     GET_STRING(materialName)
-    GET_STRING(shaderName)
     std::shared_ptr<LE3Material> material = LE3GetAssetManager().getMaterial(materialName).lock();
     if (!material) FBREAK();
-    if (!LE3AssetManager().hasShader(shaderName)) {
-        // material->shader.reset();
-        FBREAK();
-    }
-    material->shader = LE3AssetManager().getShader(shaderName);
+
+    GET_STRING(shaderName)
+    std::shared_ptr<LE3Shader> shader = LE3GetAssetManager().getShader(shaderName).lock();
+    if (!shader) shader = LE3GetAssetManager().getErrorShader().lock();
+    material->shader = shader;
+    LE3GetActiveScene()->rebuild();
 FEND()
 
 LIB(LE3Material,

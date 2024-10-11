@@ -111,7 +111,8 @@ void LE3EditorTabAssets::updateMaterials() {
                 LE3GetEditorManager().getSelection().selectAsset(material);
             }
             ImGui::TableNextColumn();
-            ImGui::Text("%s", material->shader.lock()->getName().c_str());
+            std::string shaderName = !material->shader.expired() ? material->shader.lock()->getName() : "[Invalid]";
+            ImGui::Text("%s", shaderName.c_str());
         }
 
         ImGui::EndTable();
@@ -259,7 +260,7 @@ void LE3EditorTabAssets::updateAnimations() {
 
 bool LE3EditorTabAssets::isEngineAsset(std::string name, std::string path) {
     if (name.starts_with(DEFAULT_ENGINE_PREFIX)) return true;
-    if (path.starts_with("/engine")) return true;
+    if (path.starts_with("/engine") && !path.starts_with("/engine/shaders")) return true;
     if (path.starts_with("/editor")) return true;
     return false;
 }

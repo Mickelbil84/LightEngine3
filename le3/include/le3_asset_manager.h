@@ -10,10 +10,12 @@
 
 namespace le3 {
 
+    const std::string DEFAULT_ENGINE_PREFIX = "__ENGINE__";
+
     const std::string ERROR_SHADER_VERTEX_PATH = "/engine/shaders/error/error.vs";
     const std::string ERROR_SHADER_FRAGMENT_PATH = "/engine/shaders/error/error.fs";
+    const std::string ERROR_SHADER = DEFAULT_ENGINE_PREFIX + "S_error";
 
-    const std::string DEFAULT_ENGINE_PREFIX = "__ENGINE__";
 
     const std::string DEFAULT_SHADER = "S_default";
     const std::string DEFAULT_OBJECTID_SHADER = "S_objectid";
@@ -89,6 +91,7 @@ namespace le3 {
         inline std::map<std::string, std::string> getTexturesPaths() { return m_texturesPaths; }
         inline std::map<std::string, std::string> getMeshesPaths() { return m_meshesPaths; }
 
+        inline LE3ShaderPtr getErrorShader() { return m_gErrorShader; }
 
     private:
         // Asset maps
@@ -108,6 +111,9 @@ namespace le3 {
         // Debug meshes
         std::shared_ptr<LE3Mesh<LE3Vertex3p>> m_debugLine, m_debugBox, m_debugCylinder, m_debugCone;
         std::shared_ptr<LE3StaticMesh> m_gizmoArrow, m_gizmoScaleArrow, m_gizmoCircle, m_gizmoPlane, m_gizmoCenter;
+
+        // Error (missing) assets
+        std::shared_ptr<LE3Shader> m_gErrorShader;
 
         // Helper methods
         std::string readFile(std::string filename);
