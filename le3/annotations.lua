@@ -200,6 +200,8 @@ function LE3AssetManager.add_texture(name, filename, interpolate) end
 ---@param shaderName string
 ---@return string
 ---@return string
+---@return string
+---@return string
 function LE3AssetManager.get_shader_paths(shaderName) end
 
 ---@param name string
@@ -663,6 +665,7 @@ function LE3Scene.set_main_camera(scene, camera) end
 
 ---@param shaderName string
 ---@return string
+---@return string
 function LE3Shader.get_error(shaderName) end
 
 ---@param shaderName string
@@ -670,6 +673,7 @@ function LE3Shader.get_error(shaderName) end
 function LE3Shader.get_name(shaderName) end
 
 ---@param shaderName string
+---@return boolean
 ---@return boolean
 function LE3Shader.is_ok(shaderName) end
 

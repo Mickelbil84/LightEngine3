@@ -11,8 +11,7 @@ FEND()
 FBIND(LE3Shader, set_name)
     GET_STRING(shaderName)
     GET_STRING(name)
-    LE3ShaderPtr shader = LE3GetAssetManager().getShader(shaderName);
-    shader.lock()->setName(name);
+    LE3GetAssetManager().renameShader(shaderName, name);
 FEND()
 
 FBIND(LE3Shader, set_shader_paths)
@@ -40,12 +39,20 @@ FEND()
 FBIND(LE3Shader, is_ok)
     GET_STRING(shaderName)
     LE3ShaderPtr shader = LE3GetAssetManager().getShader(shaderName);
+    if (shader.expired()) {
+        PUSH_BOOL(false)
+        FBREAK();
+    }
     PUSH_BOOL(shader.lock()->isOk())
 FEND()
 
 FBIND(LE3Shader, get_error) 
     GET_STRING(shaderName)
     LE3ShaderPtr shader = LE3GetAssetManager().getShader(shaderName);
+    if (shader.expired()) {
+        PUSH_STRING("---")
+        FBREAK();
+    }
     PUSH_STRING(shader.lock()->getErrorMessage())
 FEND()
 

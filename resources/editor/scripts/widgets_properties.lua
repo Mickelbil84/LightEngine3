@@ -35,6 +35,7 @@ function update_asset_properties_panel(ptr, type)
         end
     end
     type.rebuild(ptr, tbl)
+    ptr = tbl.Name -- in case of renames, update the "pointer"
     if (ImGui.Button("Save")) then
         type.reload(ptr, tbl)
     end

@@ -12,6 +12,11 @@ FEND()
 FBIND(LE3AssetManager, get_shader_paths) 
     GET_STRING(shaderName)
     LE3ShaderPtr shader = LE3GetAssetManager().getShader(shaderName);
+    if (shader.expired()) {
+        PUSH_STRING("")
+        PUSH_STRING("")
+        FBREAK();
+    }
     std::pair<std::string, std::string> paths = LE3GetAssetManager().getShadersPaths()[shader.lock()->getName()];
     PUSH_STRING(paths.first)
     PUSH_STRING(paths.second)

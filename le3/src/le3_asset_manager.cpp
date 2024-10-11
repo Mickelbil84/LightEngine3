@@ -54,6 +54,19 @@ void LE3AssetManager::addShaderFromSource(std::string name, std::string vertexSh
     m_pShaders[name]->setName(name);
 }
 
+void LE3AssetManager::renameShader(std::string oldName, std::string newName) {
+    if (oldName == newName) return;
+    if (m_pShaders.contains(oldName)) {
+        m_pShaders[oldName]->setName(newName);
+        m_pShaders[newName] = m_pShaders[oldName];
+        m_pShaders.erase(oldName);
+    }
+    if (m_shadersPaths.contains(oldName)) {
+        m_shadersPaths[newName] = m_shadersPaths[oldName];
+        m_shadersPaths.erase(oldName);
+    }
+}
+
 void LE3AssetManager::addMaterial(std::string name, std::string shaderName) {
     if (m_pMaterials.contains(name)) throw std::runtime_error(fmt::format("Material [{}] already exists", name));
     if (!m_pShaders.contains(shaderName)) throw std::runtime_error(fmt::format("Cannot create material [{}]: shader [{}] does not exist", name, shaderName));

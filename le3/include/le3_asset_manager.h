@@ -49,6 +49,7 @@ namespace le3 {
             if (m_shadersPaths.contains(name)) return m_shadersPaths[name];
             return std::make_pair("", "");
         }
+        void renameShader(std::string oldName, std::string newName);
 
         // Materials
         void addMaterial(std::string name, std::string shaderName);
