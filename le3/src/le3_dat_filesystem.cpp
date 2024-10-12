@@ -93,7 +93,7 @@ LE3FileInfo LE3DatFileSystem::getFileInfo(std::string filepath) {
 }
 
 LE3DatBuffer LE3DatFileSystem::getFileContent(std::string filepath, bool shouldDecompress) {
-    if (!m_fileNodes.contains(filepath)) throw std::runtime_error(fmt::format("File '{}' does not exist in any archive", filepath));
+    if (!m_fileNodes.contains(filepath) || filepath == "") throw std::runtime_error(fmt::format("File '{}' does not exist in any archive", filepath));
     return m_archives[m_fileNodes[filepath].archiveName]->getFileContent(filepath, shouldDecompress);
 }
 

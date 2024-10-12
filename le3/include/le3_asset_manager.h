@@ -37,6 +37,7 @@ namespace le3 {
     class LE3AssetManager {
     public:
         void init();
+        void refreshPointers(); // In case of asset deletions, make sure everything is still kosher
 
         // Shaders
         void addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
@@ -53,6 +54,7 @@ namespace le3 {
         }
         void renameShader(std::string oldName, std::string newName);
         bool hasShader(std::string name) { return m_pShaders.contains(name); }
+        void deleteShader(std::string name);
 
         // Materials
         void addMaterial(std::string name, std::string shaderName);
@@ -114,6 +116,9 @@ namespace le3 {
 
         // Error (missing) assets
         std::shared_ptr<LE3Shader> m_gErrorShader;
+
+        // Recently deleted assets (for consumption in `refreshPointers`)
+        std::string m_lastDeletedShader = "";
 
         // Helper methods
         std::string readFile(std::string filename);

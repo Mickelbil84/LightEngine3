@@ -52,7 +52,11 @@ void LE3EditorTabAssets::updateShaders() {
     }
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
-        // ...
+        std::shared_ptr<LE3Shader> pShader = LE3GetEditorManager().getSelection().pShader.lock();
+        if (pShader) {
+            LE3GetAssetManager().deleteShader(pShader->getName());
+            LE3GetEditorManager().getSelection().deselect();
+        }
     }
 
     m_popAddShader.update();

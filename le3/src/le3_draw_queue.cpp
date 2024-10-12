@@ -36,17 +36,16 @@ void LE3DrawQueue::draw(LE3ShaderPtr shaderOverrideWeak, bool shadowPhase) {
             for (auto object : kv.second) {
                 if (object.expired()) continue;
                 auto objectPtr = object.lock();
-                if (!objectPtr) continue;
                 if (objectPtr->isHidden() || (!objectPtr->getCastShadow() && shadowPhase)) continue;
-                if (shader == nullptr && objectPtr->getMaterial().lock()) {
+                if (!shader && objectPtr->getMaterial().lock()) {
                     shader = objectPtr->getMaterial().lock()->shader.lock();
                 }
                 if (shader) {
                     shader->use();
                     shader->uniform("model", objectPtr->getWorldMatrix());
                     shader->uniform("objectID", objectPtr->getDrawID());
+                    objectPtr->draw(shaderOverride);
                 }
-                objectPtr->draw(shaderOverride);
             }
         }
         if (priority == LE3DrawPriority::DRAW_PRIORITY_END) glDepthMask(GL_TRUE);

@@ -48,7 +48,7 @@ void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShad
         std::string vertexShaderSource = readFile(vertexShaderPath);
         std::string fragmentShaderSource = readFile(fragmentShaderPath);
         addShaderFromSource(name, vertexShaderSource, fragmentShaderSource);
-    } catch (std::exception& e) {
+    } catch (std::runtime_error& e) {
         fmt::print("Error loading shader from file: {}\n", e.what());
         addShaderFromSource(name, "", "");
     }
@@ -71,6 +71,12 @@ void LE3AssetManager::renameShader(std::string oldName, std::string newName) {
         m_shadersPaths[newName] = m_shadersPaths[oldName];
         m_shadersPaths.erase(oldName);
     }
+}
+void LE3AssetManager::deleteShader(std::string name) {
+    if (m_pShaders.contains(name)) m_pShaders.erase(name);
+    if (m_shadersPaths.contains(name)) m_shadersPaths.erase(name);
+    m_lastDeletedShader = name;
+    refreshPointers();
 }
 
 void LE3AssetManager::addMaterial(std::string name, std::string shaderName) {
@@ -129,4 +135,19 @@ bool LE3AssetManager::isSkeletalMesh(std::string name) {
 
 std::string LE3AssetManager::readFile(std::string filename) {
     return LE3GetDatFileSystem().getFileContent(filename).toString();
+}
+
+void LE3AssetManager::refreshPointers() {
+    for (auto& [name, material] : m_pMaterials) {
+        // The second condition seems weird, but since Lua binding sometimes also temporarily holds
+        // a shared reference, the pointer is not immideatly deleted, hence this trick
+        if (m_pMaterials[name]->shader.expired() || m_pMaterials[name]->shader.lock()->getName() == m_lastDeletedShader) {
+            m_pMaterials[name]->shader = getErrorShader();
+        }
+    }
+    m_lastDeletedShader = "";
+
+    // Also rebuild data structures that depend on these assets
+    for (auto& [name, scene] : LE3GetSceneManager().getScenes())
+        scene->rebuild();
 }
