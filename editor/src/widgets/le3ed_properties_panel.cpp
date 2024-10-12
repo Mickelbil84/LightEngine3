@@ -21,24 +21,28 @@ void LE3EditorPropertiesPanel::update() {
     switch (LE3GetEditorManager().getSelection().type)
     {
     case LE3EditorSelection::LE3SelectionType::LE3_SELECTION_OBJECT:
+        if (!obj) break;
         LE3GetScriptSystem().getGlobal("update_object_properties_panel");
         LE3GetScriptSystem().pushUserType(&obj);
         LE3GetScriptSystem().callFunction(1, 0);
         break;
 
     case LE3EditorSelection::LE3SelectionType::LE3_SELECTION_ASSET_SHADER:
+        if (shader.expired()) break;
         LE3GetScriptSystem().getGlobal("update_shader_properties_panel");
         LE3GetScriptSystem().pushString(shader.lock()->getName());
         LE3GetScriptSystem().callFunction(1, 0);
         break;
 
     case LE3EditorSelection::LE3SelectionType::LE3_SELECTION_ASSET_MATERIAL:
+        if (material.expired()) break;
         LE3GetScriptSystem().getGlobal("update_material_properties_panel");
         LE3GetScriptSystem().pushString(material.lock()->name);
         LE3GetScriptSystem().callFunction(1, 0);
         break;
     
     case LE3EditorSelection::LE3SelectionType::LE3_SELECTION_ASSET_TEXTURE:
+        if (texture.expired()) break;
         LE3GetScriptSystem().getGlobal("update_texture_properties_panel");
         LE3GetScriptSystem().pushString(texture.lock()->getName());
         LE3GetScriptSystem().callFunction(1, 0);

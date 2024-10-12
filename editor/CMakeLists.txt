@@ -34,6 +34,9 @@ add_executable(${PROJECT_NAME}
     src/widgets/le3ed_properties_panel.cpp
 
     src/widgets/popups/le3ed_pop_add_shader.cpp
+
+    src/commands/le3ed_com_add_shader.cpp
+    src/commands/le3ed_com_delete_shader.cpp
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)

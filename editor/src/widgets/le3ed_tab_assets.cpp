@@ -1,4 +1,5 @@
 #include "widgets/le3ed_tab_assets.h"
+#include "commands/le3ed_com_delete_shader.h"
 using namespace le3;
 
 void LE3EditorTabAssets::init() {
@@ -54,7 +55,10 @@ void LE3EditorTabAssets::updateShaders() {
     if (ImGui::Button("Delete")) {
         std::shared_ptr<LE3Shader> pShader = LE3GetEditorManager().getSelection().pShader.lock();
         if (pShader) {
-            LE3GetAssetManager().deleteShader(pShader->getName());
+            std::pair<std::string, std::string> paths = LE3GetAssetManager().getShaderPaths(pShader->getName());
+            LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComDeleteShader>(
+                pShader->getName(), paths.first, paths.second
+            ));
             LE3GetEditorManager().getSelection().deselect();
         }
     }
@@ -70,6 +74,7 @@ void LE3EditorTabAssets::updateShaders() {
         for (auto& [name, paths] : shadersPaths) {
             if (!m_bShowEngineAssets && isEngineAsset(name, paths.first)) continue;
             bool selected = LE3GetEditorManager().getSelection().type == LE3EditorSelection::LE3_SELECTION_ASSET_SHADER &&
+                LE3GetEditorManager().getSelection().pShader.lock() &&
                 LE3GetEditorManager().getSelection().pShader.lock()->getName() == name;
 
             ImGui::TableNextRow();

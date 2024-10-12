@@ -1,4 +1,5 @@
 #include "widgets/popups/le3ed_pop_add_shader.h"
+#include "commands/le3ed_com_add_shader.h"
 #include "le3_engine_systems.h"
 using namespace le3;
 
@@ -29,9 +30,23 @@ void LE3EdPopAddShader::update() {
         }
         ImGui::SameLine();
         if (ImGui::Button("Add")) {
-            LE3GetAssetManager().addShaderFromFile(m_shaderName, m_pathVS, m_pathFS);
-            ImGui::CloseCurrentPopup();
-            this->unlockEngine();
+
+            if (LE3GetAssetManager().hasShader(m_shaderName)) {
+                ImGui::OpenPopup("Shader Already Exists");
+
+                if (ImGui::BeginPopupModal("Shader Already Exists")) {
+                    ImGui::Text("A shader with the name '%s' already exists.", m_shaderName);
+                    if (ImGui::Button("OK")) {
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::EndPopup();
+                }
+            }
+            else {
+                LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComAddShader>(m_shaderName, m_pathVS, m_pathFS));
+                ImGui::CloseCurrentPopup();
+                this->unlockEngine();
+            }
         }
         ImGui::EndPopup();
     }
