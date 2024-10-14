@@ -70,7 +70,7 @@ function update_material_properties_panel(material)
 end
 
 function update_texture_properties_panel(texture)
-    ImGui.CollapsingHeader("LE3Texture")
+    update_asset_properties_panel(texture, LE3Texture)
 end
 
 function update_static_mesh_properties_panel(static_mesh)

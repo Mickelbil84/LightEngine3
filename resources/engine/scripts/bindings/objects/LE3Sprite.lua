@@ -1,7 +1,7 @@
 LE3Sprite.__base = LE3StaticModel
 LE3Sprite.load = function (scene, tbl, res)
     if (res == nil) then
-        LE3Scene.add_sprite(scene, tbl.Name, tbl.MaterialName)
+        LE3Scene.add_sprite(scene, tbl.Name, tbl.TextureName)
         res = LE3Scene.get_object(scene, tbl.Name)
     end
     LE3Sprite.__base.load(scene, tbl, res)

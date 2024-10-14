@@ -769,11 +769,31 @@ function LE3StaticModel.set_material_name(self, material_name) end
 function LE3StaticModel.set_mesh_name(self, mesh_name) end
 
 ---@param textureName string
+function LE3Texture.get_interpolate(textureName) end
+
+---@param textureName string
 function LE3Texture.get_name(textureName) end
+
+---@param textureName string
+---@return string
+function LE3Texture.get_texture_path(textureName) end
+
+---@param textureName string
+---@param path string
+---@param interpolate boolean
+function LE3Texture.reload_texture(textureName, path, interpolate) end
+
+---@param textureName string
+---@param interpolate boolean
+function LE3Texture.set_interpolate(textureName, interpolate) end
 
 ---@param textureName string
 ---@param name string
 function LE3Texture.set_name(textureName, name) end
+
+---@param textureName string
+---@param path string
+function LE3Texture.set_texture_path(textureName, path) end
 
 ---@param self LE3Torus
 ---@return number

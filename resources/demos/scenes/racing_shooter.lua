@@ -171,7 +171,7 @@ Scene.Objects = {
     {
         Type = "Sprite",
         Name = "sprite",
-        MaterialName = "M_default",
+        TextureName = "icon_addempty",
         Position = {0.0, 0.75, 0.0},
     },
     {

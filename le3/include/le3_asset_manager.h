@@ -64,8 +64,18 @@ namespace le3 {
         // Textures
         void addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate = true);
         void addTexture(std::string name, std::string filename, bool interpolate = true);
-        inline LE3TexturePtr getTexture(std::string name) { return m_pTextures[name]; }
+        inline LE3TexturePtr getTexture(std::string name) { 
+            if (!m_pTextures.contains(name)) return LE3TexturePtr();
+            return m_pTextures[name]; 
+        }
+        inline std::string getTexturePath(std::string name) { 
+            if (!m_texturesPaths.contains(name)) return "";
+            return m_texturesPaths[name]; 
+        }
+        void setTexturePath(std::string name, std::string path) { m_texturesPaths[name] = path; }
         bool hasTexture(std::string name) { return m_pTextures.contains(name); }
+        void reloadTexture(std::string name, std::string filename, bool interpolate = true);
+        void renameTexture(std::string oldName, std::string newName);
 
         // Meshes
         void addStaticMesh(std::string name, std::string filename, bool keepData = false);

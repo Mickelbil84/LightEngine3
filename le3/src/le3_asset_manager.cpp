@@ -96,16 +96,36 @@ void LE3AssetManager::addTexture(std::string name, std::string filename, bool in
     int width, height, nChannels;
     unsigned char* rawData;
     LE3DatBuffer buffer = LE3GetDatFileSystem().getFileContent(filename);
-    // rawData = stbi_load(filename.c_str(), &width, &height, &nChannels, 0);
     rawData = stbi_load_from_memory((uint8_t*)&buffer.data[0], buffer.data.size(), &width, &height, &nChannels, 0);
     if (!rawData) throw std::runtime_error(fmt::format("Could not load texture from path: {}", filename));
-    // std::copy(&rawData[0], &rawData[width * height * nChannels - 1], std::back_inserter(data));
-    // data.reserve(width * height * nChannels);
-    // memcpy(&data[0], rawData, width * height * nChannels);
     std::vector<unsigned char> data(rawData, rawData + width * height * nChannels);
     addTexture(name, data, width, height, nChannels, interpolate);
     stbi_image_free(rawData);
     m_texturesPaths[name] = filename;
+}
+
+void LE3AssetManager::reloadTexture(std::string name, std::string filename, bool interpolate) {
+    int width, height, nChannels;
+    unsigned char* rawData;
+    LE3DatBuffer buffer = LE3GetDatFileSystem().getFileContent(filename);
+    rawData = stbi_load_from_memory((uint8_t*)&buffer.data[0], buffer.data.size(), &width, &height, &nChannels, 0);
+    if (!rawData) throw std::runtime_error(fmt::format("Could not load texture from path: {}", filename));
+    std::vector<unsigned char> data(rawData, rawData + width * height * nChannels);
+    m_pTextures[name]->load(data, width, height, nChannels, interpolate);
+    stbi_image_free(rawData);
+}
+
+void LE3AssetManager::renameTexture(std::string oldName, std::string newName) {
+    if (oldName == newName) return;
+    if (m_pTextures.contains(oldName)) {
+        m_pTextures[oldName]->setName(newName);
+        m_pTextures[newName] = m_pTextures[oldName];
+        m_pTextures.erase(oldName);
+    }
+    if (m_texturesPaths.contains(oldName)) {
+        m_texturesPaths[newName] = m_texturesPaths[oldName];
+        m_texturesPaths.erase(oldName);
+    }
 }
 
 void LE3AssetManager::addStaticMesh(std::string name, std::string filename, bool keepData) {
