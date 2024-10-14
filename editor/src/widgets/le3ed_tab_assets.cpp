@@ -104,6 +104,7 @@ void LE3EditorTabAssets::updateMaterials() {
     if (ImGui::Button("Delete")) {
         // ...
     }
+    
 
     if (ImGui::BeginTable("##MaterialsTable", 2, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
@@ -133,7 +134,8 @@ void LE3EditorTabAssets::updateTextures() {
 
     addEngineAssetsCheckbox();
     if (ImGui::Button("Add")) {
-        // ...
+        m_popAddTexture.init();
+        ImGui::OpenPopup((LE3ED_POP_ADD_TEXTURE).c_str());
     }
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
@@ -146,6 +148,8 @@ void LE3EditorTabAssets::updateTextures() {
             LE3GetEditorManager().getSelection().deselect();
         }
     }
+
+    m_popAddTexture.update();
 
     if (ImGui::BeginTable("##TexturesTable", 2, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
