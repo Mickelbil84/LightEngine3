@@ -15,6 +15,8 @@ namespace le3 {
     const std::string ERROR_SHADER_VERTEX_PATH = "/engine/shaders/error/error.vs";
     const std::string ERROR_SHADER_FRAGMENT_PATH = "/engine/shaders/error/error.fs";
     const std::string ERROR_SHADER = DEFAULT_ENGINE_PREFIX + "S_error";
+    const std::string ERROR_TEXTURE_PATH = "/engine/textures/error.png";
+    const std::string ERROR_TEXTURE = DEFAULT_ENGINE_PREFIX + "T_error";
 
 
     const std::string DEFAULT_SHADER = "S_default";
@@ -76,6 +78,7 @@ namespace le3 {
         bool hasTexture(std::string name) { return m_pTextures.contains(name); }
         void reloadTexture(std::string name, std::string filename, bool interpolate = true);
         void renameTexture(std::string oldName, std::string newName);
+        void deleteTexture(std::string name);
 
         // Meshes
         void addStaticMesh(std::string name, std::string filename, bool keepData = false);
@@ -104,6 +107,7 @@ namespace le3 {
         inline std::map<std::string, std::string> getMeshesPaths() { return m_meshesPaths; }
 
         inline LE3ShaderPtr getErrorShader() { return m_gErrorShader; }
+        inline LE3TexturePtr getErrorTexture() { return m_gErrorTexture; }
 
     private:
         // Asset maps
@@ -126,9 +130,10 @@ namespace le3 {
 
         // Error (missing) assets
         std::shared_ptr<LE3Shader> m_gErrorShader;
+        std::shared_ptr<LE3Texture> m_gErrorTexture;
 
         // Recently deleted assets (for consumption in `refreshPointers`)
-        std::string m_lastDeletedShader = "";
+        std::string m_lastDeletedShader = "", m_lastDeletedTexture = "";
 
         // Helper methods
         std::string readFile(std::string filename);

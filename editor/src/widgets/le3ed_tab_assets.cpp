@@ -1,5 +1,6 @@
 #include "widgets/le3ed_tab_assets.h"
 #include "commands/le3ed_com_delete_shader.h"
+#include "commands/le3ed_com_delete_texture.h"
 using namespace le3;
 
 void LE3EditorTabAssets::init() {
@@ -136,7 +137,14 @@ void LE3EditorTabAssets::updateTextures() {
     }
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
-        // ...
+        std::shared_ptr<LE3Texture> pTexture = LE3GetEditorManager().getSelection().pTexture.lock();
+        if (pTexture) {
+            std::string name = pTexture->getName();
+            std::string path = LE3GetAssetManager().getTexturePath(name);
+            bool interpolate = pTexture->getInterpolate();
+            LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComDeleteTexture>(name, path, interpolate));
+            LE3GetEditorManager().getSelection().deselect();
+        }
     }
 
     if (ImGui::BeginTable("##TexturesTable", 2, flags)) {

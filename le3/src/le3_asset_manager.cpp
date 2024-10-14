@@ -25,14 +25,18 @@ void LE3AssetManager::init() {
     m_gizmoPlane = createGizmoPlane();
     m_gizmoCenter = createGizmoCenter();
 
+    addShaderFromFile(ERROR_SHADER, ERROR_SHADER_VERTEX_PATH, ERROR_SHADER_FRAGMENT_PATH);
+    addTexture(ERROR_TEXTURE, ERROR_TEXTURE_PATH);
+    m_gErrorShader = getShader(ERROR_SHADER).lock(); // Even if user deletes that shader from assets, we should still have a reference to it
+    m_gErrorTexture = getTexture(ERROR_TEXTURE).lock(); // Same here, etc.
+
+
     addShaderFromFile(DEFAULT_POSTPROCESS_SHADER, "/engine/shaders/postprocess/ppvert.vs", "/engine/shaders/postprocess/ppbasic.fs");
     addShaderFromFile(DEFAULT_SHADOWMAP_SHADER, "/engine/shaders/shadowmap/shadowmap.vs", "/engine/shaders/shadowmap/shadowmap.fs");
     addShaderFromFile(DEFAULT_DEBUG_SHADER, "/engine/shaders/debug/debug.vs", "/engine/shaders/debug/debug.fs");
     addShaderFromFile(DEFAULT_GIZMO_SHADER, "/engine/shaders/gizmo/gizmo.vs", "/engine/shaders/gizmo/gizmo.fs");
     addShaderFromFile(DEFAULT_OBJECTID_SHADER, "/engine/shaders/objectid/objectid.vs", "/engine/shaders/objectid/objectid.fs");
     addShaderFromFile(DEFAULT_SPRITE_SHADER, "/engine/shaders/sprite/sprite.vs", "/engine/shaders/sprite/sprite.fs");
-    addShaderFromFile(ERROR_SHADER, ERROR_SHADER_VERTEX_PATH, ERROR_SHADER_FRAGMENT_PATH);
-    m_gErrorShader = getShader(ERROR_SHADER).lock(); // Even if user deletes that shader from assets, we should still have a reference to it
 
     addMaterial(DEFAULT_GIZMO_MATERIAL, DEFAULT_GIZMO_SHADER);
     addMaterial(DEFAULT_SPRITE_MATERIAL, DEFAULT_SPRITE_SHADER);
@@ -128,6 +132,13 @@ void LE3AssetManager::renameTexture(std::string oldName, std::string newName) {
     }
 }
 
+void LE3AssetManager::deleteTexture(std::string name) {
+    if (m_pTextures.contains(name)) m_pTextures.erase(name);
+    if (m_texturesPaths.contains(name)) m_texturesPaths.erase(name);
+    m_lastDeletedTexture = name;
+    refreshPointers();
+}
+
 void LE3AssetManager::addStaticMesh(std::string name, std::string filename, bool keepData) {
     if (m_pStaticMeshes.contains(name)) throw std::runtime_error(fmt::format("Static mesh [{}] already exists", name));
     m_pStaticMeshes[name] = loadStaticMesh(filename, keepData);
@@ -163,6 +174,19 @@ void LE3AssetManager::refreshPointers() {
         // a shared reference, the pointer is not immideatly deleted, hence this trick
         if (m_pMaterials[name]->shader.expired() || m_pMaterials[name]->shader.lock()->getName() == m_lastDeletedShader) {
             m_pMaterials[name]->shader = getErrorShader();
+        }
+
+        if (m_pMaterials[name]->diffuseTexture.expired() || m_pMaterials[name]->diffuseTexture.lock()->getName() == m_lastDeletedTexture) {
+            m_pMaterials[name]->diffuseTexture = getErrorTexture();
+        }
+        if (m_pMaterials[name]->specularTexture.expired() || m_pMaterials[name]->specularTexture.lock()->getName() == m_lastDeletedTexture) {
+            m_pMaterials[name]->specularTexture = getErrorTexture();
+        }
+        if (m_pMaterials[name]->normalTexture.expired() || m_pMaterials[name]->normalTexture.lock()->getName() == m_lastDeletedTexture) {
+            m_pMaterials[name]->normalTexture = getErrorTexture();
+        }
+        if (m_pMaterials[name]->cubemap.expired() || m_pMaterials[name]->cubemap.lock()->getName() == m_lastDeletedTexture) {
+            m_pMaterials[name]->cubemap = getErrorTexture();
         }
     }
     m_lastDeletedShader = "";
