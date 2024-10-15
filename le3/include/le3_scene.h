@@ -107,6 +107,7 @@ namespace le3 {
             return std::dynamic_pointer_cast<T>(getObject(name));
         }
         // std::string getObjectName(LE3ObjectPtr obj);
+        std::map<std::string, LE3ObjectPtr>& getObjects() { return m_sceneGraph->m_pObjects; }
 
         LE3BSPManager& getBSPManager() { return m_sceneGraph->m_bspManager; }
 
@@ -123,6 +124,8 @@ namespace le3 {
         glm::vec3 getCursorLocation();
 
         std::function<void()> drawDebug = nullptr;
+
+        void propagateDeleteMaterial(std::string name); // Fix material pointers on deletion
 
     private:
         LE3SceneGraphPtr m_sceneGraph;

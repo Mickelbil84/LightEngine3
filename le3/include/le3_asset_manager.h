@@ -17,6 +17,7 @@ namespace le3 {
     const std::string ERROR_SHADER = DEFAULT_ENGINE_PREFIX + "S_error";
     const std::string ERROR_TEXTURE_PATH = "/engine/textures/error.png";
     const std::string ERROR_TEXTURE = DEFAULT_ENGINE_PREFIX + "T_error";
+    const std::string ERROR_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_error";
 
 
     const std::string DEFAULT_SHADER = "S_default";
@@ -62,6 +63,9 @@ namespace le3 {
         void addMaterial(std::string name, std::string shaderName);
         inline LE3MaterialPtr getMaterial(std::string name) { return m_pMaterials[name]; }
         inline std::map<std::string, std::shared_ptr<LE3Material>> getMaterials() { return m_pMaterials; }
+        bool hasMaterial(std::string name) { return m_pMaterials.contains(name); }
+        void renameMaterial(std::string oldName, std::string newName);
+        void deleteMaterial(std::string name);
 
         // Textures
         void addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate = true);
@@ -108,6 +112,7 @@ namespace le3 {
 
         inline LE3ShaderPtr getErrorShader() { return m_gErrorShader; }
         inline LE3TexturePtr getErrorTexture() { return m_gErrorTexture; }
+        inline LE3MaterialPtr getErrorMaterial() { return m_gErrorMaterial; }
 
     private:
         // Asset maps
@@ -131,9 +136,10 @@ namespace le3 {
         // Error (missing) assets
         std::shared_ptr<LE3Shader> m_gErrorShader;
         std::shared_ptr<LE3Texture> m_gErrorTexture;
+        std::shared_ptr<LE3Material> m_gErrorMaterial;
 
         // Recently deleted assets (for consumption in `refreshPointers`)
-        std::string m_lastDeletedShader = "", m_lastDeletedTexture = "";
+        std::string m_lastDeletedShader = "", m_lastDeletedTexture = "", m_lastDeletedMaterial = "";
 
         // Helper methods
         std::string readFile(std::string filename);

@@ -1,6 +1,7 @@
 #include "widgets/le3ed_tab_assets.h"
 #include "commands/le3ed_com_delete_shader.h"
 #include "commands/le3ed_com_delete_texture.h"
+#include "commands/le3ed_com_delete_material.h"
 using namespace le3;
 
 void LE3EditorTabAssets::init() {
@@ -98,13 +99,21 @@ void LE3EditorTabAssets::updateMaterials() {
 
     addEngineAssetsCheckbox();
     if (ImGui::Button("Add")) {
-        // ...
+        m_popAddMaterial.init();
+        ImGui::OpenPopup((LE3ED_POP_ADD_MATERIAL).c_str());
     }
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
-        // ...
+        std::shared_ptr<LE3Material> pMaterial = LE3GetEditorManager().getSelection().pMaterial.lock();
+        if (pMaterial) {
+            std::string name = pMaterial->name;
+            std::string shaderName = !pMaterial->shader.expired() ? pMaterial->shader.lock()->getName() : "";
+            LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComDeleteMaterial>(name, shaderName));
+            LE3GetEditorManager().getSelection().deselect();
+        }
     }
     
+    m_popAddMaterial.update();
 
     if (ImGui::BeginTable("##MaterialsTable", 2, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);

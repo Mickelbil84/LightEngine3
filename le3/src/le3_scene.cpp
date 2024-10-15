@@ -413,3 +413,15 @@ void LE3Scene::rebuild() {
         }
     }
 }
+
+void LE3Scene::propagateDeleteMaterial(std::string name) {
+    if (name == "") return;
+    for (auto obj : m_sceneGraph->m_pObjects) {
+        if (auto drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(obj.second)) {
+            if (drawableObj->getMaterial().expired() || 
+                drawableObj->getMaterial().lock()->name == name) {
+                drawableObj->setMaterial(LE3GetAssetManager().getErrorMaterial());
+            }
+        }
+    }
+}

@@ -4,6 +4,7 @@
 
 #include "widgets/popups/le3ed_pop_add_shader.h"
 #include "widgets/popups/le3ed_pop_add_texture.h"
+#include "widgets/popups/le3ed_pop_add_material.h"
 
 namespace le3 {
     class LE3EditorTabAssets {
@@ -27,5 +28,6 @@ namespace le3 {
         // Popups
         LE3EdPopAddShader m_popAddShader;
         LE3EdPopAddTexture m_popAddTexture;
+        LE3EdPopAddMaterial m_popAddMaterial;
     };
 }

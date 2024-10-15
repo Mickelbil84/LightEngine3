@@ -27,8 +27,10 @@ void LE3AssetManager::init() {
 
     addShaderFromFile(ERROR_SHADER, ERROR_SHADER_VERTEX_PATH, ERROR_SHADER_FRAGMENT_PATH);
     addTexture(ERROR_TEXTURE, ERROR_TEXTURE_PATH);
+    addMaterial(ERROR_MATERIAL, ERROR_SHADER);
     m_gErrorShader = getShader(ERROR_SHADER).lock(); // Even if user deletes that shader from assets, we should still have a reference to it
     m_gErrorTexture = getTexture(ERROR_TEXTURE).lock(); // Same here, etc.
+    m_gErrorMaterial = getMaterial(ERROR_MATERIAL).lock();
 
 
     addShaderFromFile(DEFAULT_POSTPROCESS_SHADER, "/engine/shaders/postprocess/ppvert.vs", "/engine/shaders/postprocess/ppbasic.fs");
@@ -89,6 +91,21 @@ void LE3AssetManager::addMaterial(std::string name, std::string shaderName) {
     m_pMaterials[name] = std::make_shared<LE3Material>(m_pShaders[shaderName]);
     m_pMaterials[name]->name = name;
 }
+
+void LE3AssetManager::renameMaterial(std::string oldName, std::string newName) {
+    if (oldName == newName) return;
+    if (m_pMaterials.contains(oldName)) {
+        m_pMaterials[oldName]->name = newName;
+        m_pMaterials[newName] = m_pMaterials[oldName];
+        m_pMaterials.erase(oldName);
+    }
+}
+void LE3AssetManager::deleteMaterial(std::string name) {
+    if (m_pMaterials.contains(name)) m_pMaterials.erase(name);
+    m_lastDeletedMaterial = name;
+    refreshPointers();
+}
+
 
 void LE3AssetManager::addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate) {
     if (m_pTextures.contains(name)) throw std::runtime_error(fmt::format("Texture [{}] already exists", name));
@@ -189,9 +206,16 @@ void LE3AssetManager::refreshPointers() {
             m_pMaterials[name]->cubemap = getErrorTexture();
         }
     }
-    m_lastDeletedShader = "";
 
     // Also rebuild data structures that depend on these assets
-    for (auto& [name, scene] : LE3GetSceneManager().getScenes())
+    // (and especially materials and meshes)
+    for (auto& [name, scene] : LE3GetSceneManager().getScenes()) {
+        scene->propagateDeleteMaterial(m_lastDeletedMaterial);
         scene->rebuild();
+    }
+
+
+    m_lastDeletedShader = "";
+    m_lastDeletedTexture = "";
+    m_lastDeletedMaterial = "";
 }
