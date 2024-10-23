@@ -28,4 +28,6 @@ void LE3EditorComDeleteTexture::undo() {
         LE3GetAssetManager().getMaterial(materialName).lock()->normalTexture = LE3GetAssetManager().getTexture(m_name);
     for (std::string materialName : m_depMatsCube)
         LE3GetAssetManager().getMaterial(materialName).lock()->cubemap = LE3GetAssetManager().getTexture(m_name);
+    
+    LE3GetAssetManager().refreshPointers();
 }
