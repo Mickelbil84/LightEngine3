@@ -23,6 +23,7 @@ LE3Box.save = function (object)
     return tbl
 end
 LE3Box.title = "LE3Box"
+LE3Box.parent_blacklist = {LE3StaticModel = 1}
 
 LE3Cylinder.__base = LE3StaticModel
 LE3Cylinder.load = function (scene, tbl, res)
@@ -45,6 +46,7 @@ LE3Cylinder.save = function (object)
     return tbl
 end
 LE3Cylinder.title = "LE3Cylinder"
+LE3Cylinder.parent_blacklist = {LE3StaticModel = 1}
 
 LE3Cone.__base = LE3StaticModel
 LE3Cone.load = function (scene, tbl, res)
@@ -67,6 +69,7 @@ LE3Cone.save = function (object)
     return tbl
 end
 LE3Cone.title = "LE3Cone"
+LE3Cone.parent_blacklist = {LE3StaticModel = 1}
 
 LE3Torus.__base = LE3StaticModel
 LE3Torus.load = function (scene, tbl, res)
@@ -88,3 +91,4 @@ LE3Torus.save = function (object)
     return tbl
 end
 LE3Torus.title = "LE3Torus"
+LE3Torus.parent_blacklist = {LE3StaticModel = 1}

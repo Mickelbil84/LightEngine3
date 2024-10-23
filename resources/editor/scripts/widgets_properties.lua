@@ -9,7 +9,9 @@ function update_object_properties_panel(obj)
     local hierarchy = {}
     local curr = _G[ttype]
     while curr ~= nil do
-        table.insert(hierarchy, 1, curr)
+        if _G[ttype].parent_blacklist == nil or _G[ttype].parent_blacklist[curr.title] == nil then
+            table.insert(hierarchy, 1, curr)
+        end
         curr = curr.__base
     end
 
