@@ -193,16 +193,16 @@ void LE3AssetManager::refreshPointers() {
             m_pMaterials[name]->shader = getErrorShader();
         }
 
-        if (m_pMaterials[name]->diffuseTexture.expired() || m_pMaterials[name]->diffuseTexture.lock()->getName() == m_lastDeletedTexture) {
+        if (!m_pMaterials[name]->diffuseTexture.expired() && m_pMaterials[name]->diffuseTexture.lock()->getName() == m_lastDeletedTexture) {
             m_pMaterials[name]->diffuseTexture = getErrorTexture();
         }
-        if (m_pMaterials[name]->specularTexture.expired() || m_pMaterials[name]->specularTexture.lock()->getName() == m_lastDeletedTexture) {
+        if (!m_pMaterials[name]->specularTexture.expired() && m_pMaterials[name]->specularTexture.lock()->getName() == m_lastDeletedTexture) {
             m_pMaterials[name]->specularTexture = getErrorTexture();
         }
-        if (m_pMaterials[name]->normalTexture.expired() || m_pMaterials[name]->normalTexture.lock()->getName() == m_lastDeletedTexture) {
+        if (!m_pMaterials[name]->normalTexture.expired() && m_pMaterials[name]->normalTexture.lock()->getName() == m_lastDeletedTexture) {
             m_pMaterials[name]->normalTexture = getErrorTexture();
         }
-        if (m_pMaterials[name]->cubemap.expired() || m_pMaterials[name]->cubemap.lock()->getName() == m_lastDeletedTexture) {
+        if (!m_pMaterials[name]->cubemap.expired() && m_pMaterials[name]->cubemap.lock()->getName() == m_lastDeletedTexture) {
             m_pMaterials[name]->cubemap = getErrorTexture();
         }
     }
