@@ -36,6 +36,18 @@ Scene.Textures = {
         Path = "/demos/textures/animations/soldier/T_SPC_soldier.png"
     },
     {
+        Name = "T_DIF_mannequin",
+        Path = "/demos/textures/animations/mannequin/T_DIF_mannequin.png"
+    },
+    {
+        Name = "T_NRM_mannequin",
+        Path = "/demos/textures/animations/mannequin/T_NRM_mannequin.png"
+    },
+    {
+        Name = "T_SPC_mannequin",
+        Path = "/demos/textures/animations/mannequin/T_SPC_mannequin.png"
+    },
+    {
         Name = "T_cylinder",
         Path = "/demos/textures/cylinder.png"
     },
@@ -74,6 +86,15 @@ Scene.Materials = {
         Shininess = 128,
     },
     {
+        Name = "M_mannequin",
+        ShaderName = "S_default",
+        DiffuseTexture = "T_DIF_mannequin",
+        NormalTexture = "T_NRM_mannequin",
+        SpecularTexture = "T_SPC_mannequin",
+        SpecularIntensity = 0.5,
+        Shininess = 32,
+    },
+    {
         Name = "M_cylinder",
         ShaderName = "S_default",
         DiffuseTexture = "T_cylinder",
@@ -110,6 +131,12 @@ Scene.SkeletalMeshes = {
                 Name = "ANIM_walk",
                 Path = "/demos/models/animations/soldier/ANIM_soldier_rifle_walk.fbx"
             }
+        }
+    },
+    {
+        Name = "SK_mannequin",
+        Path = "/demos/models/animations/mannequin/SK_mannequin.fbx",
+        Animations = {
         }
     }
 }

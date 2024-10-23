@@ -97,7 +97,7 @@ namespace le3 {
         inline LE3SkeletalMeshPtr getSkeletalMesh(std::string name) { return m_pSkeletalMeshes[name]; }
         void addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName); // Implemented in `le3_assimp.cpp`
         bool isSkeletalMesh(std::string name);
-        bool hasSkeletalMesh(std::string name) { return m_pStaticMeshes.contains(name); }
+        bool hasSkeletalMesh(std::string name) { return m_pSkeletalMeshes.contains(name); }
         void reloadSkeletalMesh(std::string name, std::string filename);
         void renameSkeletalMesh(std::string oldName, std::string newName);
         void deleteSkeletalMesh(std::string name);

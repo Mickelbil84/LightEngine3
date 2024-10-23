@@ -33,7 +33,10 @@ LE3SkeletalModel.load = function (scene, tbl, res)
 end
 LE3SkeletalModel.rebuild = function (object, tbl)
     LE3SkeletalModel.__base.rebuild(object, tbl)
-    if tbl.MeshName ~= nil and LE3AssetManager.has_skeletal_mesh(tbl.MeshName) then LE3SkeletalModel.set_mesh(object, tbl.MeshName) end
+    if tbl.MeshName ~= nil and LE3AssetManager.has_skeletal_mesh(tbl.MeshName) then 
+        print("Oh Al!....")
+        LE3SkeletalModel.set_mesh(object, tbl.MeshName) 
+    end
 
     if tbl.CurrentAnimation == nil then tbl.CurrentAnimation = "[None]" end
     LE3SkeletalModel.set_current_animation(object, tbl.CurrentAnimation)
