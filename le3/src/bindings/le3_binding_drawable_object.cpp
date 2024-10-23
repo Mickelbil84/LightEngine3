@@ -20,6 +20,7 @@ FBIND(LE3DrawableObject, set_material)
     GET_UDATA_OBJECT(self, LE3DrawableObject)
     GET_STRING(name)
     self->setMaterial(LE3GetAssetManager().getMaterial(name));
+    LE3GetAssetManager().refreshPointers();
 FEND()
 
 FBIND_OBJECT_GETTER_BOOL(LE3DrawableObject, get_hidden, isHidden)

@@ -210,6 +210,10 @@ function LE3AssetManager.has_material(name) end
 
 ---@param name string
 ---@return boolean
+function LE3AssetManager.has_static_mesh(name) end
+
+---@param name string
+---@return boolean
 function LE3AssetManager.has_texture(name) end
 
 ---@param self LE3Box
@@ -783,19 +787,12 @@ function LE3StaticMesh.set_name(meshName, name) end
 
 ---@param self LE3StaticModel
 ---@return string
-function LE3StaticModel.get_material_name(self) end
-
----@param self LE3StaticModel
 ---@return string
-function LE3StaticModel.get_mesh_name(self) end
+function LE3StaticModel.get_mesh(self) end
 
 ---@param self LE3StaticModel
----@param material_name string
-function LE3StaticModel.set_material_name(self, material_name) end
-
----@param self LE3StaticModel
----@param mesh_name string
-function LE3StaticModel.set_mesh_name(self, mesh_name) end
+---@param name string
+function LE3StaticModel.set_mesh(self, name) end
 
 ---@param textureName string
 function LE3Texture.get_interpolate(textureName) end

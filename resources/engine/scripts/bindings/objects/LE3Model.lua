@@ -9,19 +9,16 @@ LE3StaticModel.load = function (scene, tbl, res)
 end
 LE3StaticModel.rebuild = function (object, tbl)
     LE3StaticModel.__base.rebuild(object, tbl)
-    LE3StaticModel.set_mesh_name(object, tbl.MeshName)
-    LE3StaticModel.set_material_name(object, tbl.MaterialName)
+    if tbl.MeshName ~= nil and LE3AssetManager.has_static_mesh(tbl.MeshName) then LE3StaticModel.set_mesh(object, tbl.MeshName) end
 end
 LE3StaticModel.save = function (object)
     local tbl = LE3StaticModel.__base.save(object)
-    tbl.MeshName = LE3StaticModel.get_mesh_name(object)
-    tbl.MaterialName = LE3StaticModel.get_material_name(object)
+    tbl.MeshName = LE3StaticModel.get_mesh(object)
     return tbl
 end
 LE3StaticModel.title = "LE3StaticModel"
 LE3StaticModel.properties = {
-    {name = "MeshName", type = "string"},
-    {name = "MaterialName", type = "string"}
+    {name = "MeshName", type = "string"}
 }
 
 LE3SkeletalModel.__base = LE3DrawableObject

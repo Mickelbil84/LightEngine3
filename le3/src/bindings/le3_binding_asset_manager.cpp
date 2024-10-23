@@ -51,11 +51,17 @@ FBIND(LE3AssetManager, add_static_mesh)
     LE3GetAssetManager().addStaticMesh(name, filename, keepData);
 FEND()
 
+FBIND(LE3AssetManager, has_static_mesh)
+    GET_STRING(name)
+    PUSH_BOOL(LE3GetAssetManager().hasStaticMesh(name))
+FEND()
+
 FBIND(LE3AssetManager, add_skeletal_mesh)
     GET_STRING(name)
     GET_STRING(filename)
     LE3GetAssetManager().addSkeletalMesh(name, filename);
 FEND()
+
 FBIND(LE3AssetManager, add_skeletal_animation)
     GET_STRING(name)
     GET_STRING(animationPath)
@@ -67,6 +73,6 @@ LIB(LE3AssetManager,
     add_shader, get_shader_paths,
     add_texture, has_texture,
     add_material, has_material,
-    add_static_mesh,
+    add_static_mesh, has_static_mesh,
     add_skeletal_mesh, add_skeletal_animation
 )

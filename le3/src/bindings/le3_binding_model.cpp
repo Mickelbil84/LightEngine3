@@ -2,15 +2,24 @@
 #include "le3_engine_systems.h"
 using namespace le3;
 
-FBIND_OBJECT_GETTER_STRING(LE3StaticModel, get_mesh_name, getMeshName)
-FBIND_OBJECT_GETTER_STRING(LE3StaticModel, get_material_name, getMaterialName)
-FBIND_OBJECT_SETTER_STRING(LE3StaticModel, set_mesh_name, setMeshName)
-FBIND_OBJECT_SETTER_STRING(LE3StaticModel, set_material_name, setMaterialName)
+FBIND(LE3StaticModel, get_mesh) 
+    GET_UDATA_OBJECT(self, LE3StaticModel)
+    LE3StaticMeshPtr mesh = self->getMesh();
+    if (mesh.expired()) {
+        PUSH_STRING("")
+    }
+    else {
+        PUSH_STRING(mesh.lock()->getName())
+    }
+FEND()
+FBIND(LE3StaticModel, set_mesh)
+    GET_UDATA_OBJECT(self, LE3StaticModel)
+    GET_STRING(name)
+    self->setMesh(LE3GetAssetManager().getStaticMesh(name));
+FEND()
+
 LIB(LE3StaticModel, 
-    get_mesh_name, 
-    get_material_name,
-    set_mesh_name,
-    set_material_name
+    get_mesh, set_mesh
 )
 
 

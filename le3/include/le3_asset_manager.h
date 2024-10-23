@@ -88,6 +88,7 @@ namespace le3 {
         void addStaticMesh(std::string name, std::string filename, bool keepData = false);
         inline LE3StaticMeshPtr getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
         void searchStaticMeshes(std::string prefix, std::vector<std::string>& out);
+        bool hasStaticMesh(std::string name) { return m_pStaticMeshes.contains(name); }
         void reloadStaticMesh(std::string name, std::string filename, bool keepData = false);
         void renameStaticMesh(std::string oldName, std::string newName);
         void deleteStaticMesh(std::string name);
