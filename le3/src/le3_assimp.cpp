@@ -111,6 +111,33 @@ std::shared_ptr<LE3SkeletalMesh> LE3AssetManager::loadSkeletalMesh(std::string m
     return mesh;
 }
 
+void LE3AssetManager::reloadSkeletalMesh(std::shared_ptr<LE3SkeletalMesh> mesh, std::string meshPath) {
+    Assimp::Importer importer;
+    std::string pHint = meshPath.substr(meshPath.find_last_of(".") + 1);
+    LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(meshPath);
+    const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 
+        aiProcess_FlipUVs |
+        aiProcess_Triangulate | 
+        aiProcess_CalcTangentSpace,
+        pHint.c_str()
+    );
+    if (!scene) throw std::runtime_error(fmt::format("Could not load skeletal mesh: {}\n{}", meshPath, importer.GetErrorString()));
+
+    std::vector<LE3VertexSkeletal> buffer;
+    std::vector<GLuint> indices;
+
+    LE3Skeleton skeleton;
+    skeleton.m_globalInverseTransform = glm::inverse(aiMatrix4x4toGLM(scene->mRootNode->mTransformation));
+
+    AssimpSkeletalSceneToVertexBuffer(buffer, indices, skeleton, scene->mRootNode, scene);
+
+    std::vector<aiNode*> nodes;
+    AssimpGetNodeVector(scene->mRootNode, nodes);
+    AssimpSkeletonHierarchy(skeleton, nodes);
+    mesh->loadMeshData(buffer, indices);
+    mesh->setSkeleton(skeleton);
+}
+
 // -----------------------------------------------------------------------------
 
 void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene) {

@@ -210,6 +210,10 @@ function LE3AssetManager.has_material(name) end
 
 ---@param name string
 ---@return boolean
+function LE3AssetManager.has_skeletal_mesh(name) end
+
+---@param name string
+---@return boolean
 function LE3AssetManager.has_static_mesh(name) end
 
 ---@param name string
@@ -712,11 +716,8 @@ function LE3SkeletalModel.get_current_animation(self) end
 
 ---@param self LE3SkeletalModel
 ---@return string
-function LE3SkeletalModel.get_material_name(self) end
-
----@param self LE3SkeletalModel
 ---@return string
-function LE3SkeletalModel.get_mesh_name(self) end
+function LE3SkeletalModel.get_mesh(self) end
 
 ---@param self LE3SkeletalModel
 ---@return boolean
@@ -734,12 +735,8 @@ function LE3SkeletalModel.set_animation_playing(self, animation_playing) end
 function LE3SkeletalModel.set_current_animation(self, current_animation) end
 
 ---@param self LE3SkeletalModel
----@param material_name string
-function LE3SkeletalModel.set_material_name(self, material_name) end
-
----@param self LE3SkeletalModel
----@param mesh_name string
-function LE3SkeletalModel.set_mesh_name(self, mesh_name) end
+---@param name string
+function LE3SkeletalModel.set_mesh(self, name) end
 
 ---@param light LE3SpotLight
 ---@param resolution number

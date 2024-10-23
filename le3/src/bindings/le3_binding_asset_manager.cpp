@@ -69,10 +69,15 @@ FBIND(LE3AssetManager, add_skeletal_animation)
     LE3GetAssetManager().addSkeletalAnimation(name, animationPath, meshName);
 FEND()
 
+FBIND(LE3AssetManager, has_skeletal_mesh)
+    GET_STRING(name)
+    PUSH_BOOL(LE3GetAssetManager().hasSkeletalMesh(name))
+FEND()
+
 LIB(LE3AssetManager,
     add_shader, get_shader_paths,
     add_texture, has_texture,
     add_material, has_material,
     add_static_mesh, has_static_mesh,
-    add_skeletal_mesh, add_skeletal_animation
+    add_skeletal_mesh, add_skeletal_animation, has_skeletal_mesh
 )

@@ -97,6 +97,10 @@ namespace le3 {
         inline LE3SkeletalMeshPtr getSkeletalMesh(std::string name) { return m_pSkeletalMeshes[name]; }
         void addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName); // Implemented in `le3_assimp.cpp`
         bool isSkeletalMesh(std::string name);
+        bool hasSkeletalMesh(std::string name) { return m_pStaticMeshes.contains(name); }
+        void reloadSkeletalMesh(std::string name, std::string filename);
+        void renameSkeletalMesh(std::string oldName, std::string newName);
+        void deleteSkeletalMesh(std::string name);
 
         inline std::string getMeshPath(std::string name) { return m_meshesPaths[name]; }
         void setMeshPath(std::string name, std::string path) { m_meshesPaths[name] = path; }
@@ -157,5 +161,6 @@ namespace le3 {
         std::shared_ptr<LE3StaticMesh> loadStaticMesh(std::string filename, bool keepData); // Implemented in `le3_assimp.cpp`
         void reloadStaticMesh(std::shared_ptr<LE3StaticMesh> mesh, std::string filename, bool keepData); // Implemented in `le3_assimp.cpp`
         std::shared_ptr<LE3SkeletalMesh> loadSkeletalMesh(std::string filename); // Implemented in `le3_assimp.cpp`
+        void reloadSkeletalMesh(std::shared_ptr<LE3SkeletalMesh> mesh, std::string filename); // Implemented in `le3_assimp.cpp`
     }; 
 }

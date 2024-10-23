@@ -203,6 +203,29 @@ bool LE3AssetManager::isSkeletalMesh(std::string name) {
     return m_pSkeletalMeshes.contains(name);
 }
 
+void LE3AssetManager::reloadSkeletalMesh(std::string name, std::string filename) {
+    reloadSkeletalMesh(m_pSkeletalMeshes[name], filename);
+    m_meshesPaths[name] = filename;
+}
+void LE3AssetManager::renameSkeletalMesh(std::string oldName, std::string newName) {
+    if (oldName == newName) return;
+    if (m_pSkeletalMeshes.contains(oldName)) {
+        m_pSkeletalMeshes[oldName]->setName(newName);
+        m_pSkeletalMeshes[newName] = m_pSkeletalMeshes[oldName];
+        m_pSkeletalMeshes.erase(oldName);
+    }
+    if (m_meshesPaths.contains(oldName)) {
+        m_meshesPaths[newName] = m_meshesPaths[oldName];
+        m_meshesPaths.erase(oldName);
+    }
+}
+void LE3AssetManager::deleteSkeletalMesh(std::string name) {
+    if (m_pSkeletalMeshes.contains(name)) m_pSkeletalMeshes.erase(name);
+    if (m_meshesPaths.contains(name)) m_meshesPaths.erase(name);
+    m_lastDeletedSkeletalMesh = name;
+    refreshPointers();
+}
+
 std::string LE3AssetManager::readFile(std::string filename) {
     return LE3GetDatFileSystem().getFileContent(filename).toString();
 }
