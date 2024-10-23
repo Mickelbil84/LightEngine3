@@ -710,6 +710,25 @@ function LE3Shader.set_name(shaderName, name) end
 ---@param fragmentShaderPath string
 function LE3Shader.set_shader_paths(shaderName, vertexShaderPath, fragmentShaderPath) end
 
+---@param meshName string
+---@return string
+function LE3SkeletalMesh.get_mesh_path(meshName) end
+
+---@param meshName string
+function LE3SkeletalMesh.get_name(meshName) end
+
+---@param meshName string
+---@param path string
+function LE3SkeletalMesh.reload_mesh(meshName, path) end
+
+---@param meshName string
+---@param path string
+function LE3SkeletalMesh.set_mesh_path(meshName, path) end
+
+---@param meshName string
+---@param name string
+function LE3SkeletalMesh.set_name(meshName, name) end
+
 ---@param self LE3SkeletalModel
 ---@return string
 function LE3SkeletalModel.get_current_animation(self) end

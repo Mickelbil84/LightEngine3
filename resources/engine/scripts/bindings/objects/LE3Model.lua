@@ -47,6 +47,5 @@ end
 LE3SkeletalModel.title = "LE3SkeletalModel"
 LE3SkeletalModel.properties = {
     {name = "MeshName", type = "string"},
-    {name = "MaterialName", type = "string"},
-    {name = "CurrentAnimation", type = "asset", asset_type = "animation", related_property = "MeshName"} 
+    {name = "CurrentAnimation", type = "asset", asset_type = "animation", related_property = function(object) return LE3SkeletalModel.get_mesh(object) end} 
 }

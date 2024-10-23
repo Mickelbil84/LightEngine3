@@ -39,7 +39,7 @@ function update_asset_properties_panel(ptr, type)
     type.rebuild(ptr, tbl)
     ptr = tbl.Name -- in case of renames, update the "pointer"
     if (type.reload ~= nil) then 
-        if (ImGui.Button("Save")) then
+        if (ImGui.Button("Reload")) then
             print("!!!!!!!!!!!!")
             print(type.reload)
             print("!!!!!!!!!!!!")
@@ -80,7 +80,7 @@ function update_static_mesh_properties_panel(static_mesh)
 end
 
 function update_skeletal_mesh_properties_panel(skeletal_mesh)
-    ImGui.CollapsingHeader("LE3SkeletalMesh")
+    update_asset_properties_panel(skeletal_mesh, LE3SkeletalMesh)
 end
 
 function update_animation_properties_panel(skeletal_mesh, animation_track)
@@ -149,7 +149,7 @@ end
 function show_asset_property(property, tbl, obj)
     if property.asset_type == "animation" then
         if (ImGui.TreeNode(property.name)) then
-            tbl[property.name] = ImGui.Combo_Animation(property.name, tbl[property.related_property], tbl[property.name])
+            tbl[property.name] = ImGui.Combo_Animation(property.name, property.related_property(obj), tbl[property.name])
             if (ImGui.Button("Play")) then
                 LE3SkeletalModel.set_animation_playing(obj, true)
             end

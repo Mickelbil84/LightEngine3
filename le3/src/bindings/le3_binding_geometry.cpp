@@ -42,4 +42,38 @@ LIB(LE3StaticMesh,
 
 // ---------------------------
 
-LIB(LE3SkeletalMesh)
+FBIND(LE3SkeletalMesh, set_name)
+    GET_STRING(meshName)
+    GET_STRING(name)
+    LE3GetAssetManager().renameSkeletalMesh(meshName, name);
+FEND()
+
+FBIND(LE3SkeletalMesh, get_name)
+    GET_STRING(meshName)
+    std::shared_ptr<LE3SkeletalMesh> mesh = LE3GetAssetManager().getSkeletalMesh(meshName).lock();
+    if (!mesh) {PUSH_STRING("")}
+    else {PUSH_STRING(mesh->getName())}
+FEND()
+
+FBIND(LE3SkeletalMesh, reload_mesh)
+    GET_STRING(meshName)
+    GET_STRING(path)
+    LE3GetAssetManager().reloadSkeletalMesh(meshName, path);
+FEND()
+
+FBIND(LE3SkeletalMesh, get_mesh_path)
+    GET_STRING(meshName)
+    PUSH_STRING(LE3GetAssetManager().getMeshPath(meshName))
+FEND()
+
+FBIND(LE3SkeletalMesh, set_mesh_path)
+    GET_STRING(meshName)
+    GET_STRING(path)
+    LE3GetAssetManager().setMeshPath(meshName, path);
+FEND()
+
+LIB(LE3SkeletalMesh, 
+    get_name, set_name,
+    get_mesh_path, set_mesh_path,
+    reload_mesh
+)
