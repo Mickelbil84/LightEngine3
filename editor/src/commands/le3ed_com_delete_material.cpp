@@ -27,4 +27,5 @@ void LE3EditorComDeleteMaterial::undo() {
         LE3DrawableObjectPtr drawable = std::dynamic_pointer_cast<LE3DrawableObject>(pObject);
         drawable->setMaterial(LE3GetAssetManager().getMaterial(m_name));
     }
+    LE3GetAssetManager().refreshPointers();
 }
