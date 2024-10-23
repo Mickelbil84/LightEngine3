@@ -81,12 +81,13 @@ namespace le3 {
         std::string getName() const { return m_name; }
         void setName(std::string name) { m_name = name; }
 
+        void loadMeshData(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices);
+        
     protected:
         uint32_t m_vao = -1, m_vbo = -1, m_ibo = -1, m_count;
         bool m_bIndexed;
         std::string m_name;
 
-        void loadMeshData(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices);
         void draw(int mode);
 
         // For keeping data

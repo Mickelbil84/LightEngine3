@@ -168,6 +168,28 @@ void LE3AssetManager::searchStaticMeshes(std::string prefix, std::vector<std::st
         if (name.find(prefix) == 0) out.push_back(name);
     }
 }
+void LE3AssetManager::reloadStaticMesh(std::string name, std::string filename, bool keepData) {
+    reloadStaticMesh(m_pStaticMeshes[name], filename, keepData);
+    m_meshesPaths[name] = filename;
+}
+void LE3AssetManager::renameStaticMesh(std::string oldName, std::string newName) {
+    if (oldName == newName) return;
+    if (m_pStaticMeshes.contains(oldName)) {
+        m_pStaticMeshes[oldName]->setName(newName);
+        m_pStaticMeshes[newName] = m_pStaticMeshes[oldName];
+        m_pStaticMeshes.erase(oldName);
+    }
+    if (m_meshesPaths.contains(oldName)) {
+        m_meshesPaths[newName] = m_meshesPaths[oldName];
+        m_meshesPaths.erase(oldName);
+    }
+}
+void LE3AssetManager::deleteStaticMesh(std::string name) {
+    if (m_pStaticMeshes.contains(name)) m_pStaticMeshes.erase(name);
+    if (m_meshesPaths.contains(name)) m_meshesPaths.erase(name);
+    m_lastDeletedStaticMesh = name;
+    refreshPointers();
+}
 
 
 void LE3AssetManager::addSkeletalMesh(std::string name, std::string filename) {

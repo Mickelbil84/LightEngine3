@@ -88,11 +88,17 @@ namespace le3 {
         void addStaticMesh(std::string name, std::string filename, bool keepData = false);
         inline LE3StaticMeshPtr getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
         void searchStaticMeshes(std::string prefix, std::vector<std::string>& out);
+        void reloadStaticMesh(std::string name, std::string filename, bool keepData = false);
+        void renameStaticMesh(std::string oldName, std::string newName);
+        void deleteStaticMesh(std::string name);
 
         void addSkeletalMesh(std::string name, std::string filename);
         inline LE3SkeletalMeshPtr getSkeletalMesh(std::string name) { return m_pSkeletalMeshes[name]; }
         void addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName); // Implemented in `le3_assimp.cpp`
         bool isSkeletalMesh(std::string name);
+
+        inline std::string getMeshPath(std::string name) { return m_meshesPaths[name]; }
+        void setMeshPath(std::string name, std::string path) { m_meshesPaths[name] = path; }
 
         inline std::shared_ptr<LE3ScreenRect> getScreenRect() { return m_screenRect; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugLine() { return m_debugLine; }
@@ -139,11 +145,16 @@ namespace le3 {
         std::shared_ptr<LE3Material> m_gErrorMaterial;
 
         // Recently deleted assets (for consumption in `refreshPointers`)
-        std::string m_lastDeletedShader = "", m_lastDeletedTexture = "", m_lastDeletedMaterial = "";
+        std::string 
+            m_lastDeletedShader = "", 
+            m_lastDeletedTexture = "", 
+            m_lastDeletedMaterial = "", 
+            m_lastDeletedStaticMesh = "", m_lastDeletedSkeletalMesh = "";
 
         // Helper methods
         std::string readFile(std::string filename);
         std::shared_ptr<LE3StaticMesh> loadStaticMesh(std::string filename, bool keepData); // Implemented in `le3_assimp.cpp`
+        void reloadStaticMesh(std::shared_ptr<LE3StaticMesh> mesh, std::string filename, bool keepData); // Implemented in `le3_assimp.cpp`
         std::shared_ptr<LE3SkeletalMesh> loadSkeletalMesh(std::string filename); // Implemented in `le3_assimp.cpp`
     }; 
 }

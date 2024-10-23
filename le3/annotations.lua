@@ -752,6 +752,26 @@ function LE3SpotLight.set_cutoff(self, cutoff) end
 ---@param outer_cutoff number
 function LE3SpotLight.set_outer_cutoff(self, outer_cutoff) end
 
+---@param meshName string
+---@return string
+function LE3StaticMesh.get_mesh_path(meshName) end
+
+---@param meshName string
+function LE3StaticMesh.get_name(meshName) end
+
+---@param meshName string
+---@param path string
+---@param keepData boolean
+function LE3StaticMesh.reload_mesh(meshName, path, keepData) end
+
+---@param meshName string
+---@param path string
+function LE3StaticMesh.set_mesh_path(meshName, path) end
+
+---@param meshName string
+---@param name string
+function LE3StaticMesh.set_name(meshName, name) end
+
 ---@param self LE3StaticModel
 ---@return string
 function LE3StaticModel.get_material_name(self) end

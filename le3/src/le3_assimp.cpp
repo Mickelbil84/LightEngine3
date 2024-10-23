@@ -59,6 +59,25 @@ std::shared_ptr<LE3StaticMesh> LE3AssetManager::loadStaticMesh(std::string filen
     return std::make_shared<LE3StaticMesh>(buffer, indices, keepData);
 }
 
+void LE3AssetManager::reloadStaticMesh(std::shared_ptr<LE3StaticMesh> mesh, std::string filename, bool keepData) {
+    Assimp::Importer importer;
+    LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(filename);
+    std::string pHint = filename.substr(filename.find_last_of(".") + 1);
+    const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 
+        aiProcess_FlipUVs |
+        aiProcess_Triangulate | 
+        aiProcess_CalcTangentSpace, 
+        pHint.c_str() // Bugfix: support newer versions of assimps
+    );
+    if (!scene) throw std::runtime_error(fmt::format("Could not load static mesh: {}\n{}", filename, importer.GetErrorString()));
+
+    std::vector<LE3Vertex> buffer;
+    std::vector<GLuint> indices; 
+    AssimpSceneToVertexBuffer(buffer, indices, scene->mRootNode, scene);
+    mesh->loadMeshData(buffer, indices);
+    // TODO: Handle also keepData
+}
+
 std::shared_ptr<LE3SkeletalMesh> LE3AssetManager::loadSkeletalMesh(std::string meshPath)
 {
     Assimp::Importer importer;

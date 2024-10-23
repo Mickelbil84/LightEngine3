@@ -74,7 +74,7 @@ function update_texture_properties_panel(texture)
 end
 
 function update_static_mesh_properties_panel(static_mesh)
-    ImGui.CollapsingHeader("LE3StaticMesh")
+    update_asset_properties_panel(static_mesh, LE3StaticMesh)
 end
 
 function update_skeletal_mesh_properties_panel(skeletal_mesh)
