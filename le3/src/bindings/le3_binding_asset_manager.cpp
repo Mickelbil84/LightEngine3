@@ -39,6 +39,11 @@ FBIND(LE3AssetManager, add_material)
     LE3GetAssetManager().addMaterial(name, shaderName);
 FEND()
 
+FBIND(LE3AssetManager, has_material)
+    GET_STRING(name)
+    PUSH_BOOL(LE3GetAssetManager().hasMaterial(name))
+FEND()
+
 FBIND(LE3AssetManager, add_static_mesh)
     GET_STRING(name)
     GET_STRING(filename)
@@ -61,7 +66,7 @@ FEND()
 LIB(LE3AssetManager,
     add_shader, get_shader_paths,
     add_texture, has_texture,
-    add_material,
+    add_material, has_material,
     add_static_mesh,
     add_skeletal_mesh, add_skeletal_animation
 )

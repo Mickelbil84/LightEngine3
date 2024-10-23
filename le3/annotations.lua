@@ -206,6 +206,10 @@ function LE3AssetManager.get_shader_paths(shaderName) end
 
 ---@param name string
 ---@return boolean
+function LE3AssetManager.has_material(name) end
+
+---@param name string
+---@return boolean
 function LE3AssetManager.has_texture(name) end
 
 ---@param self LE3Box
@@ -311,7 +315,8 @@ function LE3DrawableObject.get_draw_priority(self) end
 function LE3DrawableObject.get_hidden(self) end
 
 ---@param self LE3DrawableObject
----@return LE3Material
+---@return string
+---@return string
 function LE3DrawableObject.get_material(self) end
 
 ---@param self LE3DrawableObject
@@ -325,6 +330,10 @@ function LE3DrawableObject.set_draw_priority(self, draw_priority) end
 ---@param self LE3DrawableObject
 ---@param hidden boolean
 function LE3DrawableObject.set_hidden(self, hidden) end
+
+---@param self LE3DrawableObject
+---@param name string
+function LE3DrawableObject.set_material(self, name) end
 
 ---@param tmp number
 ---@param color_x number

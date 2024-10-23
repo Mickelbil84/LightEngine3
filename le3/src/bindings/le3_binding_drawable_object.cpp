@@ -8,8 +8,18 @@ FBIND_OBJECT_SETTER_ENUM(LE3DrawableObject, set_draw_priority, setDrawPriority, 
 
 FBIND(LE3DrawableObject, get_material)
     GET_UDATA_OBJECT(self, LE3DrawableObject)
-    LE3MaterialPtr& material = self->getMaterial();
-    PUSH_UDATA(&material, LE3MaterialPtr)
+    LE3MaterialPtr material = self->getMaterial();
+    if (material.expired()) {
+        PUSH_STRING("")
+    }
+    else {
+        PUSH_STRING(material.lock()->name)
+    }
+FEND()
+FBIND(LE3DrawableObject, set_material)
+    GET_UDATA_OBJECT(self, LE3DrawableObject)
+    GET_STRING(name)
+    self->setMaterial(LE3GetAssetManager().getMaterial(name));
 FEND()
 
 FBIND_OBJECT_GETTER_BOOL(LE3DrawableObject, get_hidden, isHidden)
@@ -20,7 +30,7 @@ FBIND_OBJECT_SETTER_BOOL(LE3DrawableObject, set_cast_shadow, setCastShadow)
 
 LIB(LE3DrawableObject,
     get_draw_priority, set_draw_priority,
-    get_material,
+    get_material, set_material,
     get_hidden, set_hidden,
     get_cast_shadow, set_cast_shadow
 )
