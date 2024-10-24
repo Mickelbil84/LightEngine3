@@ -34,7 +34,6 @@ end
 LE3SkeletalModel.rebuild = function (object, tbl)
     LE3SkeletalModel.__base.rebuild(object, tbl)
     if tbl.MeshName ~= nil and LE3AssetManager.has_skeletal_mesh(tbl.MeshName) then 
-        print("Oh Al!....")
         LE3SkeletalModel.set_mesh(object, tbl.MeshName) 
     end
 

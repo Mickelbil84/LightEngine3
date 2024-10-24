@@ -30,17 +30,8 @@ namespace le3 {
         bool isAnimationPlaying() const { return m_animationPlaying; }
         void resetAnimation() { m_animationTime = 0.f; }
 
-        std::string getMeshName() const { return m_meshName; }
-        void setMeshName(std::string meshName) { m_meshName = meshName; }
-        
-        std::string getMaterialName() const { return m_materialName; }
-        void setMaterialName(std::string materialName) { m_materialName = materialName; }
-
     protected:
         LE3MeshPtr<LE3VertexType> m_pMesh;
-
-        std::string m_meshName, m_materialName;
-
 
         // If skeletal
         void drawDebugSkeleton(std::vector<glm::mat4> boneMatrices);

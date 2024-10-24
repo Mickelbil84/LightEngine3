@@ -184,26 +184,22 @@ void LE3Scene::addEmptyObject(std::string name, std::string parent) {
 
 void LE3Scene::addBox(std::string name, std::string materialName, glm::vec3 position, glm::vec3 extent, std::string parent) {
     LE3BoxPtr obj = std::make_shared<LE3Box>(position.x, position.y, position.z, extent.x, extent.y, extent.z, LE3GetAssetManager().getMaterial(materialName)); // TODO: engine default shader + material
-    obj->setMaterialName(materialName);
     addCustomObject(name, obj, parent);
 }
 
 
 void LE3Scene::addCylinder(std::string name, std::string materialName, glm::vec3 position, float radius, float height, int resolution, bool withCaps, std::string parent) {
     LE3CylinderPtr obj = std::make_shared<LE3Cylinder>(position.x, position.y, position.z, radius, height, resolution, withCaps, LE3GetAssetManager().getMaterial(materialName)); // TODO: engine default shader + material
-    obj->setMaterialName(materialName);
     addCustomObject(name, obj, parent);
 }
 
 void LE3Scene::addCone(std::string name, std::string materialName, glm::vec3 position, float radius, float height, int resolution, bool withCaps, std::string parent) {
     LE3ConePtr obj = std::make_shared<LE3Cone>(position.x, position.y, position.z, radius, height, resolution, withCaps, LE3GetAssetManager().getMaterial(materialName)); // TODO: engine default shader + material
-    obj->setMaterialName(materialName);
     addCustomObject(name, obj, parent);
 }
 
 void LE3Scene::addTorus(std::string name, std::string materialName, glm::vec3 position, float majorRadius, float minorRadius, int resolution, std::string parent) {
     LE3TorusPtr obj = std::make_shared<LE3Torus>(position.x, position.y, position.z, majorRadius, minorRadius, resolution, LE3GetAssetManager().getMaterial(materialName)); // TODO: engine default shader + material
-    obj->setMaterialName(materialName);
     addCustomObject(name, obj, parent);
 }
 
@@ -212,16 +208,12 @@ void LE3Scene::addStaticModel(std::string name, std::string meshName, std::strin
     LE3StaticMeshPtr mesh; 
     if (meshName != "") mesh = LE3GetAssetManager().getStaticMesh(meshName);
     LE3StaticModelPtr obj = std::make_shared<LE3StaticModel>(mesh, LE3GetAssetManager().getMaterial(materialName), priority);
-    obj->setMeshName(meshName);
-    obj->setMaterialName(materialName);
     addCustomObject(name, obj, parent);
 }
 
 void LE3Scene::addSkeletalModel(std::string name, std::string meshName, std::string materialName, std::string parent) {
     LE3SkeletalMeshPtr mesh = LE3GetAssetManager().getSkeletalMesh(meshName);
     LE3SkeletalModelPtr obj = std::make_shared<LE3SkeletalModel>(mesh, LE3GetAssetManager().getMaterial(materialName));
-    obj->setMeshName(meshName);
-    obj->setMaterialName(materialName);
     addCustomObject(name, obj, parent);
 }
 
