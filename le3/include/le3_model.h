@@ -24,11 +24,12 @@ namespace le3 {
         LE3MeshPtr<LE3VertexType> getMesh() { return m_pMesh; }
         void setMesh(LE3MeshPtr<LE3VertexType> pMesh) { m_pMesh = pMesh; }
 
-        void setCurrentAnimation(std::string animationName) { m_currentAnimation = animationName; }
+        void setCurrentAnimation(std::string animationName) { m_currentAnimation = animationName;  resetAnimation(); }
         std::string getCurrentAnimation() const { return m_currentAnimation; }
         void setAnimationPlaying(bool playing) { m_animationPlaying = playing; }
         bool isAnimationPlaying() const { return m_animationPlaying; }
         void resetAnimation() { m_animationTime = 0.f; }
+        void discardAnimation() { setCurrentAnimation(DEFAULT_EMPTY_ANIMATION_NAME); }
 
     protected:
         LE3MeshPtr<LE3VertexType> m_pMesh;
