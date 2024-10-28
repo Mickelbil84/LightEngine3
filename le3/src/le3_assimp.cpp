@@ -136,6 +136,7 @@ void LE3AssetManager::reloadSkeletalMesh(std::shared_ptr<LE3SkeletalMesh> mesh, 
     AssimpSkeletonHierarchy(skeleton, nodes);
     mesh->loadMeshData(buffer, indices);
     mesh->setSkeleton(skeleton);
+    mesh->getAnimationTracks().clear();
 }
 
 // -----------------------------------------------------------------------------

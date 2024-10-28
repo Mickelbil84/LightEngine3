@@ -48,6 +48,10 @@ void LE3Model<LE3VertexType>::draw(LE3ShaderPtr shaderOverride) {
     // Update animation, if applicable
     std::vector<glm::mat4> boneMatrices;
     bool shouldAnimate = (m_currentAnimation.size() > 0) && (m_currentAnimation != DEFAULT_EMPTY_ANIMATION_NAME);
+    if (!m_pMesh.lock()->getAnimationTracks().contains(m_currentAnimation)) {
+        shouldAnimate = false;
+        m_currentAnimation = DEFAULT_EMPTY_ANIMATION_NAME;
+    }
     if (shouldAnimate)
         boneMatrices = m_pMesh.lock()->getAnimationTracks()[m_currentAnimation].getBoneMatrices();
     else for (int idx = 0; idx < m_pMesh.lock()->getSkeleton().m_bones.size(); idx++)
