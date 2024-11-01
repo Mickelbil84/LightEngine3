@@ -187,12 +187,15 @@ void LE3EditorTabAssets::updateMeshes() {
 
     addEngineAssetsCheckbox();
     if (ImGui::Button("Add")) {
-        // ...
+        m_popAddMesh.init();
+        ImGui::OpenPopup((LE3ED_POP_ADD_MESH).c_str());
     }
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
         // ...
     }
+
+    m_popAddMesh.update();
 
     if (ImGui::BeginTable("##MeshesTable", 3, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
