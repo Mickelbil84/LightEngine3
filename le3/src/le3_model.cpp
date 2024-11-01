@@ -23,7 +23,8 @@ template<typename LE3VertexType>
 void LE3Model<LE3VertexType>::update(float deltaTime) {
     LE3DrawableObject::update(deltaTime);
     if (m_animationPlaying) m_animationTime += deltaTime;
-    if (m_currentAnimation.size() && (m_currentAnimation != DEFAULT_EMPTY_ANIMATION_NAME))
+    if (m_currentAnimation.size() && (m_currentAnimation != DEFAULT_EMPTY_ANIMATION_NAME) &&
+        !m_pMesh.expired() && (m_pMesh.lock()->getAnimationTracks().contains(m_currentAnimation)))
     {
         float ticksPerSecond = 25.f;
         if (m_pMesh.lock()->getAnimationTracks()[m_currentAnimation].ticksPerSecond)
