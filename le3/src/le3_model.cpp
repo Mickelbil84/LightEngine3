@@ -22,6 +22,7 @@ LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPt
 template<typename LE3VertexType>
 void LE3Model<LE3VertexType>::update(float deltaTime) {
     LE3DrawableObject::update(deltaTime);
+    if (m_pMesh.expired()) return;
     if (m_animationPlaying) m_animationTime += deltaTime;
     if (m_currentAnimation.size() && (m_currentAnimation != DEFAULT_EMPTY_ANIMATION_NAME) &&
         !m_pMesh.expired() && (m_pMesh.lock()->getAnimationTracks().contains(m_currentAnimation)))
@@ -37,6 +38,7 @@ void LE3Model<LE3VertexType>::update(float deltaTime) {
 
 template<typename LE3VertexType>
 void LE3Model<LE3VertexType>::draw(LE3ShaderPtr shaderOverride) {
+    if (m_pMesh.expired()) return;
     if (m_pMaterial.lock()) m_pMaterial.lock()->apply();
     if (m_pMaterial.lock() && !shaderOverride.lock()) {
         shaderOverride = m_pMaterial.lock()->shader;
@@ -69,6 +71,7 @@ void LE3Model<LE3VertexType>::draw(LE3ShaderPtr shaderOverride) {
 
 template<typename LE3VertexType>
 void LE3Model<LE3VertexType>::drawDebugSkeleton(std::vector<glm::mat4> boneMatrices) {
+    if (m_pMesh.expired()) return;
     glDisable(GL_DEPTH_TEST);
     for (LE3BonePtr bone : m_pMesh.lock()->getSkeleton().getBones()) {
         glm::mat4 modelBone = getWorldMatrix() * boneMatrices[bone->id] * glm::inverse(bone->offset);

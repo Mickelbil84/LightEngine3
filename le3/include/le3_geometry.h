@@ -74,6 +74,12 @@ namespace le3 {
         void setSkeleton(LE3Skeleton skeleton) { m_skeleton = skeleton; }
         std::map<std::string, LE3AnimationTrack>& getAnimationTracks() { return m_animationTracks; }
         void addAnimationTrack(std::string name, LE3AnimationTrack track) { m_animationTracks[name] = track; }
+        void setAnimationTracks(std::map<std::string, LE3AnimationTrack> tracks) { // For undo of deleting skeletal mesh
+            m_animationTracks = tracks;
+            for (auto& [name, track] : m_animationTracks) {
+                track.skeleton = &m_skeleton;
+            }
+        }
     
         std::vector<LE3VertexType>& getKeptData() { return m_keptData; }   
         std::vector<uint32_t>& getKeptIndices() { return m_keptIndices; }

@@ -267,4 +267,6 @@ void LE3AssetManager::refreshPointers() {
     m_lastDeletedShader = "";
     m_lastDeletedTexture = "";
     m_lastDeletedMaterial = "";
+    m_lastDeletedStaticMesh = "";
+    m_lastDeletedSkeletalMesh = "";
 }

@@ -1,4 +1,5 @@
 #include "widgets/le3ed_tab_assets.h"
+#include "commands/le3ed_com_delete_mesh.h"
 #include "commands/le3ed_com_delete_shader.h"
 #include "commands/le3ed_com_delete_texture.h"
 #include "commands/le3ed_com_delete_material.h"
@@ -192,7 +193,20 @@ void LE3EditorTabAssets::updateMeshes() {
     }
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
-        // ...
+        std::shared_ptr<LE3StaticMesh> pStaticMesh = LE3GetEditorManager().getSelection().pStaticMesh.lock();
+        if (pStaticMesh) {
+            std::string name = pStaticMesh->getName();
+            std::string path = LE3GetAssetManager().getMeshPath(name);
+            LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComDeleteMesh>(name, path, false));
+            LE3GetEditorManager().getSelection().deselect();
+        }
+        std::shared_ptr<LE3SkeletalMesh> pSkeletalMesh = LE3GetEditorManager().getSelection().pSkeletalMesh.lock();
+        if (pSkeletalMesh) {
+            std::string name = pSkeletalMesh->getName();
+            std::string path = LE3GetAssetManager().getMeshPath(name);
+            LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComDeleteMesh>(name, path, true));
+            LE3GetEditorManager().getSelection().deselect();
+        }
     }
 
     m_popAddMesh.update();
