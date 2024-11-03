@@ -7,6 +7,11 @@
 
 
 namespace le3 {
+    struct LE3ApplicationSettings {
+        // ImGui settings
+        bool bImGuiDocking = true;
+    };
+
     class LE3Application {
     public:
         LE3Application(std::unique_ptr<LE3GameLogic> pGameLogic);
@@ -31,6 +36,8 @@ namespace le3 {
         void render();
         void shutdown();
 
+        LE3ApplicationSettings& getSettings() { return m_settings; }
+
     private:
         void _initSDL();
         void _initOpenGL();
@@ -43,5 +50,6 @@ namespace le3 {
         std::map<int, std::string> m_sdlKeyMapping;
 
         bool m_bHeadless = false;
+        LE3ApplicationSettings m_settings;
     };
 }
