@@ -23,7 +23,7 @@ void LE3ImGuiUtils::addSceneViewport(std::string title, LE3Scene& scene, LE3Engi
     }
 
     ImGui::Image(
-        (void*)reinterpret_cast<int*>(scene.getSceneFramebuffer()->getColorTexture()), 
+        scene.getSceneFramebuffer()->getColorTexture(), 
         ImVec2(view.x, view.y), {0, 1}, {1, 0});
     if (!engineState.getFocusedOverride() || engineState.getFocusOverrider() == title) {
         engineState.setFocusedOverride(ImGui::IsWindowHovered());
@@ -37,7 +37,7 @@ void LE3ImGuiUtils::addDepthFramebufferViewport(std::string title, LE3Framebuffe
     ImGui::Begin(title.c_str(), nullptr, ImGuiWindowFlags_NoMove);
     ImVec2 view = ImGui::GetContentRegionAvail();
     ImGui::Image(
-        (void*)reinterpret_cast<int*>(buffer->getDepthStencilTexture()), 
+        buffer->getDepthStencilTexture(), 
         ImVec2(view.x, view.y), {0, 1}, {1, 0});
     ImGui::End();
 }

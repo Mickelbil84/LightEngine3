@@ -243,9 +243,7 @@ void LE3EditorTabAssets::updateMeshes() {
             ImGui::TableNextColumn();
             if (isSkeletal) {
                 ImGui::Image(
-                    reinterpret_cast<void*>(
-                        LE3GetAssetManager().getTexture("icon_tick").lock()->getTextureID()
-                    ), ImVec2(16, 16));
+                        LE3GetAssetManager().getTexture("icon_tick").lock()->getTextureID(), ImVec2(16, 16));
             }
             else {
                 ImGui::Text("");

@@ -77,7 +77,7 @@ void LE3EditorToolbar::update() {
         if (button.isToggled && button.isToggled()) bg = ImVec4(0.5f, 0.5f, 0.5f, 0.5f);
         bool clicked = ImGui::ImageButton(
             button.name.c_str(), 
-            reinterpret_cast<void*>(LE3GetAssetManager().getTexture(button.iconName).lock()->getTextureID()), 
+            LE3GetAssetManager().getTexture(button.iconName).lock()->getTextureID(), 
             ImVec2(LE3ED_TOOLBAR_BUTTON_SIZE, LE3ED_TOOLBAR_BUTTON_SIZE), 
             ImVec2(0, 0), ImVec2(1, 1), bg);
         if (button.onClick && clicked) {
