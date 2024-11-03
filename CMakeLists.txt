@@ -8,6 +8,10 @@ if (NOT DEFINED LE3_WITH_DEMOS)
     set (LE3_WITH_DEMOS true) 
 endif()
 
+if (NOT DEFINED LE3_WITH_EDITOR)
+    set (LE3_WITH_EDITOR true)
+endif()
+
 ##########################
 
 
