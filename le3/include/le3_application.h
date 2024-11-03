@@ -19,6 +19,8 @@ namespace le3 {
         void run(); // Main game loop
         void init();
 
+        LE3ApplicationSettings& getSettings() { return m_settings; }
+
     protected:
         std::unique_ptr<LE3GameLogic> m_pGameLogic;
 
@@ -35,8 +37,6 @@ namespace le3 {
         void update();
         void render();
         void shutdown();
-
-        LE3ApplicationSettings& getSettings() { return m_settings; }
 
     private:
         void _initSDL();
