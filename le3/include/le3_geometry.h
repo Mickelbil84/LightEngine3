@@ -124,6 +124,7 @@ namespace le3 {
     LE3Vertex vertexFromGLM(glm::vec3 position, glm::vec2 uv, glm::vec3 normal,
         glm::vec3 tangent = glm::vec3(1.f, 0.f, 0.f), glm::vec3 bitangent = glm::vec3(0.f, 1.f, 0.f));
     LE3Vertex3p vertexFromGLM(glm::vec3 position);
+    LE3Vertex3p2t3n3c vertexFromGLMColor(glm::vec3 position, glm::vec3 normal, glm::vec3 color);
     LE3VertexSkeletal vertexSkeletalFromGLM(glm::vec3 position, glm::vec2 uv, glm::vec3 normal,
         glm::vec3 tangent = glm::vec3(1.f, 0.f, 0.f), glm::vec3 bitangent = glm::vec3(0.f, 1.f, 0.f),
         glm::ivec4 bones = glm::ivec4(-1), glm::vec4 weights = glm::vec4(0.f));

@@ -226,6 +226,15 @@ namespace le3 {
         return v;
     }
 
+    LE3Vertex3p2t3n3c vertexFromGLMColor(glm::vec3 position, glm::vec3 normal, glm::vec3 color) {
+        LE3Vertex3p2t3n3c v;
+        v.position[0] = position.x; v.position[1] = position.y; v.position[2] = position.z;
+        v.uv[0] = 0.f; v.uv[1] = 0.f;
+        v.normal[0] = normal.x; v.normal[1] = normal.y; v.normal[2] = normal.z;
+        v.color[0] = color.x; v.color[1] = color.y; v.color[2] = color.z;
+        return v;
+    }
+
     template class LE3Mesh<LE3Vertex3p>;
     template class LE3Mesh<LE3Vertex3p3c>;
     template class LE3Mesh<LE3Vertex3p2t3n>;

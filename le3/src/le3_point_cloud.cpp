@@ -20,22 +20,39 @@ void LE3PointCloud::draw(LE3ShaderPtr shaderOverride) {
 }
 
 void LE3PointCloud::addPoint(glm::vec3 position) {
-    addPoint(position, glm::vec3(1.f, 0.f, 0.f));
+    addPoint(position, glm::vec3(1.f, 0.f, 0.f), glm::vec3(0.7f, 0.7f, 0.7f));
 }
 void LE3PointCloud::addPoint(glm::vec3 position, glm::vec3 normal) {
-    m_points.push_back(vertexFromGLM(position, glm::vec2(), normal));
+    addPoint(position, normal, glm::vec3(0.7f, 0.7f, 0.7f));
+}
+void LE3PointCloud::addPoint(glm::vec3 position, glm::vec3 normal, glm::vec3 color) {
+    m_points.push_back(vertexFromGLMColor(position, normal, color));
 }
 void LE3PointCloud::addPoints(std::vector<glm::vec3> positions) {
     addPoints(positions, glm::vec3(1.f, 0.f, 0.f));
 }
 void LE3PointCloud::addPoints(std::vector<glm::vec3> positions, glm::vec3 normal) {
+    addPoints(positions, normal, glm::vec3(0.7f, 0.7f, 0.7f));
+}
+void LE3PointCloud::addPoints(std::vector<glm::vec3> positions, glm::vec3 normal, glm::vec3 color) {
     std::vector<glm::vec3> normals;
-    for (size_t i = 0; i < positions.size(); ++i) normals.push_back(normal);
-    addPoints(positions, normals);
+    std::vector<glm::vec3> colors;
+    for (size_t i = 0; i < positions.size(); ++i) {
+        normals.push_back(normal);
+        colors.push_back(color);
+    }
+    addPoints(positions, normals, colors);
 }
 void LE3PointCloud::addPoints(std::vector<glm::vec3> positions, std::vector<glm::vec3> normals) {
+    std::vector<glm::vec3> colors;
+    for (size_t i = 0; i < positions.size(); ++i) {
+        colors.push_back(glm::vec3(0.7f, 0.7f, 0.7f));
+    }
+    addPoints(positions, normals, colors);
+}
+void LE3PointCloud::addPoints(std::vector<glm::vec3> positions, std::vector<glm::vec3> normals, std::vector<glm::vec3> colors) {
     for (size_t idx = 0; idx < positions.size(); ++idx) {
-        m_points.push_back(vertexFromGLM(positions[idx], glm::vec2(), normals[idx]));
+        m_points.push_back(vertexFromGLMColor(positions[idx], normals[idx], colors[idx]));
     } 
 }
 void LE3PointCloud::clear() {
@@ -43,5 +60,5 @@ void LE3PointCloud::clear() {
 }
 
 void LE3PointCloud::create() {
-    m_pMesh = std::make_shared<LE3StaticMesh>(m_points);
+    m_pMesh = std::make_shared<LE3Mesh<LE3Vertex3p2t3n3c>>(m_points);
 }
