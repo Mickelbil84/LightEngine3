@@ -35,6 +35,8 @@ namespace le3 {
         inline void setPointSize(float pointSize) { m_pointSize = pointSize; }
         inline float getPointSize() const { return m_pointSize; }
 
+        std::vector<LE3Vertex3p2t3n3c>& getPoints() { return m_points; }
+
     protected:
         std::vector<LE3Vertex3p2t3n3c> m_points;
         std::shared_ptr<LE3Mesh<LE3Vertex3p2t3n3c>> m_pMesh;
