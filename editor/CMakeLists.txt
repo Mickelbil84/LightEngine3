@@ -38,6 +38,7 @@ if (LE3_WITH_EDITOR)
         src/widgets/popups/le3ed_pop_add_shader.cpp
         src/widgets/popups/le3ed_pop_add_texture.cpp
         src/widgets/popups/le3ed_pop_add_material.cpp
+        src/widgets/popups/le3ed_pop_reparent.cpp
 
         src/commands/le3ed_com_add_mesh.cpp
         src/commands/le3ed_com_delete_mesh.cpp
@@ -47,6 +48,7 @@ if (LE3_WITH_EDITOR)
         src/commands/le3ed_com_delete_texture.cpp
         src/commands/le3ed_com_add_material.cpp
         src/commands/le3ed_com_delete_material.cpp
+        src/commands/le3ed_com_reparent.cpp
     )
     target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES})
     target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)

@@ -2,6 +2,8 @@
 #include "le3ed_editor_systems.h"
 using namespace le3;
 
+#include "widgets/popups/le3ed_pop_reparent.h"
+
 #include <imgui_internal.h>
 
 
@@ -61,7 +63,12 @@ void LE3EditorToolbar::init() {
 
     // -------
 
-    m_buttons.push_back(LE3EditorToolbarButton("Reparent", "icon_reparent"));
+
+    m_popups[LE3ED_POP_REPARENT] = new LE3EditorPopReparent();
+    m_buttons.push_back(LE3EditorToolbarButton("Reparent", "icon_reparent", [this]() {
+        m_popups[LE3ED_POP_REPARENT]->init();
+        ImGui::OpenPopup(LE3ED_POP_REPARENT.c_str());
+    }));
     m_buttons.push_back(LE3EditorToolbarButton("Duplicate", "icon_duplicate"));
     m_buttons.push_back(LE3EditorToolbarButton("Delete", "icon_delete"));
 
@@ -83,5 +90,8 @@ void LE3EditorToolbar::update() {
         if (button.onClick && clicked) {
             button.onClick();
         }
+    }
+    for (auto& [name, popup]: m_popups) {
+        popup->update();
     }
 }
