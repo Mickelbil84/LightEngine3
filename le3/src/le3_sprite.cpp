@@ -6,6 +6,7 @@ LE3Sprite::LE3Sprite(LE3TexturePtr pTexture) :
     LE3StaticModel(LE3StaticMeshPtr(), LE3MaterialPtr()), m_pTexture(pTexture) {
     setMaterial(LE3GetAssetManager().getMaterial(DEFAULT_SPRITE_MATERIAL));
     setCastShadow(false);
+    setHidden(true);
     m_pMeshData = createPlane(0.f, 0.f, 0.f, 1.f, 1.f);
     m_pMesh = m_pMeshData;
 }

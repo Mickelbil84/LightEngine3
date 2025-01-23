@@ -1,9 +1,12 @@
 #include "le3_point_cloud.h"
+#include "le3_engine_systems.h"
 using namespace le3;
 
 
-LE3PointCloud::LE3PointCloud(LE3MaterialPtr pMaterial) :
-    LE3DrawableObject(pMaterial), m_pointSize(1.f) {
+LE3PointCloud::LE3PointCloud() :
+    LE3DrawableObject(LE3MaterialPtr()), m_pointSize(1.f) {
+    setMaterial(LE3GetAssetManager().getMaterial(DEFAULT_PCD_MATERIAL));
+    setCastShadow(false);
 }
 
 
@@ -16,7 +19,7 @@ void LE3PointCloud::draw(LE3ShaderPtr shaderOverride) {
     if (m_pMaterial.lock()) m_pMaterial.lock()->apply();
     if (m_pMaterial.lock() && !shaderOverride.lock()) shaderOverride = m_pMaterial.lock()->shader;
     shaderOverride.lock()->uniform("bIsSkeletal", (uint32_t)0);
-    if (m_pMesh.lock()) m_pMesh.lock()->drawPoints(m_pointSize);
+    m_pMesh->drawPoints(m_pointSize);
 }
 
 void LE3PointCloud::addPoint(glm::vec3 position) {

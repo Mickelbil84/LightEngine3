@@ -13,7 +13,7 @@ namespace le3 {
     */
     class LE3PointCloud : public LE3DrawableObject {
     public:
-        LE3PointCloud(LE3MaterialPtr pMaterial);
+        LE3PointCloud();
         LE3_TYPE_RETURN(LE3PointCloud)
 
         virtual void update(float deltaTime);
@@ -36,7 +36,7 @@ namespace le3 {
 
     protected:
         std::vector<LE3Vertex3p2t3n3c> m_points;
-        LE3MeshPtr<LE3Vertex3p2t3n3c> m_pMesh;
+        std::shared_ptr<LE3Mesh<LE3Vertex3p2t3n3c>> m_pMesh;
         float m_pointSize;
     };
     using LE3PointCloudPtr = std::shared_ptr<LE3PointCloud>;

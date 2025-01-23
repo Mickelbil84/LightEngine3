@@ -217,8 +217,8 @@ void LE3Scene::addSkeletalModel(std::string name, std::string meshName, std::str
     addCustomObject(name, obj, parent);
 }
 
-void LE3Scene::addPointCloud(std::string name, std::string materialName, std::string parent) {
-    LE3PointCloudPtr obj = std::make_shared<LE3PointCloud>(LE3GetAssetManager().getMaterial(materialName));
+void LE3Scene::addPointCloud(std::string name, std::string parent) {
+    LE3PointCloudPtr obj = std::make_shared<LE3PointCloud>();
     addCustomObject(name, obj, parent);
 }
 

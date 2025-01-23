@@ -39,9 +39,12 @@ void LE3AssetManager::init() {
     addShaderFromFile(DEFAULT_GIZMO_SHADER, "/engine/shaders/gizmo/gizmo.vs", "/engine/shaders/gizmo/gizmo.fs");
     addShaderFromFile(DEFAULT_OBJECTID_SHADER, "/engine/shaders/objectid/objectid.vs", "/engine/shaders/objectid/objectid.fs");
     addShaderFromFile(DEFAULT_SPRITE_SHADER, "/engine/shaders/sprite/sprite.vs", "/engine/shaders/sprite/sprite.fs");
+    addShaderFromFile(DEFAULT_PCD_SHADER, "/engine/shaders/pcd/pcd.vs", "/engine/shaders/pcd/pcd.fs");
 
     addMaterial(DEFAULT_GIZMO_MATERIAL, DEFAULT_GIZMO_SHADER);
     addMaterial(DEFAULT_SPRITE_MATERIAL, DEFAULT_SPRITE_SHADER);
+    addMaterial(DEFAULT_PCD_MATERIAL, DEFAULT_PCD_SHADER);
+    getMaterial(DEFAULT_PCD_MATERIAL).lock()->specularIntensity = 0.0f;
 
     addTexture(SPRITE_AMBIENT_LIGHT, "/engine/sprites/sprite_ambient.png");
     addTexture(SPRITE_DIRECTIONAL_LIGHT, "/engine/sprites/sprite_directional.png");
