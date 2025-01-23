@@ -69,7 +69,7 @@ struct SpotLight
 };
 uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 
-uniform vec3 cameraPos;
+uniform float opacity;
 
 out vec4 fColor;
 
@@ -141,5 +141,5 @@ void main()
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
         light += calc_spot_light(spotLights[i], normal, pos, material, vec3(specularColor));
 
-    fColor = vec4(light, 0.9) * diffuseColor;
+    fColor = vec4(light, opacity) * diffuseColor;
 }

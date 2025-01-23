@@ -4,7 +4,7 @@ using namespace le3;
 
 
 LE3PointCloud::LE3PointCloud() :
-    LE3DrawableObject(LE3MaterialPtr()), m_pointSize(1.f) {
+    LE3DrawableObject(LE3MaterialPtr()), m_pointSize(1.f), m_opacity(1.f) {
     setMaterial(LE3GetAssetManager().getMaterial(DEFAULT_PCD_MATERIAL));
     setCastShadow(false);
 }
@@ -19,6 +19,7 @@ void LE3PointCloud::draw(LE3ShaderPtr shaderOverride) {
     if (m_pMaterial.lock()) m_pMaterial.lock()->apply();
     if (m_pMaterial.lock() && !shaderOverride.lock()) shaderOverride = m_pMaterial.lock()->shader;
     shaderOverride.lock()->uniform("bIsSkeletal", (uint32_t)0);
+    shaderOverride.lock()->uniform("opacity", m_opacity);
     m_pMesh->drawPoints(m_pointSize);
 }
 
