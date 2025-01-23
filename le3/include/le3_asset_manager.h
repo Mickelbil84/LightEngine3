@@ -107,6 +107,12 @@ namespace le3 {
         inline std::string getMeshPath(std::string name) { return m_meshesPaths[name]; }
         void setMeshPath(std::string name, std::string path) { m_meshesPaths[name] = path; }
 
+        ////
+        /// Point clouds
+        void loadPointCloud(std::vector<glm::vec3>& points, std::vector<glm::vec3>& normals, std::vector<glm::vec3>& colors, std::string filename);
+
+        ////
+
         inline std::shared_ptr<LE3ScreenRect> getScreenRect() { return m_screenRect; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugLine() { return m_debugLine; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugBox() { return m_debugBox; }

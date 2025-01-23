@@ -65,3 +65,17 @@ void LE3PointCloud::clear() {
 void LE3PointCloud::create() {
     m_pMesh = std::make_shared<LE3Mesh<LE3Vertex3p2t3n3c>>(m_points);
 }
+
+void LE3PointCloud::fromFile(std::string filename, bool swapYZ) {
+    std::vector<glm::vec3> points, normals, colors;
+    LE3GetAssetManager().loadPointCloud(points, normals, colors, filename);
+    if (swapYZ) {
+        for (auto& p : points) {
+            float tmp = p.y;
+            p.x *= -1.f;
+            p.y = p.z;
+            p.z = tmp;
+        }
+    }
+    addPoints(points, normals, colors);
+}

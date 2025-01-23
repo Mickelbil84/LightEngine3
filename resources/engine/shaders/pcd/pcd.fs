@@ -141,5 +141,5 @@ void main()
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
         light += calc_spot_light(spotLights[i], normal, pos, material, vec3(specularColor));
 
-    fColor = vec4(light, 1.0) * diffuseColor;
+    fColor = vec4(light, 0.9) * diffuseColor;
 }

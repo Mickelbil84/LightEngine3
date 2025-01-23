@@ -18,6 +18,7 @@ using namespace le3;
 #include <fmt/core.h>
 
 void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene);
+void AssimpSceneToPointCloud(std::vector<glm::vec3>& points, std::vector<glm::vec3>& normals, std::vector<glm::vec3>& colors, aiNode* node, const aiScene* scene);
 void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, LE3Skeleton& skeleton, aiNode* node, const aiScene* scene);
 void AssimpGetNodeVector(aiNode* node, std::vector<aiNode*>& nodes);
 void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes);
@@ -77,6 +78,21 @@ void LE3AssetManager::reloadStaticMesh(std::shared_ptr<LE3StaticMesh> mesh, std:
     mesh->loadMeshData(buffer, indices);
     // TODO: Handle also keepData
 }
+
+
+void LE3AssetManager::loadPointCloud(std::vector<glm::vec3>& points, std::vector<glm::vec3>& normals, std::vector<glm::vec3>& colors, std::string filename) {
+    Assimp::Importer importer;
+    LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(filename);
+    std::string pHint = filename.substr(filename.find_last_of(".") + 1);
+    const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 0,
+        pHint.c_str() // Bugfix: support newer versions of assimps
+    );
+    if (!scene) throw std::runtime_error(fmt::format("Could not load point cloud: {}\n{}", filename, importer.GetErrorString()));
+
+    AssimpSceneToPointCloud(points, normals, colors, scene->mRootNode, scene);
+}
+
+
 
 std::shared_ptr<LE3SkeletalMesh> LE3AssetManager::loadSkeletalMesh(std::string meshPath)
 {
@@ -186,6 +202,43 @@ void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuin
     for (unsigned int i = 0; i < node->mNumChildren; ++i)
         AssimpSceneToVertexBuffer(buffer, indices, node->mChildren[i], scene);
 }
+
+void AssimpSceneToPointCloud(std::vector<glm::vec3>& points, std::vector<glm::vec3>& normals, std::vector<glm::vec3>& colors, aiNode* node, const aiScene* scene) {
+    for (unsigned int i = 0; i < node->mNumMeshes; ++i)
+    {
+        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+        for (unsigned int j = 0; j < mesh->mNumVertices; ++j)
+        {
+            glm::vec3 position, normal, color;
+            position.x = mesh->mVertices[j].x;
+            position.y = mesh->mVertices[j].y;
+            position.z = mesh->mVertices[j].z;
+            if (mesh->mNormals) {
+                normal.x = mesh->mNormals[j].x;
+                normal.y = mesh->mNormals[j].y;
+                normal.z = mesh->mNormals[j].z;
+            }
+            else {
+                normal = glm::vec3(1.0f, 0.f, 0.f);
+            }
+            if (mesh->mColors[0]) {
+                color.x = mesh->mColors[0][j].r;
+                color.y = mesh->mColors[0][j].g;
+                color.z = mesh->mColors[0][j].b;
+            }
+            else {
+                color = glm::vec3(0.7f, 0.7f, 0.7f);
+            }
+            points.push_back(position);
+            normals.push_back(normal);
+            colors.push_back(color);
+        }
+    }
+
+    for (unsigned int i = 0; i < node->mNumChildren; ++i)
+        AssimpSceneToPointCloud(points, normals, colors, node->mChildren[i], scene);
+}
+
 
 void AssimpSkeletalSceneToVertexBuffer(std::vector<LE3VertexSkeletal>& buffer, std::vector<GLuint>& indices, LE3Skeleton& skeleton, aiNode* node, const aiScene* scene)
 {

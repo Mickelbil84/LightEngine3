@@ -27,6 +27,7 @@ namespace le3 {
         void addPoints(std::vector<glm::vec3> positions, glm::vec3 normal, glm::vec3 color);
         void addPoints(std::vector<glm::vec3> positions, std::vector<glm::vec3> normals);
         void addPoints(std::vector<glm::vec3> positions, std::vector<glm::vec3> normals, std::vector<glm::vec3> colors);
+        void fromFile(std::string filename, bool swapYZ = false);
         void clear();
 
         void create();
