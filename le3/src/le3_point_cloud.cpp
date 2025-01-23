@@ -72,7 +72,7 @@ void LE3PointCloud::fromFile(std::string filename, bool swapYZ) {
     if (swapYZ) {
         for (auto& p : points) {
             float tmp = p.y;
-            p.x *= -1.f;
+            // p.x *= -1.f;
             p.y = p.z;
             p.z = tmp;
         }
