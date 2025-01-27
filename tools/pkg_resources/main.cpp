@@ -37,6 +37,7 @@ int main(int argc, char** argv) {
 
         std::string archiveName = entry.path().filename().string();
         std::string archivePath = outDir + "/" + archiveName + ".dat";
+        std::filesystem::remove(archivePath);
         datFilesystem.addArchive(archiveName, archivePath);
         fmt::print("Archive {} @ {}\n", archiveName, archivePath);
 
