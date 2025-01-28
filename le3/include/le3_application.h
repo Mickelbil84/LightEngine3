@@ -18,6 +18,7 @@ namespace le3 {
         LE3Application(); // Headless version! Beware
         void run(); // Main game loop
         void init();
+        void startNetworking(); // Call this method to start networking thread
 
         LE3ApplicationSettings& getSettings() { return m_settings; }
 

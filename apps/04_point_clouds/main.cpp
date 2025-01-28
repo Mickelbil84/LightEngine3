@@ -103,6 +103,7 @@ public:
 
 int main() {
     LE3Application app(std::make_unique<Demo03_RacingShooter>());
+    app.startNetworking();
     app.run();
     return 0;
 }

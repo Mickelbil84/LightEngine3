@@ -11,6 +11,7 @@ using namespace le3;
 #include <gl/glew.h>
 #endif
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_thread.h>
 
 #include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>
@@ -18,12 +19,14 @@ using namespace le3;
 #include <backends/imgui_impl_opengl3.h>
 
 #include "le3_engine_systems.h"
+#include "le3_networking.h"
 
 
 struct LE3Application::_Internal {
     _Internal() {}
     std::shared_ptr<SDL_Window> m_pWindow;
     SDL_GLContext m_glContext;
+    SDL_Thread* m_pNetworkThread = nullptr;
 };
 
 LE3Application::LE3Application(std::unique_ptr<LE3GameLogic> pGameLogic) :
@@ -162,6 +165,11 @@ void LE3Application::render() {
 void LE3Application::shutdown() {
     m_pGameLogic->shutdown();
 
+    if (m_pInternal->m_pNetworkThread) {
+        SDL_DetachThread(m_pInternal->m_pNetworkThread);
+        m_pInternal->m_pNetworkThread = nullptr;
+    }
+
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
@@ -172,6 +180,10 @@ void LE3Application::shutdown() {
         m_pInternal->m_pWindow = nullptr;
     }
     SDL_Quit();
+}
+
+void LE3Application::startNetworking() {
+    m_pInternal->m_pNetworkThread = SDL_CreateThread(LE3Networking::networkThreadPtr, "networking", nullptr);
 }
 
 void LE3Application::_initSDL() {
