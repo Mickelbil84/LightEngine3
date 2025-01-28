@@ -20,6 +20,7 @@
 #include "le3_light_manager.h"
 #include "le3_script_object.h"
 #include "le3_point_cloud.h"
+#include "le3_network_spinner.h"
 
 namespace le3 {
     struct LE3SceneGraph {
