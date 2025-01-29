@@ -1,12 +1,13 @@
 #include "le3_network_spinner.h"
 using namespace le3;
 
-LE3NetworkSpinner::LE3NetworkSpinner() {
+LE3NetworkSpinner::LE3NetworkSpinner() : m_isRunning(false) {
     m_request.ticket = -1;
 }
 
 void LE3NetworkSpinner::update(float deltaTime) {
     // if (!m_send) return;
+    if (!m_isRunning) return;
     if (m_request.ticket < 0) {
         m_request = m_send();
     }

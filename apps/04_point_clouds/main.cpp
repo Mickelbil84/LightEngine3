@@ -45,6 +45,7 @@ public:
         LE3GetActiveScene()->getObject<LE3NetworkSpinner>("spinner")->setOnResponse([](LE3NetworkRequest nr) {
             fmt::print("{}\n", nr.response);
         });
+        LE3GetActiveScene()->getObject<LE3NetworkSpinner>("spinner")->start();
 
     }
     void update(float deltaTime) {
