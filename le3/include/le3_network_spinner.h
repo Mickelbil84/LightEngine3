@@ -16,6 +16,7 @@ namespace le3 {
 
         inline void start() { m_isRunning = true; }
         inline void stop() { m_isRunning = false; }
+        inline bool isRunning() const { return m_isRunning; }
 
     protected:
         std::function<LE3NetworkRequest()> m_send;
