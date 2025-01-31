@@ -1,6 +1,9 @@
 #pragma once
 
 #include <map>
+#include <memory>
+#include <vector>
+#include <string>
 
 namespace le3 {
     enum LE3NetworkRequestType {
