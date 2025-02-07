@@ -34,7 +34,14 @@ void LE3EditorSelection::selectObject(LE3ObjectWeakPtr pObjectWeak, bool bReset)
     }
 
     type = LE3SelectionType::LE3_SELECTION_OBJECT;
-    pObjects.push_back(pObject);
+    bool shouldPush = true;
+    for (auto pObjectWeak : pObjects) {
+        if (pObjectWeak.lock() == pObject) {
+            shouldPush = false;
+            break;
+        }
+    }
+    if (shouldPush) pObjects.push_back(pObject);
     this->onSelect(*this);
 }
 void LE3EditorSelection::selectAsset(LE3ShaderPtr pShader) {

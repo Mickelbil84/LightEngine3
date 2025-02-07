@@ -16,23 +16,27 @@ using namespace le3;
 namespace le3 {
     class LE3GizmoReleaseCommand : public LE3EditorCommand {
     public:
-        LE3GizmoReleaseCommand(std::string objectName, glm::mat4 matrix) : m_objectName(objectName), m_matrix(matrix) {}
+        LE3GizmoReleaseCommand(std::vector<std::string> objectNames, std::map<std::string, glm::mat4> matrix) : m_objectNames(objectNames), m_matrix(matrix) {}
 
         virtual void execute() {
-            LE3ObjectPtr pObject = LE3GetSceneManager().getActiveScene()->getObject(m_objectName);
-            glm::mat4 newTransform = m_matrix * pObject->getTransform().getTransformMatrix();
-            pObject->getTransform().fromTransformMatrix(newTransform);
+            for (std::string objectName : m_objectNames) {
+                LE3ObjectPtr pObject = LE3GetSceneManager().getActiveScene()->getObject(objectName);
+                glm::mat4 newTransform = m_matrix[objectName] * pObject->getTransform().getTransformMatrix();
+                pObject->getTransform().fromTransformMatrix(newTransform);
+            }
         }
 
         virtual void undo() {
-            LE3ObjectPtr pObject = LE3GetSceneManager().getActiveScene()->getObject(m_objectName);
-            glm::mat4 newTransform = glm::inverse(m_matrix) * pObject->getTransform().getTransformMatrix();
-            pObject->getTransform().fromTransformMatrix(newTransform);
+            for (std::string objectName : m_objectNames) {
+                LE3ObjectPtr pObject = LE3GetSceneManager().getActiveScene()->getObject(objectName);
+                glm::mat4 newTransform = glm::inverse(m_matrix[objectName]) * pObject->getTransform().getTransformMatrix();
+                pObject->getTransform().fromTransformMatrix(newTransform);
+            }
         }
 
     private:
-        std::string m_objectName;
-        glm::mat4 m_matrix;
+        std::vector<std::string> m_objectNames;
+        std::map<std::string, glm::mat4> m_matrix;
     };
 }
 
@@ -246,7 +250,12 @@ void LE3Gizmo::updateStateIdle(float deltaTime) {
         if (m_dragFrames > 3) {
             m_state = LE3_GIZMO_STATE_DRAGGING;    
             m_dragCursortStart = glm::vec2(LE3GetActiveScene()->getCursorLocation());
-            m_selectObjectInitialTransform = LE3GetEditorManager().getSelection().getLastSelectedObject().lock()->getTransform().getTransformMatrix();
+            m_selectObjectsInitialTransform.clear();
+            for (auto pObjectWeak : LE3GetEditorManager().getSelection().pObjects) {
+                LE3ObjectPtr pObject = pObjectWeak.lock();
+                if (!pObject) continue;
+                m_selectObjectsInitialTransform[pObject->getName()] = pObject->getTransform().getTransformMatrix();
+            }
         }
     }
     if (!isMouseDown()) {
@@ -277,7 +286,6 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
     float dx = mouseCurr.x - m_dragCursortStart.x;
     float dy = mouseCurr.y - m_dragCursortStart.y;
 
-    LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().getLastSelectedObject().lock();
     LE3EditorSnap snap = LE3GetEditorManager().getSnap();
 
     if (m_mode == LE3_GIZMO_MODE_TRANSLATE) {
@@ -308,17 +316,26 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
                 projection += t * getAxisLine(axis);
             }
         }
-        pObject->getTransform().setPosition(glm::vec3(m_selectObjectInitialTransform[3]) + projection);
+        for (auto pObjectWeak : LE3GetEditorManager().getSelection().pObjects) {
+            LE3ObjectPtr pObject = pObjectWeak.lock();
+            if (!pObject) continue;
+            pObject->getTransform().setPosition(glm::vec3(m_selectObjectsInitialTransform[pObject->getName()][3]) + projection);
+        }
     }
     if (m_mode == LE3_GIZMO_MODE_SCALE) {
         float t = gizmoDragSpeed * glm::dot(glm::vec2(dx, dy), glm::normalize(qScreen - pScreen));
         if (snap.enabled) t = glm::round(t / snap.snapScale) * snap.snapScale;
         glm::vec3 projection = t * getAxisLine(m_hoveredAxis);
-        glm::vec3 originalScale = glm::vec3(
-            glm::length(m_selectObjectInitialTransform[0]),
-            glm::length(m_selectObjectInitialTransform[1]),
-            glm::length(m_selectObjectInitialTransform[2]));
-        pObject->getTransform().setScale(originalScale + projection);
+
+        for (auto pObjectWeak : LE3GetEditorManager().getSelection().pObjects) {
+            LE3ObjectPtr pObject = pObjectWeak.lock();
+            if (!pObject) continue;
+            glm::vec3 originalScale = glm::vec3(
+                glm::length(m_selectObjectsInitialTransform[pObject->getName()][0]),
+                glm::length(m_selectObjectsInitialTransform[pObject->getName()][1]),
+                glm::length(m_selectObjectsInitialTransform[pObject->getName()][2]));
+            pObject->getTransform().setScale(originalScale + projection);
+        }
     }
     if (m_mode == LE3_GIZMO_MODE_ROTATE) {
         float tmp = 0.5 * (dx + dy);
@@ -328,21 +345,30 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
             t = glm::round(t / snap.snapRotation) * snap.snapRotation;
             t = t / 180.f * M_PI;
         }
-        glm::quat originalRotation = rotFromMatrix(m_selectObjectInitialTransform);
         glm::quat delta = glm::angleAxis(t, getAxisLine(m_hoveredAxis));
-        pObject->getTransform().setRotation(delta * originalRotation);
+        for (auto pObjectWeak : LE3GetEditorManager().getSelection().pObjects) {
+            LE3ObjectPtr pObject = pObjectWeak.lock();
+            if (!pObject) continue;
+            glm::quat originalRotation = rotFromMatrix(m_selectObjectsInitialTransform[pObject->getName()]);
+            pObject->getTransform().setRotation(delta * originalRotation);
+        }
     }
 
 }
 void LE3Gizmo::updateStateRelease(float deltaTime) {
+    std::vector<std::string> objectNames;
+    std::map<std::string, glm::mat4> deltaTransforms;
+    for (auto pObjectWeak : LE3GetEditorManager().getSelection().pObjects) {
+        LE3ObjectPtr pObject = pObjectWeak.lock();
+        if (!pObject) continue;
+        objectNames.push_back(pObject->getName());
 
-    LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().getLastSelectedObject().lock();
-    glm::mat4 objectTargetTransform = pObject->getTransform().getTransformMatrix();
-    glm::mat4 deltaTransform = objectTargetTransform * glm::inverse(m_selectObjectInitialTransform);
-
-    pObject->getTransform().fromTransformMatrix(m_selectObjectInitialTransform);
-    LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3GizmoReleaseCommand>(pObject->getName(), deltaTransform));
-
+        glm::mat4 objectTargetTransform = pObject->getTransform().getTransformMatrix();
+        glm::mat4 deltaTransform = objectTargetTransform * glm::inverse(m_selectObjectsInitialTransform[pObject->getName()]);
+        deltaTransforms[pObject->getName()] = deltaTransform;
+        pObject->getTransform().fromTransformMatrix(m_selectObjectsInitialTransform[pObject->getName()]);
+    }
+    LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3GizmoReleaseCommand>(objectNames, deltaTransforms));
     m_state = LE3_GIZMO_STATE_IDLE;
 }
 
