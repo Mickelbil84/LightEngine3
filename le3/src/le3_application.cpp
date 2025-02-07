@@ -124,6 +124,10 @@ void LE3Application::handleInput() {
     // Editor manager should know about mouse state
     LE3GetEditorManager().setMouseDown(input.bLeftMouseDown);
     LE3GetEditorManager().setMouseRel(input.xrel, input.yrel);
+    // Editor manager should also know about modifier keys
+    LE3GetEditorManager().setCtrlDown(input.keys[KEY_LE3_CTRL]);
+    LE3GetEditorManager().setShiftDown(input.keys["KEY_LSHIFT"]);
+    LE3GetEditorManager().setAltDown(input.keys["KEY_LALT"]);
 
     if (m_pGameLogic->m_engineState.isFocused() || m_pGameLogic->m_engineState.getFocusedOverride())
         m_pGameLogic->handleInput(input);

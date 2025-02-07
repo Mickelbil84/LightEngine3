@@ -5,12 +5,6 @@
 
 namespace le3 {
 
-    #ifdef __APPLE__
-        const std::string LE3ED_CTRL = "KEY_LGUI";
-    #else
-        const std::string LE3ED_CTRL = "KEY_LCTRL";
-    #endif
-
     class LE3EditorHotkeys : public LE3EditorComponent{
     public:
         LE3ED_COMPONENT_DEAFULT_CTOR(LE3EditorHotkeys)

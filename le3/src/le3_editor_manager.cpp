@@ -19,8 +19,13 @@ void LE3EditorSelection::reset() {
 void LE3EditorSelection::deselect() {
     reset();
 }
-void LE3EditorSelection::selectObject(LE3ObjectWeakPtr pObjectWeak) {
-    reset();
+void LE3EditorSelection::selectObject(LE3ObjectWeakPtr pObjectWeak, bool bReset) {
+    if (bReset) reset();
+    else {
+        std::vector<LE3ObjectWeakPtr> tmp(pObjects);
+        reset();
+        pObjects = tmp;
+    }
     LE3ObjectPtr pObject = pObjectWeak.lock();
     if (!pObject) return;
 

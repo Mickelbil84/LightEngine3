@@ -208,6 +208,7 @@ void LE3Gizmo::updateStateDisabled(float deltaTime) {
         return;
     }
     
+    // Note that if we are disabled, then nothing was selected, so no need to check for modifier keys
     if (LE3GetEditorManager().getHoveredObject().lock() && isMouseDown()) {
         LE3GetEditorManager().getSelection().selectObject(LE3GetEditorManager().getHoveredObject());
         m_state = LE3_GIZMO_STATE_IDLE;
@@ -234,7 +235,8 @@ void LE3Gizmo::updateStateIdle(float deltaTime) {
     if (
         isMouseDown() &&
         m_hoveredAxis == LE3_GIZMO_AXIS_NONE) {
-        LE3GetEditorManager().getSelection().selectObject(LE3GetEditorManager().getHoveredObject());
+        bool bReset = !LE3GetEditorManager().isCtrlDown();
+        LE3GetEditorManager().getSelection().selectObject(LE3GetEditorManager().getHoveredObject(), bReset);
         setHidden(true); // After selection, hide gizmo and only show after the position was updated
     }
 

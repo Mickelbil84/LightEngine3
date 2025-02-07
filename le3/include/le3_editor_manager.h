@@ -34,7 +34,7 @@ namespace le3 {
         void reset();
 
         void deselect();
-        void selectObject(LE3ObjectWeakPtr pObject);
+        void selectObject(LE3ObjectWeakPtr pObject, bool bReset = true);
         void selectAsset(LE3ShaderPtr pShader);
         void selectAsset(LE3MaterialPtr pMaterial);
         void selectAsset(LE3TexturePtr pTexture);
@@ -84,6 +84,12 @@ namespace le3 {
 
         bool isMouseDown() { return m_bMouseDown; }
         void setMouseDown(bool mouseDown) { m_bMouseDown = mouseDown; }
+        bool isCtrlDown() { return m_bCtrlDown; }
+        void setCtrlDown(bool ctrlDown) { m_bCtrlDown = ctrlDown; }
+        bool isShiftDown() { return m_bShiftDown; }
+        void setShiftDown(bool shiftDown) { m_bShiftDown = shiftDown; }
+        bool isAltDown() { return m_bAltDown; }
+        void setAltDown(bool altDown) { m_bAltDown = altDown; }
 
         // Active edit is when something is being modified, and animations/camera movement/etc. should be frozen
         bool isActiveEdit() { return m_bActiveEdit; }
@@ -113,7 +119,7 @@ namespace le3 {
         void setPauseSceneUpdates(bool pauseSceneUpdates) { m_bPauseSceneUpdates = pauseSceneUpdates; }
 
     private:
-        bool m_bMouseDown = false;
+        bool m_bMouseDown = false, m_bCtrlDown = false, m_bShiftDown = false, m_bAltDown = false;
         bool m_bActiveEdit = false, m_bEditBlocked = false;
         int m_xrel, m_yrel;
 

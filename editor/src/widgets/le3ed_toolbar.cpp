@@ -20,11 +20,11 @@ void LE3EditorToolbar::init() {
     m_buttons.push_back(LE3EditorToolbarButton("Undo", "icon_undo", []() {
         LE3GetEditorManager().getCommandStack().undo();
     }));
-    m_buttons.back().setupHotkey({"KEY_Z", LE3ED_CTRL});
+    m_buttons.back().setupHotkey({"KEY_Z", KEY_LE3_CTRL});
     m_buttons.push_back(LE3EditorToolbarButton("Redo", "icon_redo", []() {
         LE3GetEditorManager().getCommandStack().redo();
     }));
-    m_buttons.back().setupHotkey({"KEY_Y", LE3ED_CTRL});
+    m_buttons.back().setupHotkey({"KEY_Y", KEY_LE3_CTRL});
     m_buttons.push_back(LE3EditorToolbarButton());
 
     // -------
