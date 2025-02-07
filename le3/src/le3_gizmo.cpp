@@ -221,7 +221,7 @@ void LE3Gizmo::updateStateIdle(float deltaTime) {
         return;
     }
     // When updaing position outside of scene view, update gizmo position
-    if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock()) {
+    if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().getLastSelectedObject().lock()) {
         m_transform.setPosition(pObject->getWorldPosition());
         if (isHidden()) setHidden(false);
     }
@@ -244,7 +244,7 @@ void LE3Gizmo::updateStateIdle(float deltaTime) {
         if (m_dragFrames > 3) {
             m_state = LE3_GIZMO_STATE_DRAGGING;    
             m_dragCursortStart = glm::vec2(LE3GetActiveScene()->getCursorLocation());
-            m_selectObjectInitialTransform = LE3GetEditorManager().getSelection().pObject.lock()->getTransform().getTransformMatrix();
+            m_selectObjectInitialTransform = LE3GetEditorManager().getSelection().getLastSelectedObject().lock()->getTransform().getTransformMatrix();
         }
     }
     if (!isMouseDown()) {
@@ -257,7 +257,7 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
         return;
     }
 
-    if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock()) {
+    if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().getLastSelectedObject().lock()) {
         m_transform.setPosition(pObject->getWorldPosition());
     }
 
@@ -275,7 +275,7 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
     float dx = mouseCurr.x - m_dragCursortStart.x;
     float dy = mouseCurr.y - m_dragCursortStart.y;
 
-    LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock();
+    LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().getLastSelectedObject().lock();
     LE3EditorSnap snap = LE3GetEditorManager().getSnap();
 
     if (m_mode == LE3_GIZMO_MODE_TRANSLATE) {
@@ -334,7 +334,7 @@ void LE3Gizmo::updateStateDragging(float deltaTime) {
 }
 void LE3Gizmo::updateStateRelease(float deltaTime) {
 
-    LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock();
+    LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().getLastSelectedObject().lock();
     glm::mat4 objectTargetTransform = pObject->getTransform().getTransformMatrix();
     glm::mat4 deltaTransform = objectTargetTransform * glm::inverse(m_selectObjectInitialTransform);
 

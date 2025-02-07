@@ -22,7 +22,7 @@ namespace le3 {
         };
 
         LE3SelectionType type;
-        LE3ObjectWeakPtr pObject;
+        std::vector<LE3ObjectWeakPtr> pObjects;
         LE3ShaderPtr pShader;
         LE3MaterialPtr pMaterial;
         LE3TexturePtr pTexture;
@@ -41,6 +41,11 @@ namespace le3 {
         void selectAsset(LE3StaticMeshPtr pStaticMesh);
         void selectAsset(LE3SkeletalMeshPtr pSkeletalMesh);
         void selectAsset(LE3SkeletalMeshPtr pSkeletalMesh, std::string animationTrack);
+
+        LE3ObjectWeakPtr getLastSelectedObject() {
+            if (pObjects.size() == 0) return LE3ObjectWeakPtr();
+            return pObjects.back();
+        }
 
         // On select callback
         std::function<void(LE3EditorSelection&)> onSelect;

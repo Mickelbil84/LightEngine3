@@ -52,7 +52,13 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
     if (m_openStatus.contains(obj->getName())) {
         shouldOpen = m_openStatus[obj->getName()];
     }
-    LE3ObjectPtr ptr = LE3GetEditorManager().getSelection().pObject.lock();
+    LE3ObjectPtr ptr = nullptr;
+    for (auto tmp : LE3GetEditorManager().getSelection().pObjects) {
+        if (tmp.lock() == obj) {
+            ptr = tmp.lock();
+            break;
+        }
+    }
     if (obj == ptr) extraFlags |= ImGuiTreeNodeFlags_Selected;
     while (ptr) {
         if (obj == ptr) {
