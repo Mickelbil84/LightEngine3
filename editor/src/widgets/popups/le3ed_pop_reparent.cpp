@@ -47,6 +47,6 @@ void LE3EditorPopReparent::update() {
 
 void LE3EditorPopReparent::setNameString(std::string& str) {
     str = "";
-    LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock();
+    LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().getLastSelectedObject().lock();
     if (pObject) str = pObject->getName();
 }

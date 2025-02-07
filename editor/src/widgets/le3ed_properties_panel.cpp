@@ -10,7 +10,7 @@ void LE3EditorPropertiesPanel::init() {
     LE3GetScriptSystem().doFile("/editor/scripts/widgets_properties.lua");
 }
 void LE3EditorPropertiesPanel::update() {
-    LE3ObjectPtr obj = LE3GetEditorManager().getSelection().pObject.lock();
+    LE3ObjectPtr obj = LE3GetEditorManager().getSelection().getLastSelectedObject().lock();
     LE3ShaderPtr shader = LE3GetEditorManager().getSelection().pShader;
     LE3MaterialPtr material = LE3GetEditorManager().getSelection().pMaterial;
     LE3TexturePtr texture = LE3GetEditorManager().getSelection().pTexture;

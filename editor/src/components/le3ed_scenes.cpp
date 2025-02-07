@@ -12,7 +12,8 @@ void LE3EditorScenes::init() {
 
     // Bind scene hotkeys
     LE3EditorSystems::instance().getHotkeysComponent()->bindHotkey({"KEY_UP"}, []() {
-        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObject.lock()) {
+        if (LE3GetEditorManager().getSelection().pObjects.size() != 1) return;
+        if (LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().getLastSelectedObject().lock()) {
             if (pObject->getParent() && !std::dynamic_pointer_cast<LE3SceneRoot>(pObject->getParent()))
                 LE3GetEditorManager().getSelection().selectObject(pObject->getParent());
         }

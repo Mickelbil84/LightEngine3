@@ -7,7 +7,7 @@ LE3EditorSelection::LE3EditorSelection() {
 }
 void LE3EditorSelection::reset() {
     type = LE3SelectionType::LE3_SELECTION_NONE;
-    pObject.reset();
+    pObjects.clear();
     pShader.reset();
     pMaterial.reset();
     pTexture.reset();
@@ -19,8 +19,13 @@ void LE3EditorSelection::reset() {
 void LE3EditorSelection::deselect() {
     reset();
 }
-void LE3EditorSelection::selectObject(LE3ObjectWeakPtr pObjectWeak) {
-    reset();
+void LE3EditorSelection::selectObject(LE3ObjectWeakPtr pObjectWeak, bool bReset) {
+    if (bReset) reset();
+    else {
+        std::vector<LE3ObjectWeakPtr> tmp(pObjects);
+        reset();
+        pObjects = tmp;
+    }
     LE3ObjectPtr pObject = pObjectWeak.lock();
     if (!pObject) return;
 
@@ -29,7 +34,14 @@ void LE3EditorSelection::selectObject(LE3ObjectWeakPtr pObjectWeak) {
     }
 
     type = LE3SelectionType::LE3_SELECTION_OBJECT;
-    this->pObject = pObject;
+    bool shouldPush = true;
+    for (auto pObjectWeak : pObjects) {
+        if (pObjectWeak.lock() == pObject) {
+            shouldPush = false;
+            break;
+        }
+    }
+    if (shouldPush) pObjects.push_back(pObject);
     this->onSelect(*this);
 }
 void LE3EditorSelection::selectAsset(LE3ShaderPtr pShader) {

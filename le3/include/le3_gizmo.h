@@ -66,7 +66,7 @@ namespace le3 {
         
         int m_dragFrames = 0;
         glm::vec2 m_dragCursortStart;
-        glm::mat4 m_selectObjectInitialTransform;
+        std::map<std::string, glm::mat4> m_selectObjectsInitialTransform;
 
         glm::vec3 getAxisLine(LE3GizmoAxis axis);
         glm::mat4 gizmoTransform(LE3GizmoAxis gizmoAxis);
