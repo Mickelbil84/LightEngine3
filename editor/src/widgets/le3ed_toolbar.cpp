@@ -84,6 +84,7 @@ void LE3EditorToolbar::init() {
         }
         LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComDuplicate>(names));
     }));
+    m_buttons.back().setupHotkey({"KEY_D", "KEY_LSHIFT"});
     m_buttons.push_back(LE3EditorToolbarButton("Delete", "icon_delete"));
 
 }
