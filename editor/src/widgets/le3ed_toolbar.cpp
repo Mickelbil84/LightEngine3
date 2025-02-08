@@ -74,7 +74,19 @@ void LE3EditorToolbar::init() {
         LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComReparent>(names));
     }));
     m_buttons.back().setupHotkey({"KEY_P"});
-    m_buttons.push_back(LE3EditorToolbarButton("Duplicate", "icon_duplicate"));
+    m_buttons.push_back(LE3EditorToolbarButton("Duplicate", "icon_duplicate", [this]() {
+        for (auto pObjectWeak : LE3GetEditorManager().getSelection().pObjects) {
+            // TODO: Change this to a proper command!
+            LE3ObjectPtr pObject = pObjectWeak.lock();
+            if (!pObject) continue;
+            LE3GetScriptSystem().getGlobal("duplicate_object");
+            LE3GetScriptSystem().pushUserType<LE3Scene>(LE3GetActiveScene().get());
+            LE3GetScriptSystem().pushString(pObject->getObjectType());
+            LE3GetScriptSystem().pushString(pObject->getName());
+            LE3GetScriptSystem().pushString(LE3GetActiveScene()->getNextAvailableName(pObject->getName()));
+            LE3GetScriptSystem().callFunction(4, 0);
+        }
+    }));
     m_buttons.push_back(LE3EditorToolbarButton("Delete", "icon_delete"));
 
 }
