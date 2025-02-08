@@ -83,7 +83,7 @@ glm::dvec3 LE3BSP_Hyperplane::getTriangleNormal(LE3BSP_Triangle triangle) {
 
 LE3BSP_Side LE3BSP_Hyperplane::determinePoint(glm::dvec3 point) {
     double val = glm::dot(point, this->normal) + this->offset;
-    if (abs(val) < LE3_BSP_EPS) return ON;
+    if (std::abs(val) < LE3_BSP_EPS) return ON;
     if (val > 0) return IN;
     return OUT;
 }

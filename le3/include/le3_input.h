@@ -10,7 +10,7 @@ namespace le3 {
     #ifdef __APPLE__
         const std::string KEY_LE3_CTRL = "KEY_LGUI";
     #else
-        const std::string LEY_LE3_CTRL = "KEY_LCTRL";
+        const std::string KEY_LE3_CTRL = "KEY_LCTRL";
     #endif
 
     // Key names are of the type "KEY_<XXX>", e.g. KEY_W, KEY_UP, KEY_ESCAPE, etc. 
