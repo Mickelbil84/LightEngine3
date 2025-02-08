@@ -83,7 +83,10 @@ void LE3EditorToolbar::init() {
             LE3GetScriptSystem().pushUserType<LE3Scene>(LE3GetActiveScene().get());
             LE3GetScriptSystem().pushString(pObject->getObjectType());
             LE3GetScriptSystem().pushString(pObject->getName());
-            LE3GetScriptSystem().callFunction(3, 0);
+            LE3GetScriptSystem().callFunction(3, 1);
+            std::string newName = LE3GetScriptSystem().getString(-1);
+            LE3GetEditorManager().getSelection().selectObject(
+                LE3GetActiveScene()->getObject(newName));
         }
     }));
     m_buttons.push_back(LE3EditorToolbarButton("Delete", "icon_delete"));
