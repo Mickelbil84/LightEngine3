@@ -490,6 +490,11 @@ function LE3Object.get_name(obj) end
 function LE3Object.get_object_type(obj) end
 
 ---@param obj LE3Object
+---@return nil
+---@return string
+function LE3Object.get_parent_name(obj) end
+
+---@param obj LE3Object
 ---@return LE3Transform
 function LE3Object.get_transform(obj) end
 

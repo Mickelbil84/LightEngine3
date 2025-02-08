@@ -15,7 +15,15 @@ FBIND(LE3Object, get_object_type)
     GET_UDATA_OBJECT(obj, LE3Object)
     PUSH_STRING(obj->getObjectType())
 FEND()
+FBIND(LE3Object, get_parent_name)
+    GET_UDATA_OBJECT(obj, LE3Object)
+    if (obj->getParent() == nullptr) {
+        PUSH_NIL()
+    } else {
+        PUSH_STRING(obj->getParent()->getName())
+    }
+FEND()
 
 LIB(LE3Object,
-    get_transform, get_name, get_object_type
+    get_transform, get_name, get_object_type, get_parent_name
 )
