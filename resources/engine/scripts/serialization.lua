@@ -4,12 +4,26 @@
 ---@param scene LE3Scene
 ---@param object string
 function dump_object(scene, object)
+    if string.find(object, "__ENGINE__") == 1 then return nil end
+    
     local dump = {Objects = {}, ObjectRelations = {}}
     local obj = LE3Scene.get_object(scene, object)
+    local parent = LE3Object.get_parent_name(obj)
     local tbl = _G[LE3Object.get_object_type(obj)].save(obj)
     table.insert(dump.Objects, tbl)
-    dump.Objects["__testVariable"] = 3.14159265
-    dump.Objects["3__anotherTestVariable"] = 3.14159265 / 2
+    if parent ~= nil then table.insert(dump.ObjectRelations, {object, parent}) end
+
+    -- only if we should recurse
+    local children = table.pack(LE3Object.get_children_names(obj))
+    if children[1] ~= nil then
+        for _, child in ipairs(children) do
+            local child_dump = dump_object(scene, child)
+            if child_dump ~= nil then 
+                for _, v in ipairs(child_dump.Objects) do table.insert(dump.Objects, v) end
+                for _, v in ipairs(child_dump.ObjectRelations) do table.insert(dump.ObjectRelations, v) end
+            end
+        end
+    end
 
     print(serialize(dump))
     return dump

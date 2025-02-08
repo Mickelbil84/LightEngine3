@@ -23,7 +23,17 @@ FBIND(LE3Object, get_parent_name)
         PUSH_STRING(obj->getParent()->getName())
     }
 FEND()
+FBIND(LE3Object, get_children_names)
+    GET_UDATA_OBJECT(obj, LE3Object)
+    if (obj->getChildren().size() == 0) {
+        PUSH_NIL()
+    } else {
+        for (auto child : obj->getChildren()) {
+            PUSH_STRING(child->getName());
+        }
+    }
+FEND()
 
 LIB(LE3Object,
-    get_transform, get_name, get_object_type, get_parent_name
+    get_transform, get_name, get_object_type, get_parent_name, get_children_names
 )
