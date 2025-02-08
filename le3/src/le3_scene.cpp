@@ -429,7 +429,7 @@ std::string LE3Scene::getNextAvailableName(std::string objectName) {
         prefix = objectName.substr(0, lastUnderscorePos);
         std::string number = objectName.substr(lastUnderscorePos + 1);
         try {
-            idx = std::stoi(number) + 1;
+            idx = std::stoi(number);
         } catch (...) {
             prefix = objectName;
         }

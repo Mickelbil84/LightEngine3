@@ -83,8 +83,7 @@ void LE3EditorToolbar::init() {
             LE3GetScriptSystem().pushUserType<LE3Scene>(LE3GetActiveScene().get());
             LE3GetScriptSystem().pushString(pObject->getObjectType());
             LE3GetScriptSystem().pushString(pObject->getName());
-            LE3GetScriptSystem().pushString(LE3GetActiveScene()->getNextAvailableName(pObject->getName()));
-            LE3GetScriptSystem().callFunction(4, 0);
+            LE3GetScriptSystem().callFunction(3, 0);
         }
     }));
     m_buttons.push_back(LE3EditorToolbarButton("Delete", "icon_delete"));

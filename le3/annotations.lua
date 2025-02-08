@@ -662,6 +662,11 @@ function LE3Scene.get_background_color(self) end
 
 ---@param scene LE3Scene
 ---@param name string
+---@return string
+function LE3Scene.get_next_available_name(scene, name) end
+
+---@param scene LE3Scene
+---@param name string
 ---@return LE3Object
 function LE3Scene.get_object(scene, name) end
 
