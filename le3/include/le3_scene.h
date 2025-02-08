@@ -25,6 +25,7 @@
 namespace le3 {
     struct LE3SceneGraph {
         LE3SceneRootPtr m_pRoot; // NOTE: root is not in pObjects
+        LE3ObjectPtr m_pRootObj; // Should point to same location as m_pRoot (used as ObjectPtr& for reparenting)
         std::map<std::string, LE3ObjectPtr> m_pObjects;
         LE3DrawQueue m_drawQueue;
         LE3BSPManager m_bspManager;
@@ -100,6 +101,7 @@ namespace le3 {
         bool isInspected() const { return m_bInspected; }
 
         inline LE3ObjectPtr& getObject(std::string name) { 
+            if (name == getSceneRoot()->getName()) return m_sceneGraph->m_pRootObj;
             if (!m_sceneGraph->m_pObjects.contains(name)) return m_nullptr;
             return m_sceneGraph->m_pObjects[name]; 
         }

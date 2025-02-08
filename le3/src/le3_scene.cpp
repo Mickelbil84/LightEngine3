@@ -18,6 +18,7 @@ using namespace le3;
 void LE3Scene::init(int width, int height) {
     m_sceneGraph = std::make_shared<LE3SceneGraph>();
     m_sceneGraph->m_pRoot = std::make_shared<LE3SceneRoot>();
+    m_sceneGraph->m_pRootObj = std::dynamic_pointer_cast<LE3Object>(m_sceneGraph->m_pRoot);
     m_pMainCamera = nullptr;
     resize(width, height);
     m_bInspected = false;
