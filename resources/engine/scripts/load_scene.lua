@@ -12,7 +12,7 @@ local function load_LE3Scene_assets(scene, scene_data_table)
     end
 end
 
-local function load_LE3Scene_objects(scene, scene_data_table)
+function load_LE3Scene_objects(scene, scene_data_table)
     local object_classes = {
         Empty = LE3Object, ScriptObject = LE3ScriptObject,
         FreeCamera = LE3FreeCamera, OrbitCamera = LE3OrbitCamera,

@@ -664,6 +664,10 @@ function LE3Scene.add_static_model(scene, name, meshName, materialName) end
 ---@param resolution number
 function LE3Scene.add_torus(scene, name, materialName, position_x, position_y, position_z, majorRadius, minorRadius, resolution) end
 
+---@param scene LE3Scene
+---@param name string
+function LE3Scene.delete_object(scene, name) end
+
 ---@param self LE3Scene
 ---@return number
 ---@return number
