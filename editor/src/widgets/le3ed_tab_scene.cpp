@@ -77,12 +77,13 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
         }
     }
 
+    bool bReset = !LE3GetEditorManager().isCtrlDown();
     if ((obj->getChildren().size() > 0) && (!hasOnlyDelegates || m_bShowEngineObjects)) {
         ImGui::SetNextItemOpen(shouldOpen);
         bool open = ImGui::TreeNodeEx(obj->getName().c_str(), ImGuiTreeNodeFlags_SpanAllColumns | extraFlags);
         m_openStatus[obj->getName()] = open;
         if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
-            LE3GetEditorManager().getSelection().selectObject(obj);
+            LE3GetEditorManager().getSelection().selectObject(obj, bReset);
             // LE3GetSceneManager().updateScenes(0);
         }
         ImGui::TableNextColumn();
@@ -99,7 +100,7 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
             ImGuiTreeNodeFlags_SpanAllColumns | ImGuiTreeNodeFlags_Leaf | 
             ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | extraFlags);
         if (ImGui::IsItemClicked()) {
-            LE3GetEditorManager().getSelection().selectObject(obj);
+            LE3GetEditorManager().getSelection().selectObject(obj, bReset);
             // LE3GetSceneManager().updateScenes(0);
         }
         ImGui::TableNextColumn();
