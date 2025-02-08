@@ -36,7 +36,7 @@ void LE3EditorPopReparent::update() {
             }
             ImGui::SameLine();
             if (ImGui::Button("Add")) {
-                LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComReparent>(m_objName, m_newParentName));
+                // LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComReparent>(m_objName, m_newParentName));
                 ImGui::CloseCurrentPopup();
                 this->unlockEngine();
             }
