@@ -3,6 +3,7 @@
 using namespace le3;
 
 #include "commands/le3ed_com_reparent.h"
+#include "commands/le3ed_com_duplicate.h"
 
 #include <imgui_internal.h>
 
@@ -75,19 +76,13 @@ void LE3EditorToolbar::init() {
     }));
     m_buttons.back().setupHotkey({"KEY_P"});
     m_buttons.push_back(LE3EditorToolbarButton("Duplicate", "icon_duplicate", [this]() {
+        std::vector<std::string> names;
         for (auto pObjectWeak : LE3GetEditorManager().getSelection().pObjects) {
-            // TODO: Change this to a proper command!
             LE3ObjectPtr pObject = pObjectWeak.lock();
             if (!pObject) continue;
-            LE3GetScriptSystem().getGlobal("duplicate_object");
-            LE3GetScriptSystem().pushUserType<LE3Scene>(LE3GetActiveScene().get());
-            LE3GetScriptSystem().pushString(pObject->getObjectType());
-            LE3GetScriptSystem().pushString(pObject->getName());
-            LE3GetScriptSystem().callFunction(3, 1);
-            std::string newName = LE3GetScriptSystem().getString(-1);
-            LE3GetEditorManager().getSelection().selectObject(
-                LE3GetActiveScene()->getObject(newName));
+            names.push_back(pObject->getName());
         }
+        LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComDuplicate>(names));
     }));
     m_buttons.push_back(LE3EditorToolbarButton("Delete", "icon_delete"));
 
