@@ -13,5 +13,6 @@ namespace le3 {
     private:
         std::vector<std::string> m_names;
         std::map<std::string, std::string> m_oldParents;
+        std::map<std::string, glm::mat4> m_oldTransforms;
     };
 }
