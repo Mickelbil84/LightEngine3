@@ -12,7 +12,7 @@ local function load_LE3Scene_assets(scene, scene_data_table)
     end
 end
 
-local function load_LE3Scene_objects(scene, scene_data_table)
+function load_LE3Scene_objects(scene, scene_data_table)
     local object_classes = {
         Empty = LE3Object, ScriptObject = LE3ScriptObject,
         FreeCamera = LE3FreeCamera, OrbitCamera = LE3OrbitCamera,
@@ -25,6 +25,9 @@ local function load_LE3Scene_objects(scene, scene_data_table)
     for _, object in ipairs(scene_data_table.Objects) do
         assert(object.Type ~= nil)
         assert(object.Name ~= nil)
+        if string.find(object.Type, "LE3") == 1 then -- Hotfix: if type starts with LE3, remove that
+            object.Type = string.sub(object.Type, 4)
+        end
         if object_classes[object.Type] ~= nil then
             object_classes[object.Type].load(scene, object, nil)
         end

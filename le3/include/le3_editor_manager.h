@@ -46,6 +46,14 @@ namespace le3 {
             if (pObjects.size() == 0) return LE3ObjectWeakPtr();
             return pObjects.back();
         }
+        std::vector<std::string> getSelectedObjectsNames() const {
+            std::vector<std::string> names;
+            for (auto pObjectWeak : pObjects) {
+                LE3ObjectPtr pObject = pObjectWeak.lock();
+                if (pObject) names.push_back(pObject->getName());
+            }
+            return names;
+        }
 
         // On select callback
         std::function<void(LE3EditorSelection&)> onSelect;

@@ -49,6 +49,7 @@ if (LE3_WITH_EDITOR)
         src/commands/le3ed_com_delete_material.cpp
         src/commands/le3ed_com_reparent.cpp
         src/commands/le3ed_com_duplicate.cpp
+        src/commands/le3ed_com_delete_objects.cpp
     )
     target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES})
     target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)

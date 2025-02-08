@@ -4,6 +4,7 @@ using namespace le3;
 
 #include "commands/le3ed_com_reparent.h"
 #include "commands/le3ed_com_duplicate.h"
+#include "commands/le3ed_com_delete_objects.h"
 
 #include <imgui_internal.h>
 
@@ -66,26 +67,23 @@ void LE3EditorToolbar::init() {
 
 
     m_buttons.push_back(LE3EditorToolbarButton("Reparent", "icon_reparent", [this]() {
-        std::vector<std::string> names;
-        for (auto pObjectWeak : LE3GetEditorManager().getSelection().pObjects) {
-            LE3ObjectPtr pObject = pObjectWeak.lock();
-            if (pObject) names.push_back(pObject->getName());
-        }
+        std::vector<std::string> names = LE3GetEditorManager().getSelection().getSelectedObjectsNames();
         if (names.size() < 2) return;
         LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComReparent>(names));
     }));
     m_buttons.back().setupHotkey({"KEY_P"});
     m_buttons.push_back(LE3EditorToolbarButton("Duplicate", "icon_duplicate", [this]() {
-        std::vector<std::string> names;
-        for (auto pObjectWeak : LE3GetEditorManager().getSelection().pObjects) {
-            LE3ObjectPtr pObject = pObjectWeak.lock();
-            if (!pObject) continue;
-            names.push_back(pObject->getName());
-        }
-        LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComDuplicate>(names));
+        LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComDuplicate>(
+            LE3GetEditorManager().getSelection().getSelectedObjectsNames()
+        ));
     }));
     m_buttons.back().setupHotkey({"KEY_D", "KEY_LSHIFT"});
-    m_buttons.push_back(LE3EditorToolbarButton("Delete", "icon_delete"));
+    m_buttons.push_back(LE3EditorToolbarButton("Delete", "icon_delete", [this]() {
+        LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComDeleteObjects>(
+            LE3GetEditorManager().getSelection().getSelectedObjectsNames()
+        ));
+    }));
+    m_buttons.back().setupHotkey({"KEY_BACKSPACE"});
 
 }
 void LE3EditorToolbar::update() {

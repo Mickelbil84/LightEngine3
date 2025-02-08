@@ -482,6 +482,11 @@ function LE3Material.set_specular_texture(materialName, textureName) end
 function LE3Material.set_tiling(materialName, x, y) end
 
 ---@param obj LE3Object
+---@return nil
+---@return string
+function LE3Object.get_children_names(obj) end
+
+---@param obj LE3Object
 ---@return string
 function LE3Object.get_name(obj) end
 
@@ -658,6 +663,10 @@ function LE3Scene.add_static_model(scene, name, meshName, materialName) end
 ---@param minorRadius number
 ---@param resolution number
 function LE3Scene.add_torus(scene, name, materialName, position_x, position_y, position_z, majorRadius, minorRadius, resolution) end
+
+---@param scene LE3Scene
+---@param name string
+function LE3Scene.delete_object(scene, name) end
 
 ---@param self LE3Scene
 ---@return number

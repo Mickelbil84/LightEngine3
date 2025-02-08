@@ -161,6 +161,11 @@ FBIND_GETTER_VEC3(LE3Scene, get_background_color, getBackgroundColor)
 FBIND_SETTER_VEC3(LE3Scene, set_background_color, setBackgroundColor)
 FBIND_SETTER_BOOL(LE3Scene, set_culling, setCulling)
 
+FBIND(LE3Scene, delete_object)
+    GET_UDATA(scene, LE3Scene)
+    GET_STRING(name)
+    scene->deleteObject(name);
+FEND()
 
 // --------
 
@@ -172,5 +177,6 @@ LIB(LE3Scene,
     add_ambient_light, add_directional_light, add_point_light, add_spot_light,
     reparent, get_object, get_next_available_name,
     get_background_color, set_background_color,
-    set_culling
+    set_culling,
+    delete_object
 )
