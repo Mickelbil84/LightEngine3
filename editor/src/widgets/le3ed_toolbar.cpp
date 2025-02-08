@@ -79,6 +79,11 @@ void LE3EditorToolbar::init() {
     m_buttons.back().setupHotkey({"KEY_D", "KEY_LSHIFT"});
     m_buttons.push_back(LE3EditorToolbarButton("Delete", "icon_delete", [this]() {
         fmt::print("Delete!\n");
+        std::vector<std::string> names = LE3GetEditorManager().getSelection().getSelectedObjectsNames();
+        LE3GetScriptSystem().getGlobal("dump_object");
+        LE3GetScriptSystem().pushUserType<LE3Scene>(LE3GetActiveScene().get());
+        LE3GetScriptSystem().pushString(names[0]);
+        LE3GetScriptSystem().callFunction(2, 1);
     }));
     m_buttons.back().setupHotkey({"KEY_BACKSPACE"});
 
