@@ -2,7 +2,6 @@
 #include "le3ed_editor_systems.h"
 using namespace le3;
 
-#include "widgets/popups/le3ed_pop_reparent.h"
 #include "commands/le3ed_com_reparent.h"
 
 #include <imgui_internal.h>
