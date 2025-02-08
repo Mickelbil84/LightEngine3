@@ -5,12 +5,14 @@
 namespace le3 {
     class LE3EditorComReparent : public LE3EditorCommand {
     public:
-        LE3EditorComReparent(std::string objName, std::string newParentName);
+        LE3EditorComReparent(std::vector<std::string> names);
 
         virtual void execute();
         virtual void undo();
 
     private:
-        std::string m_objName, m_newParentName, m_oldParentName;
+        std::vector<std::string> m_names;
+        std::map<std::string, std::string> m_oldParents;
+        std::map<std::string, glm::mat4> m_oldTransforms;
     };
 }
