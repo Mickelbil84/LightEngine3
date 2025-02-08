@@ -19,6 +19,7 @@ void LE3EditorComReparent::execute() {
             invParentTransform * m_oldTransforms[m_names[idx]]
         );
     }
+    LE3GetEditorManager().getSelection().selectObject(parent);
 }
 void LE3EditorComReparent::undo() {
     for (auto [objName, oldParentName] : m_oldParents) {
