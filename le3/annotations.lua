@@ -490,6 +490,11 @@ function LE3Object.get_name(obj) end
 function LE3Object.get_object_type(obj) end
 
 ---@param obj LE3Object
+---@return nil
+---@return string
+function LE3Object.get_parent_name(obj) end
+
+---@param obj LE3Object
 ---@return LE3Transform
 function LE3Object.get_transform(obj) end
 
@@ -659,6 +664,11 @@ function LE3Scene.add_torus(scene, name, materialName, position_x, position_y, p
 ---@return number
 ---@return number
 function LE3Scene.get_background_color(self) end
+
+---@param scene LE3Scene
+---@param name string
+---@return string
+function LE3Scene.get_next_available_name(scene, name) end
 
 ---@param scene LE3Scene
 ---@param name string

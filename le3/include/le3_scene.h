@@ -121,6 +121,8 @@ namespace le3 {
         int getWidth() const { return m_width; }
         int getHeight() const { return m_height; }
 
+        std::string getNextAvailableName(std::string objectName);
+
         // Returns the global cursor location in the scene's region, normalized to [-1, 1]
         // This also includes the case for multiple scenes rendering at the same time
         // The cursor is only relevant if the z coord is > 0.f

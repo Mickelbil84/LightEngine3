@@ -151,6 +151,12 @@ FBIND(LE3Scene, get_object)
     PUSH_UDATA(&obj, LE3ObjectPtr);
 FEND()
 
+FBIND(LE3Scene, get_next_available_name)
+    GET_UDATA(scene, LE3Scene)
+    GET_STRING(name)
+    PUSH_STRING(scene->getNextAvailableName(name))
+FEND()
+
 FBIND_GETTER_VEC3(LE3Scene, get_background_color, getBackgroundColor)
 FBIND_SETTER_VEC3(LE3Scene, set_background_color, setBackgroundColor)
 FBIND_SETTER_BOOL(LE3Scene, set_culling, setCulling)
@@ -164,7 +170,7 @@ LIB(LE3Scene,
     add_static_model, add_skeletal_model, add_point_cloud, add_sprite,
     add_free_camera, add_orbit_camera, set_main_camera,
     add_ambient_light, add_directional_light, add_point_light, add_spot_light,
-    reparent, get_object,
+    reparent, get_object, get_next_available_name,
     get_background_color, set_background_color,
     set_culling
 )

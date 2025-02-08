@@ -4,7 +4,10 @@ using namespace le3;
 LE3EditorComReparent::LE3EditorComReparent(std::vector<std::string> names) :
     m_names(names) {
     for (auto name : names) {
-        m_oldParents[name] = LE3GetActiveScene()->getObject(name)->getParent()->getName();
+        if (LE3GetActiveScene()->getObject(name)->getParent())
+            m_oldParents[name] = LE3GetActiveScene()->getObject(name)->getParent()->getName();
+        else 
+            m_oldParents[name] = "";
         m_oldTransforms[name] = LE3GetActiveScene()->getObject(name)->getTransform().getTransformMatrix();
     }
 }
