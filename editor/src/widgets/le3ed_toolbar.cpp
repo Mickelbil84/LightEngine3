@@ -74,6 +74,7 @@ void LE3EditorToolbar::init() {
         if (names.size() < 2) return;
         LE3GetEditorManager().getCommandStack().execute(std::make_unique<LE3EditorComReparent>(names));
     }));
+    m_buttons.back().setupHotkey({"KEY_P"});
     m_buttons.push_back(LE3EditorToolbarButton("Duplicate", "icon_duplicate"));
     m_buttons.push_back(LE3EditorToolbarButton("Delete", "icon_delete"));
 
