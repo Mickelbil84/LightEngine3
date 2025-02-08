@@ -43,6 +43,7 @@ function update_asset_properties_panel(ptr, type)
             print("!!!!!!!!!!!!")
             print(type.reload)
             print("!!!!!!!!!!!!")
+            LE3EditorComPropertyChange.foo()
             type.reload(ptr, tbl)
         end
     end

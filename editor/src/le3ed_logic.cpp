@@ -1,5 +1,6 @@
 #include "le3ed_logic.h"
 #include "le3ed_editor_systems.h"
+#include "commands/le3ed_com_property_change.h" // TODO: TEMP
 using namespace le3;
 
 #include <fmt/core.h>
@@ -15,6 +16,9 @@ LE3EditorLogic::LE3EditorLogic() :
     LE3EditorSystems::instance().setGUIComponent(&m_gui);
     LE3EditorSystems::instance().setScenesComponent(&m_scenes);
     LE3EditorSystems::instance().setHotkeysComponent(&m_hotkeys);
+
+    // TODO: Move to seperate component if there would be more lua bindings
+    LE3EditorComPropertyChange::registerLua();
 }
 
 void LE3EditorLogic::init() {
