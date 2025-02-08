@@ -418,3 +418,26 @@ void LE3Scene::propagateDeleteMaterial(std::string name) {
         }
     }
 }
+
+std::string LE3Scene::getNextAvailableName(std::string objectName) {
+    // First, split by "_" and get the last number, if there is one
+    std::string prefix;
+    int idx = 0;
+
+    size_t lastUnderscorePos = objectName.rfind('_');
+    if (lastUnderscorePos != std::string::npos) {
+        prefix = objectName.substr(0, lastUnderscorePos);
+        std::string number = objectName.substr(lastUnderscorePos + 1);
+        try {
+            idx = std::stoi(number) + 1;
+        } catch (...) {
+            prefix = objectName;
+        }
+    }
+    else prefix = objectName;
+
+    while (true) {
+        std::string newName = fmt::format("{}_{}", prefix, ++idx);
+        if (!m_sceneGraph->m_pObjects.contains(newName)) return newName;
+    }
+}
