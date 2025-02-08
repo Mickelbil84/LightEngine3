@@ -24,8 +24,6 @@ function dump_object(scene, object)
             end
         end
     end
-
-    print(serialize(dump))
     return dump
 end
 

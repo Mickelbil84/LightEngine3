@@ -25,6 +25,9 @@ function load_LE3Scene_objects(scene, scene_data_table)
     for _, object in ipairs(scene_data_table.Objects) do
         assert(object.Type ~= nil)
         assert(object.Name ~= nil)
+        if string.find(object.Type, "LE3") == 1 then -- Hotfix: if type starts with LE3, remove that
+            object.Type = string.sub(object.Type, 4)
+        end
         if object_classes[object.Type] ~= nil then
             object_classes[object.Type].load(scene, object, nil)
         end
