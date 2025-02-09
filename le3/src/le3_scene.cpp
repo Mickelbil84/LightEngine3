@@ -246,6 +246,7 @@ void LE3Scene::addCustomObject(std::string name, std::shared_ptr<LE3Object> obj,
     attachObject(name, obj, parent);
     LE3DrawableObjectPtr drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(obj);
     if (drawableObj) m_sceneGraph->m_drawQueue.addObject(drawableObj);
+    obj->init();
 }
 
 void LE3Scene::addFreeCamera(std::string name, std::string parent) {
@@ -405,6 +406,7 @@ void LE3Scene::renameObject(std::string oldName, std::string newName) {
     m_sceneGraph->m_pObjects.erase(oldName);
     m_sceneGraph->m_pObjects[newName]->setName(newName);
     std::pair<std::string, std::string> data(oldName, newName);
+    fmt::print("LE3Scene:: Renaming object from {} to {}\n", oldName, newName);
     LE3GetEventManager().notify(LE3SceneEvents::LE3_EVENT_OBJECT_RENAME, (void*)&data);
 }
 

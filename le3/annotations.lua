@@ -688,6 +688,10 @@ function LE3Scene.get_object(scene, name) end
 ---@return LE3Object
 function LE3Scene.get_object_global(name) end
 
+---@param name string
+---@return boolean
+function LE3Scene.has_object_global(name) end
+
 ---@param scene LE3Scene
 ---@param oldName string
 ---@param newName string

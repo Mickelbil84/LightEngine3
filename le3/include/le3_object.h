@@ -19,6 +19,7 @@ namespace le3 {
         inline glm::mat4 getWorldMatrix() const { return m_worldMatrix; }
         inline glm::vec3 getWorldPosition() const { return glm::vec3(m_worldMatrix[3]); }
 
+        virtual void init() {}
         virtual void update(float deltaTime);
 
         // Are called before and after the update method, only for non inspector scenes
