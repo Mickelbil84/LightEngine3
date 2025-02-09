@@ -167,6 +167,12 @@ FBIND(LE3Scene, delete_object)
     scene->deleteObject(name);
 FEND()
 
+FBIND(LE3Scene, get_object_global)
+    GET_STRING(name)
+    LE3ObjectPtr& obj = LE3GetActiveScene()->getObject(name);
+    PUSH_UDATA(&obj, LE3ObjectPtr);
+FEND()
+
 // --------
 
 LIB(LE3Scene,
@@ -178,5 +184,6 @@ LIB(LE3Scene,
     reparent, get_object, get_next_available_name,
     get_background_color, set_background_color,
     set_culling,
-    delete_object
+    delete_object,
+    get_object_global
 )

@@ -1,5 +1,5 @@
 _engine_deleted_object_history = {}
-_engine_deleted_object_history_index = 0x13e -- some irrelevant initial magic number
+_engine_deleted_object_history_index = 0x13e -- some arbitrary initial magic number (can be anything else, doesn't matter)
 
 ---@param scene LE3Scene
 ---@param object string
