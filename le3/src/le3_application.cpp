@@ -142,8 +142,9 @@ void LE3Application::update() {
     ImGui::NewFrame();
 
     m_pGameLogic->m_engineState.m_bFocused = !ImGui::GetIO().WantCaptureMouse;
-
     m_pGameLogic->update(m_deltaTime);
+
+    LE3GetEventManager().applyUnsubscribes();
 }
 
 void LE3Application::render() {
