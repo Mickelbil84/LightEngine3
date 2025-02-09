@@ -29,7 +29,20 @@ void LE3EditorToolbox::init() {
         LE3GetActiveScene()->addTorus(name, DEFAULT_MATERIAL);
         LE3GetEditorManager().getSelection().selectObject(LE3GetActiveScene()->getObject(name));
     }));
-    m_buttons.push_back(LE3EditorToolbarButton("StaticMesh", "icon_newstaticmesh"));
+    m_buttons.push_back(LE3EditorToolbarButton("StaticMesh", "icon_newstaticmesh", [this]() {
+        auto pStaticMesh = LE3GetEditorManager().getSelection().pStaticMesh.lock();
+        auto pSkeletalMesh = LE3GetEditorManager().getSelection().pSkeletalMesh.lock();
+        if (pStaticMesh) {
+            std::string name = LE3GetActiveScene()->getNextAvailableName(pStaticMesh->getName() + "_0");
+            LE3GetActiveScene()->addStaticModel(name, pStaticMesh->getName(), DEFAULT_MATERIAL);
+            LE3GetEditorManager().getSelection().selectObject(LE3GetActiveScene()->getObject(name));
+        }
+        if (pSkeletalMesh) {
+            std::string name = LE3GetActiveScene()->getNextAvailableName(pSkeletalMesh->getName() + "_0");
+            LE3GetActiveScene()->addSkeletalModel(name, pSkeletalMesh->getName(), DEFAULT_MATERIAL);
+            LE3GetEditorManager().getSelection().selectObject(LE3GetActiveScene()->getObject(name));
+        }
+    }));
     m_buttons.push_back(LE3EditorToolbarButton("Empty", "icon_newempty", [this]() {
         std::string name = LE3GetActiveScene()->getNextAvailableName("empty_0");
         LE3GetActiveScene()->addEmptyObject(name);
