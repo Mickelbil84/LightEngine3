@@ -21,6 +21,7 @@
 #include "le3_script_object.h"
 #include "le3_point_cloud.h"
 #include "le3_network_spinner.h"
+#include "le3_event_manager.h"
 
 namespace le3 {
     struct LE3SceneGraph {
@@ -33,6 +34,10 @@ namespace le3 {
         std::vector<LE3ObjectWeakPtr> m_inspectedUpdate;
     };
     using LE3SceneGraphPtr = std::shared_ptr<LE3SceneGraph>;
+
+    namespace LE3SceneEvents {
+        ADD_EVENT(LE3_EVENT_OBJECT_RENAME);
+    }
 
     class LE3Scene {
     public:
@@ -92,6 +97,7 @@ namespace le3 {
         void addCustomObject(std::string name, std::shared_ptr<LE3Object> obj, std::string parent = ""); // DANGER! Use with caution
 
         void deleteObject(std::string name);
+        void renameObject(std::string oldName, std::string newName);
 
         LE3SceneRootPtr getSceneRoot() const { return m_sceneGraph->m_pRoot; }
         LE3CameraPtr& getMainCamera() { return m_pMainCamera; }

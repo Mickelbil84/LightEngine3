@@ -8,6 +8,7 @@
 
 namespace le3 {
 
+    // Note that the callback should never store the (void*)data, since it is not guaranteed to be valid after the function call
     struct LE3EventSubscription {
         LE3ObjectWeakPtr subscriber;
         std::function<void(void*)> callback;
@@ -26,5 +27,8 @@ namespace le3 {
     private:
         std::map<std::string, std::vector<LE3EventSubscription>> m_subscriptions;
     };
+
+    #define ADD_EVENT(event) \
+        static const std::string event = #event;
 
 }
