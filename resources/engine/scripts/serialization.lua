@@ -76,3 +76,19 @@ function serialize(o, indent)
     return res
 end
 
+-- Helper method for counting how many different table values are there
+---@param t1 table
+---@param t2 table
+---@return number
+function count_differences(t1, t2, tmp)
+    local visited = {}
+    local cnt = 0
+    for k, _ in pairs(t1) do
+        if serialize(t1[k]) ~= serialize(t2[k]) then cnt = cnt + 1 end
+        visited[k] = 1
+    end
+    for k, _ in pairs(t2) do
+        if (visited[k] ~= 1) and (serialize(t1[k]) ~= serialize(t2[k])) then cnt = cnt + 1 end
+    end
+    return cnt
+end

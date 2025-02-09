@@ -22,7 +22,20 @@ function property_change_undo_ticket(ticket)
 end
 
 local function _publish_command(cmd)
-    if serialize(cmd.Old) ~= serialize(cmd.New) then -- something changed
+    if serialize(cmd.Old) == serialize(cmd.New) then return end
+
+    -- If only a single change was made, then don't append a new command to the stack
+    -- (And of course, do this only if there is even a "last ticket")
+    local last_ticket_valid = (_engine_property_change_history[_engine_property_change_history_index] ~= nil)
+    if last_ticket_valid then
+        last_ticket_valid = count_differences(cmd.New, _engine_property_change_history[_engine_property_change_history_index].New) == 1
+    end
+
+    if last_ticket_valid then
+        local ticket = _engine_property_change_history_index
+        cmd.Old = _engine_property_change_history[ticket].Old
+        _engine_property_change_history[ticket] = cmd
+    else
         _engine_property_change_history_index = _engine_property_change_history_index + 1
         local ticket = _engine_property_change_history_index
         _engine_property_change_history[ticket] = cmd
