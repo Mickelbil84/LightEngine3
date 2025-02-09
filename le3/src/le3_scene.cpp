@@ -401,7 +401,7 @@ void LE3Scene::deleteObject(std::string name) {
 
 void LE3Scene::renameObject(std::string oldName, std::string newName) {
     if (!m_sceneGraph->m_pObjects.contains(oldName)) return;
-    if (m_sceneGraph->m_pObjects.contains(newName)) throw std::runtime_error(fmt::format("Object '{}' already exists", newName));
+    if (m_sceneGraph->m_pObjects.contains(newName)) return;
     m_sceneGraph->m_pObjects[newName] = m_sceneGraph->m_pObjects[oldName];
     m_sceneGraph->m_pObjects.erase(oldName);
     m_sceneGraph->m_pObjects[newName]->setName(newName);
