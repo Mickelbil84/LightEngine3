@@ -10,7 +10,7 @@ LE3Box.load = function (scene, tbl, res)
     return {ptr = res, name = tbl.Name}
 end
 LE3Box.rebuild = function (object, tbl)
-    LE3Box.__base.rebuild(object, tbl)
+    return LE3Box.__base.rebuild(object, tbl)
     -- local x0, y0, z0 = table.unpack(tbl.BoxPosition)
     -- local width, height, depth = table.unpack(tbl.BoxExtent)
     -- LE3Box.set_box_position(object, x0, y0, z0)

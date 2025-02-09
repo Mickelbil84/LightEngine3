@@ -30,7 +30,7 @@ LE3FreeCamera.load = function (scene, tbl, res)
     return {ptr = res, name = tbl.Name}
 end
 LE3FreeCamera.rebuild = function (object, tbl)
-    LE3FreeCamera.__base.rebuild(object, tbl)
+    return LE3FreeCamera.__base.rebuild(object, tbl)
 end
 LE3FreeCamera.save = function (object)
     local tbl = LE3FreeCamera.__base.save(object)

@@ -7,6 +7,8 @@ LE3Object.load = function (scene, tbl, res)
     LE3Transform.load(LE3Object.get_transform(res), tbl)
     return {ptr = res, name = tbl.Name}
 end
+
+---@return LE3Object
 LE3Object.rebuild = function(object, tbl)
     -- TODO: Rename should be done via another method
     if tbl.Name ~= LE3Object.get_name(object) then
@@ -14,6 +16,7 @@ LE3Object.rebuild = function(object, tbl)
         object = LE3Scene.get_object_global(tbl.Name)
     end
     LE3Transform.rebuild(LE3Object.get_transform(object), tbl)
+    return object
 end
 LE3Object.save = function (object)
     local tbl = {}
