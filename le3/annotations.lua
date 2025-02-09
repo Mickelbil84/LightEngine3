@@ -689,6 +689,15 @@ function LE3Scene.get_object(scene, name) end
 function LE3Scene.get_object_global(name) end
 
 ---@param scene LE3Scene
+---@param oldName string
+---@param newName string
+function LE3Scene.rename_object(scene, oldName, newName) end
+
+---@param oldName string
+---@param newName string
+function LE3Scene.rename_object_global(oldName, newName) end
+
+---@param scene LE3Scene
 ---@param child string
 ---@param parent string
 function LE3Scene.reparent(scene, child, parent) end
