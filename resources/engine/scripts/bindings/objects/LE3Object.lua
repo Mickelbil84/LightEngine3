@@ -11,7 +11,7 @@ end
 ---@return LE3Object
 LE3Object.rebuild = function(object, tbl)
     -- TODO: Rename should be done via another method
-    if tbl.Name ~= LE3Object.get_name(object) then
+    if tbl.Name ~= LE3Object.get_name(object) and not LE3Scene.has_object_global(tbl.Name) then
         LE3Scene.rename_object_global(LE3Object.get_name(object), tbl.Name)
         object = LE3Scene.get_object_global(tbl.Name)
     end
