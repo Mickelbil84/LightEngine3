@@ -8,8 +8,9 @@ LE3StaticModel.load = function (scene, tbl, res)
     return {ptr = res, name = tbl.Name}
 end
 LE3StaticModel.rebuild = function (object, tbl)
-    LE3StaticModel.__base.rebuild(object, tbl)
+    object = LE3StaticModel.__base.rebuild(object, tbl)
     if tbl.MeshName ~= nil and LE3AssetManager.has_static_mesh(tbl.MeshName) then LE3StaticModel.set_mesh(object, tbl.MeshName) end
+    return object
 end
 LE3StaticModel.save = function (object)
     local tbl = LE3StaticModel.__base.save(object)

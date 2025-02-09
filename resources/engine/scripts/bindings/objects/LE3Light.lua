@@ -8,9 +8,10 @@ LE3Light.load = function (scene, tbl, res)
     return {ptr = res, name = tbl.Name}
 end
 LE3Light.rebuild = function (object, tbl)
-    LE3Light.__base.rebuild(object, tbl)
+    object = LE3Light.__base.rebuild(object, tbl)
     if (tbl.Color ~= nil) then LE3Light.set_color(object, table.unpack(tbl.Color)) end
     if (tbl.Intensity ~= nil) then LE3Light.set_intensity(object, tbl.Intensity) end
+    return object
 end
 LE3Light.save = function (object)
     local tbl = LE3Light.__base.save(object)

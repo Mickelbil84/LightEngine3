@@ -8,7 +8,7 @@ LE3Sprite.load = function (scene, tbl, res)
     return {ptr = res, name = tbl.Name}
 end
 LE3Sprite.rebuild = function (object, tbl)
-    LE3Sprite.__base.rebuild(object, tbl)
+    return LE3Sprite.__base.rebuild(object, tbl)
 end
 LE3Sprite.save = function (object)
     local tbl = LE3Sprite.__base.save(object)

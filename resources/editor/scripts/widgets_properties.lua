@@ -4,7 +4,9 @@ _engine_property_change_history_index = 0x17f -- some arbitrary initial magic nu
 function property_change_execute_ticket(ticket)
     local cmd = _engine_property_change_history[ticket]
     if cmd.Type == "object" then 
-        local obj = LE3Scene.get_object_global(cmd.Old.Name)
+        local name = cmd.Old.Name
+        if not LE3Scene.has_object_global(name) then name = cmd.New.Name end -- HOTFIX: first rename
+        local obj = LE3Scene.get_object_global(name)
         _G[cmd.ttype].rebuild(obj, cmd.New)
     else
         cmd.Type.rebuild(cmd.Ptr, cmd.New)

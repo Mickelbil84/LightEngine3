@@ -48,6 +48,16 @@ LE3Gizmo::LE3Gizmo() :
 {
     setDrawPriority(DRAW_PRIORITY_UI);
 }
+void LE3Gizmo::init() {
+    LE3GetEventManager().subscribe(LE3SceneEvents::LE3_EVENT_OBJECT_RENAME, std::dynamic_pointer_cast<LE3Object>(shared_from_this()), [this](void* data) {
+        std::pair<std::string, std::string>* p = reinterpret_cast<std::pair<std::string, std::string>*>(data);
+        if (m_selectObjectsInitialTransform.contains(p->first)) {
+            glm::mat4 transform = m_selectObjectsInitialTransform[p->first];
+            m_selectObjectsInitialTransform.erase(p->first);
+            m_selectObjectsInitialTransform[p->second] = transform;
+        }
+    });
+}
 void LE3Gizmo::draw(LE3ShaderPtr shaderOverride) {
     if (shaderOverride.lock()) return;
     if (m_state == LE3_GIZMO_STATE_DISABLED) return;

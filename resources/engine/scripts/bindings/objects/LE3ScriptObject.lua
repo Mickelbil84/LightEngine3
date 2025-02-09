@@ -16,7 +16,7 @@ LE3ScriptObject.load = function (scene, tbl, res)
     return {ptr = res, name = tbl.Name}
 end
 LE3ScriptObject.rebuild = function (object, tbl)
-    LE3ScriptObject.__base.rebuild(object, tbl)
+    return LE3ScriptObject.__base.rebuild(object, tbl)
 end
 LE3ScriptObject.save = function (object)
     local tbl = LE3ScriptObject.__base.save(object)

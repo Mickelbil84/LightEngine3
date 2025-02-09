@@ -173,6 +173,24 @@ FBIND(LE3Scene, get_object_global)
     PUSH_UDATA(&obj, LE3ObjectPtr);
 FEND()
 
+FBIND(LE3Scene, has_object_global)
+    GET_STRING(name)
+    PUSH_BOOL(LE3GetActiveScene()->getObject(name) != nullptr)
+FEND()
+
+FBIND(LE3Scene, rename_object)
+    GET_UDATA(scene, LE3Scene)
+    GET_STRING(oldName)
+    GET_STRING(newName)
+    scene->renameObject(oldName, newName);
+FEND()
+
+FBIND(LE3Scene, rename_object_global)
+    GET_STRING(oldName)
+    GET_STRING(newName)
+    LE3GetActiveScene()->renameObject(oldName, newName);
+FEND()
+
 // --------
 
 LIB(LE3Scene,
@@ -185,5 +203,6 @@ LIB(LE3Scene,
     get_background_color, set_background_color,
     set_culling,
     delete_object,
-    get_object_global
+    get_object_global, has_object_global,
+    rename_object, rename_object_global
 )

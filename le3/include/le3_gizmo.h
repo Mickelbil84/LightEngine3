@@ -32,6 +32,7 @@ namespace le3 {
         LE3Gizmo();
         LE3_TYPE_RETURN(LE3Gizmo)
         
+        void init();
         void draw(LE3ShaderPtr shaderOverride);    
         void update(float deltaTime);
 

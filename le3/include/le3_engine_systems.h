@@ -10,6 +10,7 @@
 #include "le3_visual_debug.h"
 #include "le3_scene_manager.h"
 #include "le3_editor_manager.h"
+#include "le3_event_manager.h"
 
 namespace le3 {
     // Singleton for various (global) engine systems, which are not specific to any scene
@@ -51,6 +52,7 @@ namespace le3 {
         inline LE3ImGuiUtils& getImGuiUtils() { return g_imGuiUtils; }
         inline LE3SceneManager& getSceneManager() { return g_sceneManager; }
         inline LE3EditorManager& getEditorManager() { return g_editorManager; }
+        inline LE3EventManager& getEventManager() { return g_eventManager; }
         inline bool isHeadless() { return g_headlessEngine; }
         
     private:
@@ -64,6 +66,7 @@ namespace le3 {
         LE3VisualDebug g_visualDebug;
         LE3SceneManager g_sceneManager;
         LE3EditorManager g_editorManager;
+        LE3EventManager g_eventManager;
 
         bool g_headlessEngine;
     };
@@ -75,6 +78,7 @@ namespace le3 {
     #define LE3GetImGuiUtils LE3EngineSystems::instance().getImGuiUtils
     #define LE3GetSceneManager LE3EngineSystems::instance().getSceneManager
     #define LE3GetEditorManager LE3EngineSystems::instance().getEditorManager
+    #define LE3GetEventManager LE3EngineSystems::instance().getEventManager
 
     #define LE3GetActiveScene LE3GetSceneManager().getActiveScene
 }
