@@ -26,6 +26,8 @@ namespace le3 {
     const std::string DEFAULT_DEBUG_SHADER = "S_debug";
     const std::string DEFAULT_GIZMO_SHADER = "S_gizmo";
 
+    const std::string DEFAULT_MATERIAL = "M_default";
+
     const std::string DEFAULT_PCD_SHADER = "S_pcd";
     const std::string DEFAULT_PCD_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_pcd";
 

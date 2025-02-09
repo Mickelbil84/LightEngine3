@@ -32,7 +32,7 @@ void LE3AssetManager::init() {
     m_gErrorTexture = getTexture(ERROR_TEXTURE).lock(); // Same here, etc.
     m_gErrorMaterial = getMaterial(ERROR_MATERIAL).lock();
 
-
+    addShaderFromFile(DEFAULT_SHADER, "/engine/shaders/blinn_phong/blinn_phong.vs", "/engine/shaders/blinn_phong/blinn_phong.fs");
     addShaderFromFile(DEFAULT_POSTPROCESS_SHADER, "/engine/shaders/postprocess/ppvert.vs", "/engine/shaders/postprocess/ppbasic.fs");
     addShaderFromFile(DEFAULT_SHADOWMAP_SHADER, "/engine/shaders/shadowmap/shadowmap.vs", "/engine/shaders/shadowmap/shadowmap.fs");
     addShaderFromFile(DEFAULT_DEBUG_SHADER, "/engine/shaders/debug/debug.vs", "/engine/shaders/debug/debug.fs");
@@ -41,6 +41,7 @@ void LE3AssetManager::init() {
     addShaderFromFile(DEFAULT_SPRITE_SHADER, "/engine/shaders/sprite/sprite.vs", "/engine/shaders/sprite/sprite.fs");
     addShaderFromFile(DEFAULT_PCD_SHADER, "/engine/shaders/pcd/pcd.vs", "/engine/shaders/pcd/pcd.fs");
 
+    addMaterial(DEFAULT_MATERIAL, DEFAULT_SHADER);
     addMaterial(DEFAULT_GIZMO_MATERIAL, DEFAULT_GIZMO_SHADER);
     addMaterial(DEFAULT_SPRITE_MATERIAL, DEFAULT_SPRITE_SHADER);
     addMaterial(DEFAULT_PCD_MATERIAL, DEFAULT_PCD_SHADER);

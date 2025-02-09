@@ -4,7 +4,11 @@ using namespace le3;
 #include <imgui_internal.h>
 
 void LE3EditorToolbox::init() {
-    m_buttons.push_back(LE3EditorToolbarButton("Cube", "icon_newcube"));
+    m_buttons.push_back(LE3EditorToolbarButton("Cube", "icon_newcube", [this]() {
+        std::string name = LE3GetActiveScene()->getNextAvailableName("box_1");
+        LE3GetActiveScene()->addBox(name, DEFAULT_MATERIAL);
+        LE3GetEditorManager().getSelection().selectObject(LE3GetActiveScene()->getObject(name));
+    }));
     m_buttons.push_back(LE3EditorToolbarButton("Sphere", "icon_newsphere"));
     m_buttons.push_back(LE3EditorToolbarButton("Cylinder", "icon_newcylinder"));
     m_buttons.push_back(LE3EditorToolbarButton("Cone", "icon_newcone"));
@@ -24,9 +28,12 @@ void LE3EditorToolbox::update() {
             ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
             continue;
         }
-        ImGui::ImageButton(
+        bool clicked = ImGui::ImageButton(
             button.name.c_str(), 
             LE3GetAssetManager().getTexture(button.iconName).lock()->getTextureID(), 
             ImVec2(LE3ED_TOOLBAR_BUTTON_SIZE, LE3ED_TOOLBAR_BUTTON_SIZE));
+        if (button.onClick && clicked) {
+            button.onClick();
+        }
     }
 }
