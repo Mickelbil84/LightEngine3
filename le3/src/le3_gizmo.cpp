@@ -49,7 +49,6 @@ LE3Gizmo::LE3Gizmo() :
     setDrawPriority(DRAW_PRIORITY_UI);
 }
 void LE3Gizmo::init() {
-    fmt::print("Initializing gizmo\n");
     LE3GetEventManager().subscribe(LE3SceneEvents::LE3_EVENT_OBJECT_RENAME, std::dynamic_pointer_cast<LE3Object>(shared_from_this()), [this](void* data) {
         std::pair<std::string, std::string>* p = reinterpret_cast<std::pair<std::string, std::string>*>(data);
         if (m_selectObjectsInitialTransform.contains(p->first)) {

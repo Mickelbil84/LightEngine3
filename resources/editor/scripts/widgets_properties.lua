@@ -16,7 +16,6 @@ end
 function property_change_undo_ticket(ticket)
     local cmd = _engine_property_change_history[ticket]
     if cmd.Type == "object" then 
-        print("UNDO:: " .. cmd.New.Name .. " " .. cmd.Old.Name)
         local obj = LE3Scene.get_object_global(cmd.New.Name)
         _G[cmd.ttype].rebuild(obj, cmd.Old)
     else
