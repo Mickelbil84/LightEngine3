@@ -6,6 +6,8 @@ function property_change_execute_ticket(ticket)
     if cmd.Type == "object" then 
         local obj = LE3Scene.get_object_global(cmd.Old.Name)
         _G[cmd.ttype].rebuild(obj, cmd.New)
+    else
+        cmd.Type.rebuild(cmd.Ptr, cmd.New)
     end
 end
 
@@ -14,6 +16,17 @@ function property_change_undo_ticket(ticket)
     if cmd.Type == "object" then 
         local obj = LE3Scene.get_object_global(cmd.New.Name)
         _G[cmd.ttype].rebuild(obj, cmd.Old)
+    else
+        cmd.Type.rebuild(cmd.Ptr, cmd.Old)
+    end
+end
+
+local function _publish_command(cmd)
+    if serialize(cmd.Old) ~= serialize(cmd.New) then -- something changed
+        _engine_property_change_history_index = _engine_property_change_history_index + 1
+        local ticket = _engine_property_change_history_index
+        _engine_property_change_history[ticket] = cmd
+        LE3EditorComPropertyChange.addNew(ticket)
     end
 end
 
@@ -46,21 +59,12 @@ function update_object_properties_panel(obj)
     end
 
     local cmd = {}
-    cmd.Name = LE3Object.get_name(obj)
     cmd.Old = _G[ttype].save(obj)
-    
-    _G[ttype].rebuild(obj, tbl)
-
+        _G[ttype].rebuild(obj, tbl)
     cmd.New = _G[ttype].save(obj)
     cmd.Type = "object"
     cmd.ttype = ttype
-
-    if serialize(cmd.Old) ~= serialize(cmd.New) then -- something changed
-        _engine_property_change_history_index = _engine_property_change_history_index + 1
-        local ticket = _engine_property_change_history_index
-        _engine_property_change_history[ticket] = cmd
-        LE3EditorComPropertyChange.addNew(ticket)
-    end
+    _publish_command(cmd)
 
 end
 
@@ -71,7 +75,14 @@ function update_asset_properties_panel(ptr, type)
             show_property(property, tbl)
         end
     end
+
+    local cmd = {}
+    cmd.Ptr = ptr
+    cmd.Old = type.save(ptr)
     type.rebuild(ptr, tbl)
+    cmd.New = type.save(ptr)
+    cmd.Type = type
+    _publish_command(cmd)
 
     ptr = tbl.Name -- in case of renames, update the "pointer"
     if (type.reload ~= nil) then 
