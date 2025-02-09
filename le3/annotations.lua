@@ -684,6 +684,10 @@ function LE3Scene.get_next_available_name(scene, name) end
 ---@return LE3Object
 function LE3Scene.get_object(scene, name) end
 
+---@param name string
+---@return LE3Object
+function LE3Scene.get_object_global(name) end
+
 ---@param scene LE3Scene
 ---@param child string
 ---@param parent string

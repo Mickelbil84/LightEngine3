@@ -1,3 +1,22 @@
+_engine_property_change_history = {}
+_engine_property_change_history_index = 0x17f -- some arbitrary initial magic number (can be anything else, doesn't matter)
+
+function property_change_execute_ticket(ticket)
+    local cmd = _engine_property_change_history[ticket]
+    if cmd.Type == "object" then 
+        local obj = LE3Scene.get_object_global(cmd.Old.Name)
+        _G[cmd.ttype].rebuild(obj, cmd.New)
+    end
+end
+
+function property_change_undo_ticket(ticket)
+    local cmd = _engine_property_change_history[ticket]
+    if cmd.Type == "object" then 
+        local obj = LE3Scene.get_object_global(cmd.New.Name)
+        _G[cmd.ttype].rebuild(obj, cmd.Old)
+    end
+end
+
 function update_object_properties_panel(obj)
     local ttype = LE3Object.get_object_type(obj)
     if _G[ttype] == nil or _G[ttype].save == nil then 
@@ -26,7 +45,23 @@ function update_object_properties_panel(obj)
         ::continue::
     end
 
+    local cmd = {}
+    cmd.Name = LE3Object.get_name(obj)
+    cmd.Old = _G[ttype].save(obj)
+    
     _G[ttype].rebuild(obj, tbl)
+
+    cmd.New = _G[ttype].save(obj)
+    cmd.Type = "object"
+    cmd.ttype = ttype
+
+    if serialize(cmd.Old) ~= serialize(cmd.New) then -- something changed
+        _engine_property_change_history_index = _engine_property_change_history_index + 1
+        local ticket = _engine_property_change_history_index
+        _engine_property_change_history[ticket] = cmd
+        LE3EditorComPropertyChange.addNew(ticket)
+    end
+
 end
 
 function update_asset_properties_panel(ptr, type)
@@ -37,13 +72,10 @@ function update_asset_properties_panel(ptr, type)
         end
     end
     type.rebuild(ptr, tbl)
+
     ptr = tbl.Name -- in case of renames, update the "pointer"
     if (type.reload ~= nil) then 
         if (ImGui.Button("Reload")) then
-            print("!!!!!!!!!!!!")
-            print(type.reload)
-            print("!!!!!!!!!!!!")
-            LE3EditorComPropertyChange.foo()
             type.reload(ptr, tbl)
         end
     end
