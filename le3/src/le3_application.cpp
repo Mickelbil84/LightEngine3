@@ -79,21 +79,27 @@ void LE3Application::handleInput() {
     input.xrel = 0; input.yrel = 0;
     input.bLeftMouseDown = m_lastInput.bLeftMouseDown; input.bRightMouseDown = m_lastInput.bRightMouseDown;
     input.keyDownEvt.clear(); input.keyUpEvt.clear();
+    bool isLeftClick = false; // HOTFIX: fast click might trigger both down and up events, so keep track if down was called
     while (SDL_PollEvent(&e)) {
         if (e.type == SDL_QUIT) m_bShouldRun = false;
         if (e.type == SDL_MOUSEBUTTONDOWN)
         {
-            if (e.button.button == SDL_BUTTON_LEFT)
+            if (e.button.button == SDL_BUTTON_LEFT) {
                 input.bLeftMouseDown = true;
-            if (e.button.button == SDL_BUTTON_RIGHT)
+                isLeftClick = true;
+            }
+            if (e.button.button == SDL_BUTTON_RIGHT) {
                 input.bRightMouseDown = true;
+            }
         }
-        if (e.type == SDL_MOUSEBUTTONUP)
+        else if (e.type == SDL_MOUSEBUTTONUP)
         {
-            if (e.button.button == SDL_BUTTON_LEFT)
+            if (e.button.button == SDL_BUTTON_LEFT) {
                 input.bLeftMouseDown = false;
-            if (e.button.button == SDL_BUTTON_RIGHT)
+            }
+            if (e.button.button == SDL_BUTTON_RIGHT) {
                 input.bRightMouseDown = false;
+            }
         }
 
         if (e.type == SDL_KEYDOWN) {
@@ -122,7 +128,7 @@ void LE3Application::handleInput() {
     SDL_GetMouseState(&input.mouseX, &input.mouseY);
     getKeyboardInput(input);
     // Editor manager should know about mouse state
-    LE3GetEditorManager().setMouseDown(input.bLeftMouseDown);
+    LE3GetEditorManager().setMouseDown(isLeftClick || input.bLeftMouseDown);
     LE3GetEditorManager().setMouseRel(input.xrel, input.yrel);
     // Editor manager should also know about modifier keys
     LE3GetEditorManager().setCtrlDown(input.keys[KEY_LE3_CTRL]);
