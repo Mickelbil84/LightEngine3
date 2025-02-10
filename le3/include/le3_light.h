@@ -42,6 +42,7 @@ namespace le3{
         float intensity;
     };
     using LE3LightPtr = std::shared_ptr<LE3Light>;
+    using LE3LightWeakPtr = std::weak_ptr<LE3Light>;
 
     class LE3AmbientLight : public LE3Light {
     public:
@@ -49,6 +50,7 @@ namespace le3{
         LE3_TYPE_RETURN(LE3AmbientLight)
     };
     using LE3AmbientLightPtr = std::shared_ptr<LE3AmbientLight>;
+    using LE3AmbientLightWeakPtr = std::weak_ptr<LE3AmbientLight>;
 
     class LE3DirectionalLight : public LE3Light, public LE3HasShadows {
     public:
@@ -72,6 +74,7 @@ namespace le3{
         }
     };
     using LE3DirectionalLightPtr = std::shared_ptr<LE3DirectionalLight>;
+    using LE3DirectionalLightWeakPtr = std::weak_ptr<LE3DirectionalLight>;
 
     class LE3PointLight : public LE3Light {
     public:
@@ -95,6 +98,7 @@ namespace le3{
         float attn_const, attn_linear, attn_exp;
     };
     using LE3PointLightPtr = std::shared_ptr<LE3PointLight>;
+    using LE3PointLightWeakPtr = std::weak_ptr<LE3PointLight>;
 
     class LE3SpotLight : public LE3Light, public LE3HasShadows {
     public:
@@ -125,5 +129,6 @@ namespace le3{
         float cutoff, outer_cutoff;
     };
     using LE3SpotLightPtr = std::shared_ptr<LE3SpotLight>;
+    using LE3SpotLightWeakPtr = std::weak_ptr<LE3SpotLight>;
 
 }
