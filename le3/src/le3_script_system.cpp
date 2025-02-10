@@ -66,3 +66,7 @@ void LE3ScriptSystem::callFunction(int numArgs, int numResults) {
 void LE3ScriptSystem::pushValue(int index) {
     lua_pushvalue(L, index);
 }
+
+void LE3ScriptSystem::pop(int cnt) {
+    lua_pop(L, cnt);
+}

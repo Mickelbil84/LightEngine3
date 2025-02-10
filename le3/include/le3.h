@@ -5,6 +5,7 @@
 #include "le3_model.h"
 #include "le3_scene.h"
 #include "le3_camera.h"
+#include "le3_config.h"
 #include "le3_object.h"
 #include "le3_geometry.h"
 #include "le3_networking.h"

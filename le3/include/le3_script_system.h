@@ -50,6 +50,8 @@ namespace le3 {
         void callFunction(int numArgs, int numResults);
         void pushValue(int index);
 
+        void pop(int cnt);
+
         // Use with caution!
         lua_State* getLuaState() { return L; }
 
