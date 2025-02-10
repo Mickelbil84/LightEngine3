@@ -42,9 +42,9 @@ namespace le3 {
         template<> static double getValue<double>() {
             return LE3GetScriptSystem().getNumber(-1);
         }
-        template<> static bool getValue<bool>() {
-            return LE3GetScriptSystem().getBool(-1);
-        }
+        // template<> static bool getValue<bool>() {
+        //     return LE3GetScriptSystem().getBool(-1);
+        // } // Commented out since Ubuntu gcc apparently does not like that
         template<> static std::string getValue<std::string>() {
             return LE3GetScriptSystem().getString(-1);
         }
