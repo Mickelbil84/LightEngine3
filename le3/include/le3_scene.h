@@ -62,6 +62,7 @@ namespace le3 {
         void drawObjects(LE3ShaderPtr shaderOverride = LE3ShaderPtr(), LE3FramebufferPtr buffer = nullptr, bool depth = true, bool shadowPhase = false);
         void drawObjectIDs();
         void drawPostProcess();
+        void setPostProcessShader(LE3ShaderPtr shader) { m_postProcessShader = shader; }
 
         void rebuild(); // Call whenever major structural changes happen to scene graph (like shader change/deletion)
 
@@ -137,6 +138,7 @@ namespace le3 {
         glm::vec3 getCursorLocation();
 
         std::function<void()> drawDebug = nullptr;
+        std::function<void(LE3ShaderPtr pPostProcessShader)> postProcessUniforms = nullptr;
 
         void propagateDeleteMaterial(std::string name); // Fix material pointers on deletion
 

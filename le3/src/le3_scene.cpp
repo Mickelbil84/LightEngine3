@@ -175,7 +175,15 @@ void LE3Scene::drawPostProcess() {
     glViewport(0, 0, m_postProcessBuffer->getWidth(), m_postProcessBuffer->getHeight());
 
     m_postProcessShader.lock()->use();
+
     m_rawBuffer->useColorTexture();
+    m_postProcessShader.lock()->uniform("screenTexture", (unsigned int)0);
+
+    m_objectIdsBuffer->useColorTexture(1);
+    m_postProcessShader.lock()->uniform("objectIdTexture", (unsigned int)1);
+
+    if (postProcessUniforms) postProcessUniforms(m_postProcessShader.lock());
+
     LE3GetAssetManager().getScreenRect()->draw();
 }
 

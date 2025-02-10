@@ -60,26 +60,53 @@ void LE3EditorScenes::initCameras() {
     // Offset cameras
     LE3GetSceneManager().getScene("scene")->getMainCamera()->getTransform().setPosition(glm::vec3(0.f, 0.5f, 5.f));
 }
-void LE3EditorScenes::initScenes() {
+void LE3EditorScenes::initScenes() {    
     LE3GetSceneManager().createScene("scene", m_engineState);
     LE3GetSceneManager().getScene("scene")->setRenderDirectly(false);
     LE3GetSceneManager().getScene("scene")->resize(10, 10);
     LE3GetSceneManager().getScene("scene")->drawDebug = [this]() { this->renderDebug(); };
     LE3GetSceneManager().getScene("scene")->setBackgroundColor(glm::vec3(0.7f));
 
+    LE3GetSceneManager().getScene("scene")->postProcessUniforms = [](LE3ShaderPtr shader) {
+        for (int i = 0; i < 128; i++) {
+            if (i >= LE3GetEditorManager().getSelection().pObjects.size()) {
+                shader.lock()->uniform(fmt::format("selectedIds[{}]", i), (unsigned int)0);
+                continue;
+            }
+            LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObjects[i].lock();
+            if (!pObject) {
+                shader.lock()->uniform(fmt::format("selectedIds[{}]", i), (unsigned int)0);
+                continue;
+            }
+            LE3DrawableObjectPtr pDrawableObject = std::dynamic_pointer_cast<LE3DrawableObject>(pObject);
+            if (!pDrawableObject) {
+                shader.lock()->uniform(fmt::format("selectedIds[{}]", i), (unsigned int)0);
+                continue;
+            }
+            shader.lock()->uniform(fmt::format("selectedIds[{}]", i), pDrawableObject->getDrawID());
+        }
+    };
+    
     // Add four inspector scenes
     for (int i = 0; i < 4; i++) {
         // TODO: Add ortographic cameras
         LE3GetSceneManager().createInspectedScene(fmt::format("inspector{}", i), m_engineState, "scene");
         LE3GetSceneManager().getScene(fmt::format("inspector{}", i))->setRenderDirectly(false);
     }
-
+    
     // TODO: TEMP
     // Load all demo scripts
     for (auto script : LE3GetDatFileSystem().getFilesFromDir("/demos/scripts/racing_shooter")) {
         LE3GetScriptSystem().doFile(script);
     }
     LE3GetSceneManager().getScene("scene")->load("/demos/scenes/racing_shooter.lua");
+
+
+    // Load post process shader
+    LE3GetAssetManager().addShaderFromFile(DEFAULT_ENGINE_PREFIX + "S_le3edpp", "/engine/shaders/postprocess/ppvert.vs", "/editor/shaders/le3edpp.fs");
+    for (auto& [k, scene] : LE3GetSceneManager().getScenes()) {
+        scene->setPostProcessShader(LE3GetAssetManager().getShader(DEFAULT_ENGINE_PREFIX + "S_le3edpp"));
+    }
 }
 void LE3EditorScenes::initGizmo() {
     LE3GizmoPtr gizmo = std::make_shared<LE3Gizmo>();
