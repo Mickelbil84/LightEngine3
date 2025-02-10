@@ -314,6 +314,59 @@ std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createTorus(float x0, float y0, float z
     return std::make_shared<LE3StaticMesh>(buffer);
 }
 
+std::vector<LE3Vertex> le3::_createSphereBuffer(float x0, float y0, float z0, float radius, int resolution) {
+    std::vector<LE3Vertex> buffer;
+    std::vector<LE3Vertex> firstLayer, secondLayer;
+    resolution += 1;
+
+    for (int i = 0; i <= resolution; i++)
+    {
+        float theta = (float) (i % resolution) / (float)(resolution - 1) * 3.14159265f - 3.14159265f / 2.f;
+        secondLayer.clear();
+        for (int j = 0; j <= resolution; j++)
+        {
+            float phi = (float) (j % resolution) / (float) (resolution - 1) * 2 * 3.14159265f;
+            glm::vec3 pos(
+                radius * cosf(theta) * cosf(phi) + x0,
+                radius * sinf(theta) + y0,
+                radius * cosf(theta) * sinf(phi) + z0
+            );
+            glm::vec2 uv(0.5f * theta / 3.14159265f, 0.5f * phi / 3.14159265f);
+            if (i == 0 || i == (resolution-1))
+                uv.x += 0.001f;
+            glm::vec3 normal(
+                cosf(theta) * cosf(phi),
+                sinf(theta),
+                cosf(theta) * sinf(phi)
+            );
+            secondLayer.push_back(vertexFromGLM(pos, uv, normal));
+        }
+
+        if (i > 0)
+        {
+            for (int k = 0; k < resolution; k++)
+            {
+                buffer.push_back(firstLayer[k]);
+                buffer.push_back(firstLayer[k+1]); 
+                buffer.push_back(secondLayer[k]);
+                buffer.push_back(firstLayer[k+1]); 
+                buffer.push_back(secondLayer[k]); 
+                buffer.push_back(secondLayer[k+1]);
+            }
+        }
+
+        firstLayer.clear();
+        for (int k = 0; k <= resolution; firstLayer.push_back(secondLayer[k++]));
+    }
+
+    return buffer;
+}
+
+std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createSphere(float x0, float y0, float z0, float radius, int resolution) {
+    std::vector<LE3Vertex> buffer = le3::_createSphereBuffer(x0, y0, z0, radius, resolution);
+    return std::make_shared<LE3StaticMesh>(buffer);
+}
+
 
 std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugCone() {
     std::vector<LE3Vertex> tmpBuffer = le3::_createConeBuffer(0.f, 0.f, 0.f, 1.f, 1.f, 8, true);

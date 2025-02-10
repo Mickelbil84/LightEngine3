@@ -204,6 +204,10 @@ void LE3Scene::addTorus(std::string name, std::string materialName, glm::vec3 po
     addCustomObject(name, obj, parent);
 }
 
+void LE3Scene::addSphere(std::string name, std::string materialName, glm::vec3 position, float radius, int resolution, std::string parent) {
+    LE3SpherePtr obj = std::make_shared<LE3Sphere>(position.x, position.y, position.z, radius, resolution, LE3GetAssetManager().getMaterial(materialName)); // TODO: engine default shader + material
+    addCustomObject(name, obj, parent);
+}
 
 void LE3Scene::addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent, LE3DrawPriority priority) {
     LE3StaticMeshPtr mesh; 

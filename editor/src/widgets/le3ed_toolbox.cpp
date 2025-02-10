@@ -10,9 +10,9 @@ void LE3EditorToolbox::init() {
         LE3GetEditorManager().getSelection().selectObject(LE3GetActiveScene()->getObject(name));
     }));
     m_buttons.push_back(LE3EditorToolbarButton("Sphere", "icon_newsphere", [this]() {
-        // std::string name = LE3GetActiveScene()->getNextAvailableName("sphere_0");
-        // LE3GetActiveScene()->addSphere(name, DEFAULT_MATERIAL);
-        // LE3GetEditorManager().getSelection().selectObject(LE3GetActiveScene()->getObject(name));
+        std::string name = LE3GetActiveScene()->getNextAvailableName("sphere_0");
+        LE3GetActiveScene()->addSphere(name, DEFAULT_MATERIAL);
+        LE3GetEditorManager().getSelection().selectObject(LE3GetActiveScene()->getObject(name));
     }));
     m_buttons.push_back(LE3EditorToolbarButton("Cylinder", "icon_newcylinder", [this]() {
         std::string name = LE3GetActiveScene()->getNextAvailableName("cylinder_0");
