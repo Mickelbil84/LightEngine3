@@ -127,6 +127,7 @@ namespace le3 {
         void setCulling(bool culling) { m_bCulling = culling; }
         int getWidth() const { return m_width; }
         int getHeight() const { return m_height; }
+        void setLightSpriteVisibility(bool bVisible) { m_sceneGraph->m_lightManager.setLightSpriteVisibility(bVisible); }
 
         std::string getNextAvailableName(std::string objectName);
 
