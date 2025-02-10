@@ -61,6 +61,7 @@ namespace le3 {
         void drawLights();
         void drawObjects(LE3ShaderPtr shaderOverride = LE3ShaderPtr(), LE3FramebufferPtr buffer = nullptr, bool depth = true, bool shadowPhase = false);
         void drawObjectIDs();
+        void drawSelected();
         void drawPostProcess();
         void setPostProcessShader(LE3ShaderPtr shader) { m_postProcessShader = shader; }
 
@@ -154,7 +155,7 @@ namespace le3 {
         glm::vec3 m_backgroundColor = glm::vec3(1.f);
         bool m_bCulling = false;
 
-        LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer, m_objectIdsBuffer;
+        LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer, m_objectIdsBuffer, m_selectedObjectsBuffer;
         LE3ShaderPtr m_postProcessShader;
         int m_width, m_height;
         int m_offsetX = 0, m_offsetY = 0;

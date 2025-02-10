@@ -33,6 +33,9 @@ namespace le3 {
         inline bool isHidden() const { return m_bHidden; }
         inline void setHidden(bool hidden) { m_bHidden = hidden; }
 
+        inline bool isSelected() const { return m_bSelected; }
+        inline void setSelected(bool selected) { m_bSelected = selected; }
+
         inline bool getCastShadow() const { return m_bCastShadow; }
         inline void setCastShadow(bool castShadow) { m_bCastShadow = castShadow; }
 
@@ -42,7 +45,7 @@ namespace le3 {
     protected:
         LE3MaterialPtr m_pMaterial;
         LE3DrawPriority m_drawPriority;
-        bool m_bHidden, m_bCastShadow;
+        bool m_bHidden, m_bCastShadow, m_bSelected;
         uint32_t m_drawID;
     };
     using LE3DrawableObjectPtr = std::shared_ptr<LE3DrawableObject>;

@@ -4,7 +4,7 @@ out vec4 fColor;
 in vec2 uv;
 
 uniform sampler2D screenTexture;
-uniform sampler2D objectIdTexture;
+uniform sampler2D selectedTexture;
 
 uniform int selectedIds[128];
 
@@ -31,26 +31,12 @@ float kernel[9] = float[](
 //     0, 0, 0
 // );
 
-
-vec3 getSelectedObjectIdColor(vec2 offset) {
-    vec3 tmp = vec3(texture(objectIdTexture, uv.st + offset)) * 255;
-    int oid = int(tmp.r) + int(tmp.g) * 256 + int(tmp.b) * 256 * 256;
-    for (int i = 0; i < 128; i++) {
-        if (selectedIds[i] == 0) continue;
-        if (selectedIds[i] == oid) {
-            return vec3(1.0, 1.0, 1.0);
-        }
-    }
-    return vec3(0.0, 0.0, 0.0);
-}
-
-
 void main()
 { 
     // Post process effect
     vec3 sampleTex[9];
     for(int i = 0; i < 9; i++)
-        sampleTex[i] = getSelectedObjectIdColor(offsets[i]);
+        sampleTex[i] = vec3(texture(selectedTexture, uv.st + offsets[i]));
     vec3 col = vec3(0.0);
     for(int i = 0; i < 9; i++)
         col += sampleTex[i] * kernel[i];
@@ -61,6 +47,6 @@ void main()
     // Original color
     vec3 orgColor = vec3(texture(screenTexture, uv));
 
-    vec3 finalColor = orgColor * (1.0 - col) + vec3(245.0, 164.0, 83.0) * col / 255.0;
+    vec3 finalColor = orgColor * (1.0 - col) + vec3(245.0, 164.0, 83.0) * col / 255.0; // TODO: Move to engine config
     fColor = vec4(finalColor, 1.0);
 }

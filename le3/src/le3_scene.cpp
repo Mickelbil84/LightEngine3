@@ -53,6 +53,7 @@ void LE3Scene::resize(int width, int height)
     m_width = width; m_height = height;
     m_rawBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_objectIdsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
+    m_selectedObjectsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_postProcessBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     if (m_pMainCamera) {
         m_pMainCamera->setAspectRatio((float)m_width / (float)m_height);
@@ -86,6 +87,7 @@ void LE3Scene::draw() {
     // Draw the scene, but only rendering object IDs
     drawObjectIDs();
     updateHoveredObject();
+    drawSelected();
 
     // Draw the scene as is
     // Also, one of the objects might try to do visual debug, so set the active camera
@@ -164,6 +166,29 @@ void LE3Scene::drawObjectIDs() {
     setBackgroundColor(bacgroundColor);
 }
 
+void LE3Scene::drawSelected() {
+    // Set all non-selected objects to be hidden (but store original hidden value)
+    std::map<std::string, bool> hiddenValues;
+    for (auto kv : m_sceneGraph->m_pObjects) {
+        if (auto drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(kv.second)) {
+            hiddenValues[kv.first] = drawableObj->isHidden();
+            drawableObj->setHidden(!drawableObj->isSelected());
+        }
+    }
+
+    glm::vec3 bacgroundColor = getBackgroundColor();
+    setBackgroundColor(glm::vec3(0.f));
+    drawObjects(LE3GetAssetManager().getShader(DEFAULT_OBJECTID_SHADER), m_selectedObjectsBuffer, true, false);
+    setBackgroundColor(bacgroundColor);
+
+    // Restore original hidden values
+    for (auto kv : m_sceneGraph->m_pObjects) {
+        if (auto drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(kv.second)) {
+            drawableObj->setHidden(hiddenValues[kv.first]);
+        }
+    }
+}
+
 void LE3Scene::drawPostProcess() {
     if (!m_postProcessShader.lock()) return;
     
@@ -178,9 +203,10 @@ void LE3Scene::drawPostProcess() {
 
     m_rawBuffer->useColorTexture();
     m_postProcessShader.lock()->uniform("screenTexture", (unsigned int)0);
-
     m_objectIdsBuffer->useColorTexture(1);
     m_postProcessShader.lock()->uniform("objectIdTexture", (unsigned int)1);
+    m_selectedObjectsBuffer->useColorTexture(2);
+    m_postProcessShader.lock()->uniform("selectedTexture", (unsigned int)2);
 
     if (postProcessUniforms) postProcessUniforms(m_postProcessShader.lock());
 

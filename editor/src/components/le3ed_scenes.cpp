@@ -38,6 +38,27 @@ void LE3EditorScenes::update(float deltaTime) {
     for (auto& [k, scene] : LE3GetSceneManager().getScenes()) {
         scene->setLightSpriteVisibility(true);
     }
+
+    // Set objects' selected status
+    for (auto& [name, obj] : LE3GetActiveScene()->getObjects()) {
+        LE3DrawableObjectPtr pObject = std::dynamic_pointer_cast<LE3DrawableObject>(obj);
+        if (!pObject) continue;
+        pObject->setSelected(false);
+    }
+    for (int i = 0; i < LE3GetEditorManager().getSelection().pObjects.size(); i++) {
+        std::vector<LE3ObjectPtr> queue;
+        if (!LE3GetEditorManager().getSelection().pObjects[i].lock()) continue;
+        queue.push_back(LE3GetEditorManager().getSelection().pObjects[i].lock());
+        while (!queue.empty()) {
+            LE3ObjectPtr pObject = queue.back();
+            queue.pop_back();
+            LE3DrawableObjectPtr pDrawableObject = std::dynamic_pointer_cast<LE3DrawableObject>(pObject);
+            if (pDrawableObject) pDrawableObject->setSelected(true);
+            for (auto& child : pObject->getChildren()) {
+                queue.push_back(child);
+            }
+        }
+    }
 }
 void LE3EditorScenes::render() {
     LE3GetSceneManager().getScene("scene")->draw();
@@ -66,26 +87,6 @@ void LE3EditorScenes::initScenes() {
     LE3GetSceneManager().getScene("scene")->resize(10, 10);
     LE3GetSceneManager().getScene("scene")->drawDebug = [this]() { this->renderDebug(); };
     LE3GetSceneManager().getScene("scene")->setBackgroundColor(glm::vec3(0.7f));
-
-    LE3GetSceneManager().getScene("scene")->postProcessUniforms = [](LE3ShaderPtr shader) {
-        for (int i = 0; i < 128; i++) {
-            if (i >= LE3GetEditorManager().getSelection().pObjects.size()) {
-                shader.lock()->uniform(fmt::format("selectedIds[{}]", i), (unsigned int)0);
-                continue;
-            }
-            LE3ObjectPtr pObject = LE3GetEditorManager().getSelection().pObjects[i].lock();
-            if (!pObject) {
-                shader.lock()->uniform(fmt::format("selectedIds[{}]", i), (unsigned int)0);
-                continue;
-            }
-            LE3DrawableObjectPtr pDrawableObject = std::dynamic_pointer_cast<LE3DrawableObject>(pObject);
-            if (!pDrawableObject) {
-                shader.lock()->uniform(fmt::format("selectedIds[{}]", i), (unsigned int)0);
-                continue;
-            }
-            shader.lock()->uniform(fmt::format("selectedIds[{}]", i), pDrawableObject->getDrawID());
-        }
-    };
     
     // Add four inspector scenes
     for (int i = 0; i < 4; i++) {
