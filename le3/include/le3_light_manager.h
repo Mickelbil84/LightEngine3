@@ -20,6 +20,8 @@ namespace le3 {
 
         void renderLights(LE3ShaderPtr pShader, glm::vec3 cameraPos);
 
+        void setLightSpriteVisibility(bool bVisible);
+
     private:
         LE3AmbientLightWeakPtr m_pAmbientLight;
         std::vector<LE3DirectionalLightWeakPtr> m_pDirectionalLights;

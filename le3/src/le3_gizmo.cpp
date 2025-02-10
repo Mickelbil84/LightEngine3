@@ -244,32 +244,24 @@ void LE3Gizmo::updateStateIdle(float deltaTime) {
     // Gizmo hover update
     m_hoveredAxis = getHoveredAxis();
 
-
+    // Gizmo drag initialization handling (if hover)
+    if (isMouseDown() && m_hoveredAxis != LE3_GIZMO_AXIS_NONE) {
+        m_state = LE3_GIZMO_STATE_DRAGGING;    
+        m_dragCursortStart = glm::vec2(LE3GetActiveScene()->getCursorLocation());
+        m_selectObjectsInitialTransform.clear();
+        for (auto pObjectWeak : LE3GetEditorManager().getSelection().pObjects) {
+            LE3ObjectPtr pObject = pObjectWeak.lock();
+            if (!pObject) continue;
+            m_selectObjectsInitialTransform[pObject->getName()] = pObject->getTransform().getTransformMatrix();
+        }
+    }
     // Re-select (if no hover)
-    if (
+    else if (
         isMouseDown() &&
         m_hoveredAxis == LE3_GIZMO_AXIS_NONE) {
         bool bReset = !LE3GetEditorManager().isCtrlDown();
         LE3GetEditorManager().getSelection().selectObject(LE3GetEditorManager().getHoveredObject(), bReset);
         setHidden(true); // After selection, hide gizmo and only show after the position was updated
-    }
-
-    // Gizmo drag initialization handling (if hover)
-    if (isMouseDown() && m_hoveredAxis != LE3_GIZMO_AXIS_NONE) {
-        m_dragFrames++;
-        if (m_dragFrames > 3) {
-            m_state = LE3_GIZMO_STATE_DRAGGING;    
-            m_dragCursortStart = glm::vec2(LE3GetActiveScene()->getCursorLocation());
-            m_selectObjectsInitialTransform.clear();
-            for (auto pObjectWeak : LE3GetEditorManager().getSelection().pObjects) {
-                LE3ObjectPtr pObject = pObjectWeak.lock();
-                if (!pObject) continue;
-                m_selectObjectsInitialTransform[pObject->getName()] = pObject->getTransform().getTransformMatrix();
-            }
-        }
-    }
-    if (!isMouseDown()) {
-        m_dragFrames = 0;
     }
 }
 void LE3Gizmo::updateStateDragging(float deltaTime) {

@@ -1,4 +1,5 @@
 #include "le3_light_manager.h"
+#include "le3_engine_systems.h"
 using namespace le3;
 
 #ifdef __linux__
@@ -103,4 +104,42 @@ void LE3LightManager::renderSpotLights(LE3ShaderPtr pShaderWeak) {
 
     // Remove lights that are no longer valid
     m_pSpotLights.erase(std::remove_if(m_pSpotLights.begin(), m_pSpotLights.end(), [](std::weak_ptr<LE3SpotLight> pLight) { return pLight.expired(); }), m_pSpotLights.end());
+}
+
+void LE3LightManager::setLightSpriteVisibility(bool bVisible) {
+    if (!m_pAmbientLight.expired()) {
+        LE3AmbientLightPtr pAmbientLight = m_pAmbientLight.lock();
+        for (auto& child : pAmbientLight->getChildren()) {
+            if (child->getName().starts_with(DEFAULT_ENGINE_PREFIX + "_sprite_")) {
+                std::dynamic_pointer_cast<LE3DrawableObject>(child)->setHidden(!bVisible);
+            }
+        }
+    }
+    for (auto pLight : m_pDirectionalLights) {
+        LE3DirectionalLightPtr pDirectionalLight = pLight.lock();
+        if (!pDirectionalLight) continue;
+        for (auto& child : pDirectionalLight->getChildren()) {
+            if (child->getName().starts_with(DEFAULT_ENGINE_PREFIX + "_sprite_")) {
+                std::dynamic_pointer_cast<LE3DrawableObject>(child)->setHidden(!bVisible);
+            }
+        }
+    }
+    for (auto pLight : m_pPointLights) {
+        LE3PointLightPtr pPointLight = pLight.lock();
+        if (!pPointLight) continue;
+        for (auto& child : pPointLight->getChildren()) {
+            if (child->getName().starts_with(DEFAULT_ENGINE_PREFIX + "_sprite_")) {
+                std::dynamic_pointer_cast<LE3DrawableObject>(child)->setHidden(!bVisible);
+            }
+        }
+    }
+    for (auto pLight : m_pSpotLights) {
+        LE3SpotLightPtr pSpotLight = pLight.lock();
+        if (!pSpotLight) continue;
+        for (auto& child : pSpotLight->getChildren()) {
+            if (child->getName().starts_with(DEFAULT_ENGINE_PREFIX + "_sprite_")) {
+                std::dynamic_pointer_cast<LE3DrawableObject>(child)->setHidden(!bVisible);
+            }
+        }
+    }
 }

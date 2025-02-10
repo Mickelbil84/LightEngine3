@@ -33,6 +33,11 @@ void LE3EditorScenes::update(float deltaTime) {
 
 
     LE3GetSceneManager().updateScenes(deltaTime);
+
+    // Set light sprite visibility
+    for (auto& [k, scene] : LE3GetSceneManager().getScenes()) {
+        scene->setLightSpriteVisibility(true);
+    }
 }
 void LE3EditorScenes::render() {
     LE3GetSceneManager().getScene("scene")->draw();
