@@ -70,7 +70,7 @@ void main()
 
     gl_Position = projection * view * model * position;
     texCoord = vTexCoord;
-    posCoord = vec3(model * position);
+    posCoord = vec3(model * vec4(position.xyz, 1.0));
     
     for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
         dirLightPosCoord[i] = dirLightViewMatrix[i] * vec4(posCoord, 1.0);
