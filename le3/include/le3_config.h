@@ -22,7 +22,6 @@ namespace le3 {
             /////////////////////////////////////
             LE3GetScriptSystem().getGlobal("LE3EngineConfig");
             for (auto k : keys) {
-                fmt::print("Getting field: {}\n", k);
                 LE3GetScriptSystem().getField(k);
             }
             T res = getValue<T>();
