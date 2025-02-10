@@ -107,14 +107,18 @@ void LE3Scene::drawLights() {
     GLuint shadowMapIdx = SHADOW_MAP_INDEX;
     glm::vec3 cameraPos = m_pMainCamera->getWorldMatrix()[3];
     std::shared_ptr<LE3Shader> shadowmapShader = LE3GetAssetManager().getShader(DEFAULT_SHADOWMAP_SHADER).lock();
-    for (auto light : m_sceneGraph->m_lightManager.getDirectionalLights()) {
+    for (auto lightWeak : m_sceneGraph->m_lightManager.getDirectionalLights()) {
+        auto light = lightWeak.lock();
+        if (!light) continue;
         if (!light->getShadowMap()) continue;
         shadowmapShader->use();
         shadowmapShader->uniform("lightMatrix", light->getViewMatrix(cameraPos));
         drawObjects(shadowmapShader, light->getShadowMap(), true, true);
         light->getShadowMap()->setBindIdx(shadowMapIdx++);
     }
-    for (auto light : m_sceneGraph->m_lightManager.getSpotLights()) {
+    for (auto lightWeak : m_sceneGraph->m_lightManager.getSpotLights()) {
+        auto light = lightWeak.lock();
+        if (!light) continue;
         if (!light->getShadowMap()) continue;
         shadowmapShader->use();
         shadowmapShader->uniform("lightMatrix", light->getViewMatrix());
@@ -204,6 +208,10 @@ void LE3Scene::addTorus(std::string name, std::string materialName, glm::vec3 po
     addCustomObject(name, obj, parent);
 }
 
+void LE3Scene::addSphere(std::string name, std::string materialName, glm::vec3 position, float radius, int resolution, std::string parent) {
+    LE3SpherePtr obj = std::make_shared<LE3Sphere>(position.x, position.y, position.z, radius, resolution, LE3GetAssetManager().getMaterial(materialName)); // TODO: engine default shader + material
+    addCustomObject(name, obj, parent);
+}
 
 void LE3Scene::addStaticModel(std::string name, std::string meshName, std::string materialName, std::string parent, LE3DrawPriority priority) {
     LE3StaticMeshPtr mesh; 

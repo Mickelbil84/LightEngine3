@@ -1,10 +1,5 @@
 Scene = {}
 Scene.Shaders = {
-    {
-        Name = "S_default",
-        VertexSource = "/engine/shaders/blinn_phong/blinn_phong.vs",
-        FragmentSource = "/engine/shaders/blinn_phong/blinn_phong.fs"
-    }
 }
 Scene.Textures = {
     {
@@ -53,12 +48,6 @@ Scene.Textures = {
     },
 }
 Scene.Materials = {
-    {
-        Name = "M_default",
-        ShaderName = "S_default",
-        DiffuseColor = {0.8, 0.8, 0.8, 1.0},
-        SpecularIntensity = 0.0
-    },
     {
         Name = "M_wheel",
         ShaderName = "S_default",
