@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
 
+# Before anything else, use vcpkg with Windows systems
+if (WIN32)
+    set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake CACHE STRING "")
+endif()
+
+
 ##########################
 # Default compile options
 ##########################
