@@ -4,12 +4,16 @@
 using namespace le3;
 
 LE3ScriptSystem::LE3ScriptSystem() {
-    L = luaL_newstate();
-    luaL_openlibs(L);
-    bindLE3Types(L);
+    reset();
 }
 LE3ScriptSystem::~LE3ScriptSystem() {
     if (L) lua_close(L);
+}
+void LE3ScriptSystem::reset() {
+    if (L) lua_close(L);
+    L = luaL_newstate();
+    luaL_openlibs(L);
+    bindLE3Types(L);
 }
 
 void LE3ScriptSystem::doString(std::string code) {

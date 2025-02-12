@@ -19,6 +19,7 @@ namespace le3 {
     public:
         LE3ScriptSystem();
         ~LE3ScriptSystem();
+        void reset();
 
         void doString(std::string code);
         void doFile(std::string filename);
