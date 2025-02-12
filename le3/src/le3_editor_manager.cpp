@@ -105,3 +105,20 @@ void LE3EditorCommandStack::redo() {
     m_pCommands[m_stackTop]->execute();
     m_stackTop++;
 }
+
+void LE3EditorManager::reset() {
+    m_selection.onSelect = [this](LE3EditorSelection& selection) {
+    };
+
+    m_bMouseDown = false; m_bCtrlDown = false; m_bShiftDown = false; m_bAltDown = false;
+    m_bActiveEdit = false; m_bEditBlocked = false;
+    m_xrel = 0; m_yrel = 0;
+
+    m_pHoveredObject.reset();
+    m_pGizmo = nullptr;
+    m_selection.reset();
+    m_snap = LE3EditorSnap();
+    m_commandStack.reset();
+    m_bPauseSceneUpdates = false;
+    m_selectedFile = "";
+}
