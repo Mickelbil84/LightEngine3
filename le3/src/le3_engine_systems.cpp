@@ -7,12 +7,12 @@ LE3EngineSystems& LE3EngineSystems::instance() {
 }
 
 void LE3EngineSystems::reset() {
-    // g_datFilesystem = LE3DatFileSystem();
-    g_scriptSystem = LE3ScriptSystem();
-    g_imGuiUtils = LE3ImGuiUtils();
-    g_assetManager = LE3AssetManager();
-    g_visualDebug = LE3VisualDebug();
-    g_sceneManager = LE3SceneManager();
-    g_editorManager = LE3EditorManager();
-    g_eventManager = LE3EventManager();
+    g_datFilesystem.reset();
+    // g_scriptSystem.reset();
+    // g_imGuiUtils.reset();
+    // g_assetManager.reset();
+    // g_visualDebug.reset();
+    // g_sceneManager.reset();
+    // g_editorManager.reset();
+    // g_eventManager.reset();
 }

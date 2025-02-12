@@ -13,7 +13,7 @@ namespace le3 {
     class LE3DatFileSystem {
     public:
         LE3DatFileSystem();
-        ~LE3DatFileSystem();
+        void reset();
 
         void addArchive(std::string archiveName, std::string archivePath);
         

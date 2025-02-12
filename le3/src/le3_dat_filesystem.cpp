@@ -8,16 +8,17 @@ using namespace le3;
 #include <queue>
 
 LE3DatFileSystem::LE3DatFileSystem() {
+    reset();
+}
+void LE3DatFileSystem::reset() {
+    m_archives.clear();
+    m_archiveNames.clear();
     m_fileNodes[""] = LE3DatFileNode();
     m_rootDir = &m_fileNodes[""];
     m_rootDir->archiveName = "";
     m_rootDir->parent = nullptr;
     m_rootDir->isDirectory = true;
     m_rootDir->path = "";
-}
-LE3DatFileSystem::~LE3DatFileSystem() {
-    m_archives.clear();
-    fmt::print("LE3DatFileSystem destroyed\n");
 }
 
 void LE3DatFileSystem::addArchive(std::string archiveName, std::string archivePath) {
