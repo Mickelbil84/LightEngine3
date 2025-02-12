@@ -31,6 +31,13 @@ void LE3EditorGUI::update(float deltaTime) {
             }
             if (ImGui::MenuItem("Save as..")) { 
             }
+            ImGui::Separator();
+            if (ImGui::MenuItem("Close Project")) {
+                LE3EngineSystems::instance().requestReset();
+            }
+            if (ImGui::MenuItem("Exit")) {
+                m_engineState.notifyWantsQuit();
+            }
         ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();

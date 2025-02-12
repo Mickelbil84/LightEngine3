@@ -16,6 +16,8 @@ void LE3EngineSystems::reset() {
     g_editorManager.reset();
     g_eventManager.reset();
     
-    preload(g_headlessEngine);
-    init();
+    // preload(g_headlessEngine);
+    // init();
+
+    g_requestReset = false;
 }

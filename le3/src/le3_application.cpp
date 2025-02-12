@@ -45,7 +45,8 @@ LE3Application::LE3Application() {
 
 void LE3Application::run() {
     init();
-    while(m_bShouldRun) {
+
+    while(m_bShouldRun && !LE3EngineSystems::instance().isRequestingReset()) {
         _handleNotifys();
         handleInput();
         update();
@@ -70,7 +71,6 @@ void LE3Application::init() {
     _initOpenGL();
     _initImGui();
     LE3EngineSystems::instance().init();
-    LE3EngineSystems::instance().reset();
     m_pGameLogic->init();
 }
 

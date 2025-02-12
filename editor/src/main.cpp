@@ -3,7 +3,11 @@
 using namespace le3;
 
 int main() {
-    LE3Application app(std::make_unique<LE3EditorLogic>());
-    app.run();
+    do {
+        if (LE3EngineSystems::instance().isRequestingReset()) LE3EngineSystems::instance().reset();
+        LE3Application app(std::make_unique<LE3EditorLogic>());
+        app.run();
+        fmt::print("Request reset: {}\n", LE3EngineSystems::instance().isRequestingReset());
+    } while(LE3EngineSystems::instance().isRequestingReset());
     return 0;
 }

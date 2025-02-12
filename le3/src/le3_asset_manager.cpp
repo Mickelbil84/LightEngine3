@@ -79,8 +79,6 @@ void LE3AssetManager::reset() {
     m_lastDeletedTexture = ""; 
     m_lastDeletedMaterial = ""; 
     m_lastDeletedStaticMesh = ""; m_lastDeletedSkeletalMesh = "";
-
-    init();
 }
 
 void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {
