@@ -12,7 +12,7 @@ void LE3EngineSystems::reset() {
     g_imGuiUtils.reset();
     g_assetManager.reset();
     g_visualDebug.reset();
-    // g_sceneManager.reset();
+    g_sceneManager.reset();
     // g_editorManager.reset();
     // g_eventManager.reset();
 }

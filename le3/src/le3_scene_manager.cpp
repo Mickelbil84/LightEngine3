@@ -1,6 +1,11 @@
 #include "le3_scene_manager.h"
 using namespace le3;
 
+void LE3SceneManager::reset() {
+    m_scenes.clear();
+    m_activeSceneName = "";
+}
+
 void LE3SceneManager::createScene(std::string name, LE3EngineState& engineState, std::string scenePath) {
     m_scenes[name] = std::make_shared<LE3Scene>(name);
     m_scenes[name]->init(engineState.getWindowWidth(), engineState.getWindowHeight());
