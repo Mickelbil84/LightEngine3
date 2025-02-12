@@ -44,6 +44,7 @@ namespace le3 {
             g_scriptSystem.getGlobal("apply_all_configs");
             g_scriptSystem.callFunction(0, 0);
         }
+        void reset(); // Reset all editor systems
 
         inline LE3DatFileSystem& getDatFileSystem() { return g_datFilesystem; }
         inline LE3ScriptSystem& getScriptSystem() { return g_scriptSystem; }

@@ -17,6 +17,7 @@ LE3DatFileSystem::LE3DatFileSystem() {
 }
 LE3DatFileSystem::~LE3DatFileSystem() {
     m_archives.clear();
+    fmt::print("LE3DatFileSystem destroyed\n");
 }
 
 void LE3DatFileSystem::addArchive(std::string archiveName, std::string archivePath) {

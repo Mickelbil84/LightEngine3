@@ -70,6 +70,7 @@ void LE3Application::init() {
     _initOpenGL();
     _initImGui();
     LE3EngineSystems::instance().init();
+    LE3EngineSystems::instance().reset();
     m_pGameLogic->init();
 }
 
