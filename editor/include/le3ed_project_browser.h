@@ -1,8 +1,13 @@
 #pragma once
 
+#include <le3.h>
+
 namespace le3 {
-    class LE3EditorProjectBrowser {
+    class LE3EditorProjectBrowser : public LE3GameLogic  {
     public:
+        virtual void render();
+
+    private:
     };
 
 }
