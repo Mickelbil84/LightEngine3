@@ -44,6 +44,7 @@ namespace le3 {
     class LE3AssetManager {
     public:
         void init();
+        void reset();
         void refreshPointers(); // In case of asset deletions, make sure everything is still kosher
 
         // Shaders

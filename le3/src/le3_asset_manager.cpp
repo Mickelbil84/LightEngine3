@@ -52,6 +52,36 @@ void LE3AssetManager::init() {
     addTexture(SPRITE_POINT_LIGHT, "/engine/sprites/sprite_point.png");
     addTexture(SPRITE_SPOT_LIGHT, "/engine/sprites/sprite_spot.png");
 }
+void LE3AssetManager::reset() {
+    m_pShaders.clear();
+    m_pMaterials.clear();
+    m_pTextures.clear();
+    m_pStaticMeshes.clear();
+    m_pSkeletalMeshes.clear();
+    m_shadersPaths.clear();
+    m_texturesPaths.clear();
+    m_meshesPaths.clear();
+
+    m_screenRect = nullptr;
+    m_debugLine = nullptr;
+    m_debugBox = nullptr;
+    m_debugCylinder = nullptr;
+    m_debugCone = nullptr;
+    m_gizmoArrow = nullptr;
+    m_gizmoScaleArrow = nullptr;
+    m_gizmoCircle = nullptr;
+    m_gizmoPlane = nullptr;
+    m_gizmoCenter = nullptr;
+    m_gErrorShader = nullptr;
+    m_gErrorTexture = nullptr;
+    m_gErrorMaterial = nullptr;
+    m_lastDeletedShader = "";
+    m_lastDeletedTexture = ""; 
+    m_lastDeletedMaterial = ""; 
+    m_lastDeletedStaticMesh = ""; m_lastDeletedSkeletalMesh = "";
+
+    init();
+}
 
 void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {
     try {
