@@ -1,8 +1,9 @@
 #include <le3.h>
 #include "le3ed_logic.h"
+#include "le3ed_project_browser.h"
 using namespace le3;
 
-int main() {
+int main(int argc, char** argv) {
     do {
         if (LE3EngineSystems::instance().isRequestingReset()) LE3EngineSystems::instance().reset();
         LE3Application app(std::make_unique<LE3EditorLogic>());

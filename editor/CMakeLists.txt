@@ -18,6 +18,7 @@ if (LE3_WITH_EDITOR)
         src/main.cpp
         src/le3ed_logic.cpp
         src/le3ed_editor_systems.cpp
+        src/le3ed_project_browser.cpp
 
         src/components/le3ed_gui.cpp
         src/components/le3ed_scenes.cpp
