@@ -17,6 +17,8 @@ namespace le3 {
 
     class LE3EventManager {
     public:
+        void reset();
+
         void subscribe(std::string event, LE3ObjectPtr subscriber, std::function<void(void*)> callback);
         void unsubscribe(std::string event, LE3ObjectPtr subscriber); // Lazy unsubscribe
         void notify(std::string event, void* data);
