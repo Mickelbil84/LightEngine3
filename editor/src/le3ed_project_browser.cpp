@@ -8,10 +8,15 @@ void LE3EditorProjectBrowser::init() {
 }
 
 void LE3EditorProjectBrowser::render() {
-    ImGuiViewport* viewport = ImGui::GetMainViewport();
-    ImGui::SetNextWindowSize(ImVec2(500, 300));
-    ImGui::SetNextWindowPos(ImVec2(0,0));
-    ImGui::Begin("Project Browser", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
+    const ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(viewport->Pos);
+    ImGui::SetNextWindowSize(viewport->Size);
+    ImGui::SetNextWindowViewport(viewport->ID);
+    window_flags |= ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+    window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+    ImGui::Begin("Project Browser", nullptr, window_flags);
     ImGui::Text("Hello, world!");
     ImGui::End();
 }
