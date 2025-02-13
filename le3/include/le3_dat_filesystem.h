@@ -19,6 +19,7 @@ namespace le3 {
         
         void appendFile(std::string archiveName, std::string path, LE3DatBuffer fileBuffer, bool shouldCompress = true);
         void appendFile(std::string archiveName, std::string path, std::string filePath, bool shouldCompress = true); // Load from system
+        bool fileExists(std::string path) { return m_fileNodes.contains(path); }
 
         inline void defragmentArchive(std::string archiveName);
         void defragmentArchives();

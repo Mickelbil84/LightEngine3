@@ -24,6 +24,7 @@ namespace le3 {
         void doString(std::string code);
         void doFile(std::string filename);
         
+        bool isNil();
         void pushNil();
         void pushBool(bool b);
         void pushNumber(double d);

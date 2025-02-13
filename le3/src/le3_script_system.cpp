@@ -24,6 +24,11 @@ void LE3ScriptSystem::doFile(std::string filename) {
     doString(LE3GetDatFileSystem().getFileContent(filename).toString());
 }
 
+
+bool LE3ScriptSystem::isNil() {
+    return lua_isnil(L, -1);
+}
+
 void LE3ScriptSystem::pushNil() {
     lua_pushnil(L);
 }
