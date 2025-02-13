@@ -1,6 +1,7 @@
 #pragma once
 
 #include <le3.h>
+#include <imfilebrowser.h>
 
 namespace le3 {
     class LE3EditorProjectBrowser : public LE3GameLogic  {
@@ -9,6 +10,7 @@ namespace le3 {
         virtual void render();
 
     private:
+        ImGui::FileBrowser m_fileBrowser;
     };
 
 }

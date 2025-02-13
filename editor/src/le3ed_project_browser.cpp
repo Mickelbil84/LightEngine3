@@ -8,9 +8,12 @@ void LE3EditorProjectBrowser::init() {
     LE3GetDatFileSystem().addArchive("editor", "editor.dat");
     LE3EditorCache::load();
 
-    fmt::print("{}\n", LE3GetConfig<int>("LE3EditorCache.RecentProjects"));
-
     m_engineState.requestResize(500, 300);
+
+    m_fileBrowser = ImGui::FileBrowser(
+        ImGuiFileBrowserFlags_SelectDirectory | ImGuiFileBrowserFlags_NoModal | 
+        ImGuiFileBrowserFlags_CreateNewDir | ImGuiFileBrowserFlags_HideRegularFiles | ImGuiFileBrowserFlags_EditPathString);
+    m_fileBrowser.SetTitle("Open Project");
 }
 
 void LE3EditorProjectBrowser::render() {
@@ -23,6 +26,17 @@ void LE3EditorProjectBrowser::render() {
     window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
     ImGui::Begin("Project Browser", nullptr, window_flags);
-    ImGui::Text("Hello, world!");
+    if (ImGui::Button("Open Project")) {
+        m_fileBrowser.Open();
+    }
     ImGui::End();
+
+    m_fileBrowser.Display();
+    if (m_fileBrowser.HasSelected()) {
+        std::string selection = m_fileBrowser.GetSelected().string();
+        fmt::print("Selected: {}\n", selection);
+        m_fileBrowser.ClearSelected();
+
+        LE3EngineSystems::instance().requestReset();
+    }
 }

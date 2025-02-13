@@ -8,3 +8,6 @@
 [submodule "third-party/gzip-hpp"]
 	path = third-party/gzip-hpp
 	url = git@github.com:mapbox/gzip-hpp.git
+[submodule "third-party/imgui-filebrowser"]
+	path = third-party/imgui-filebrowser
+	url = git@github.com:Mickelbil84/imgui-filebrowser.git

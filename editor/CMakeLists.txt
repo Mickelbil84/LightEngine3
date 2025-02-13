@@ -8,6 +8,7 @@ if (LE3_WITH_EDITOR)
     find_package(assimp REQUIRED)
     include_directories(${GLEW_INCLUDE_DIRS} ${LUA_INCLUDE_DIR})
     include_directories(${CMAKE_SOURCE_DIR}/third-party/imgui)
+    include_directories(${CMAKE_SOURCE_DIR}/third-party/imgui-filebrowser)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
     if (NOT DEFINED LUA_LIBRARIES)
@@ -16,6 +17,7 @@ if (LE3_WITH_EDITOR)
 
     add_executable(${PROJECT_NAME} 
         src/main.cpp
+        src/le3ed_cache.cpp
         src/le3ed_logic.cpp
         src/le3ed_editor_systems.cpp
         src/le3ed_project_browser.cpp
