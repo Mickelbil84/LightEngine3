@@ -5,6 +5,7 @@
 namespace le3 {
     class LE3EditorProjectBrowser : public LE3GameLogic  {
     public:
+        virtual void init();
         virtual void render();
 
     private:

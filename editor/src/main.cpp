@@ -8,6 +8,7 @@ int main(int argc, char** argv) {
         // Run the project browser
         if (LE3EngineSystems::instance().isRequestingReset()) LE3EngineSystems::instance().reset();
         LE3Application browser(std::make_unique<LE3EditorProjectBrowser>());
+        browser.getSettings().bImGuiDocking = false;
         browser.run();
 
         // Run the project browser

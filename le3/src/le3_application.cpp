@@ -45,6 +45,7 @@ LE3Application::LE3Application() {
 
 void LE3Application::run() {
     init();
+    SDL_ShowWindow(m_pInternal->m_pWindow.get()); // Show window only after load. TOOD: maybe display loading screen?
 
     while(m_bShouldRun && !LE3EngineSystems::instance().isRequestingReset()) {
         _handleNotifys();
@@ -211,6 +212,7 @@ void LE3Application::_initSDL() {
     flags |= SDL_WINDOW_OPENGL;
     flags |= SDL_WINDOW_RESIZABLE; // TODO: Propagate resizability (and fullscreen) into engine config
     flags |= SDL_WINDOW_MAXIMIZED;
+    // flags |= SDL_WINDOW_HIDDEN;
 
     // TODO: Propagate window title and size into game config
     m_pInternal->m_pWindow = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
@@ -226,6 +228,8 @@ void LE3Application::_initSDL() {
         &m_pGameLogic->m_engineState.m_windowHeight);
 
     m_prevTime = m_currTime = SDL_GetPerformanceCounter();
+
+    SDL_HideWindow(m_pInternal->m_pWindow.get());
 
     // if (false) // TODO: Allow fullscreen on init
         // setFullscreen(true);
@@ -300,6 +304,12 @@ void LE3Application::_initImGui() {
 }
 
 void LE3Application::_handleNotifys() {
+    if (m_pGameLogic->m_engineState.m_bWantsResize) {
+        SDL_RestoreWindow(m_pInternal->m_pWindow.get());
+        SDL_SetWindowSize(m_pInternal->m_pWindow.get(), m_pGameLogic->m_engineState.getWindowWidth(), m_pGameLogic->m_engineState.getWindowHeight());
+        m_pGameLogic->m_engineState.m_bWantsResize = false;
+    }
+
     if (m_pGameLogic->m_engineState.m_bWantsQuit) m_bShouldRun = false;
     
     if (m_pGameLogic->m_engineState.m_bWantsRelativeMouse != m_pGameLogic->m_engineState.m_bReltaiveMouse) {
