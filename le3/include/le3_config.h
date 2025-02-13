@@ -20,8 +20,10 @@ namespace le3 {
                 keys.push_back(token);
             }
             /////////////////////////////////////
-            LE3GetScriptSystem().getGlobal("LE3EngineConfig");
+            LE3GetScriptSystem().getGlobal(keys[0]);
+            bool first = true;
             for (auto k : keys) {
+                if (first) {first = false; continue; }
                 LE3GetScriptSystem().getField(k);
             }
             T res = getValue<T>();
