@@ -72,6 +72,11 @@ void LE3ScriptSystem::callFunction(int numArgs, int numResults) {
     }
 }
 
+void LE3ScriptSystem::callFunction(std::string name, int numResults) {
+    getGlobal(name);
+    callFunction(0, numResults);
+}
+
 void LE3ScriptSystem::pushValue(int index) {
     lua_pushvalue(L, index);
 }

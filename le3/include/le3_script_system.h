@@ -50,6 +50,7 @@ namespace le3 {
         }
 
         void callFunction(int numArgs, int numResults);
+        void callFunction(std::string name, int numResults = 0); // Shortcut for functions that take no arguments
         void pushValue(int index);
 
         void pop(int cnt);
