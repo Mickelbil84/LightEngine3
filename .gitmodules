@@ -11,3 +11,6 @@
 [submodule "third-party/imgui-filebrowser"]
 	path = third-party/imgui-filebrowser
 	url = git@github.com:Mickelbil84/imgui-filebrowser.git
+[submodule "third-party/native_message_box"]
+	path = third-party/native_message_box
+	url = git@github.com:thegabman/native_message_box.git

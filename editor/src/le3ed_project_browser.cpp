@@ -2,7 +2,11 @@
 #include "le3ed_cache.h"
 using namespace le3;
 
+#include <filesystem>
+
 #include <fmt/core.h>
+#include <NMB/NMB.h>
+
 
 void LE3EditorProjectBrowser::init() {
     LE3GetDatFileSystem().addArchive("editor", "editor.dat");
@@ -37,6 +41,18 @@ void LE3EditorProjectBrowser::render() {
         fmt::print("Selected: {}\n", selection);
         m_fileBrowser.ClearSelected();
 
-        LE3EngineSystems::instance().requestReset();
+        if (isValidProjectDir(selection)) {
+            LE3EditorCache::setMostRecentProject(selection);
+            LE3EngineSystems::instance().requestReset();
+        } else {
+            std::string errmsg = fmt::format("Please select either an empty directory or a directory containing a project file ('{}').", LE3ED_PROJECT_FILENAME);
+            NMB::show("Invalid project directory", errmsg.c_str(), NMB::Icon::ICON_ERROR);
+        }
     }
+}
+
+bool LE3EditorProjectBrowser::isValidProjectDir(std::string dir) {
+    if (std::filesystem::is_empty(dir)) return true;
+    if (std::filesystem::exists(dir + "/" + LE3ED_PROJECT_FILENAME)) return true;
+    return false;
 }
