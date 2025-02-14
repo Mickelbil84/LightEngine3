@@ -69,6 +69,15 @@ void LE3EditorGUI::update(float deltaTime) {
 
     LE3GetImGuiUtils().addSceneViewport("Viewport", *LE3GetSceneManager().getScene("scene"), m_engineState);
 
+    ImGui::Begin("Text Editor", nullptr, ImGuiWindowFlags_NoMove);
+        // m_textEditor.update();
+        std::string selectedFile = LE3GetEditorManager().getSelectedFile();
+        if (selectedFile.ends_with(".lua") || selectedFile.ends_with(".txt") || selectedFile.ends_with(".vs") || selectedFile.ends_with(".fs")) {
+            std::string content = LE3GetDatFileSystem().getFileContent(selectedFile).toString();
+            ImGui::TextWrapped(content.c_str());
+        }
+    ImGui::End();
+
     ImGui::Begin("SidepanelTop", nullptr, ImGuiWindowFlags_NoMove);
         m_sidepanelTop.update();
     ImGui::End();
@@ -115,6 +124,7 @@ void LE3EditorGUI::setupLayout() {
         ImGui::DockBuilderDockWindow("##Toolbar", dock_toolbar);
         ImGui::DockBuilderDockWindow("##Toolbox", dock_toolbox);
         ImGui::DockBuilderDockWindow("Viewport", dock_mainView);
+        ImGui::DockBuilderDockWindow("Text Editor", dock_mainView);
         ImGui::DockBuilderDockWindow("SidepanelTop", dock_sidepanelTop);
         ImGui::DockBuilderDockWindow("Properties", dock_properties);
         ImGui::DockBuilderDockWindow("Settings", dock_properties);

@@ -17,4 +17,5 @@ function set_most_recent_project(project)
         end
     end
     table.insert(tmp, project)
+    LE3EditorCache.RecentProjects = tmp
 end
