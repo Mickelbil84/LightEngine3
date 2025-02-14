@@ -14,7 +14,9 @@ void LE3EditorCache::load() {
 
     // Load cache (found in `editor` archive)
     LE3GetScriptSystem().doString(LE3GetDatFileSystem().getFileContent("/editor/scripts/editor_cache.lua").toString());
-    LE3GetScriptSystem().callFunction("init_editor_cache"); // If there is not editor cache
+    if (!LE3GetDatFileSystem().fileExists("/le3edcache/LE3EditorCache.lua")) {
+        LE3GetScriptSystem().callFunction("init_editor_cache"); // If there is not editor cache
+    }
 }
 
 void LE3EditorCache::setMostRecentProject(std::string path) {

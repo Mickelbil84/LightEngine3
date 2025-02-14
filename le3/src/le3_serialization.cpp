@@ -11,5 +11,6 @@ void LE3Serialization::dump(std::string table, std::string filename) {
 
     LE3DatBuffer buffer;
     buffer.fromString(content);
-    LE3GetDatFileSystem().appendFile("editor", filename, buffer, true);
+    std::string archive = filename.substr(1, filename.substr(1).find('/'));
+    LE3GetDatFileSystem().appendFile(archive, filename, buffer, true);
 }
