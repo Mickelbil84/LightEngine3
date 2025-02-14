@@ -64,6 +64,10 @@ void LE3ScriptSystem::getField(std::string field) {
     lua_getfield(L, -1, field.c_str());
 }
 
+void LE3ScriptSystem::getRawi(int index) {
+    lua_rawgeti(L, -1, index);
+}
+
 void LE3ScriptSystem::callFunction(int numArgs, int numResults) {
     if (lua_pcall(L, numArgs, numResults, 0) != 0) {
         try { lua_error(L);}

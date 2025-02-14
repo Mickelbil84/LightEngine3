@@ -59,6 +59,7 @@ namespace le3 {
     template<> double LE3EngineConfig::getValue<double>();
     template<> bool LE3EngineConfig::getValue<bool>();
     template<> std::string LE3EngineConfig::getValue<std::string>();
+    template<> std::vector<std::string> LE3EngineConfig::getValue<std::vector<std::string>>();
 
     #define LE3GetConfig LE3EngineConfig::get
 }

@@ -11,6 +11,11 @@ using namespace le3;
 void LE3EditorProjectBrowser::init() {
     LE3GetDatFileSystem().addArchive("editor", "editor.dat");
     LE3EditorCache::load();
+    LE3EditorCache::setMostRecentProject("");
+
+    for (auto s : LE3EditorCache::getRecentProjects()) {
+        fmt::print("Recent project: {}\n", s);
+    }
 
     m_engineState.requestResize(500, 300);
 
@@ -38,13 +43,13 @@ void LE3EditorProjectBrowser::render() {
     m_fileBrowser.Display();
     if (m_fileBrowser.HasSelected()) {
         std::string selection = m_fileBrowser.GetSelected().string();
-        fmt::print("Selected: {}\n", selection);
         m_fileBrowser.ClearSelected();
 
         if (isValidProjectDir(selection)) {
             LE3EditorCache::setMostRecentProject(selection);
             LE3EngineSystems::instance().requestReset();
         } else {
+            LE3EditorCache::setMostRecentProject("");
             std::string errmsg = fmt::format("Please select either an empty directory or a directory containing a project file ('{}').", LE3ED_PROJECT_FILENAME);
             NMB::show("Invalid project directory", errmsg.c_str(), NMB::Icon::ICON_ERROR);
         }
@@ -52,7 +57,10 @@ void LE3EditorProjectBrowser::render() {
 }
 
 bool LE3EditorProjectBrowser::isValidProjectDir(std::string dir) {
-    if (std::filesystem::is_empty(dir)) return true;
+    if (std::filesystem::is_empty(dir)) {
+        LE3GetDatFileSystem().addArchive(LE3ED_PROJECT_ARCHIVE, dir + "/" + LE3ED_PROJECT_FILENAME); // Creates a file, if directory is empty
+        return true;
+    }
     if (std::filesystem::exists(dir + "/" + LE3ED_PROJECT_FILENAME)) return true;
     return false;
 }

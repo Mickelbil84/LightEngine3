@@ -1,4 +1,5 @@
 #include "le3ed_logic.h"
+#include "le3ed_cache.h"
 #include "le3ed_editor_systems.h"
 #include "commands/le3ed_com_property_change.h" // TODO: TEMP
 using namespace le3;
@@ -23,6 +24,8 @@ LE3EditorLogic::LE3EditorLogic() :
 
 void LE3EditorLogic::init() {
     LE3GetDatFileSystem().addArchive("editor", "editor.dat");
+    LE3EditorCache::load();
+
     // TODO: TEMP
     LE3GetDatFileSystem().addArchive("demos", "demos.dat");
 
