@@ -17,7 +17,7 @@ void LE3EditorProjectBrowser::init() {
         fmt::print("Recent project: {}\n", s);
     }
 
-    m_engineState.requestResize(500, 300);
+    m_engineState.requestResize(500, 250);
 
     m_fileBrowser = ImGui::FileBrowser(
         ImGuiFileBrowserFlags_SelectDirectory | ImGuiFileBrowserFlags_NoModal | 
@@ -35,9 +35,37 @@ void LE3EditorProjectBrowser::render() {
     window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
     ImGui::Begin("Project Browser", nullptr, window_flags);
+    ImGui::TextWrapped("You may open an existing project or create a new one.");
+    ImGui::SameLine();
     if (ImGui::Button("Open Project")) {
         m_fileBrowser.Open();
     }
+    
+    ImGui::SeparatorText("Recent Projects");
+    
+    static int selectedProjectIdx = -1;
+    auto recentProjects = LE3EditorCache::getRecentProjects();
+
+    ImGui::BeginListBox("##RecentProjects", ImVec2(480, 0));
+        for (int i = recentProjects.size() - 1; i >= 0; i--) {
+            if (ImGui::Selectable(recentProjects[i].c_str(), selectedProjectIdx == i)) {
+                selectedProjectIdx = i;
+            }
+        }
+    ImGui::EndListBox();
+
+    if (ImGui::Button("Open")) {
+        if (selectedProjectIdx >= 0) {
+            LE3EditorCache::setMostRecentProject(recentProjects[selectedProjectIdx]);
+            LE3EngineSystems::instance().requestReset();
+        }
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Close")) {
+        LE3EditorCache::setMostRecentProject("");
+        LE3EngineSystems::instance().requestReset();
+    }
+    
     ImGui::End();
 
     m_fileBrowser.Display();

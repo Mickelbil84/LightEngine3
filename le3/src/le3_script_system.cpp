@@ -88,3 +88,8 @@ void LE3ScriptSystem::pushValue(int index) {
 void LE3ScriptSystem::pop(int cnt) {
     lua_pop(L, cnt);
 }
+
+void LE3ScriptSystem::createEmptyTable(std::string name) {
+    lua_newtable(L);
+    lua_setglobal(L, name.c_str());
+}

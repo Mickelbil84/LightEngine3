@@ -35,6 +35,7 @@ if (LE3_WITH_EDITOR)
         src/components/le3ed_gui.cpp
         src/components/le3ed_scenes.cpp
         src/components/le3ed_hotkeys.cpp
+        src/components/le3ed_scripts.cpp
 
         src/widgets/le3ed_popup.cpp
         src/widgets/le3ed_toolbar.cpp

@@ -31,7 +31,7 @@ namespace le3 {
             }
             _testnil(key);
             T res = getValue<T>();
-            LE3GetScriptSystem().pop(keys.size());
+            LE3GetScriptSystem().pop(keys.size()+1);
             return res;
         }
 
