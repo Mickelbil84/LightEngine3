@@ -86,7 +86,7 @@ void LE3EditorScenes::initScenes() {
     LE3GetSceneManager().getScene("scene")->setRenderDirectly(false);
     LE3GetSceneManager().getScene("scene")->resize(10, 10);
     LE3GetSceneManager().getScene("scene")->drawDebug = [this]() { this->renderDebug(); };
-    LE3GetSceneManager().getScene("scene")->setBackgroundColor(glm::vec3(0.04f));
+    LE3GetSceneManager().getScene("scene")->setBackgroundColor(glm::vec3(LE3GetConfig<float>("LE3EditorConfig.DefaultColors.DefaultNewScene")));
     
     // Add four inspector scenes
     for (int i = 0; i < 4; i++) {
