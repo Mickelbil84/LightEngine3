@@ -438,6 +438,7 @@ void LE3Scene::deleteObject(std::string name) {
     for (auto child : m_sceneGraph->m_pObjects[name]->getChildren()) 
         deleteObject(child->getName());
     m_sceneGraph->m_pObjects[name]->reparent(nullptr);
+    m_sceneGraph->m_lightManager.deleteLight(name); // Hotfix for deleting lights (when drawing shadows)
     m_sceneGraph->m_pObjects.erase(name);
 }
 
