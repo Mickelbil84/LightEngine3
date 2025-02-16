@@ -3,14 +3,14 @@ local function save_LE3Scene_assets()
     local res = {}
 
     -- Export shaders
-    local shader_names, shader_vss, shader_fss = LE3AssetManager.get_shaders()
+    local shader_names = LE3AssetManager.get_shaders()
     res.Shaders = {}
     for _, name in ipairs(shader_names) do
         table.insert(res.Shaders, LE3Shader.save(name))
     end
 
     -- Export textures
-    local texture_names, texture_paths = LE3AssetManager.get_textures()
+    local texture_names = LE3AssetManager.get_textures()
     res.Textures = {}
     for _, name in ipairs(texture_names) do
         table.insert(res.Textures, LE3Texture.save(name))
@@ -18,7 +18,7 @@ local function save_LE3Scene_assets()
 
     -- Export meshes
     -- TODO: Export also skeletal animations!
-    local mesh_names, mesh_paths, is_skeletal = LE3AssetManager.get_meshes()
+    local mesh_names, is_skeletal = LE3AssetManager.get_meshes()
     res.StaticMeshes = {}
     res.SkeletalMeshes = {}
     for i, name in ipairs(mesh_names) do

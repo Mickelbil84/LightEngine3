@@ -118,7 +118,8 @@ void LE3AssetManager::deleteShader(std::string name) {
 }
 
 void LE3AssetManager::addMaterial(std::string name, std::string shaderName) {
-    if (m_pMaterials.contains(name)) throw std::runtime_error(fmt::format("Material [{}] already exists", name));
+    if (m_pMaterials.contains(name)) //throw std::runtime_error(fmt::format("Material [{}] already exists", name));
+        deleteMaterial(name);
     if (!m_pShaders.contains(shaderName)) throw std::runtime_error(fmt::format("Cannot create material [{}]: shader [{}] does not exist", name, shaderName));
     m_pMaterials[name] = std::make_shared<LE3Material>(m_pShaders[shaderName]);
     m_pMaterials[name]->name = name;

@@ -22,17 +22,12 @@ FBIND(LE3AssetManager, get_shader_paths)
     PUSH_STRING(paths.second)
 FEND()
 FBIND(LE3AssetManager, get_shaders)
-    std::vector<std::string> shaderNames, shaderVSPaths, shaderFSPaths;
+    std::vector<std::string> shaderNames;
     for (auto& [name, v] : LE3GetAssetManager().getShaders()) {
         if (name.starts_with(DEFAULT_ENGINE_PREFIX)) continue;
         shaderNames.push_back(name);
-        std::pair<std::string, std::string> paths = LE3GetAssetManager().getShadersPaths()[name];
-        shaderVSPaths.push_back(paths.first);
-        shaderFSPaths.push_back(paths.second);
     }
     PUSH_STRING_ARRAY(shaderNames)
-    PUSH_STRING_ARRAY(shaderVSPaths)
-    PUSH_STRING_ARRAY(shaderFSPaths)
 FEND()
 
 FBIND(LE3AssetManager, add_texture)
@@ -46,14 +41,12 @@ FBIND(LE3AssetManager, has_texture)
     PUSH_BOOL(LE3GetAssetManager().hasTexture(name))
 FEND()
 FBIND(LE3AssetManager, get_textures)
-    std::vector<std::string> textureNames, texturePaths;
+    std::vector<std::string> textureNames;
     for (auto& name : LE3GetAssetManager().getTextureNames()) {
         if (name.starts_with(DEFAULT_ENGINE_PREFIX)) continue;
         textureNames.push_back(name);
-        texturePaths.push_back(LE3GetAssetManager().getTexturePath(name));
     }
     PUSH_STRING_ARRAY(textureNames)
-    PUSH_STRING_ARRAY(texturePaths)
 FEND()
 
 FBIND(LE3AssetManager, add_material)
@@ -107,16 +100,14 @@ FBIND(LE3AssetManager, has_skeletal_mesh)
 FEND()
 
 FBIND(LE3AssetManager, get_meshes)
-    std::vector<std::string> meshNames, meshPaths;
+    std::vector<std::string> meshNames;
     std::vector<bool> isSkeletal;
     for (auto& name : LE3GetAssetManager().getMeshesNames()) {
         if (name.starts_with(DEFAULT_ENGINE_PREFIX)) continue;
         meshNames.push_back(name);
-        meshPaths.push_back(LE3GetAssetManager().getMeshPath(name));
         isSkeletal.push_back(LE3GetAssetManager().isSkeletalMesh(name));
     }
     PUSH_STRING_ARRAY(meshNames)
-    PUSH_STRING_ARRAY(meshPaths)
     PUSH_BOOL_ARRAY(isSkeletal)
 FEND()
 
