@@ -2,13 +2,22 @@
 #include "le3ed_editor_systems.h"
 using namespace le3;
 
-void LE3EditorScenes::init() {
+
+void LE3EditorScenes::loadScene(std::string name) {
     cameraVelocity = glm::vec3();
     cameraRotation = glm::vec3();
 
-    initScenes();
+    initScenes(name);
     initCameras();
     initGizmo();
+}
+void LE3EditorScenes::saveScene(std::string name) {
+    // LE3GetScriptSystem().doString("print(serialize(LE3Scene))")
+}
+
+
+void LE3EditorScenes::init() {
+    loadScene(LE3GetConfig<std::string>("LE3ProjectConfig.LastOpenedScene", ""));
 
     // Bind scene hotkeys
     LE3EditorSystems::instance().getHotkeysComponent()->bindHotkey({"KEY_UP"}, []() {
@@ -81,8 +90,8 @@ void LE3EditorScenes::initCameras() {
     // Offset cameras
     LE3GetSceneManager().getScene("scene")->getMainCamera()->getTransform().setPosition(glm::vec3(0.f, 0.5f, 5.f));
 }
-void LE3EditorScenes::initScenes() {    
-    LE3GetSceneManager().createScene("scene", m_engineState);
+void LE3EditorScenes::initScenes(std::string name) {    
+    LE3GetSceneManager().createScene("scene", m_engineState, name);
     LE3GetSceneManager().getScene("scene")->setRenderDirectly(false);
     LE3GetSceneManager().getScene("scene")->resize(10, 10);
     LE3GetSceneManager().getScene("scene")->drawDebug = [this]() { this->renderDebug(); };

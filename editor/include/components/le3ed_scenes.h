@@ -11,10 +11,13 @@ namespace le3 {
         void update(float deltaTime);
         void handleInput(LE3Input input);
         void render();
+        
+        void saveScene(std::string name);
+        void loadScene(std::string name);
     
     private:
         void initCameras();
-        void initScenes();
+        void initScenes(std::string name);
         void initGizmo();
 
         glm::vec3 cameraVelocity, cameraRotation;

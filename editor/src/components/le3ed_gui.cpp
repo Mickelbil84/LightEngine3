@@ -40,6 +40,18 @@ void LE3EditorGUI::update(float deltaTime) {
             }
         ImGui::EndMenu();
         }
+        if (ImGui::BeginMenu("Edit")) {
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("View")) {
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Build")) {
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Help")) {
+            ImGui::EndMenu();
+        }
         ImGui::EndMainMenuBar();
     }
     ImGui::End();
