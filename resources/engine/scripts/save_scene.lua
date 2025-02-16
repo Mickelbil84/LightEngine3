@@ -42,8 +42,15 @@ end
 ---@param scene LE3Scene
 ---@return table
 local function save_LE3Scene_objects(scene)
-    local root = LE3Scene.get_scene_root(scene)
-    return dump_object(scene, LE3Object.get_name(root))
+    local root = LE3Object.get_name(LE3Scene.get_scene_root(scene))
+    local res = dump_object(scene, root)
+    -- Remove redundant relations (to root)
+    local tmp_relations = {}
+    for _, pair in ipairs(res.ObjectRelations) do
+        if pair[2] ~= root then table.insert(tmp_relations, pair) end
+    end
+    res.ObjectRelations = tmp_relations
+    return res
 end
 
 ---@param scene LE3Scene
