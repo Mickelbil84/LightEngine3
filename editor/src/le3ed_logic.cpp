@@ -24,6 +24,7 @@ LE3EditorLogic::LE3EditorLogic() :
 
 void LE3EditorLogic::init() {
     LE3GetDatFileSystem().addArchive("editor", "editor.dat");
+    LE3GetDatFileSystem().addArchive("demos", "demos.dat"); // Also add demos so that even new projects can have something to play with
 
     // Init Subsystems;
     assert(dynamic_cast<LE3EditorScripts*>(m_pComponents[0])); // See comment (*) in le3ed_logic.h
