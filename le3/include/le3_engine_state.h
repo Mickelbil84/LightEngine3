@@ -10,6 +10,11 @@ namespace le3 {
         inline int getWindowWidth() const { return m_windowWidth; }
         inline int getWindowHeight() const { return m_windowHeight; }
         inline float getAspectRatio() const { return (float)m_windowWidth / (float)m_windowHeight; }
+        void requestResize(int width, int height) { 
+            m_windowWidth = width; m_windowHeight = height; 
+            m_bWantsResize = true;
+        }
+
 
         inline void notifyWantsQuit() { m_bWantsQuit = true; }
         inline void notifyWantsRelativeMOuse(bool relativeMouse) { m_bWantsRelativeMouse = relativeMouse; }
@@ -24,6 +29,7 @@ namespace le3 {
     private:
         float m_elapsedTime = 0.f;
         int m_windowWidth, m_windowHeight;
+        bool m_bWantsResize = false;
         bool m_bWantsQuit = false;
         bool m_bWantsRelativeMouse = false;
         bool m_bReltaiveMouse = false;

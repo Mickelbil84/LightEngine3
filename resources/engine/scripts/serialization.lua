@@ -57,6 +57,9 @@ local function _serialize_table(t, indent)
     return res
 end
 
+---@param o any
+---@param indent number
+---@return string
 function serialize(o, indent)
     if indent == nil then indent = 0 end
     local res = ""

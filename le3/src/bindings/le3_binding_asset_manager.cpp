@@ -21,6 +21,19 @@ FBIND(LE3AssetManager, get_shader_paths)
     PUSH_STRING(paths.first)
     PUSH_STRING(paths.second)
 FEND()
+FBIND(LE3AssetManager, get_shaders)
+    std::vector<std::string> shaderNames, shaderVSPaths, shaderFSPaths;
+    for (auto& [name, v] : LE3GetAssetManager().getShaders()) {
+        if (name.starts_with(DEFAULT_ENGINE_PREFIX)) continue;
+        shaderNames.push_back(name);
+        std::pair<std::string, std::string> paths = LE3GetAssetManager().getShadersPaths()[name];
+        shaderVSPaths.push_back(paths.first);
+        shaderFSPaths.push_back(paths.second);
+    }
+    PUSH_STRING_ARRAY(shaderNames)
+    PUSH_STRING_ARRAY(shaderVSPaths)
+    PUSH_STRING_ARRAY(shaderFSPaths)
+FEND()
 
 FBIND(LE3AssetManager, add_texture)
     GET_STRING(name)
@@ -31,6 +44,16 @@ FEND()
 FBIND(LE3AssetManager, has_texture)
     GET_STRING(name)
     PUSH_BOOL(LE3GetAssetManager().hasTexture(name))
+FEND()
+FBIND(LE3AssetManager, get_textures)
+    std::vector<std::string> textureNames, texturePaths;
+    for (auto& name : LE3GetAssetManager().getTextureNames()) {
+        if (name.starts_with(DEFAULT_ENGINE_PREFIX)) continue;
+        textureNames.push_back(name);
+        texturePaths.push_back(LE3GetAssetManager().getTexturePath(name));
+    }
+    PUSH_STRING_ARRAY(textureNames)
+    PUSH_STRING_ARRAY(texturePaths)
 FEND()
 
 FBIND(LE3AssetManager, add_material)
@@ -75,8 +98,8 @@ FBIND(LE3AssetManager, has_skeletal_mesh)
 FEND()
 
 LIB(LE3AssetManager,
-    add_shader, get_shader_paths,
-    add_texture, has_texture,
+    add_shader, get_shader_paths, get_shaders,
+    add_texture, has_texture, get_textures,
     add_material, has_material,
     add_static_mesh, has_static_mesh,
     add_skeletal_mesh, add_skeletal_animation, has_skeletal_mesh

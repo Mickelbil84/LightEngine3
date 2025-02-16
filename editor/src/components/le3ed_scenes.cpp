@@ -2,13 +2,22 @@
 #include "le3ed_editor_systems.h"
 using namespace le3;
 
-void LE3EditorScenes::init() {
+
+void LE3EditorScenes::loadScene(std::string name) {
     cameraVelocity = glm::vec3();
     cameraRotation = glm::vec3();
 
-    initScenes();
+    initScenes(name);
     initCameras();
     initGizmo();
+}
+void LE3EditorScenes::saveScene(std::string name) {
+    // LE3GetScriptSystem().doString("print(serialize(LE3Scene))")
+}
+
+
+void LE3EditorScenes::init() {
+    loadScene(LE3GetConfig<std::string>("LE3ProjectConfig.LastOpenedScene", ""));
 
     // Bind scene hotkeys
     LE3EditorSystems::instance().getHotkeysComponent()->bindHotkey({"KEY_UP"}, []() {
@@ -81,28 +90,23 @@ void LE3EditorScenes::initCameras() {
     // Offset cameras
     LE3GetSceneManager().getScene("scene")->getMainCamera()->getTransform().setPosition(glm::vec3(0.f, 0.5f, 5.f));
 }
-void LE3EditorScenes::initScenes() {    
-    LE3GetSceneManager().createScene("scene", m_engineState);
+void LE3EditorScenes::initScenes(std::string name) {    
+    LE3GetSceneManager().createScene("scene", m_engineState, name);
     LE3GetSceneManager().getScene("scene")->setRenderDirectly(false);
     LE3GetSceneManager().getScene("scene")->resize(10, 10);
     LE3GetSceneManager().getScene("scene")->drawDebug = [this]() { this->renderDebug(); };
-    LE3GetSceneManager().getScene("scene")->setBackgroundColor(glm::vec3(0.7f));
+    LE3GetSceneManager().getScene("scene")->setBackgroundColor(glm::vec3(LE3GetConfig<float>("LE3EditorConfig.DefaultColors.DefaultNewScene")));
     
     // Add four inspector scenes
     for (int i = 0; i < 4; i++) {
         // TODO: Add ortographic cameras
-        LE3GetSceneManager().createInspectedScene(fmt::format("inspector{}", i), m_engineState, "scene");
-        LE3GetSceneManager().getScene(fmt::format("inspector{}", i))->setRenderDirectly(false);
+        std::string name = fmt::format("inspector{}", i);
+        LE3GetSceneManager().createInspectedScene(name, m_engineState, "scene");
+        LE3GetSceneManager().getScene(name)->setRenderDirectly(false);
+        LE3GetSceneManager().getScene(name)->drawDebug = [this]() { this->renderDebug(); };
+        LE3GetSceneManager().getScene(name)->setBackgroundColor(glm::vec3(0.04f));
     }
     
-    // TODO: TEMP
-    // Load all demo scripts
-    for (auto script : LE3GetDatFileSystem().getFilesFromDir("/demos/scripts/racing_shooter")) {
-        LE3GetScriptSystem().doFile(script);
-    }
-    LE3GetSceneManager().getScene("scene")->load("/demos/scenes/racing_shooter.lua");
-
-
     // Load post process shader
     LE3GetAssetManager().addShaderFromFile(DEFAULT_ENGINE_PREFIX + "S_le3edpp", "/engine/shaders/postprocess/ppvert.vs", "/editor/shaders/le3edpp.fs");
     for (auto& [k, scene] : LE3GetSceneManager().getScenes()) {

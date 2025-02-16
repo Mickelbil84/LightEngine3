@@ -3,6 +3,7 @@
 #include "components/le3ed_gui.h"
 #include "components/le3ed_scenes.h"
 #include "components/le3ed_hotkeys.h"
+#include "components/le3ed_scripts.h"
 
 namespace le3 {
     class LE3EditorSystems {
@@ -18,10 +19,14 @@ namespace le3 {
         inline LE3EditorHotkeys* getHotkeysComponent() { return g_hotkeysComponent; }
         void setHotkeysComponent(LE3EditorHotkeys* hotkeysComponent) { g_hotkeysComponent = hotkeysComponent; }
 
+        inline LE3EditorScripts* getScriptsComponent() { return g_scriptsComponent; }
+        void setScriptsComponent(LE3EditorScripts* scriptsComponent) { g_scriptsComponent = scriptsComponent; }
+
 
     private:
         LE3EditorGUI* g_guiComponent;
         LE3EditorScenes* g_scenesComponent;
         LE3EditorHotkeys* g_hotkeysComponent;
+        LE3EditorScripts* g_scriptsComponent;
     };
 }
