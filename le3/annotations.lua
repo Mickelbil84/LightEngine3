@@ -198,6 +198,9 @@ function LE3AssetManager.add_static_mesh(name, filename, keepData) end
 function LE3AssetManager.add_texture(name, filename, interpolate) end
 
 ---@return stringarray
+function LE3AssetManager.get_materials() end
+
+---@return stringarray
 ---@return stringarray
 ---@return boolarray
 function LE3AssetManager.get_meshes() end

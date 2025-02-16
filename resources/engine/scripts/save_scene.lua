@@ -29,6 +29,13 @@ local function save_LE3Scene_assets()
         end
     end
 
+    -- Export materials
+    local material_names = LE3AssetManager.get_materials()
+    res.Materials = {}
+    for _, name in ipairs(material_names) do
+        table.insert(res.Materials, LE3Material.save(name))
+    end
+
     return res
 end
 
