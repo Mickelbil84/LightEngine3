@@ -9,6 +9,7 @@ void LE3EdPopAddTexture::init() {
     for (int i = 0; i < 256; i++) m_textureName[i] = 0;
     for (int i = 0; i < 1024; i++) m_path[i] = 0;
     m_bInterpolate = true;
+    strcpy(m_path, LE3GetEditorManager().getSelectedFile().c_str());
 }
 void LE3EdPopAddTexture::update() {
     ImVec2 center = ImGui::GetMainViewport()->GetCenter();
