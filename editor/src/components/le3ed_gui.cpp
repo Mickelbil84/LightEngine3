@@ -86,7 +86,7 @@ void LE3EditorGUI::update(float deltaTime) {
         std::string selectedFile = LE3GetEditorManager().getSelectedFile();
         if (selectedFile.ends_with(".lua") || selectedFile.ends_with(".txt") || selectedFile.ends_with(".vs") || selectedFile.ends_with(".fs")) {
             std::string content = LE3GetDatFileSystem().getFileContent(selectedFile).toString();
-            ImGui::TextWrapped(content.c_str());
+            ImGui::TextWrapped("%s", content.c_str());
         }
     ImGui::End();
 
