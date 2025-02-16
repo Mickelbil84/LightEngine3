@@ -245,6 +245,8 @@ void LE3Application::_initOpenGL() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
+
+static std::vector<char> fontData; // TODO: very ugly solution, fonts should be kept at the asset manager.
 void LE3Application::_initImGui() {
     // Setup Dear ImGui
     IMGUI_CHECKVERSION();
@@ -300,6 +302,13 @@ void LE3Application::_initImGui() {
     style.ButtonTextAlign = ImVec2(0.5, 0.5);
     style.SelectableTextAlign = ImVec2(0.0, 0.0);
 
+    // Load font
+    LE3DatBuffer font = LE3GetDatFileSystem().getFileContent("/engine/fonts/Tahoma.ttf");
+    ImFontConfig font_cfg;
+    fontData = font.data;
+    font_cfg.FontDataOwnedByAtlas = false;
+    font_cfg.RasterizerDensity = 4.0f;
+    io.Fonts->AddFontFromMemoryTTF(&fontData[0], fontData.size(), 16.0f, &font_cfg);
 
 }
 

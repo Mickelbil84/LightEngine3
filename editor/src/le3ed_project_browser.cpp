@@ -17,7 +17,7 @@ void LE3EditorProjectBrowser::init() {
         fmt::print("Recent project: {}\n", s);
     }
 
-    m_engineState.requestResize(500, 250);
+    m_engineState.requestResize(510, 280);
 
     m_fileBrowser = ImGui::FileBrowser(
         ImGuiFileBrowserFlags_SelectDirectory | ImGuiFileBrowserFlags_NoModal | 
