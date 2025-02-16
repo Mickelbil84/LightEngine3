@@ -97,10 +97,23 @@ FBIND(LE3AssetManager, has_skeletal_mesh)
     PUSH_BOOL(LE3GetAssetManager().hasSkeletalMesh(name))
 FEND()
 
+FBIND(LE3AssetManager, get_meshes)
+    std::vector<std::string> meshNames, meshPaths;
+    std::vector<bool> isSkeletal;
+    for (auto& name : LE3GetAssetManager().getMeshesNames()) {
+        if (name.starts_with(DEFAULT_ENGINE_PREFIX)) continue;
+        meshNames.push_back(name);
+        meshPaths.push_back(LE3GetAssetManager().getMeshPath(name));
+        isSkeletal.push_back(LE3GetAssetManager().isSkeletalMesh(name));
+    }
+    PUSH_STRING_ARRAY(meshNames)
+    PUSH_STRING_ARRAY(meshPaths)
+    PUSH_BOOL_ARRAY(isSkeletal)
+FEND()
+
 LIB(LE3AssetManager,
     add_shader, get_shader_paths, get_shaders,
     add_texture, has_texture, get_textures,
     add_material, has_material,
-    add_static_mesh, has_static_mesh,
-    add_skeletal_mesh, add_skeletal_animation, has_skeletal_mesh
+    add_static_mesh, has_static_mesh, add_skeletal_mesh, add_skeletal_animation, has_skeletal_mesh, get_meshes
 )

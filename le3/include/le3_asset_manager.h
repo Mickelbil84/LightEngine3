@@ -114,6 +114,12 @@ namespace le3 {
 
         inline std::string getMeshPath(std::string name) { return m_meshesPaths[name]; }
         void setMeshPath(std::string name, std::string path) { m_meshesPaths[name] = path; }
+        std::vector<std::string> getMeshesNames() {
+            std::vector<std::string> names;
+            for (auto& [name, mesh] : m_pStaticMeshes) names.push_back(name);
+            for (auto& [name, mesh] : m_pSkeletalMeshes) names.push_back(name);
+            return names;
+        }
 
         ////
         /// Point clouds

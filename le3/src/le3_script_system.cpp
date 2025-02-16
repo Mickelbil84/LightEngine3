@@ -35,6 +35,13 @@ void LE3ScriptSystem::pushNil() {
 void LE3ScriptSystem::pushBool(bool b) {
     lua_pushboolean(L, b);
 }
+void LE3ScriptSystem::pushBoolArray(std::vector<bool> arr) {
+    lua_newtable(L);
+    for (int i = 0; i < arr.size(); i++) {
+        lua_pushboolean(L, arr[i]);
+        lua_rawseti(L, -2, i + 1);
+    }
+}
 void LE3ScriptSystem::pushNumber(double d) {
     lua_pushnumber(L, d);
 }

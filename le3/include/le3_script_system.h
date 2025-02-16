@@ -27,6 +27,7 @@ namespace le3 {
         bool isNil();
         void pushNil();
         void pushBool(bool b);
+        void pushBoolArray(std::vector<bool> arr);
         void pushNumber(double d);
         void pushString(std::string str);
         void pushStringArray(std::vector<std::string> arr);

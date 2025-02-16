@@ -63,6 +63,7 @@ namespace le3 {
     // Push to Lua stack
     #define PUSH_NIL() LE3GetScriptSystem().pushNil(); rcount++;
     #define PUSH_BOOL(b) LE3GetScriptSystem().pushBool((b)); rcount++;
+    #define PUSH_BOOL_ARRAY(arr) LE3GetScriptSystem().pushBoolArray(arr); rcount++;
     #define PUSH_NUMBER(n) LE3GetScriptSystem().pushNumber((n)); rcount++;
     #define PUSH_STRING(s) LE3GetScriptSystem().pushString((s)); rcount++;
     #define PUSH_STRING_ARRAY(arr) LE3GetScriptSystem().pushStringArray(arr); rcount++;
