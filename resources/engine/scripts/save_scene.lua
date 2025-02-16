@@ -42,7 +42,8 @@ end
 ---@param scene LE3Scene
 ---@return table
 local function save_LE3Scene_objects(scene)
-    return {}
+    local root = LE3Scene.get_scene_root(scene)
+    return dump_object(scene, LE3Object.get_name(root))
 end
 
 ---@param scene LE3Scene

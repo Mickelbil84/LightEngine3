@@ -191,6 +191,12 @@ FBIND(LE3Scene, rename_object_global)
     LE3GetActiveScene()->renameObject(oldName, newName);
 FEND()
 
+FBIND(LE3Scene, get_scene_root)
+    GET_UDATA(scene, LE3Scene)
+    LE3ObjectPtr& obj = scene->getObject(scene->getSceneRoot()->getName());
+    PUSH_UDATA(&obj, LE3ObjectPtr);
+FEND()
+
 // --------
 
 LIB(LE3Scene,
@@ -204,5 +210,6 @@ LIB(LE3Scene,
     set_culling,
     delete_object,
     get_object_global, has_object_global,
-    rename_object, rename_object_global
+    rename_object, rename_object_global,
+    get_scene_root
 )

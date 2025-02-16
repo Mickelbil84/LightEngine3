@@ -13,7 +13,9 @@ using namespace le3;
 
 void LE3EditorToolbar::init() {
     m_buttons.push_back(LE3EditorToolbarButton("New", "icon_new"));
-    m_buttons.push_back(LE3EditorToolbarButton("Open", "icon_open"));
+    m_buttons.push_back(LE3EditorToolbarButton("Open", "icon_open", []() {
+        LE3GetActiveScene()->load(LE3ED_PROJECT_SCENES_ROOT + "untitled.lua"); // TODO: Move to scenes component
+    }));
     m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save", []() {
         LE3GetActiveScene()->save(LE3ED_PROJECT_SCENES_ROOT + "untitled.lua"); // TODO: Move to scenes component
     }));
