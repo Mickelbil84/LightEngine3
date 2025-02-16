@@ -9,3 +9,9 @@ print(a, b, c)
 for i, _ in ipairs(a) do
     print(a[i], b[i], c[i])
 end
+print("Test texture bindings...")
+a, b = LE3AssetManager.get_textures()
+print(a, b)
+for i, _ in ipairs(a) do
+    print(a[i], b[i])
+end

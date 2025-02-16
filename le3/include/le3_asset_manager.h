@@ -83,6 +83,11 @@ namespace le3 {
             if (!m_texturesPaths.contains(name)) return "";
             return m_texturesPaths[name]; 
         }
+        std::vector<std::string> getTextureNames() { 
+            std::vector<std::string> names;
+            for (auto& [name, texture] : m_pTextures) names.push_back(name);
+            return names;
+        }
         void setTexturePath(std::string name, std::string path) { m_texturesPaths[name] = path; }
         bool hasTexture(std::string name) { return m_pTextures.contains(name); }
         void reloadTexture(std::string name, std::string filename, bool interpolate = true);

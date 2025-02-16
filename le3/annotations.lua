@@ -209,6 +209,10 @@ function LE3AssetManager.get_shader_paths(shaderName) end
 ---@return stringarray
 function LE3AssetManager.get_shaders() end
 
+---@return stringarray
+---@return stringarray
+function LE3AssetManager.get_textures() end
+
 ---@param name string
 ---@return boolean
 function LE3AssetManager.has_material(name) end

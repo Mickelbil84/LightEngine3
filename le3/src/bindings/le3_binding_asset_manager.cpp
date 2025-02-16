@@ -45,6 +45,16 @@ FBIND(LE3AssetManager, has_texture)
     GET_STRING(name)
     PUSH_BOOL(LE3GetAssetManager().hasTexture(name))
 FEND()
+FBIND(LE3AssetManager, get_textures)
+    std::vector<std::string> textureNames, texturePaths;
+    for (auto& name : LE3GetAssetManager().getTextureNames()) {
+        if (name.starts_with(DEFAULT_ENGINE_PREFIX)) continue;
+        textureNames.push_back(name);
+        texturePaths.push_back(LE3GetAssetManager().getTexturePath(name));
+    }
+    PUSH_STRING_ARRAY(textureNames)
+    PUSH_STRING_ARRAY(texturePaths)
+FEND()
 
 FBIND(LE3AssetManager, add_material)
     GET_STRING(name)
@@ -89,7 +99,7 @@ FEND()
 
 LIB(LE3AssetManager,
     add_shader, get_shader_paths, get_shaders,
-    add_texture, has_texture,
+    add_texture, has_texture, get_textures,
     add_material, has_material,
     add_static_mesh, has_static_mesh,
     add_skeletal_mesh, add_skeletal_animation, has_skeletal_mesh
