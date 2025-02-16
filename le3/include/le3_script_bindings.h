@@ -65,11 +65,12 @@ namespace le3 {
     #define PUSH_BOOL(b) LE3GetScriptSystem().pushBool((b)); rcount++;
     #define PUSH_NUMBER(n) LE3GetScriptSystem().pushNumber((n)); rcount++;
     #define PUSH_STRING(s) LE3GetScriptSystem().pushString((s)); rcount++;
+    #define PUSH_STRING_ARRAY(arr) LE3GetScriptSystem().pushStringArray(arr); rcount++;
     #define PUSH_UDATA(udata, type) LE3GetScriptSystem().pushUserType<type>(udata); rcount++;
     #define PUSH_VEC2(v) PUSH_NUMBER((v).x) PUSH_NUMBER((v).y)
     #define PUSH_VEC3(v) PUSH_NUMBER((v).x) PUSH_NUMBER((v).y) PUSH_NUMBER((v).z)
     #define PUSH_VEC4(v) PUSH_NUMBER((v).x) PUSH_NUMBER((v).y) PUSH_NUMBER((v).z) PUSH_NUMBER((v).w)
-    #define PUSH_QUAT(v) PUSH_NUMBER((v).w) PUSH_NUMBER((v).x) PUSH_NUMBER((v).y) PUSH_NUMBER((v).z) 
+    #define PUSH_QUAT(v) PUSH_NUMBER((v).w) PUSH_NUMBER((v).x) PUSH_NUMBER((v).y) PUSH_NUMBER((v).z)
 
     // Add globals
     #define SET_GLOBAL_NUMBER(L, name, val) lua_pushnumber(L, val); lua_setglobal(L, name);

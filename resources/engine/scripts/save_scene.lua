@@ -1,6 +1,18 @@
 ---@return table
 local function save_LE3Scene_assets()
-    return {}
+    local shader_names, shader_vss, shader_fss = LE3AssetManager.get_shaders()
+    local shaders = {}
+    for i, _ in ipairs(shader_names) do
+        table.insert(shaders, {
+            Name = shader_names[i],
+            VertexSource = shader_vss[i],
+            FragmentSource = shader_fss[i]
+        })
+    end
+
+    return {
+        Shaders = {},
+    }
 end
 
 ---@param scene LE3Scene

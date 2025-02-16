@@ -204,6 +204,11 @@ function LE3AssetManager.add_texture(name, filename, interpolate) end
 ---@return string
 function LE3AssetManager.get_shader_paths(shaderName) end
 
+---@return stringarray
+---@return stringarray
+---@return stringarray
+function LE3AssetManager.get_shaders() end
+
 ---@param name string
 ---@return boolean
 function LE3AssetManager.has_material(name) end

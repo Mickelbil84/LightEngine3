@@ -29,6 +29,7 @@ namespace le3 {
         void pushBool(bool b);
         void pushNumber(double d);
         void pushString(std::string str);
+        void pushStringArray(std::vector<std::string> arr);
         template<typename T> void pushUserType(T* udata) {
             lua_pushlightuserdata(L, reinterpret_cast<void*>(udata));
         }

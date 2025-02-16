@@ -19,19 +19,19 @@ namespace le3 {
     const std::string ERROR_TEXTURE = DEFAULT_ENGINE_PREFIX + "T_error";
     const std::string ERROR_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_error";
 
-    const std::string DEFAULT_SHADER = "S_default";
-    const std::string DEFAULT_OBJECTID_SHADER = "S_objectid";
-    const std::string DEFAULT_POSTPROCESS_SHADER = "S_defaultPostProcess";
-    const std::string DEFAULT_SHADOWMAP_SHADER = "S_shadowmap";
-    const std::string DEFAULT_DEBUG_SHADER = "S_debug";
-    const std::string DEFAULT_GIZMO_SHADER = "S_gizmo";
+    const std::string DEFAULT_SHADER = DEFAULT_ENGINE_PREFIX + "S_default";
+    const std::string DEFAULT_OBJECTID_SHADER = DEFAULT_ENGINE_PREFIX + "S_objectid";
+    const std::string DEFAULT_POSTPROCESS_SHADER = DEFAULT_ENGINE_PREFIX + "S_defaultPostProcess";
+    const std::string DEFAULT_SHADOWMAP_SHADER = DEFAULT_ENGINE_PREFIX + "S_shadowmap";
+    const std::string DEFAULT_DEBUG_SHADER = DEFAULT_ENGINE_PREFIX + "S_debug";
+    const std::string DEFAULT_GIZMO_SHADER = DEFAULT_ENGINE_PREFIX + "S_gizmo";
 
     const std::string DEFAULT_MATERIAL = "M_default";
 
-    const std::string DEFAULT_PCD_SHADER = "S_pcd";
+    const std::string DEFAULT_PCD_SHADER = DEFAULT_ENGINE_PREFIX + "S_pcd";
     const std::string DEFAULT_PCD_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_pcd";
 
-    const std::string DEFAULT_SPRITE_SHADER = "S_sprite";
+    const std::string DEFAULT_SPRITE_SHADER = DEFAULT_ENGINE_PREFIX + "S_sprite";
     const std::string DEFAULT_SPRITE_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_sprite";
 
     const std::string SPRITE_AMBIENT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_ambient";
