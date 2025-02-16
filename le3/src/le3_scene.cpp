@@ -14,6 +14,7 @@ using namespace le3;
 #include <fmt/core.h>
 
 #include "le3_engine_systems.h"
+#include "le3_serialization.h"
 
 void LE3Scene::init(int width, int height) {
     m_sceneGraph = std::make_shared<LE3SceneGraph>();
@@ -45,6 +46,14 @@ void LE3Scene::load(std::string path) {
     LE3GetScriptSystem().pushUserType<LE3Scene>(this);
     LE3GetScriptSystem().getGlobal("Scene");
     LE3GetScriptSystem().callFunction(2, 0);
+}
+
+void LE3Scene::save(std::string path) {
+    LE3GetScriptSystem().getGlobal("save_LE3Scene");
+    LE3GetScriptSystem().pushUserType<LE3Scene>(this);
+    LE3GetScriptSystem().callFunction(1, 1);
+    LE3GetScriptSystem().pop(1); // Anyway there is a global variable "Scene"
+    LE3Serialization::dump("Scene", path);
 }
 
 

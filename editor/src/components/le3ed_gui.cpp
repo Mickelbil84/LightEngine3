@@ -9,7 +9,7 @@ void LE3EditorGUI::init() {
         if (!filename.ends_with(".png")) continue;
         std::string iconName = filename.substr(filename.find_last_of("/") + 1);
         iconName = iconName.substr(0, iconName.find_last_of("."));
-        LE3GetAssetManager().addTexture(iconName, filename);
+        LE3GetAssetManager().addTexture(DEFAULT_ENGINE_PREFIX + iconName, filename);
     }
     m_toolbar.init();
     m_toolbox.init();
