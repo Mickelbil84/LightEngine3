@@ -182,6 +182,7 @@ namespace le3 {
     LOPEN_DECLARE(LE3Cylinder);
     LOPEN_DECLARE(LE3Cone);
     LOPEN_DECLARE(LE3Torus);
+    LOPEN_DECLARE(LE3Sphere);
 
     LOPEN_DECLARE(LE3Light);
     LOPEN_DECLARE(LE3AmbientLight);

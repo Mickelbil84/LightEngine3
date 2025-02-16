@@ -48,6 +48,8 @@ LE3Shader = {}
 LE3SkeletalMesh = {}
 ---@class LE3SkeletalModel
 LE3SkeletalModel = {}
+---@class LE3Sphere
+LE3Sphere = {}
 ---@class LE3SpotLight
 LE3SpotLight = {}
 ---@class LE3Sprite
@@ -653,6 +655,16 @@ function LE3Scene.add_skeletal_model(scene, name, meshName, materialName) end
 
 ---@param scene LE3Scene
 ---@param name string
+---@param materialName string
+---@param position_x number
+---@param position_y number
+---@param position_z number
+---@param radius number
+---@param resolution number
+function LE3Scene.add_sphere(scene, name, materialName, position_x, position_y, position_z, radius, resolution) end
+
+---@param scene LE3Scene
+---@param name string
 function LE3Scene.add_spot_light(scene, name) end
 
 ---@param scene LE3Scene
@@ -809,6 +821,26 @@ function LE3SkeletalModel.set_current_animation(self, current_animation) end
 ---@param self LE3SkeletalModel
 ---@param name string
 function LE3SkeletalModel.set_mesh(self, name) end
+
+---@param self LE3Sphere
+---@return number
+function LE3Sphere.get_radius(self) end
+
+---@param self LE3Sphere
+---@return number
+function LE3Sphere.get_resolution(self) end
+
+---@param self LE3Sphere
+---@return number
+function LE3Sphere.get_x0(self) end
+
+---@param self LE3Sphere
+---@return number
+function LE3Sphere.get_y0(self) end
+
+---@param self LE3Sphere
+---@return number
+function LE3Sphere.get_z0(self) end
 
 ---@param light LE3SpotLight
 ---@param resolution number

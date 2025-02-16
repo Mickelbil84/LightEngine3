@@ -51,3 +51,14 @@ LIB(LE3Torus,
     get_minor_radius,
     get_resolution
 )
+
+FBIND_OBJECT_GETTER_NUMBER(LE3Sphere, get_x0, getX0)
+FBIND_OBJECT_GETTER_NUMBER(LE3Sphere, get_y0, getY0)
+FBIND_OBJECT_GETTER_NUMBER(LE3Sphere, get_z0, getZ0)
+FBIND_OBJECT_GETTER_NUMBER(LE3Sphere, get_radius, getRadius)
+FBIND_OBJECT_GETTER_NUMBER(LE3Sphere, get_resolution, getResolution)
+LIB(LE3Sphere,
+    get_x0, get_y0, get_z0,
+    get_radius,
+    get_resolution
+)
