@@ -1,6 +1,10 @@
 #include "le3_event_manager.h"
 using namespace le3;
 
+void LE3EventManager::reset() {
+    m_subscriptions.clear();
+}
+
 void LE3EventManager::subscribe(std::string event, LE3ObjectPtr subscriber, std::function<void(void*)> callback) {
     m_subscriptions[event].push_back({ subscriber, callback });
 }

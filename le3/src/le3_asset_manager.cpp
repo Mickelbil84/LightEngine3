@@ -52,6 +52,34 @@ void LE3AssetManager::init() {
     addTexture(SPRITE_POINT_LIGHT, "/engine/sprites/sprite_point.png");
     addTexture(SPRITE_SPOT_LIGHT, "/engine/sprites/sprite_spot.png");
 }
+void LE3AssetManager::reset() {
+    m_pShaders.clear();
+    m_pMaterials.clear();
+    m_pTextures.clear();
+    m_pStaticMeshes.clear();
+    m_pSkeletalMeshes.clear();
+    m_shadersPaths.clear();
+    m_texturesPaths.clear();
+    m_meshesPaths.clear();
+
+    m_screenRect = nullptr;
+    m_debugLine = nullptr;
+    m_debugBox = nullptr;
+    m_debugCylinder = nullptr;
+    m_debugCone = nullptr;
+    m_gizmoArrow = nullptr;
+    m_gizmoScaleArrow = nullptr;
+    m_gizmoCircle = nullptr;
+    m_gizmoPlane = nullptr;
+    m_gizmoCenter = nullptr;
+    m_gErrorShader = nullptr;
+    m_gErrorTexture = nullptr;
+    m_gErrorMaterial = nullptr;
+    m_lastDeletedShader = "";
+    m_lastDeletedTexture = ""; 
+    m_lastDeletedMaterial = ""; 
+    m_lastDeletedStaticMesh = ""; m_lastDeletedSkeletalMesh = "";
+}
 
 void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {
     try {
@@ -90,7 +118,8 @@ void LE3AssetManager::deleteShader(std::string name) {
 }
 
 void LE3AssetManager::addMaterial(std::string name, std::string shaderName) {
-    if (m_pMaterials.contains(name)) throw std::runtime_error(fmt::format("Material [{}] already exists", name));
+    if (m_pMaterials.contains(name)) //throw std::runtime_error(fmt::format("Material [{}] already exists", name));
+        deleteMaterial(name);
     if (!m_pShaders.contains(shaderName)) throw std::runtime_error(fmt::format("Cannot create material [{}]: shader [{}] does not exist", name, shaderName));
     m_pMaterials[name] = std::make_shared<LE3Material>(m_pShaders[shaderName]);
     m_pMaterials[name]->name = name;

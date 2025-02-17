@@ -9,7 +9,7 @@ void LE3EditorGUI::init() {
         if (!filename.ends_with(".png")) continue;
         std::string iconName = filename.substr(filename.find_last_of("/") + 1);
         iconName = iconName.substr(0, iconName.find_last_of("."));
-        LE3GetAssetManager().addTexture(iconName, filename);
+        LE3GetAssetManager().addTexture(DEFAULT_ENGINE_PREFIX + iconName, filename);
     }
     m_toolbar.init();
     m_toolbox.init();
@@ -31,7 +31,26 @@ void LE3EditorGUI::update(float deltaTime) {
             }
             if (ImGui::MenuItem("Save as..")) { 
             }
+            ImGui::Separator();
+            if (ImGui::MenuItem("Close Project")) {
+                LE3EngineSystems::instance().requestReset();
+            }
+            if (ImGui::MenuItem("Exit")) {
+                m_engineState.notifyWantsQuit();
+            }
         ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Edit")) {
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("View")) {
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Build")) {
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Help")) {
+            ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();
     }
@@ -61,6 +80,15 @@ void LE3EditorGUI::update(float deltaTime) {
     ImGui::PopStyleVar(3);
 
     LE3GetImGuiUtils().addSceneViewport("Viewport", *LE3GetSceneManager().getScene("scene"), m_engineState);
+
+    ImGui::Begin("Text Editor", nullptr, ImGuiWindowFlags_NoMove);
+        // m_textEditor.update();
+        std::string selectedFile = LE3GetEditorManager().getSelectedFile();
+        if (selectedFile.ends_with(".lua") || selectedFile.ends_with(".txt") || selectedFile.ends_with(".vs") || selectedFile.ends_with(".fs")) {
+            std::string content = LE3GetDatFileSystem().getFileContent(selectedFile).toString();
+            ImGui::TextWrapped("%s", content.c_str());
+        }
+    ImGui::End();
 
     ImGui::Begin("SidepanelTop", nullptr, ImGuiWindowFlags_NoMove);
         m_sidepanelTop.update();
@@ -108,6 +136,7 @@ void LE3EditorGUI::setupLayout() {
         ImGui::DockBuilderDockWindow("##Toolbar", dock_toolbar);
         ImGui::DockBuilderDockWindow("##Toolbox", dock_toolbox);
         ImGui::DockBuilderDockWindow("Viewport", dock_mainView);
+        ImGui::DockBuilderDockWindow("Text Editor", dock_mainView);
         ImGui::DockBuilderDockWindow("SidepanelTop", dock_sidepanelTop);
         ImGui::DockBuilderDockWindow("Properties", dock_properties);
         ImGui::DockBuilderDockWindow("Settings", dock_properties);

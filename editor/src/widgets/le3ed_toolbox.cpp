@@ -61,7 +61,7 @@ void LE3EditorToolbox::init() {
         // Add shadow map
         auto pLight = std::dynamic_pointer_cast<LE3DirectionalLight>(LE3GetActiveScene()->getObject(name));
         if (pLight) {
-            pLight->addShadowMap(LE3EngineConfig::get<int>("Rendering.ShadowMapResolution"));
+            pLight->addShadowMap(LE3EngineConfig::get<int>("LE3EngineConfig.Rendering.ShadowMapResolution"));
         }
     }));
     m_buttons.push_back(LE3EditorToolbarButton("PointLight", "icon_addpointlight", [this]() {
@@ -76,7 +76,7 @@ void LE3EditorToolbox::init() {
         // Add shadow map
         auto pLight = std::dynamic_pointer_cast<LE3SpotLight>(LE3GetActiveScene()->getObject(name));
         if (pLight) {
-            pLight->addShadowMap(LE3EngineConfig::get<int>("Rendering.ShadowMapResolution"));
+            pLight->addShadowMap(LE3EngineConfig::get<int>("LE3EngineConfig.Rendering.ShadowMapResolution"));
         }
     }));
     m_buttons.push_back(LE3EditorToolbarButton());
