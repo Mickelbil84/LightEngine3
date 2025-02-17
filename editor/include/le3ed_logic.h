@@ -6,6 +6,7 @@
 #include "components/le3ed_scenes.h"
 #include "components/le3ed_hotkeys.h"
 #include "components/le3ed_scripts.h"
+#include "components/le3ed_wintitle.h"
 
 namespace le3 {
     class LE3EditorLogic  : public LE3GameLogic {
@@ -24,5 +25,6 @@ namespace le3 {
         LE3EditorScenes m_scenes;
         LE3EditorHotkeys m_hotkeys;
         LE3EditorScripts m_scripts; // (*) Important! Scripts should always be the first editor component!
+        LE3EditorWindowTitle m_wintitle;
     };
 }

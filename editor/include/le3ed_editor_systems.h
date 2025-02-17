@@ -4,6 +4,7 @@
 #include "components/le3ed_scenes.h"
 #include "components/le3ed_hotkeys.h"
 #include "components/le3ed_scripts.h"
+#include "components/le3ed_wintitle.h"
 
 namespace le3 {
     class LE3EditorSystems {
@@ -22,11 +23,14 @@ namespace le3 {
         inline LE3EditorScripts* getScriptsComponent() { return g_scriptsComponent; }
         void setScriptsComponent(LE3EditorScripts* scriptsComponent) { g_scriptsComponent = scriptsComponent; }
 
+        inline LE3EditorWindowTitle* getWindowTitleComponent() { return g_wintitleComponent; }
+        void setWindowTitleComponent(LE3EditorWindowTitle* wintitleComponent) { g_wintitleComponent = wintitleComponent; }
 
     private:
         LE3EditorGUI* g_guiComponent;
         LE3EditorScenes* g_scenesComponent;
         LE3EditorHotkeys* g_hotkeysComponent;
         LE3EditorScripts* g_scriptsComponent;
+        LE3EditorWindowTitle* g_wintitleComponent;
     };
 }
