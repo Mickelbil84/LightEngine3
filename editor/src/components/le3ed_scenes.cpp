@@ -1,18 +1,20 @@
 #include "components/le3ed_scenes.h"
 #include "le3ed_editor_systems.h"
+#include "le3ed_events.h"
 using namespace le3;
 
 
 void LE3EditorScenes::loadScene(std::string name) {
     cameraVelocity = glm::vec3();
     cameraRotation = glm::vec3();
+    LE3GetEventManager().notify(LE3ED_EVENT_ON_SCENE_LOAD, nullptr);
 
     initScenes(name);
     initCameras();
     initGizmo();
 }
 void LE3EditorScenes::saveScene(std::string name) {
-    // LE3GetScriptSystem().doString("print(serialize(LE3Scene))")
+    LE3GetEventManager().notify(LE3ED_EVENT_ON_SCENE_SAVE, nullptr);
 }
 
 
