@@ -14,6 +14,8 @@ namespace le3 {
             m_windowWidth = width; m_windowHeight = height; 
             m_bWantsResize = true;
         }
+        void requestRenameTitle(std::string title) { m_windowTitle = title; m_bWantsRenameTitle = true; }
+        std::string getWindowTitle() const { return m_windowTitle; }
 
 
         inline void notifyWantsQuit() { m_bWantsQuit = true; }
@@ -29,6 +31,8 @@ namespace le3 {
     private:
         float m_elapsedTime = 0.f;
         int m_windowWidth, m_windowHeight;
+        std::string m_windowTitle;
+        bool m_bWantsRenameTitle = false;
         bool m_bWantsResize = false;
         bool m_bWantsQuit = false;
         bool m_bWantsRelativeMouse = false;

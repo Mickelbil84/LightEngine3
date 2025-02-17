@@ -1,4 +1,5 @@
 #include "le3_editor_manager.h"
+#include "le3_engine_systems.h"
 using namespace le3;
 
 
@@ -94,16 +95,19 @@ void LE3EditorCommandStack::execute(LE3EditorCommandPtr pCommand) {
     m_pCommands.push_back(std::move(pCommand));
     m_pCommands.back()->execute();
     m_stackTop++;
+    LE3GetEventManager().notify("OnSceneChange", nullptr);
 }
 void LE3EditorCommandStack::undo() {
     if (m_stackTop == 0) return;
     m_pCommands[m_stackTop - 1]->undo();
     m_stackTop--;
+    LE3GetEventManager().notify("OnSceneChange", nullptr);
 }
 void LE3EditorCommandStack::redo() {
     if (m_stackTop == m_pCommands.size()) return;
     m_pCommands[m_stackTop]->execute();
     m_stackTop++;
+    LE3GetEventManager().notify("OnSceneChange", nullptr);
 }
 
 void LE3EditorManager::reset() {

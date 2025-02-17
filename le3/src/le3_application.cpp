@@ -220,6 +220,7 @@ void LE3Application::_initSDL() {
         "LightEngine3 v0.2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 800, flags
     ), SDL_DestroyWindow);
     SDL_SetRelativeMouseMode((SDL_bool)m_pGameLogic->m_engineState.m_bReltaiveMouse);
+    m_pGameLogic->m_engineState.m_windowTitle = SDL_GetWindowTitle(m_pInternal->m_pWindow.get());
 
     if (!m_pInternal->m_pWindow)
         throw std::runtime_error(fmt::format("Could not create SDL window: {}\n", SDL_GetError()));
@@ -318,6 +319,11 @@ void LE3Application::_handleNotifys() {
         SDL_RestoreWindow(m_pInternal->m_pWindow.get());
         SDL_SetWindowSize(m_pInternal->m_pWindow.get(), m_pGameLogic->m_engineState.getWindowWidth(), m_pGameLogic->m_engineState.getWindowHeight());
         m_pGameLogic->m_engineState.m_bWantsResize = false;
+    }
+
+    if (m_pGameLogic->m_engineState.m_bWantsRenameTitle) {
+        SDL_SetWindowTitle(m_pInternal->m_pWindow.get(), m_pGameLogic->m_engineState.m_windowTitle.c_str());
+        m_pGameLogic->m_engineState.m_bWantsRenameTitle = false;   
     }
 
     if (m_pGameLogic->m_engineState.m_bWantsQuit) m_bShouldRun = false;

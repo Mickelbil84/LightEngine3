@@ -11,6 +11,10 @@ namespace le3 {
         void update(float deltaTime) {}
 
     private:
-        void OnTitleUpdate();
+        void OnTitleUpdate(bool pendingSave);
+
+        std::string m_originalTitle;
+        bool m_bPendingSave = false;
+        LE3ObjectPtr m_pDummyObject;
     };
 }
