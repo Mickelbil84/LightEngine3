@@ -18,6 +18,8 @@ namespace le3 {
         inline void addPointLight(LE3PointLightPtr pointLight) { m_pPointLights.push_back(pointLight); }
         inline void addSpotLight(LE3SpotLightPtr spotLight) { m_pSpotLights.push_back(spotLight); }
 
+        void deleteLight(std::string name); // Hotfix for deleting lights (when drawing shadows)
+
         void renderLights(LE3ShaderPtr pShader, glm::vec3 cameraPos);
 
         void setLightSpriteVisibility(bool bVisible);

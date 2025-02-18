@@ -143,3 +143,9 @@ void LE3LightManager::setLightSpriteVisibility(bool bVisible) {
         }
     }
 }
+
+void LE3LightManager::deleteLight(std::string name) {
+    m_pDirectionalLights.erase(std::remove_if(m_pDirectionalLights.begin(), m_pDirectionalLights.end(), [name](std::weak_ptr<LE3DirectionalLight> pLight) { return pLight.lock() && (pLight.lock()->getName() == name); }), m_pDirectionalLights.end());
+    m_pPointLights.erase(std::remove_if(m_pPointLights.begin(), m_pPointLights.end(), [name](std::weak_ptr<LE3PointLight> pLight) { return pLight.lock() && (pLight.lock()->getName() == name); }), m_pPointLights.end());
+    m_pSpotLights.erase(std::remove_if(m_pSpotLights.begin(), m_pSpotLights.end(), [name](std::weak_ptr<LE3SpotLight> pLight) { return pLight.lock() && (pLight.lock()->getName() == name); }), m_pSpotLights.end());
+}

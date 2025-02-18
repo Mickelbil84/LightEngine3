@@ -1,20 +1,37 @@
 #include "widgets/le3ed_toolbar.h"
 #include "le3ed_editor_systems.h"
+#include "le3ed_project.h"
 using namespace le3;
 
 #include "commands/le3ed_com_reparent.h"
 #include "commands/le3ed_com_duplicate.h"
 #include "commands/le3ed_com_delete_objects.h"
+#include "le3ed_events.h"
 
 #include <imgui_internal.h>
 
 
 
 void LE3EditorToolbar::init() {
-    m_buttons.push_back(LE3EditorToolbarButton("New", "icon_new"));
-    m_buttons.push_back(LE3EditorToolbarButton("Open", "icon_open"));
-    m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save"));
+    m_buttons.push_back(LE3EditorToolbarButton("New", "icon_new", []() {
+        LE3EditorSystems::instance().getScenesComponent()->loadScene("");
+    }));
+    m_buttons.back().setupHotkey({"KEY_N", KEY_LE3_CTRL});
+
+    m_buttons.push_back(LE3EditorToolbarButton("Open", "icon_open", []() {
+        LE3EditorSystems::instance().getScenesComponent()->loadScene(LE3ED_PROJECT_SCENES_ROOT + "untitled.lua");
+    }));
+    m_buttons.back().setupHotkey({"KEY_O", KEY_LE3_CTRL});
+
+    m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save", []() {
+        LE3EditorSystems::instance().getScenesComponent()->saveScene(LE3ED_PROJECT_SCENES_ROOT + "untitled.lua");
+    }));
+    m_buttons.back().setupHotkey({"KEY_S", KEY_LE3_CTRL});
+
     m_buttons.push_back(LE3EditorToolbarButton("SaveAs", "icon_saveas"));
+    m_buttons.back().setupHotkey({"KEY_S", KEY_LE3_CTRL, "KEY_LSHIFT"});
+
+
     m_buttons.push_back(LE3EditorToolbarButton());
 
     // -------

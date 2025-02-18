@@ -72,6 +72,10 @@ namespace le3 {
         void execute(LE3EditorCommandPtr pCommand);
         void undo();
         void redo();
+        void reset() {
+            m_pCommands.clear();
+            m_stackTop = 0;
+        }
 
     private:
         std::vector<LE3EditorCommandPtr> m_pCommands;
@@ -86,9 +90,9 @@ namespace le3 {
     class LE3EditorManager {
     public:
         LE3EditorManager() {
-            m_selection.onSelect = [this](LE3EditorSelection& selection) {
-            };
+            reset();
         }
+        void reset();
 
         bool isMouseDown() { return m_bMouseDown; }
         void setMouseDown(bool mouseDown) { m_bMouseDown = mouseDown; }

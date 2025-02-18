@@ -48,6 +48,8 @@ LE3Shader = {}
 LE3SkeletalMesh = {}
 ---@class LE3SkeletalModel
 LE3SkeletalModel = {}
+---@class LE3Sphere
+LE3Sphere = {}
 ---@class LE3SpotLight
 LE3SpotLight = {}
 ---@class LE3Sprite
@@ -197,12 +199,25 @@ function LE3AssetManager.add_static_mesh(name, filename, keepData) end
 ---@param interpolate boolean
 function LE3AssetManager.add_texture(name, filename, interpolate) end
 
+---@return stringarray
+function LE3AssetManager.get_materials() end
+
+---@return stringarray
+---@return boolarray
+function LE3AssetManager.get_meshes() end
+
 ---@param shaderName string
 ---@return string
 ---@return string
 ---@return string
 ---@return string
 function LE3AssetManager.get_shader_paths(shaderName) end
+
+---@return stringarray
+function LE3AssetManager.get_shaders() end
+
+---@return stringarray
+function LE3AssetManager.get_textures() end
 
 ---@param name string
 ---@return boolean
@@ -640,6 +655,16 @@ function LE3Scene.add_skeletal_model(scene, name, meshName, materialName) end
 
 ---@param scene LE3Scene
 ---@param name string
+---@param materialName string
+---@param position_x number
+---@param position_y number
+---@param position_z number
+---@param radius number
+---@param resolution number
+function LE3Scene.add_sphere(scene, name, materialName, position_x, position_y, position_z, radius, resolution) end
+
+---@param scene LE3Scene
+---@param name string
 function LE3Scene.add_spot_light(scene, name) end
 
 ---@param scene LE3Scene
@@ -687,6 +712,10 @@ function LE3Scene.get_object(scene, name) end
 ---@param name string
 ---@return LE3Object
 function LE3Scene.get_object_global(name) end
+
+---@param scene LE3Scene
+---@return LE3Object
+function LE3Scene.get_scene_root(scene) end
 
 ---@param name string
 ---@return boolean
@@ -792,6 +821,26 @@ function LE3SkeletalModel.set_current_animation(self, current_animation) end
 ---@param self LE3SkeletalModel
 ---@param name string
 function LE3SkeletalModel.set_mesh(self, name) end
+
+---@param self LE3Sphere
+---@return number
+function LE3Sphere.get_radius(self) end
+
+---@param self LE3Sphere
+---@return number
+function LE3Sphere.get_resolution(self) end
+
+---@param self LE3Sphere
+---@return number
+function LE3Sphere.get_x0(self) end
+
+---@param self LE3Sphere
+---@return number
+function LE3Sphere.get_y0(self) end
+
+---@param self LE3Sphere
+---@return number
+function LE3Sphere.get_z0(self) end
 
 ---@param light LE3SpotLight
 ---@param resolution number

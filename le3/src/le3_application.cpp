@@ -45,7 +45,9 @@ LE3Application::LE3Application() {
 
 void LE3Application::run() {
     init();
-    while(m_bShouldRun) {
+    SDL_ShowWindow(m_pInternal->m_pWindow.get()); // Show window only after load. TOOD: maybe display loading screen?
+
+    while(m_bShouldRun && !LE3EngineSystems::instance().isRequestingReset()) {
         _handleNotifys();
         handleInput();
         update();
@@ -210,12 +212,15 @@ void LE3Application::_initSDL() {
     flags |= SDL_WINDOW_OPENGL;
     flags |= SDL_WINDOW_RESIZABLE; // TODO: Propagate resizability (and fullscreen) into engine config
     flags |= SDL_WINDOW_MAXIMIZED;
+    // flags |= SDL_WINDOW_HIDDEN;
+    flags |= SDL_WINDOW_ALLOW_HIGHDPI;
 
     // TODO: Propagate window title and size into game config
     m_pInternal->m_pWindow = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
         "LightEngine3 v0.2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 800, flags
     ), SDL_DestroyWindow);
     SDL_SetRelativeMouseMode((SDL_bool)m_pGameLogic->m_engineState.m_bReltaiveMouse);
+    m_pGameLogic->m_engineState.m_windowTitle = SDL_GetWindowTitle(m_pInternal->m_pWindow.get());
 
     if (!m_pInternal->m_pWindow)
         throw std::runtime_error(fmt::format("Could not create SDL window: {}\n", SDL_GetError()));
@@ -225,6 +230,8 @@ void LE3Application::_initSDL() {
         &m_pGameLogic->m_engineState.m_windowHeight);
 
     m_prevTime = m_currTime = SDL_GetPerformanceCounter();
+
+    SDL_HideWindow(m_pInternal->m_pWindow.get());
 
     // if (false) // TODO: Allow fullscreen on init
         // setFullscreen(true);
@@ -240,6 +247,8 @@ void LE3Application::_initOpenGL() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
+
+static std::vector<char> fontData; // TODO: very ugly solution, fonts should be kept at the asset manager.
 void LE3Application::_initImGui() {
     // Setup Dear ImGui
     IMGUI_CHECKVERSION();
@@ -290,15 +299,33 @@ void LE3Application::_initImGui() {
     style.TabRounding = 4.0;
     style.TabBorderSize = 0.0;
     style.TabBarOverlineSize = 0.0;
-    style.TabMinWidthForCloseButton = 0.0;
+    style.TabCloseButtonMinWidthUnselected = 0.0;
     style.ColorButtonPosition = ImGuiDir_Right;
     style.ButtonTextAlign = ImVec2(0.5, 0.5);
     style.SelectableTextAlign = ImVec2(0.0, 0.0);
 
+    // Load font
+    LE3DatBuffer font = LE3GetDatFileSystem().getFileContent("/engine/fonts/Tahoma.ttf");
+    ImFontConfig font_cfg;
+    fontData = font.data;
+    font_cfg.FontDataOwnedByAtlas = false;
+    font_cfg.RasterizerDensity = 4.0f;
+    io.Fonts->AddFontFromMemoryTTF(&fontData[0], fontData.size(), 16.0f, &font_cfg);
 
 }
 
 void LE3Application::_handleNotifys() {
+    if (m_pGameLogic->m_engineState.m_bWantsResize) {
+        SDL_RestoreWindow(m_pInternal->m_pWindow.get());
+        SDL_SetWindowSize(m_pInternal->m_pWindow.get(), m_pGameLogic->m_engineState.getWindowWidth(), m_pGameLogic->m_engineState.getWindowHeight());
+        m_pGameLogic->m_engineState.m_bWantsResize = false;
+    }
+
+    if (m_pGameLogic->m_engineState.m_bWantsRenameTitle) {
+        SDL_SetWindowTitle(m_pInternal->m_pWindow.get(), m_pGameLogic->m_engineState.m_windowTitle.c_str());
+        m_pGameLogic->m_engineState.m_bWantsRenameTitle = false;   
+    }
+
     if (m_pGameLogic->m_engineState.m_bWantsQuit) m_bShouldRun = false;
     
     if (m_pGameLogic->m_engineState.m_bWantsRelativeMouse != m_pGameLogic->m_engineState.m_bReltaiveMouse) {
