@@ -14,9 +14,9 @@ LE3EditorLogic::LE3EditorLogic() :
         m_wintitle(m_engineState) {
     m_pComponents.push_back(&m_scripts); // See comment (*) in le3ed_logic.h
     m_pComponents.push_back(&m_gui);
-    m_pComponents.push_back(&m_scenes);
     m_pComponents.push_back(&m_hotkeys);
     m_pComponents.push_back(&m_wintitle);
+    m_pComponents.push_back(&m_scenes);
 
     LE3EditorSystems::instance().setGUIComponent(&m_gui);
     LE3EditorSystems::instance().setScenesComponent(&m_scenes);

@@ -15,12 +15,10 @@ using namespace le3;
 void LE3EditorToolbar::init() {
     m_buttons.push_back(LE3EditorToolbarButton("New", "icon_new"));
     m_buttons.push_back(LE3EditorToolbarButton("Open", "icon_open", []() {
-        LE3GetActiveScene()->load(LE3ED_PROJECT_SCENES_ROOT + "untitled.lua"); // TODO: Move to scenes component
-        LE3GetEventManager().notify(LE3ED_EVENT_ON_SCENE_LOAD, nullptr);
+        LE3EditorSystems::instance().getScenesComponent()->loadScene(LE3ED_PROJECT_SCENES_ROOT + "untitled.lua");
     }));
     m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save", []() {
-        LE3GetActiveScene()->save(LE3ED_PROJECT_SCENES_ROOT + "untitled.lua"); // TODO: Move to scenes component
-        LE3GetEventManager().notify(LE3ED_EVENT_ON_SCENE_SAVE, nullptr);
+        LE3EditorSystems::instance().getScenesComponent()->saveScene(LE3ED_PROJECT_SCENES_ROOT + "untitled.lua");
     }));
     m_buttons.push_back(LE3EditorToolbarButton("SaveAs", "icon_saveas"));
     m_buttons.push_back(LE3EditorToolbarButton());

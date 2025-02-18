@@ -7,13 +7,17 @@ using namespace le3;
 void LE3EditorScenes::loadScene(std::string name) {
     cameraVelocity = glm::vec3();
     cameraRotation = glm::vec3();
-    LE3GetEventManager().notify(LE3ED_EVENT_ON_SCENE_LOAD, nullptr);
 
+    LE3EngineConfig::set<std::string>("LE3ProjectConfig.LastOpenedScene", name);
+    
     initScenes(name);
     initCameras();
     initGizmo();
+
+    LE3GetEventManager().notify(LE3ED_EVENT_ON_SCENE_LOAD, nullptr);
 }
 void LE3EditorScenes::saveScene(std::string name) {
+    LE3EngineConfig::set<std::string>("LE3ProjectConfig.LastOpenedScene", name);
     LE3GetEventManager().notify(LE3ED_EVENT_ON_SCENE_SAVE, nullptr);
 }
 
@@ -110,7 +114,8 @@ void LE3EditorScenes::initScenes(std::string name) {
     }
     
     // Load post process shader
-    LE3GetAssetManager().addShaderFromFile(DEFAULT_ENGINE_PREFIX + "S_le3edpp", "/engine/shaders/postprocess/ppvert.vs", "/editor/shaders/le3edpp.fs");
+    if (!LE3GetAssetManager().hasShader(DEFAULT_ENGINE_PREFIX + "S_le3edpp"))
+        LE3GetAssetManager().addShaderFromFile(DEFAULT_ENGINE_PREFIX + "S_le3edpp", "/engine/shaders/postprocess/ppvert.vs", "/editor/shaders/le3edpp.fs");
     for (auto& [k, scene] : LE3GetSceneManager().getScenes()) {
         scene->setPostProcessShader(LE3GetAssetManager().getShader(DEFAULT_ENGINE_PREFIX + "S_le3edpp"));
     }
