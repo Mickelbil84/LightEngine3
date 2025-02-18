@@ -16,10 +16,17 @@ if (LE3_WITH_EDITOR)
         set(LUA_LIBRARIES lua::lua)
     endif()
 
+    # Link against CoreFoundation on macOS, and gtk on Linux, for native_message_box
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-        # Link against CoreFoundation on macOS, for native_message_box
         find_library(corefoundation_lib CoreFoundation)
         set(frameworks ${corefoundation_lib})
+    elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+        find_package(PkgConfig REQUIRED)
+        pkg_check_modules(GTK REQUIRED gtkmm-3.0)
+        INCLUDE_DIRECTORIES(${GTK_INCLUDE_DIRS})
+        LINK_DIRECTORIES(${GTK_LIBRARY_DIRS})
+        ADD_DEFINITIONS(${GTK_CFLAGS_OTHER})
+        set(frameworks  ${GTKMM_LIBRARIES} ${GTK_LIBRARIES})
     else()
         set(frameworks)
     endif()
