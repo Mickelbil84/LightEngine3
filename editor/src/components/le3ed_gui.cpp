@@ -23,7 +23,7 @@ void LE3EditorGUI::update(float deltaTime) {
 
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
-            if (ImGui::MenuItem("Create")) { 
+            if (ImGui::MenuItem("New", "Ctrl+N")) { 
             }
             if (ImGui::MenuItem("Open", "Ctrl+O")) { 
             }
