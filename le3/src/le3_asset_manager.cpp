@@ -81,6 +81,45 @@ void LE3AssetManager::reset() {
     m_lastDeletedStaticMesh = ""; m_lastDeletedSkeletalMesh = "";
 }
 
+void LE3AssetManager::resetNonEditor() {
+    std::map<std::string, std::shared_ptr<LE3Shader>> pShaders;
+    for (auto& [name, v] : m_pShaders) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) pShaders[name] = v;
+    m_pShaders = pShaders;
+
+    std::map<std::string, std::shared_ptr<LE3Material>> pMaterials;
+    for (auto& [name, v] : m_pMaterials) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) pMaterials[name] = v;
+    m_pMaterials = pMaterials;
+
+    std::map<std::string, std::shared_ptr<LE3Texture>> pTextures;
+    for (auto& [name, v] : m_pTextures) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) pTextures[name] = v;
+    m_pTextures = pTextures;
+
+    std::map<std::string, std::shared_ptr<LE3StaticMesh>> pStaticMeshes;
+    for (auto& [name, v] : m_pStaticMeshes) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) pStaticMeshes[name] = v;
+    m_pStaticMeshes = pStaticMeshes;
+
+    std::map<std::string, std::shared_ptr<LE3SkeletalMesh>> pSkeletalMeshes;
+    for (auto& [name, v] : m_pSkeletalMeshes) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) pSkeletalMeshes[name] = v;
+    m_pSkeletalMeshes = pSkeletalMeshes;
+
+    std::map<std::string, std::pair<std::string, std::string>> shadersPaths;
+    for (auto& [name, v] : m_shadersPaths) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) shadersPaths[name] = v;
+    m_shadersPaths = shadersPaths;
+
+    std::map<std::string, std::string> texturesPaths;
+    for (auto& [name, v] : m_texturesPaths) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) texturesPaths[name] = v;
+    m_texturesPaths = texturesPaths;
+
+    std::map<std::string, std::string> meshesPaths;
+    for (auto& [name, v] : m_meshesPaths) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) meshesPaths[name] = v;
+    m_meshesPaths = meshesPaths;
+
+    m_lastDeletedShader = "";
+    m_lastDeletedTexture = ""; 
+    m_lastDeletedMaterial = ""; 
+    m_lastDeletedStaticMesh = ""; m_lastDeletedSkeletalMesh = "";
+}
+
 void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {
     try {
         std::string vertexShaderSource = readFile(vertexShaderPath);

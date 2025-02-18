@@ -97,6 +97,10 @@ void LE3EditorScenes::initCameras() {
     LE3GetSceneManager().getScene("scene")->getMainCamera()->getTransform().setPosition(glm::vec3(0.f, 0.5f, 5.f));
 }
 void LE3EditorScenes::initScenes(std::string name) {    
+    LE3GetAssetManager().resetNonEditor();
+    LE3GetEditorManager().getSelection().reset();
+    LE3GetEditorManager().getCommandStack().reset();
+
     LE3GetSceneManager().createScene("scene", m_engineState, name);
     LE3GetSceneManager().getScene("scene")->setRenderDirectly(false);
     LE3GetSceneManager().getScene("scene")->resize(10, 10);

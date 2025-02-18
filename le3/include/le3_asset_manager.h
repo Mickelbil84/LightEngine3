@@ -45,6 +45,7 @@ namespace le3 {
     public:
         void init();
         void reset();
+        void resetNonEditor(); // Reset only non-essential assets
         void refreshPointers(); // In case of asset deletions, make sure everything is still kosher
 
         // Shaders
