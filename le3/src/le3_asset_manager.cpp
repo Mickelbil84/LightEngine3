@@ -93,7 +93,7 @@ void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShad
     m_shadersPaths[name] = std::make_pair(vertexShaderPath, fragmentShaderPath);
 }
 void LE3AssetManager::addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource) {
-    if (m_pShaders.contains(name)) throw std::runtime_error(fmt::format("Shader [{}] already exists", name));
+    if (m_pShaders.contains(name)) deleteShader(name);
     m_pShaders[name] = std::make_shared<LE3Shader>(vertexShaderSource, fragmentShaderSource);
     m_pShaders[name]->setName(name);
 }
@@ -141,7 +141,7 @@ void LE3AssetManager::deleteMaterial(std::string name) {
 
 
 void LE3AssetManager::addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate) {
-    if (m_pTextures.contains(name)) throw std::runtime_error(fmt::format("Texture [{}] already exists", name));
+    if (m_pTextures.contains(name)) deleteTexture(name);
     m_pTextures[name] = std::make_shared<LE3Texture>(data, width, height, nChannels, interpolate);
     m_pTextures[name]->setName(name);
 }
@@ -190,7 +190,7 @@ void LE3AssetManager::deleteTexture(std::string name) {
 }
 
 void LE3AssetManager::addStaticMesh(std::string name, std::string filename, bool keepData) {
-    if (m_pStaticMeshes.contains(name)) throw std::runtime_error(fmt::format("Static mesh [{}] already exists", name));
+    if (m_pStaticMeshes.contains(name)) deleteStaticMesh(name);
     m_pStaticMeshes[name] = loadStaticMesh(filename, keepData);
     m_pStaticMeshes[name]->setName(name);
     m_meshesPaths[name] = filename;
@@ -226,7 +226,7 @@ void LE3AssetManager::deleteStaticMesh(std::string name) {
 
 
 void LE3AssetManager::addSkeletalMesh(std::string name, std::string filename) {
-    if (m_pSkeletalMeshes.contains(name)) throw std::runtime_error(fmt::format("Skeletal mesh [{}] already exists", name));
+    if (m_pSkeletalMeshes.contains(name)) deleteSkeletalMesh(name);
     m_pSkeletalMeshes[name] = loadSkeletalMesh(filename);
     m_pSkeletalMeshes[name]->setName(name);
     m_meshesPaths[name] = filename;
