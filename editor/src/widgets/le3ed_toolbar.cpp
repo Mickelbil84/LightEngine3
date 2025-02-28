@@ -1,20 +1,38 @@
 #include "widgets/le3ed_toolbar.h"
 #include "le3ed_editor_systems.h"
+#include "le3ed_project.h"
 using namespace le3;
 
 #include "commands/le3ed_com_reparent.h"
 #include "commands/le3ed_com_duplicate.h"
 #include "commands/le3ed_com_delete_objects.h"
+#include "le3ed_events.h"
 
 #include <imgui_internal.h>
 
 
 
 void LE3EditorToolbar::init() {
-    m_buttons.push_back(LE3EditorToolbarButton("New", "icon_new"));
-    m_buttons.push_back(LE3EditorToolbarButton("Open", "icon_open"));
-    m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save"));
+    m_buttons.push_back(LE3EditorToolbarButton("New", "icon_new", []() {
+        LE3EditorSystems::instance().getScenesComponent()->loadScene("");
+    }));
+    m_buttons.back().setupHotkey({"KEY_N", KEY_LE3_CTRL});
+
+    m_buttons.push_back(LE3EditorToolbarButton("Open", "icon_open", []() {
+        LE3EditorSystems::instance().getScenesComponent()->openLoadScenePopup();
+    }));
+    m_buttons.back().setupHotkey({"KEY_O", KEY_LE3_CTRL});
+    m_popups[LE3ED_POP_LOAD_SCENE] = LE3EditorSystems::instance().getScenesComponent()->getLoadScenePopup();
+
+    m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save", []() {
+        LE3EditorSystems::instance().getScenesComponent()->saveScene(LE3ED_PROJECT_SCENES_ROOT + "untitled2.lua");
+    }));
+    m_buttons.back().setupHotkey({"KEY_S", KEY_LE3_CTRL});
+
     m_buttons.push_back(LE3EditorToolbarButton("SaveAs", "icon_saveas"));
+    m_buttons.back().setupHotkey({"KEY_S", KEY_LE3_CTRL, "KEY_LSHIFT"});
+
+
     m_buttons.push_back(LE3EditorToolbarButton());
 
     // -------
@@ -87,6 +105,14 @@ void LE3EditorToolbar::init() {
 
 }
 void LE3EditorToolbar::update() {
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(0.f, 0.f));
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.f, 0.f, 0.f, 0.f));
+    ImGui::Begin("##Toolbar", nullptr, ImGuiWindowFlags_NoMove | 
+            ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | 
+            ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_AlwaysAutoResize);
+
     for (auto button : m_buttons) {
         ImGui::SameLine();
         if (button.separator) {
@@ -104,7 +130,11 @@ void LE3EditorToolbar::update() {
             button.onClick();
         }
     }
-    for (auto& [name, popup]: m_popups) {
-        popup->update();
-    }
+
+    ImGui::PopStyleColor(1);
+    ImGui::PopStyleVar(3);
+    
+    LE3EditorSystems::instance().updatePopups();
+    
+    ImGui::End();
 }

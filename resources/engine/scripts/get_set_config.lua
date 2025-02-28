@@ -16,3 +16,19 @@ function get_config(key)
 
     return res
 end
+
+---@param key string
+---@param value any
+function set_config(key, value)
+    local keys = {}
+    for k in string.gmatch(key, "[^%.]+") do
+        table.insert(keys, k)
+    end
+
+    local res = _G[keys[1]]
+    for i = 2, #keys - 1 do
+        res = res[keys[i]]
+    end
+
+    res[keys[#keys]] = value
+end

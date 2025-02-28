@@ -203,6 +203,8 @@ LE3DatBuffer LE3DatArchive::getFileContent(std::string path, bool shouldDecompre
     if (!m_fileInfos.contains(path)) throw std::runtime_error(fmt::format("Path '{}' does not exist in archive", path));
     LE3FileInfo fileInfo = m_fileInfos[path];
 
+    if (fileInfo.packedSize == 0) return LE3DatBuffer();
+
     char* tmp = new char[fileInfo.packedSize];
     m_archiveFile.seekg(fileInfo.offset, std::ios::beg);
     m_archiveFile.read(tmp, fileInfo.packedSize);

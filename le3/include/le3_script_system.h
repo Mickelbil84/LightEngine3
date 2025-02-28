@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include <memory>
 #include <string>
 
@@ -19,14 +20,18 @@ namespace le3 {
     public:
         LE3ScriptSystem();
         ~LE3ScriptSystem();
+        void reset();
 
         void doString(std::string code);
         void doFile(std::string filename);
         
+        bool isNil();
         void pushNil();
         void pushBool(bool b);
+        void pushBoolArray(std::vector<bool> arr);
         void pushNumber(double d);
         void pushString(std::string str);
+        void pushStringArray(std::vector<std::string> arr);
         template<typename T> void pushUserType(T* udata) {
             lua_pushlightuserdata(L, reinterpret_cast<void*>(udata));
         }
@@ -37,6 +42,8 @@ namespace le3 {
         void setGlobal(std::string name); // set recently pushed var on stack as global
         void getGlobal(std::string name); // push global var to stack
         void getField(std::string field); // push field from table (the table is on top of stack) to stack
+        void getRawi(int index); // push raw value from table (the table is on top of stack) to stack
+        void createEmptyTable(std::string name); // create a new table and set it as global
 
         bool getBool(int index);
         double getNumber(int index);
@@ -48,6 +55,7 @@ namespace le3 {
         }
 
         void callFunction(int numArgs, int numResults);
+        void callFunction(std::string name, int numResults = 0); // Shortcut for functions that take no arguments
         void pushValue(int index);
 
         void pop(int cnt);
