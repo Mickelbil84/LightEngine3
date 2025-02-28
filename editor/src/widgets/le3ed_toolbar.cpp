@@ -19,9 +19,10 @@ void LE3EditorToolbar::init() {
     m_buttons.back().setupHotkey({"KEY_N", KEY_LE3_CTRL});
 
     m_buttons.push_back(LE3EditorToolbarButton("Open", "icon_open", []() {
-        LE3EditorSystems::instance().getScenesComponent()->loadScene(LE3ED_PROJECT_SCENES_ROOT + "untitled.lua");
+        LE3EditorSystems::instance().getScenesComponent()->openLoadScenePopup();
     }));
     m_buttons.back().setupHotkey({"KEY_O", KEY_LE3_CTRL});
+    m_popups[LE3ED_POP_LOAD_SCENE] = LE3EditorSystems::instance().getScenesComponent()->getLoadScenePopup();
 
     m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save", []() {
         LE3EditorSystems::instance().getScenesComponent()->saveScene(LE3ED_PROJECT_SCENES_ROOT + "untitled.lua");
@@ -104,6 +105,14 @@ void LE3EditorToolbar::init() {
 
 }
 void LE3EditorToolbar::update() {
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(0.f, 0.f));
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.f, 0.f, 0.f, 0.f));
+    ImGui::Begin("##Toolbar", nullptr, ImGuiWindowFlags_NoMove | 
+            ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | 
+            ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_AlwaysAutoResize);
+
     for (auto button : m_buttons) {
         ImGui::SameLine();
         if (button.separator) {
@@ -121,7 +130,13 @@ void LE3EditorToolbar::update() {
             button.onClick();
         }
     }
+
+    ImGui::PopStyleColor(1);
+    ImGui::PopStyleVar(3);
+    
     for (auto& [name, popup]: m_popups) {
         popup->update();
     }
+    
+    ImGui::End();
 }

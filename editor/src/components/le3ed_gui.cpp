@@ -56,18 +56,7 @@ void LE3EditorGUI::update(float deltaTime) {
     }
     ImGui::End();
 
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(0.f, 0.f));
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.f, 0.f, 0.f, 0.f));
-
-    ImGui::Begin("##Toolbar", nullptr, ImGuiWindowFlags_NoMove | 
-            ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | 
-            ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_AlwaysAutoResize);
-        m_toolbar.update();
-    ImGui::End();
-    ImGui::PopStyleColor(1);
-    ImGui::PopStyleVar(3);
+    m_toolbar.update();
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(6.f, 4.f));
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 2.f));

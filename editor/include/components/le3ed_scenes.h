@@ -1,6 +1,7 @@
 #pragma once
 
 #include "le3ed_component.h"
+#include "widgets/popups/le3ed_pop_load_scene.h"
 
 namespace le3 {
 
@@ -14,6 +15,11 @@ namespace le3 {
         
         void saveScene(std::string name);
         void loadScene(std::string name);
+
+        void openLoadScenePopup();
+        void openSaveScenePopup();
+
+        LE3EditorPopup* getLoadScenePopup() { return &m_loadScenePop; }
     
     private:
         void initCameras();
@@ -22,6 +28,8 @@ namespace le3 {
 
         glm::vec3 cameraVelocity, cameraRotation;
         float walkSpeed = 2.2f, sensitivity = 0.005f;
+
+        LE3EdPopLoadScene m_loadScenePop;
     };
 
 }

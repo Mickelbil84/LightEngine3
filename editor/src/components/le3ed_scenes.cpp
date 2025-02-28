@@ -74,6 +74,9 @@ void LE3EditorScenes::update(float deltaTime) {
             }
         }
     }
+
+    // Update popups
+    // m_loadScenePop.update();
 }
 void LE3EditorScenes::render() {
     LE3GetSceneManager().getScene("scene")->draw();
@@ -161,4 +164,12 @@ void LE3EditorScenes::handleInput(LE3Input input) {
     }
     // If camera already moves, block edit
     LE3GetEditorManager().setEditBlocked(glm::length(cameraVelocity) > 0.f || glm::length(cameraRotation) > 0.f);
+}
+
+void LE3EditorScenes::openLoadScenePopup() {
+    m_loadScenePop.init();
+    ImGui::OpenPopup((LE3ED_POP_LOAD_SCENE).c_str());
+}
+void LE3EditorScenes::openSaveScenePopup() {
+
 }
