@@ -74,9 +74,6 @@ void LE3EditorScenes::update(float deltaTime) {
             }
         }
     }
-
-    // Update popups
-    // m_loadScenePop.update();
 }
 void LE3EditorScenes::render() {
     LE3GetSceneManager().getScene("scene")->draw();

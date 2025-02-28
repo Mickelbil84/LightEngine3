@@ -1,4 +1,5 @@
 #include "widgets/le3ed_sidepanel_top.h"
+#include "le3ed_editor_systems.h"
 using namespace le3;
 
 #include <imgui_internal.h>

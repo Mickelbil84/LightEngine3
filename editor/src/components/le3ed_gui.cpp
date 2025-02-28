@@ -1,4 +1,5 @@
 #include "components/le3ed_gui.h"
+#include "le3ed_editor_systems.h"
 using namespace le3;
 
 #include <imgui_internal.h>
@@ -26,6 +27,7 @@ void LE3EditorGUI::update(float deltaTime) {
             if (ImGui::MenuItem("New", "Ctrl+N")) { 
             }
             if (ImGui::MenuItem("Open", "Ctrl+O")) { 
+                LE3EditorSystems::instance().getScenesComponent()->openLoadScenePopup();
             }
             if (ImGui::MenuItem("Save", "Ctrl+S")) {
             }
@@ -38,6 +40,7 @@ void LE3EditorGUI::update(float deltaTime) {
             if (ImGui::MenuItem("Exit")) {
                 m_engineState.notifyWantsQuit();
             }
+            LE3EditorSystems::instance().updatePopups();
         ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Edit")) {
@@ -89,6 +92,7 @@ void LE3EditorGUI::update(float deltaTime) {
 
     ImGui::Begin("Settings", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoFocusOnAppearing);
         m_settingsPanel.update();
+        LE3EditorSystems::instance().getHotkeysComponent()->solveHotkeys();
     ImGui::End();
 
 }

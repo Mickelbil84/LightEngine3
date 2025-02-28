@@ -9,6 +9,7 @@ namespace le3 {
     public:
         LE3ED_COMPONENT_DEAFULT_CTOR(LE3EditorHotkeys)
         void handleInput(LE3Input input);
+        void solveHotkeys(); // Called by the le3ed_gui.cpp, to resolve hotkeys inside the update GUI loop
 
         void bindHotkey(std::vector<std::string> hotkey, std::function<void()> callback);
 
@@ -17,5 +18,6 @@ namespace le3 {
 
         LE3Input m_prevInput;
         std::map<std::vector<std::string>, std::function<void()>> m_hotkeys;
+        std::vector<std::vector<std::string>> m_pendingHotkeys;
     };
 }

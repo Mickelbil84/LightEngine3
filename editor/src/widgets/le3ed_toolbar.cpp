@@ -134,9 +134,7 @@ void LE3EditorToolbar::update() {
     ImGui::PopStyleColor(1);
     ImGui::PopStyleVar(3);
     
-    for (auto& [name, popup]: m_popups) {
-        popup->update();
-    }
+    LE3EditorSystems::instance().updatePopups();
     
     ImGui::End();
 }
