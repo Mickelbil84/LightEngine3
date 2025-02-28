@@ -27,7 +27,7 @@ void LE3EditorGUI::update(float deltaTime) {
             if (ImGui::MenuItem("New", "Ctrl+N")) { 
             }
             if (ImGui::MenuItem("Open", "Ctrl+O")) { 
-                LE3EditorSystems::instance().getScenesComponent()->openLoadScenePopup();
+                LE3EditorSystems::instance().getHotkeysComponent()->manualFireHotkey({"KEY_O", KEY_LE3_CTRL});
             }
             if (ImGui::MenuItem("Save", "Ctrl+S")) {
             }
