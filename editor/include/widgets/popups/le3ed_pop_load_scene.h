@@ -15,6 +15,7 @@ namespace le3 {
 
     private:
         std::vector<std::string> m_availableScenes;
+        char** m_availableScenesCStr = nullptr;
         int m_selectionIdx = 0;
     };
 }

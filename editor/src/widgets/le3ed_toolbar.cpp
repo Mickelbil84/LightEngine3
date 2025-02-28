@@ -25,7 +25,7 @@ void LE3EditorToolbar::init() {
     m_popups[LE3ED_POP_LOAD_SCENE] = LE3EditorSystems::instance().getScenesComponent()->getLoadScenePopup();
 
     m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save", []() {
-        LE3EditorSystems::instance().getScenesComponent()->saveScene(LE3ED_PROJECT_SCENES_ROOT + "untitled.lua");
+        LE3EditorSystems::instance().getScenesComponent()->saveScene(LE3ED_PROJECT_SCENES_ROOT + "untitled2.lua");
     }));
     m_buttons.back().setupHotkey({"KEY_S", KEY_LE3_CTRL});
 
