@@ -118,6 +118,9 @@ void LE3AssetManager::resetNonEditor() {
     m_lastDeletedTexture = ""; 
     m_lastDeletedMaterial = ""; 
     m_lastDeletedStaticMesh = ""; m_lastDeletedSkeletalMesh = "";
+
+    // Hotfix: re-add the default material, since it is engine but without the prefix
+    addMaterial(DEFAULT_MATERIAL, DEFAULT_SHADER);
 }
 
 void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {
