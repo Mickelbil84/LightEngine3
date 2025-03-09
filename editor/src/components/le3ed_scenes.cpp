@@ -169,5 +169,6 @@ void LE3EditorScenes::openLoadScenePopup() {
     ImGui::OpenPopup((LE3ED_POP_LOAD_SCENE).c_str());
 }
 void LE3EditorScenes::openSaveScenePopup() {
-
+    m_saveScenePop.init();
+    ImGui::OpenPopup((LE3ED_POP_SAVE_SCENE).c_str());
 }

@@ -62,6 +62,7 @@ if (LE3_WITH_EDITOR)
         src/widgets/popups/le3ed_pop_add_texture.cpp
         src/widgets/popups/le3ed_pop_add_material.cpp
         src/widgets/popups/le3ed_pop_load_scene.cpp
+        src/widgets/popups/le3ed_pop_save_scene.cpp
 
         src/commands/le3ed_com_add_mesh.cpp
         src/commands/le3ed_com_delete_mesh.cpp

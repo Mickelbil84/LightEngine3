@@ -25,13 +25,16 @@ void LE3EditorGUI::update(float deltaTime) {
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
             if (ImGui::MenuItem("New", "Ctrl+N")) { 
+                LE3EditorSystems::instance().getHotkeysComponent()->manualFireHotkey({"KEY_N", KEY_LE3_CTRL});
             }
             if (ImGui::MenuItem("Open", "Ctrl+O")) { 
                 LE3EditorSystems::instance().getHotkeysComponent()->manualFireHotkey({"KEY_O", KEY_LE3_CTRL});
             }
             if (ImGui::MenuItem("Save", "Ctrl+S")) {
+                LE3EditorSystems::instance().getHotkeysComponent()->manualFireHotkey({"KEY_S", KEY_LE3_CTRL});
             }
-            if (ImGui::MenuItem("Save as..")) { 
+            if (ImGui::MenuItem("Save as..", "Ctrl+Shift+S")) { 
+                LE3EditorSystems::instance().getHotkeysComponent()->manualFireHotkey({"KEY_S", KEY_LE3_CTRL, "KEY_LSHIFT"});
             }
             ImGui::Separator();
             if (ImGui::MenuItem("Close Project")) {

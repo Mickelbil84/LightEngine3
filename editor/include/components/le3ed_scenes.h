@@ -2,6 +2,7 @@
 
 #include "le3ed_component.h"
 #include "widgets/popups/le3ed_pop_load_scene.h"
+#include "widgets/popups/le3ed_pop_save_scene.h"
 
 namespace le3 {
 
@@ -20,6 +21,7 @@ namespace le3 {
         void openSaveScenePopup();
 
         LE3EditorPopup* getLoadScenePopup() { return &m_loadScenePop; }
+        LE3EditorPopup* getSaveScenePopup() { return &m_saveScenePop; }
     
     private:
         void initCameras();
@@ -30,6 +32,7 @@ namespace le3 {
         float walkSpeed = 2.2f, sensitivity = 0.005f;
 
         LE3EdPopLoadScene m_loadScenePop;
+        LE3EdPopSaveScene m_saveScenePop;
     };
 
 }

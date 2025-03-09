@@ -25,12 +25,20 @@ void LE3EditorToolbar::init() {
     m_popups[LE3ED_POP_LOAD_SCENE] = LE3EditorSystems::instance().getScenesComponent()->getLoadScenePopup();
 
     m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save", []() {
-        LE3EditorSystems::instance().getScenesComponent()->saveScene(LE3ED_PROJECT_SCENES_ROOT + "untitled2.lua");
+        std::string sceneName = LE3GetConfig<std::string>("LE3ProjectConfig.LastOpenedScene", "");
+        if (sceneName.size() == 0) {
+            LE3EditorSystems::instance().getScenesComponent()->openSaveScenePopup();
+        } else {
+            LE3EditorSystems::instance().getScenesComponent()->saveScene(sceneName);
+        }
     }));
     m_buttons.back().setupHotkey({"KEY_S", KEY_LE3_CTRL});
 
-    m_buttons.push_back(LE3EditorToolbarButton("SaveAs", "icon_saveas"));
+    m_buttons.push_back(LE3EditorToolbarButton("SaveAs", "icon_saveas", []() {
+        LE3EditorSystems::instance().getScenesComponent()->openSaveScenePopup();
+    }));
     m_buttons.back().setupHotkey({"KEY_S", KEY_LE3_CTRL, "KEY_LSHIFT"});
+    m_popups[LE3ED_POP_SAVE_SCENE] = LE3EditorSystems::instance().getScenesComponent()->getSaveScenePopup();
 
 
     m_buttons.push_back(LE3EditorToolbarButton());
