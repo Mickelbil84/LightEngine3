@@ -6,6 +6,8 @@ namespace le3 {
 
     class LE3VisualDebug {
     public:
+        void reset();
+
         inline void setActiveCamera(LE3CameraPtr camera) { m_activeCamera = camera; }
 
         void drawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 color);
