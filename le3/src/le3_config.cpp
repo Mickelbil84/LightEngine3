@@ -25,6 +25,8 @@ template<> std::vector<std::string> LE3EngineConfig::getValue<std::vector<std::s
         res.push_back(LE3GetScriptSystem().getString(-1));
         LE3GetScriptSystem().pop(1);
     } while (true);
+    // Since all other methods leave something on top of stack, push some (nil) value
+    // LE3GetScriptSystem().pushNil();
     return res;
 }
 

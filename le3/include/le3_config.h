@@ -13,25 +13,12 @@ namespace le3 {
     class LE3EngineConfig {
     public:
         template<typename T> static T get(const std::string key) {
-            /////////////////////////////////////
-            // keys = key.split('.') // python
-            std::vector<std::string> keys;
-            std::stringstream ss(key);
-            std::string token;
-            while (std::getline(ss, token, '.')) {
-                keys.push_back(token);
-            }
-            /////////////////////////////////////
-            LE3GetScriptSystem().getGlobal(keys[0]);
-            bool first = true;
-            for (auto k : keys) {
-                _testnil(key);
-                if (first) {first = false; continue; }
-                LE3GetScriptSystem().getField(k);
-            }
-            _testnil(key);
+            LE3GetScriptSystem().getGlobal("get_config");
+            LE3GetScriptSystem().pushString(key);
+            LE3GetScriptSystem().callFunction(1, 1);
+            _testnil(key, 1);
             T res = getValue<T>();
-            LE3GetScriptSystem().pop(keys.size()+1);
+            LE3GetScriptSystem().pop(1);
             return res;
         }
 
@@ -59,8 +46,11 @@ namespace le3 {
         template<typename T> static void setValue(T value) {
         }
 
-        static void _testnil(std::string key) {
-            if (LE3GetScriptSystem().isNil()) { throw LE3ConfigKeyNotFound(fmt::format("Config key [{}] not found", key)); }
+        static void _testnil(std::string key, int popCnt ) {
+            if (LE3GetScriptSystem().isNil()) { 
+                //if (popCnt > 0) LE3GetScriptSystem().pop(popCnt);
+                throw LE3ConfigKeyNotFound(fmt::format("Config key [{}] not found", key)); 
+            }
         }
     };
 

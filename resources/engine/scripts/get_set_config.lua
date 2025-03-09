@@ -1,5 +1,3 @@
--- Was written as a hack for the LE3EngineConfig::get<T> method, but that function is written better now.
--- Still, we keep the Lua implementation as a reference, because why not.
 ---@param key string
 function get_config(key)
     local keys = {}
@@ -7,11 +5,13 @@ function get_config(key)
         table.insert(keys, k)
     end
 
-    local res = LE3EngineConfig
-    print(res)
-    for _, k in ipairs(keys) do
+    local res = _G[keys[1]]
+    if res == nil then return nil end
+
+    for i = 2, #keys do
+        local k = keys[i]
         res = res[k]
-        print(k, res)
+        if res == nil then return nil end
     end
 
     return res
