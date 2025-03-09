@@ -18,6 +18,7 @@ void LE3EditorScenes::loadScene(std::string name) {
 }
 void LE3EditorScenes::saveScene(std::string name) {
     LE3EngineConfig::set<std::string>("LE3ProjectConfig.LastOpenedScene", name);
+    LE3GetActiveScene()->save(name);
     LE3GetEventManager().notify(LE3ED_EVENT_ON_SCENE_SAVE, nullptr);
 }
 
