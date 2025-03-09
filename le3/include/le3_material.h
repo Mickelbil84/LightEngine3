@@ -20,6 +20,9 @@ namespace le3 {
     struct LE3Material {
     public:
         LE3Material(LE3ShaderPtr shader) : shader(shader) {}
+        ~LE3Material() {
+            //
+        }
 
         void apply();
 
