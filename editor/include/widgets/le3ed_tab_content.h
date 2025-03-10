@@ -19,5 +19,8 @@ namespace le3 {
         int m_selectedArchive;
         std::vector<std::string> m_archives;
         std::map<std::string, bool> m_openStatus;
+
+        bool m_bShowEngineContent = false;
+        bool m_bShowDemoContent = false;
     };
 }

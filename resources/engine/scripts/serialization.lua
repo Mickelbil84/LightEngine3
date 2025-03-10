@@ -3,14 +3,17 @@
 -- The format is {Objects = {object1, object2, ...}, ObjectRelations = {{child1, parent1}, {child2, parent2}, ...}}
 ---@param scene LE3Scene
 ---@param object string
+---@return table
 function dump_object(scene, object)
     if string.find(object, "__ENGINE__") == 1 then return nil end
     
     local dump = {Objects = {}, ObjectRelations = {}}
     local obj = LE3Scene.get_object(scene, object)
     local parent = LE3Object.get_parent_name(obj)
-    local tbl = _G[LE3Object.get_object_type(obj)].save(obj)
-    table.insert(dump.Objects, tbl)
+    if _G[LE3Object.get_object_type(obj)].save ~= nil then
+        local tbl = _G[LE3Object.get_object_type(obj)].save(obj)
+        table.insert(dump.Objects, tbl)
+    end
     if parent ~= nil then table.insert(dump.ObjectRelations, {object, parent}) end
 
     -- only if we should recurse
@@ -57,6 +60,9 @@ local function _serialize_table(t, indent)
     return res
 end
 
+---@param o any
+---@param indent number
+---@return string
 function serialize(o, indent)
     if indent == nil then indent = 0 end
     local res = ""
