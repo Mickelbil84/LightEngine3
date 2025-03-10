@@ -37,6 +37,7 @@ if (LE3_WITH_EDITOR)
         src/main.cpp
         src/le3ed_cache.cpp
         src/le3ed_logic.cpp
+        src/le3ed_project.cpp
         src/le3ed_editor_systems.cpp
         src/le3ed_project_browser.cpp
 

@@ -46,14 +46,10 @@ void LE3EditorToolbar::init() {
         std::string projectPath = LE3EditorCache::getMostRecentProject();
         LE3ToolPkg::run(projectPath, projectPath);
         LE3GetEditorManager().setSelectedFile("");
-        LE3GetDatFileSystem().closeArchives([](std::string archiveName) {
-            if (archiveName == "engine") return false;
-            if (archiveName == "editor") return false;
-            if (archiveName == "demos") return false;
-            if (archiveName == "le3proj") return false;
-            if (archiveName == "le3edcache") return false;
-            return true;
-        });
+        LE3GetDatFileSystem().closeArchives(LE3EditorProject::isProjectDatArchive);
+        for (auto [archiveName, archivePath] : LE3EditorProject::getProjectDatArchives()) {
+            LE3GetDatFileSystem().addArchive(archiveName, archivePath);
+        }
     }));
     m_buttons.back().setupHotkey({"KEY_R", KEY_LE3_CTRL, "KEY_LSHIFT"});
 
