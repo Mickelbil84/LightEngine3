@@ -45,6 +45,15 @@ void LE3EditorToolbar::init() {
     m_buttons.push_back(LE3EditorToolbarButton("ReloadAssets", "icon_reloadassets", []() {
         std::string projectPath = LE3EditorCache::getMostRecentProject();
         LE3ToolPkg::run(projectPath, projectPath);
+        LE3GetEditorManager().setSelectedFile("");
+        LE3GetDatFileSystem().closeArchives([](std::string archiveName) {
+            if (archiveName == "engine") return false;
+            if (archiveName == "editor") return false;
+            if (archiveName == "demos") return false;
+            if (archiveName == "le3proj") return false;
+            if (archiveName == "le3edcache") return false;
+            return true;
+        });
     }));
     m_buttons.back().setupHotkey({"KEY_R", KEY_LE3_CTRL, "KEY_LSHIFT"});
 

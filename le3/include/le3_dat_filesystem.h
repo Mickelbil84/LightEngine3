@@ -14,6 +14,7 @@ namespace le3 {
     public:
         LE3DatFileSystem();
         void reset();
+        void closeArchives(std::function<bool(std::string)> shouldCloseArchive = nullptr);
 
         void addArchive(std::string archiveName, std::string archivePath);
         

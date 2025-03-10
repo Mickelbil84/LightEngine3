@@ -21,6 +21,16 @@ void LE3DatFileSystem::reset() {
     m_rootDir->path = "";
 }
 
+void LE3DatFileSystem::closeArchives(std::function<bool(std::string)> shouldCloseArchive) {
+    for (auto archiveName : m_archiveNames) {
+        if (shouldCloseArchive == nullptr || shouldCloseArchive(archiveName)) {
+            m_archives.erase(archiveName);
+            m_archiveNames.erase(std::remove(m_archiveNames.begin(), m_archiveNames.end(), archiveName), m_archiveNames.end());
+        }
+    }
+}
+
+
 void LE3DatFileSystem::addArchive(std::string archiveName, std::string archivePath) {
     m_archives[archiveName] = std::move(std::make_unique<LE3DatArchive>(archivePath));
     m_archiveNames.push_back(archiveName);
