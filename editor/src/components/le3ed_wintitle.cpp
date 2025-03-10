@@ -2,6 +2,7 @@
 #include "le3_engine_systems.h"
 #include "le3ed_events.h"
 #include "le3ed_project.h"
+#include "le3ed_cache.h"
 using namespace le3;
 
 #include <algorithm>
