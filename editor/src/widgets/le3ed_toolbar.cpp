@@ -40,6 +40,11 @@ void LE3EditorToolbar::init() {
     m_buttons.back().setupHotkey({"KEY_S", KEY_LE3_CTRL, "KEY_LSHIFT"});
     m_popups[LE3ED_POP_SAVE_SCENE] = LE3EditorSystems::instance().getScenesComponent()->getSaveScenePopup();
 
+    m_buttons.push_back(LE3EditorToolbarButton("ReloadAssets", "icon_reloadassets", []() {
+
+    }));
+    m_buttons.back().setupHotkey({"KEY_R", KEY_LE3_CTRL, "KEY_LSHIFT"});
+
 
     m_buttons.push_back(LE3EditorToolbarButton());
 
