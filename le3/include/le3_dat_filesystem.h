@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "le3_dat_archive.h"
 
 namespace le3 {
