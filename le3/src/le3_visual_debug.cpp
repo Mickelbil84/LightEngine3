@@ -5,6 +5,11 @@ using namespace le3;
 
 #include <GL/glew.h>
 
+void LE3VisualDebug::reset() {
+    m_activeCamera = nullptr;
+    m_bDrawDebugSkeletons = false;
+}
+
 void LE3VisualDebug::drawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 color) {
     if (!m_activeCamera) return;
     glm::mat4 model = glm::translate(glm::mat4(1.f), start) * glm::scale(glm::mat4(1.f), end - start);

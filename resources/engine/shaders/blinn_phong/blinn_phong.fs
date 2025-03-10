@@ -86,14 +86,14 @@ float rand(vec2 co){
 
 float calc_lambertian(vec3 normal, vec3 direction)
 {
-    return max(dot(-direction, normal), 0.0);
+    return max(dot(-direction, normalize(normal)), 0.0);
 }
 
 float calc_blinn_phong(vec3 normal, vec3 direction, vec3 pos, float shininess)
 {
     vec3 V = normalize(cameraPos - pos);
     vec3 H = normalize(-direction + V);
-    float N_dot_H = max(dot(normal, H), 0.0);
+    float N_dot_H = max(dot(normalize(normal), H), 0.0);
 
     return pow(N_dot_H, shininess);
 }
@@ -137,7 +137,7 @@ vec3 calc_ambient_light(AmbientLight ambientLight)
     return ambientLight.intensity * ambientLight.color;
 }
 
-vec3 calc_directional_light(DirectionalLight directionalLight, vec3 normal, vec3 pos, vec4 posLightSpace, Material material, vec3 specularColor)
+vec3 calc_directional_light(DirectionalLight directionalLight, vec3 normal, vec3 pos, vec4 posLightSpace, Material material, vec3 diffuseColor, vec3 specularColor)
 {
     float l = calc_lambertian(normal, directionalLight.direction);
     float bp = calc_blinn_phong(normal, directionalLight.direction, pos, material.shininess);
@@ -147,10 +147,10 @@ vec3 calc_directional_light(DirectionalLight directionalLight, vec3 normal, vec3
         shadow = calc_shadow(posLightSpace, directionalLight.shadowMap, normal, directionalLight.direction);
 
     return directionalLight.intensity * (1.0 - shadow) *
-        (bp * material.specularIntensity * specularColor + l * vec3(1.0)) * directionalLight.color;
+        (bp * material.specularIntensity * specularColor + l * diffuseColor) * directionalLight.color;
 }
 
-vec3 calc_point_light(PointLight pointLight, vec3 normal, vec3 pos, Material material, vec3 specularColor)
+vec3 calc_point_light(PointLight pointLight, vec3 normal, vec3 pos, Material material, vec3 diffuseColor, vec3 specularColor)
 {
     vec3 direction = pos - pointLight.position;
     float dir_len = length(direction);
@@ -161,10 +161,10 @@ vec3 calc_point_light(PointLight pointLight, vec3 normal, vec3 pos, Material mat
     float bp = calc_blinn_phong(normal, direction, pos, material.shininess);
 
     return pointLight.intensity * attn *
-        (bp * material.specularIntensity * specularColor + l * vec3(1.0)) * pointLight.color;
+        (bp * material.specularIntensity * specularColor + l * diffuseColor) * pointLight.color;
 }
 
-vec3 calc_spot_light(SpotLight spotLight, vec3 normal, vec3 pos, vec4 posLightSpace, Material material, vec3 specularColor)
+vec3 calc_spot_light(SpotLight spotLight, vec3 normal, vec3 pos, vec4 posLightSpace, Material material, vec3 diffuseColor, vec3 specularColor)
 {
     vec3 direction = pos - spotLight.position;
     direction = normalize(direction);
@@ -181,7 +181,7 @@ vec3 calc_spot_light(SpotLight spotLight, vec3 normal, vec3 pos, vec4 posLightSp
         shadow = calc_shadow(posLightSpace, spotLight.shadowMap, normal, direction);
     
     return spotLight.intensity * spotIntensity * (1.0 - shadow) *
-        (bp * material.specularIntensity * specularColor + l * vec3(1.0)) * spotLight.color;
+        (bp * material.specularIntensity * specularColor + l * diffuseColor) * spotLight.color;
 }
 
 void main()
@@ -217,14 +217,24 @@ void main()
     }
 
     vec3 light = vec3(0.0);
-    light += calc_ambient_light(ambientLight);
+    light += calc_ambient_light(ambientLight) * vec3(diffuseColor);
     for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
-        light += calc_directional_light(directionalLights[i], normal, posCoord, dirLightPosCoord[i], material, vec3(specularColor));
+        light += calc_directional_light(directionalLights[i], normal, posCoord, dirLightPosCoord[i], material, vec3(diffuseColor), vec3(specularColor));
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
-        light += calc_point_light(pointLights[i], normal, posCoord, material, vec3(specularColor));
+        light += calc_point_light(pointLights[i], normal, posCoord, material, vec3(diffuseColor), vec3(specularColor));
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
-        light += calc_spot_light(spotLights[i], normal, posCoord, spotLightPosCoord[i], material, vec3(specularColor));
+        light += calc_spot_light(spotLights[i], normal, posCoord, spotLightPosCoord[i], material, vec3(diffuseColor), vec3(specularColor));
 
-    fColor = vec4(light, 1.0) * diffuseColor;
-    // fColor = diffuseColor;
+    fColor = vec4(light, diffuseColor.a);
+
+    
+    // vec3 lightPos = vec3(0, 0, 3);
+    // vec3 lightDir = normalize(lightPos - posCoord);
+    // // normal = normalize(normal);
+    // vec3 viewDir = normalize(cameraPos - posCoord);
+    // vec3 halfwayDir = normalize(lightDir + viewDir);
+    // float spec = 10 * pow(max(dot(normal, halfwayDir), 0.0), 128);
+    // vec3 specular = vec3(0.3) * spec;
+    // fColor = vec4(specular, 1.0);
+
 }

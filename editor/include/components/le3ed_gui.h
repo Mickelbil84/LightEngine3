@@ -7,6 +7,7 @@
 #include "widgets/le3ed_sidepanel_top.h"
 #include "widgets/le3ed_settings_panel.h"
 #include "widgets/le3ed_properties_panel.h"
+#include "widgets/le3ed_tab_content.h"
 
 namespace le3 {
     class LE3EditorGUI : public LE3EditorComponent{
@@ -23,5 +24,6 @@ namespace le3 {
         LE3EditorSidepanelTop m_sidepanelTop;
         LE3EditorSettingsPanel m_settingsPanel;
         LE3EditorPropertiesPanel m_propertiesPanel;
+        LE3EditorTabContent m_tabContent;
     };
 }

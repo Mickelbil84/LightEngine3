@@ -8,6 +8,11 @@ using namespace le3;
 #include <queue>
 
 LE3DatFileSystem::LE3DatFileSystem() {
+    reset();
+}
+void LE3DatFileSystem::reset() {
+    m_archives.clear();
+    m_archiveNames.clear();
     m_fileNodes[""] = LE3DatFileNode();
     m_rootDir = &m_fileNodes[""];
     m_rootDir->archiveName = "";
@@ -15,9 +20,16 @@ LE3DatFileSystem::LE3DatFileSystem() {
     m_rootDir->isDirectory = true;
     m_rootDir->path = "";
 }
-LE3DatFileSystem::~LE3DatFileSystem() {
-    m_archives.clear();
+
+void LE3DatFileSystem::closeArchives(std::function<bool(std::string)> shouldCloseArchive) {
+    for (auto archiveName : m_archiveNames) {
+        if (shouldCloseArchive == nullptr || shouldCloseArchive(archiveName)) {
+            m_archives.erase(archiveName);
+            m_archiveNames.erase(std::remove(m_archiveNames.begin(), m_archiveNames.end(), archiveName), m_archiveNames.end());
+        }
+    }
 }
+
 
 void LE3DatFileSystem::addArchive(std::string archiveName, std::string archivePath) {
     m_archives[archiveName] = std::move(std::make_unique<LE3DatArchive>(archivePath));

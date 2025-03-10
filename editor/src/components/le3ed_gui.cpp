@@ -1,4 +1,5 @@
 #include "components/le3ed_gui.h"
+#include "le3ed_editor_systems.h"
 using namespace le3;
 
 #include <imgui_internal.h>
@@ -9,13 +10,14 @@ void LE3EditorGUI::init() {
         if (!filename.ends_with(".png")) continue;
         std::string iconName = filename.substr(filename.find_last_of("/") + 1);
         iconName = iconName.substr(0, iconName.find_last_of("."));
-        LE3GetAssetManager().addTexture(iconName, filename);
+        LE3GetAssetManager().addTexture(DEFAULT_ENGINE_PREFIX + iconName, filename);
     }
     m_toolbar.init();
     m_toolbox.init();
     m_sidepanelTop.init();
     m_settingsPanel.init();
     m_propertiesPanel.init();
+    m_tabContent.init();
 }
 
 void LE3EditorGUI::update(float deltaTime) {
@@ -23,32 +25,45 @@ void LE3EditorGUI::update(float deltaTime) {
 
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
-            if (ImGui::MenuItem("Create")) { 
+            if (ImGui::MenuItem("New", "Ctrl+N")) { 
+                LE3EditorSystems::instance().getHotkeysComponent()->manualFireHotkey({"KEY_N", KEY_LE3_CTRL});
             }
             if (ImGui::MenuItem("Open", "Ctrl+O")) { 
+                LE3EditorSystems::instance().getHotkeysComponent()->manualFireHotkey({"KEY_O", KEY_LE3_CTRL});
             }
             if (ImGui::MenuItem("Save", "Ctrl+S")) {
+                LE3EditorSystems::instance().getHotkeysComponent()->manualFireHotkey({"KEY_S", KEY_LE3_CTRL});
             }
-            if (ImGui::MenuItem("Save as..")) { 
+            if (ImGui::MenuItem("Save as..", "Ctrl+Shift+S")) { 
+                LE3EditorSystems::instance().getHotkeysComponent()->manualFireHotkey({"KEY_S", KEY_LE3_CTRL, "KEY_LSHIFT"});
             }
+            ImGui::Separator();
+            if (ImGui::MenuItem("Close Project")) {
+                LE3EngineSystems::instance().requestReset();
+            }
+            if (ImGui::MenuItem("Exit")) {
+                m_engineState.notifyWantsQuit();
+            }
+            LE3EditorSystems::instance().updatePopups();
         ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Edit")) {
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("View")) {
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Build")) {
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Help")) {
+            ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();
     }
     ImGui::End();
 
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(0.f, 0.f));
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.f, 0.f, 0.f, 0.f));
-
-    ImGui::Begin("##Toolbar", nullptr, ImGuiWindowFlags_NoMove | 
-            ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | 
-            ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_AlwaysAutoResize);
-        m_toolbar.update();
-    ImGui::End();
-    ImGui::PopStyleColor(1);
-    ImGui::PopStyleVar(3);
+    m_toolbar.update();
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(6.f, 4.f));
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 2.f));
@@ -62,6 +77,15 @@ void LE3EditorGUI::update(float deltaTime) {
 
     LE3GetImGuiUtils().addSceneViewport("Viewport", *LE3GetSceneManager().getScene("scene"), m_engineState);
 
+    ImGui::Begin("Text Editor", nullptr, ImGuiWindowFlags_NoMove);
+        // m_textEditor.update();
+        std::string selectedFile = LE3GetEditorManager().getSelectedFile();
+        if (selectedFile.ends_with(".lua") || selectedFile.ends_with(".txt") || selectedFile.ends_with(".vs") || selectedFile.ends_with(".fs")) {
+            std::string content = LE3GetDatFileSystem().getFileContent(selectedFile).toString();
+            ImGui::TextWrapped("%s", content.c_str());
+        }
+    ImGui::End();
+
     ImGui::Begin("SidepanelTop", nullptr, ImGuiWindowFlags_NoMove);
         m_sidepanelTop.update();
     ImGui::End();
@@ -72,6 +96,11 @@ void LE3EditorGUI::update(float deltaTime) {
 
     ImGui::Begin("Settings", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoFocusOnAppearing);
         m_settingsPanel.update();
+        LE3EditorSystems::instance().getHotkeysComponent()->solveHotkeys();
+    ImGui::End();
+
+    ImGui::Begin("Content", nullptr, ImGuiWindowFlags_NoMove);
+        m_tabContent.update();
     ImGui::End();
 
 }
@@ -108,9 +137,11 @@ void LE3EditorGUI::setupLayout() {
         ImGui::DockBuilderDockWindow("##Toolbar", dock_toolbar);
         ImGui::DockBuilderDockWindow("##Toolbox", dock_toolbox);
         ImGui::DockBuilderDockWindow("Viewport", dock_mainView);
+        ImGui::DockBuilderDockWindow("Text Editor", dock_mainView);
         ImGui::DockBuilderDockWindow("SidepanelTop", dock_sidepanelTop);
         ImGui::DockBuilderDockWindow("Properties", dock_properties);
         ImGui::DockBuilderDockWindow("Settings", dock_properties);
+        ImGui::DockBuilderDockWindow("Content", dock_properties);
 
         ImGui::DockBuilderGetNode(dock_toolbar)->LocalFlags |= ImGuiDockNodeFlags_NoTabBar | ImGuiDockNodeFlags_NoResize;
         ImGui::DockBuilderGetNode(dock_toolbox)->LocalFlags |= ImGuiDockNodeFlags_NoTabBar | ImGuiDockNodeFlags_NoResize;

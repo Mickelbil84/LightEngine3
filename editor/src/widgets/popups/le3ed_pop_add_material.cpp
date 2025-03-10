@@ -8,6 +8,7 @@ using namespace le3;
 void LE3EdPopAddMaterial::init() {
     for (int i = 0; i < 256; i++) m_materialName[i] = 0;
     for (int i = 0; i < 256; i++) m_shaderName[i] = 0;
+    strcpy(m_shaderName, DEFAULT_SHADER.c_str());
 }
 void LE3EdPopAddMaterial::update() {
     ImVec2 center = ImGui::GetMainViewport()->GetCenter();

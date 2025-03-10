@@ -7,7 +7,6 @@ using namespace le3;
 */
 
 void LE3EditorPropertiesPanel::init() {
-    LE3GetScriptSystem().doFile("/editor/scripts/widgets_properties.lua");
 }
 void LE3EditorPropertiesPanel::update() {
     LE3ObjectPtr obj = LE3GetEditorManager().getSelection().getLastSelectedObject().lock();
