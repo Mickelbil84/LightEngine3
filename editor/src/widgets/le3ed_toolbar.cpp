@@ -1,12 +1,14 @@
 #include "widgets/le3ed_toolbar.h"
 #include "le3ed_editor_systems.h"
-#include "le3ed_project.h"
+#include "tools/le3_tool_pkg.h"
 using namespace le3;
 
 #include "commands/le3ed_com_reparent.h"
 #include "commands/le3ed_com_duplicate.h"
 #include "commands/le3ed_com_delete_objects.h"
 #include "le3ed_events.h"
+#include "le3ed_project.h"
+#include "le3ed_cache.h"
 
 #include <imgui_internal.h>
 
@@ -41,7 +43,8 @@ void LE3EditorToolbar::init() {
     m_popups[LE3ED_POP_SAVE_SCENE] = LE3EditorSystems::instance().getScenesComponent()->getSaveScenePopup();
 
     m_buttons.push_back(LE3EditorToolbarButton("ReloadAssets", "icon_reloadassets", []() {
-
+        std::string projectPath = LE3EditorCache::getMostRecentProject();
+        LE3ToolPkg::run(projectPath, projectPath);
     }));
     m_buttons.back().setupHotkey({"KEY_R", KEY_LE3_CTRL, "KEY_LSHIFT"});
 
