@@ -19,10 +19,7 @@ void LE3EditorWindowTitle::init() {
 void LE3EditorWindowTitle::OnTitleUpdate(bool pendingSave) {
     m_bPendingSave = pendingSave;
 
-    // std::string title = m_originalTitle + " - ";
-    // LE3GetConfig<std::string>("LE3EditorCache.MostRecent")
-
-    std::string shortProjectName = LE3GetConfig<std::string>("LE3EditorCache.MostRecent");
+    std::string shortProjectName = LE3EditorCache::getMostRecentProject();
     shortProjectName = shortProjectName.substr(shortProjectName.find_last_of('/') + 1);
 
     std::string shortSceneName = LE3GetConfig<std::string>("LE3ProjectConfig.LastOpenedScene", "");

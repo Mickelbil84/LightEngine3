@@ -19,7 +19,7 @@ void LE3EditorScripts::init() {
     }
 
     // Also load the project archive
-    std::string projectPath = LE3GetConfig<std::string>("LE3EditorCache.MostRecent");
+    std::string projectPath = LE3EditorCache::getMostRecentProject();
     LE3GetDatFileSystem().addArchive(LE3ED_PROJECT_ARCHIVE, projectPath + "/" + LE3ED_PROJECT_FILENAME);
     if (!LE3GetDatFileSystem().fileExists(LE3ED_PROJECT_CONFIG)) {
         LE3DatBuffer buffer;
