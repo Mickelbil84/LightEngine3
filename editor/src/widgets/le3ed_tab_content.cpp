@@ -2,7 +2,7 @@
 using namespace le3;
 
 void LE3EditorTabContent::init() {
-    m_selectedArchive = 0;
+    m_selectedArchive = -1;
 
     flags = 
         ImGuiTableFlags_BordersV | 
@@ -13,6 +13,8 @@ void LE3EditorTabContent::init() {
         ImGuiTableFlags_ScrollX;
 }
 void LE3EditorTabContent::update() {
+    ImGui::Checkbox("Show engine content", &m_bShowEngineContent);
+    ImGui::Checkbox("Show demo content", &m_bShowDemoContent);
     updateArchiveList();
     updateTreeView();
 }
@@ -20,7 +22,11 @@ void LE3EditorTabContent::update() {
 void LE3EditorTabContent::updateArchiveList() {
     m_archives = LE3GetDatFileSystem().getAvailableArchives();
     std::vector<const char*> archiveLabels;
-    for (auto& archive : m_archives) archiveLabels.push_back(archive.c_str());
+    for (auto& archive : m_archives) {
+        if ((archive == "engine" || archive == "editor" || archive == "le3proj" || archive == "le3edcache") && !m_bShowEngineContent) continue;
+        if (archive == "demos" && !m_bShowDemoContent) continue;
+        archiveLabels.push_back(archive.c_str());
+    }
     
     ImGui::Combo("Archive", &m_selectedArchive, archiveLabels.data(), archiveLabels.size());
 }
@@ -43,8 +49,10 @@ void LE3EditorTabContent::updateTreeView() {
         ImGui::TableSetupColumn("Size", ImGuiTableColumnFlags_NoHide);
         ImGui::TableHeadersRow();
 
-        recurseContentTree(LE3GetDatFileSystem().getFileNode(
-            "/" + m_archives[m_selectedArchive]));
+        if (m_selectedArchive >= 0) {
+            recurseContentTree(LE3GetDatFileSystem().getFileNode(
+                "/" + m_archives[m_selectedArchive]));
+        }
 
         ImGui::EndTable();
     }
