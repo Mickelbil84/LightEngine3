@@ -217,7 +217,7 @@ void main()
     }
 
     vec3 light = vec3(0.0);
-    light += calc_ambient_light(ambientLight);
+    light += calc_ambient_light(ambientLight) * vec3(diffuseColor);
     for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
         light += calc_directional_light(directionalLights[i], normal, posCoord, dirLightPosCoord[i], material, vec3(diffuseColor), vec3(specularColor));
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
