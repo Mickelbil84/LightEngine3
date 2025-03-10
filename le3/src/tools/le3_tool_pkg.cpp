@@ -31,7 +31,11 @@ void LE3ToolPkg::run(std::string rootDir, std::string outDir, bool verbose) {
 
         std::string archiveName = entry.path().filename().string();
         std::string archivePath = outDir + "/" + archiveName + ".dat";
-        std::filesystem::remove(archivePath);
+        try {
+            std::filesystem::remove(archivePath);
+        } catch (...) {
+            if (verbose) fmt::print("Failed to remove archive {}\n", archivePath);
+        }
         datFilesystem.addArchive(archiveName, archivePath);
         if (verbose) fmt::print("Archive {} @ {}\n", archiveName, archivePath);
 
