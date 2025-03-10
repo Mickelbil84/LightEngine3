@@ -9,7 +9,7 @@ using namespace le3;
 
 void LE3EdPopLoadScene::init() {
     if (m_availableScenesCStr) {
-        for (int i = 0; i < m_availableScenes.size(); i++) {
+        for (int i = 0; i < m_availableScenes.size() + 1; i++) {
             delete[] m_availableScenesCStr[i];
         }
         delete[] m_availableScenesCStr;
@@ -21,10 +21,13 @@ void LE3EdPopLoadScene::init() {
     std::sort(m_availableScenes.begin(), m_availableScenes.end());
     m_selectionIdx = 0;
 
-    m_availableScenesCStr = new char*[m_availableScenes.size()];
+    m_availableScenesCStr = new char*[m_availableScenes.size() + 1];
+    std::string placeholder = "-------";
+    m_availableScenesCStr[0] = new char[placeholder.size() + 1];
+    strcpy(m_availableScenesCStr[0], placeholder.c_str());
     for (int i = 0; i < m_availableScenes.size(); i++) {
-        m_availableScenesCStr[i] = new char[m_availableScenes[i].size() + 1];
-        strcpy(m_availableScenesCStr[i], m_availableScenes[i].c_str());
+        m_availableScenesCStr[i+1] = new char[m_availableScenes[i].size() + 1];
+        strcpy(m_availableScenesCStr[i+1], m_availableScenes[i].c_str());
     }
 }
 
@@ -35,9 +38,11 @@ void LE3EdPopLoadScene::update() {
         this->lockEngine();
         ImGui::Text("Select Scene:");
         if (ImGui::BeginCombo("##select_scene", m_availableScenesCStr[m_selectionIdx], 0)) {
-            for (int n = 0; n < m_availableScenes.size(); n++) {
+            for (int n = 0; n < m_availableScenes.size() + 1; n++) {
                 const bool isSelected = (m_selectionIdx == n);
-                if (ImGui::Selectable(m_availableScenesCStr[n], isSelected)) {
+                ImGuiSelectableFlags flags = 0;
+                if (n == 0) flags = ImGuiSelectableFlags_Disabled;
+                if (ImGui::Selectable(m_availableScenesCStr[n], isSelected, flags)) {
                     m_selectionIdx = n;
                 }
                 if (isSelected) {
@@ -54,9 +59,11 @@ void LE3EdPopLoadScene::update() {
         }
         ImGui::SameLine();
         if (ImGui::Button("Open")) {
-            LE3EditorSystems::instance().getScenesComponent()->loadScene(LE3ED_PROJECT_SCENES_ROOT + m_availableScenes[m_selectionIdx]);
-            ImGui::CloseCurrentPopup();
-            this->unlockEngine();
+            if (m_selectionIdx > 0) {
+                LE3EditorSystems::instance().getScenesComponent()->loadScene(LE3ED_PROJECT_SCENES_ROOT + m_availableScenes[m_selectionIdx - 1]);
+                ImGui::CloseCurrentPopup();
+                this->unlockEngine();
+            }
         }
         ImGui::EndPopup();
     }
