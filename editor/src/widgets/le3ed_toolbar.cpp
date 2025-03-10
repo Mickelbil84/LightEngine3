@@ -42,15 +42,7 @@ void LE3EditorToolbar::init() {
     m_buttons.back().setupHotkey({"KEY_S", KEY_LE3_CTRL, "KEY_LSHIFT"});
     m_popups[LE3ED_POP_SAVE_SCENE] = LE3EditorSystems::instance().getScenesComponent()->getSaveScenePopup();
 
-    m_buttons.push_back(LE3EditorToolbarButton("ReloadAssets", "icon_reloadassets", []() {
-        std::string projectPath = LE3EditorCache::getMostRecentProject();
-        LE3ToolPkg::run(projectPath, projectPath);
-        LE3GetEditorManager().setSelectedFile("");
-        LE3GetDatFileSystem().closeArchives(LE3EditorProject::isProjectDatArchive);
-        for (auto [archiveName, archivePath] : LE3EditorProject::getProjectDatArchives()) {
-            LE3GetDatFileSystem().addArchive(archiveName, archivePath);
-        }
-    }));
+    m_buttons.push_back(LE3EditorToolbarButton("ReloadAssets", "icon_reloadassets", LE3EditorProject::reloadAssets));
     m_buttons.back().setupHotkey({"KEY_R", KEY_LE3_CTRL, "KEY_LSHIFT"});
 
 

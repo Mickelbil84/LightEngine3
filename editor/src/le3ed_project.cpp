@@ -1,6 +1,7 @@
 #include "le3ed_project.h"
 #include "le3_engine_systems.h"
 #include "le3ed_cache.h"
+#include "tools/le3_tool_pkg.h"
 using namespace le3;
 #include <filesystem>
 
@@ -25,4 +26,14 @@ bool LE3EditorProject::isProjectDatArchive(std::string archiveName) {
     if (archiveName == "le3proj") return false;
     if (archiveName == "le3edcache") return false;
     return true;
+}
+
+void LE3EditorProject::reloadAssets() {
+    std::string projectPath = LE3EditorCache::getMostRecentProject();
+    LE3ToolPkg::run(projectPath, projectPath);
+    LE3GetEditorManager().setSelectedFile("");
+    LE3GetDatFileSystem().closeArchives(LE3EditorProject::isProjectDatArchive);
+    for (auto [archiveName, archivePath] : LE3EditorProject::getProjectDatArchives()) {
+        LE3GetDatFileSystem().addArchive(archiveName, archivePath);
+    }
 }

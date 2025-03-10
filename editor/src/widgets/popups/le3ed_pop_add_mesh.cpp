@@ -10,6 +10,21 @@ void LE3EdPopAddMesh::init() {
     for (int i = 0; i < 1024; i++) m_path[i] = 0;
     m_bIsSkeletal = false;
     strcpy(m_path, LE3GetEditorManager().getSelectedFile().c_str());
+
+    if (!LE3GetEditorManager().getSelectedFile().empty()) {
+        // Get file name, without extensions, as mesh name
+        // Also remove of course the directories leading to the file
+        std::string fileName = LE3GetEditorManager().getSelectedFile();
+        size_t lastSlash = fileName.find_last_of("/\\");
+        if (lastSlash != std::string::npos) {
+            fileName = fileName.substr(lastSlash + 1);
+        }
+        size_t lastDot = fileName.find_last_of(".");
+        if (lastDot != std::string::npos) {
+            fileName = fileName.substr(0, lastDot);
+        }
+        strcpy(m_meshName, fileName.c_str());
+    }
 }
 void LE3EdPopAddMesh::update() {
     ImVec2 center = ImGui::GetMainViewport()->GetCenter();

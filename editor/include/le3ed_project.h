@@ -15,5 +15,6 @@ namespace le3 {
     public:
         static std::vector<std::pair<std::string, std::string>> getProjectDatArchives();
         static bool isProjectDatArchive(std::string archiveName);
+        static void reloadAssets();
     };
 }

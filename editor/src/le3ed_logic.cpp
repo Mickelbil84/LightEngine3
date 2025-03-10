@@ -1,6 +1,7 @@
 #include "le3ed_logic.h"
 #include "le3ed_cache.h"
 #include "le3ed_editor_systems.h"
+#include "le3ed_project.h"
 
 using namespace le3;
 
@@ -28,10 +29,12 @@ LE3EditorLogic::LE3EditorLogic() :
 void LE3EditorLogic::init() {
     LE3GetDatFileSystem().addArchive("editor", "editor.dat");
     LE3GetDatFileSystem().addArchive("demos", "demos.dat"); // Also add demos so that even new projects can have something to play with
-
+    
     // Init Subsystems;
     assert(dynamic_cast<LE3EditorScripts*>(m_pComponents[0])); // See comment (*) in le3ed_logic.h
     for (auto component : m_pComponents) component->init();
+    
+    LE3EditorProject::reloadAssets();
 }
 void LE3EditorLogic::update(float deltaTime) {
     for (auto component : m_pComponents) component->update(deltaTime);
