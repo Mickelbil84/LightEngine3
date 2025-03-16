@@ -11,6 +11,7 @@
 #include "le3_scene_manager.h"
 #include "le3_editor_manager.h"
 #include "le3_event_manager.h"
+#include "le3_physics_manager.h"
 
 namespace le3 {
     // Singleton for various (global) engine systems, which are not specific to any scene
@@ -54,6 +55,7 @@ namespace le3 {
         inline LE3SceneManager& getSceneManager() { return g_sceneManager; }
         inline LE3EditorManager& getEditorManager() { return g_editorManager; }
         inline LE3EventManager& getEventManager() { return g_eventManager; }
+        inline LE3PhysicsManager& getPhysicsManager() { return g_physicsManager; }
         inline bool isHeadless() { return g_headlessEngine; }
 
         inline bool isRequestingReset() { return g_requestReset; }
@@ -71,6 +73,7 @@ namespace le3 {
         LE3SceneManager g_sceneManager;
         LE3EditorManager g_editorManager;
         LE3EventManager g_eventManager;
+        LE3PhysicsManager g_physicsManager;
 
         bool g_headlessEngine;
         bool g_requestReset = false;
