@@ -5,7 +5,7 @@
 
 # Welcome to the LightEngine3 repository!
 
-![Screenshot](<https://raw.githubusercontent.com/Mickelbil84/LightEngine3/refs/heads/master/docs/screenshots/Screenshot%202025-02-13%20001636.png>)
+![Screenshot](<https://github.com/Mickelbil84/LightEngine3/blob/master/docs/screenshots/Screenshot%202025-03-16%20025258.png?raw=true>)
 
 ## Introduction
 
