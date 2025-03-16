@@ -14,6 +14,8 @@ find_package(cpr REQUIRED)
 if(MSVC)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
     set(BUILD_SHARED_LIBS TRUE)
+    string(APPEND CMAKE_C_FLAGS " /MP$ENV{MSVC_PARALLEL}")
+    string(APPEND CMAKE_CXX_FLAGS " /MP$ENV{MSVC_PARALLEL}")
 endif()
 
 include_directories(${LUA_INCLUDE_DIR})
@@ -71,6 +73,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_network_spinner.cpp
     src/le3_event_manager.cpp
     src/le3_serialization.cpp
+    src/le3_physics.cpp
+    src/le3_physics_manager.cpp
 
     src/tools/le3_tool_pkg.cpp
 

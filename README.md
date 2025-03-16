@@ -49,6 +49,8 @@ Installation is done simply with CMake.
 11. Run: `vcpkg install fmt:x64-windows`
 11. Run: `vcpkg install cereal:x64-windows`
 
+To compile faster from Visual Studio Code, you may set the `MSVC_PARALLEL` environment variable to the number of available threads/cores in your system.
+
 ### Installation for MacOS (Tested in Intel and Apple Silicon, Monterey 12.4)
 
 1. Make sure that you have the "Command Line Tools for XCode" installed: https://developer.apple.com/download/all/ (for the AppleClang compiler)
