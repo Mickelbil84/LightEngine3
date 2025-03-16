@@ -28,8 +28,10 @@ if (LE3_WITH_EDITOR)
         ADD_DEFINITIONS(${GTK_CFLAGS_OTHER})
         link_libraries( ${GTK_LIBRARIES} )
         set(frameworks  ${GTK_LIBRARIES})
-    else()
+    else() # MSVC
         set(frameworks)
+        string(APPEND CMAKE_C_FLAGS " /MP$ENV{MSVC_PARALLEL}")
+        string(APPEND CMAKE_CXX_FLAGS " /MP$ENV{MSVC_PARALLEL}")
     endif()
 
 
