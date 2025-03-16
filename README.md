@@ -1,9 +1,10 @@
 [![Build](https://github.com/Mickelbil84/LightEngine3/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/Mickelbil84/LightEngine3/actions/workflows/cmake-multi-platform.yml)
  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Mickelbil84/LightEngine3/blob/master/LICENSE)
 
+# Welcome to the LightEngine3 repository!
+
 ![Banner](<https://raw.githubusercontent.com/Mickelbil84/LightEngine3/d1d1d1f740bb939fd27320af4a9262186d99cb7c/resources/engine/logos/banner.png>)
 
-# Welcome to the LightEngine3 repository!
 
 ![Screenshot](<https://github.com/Mickelbil84/LightEngine3/blob/master/docs/screenshots/Screenshot%202025-03-16%20025258.png?raw=true>)
 
