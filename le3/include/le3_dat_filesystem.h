@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "le3_dat_archive.h"
 
 namespace le3 {
@@ -13,12 +15,14 @@ namespace le3 {
     class LE3DatFileSystem {
     public:
         LE3DatFileSystem();
-        ~LE3DatFileSystem();
+        void reset();
+        void closeArchives(std::function<bool(std::string)> shouldCloseArchive = nullptr);
 
         void addArchive(std::string archiveName, std::string archivePath);
         
         void appendFile(std::string archiveName, std::string path, LE3DatBuffer fileBuffer, bool shouldCompress = true);
         void appendFile(std::string archiveName, std::string path, std::string filePath, bool shouldCompress = true); // Load from system
+        bool fileExists(std::string path) { return m_fileNodes.contains(path); }
 
         inline void defragmentArchive(std::string archiveName);
         void defragmentArchives();

@@ -53,6 +53,7 @@ namespace le3 {
 
         // Path to Lua file that creates a (global) table "Scene"
         void load(std::string path);
+        void save(std::string path);
         
         void update(float deltaTime);
         void preUpdate();

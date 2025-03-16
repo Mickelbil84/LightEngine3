@@ -3,6 +3,7 @@
 #include "commands/le3ed_com_delete_shader.h"
 #include "commands/le3ed_com_delete_texture.h"
 #include "commands/le3ed_com_delete_material.h"
+#include "le3ed_editor_systems.h"
 using namespace le3;
 
 void LE3EditorTabAssets::init() {
@@ -54,6 +55,7 @@ void LE3EditorTabAssets::updateShaders() {
         m_popAddShader.init();
         ImGui::OpenPopup((LE3ED_POP_ADD_SHADER).c_str());
     }
+    LE3EditorSystems::instance().updatePopups();
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
         std::shared_ptr<LE3Shader> pShader = LE3GetEditorManager().getSelection().pShader.lock();
@@ -65,8 +67,6 @@ void LE3EditorTabAssets::updateShaders() {
             LE3GetEditorManager().getSelection().deselect();
         }
     }
-
-    m_popAddShader.update();
 
     if (ImGui::BeginTable("##ShadersTable", 3, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
@@ -103,6 +103,7 @@ void LE3EditorTabAssets::updateMaterials() {
         m_popAddMaterial.init();
         ImGui::OpenPopup((LE3ED_POP_ADD_MATERIAL).c_str());
     }
+    LE3EditorSystems::instance().updatePopups();
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
         std::shared_ptr<LE3Material> pMaterial = LE3GetEditorManager().getSelection().pMaterial.lock();
@@ -114,8 +115,6 @@ void LE3EditorTabAssets::updateMaterials() {
         }
     }
     
-    m_popAddMaterial.update();
-
     if (ImGui::BeginTable("##MaterialsTable", 2, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
         ImGui::TableSetupColumn("Shader", ImGuiTableColumnFlags_NoHide);
@@ -147,6 +146,7 @@ void LE3EditorTabAssets::updateTextures() {
         m_popAddTexture.init();
         ImGui::OpenPopup((LE3ED_POP_ADD_TEXTURE).c_str());
     }
+    LE3EditorSystems::instance().updatePopups();
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
         std::shared_ptr<LE3Texture> pTexture = LE3GetEditorManager().getSelection().pTexture.lock();
@@ -158,8 +158,6 @@ void LE3EditorTabAssets::updateTextures() {
             LE3GetEditorManager().getSelection().deselect();
         }
     }
-
-    m_popAddTexture.update();
 
     if (ImGui::BeginTable("##TexturesTable", 2, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
@@ -191,6 +189,7 @@ void LE3EditorTabAssets::updateMeshes() {
         m_popAddMesh.init();
         ImGui::OpenPopup((LE3ED_POP_ADD_MESH).c_str());
     }
+    LE3EditorSystems::instance().updatePopups();
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
         std::shared_ptr<LE3StaticMesh> pStaticMesh = LE3GetEditorManager().getSelection().pStaticMesh.lock();
@@ -208,8 +207,6 @@ void LE3EditorTabAssets::updateMeshes() {
             LE3GetEditorManager().getSelection().deselect();
         }
     }
-
-    m_popAddMesh.update();
 
     if (ImGui::BeginTable("##MeshesTable", 3, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
@@ -278,6 +275,7 @@ void LE3EditorTabAssets::updateAnimations() {
     if (ImGui::Button("Add")) {
         // ...
     }
+    LE3EditorSystems::instance().updatePopups();
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
         // ...

@@ -19,19 +19,19 @@ namespace le3 {
     const std::string ERROR_TEXTURE = DEFAULT_ENGINE_PREFIX + "T_error";
     const std::string ERROR_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_error";
 
-    const std::string DEFAULT_SHADER = "S_default";
-    const std::string DEFAULT_OBJECTID_SHADER = "S_objectid";
-    const std::string DEFAULT_POSTPROCESS_SHADER = "S_defaultPostProcess";
-    const std::string DEFAULT_SHADOWMAP_SHADER = "S_shadowmap";
-    const std::string DEFAULT_DEBUG_SHADER = "S_debug";
-    const std::string DEFAULT_GIZMO_SHADER = "S_gizmo";
+    const std::string DEFAULT_SHADER = DEFAULT_ENGINE_PREFIX + "S_default";
+    const std::string DEFAULT_OBJECTID_SHADER = DEFAULT_ENGINE_PREFIX + "S_objectid";
+    const std::string DEFAULT_POSTPROCESS_SHADER = DEFAULT_ENGINE_PREFIX + "S_defaultPostProcess";
+    const std::string DEFAULT_SHADOWMAP_SHADER = DEFAULT_ENGINE_PREFIX + "S_shadowmap";
+    const std::string DEFAULT_DEBUG_SHADER = DEFAULT_ENGINE_PREFIX + "S_debug";
+    const std::string DEFAULT_GIZMO_SHADER = DEFAULT_ENGINE_PREFIX + "S_gizmo";
 
     const std::string DEFAULT_MATERIAL = "M_default";
 
-    const std::string DEFAULT_PCD_SHADER = "S_pcd";
+    const std::string DEFAULT_PCD_SHADER = DEFAULT_ENGINE_PREFIX + "S_pcd";
     const std::string DEFAULT_PCD_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_pcd";
 
-    const std::string DEFAULT_SPRITE_SHADER = "S_sprite";
+    const std::string DEFAULT_SPRITE_SHADER = DEFAULT_ENGINE_PREFIX + "S_sprite";
     const std::string DEFAULT_SPRITE_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_sprite";
 
     const std::string SPRITE_AMBIENT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_ambient";
@@ -44,7 +44,10 @@ namespace le3 {
     class LE3AssetManager {
     public:
         void init();
+        void reset();
+        void resetNonEditor(); // Reset only non-essential assets
         void refreshPointers(); // In case of asset deletions, make sure everything is still kosher
+        void reloadAssets();
 
         // Shaders
         void addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
@@ -59,9 +62,11 @@ namespace le3 {
             if (m_shadersPaths.contains(name)) return m_shadersPaths[name];
             return std::make_pair("", "");
         }
+        void reloadShader(std::string name);
         void renameShader(std::string oldName, std::string newName);
         bool hasShader(std::string name) { return m_pShaders.contains(name); }
         void deleteShader(std::string name);
+        void reloadShaders();
 
         // Materials
         void addMaterial(std::string name, std::string shaderName);
@@ -82,11 +87,17 @@ namespace le3 {
             if (!m_texturesPaths.contains(name)) return "";
             return m_texturesPaths[name]; 
         }
+        std::vector<std::string> getTextureNames() { 
+            std::vector<std::string> names;
+            for (auto& [name, texture] : m_pTextures) names.push_back(name);
+            return names;
+        }
         void setTexturePath(std::string name, std::string path) { m_texturesPaths[name] = path; }
         bool hasTexture(std::string name) { return m_pTextures.contains(name); }
         void reloadTexture(std::string name, std::string filename, bool interpolate = true);
         void renameTexture(std::string oldName, std::string newName);
         void deleteTexture(std::string name);
+        void reloadTextures();
 
         // Meshes
         void addStaticMesh(std::string name, std::string filename, bool keepData = false);
@@ -108,6 +119,13 @@ namespace le3 {
 
         inline std::string getMeshPath(std::string name) { return m_meshesPaths[name]; }
         void setMeshPath(std::string name, std::string path) { m_meshesPaths[name] = path; }
+        std::vector<std::string> getMeshesNames() {
+            std::vector<std::string> names;
+            for (auto& [name, mesh] : m_pStaticMeshes) names.push_back(name);
+            for (auto& [name, mesh] : m_pSkeletalMeshes) names.push_back(name);
+            return names;
+        }
+        void reloadMeshes();
 
         ////
         /// Point clouds

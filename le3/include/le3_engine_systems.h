@@ -44,6 +44,7 @@ namespace le3 {
             g_scriptSystem.getGlobal("apply_all_configs");
             g_scriptSystem.callFunction(0, 0);
         }
+        void reset(); // Reset all editor systems
 
         inline LE3DatFileSystem& getDatFileSystem() { return g_datFilesystem; }
         inline LE3ScriptSystem& getScriptSystem() { return g_scriptSystem; }
@@ -54,6 +55,9 @@ namespace le3 {
         inline LE3EditorManager& getEditorManager() { return g_editorManager; }
         inline LE3EventManager& getEventManager() { return g_eventManager; }
         inline bool isHeadless() { return g_headlessEngine; }
+
+        inline bool isRequestingReset() { return g_requestReset; }
+        inline void requestReset() { g_requestReset = true; }
         
     private:
         LE3EngineSystems() {
@@ -69,6 +73,7 @@ namespace le3 {
         LE3EventManager g_eventManager;
 
         bool g_headlessEngine;
+        bool g_requestReset = false;
     };
 
     #define LE3GetDatFileSystem LE3EngineSystems::instance().getDatFileSystem

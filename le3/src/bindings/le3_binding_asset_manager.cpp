@@ -21,6 +21,14 @@ FBIND(LE3AssetManager, get_shader_paths)
     PUSH_STRING(paths.first)
     PUSH_STRING(paths.second)
 FEND()
+FBIND(LE3AssetManager, get_shaders)
+    std::vector<std::string> shaderNames;
+    for (auto& [name, v] : LE3GetAssetManager().getShaders()) {
+        if (name.starts_with(DEFAULT_ENGINE_PREFIX)) continue;
+        shaderNames.push_back(name);
+    }
+    PUSH_STRING_ARRAY(shaderNames)
+FEND()
 
 FBIND(LE3AssetManager, add_texture)
     GET_STRING(name)
@@ -32,6 +40,14 @@ FBIND(LE3AssetManager, has_texture)
     GET_STRING(name)
     PUSH_BOOL(LE3GetAssetManager().hasTexture(name))
 FEND()
+FBIND(LE3AssetManager, get_textures)
+    std::vector<std::string> textureNames;
+    for (auto& name : LE3GetAssetManager().getTextureNames()) {
+        if (name.starts_with(DEFAULT_ENGINE_PREFIX)) continue;
+        textureNames.push_back(name);
+    }
+    PUSH_STRING_ARRAY(textureNames)
+FEND()
 
 FBIND(LE3AssetManager, add_material)
     GET_STRING(name)
@@ -42,6 +58,15 @@ FEND()
 FBIND(LE3AssetManager, has_material)
     GET_STRING(name)
     PUSH_BOOL(LE3GetAssetManager().hasMaterial(name))
+FEND()
+
+FBIND(LE3AssetManager, get_materials)
+    std::vector<std::string> materialNames;
+    for (auto& [name, material] : LE3GetAssetManager().getMaterials()) {
+        if (name.starts_with(DEFAULT_ENGINE_PREFIX)) continue;
+        materialNames.push_back(name);
+    }
+    PUSH_STRING_ARRAY(materialNames)
 FEND()
 
 FBIND(LE3AssetManager, add_static_mesh)
@@ -74,10 +99,21 @@ FBIND(LE3AssetManager, has_skeletal_mesh)
     PUSH_BOOL(LE3GetAssetManager().hasSkeletalMesh(name))
 FEND()
 
+FBIND(LE3AssetManager, get_meshes)
+    std::vector<std::string> meshNames;
+    std::vector<bool> isSkeletal;
+    for (auto& name : LE3GetAssetManager().getMeshesNames()) {
+        if (name.starts_with(DEFAULT_ENGINE_PREFIX)) continue;
+        meshNames.push_back(name);
+        isSkeletal.push_back(LE3GetAssetManager().isSkeletalMesh(name));
+    }
+    PUSH_STRING_ARRAY(meshNames)
+    PUSH_BOOL_ARRAY(isSkeletal)
+FEND()
+
 LIB(LE3AssetManager,
-    add_shader, get_shader_paths,
-    add_texture, has_texture,
-    add_material, has_material,
-    add_static_mesh, has_static_mesh,
-    add_skeletal_mesh, add_skeletal_animation, has_skeletal_mesh
+    add_shader, get_shader_paths, get_shaders,
+    add_texture, has_texture, get_textures,
+    add_material, has_material, get_materials,
+    add_static_mesh, has_static_mesh, add_skeletal_mesh, add_skeletal_animation, has_skeletal_mesh, get_meshes
 )

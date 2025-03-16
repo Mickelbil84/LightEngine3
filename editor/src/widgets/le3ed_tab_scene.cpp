@@ -84,7 +84,6 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
         m_openStatus[obj->getName()] = open;
         if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
             LE3GetEditorManager().getSelection().selectObject(obj, bReset);
-            // LE3GetSceneManager().updateScenes(0);
         }
         ImGui::TableNextColumn();
         ImGui::TextDisabled("%s", obj->getObjectType().c_str());
@@ -101,7 +100,6 @@ void LE3EditorTabScene::recurseSceneTree(LE3ObjectPtr obj) {
             ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | extraFlags);
         if (ImGui::IsItemClicked()) {
             LE3GetEditorManager().getSelection().selectObject(obj, bReset);
-            // LE3GetSceneManager().updateScenes(0);
         }
         ImGui::TableNextColumn();
         ImGui::TextDisabled("%s", obj->getObjectType().c_str());

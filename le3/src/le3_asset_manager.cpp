@@ -52,6 +52,82 @@ void LE3AssetManager::init() {
     addTexture(SPRITE_POINT_LIGHT, "/engine/sprites/sprite_point.png");
     addTexture(SPRITE_SPOT_LIGHT, "/engine/sprites/sprite_spot.png");
 }
+void LE3AssetManager::reset() {
+    m_pShaders.clear();
+    m_pMaterials.clear();
+    m_pTextures.clear();
+    m_pStaticMeshes.clear();
+    m_pSkeletalMeshes.clear();
+    m_shadersPaths.clear();
+    m_texturesPaths.clear();
+    m_meshesPaths.clear();
+
+    m_screenRect = nullptr;
+    m_debugLine = nullptr;
+    m_debugBox = nullptr;
+    m_debugCylinder = nullptr;
+    m_debugCone = nullptr;
+    m_gizmoArrow = nullptr;
+    m_gizmoScaleArrow = nullptr;
+    m_gizmoCircle = nullptr;
+    m_gizmoPlane = nullptr;
+    m_gizmoCenter = nullptr;
+    m_gErrorShader = nullptr;
+    m_gErrorTexture = nullptr;
+    m_gErrorMaterial = nullptr;
+    m_lastDeletedShader = "";
+    m_lastDeletedTexture = ""; 
+    m_lastDeletedMaterial = ""; 
+    m_lastDeletedStaticMesh = ""; m_lastDeletedSkeletalMesh = "";
+}
+
+void LE3AssetManager::resetNonEditor() {
+    std::map<std::string, std::shared_ptr<LE3Shader>> pShaders;
+    for (auto& [name, v] : m_pShaders) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) pShaders[name] = v;
+    m_pShaders = pShaders;
+
+    std::map<std::string, std::shared_ptr<LE3Material>> pMaterials;
+    for (auto& [name, v] : m_pMaterials) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) pMaterials[name] = v;
+    m_pMaterials = pMaterials;
+
+    std::map<std::string, std::shared_ptr<LE3Texture>> pTextures;
+    for (auto& [name, v] : m_pTextures) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) pTextures[name] = v;
+    m_pTextures = pTextures;
+
+    std::map<std::string, std::shared_ptr<LE3StaticMesh>> pStaticMeshes;
+    for (auto& [name, v] : m_pStaticMeshes) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) pStaticMeshes[name] = v;
+    m_pStaticMeshes = pStaticMeshes;
+
+    std::map<std::string, std::shared_ptr<LE3SkeletalMesh>> pSkeletalMeshes;
+    for (auto& [name, v] : m_pSkeletalMeshes) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) pSkeletalMeshes[name] = v;
+    m_pSkeletalMeshes = pSkeletalMeshes;
+
+    std::map<std::string, std::pair<std::string, std::string>> shadersPaths;
+    for (auto& [name, v] : m_shadersPaths) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) shadersPaths[name] = v;
+    m_shadersPaths = shadersPaths;
+
+    std::map<std::string, std::string> texturesPaths;
+    for (auto& [name, v] : m_texturesPaths) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) texturesPaths[name] = v;
+    m_texturesPaths = texturesPaths;
+
+    std::map<std::string, std::string> meshesPaths;
+    for (auto& [name, v] : m_meshesPaths) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) meshesPaths[name] = v;
+    m_meshesPaths = meshesPaths;
+
+    m_lastDeletedShader = "";
+    m_lastDeletedTexture = ""; 
+    m_lastDeletedMaterial = ""; 
+    m_lastDeletedStaticMesh = ""; m_lastDeletedSkeletalMesh = "";
+
+    // Hotfix: re-add the default material, since it is engine but without the prefix
+    addMaterial(DEFAULT_MATERIAL, DEFAULT_SHADER);
+}
+
+void LE3AssetManager::reloadAssets() {
+    reloadShaders();
+    reloadTextures();
+    reloadMeshes();
+}
 
 void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {
     try {
@@ -65,9 +141,22 @@ void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShad
     m_shadersPaths[name] = std::make_pair(vertexShaderPath, fragmentShaderPath);
 }
 void LE3AssetManager::addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource) {
-    if (m_pShaders.contains(name)) throw std::runtime_error(fmt::format("Shader [{}] already exists", name));
+    if (m_pShaders.contains(name)) deleteShader(name);
     m_pShaders[name] = std::make_shared<LE3Shader>(vertexShaderSource, fragmentShaderSource);
     m_pShaders[name]->setName(name);
+}
+
+void LE3AssetManager::reloadShader(std::string name) {
+    try {
+        std::string vertexShaderPath = m_shadersPaths[name].first;
+        std::string fragmentShaderPath = m_shadersPaths[name].second;
+        std::string vertexShaderSource = readFile(vertexShaderPath);
+        std::string fragmentShaderSource = readFile(fragmentShaderPath);
+        m_pShaders[name]->recompile(vertexShaderSource, fragmentShaderSource);
+    } catch (std::runtime_error& e) {
+        fmt::print("Error loading shader from file: {}\n", e.what());
+        addShaderFromSource(name, "", "");
+    }
 }
 
 void LE3AssetManager::renameShader(std::string oldName, std::string newName) {
@@ -90,7 +179,8 @@ void LE3AssetManager::deleteShader(std::string name) {
 }
 
 void LE3AssetManager::addMaterial(std::string name, std::string shaderName) {
-    if (m_pMaterials.contains(name)) throw std::runtime_error(fmt::format("Material [{}] already exists", name));
+    if (m_pMaterials.contains(name)) //throw std::runtime_error(fmt::format("Material [{}] already exists", name));
+        deleteMaterial(name);
     if (!m_pShaders.contains(shaderName)) throw std::runtime_error(fmt::format("Cannot create material [{}]: shader [{}] does not exist", name, shaderName));
     m_pMaterials[name] = std::make_shared<LE3Material>(m_pShaders[shaderName]);
     m_pMaterials[name]->name = name;
@@ -109,10 +199,19 @@ void LE3AssetManager::deleteMaterial(std::string name) {
     m_lastDeletedMaterial = name;
     refreshPointers();
 }
+void LE3AssetManager::reloadShaders() {
+    for (auto& [name, path] : m_shadersPaths) {
+        try {
+            reloadShader(name);
+        } catch (std::runtime_error& e) {
+            fmt::print("Error reloading shader [{}]: {}\n", name, e.what());
+        }
+    }
+}
 
 
 void LE3AssetManager::addTexture(std::string name, std::vector<unsigned char> data, int width, int height, int nChannels, bool interpolate) {
-    if (m_pTextures.contains(name)) throw std::runtime_error(fmt::format("Texture [{}] already exists", name));
+    if (m_pTextures.contains(name)) deleteTexture(name);
     m_pTextures[name] = std::make_shared<LE3Texture>(data, width, height, nChannels, interpolate);
     m_pTextures[name]->setName(name);
 }
@@ -160,8 +259,18 @@ void LE3AssetManager::deleteTexture(std::string name) {
     refreshPointers();
 }
 
+void LE3AssetManager::reloadTextures() {
+    for (auto& [name, path] : m_texturesPaths) {
+        try {
+            reloadTexture(name, path, m_pTextures[name]->getInterpolate());
+        } catch (std::runtime_error& e) {
+            fmt::print("Error reloading texture [{}]: {}\n", name, e.what());
+        }
+    }
+}
+
 void LE3AssetManager::addStaticMesh(std::string name, std::string filename, bool keepData) {
-    if (m_pStaticMeshes.contains(name)) throw std::runtime_error(fmt::format("Static mesh [{}] already exists", name));
+    if (m_pStaticMeshes.contains(name)) deleteStaticMesh(name);
     m_pStaticMeshes[name] = loadStaticMesh(filename, keepData);
     m_pStaticMeshes[name]->setName(name);
     m_meshesPaths[name] = filename;
@@ -197,7 +306,7 @@ void LE3AssetManager::deleteStaticMesh(std::string name) {
 
 
 void LE3AssetManager::addSkeletalMesh(std::string name, std::string filename) {
-    if (m_pSkeletalMeshes.contains(name)) throw std::runtime_error(fmt::format("Skeletal mesh [{}] already exists", name));
+    if (m_pSkeletalMeshes.contains(name)) deleteSkeletalMesh(name);
     m_pSkeletalMeshes[name] = loadSkeletalMesh(filename);
     m_pSkeletalMeshes[name]->setName(name);
     m_meshesPaths[name] = filename;
@@ -228,6 +337,17 @@ void LE3AssetManager::deleteSkeletalMesh(std::string name) {
     if (m_meshesPaths.contains(name)) m_meshesPaths.erase(name);
     m_lastDeletedSkeletalMesh = name;
     refreshPointers();
+}
+
+void LE3AssetManager::reloadMeshes() {
+    for (auto& [name, path] : m_meshesPaths) {
+        try {
+            if (m_pStaticMeshes.contains(name)) reloadStaticMesh(name, path, false);
+            if (m_pSkeletalMeshes.contains(name)) reloadSkeletalMesh(name, path);
+        } catch (std::runtime_error& e) {
+            fmt::print("Error reloading mesh [{}]: {}\n", name, e.what());
+        }
+    }
 }
 
 std::string LE3AssetManager::readFile(std::string filename) {

@@ -3,10 +3,12 @@
 #include <string>
 #include <functional>
 
+#include <le3.h>
+
 namespace le3 {
     struct LE3EditorToolbarButton {
-        LE3EditorToolbarButton(std::string name, std::string iconName) : name(name), iconName(iconName) {}
-        LE3EditorToolbarButton(std::string name, std::string iconName, std::function<void()> onClick) : name(name), iconName(iconName), onClick(onClick) {}
+        LE3EditorToolbarButton(std::string name, std::string iconName) : name(name), iconName(DEFAULT_ENGINE_PREFIX + iconName) {}
+        LE3EditorToolbarButton(std::string name, std::string iconName, std::function<void()> onClick) : name(name), iconName(DEFAULT_ENGINE_PREFIX + iconName), onClick(onClick) {}
         LE3EditorToolbarButton() : separator(true) {}
 
         void setupHotkey(std::vector<std::string> hotkey);

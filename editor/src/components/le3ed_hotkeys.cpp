@@ -1,4 +1,5 @@
 #include "components/le3ed_hotkeys.h"
+#include "le3ed_editor_systems.h"
 using namespace le3;
 
 void LE3EditorHotkeys::handleInput(LE3Input input) {
@@ -30,5 +31,13 @@ void LE3EditorHotkeys::resolveBinding(LE3Input input, std::vector<std::string> h
     }
 
     // If we get here, we at the first frame for which before the hotkey was not pressed, and now it is
-    m_hotkeys[hotkey]();
+    m_pendingHotkeys.push_back(hotkey);
+}
+
+void LE3EditorHotkeys::solveHotkeys() {
+    for (auto hotkey : m_pendingHotkeys) {
+        m_hotkeys[hotkey]();
+    }
+    LE3EditorSystems::instance().updatePopups();
+    m_pendingHotkeys.clear();
 }

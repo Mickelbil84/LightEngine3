@@ -70,6 +70,9 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/le3_networking.cpp
     src/le3_network_spinner.cpp
     src/le3_event_manager.cpp
+    src/le3_serialization.cpp
+
+    src/tools/le3_tool_pkg.cpp
 
     src/le3_script_system.cpp
     src/le3_script_bindings.cpp

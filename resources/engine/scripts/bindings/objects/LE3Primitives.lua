@@ -92,3 +92,24 @@ LE3Torus.save = function (object)
 end
 LE3Torus.title = "LE3Torus"
 LE3Torus.parent_blacklist = {LE3StaticModel = 1}
+
+LE3Sphere.__base = LE3StaticModel
+LE3Sphere.load = function (scene, tbl, res)
+    if (res == nil) then
+        LE3Scene.add_sphere(scene, tbl.Name, tbl.MaterialName, 0, 0, 0, tbl.Radius, tbl.Resolution)
+        res = LE3Scene.get_object(scene, tbl.Name)
+    end
+    LE3Sphere.__base.load(scene, tbl, res)
+    return {ptr = res, name = tbl.Name}
+end
+LE3Sphere.rebuild = function (object, tbl)
+    LE3Sphere.__base.rebuild(object, tbl)
+end
+LE3Sphere.save = function (object)
+    local tbl = LE3Sphere.__base.save(object)
+    tbl.Radius = LE3Sphere.get_radius(object)
+    tbl.Resolution = LE3Sphere.get_resolution(object)
+    return tbl
+end
+LE3Sphere.title = "LE3Sphere"
+LE3Sphere.parent_blacklist = {LE3StaticModel = 1}
