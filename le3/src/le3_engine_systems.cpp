@@ -15,6 +15,7 @@ void LE3EngineSystems::reset() {
     g_sceneManager.reset();
     g_editorManager.reset();
     g_eventManager.reset();
+    g_physicsManager.reset();
     
     // preload(g_headlessEngine);
     // init();
