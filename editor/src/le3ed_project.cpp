@@ -36,4 +36,5 @@ void LE3EditorProject::reloadAssets() {
     for (auto [archiveName, archivePath] : LE3EditorProject::getProjectDatArchives()) {
         LE3GetDatFileSystem().addArchive(archiveName, archivePath);
     }
+    LE3GetAssetManager().reloadAssets();
 }

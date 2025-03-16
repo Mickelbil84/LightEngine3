@@ -47,6 +47,7 @@ namespace le3 {
         void reset();
         void resetNonEditor(); // Reset only non-essential assets
         void refreshPointers(); // In case of asset deletions, make sure everything is still kosher
+        void reloadAssets();
 
         // Shaders
         void addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
@@ -61,9 +62,11 @@ namespace le3 {
             if (m_shadersPaths.contains(name)) return m_shadersPaths[name];
             return std::make_pair("", "");
         }
+        void reloadShader(std::string name);
         void renameShader(std::string oldName, std::string newName);
         bool hasShader(std::string name) { return m_pShaders.contains(name); }
         void deleteShader(std::string name);
+        void reloadShaders();
 
         // Materials
         void addMaterial(std::string name, std::string shaderName);
@@ -94,6 +97,7 @@ namespace le3 {
         void reloadTexture(std::string name, std::string filename, bool interpolate = true);
         void renameTexture(std::string oldName, std::string newName);
         void deleteTexture(std::string name);
+        void reloadTextures();
 
         // Meshes
         void addStaticMesh(std::string name, std::string filename, bool keepData = false);
@@ -121,6 +125,7 @@ namespace le3 {
             for (auto& [name, mesh] : m_pSkeletalMeshes) names.push_back(name);
             return names;
         }
+        void reloadMeshes();
 
         ////
         /// Point clouds

@@ -123,6 +123,12 @@ void LE3AssetManager::resetNonEditor() {
     addMaterial(DEFAULT_MATERIAL, DEFAULT_SHADER);
 }
 
+void LE3AssetManager::reloadAssets() {
+    reloadShaders();
+    reloadTextures();
+    reloadMeshes();
+}
+
 void LE3AssetManager::addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {
     try {
         std::string vertexShaderSource = readFile(vertexShaderPath);
@@ -138,6 +144,19 @@ void LE3AssetManager::addShaderFromSource(std::string name, std::string vertexSh
     if (m_pShaders.contains(name)) deleteShader(name);
     m_pShaders[name] = std::make_shared<LE3Shader>(vertexShaderSource, fragmentShaderSource);
     m_pShaders[name]->setName(name);
+}
+
+void LE3AssetManager::reloadShader(std::string name) {
+    try {
+        std::string vertexShaderPath = m_shadersPaths[name].first;
+        std::string fragmentShaderPath = m_shadersPaths[name].second;
+        std::string vertexShaderSource = readFile(vertexShaderPath);
+        std::string fragmentShaderSource = readFile(fragmentShaderPath);
+        m_pShaders[name]->recompile(vertexShaderSource, fragmentShaderSource);
+    } catch (std::runtime_error& e) {
+        fmt::print("Error loading shader from file: {}\n", e.what());
+        addShaderFromSource(name, "", "");
+    }
 }
 
 void LE3AssetManager::renameShader(std::string oldName, std::string newName) {
@@ -179,6 +198,15 @@ void LE3AssetManager::deleteMaterial(std::string name) {
     if (m_pMaterials.contains(name)) m_pMaterials.erase(name);
     m_lastDeletedMaterial = name;
     refreshPointers();
+}
+void LE3AssetManager::reloadShaders() {
+    for (auto& [name, path] : m_shadersPaths) {
+        try {
+            reloadShader(name);
+        } catch (std::runtime_error& e) {
+            fmt::print("Error reloading shader [{}]: {}\n", name, e.what());
+        }
+    }
 }
 
 
@@ -229,6 +257,16 @@ void LE3AssetManager::deleteTexture(std::string name) {
     if (m_texturesPaths.contains(name)) m_texturesPaths.erase(name);
     m_lastDeletedTexture = name;
     refreshPointers();
+}
+
+void LE3AssetManager::reloadTextures() {
+    for (auto& [name, path] : m_texturesPaths) {
+        try {
+            reloadTexture(name, path, m_pTextures[name]->getInterpolate());
+        } catch (std::runtime_error& e) {
+            fmt::print("Error reloading texture [{}]: {}\n", name, e.what());
+        }
+    }
 }
 
 void LE3AssetManager::addStaticMesh(std::string name, std::string filename, bool keepData) {
@@ -299,6 +337,17 @@ void LE3AssetManager::deleteSkeletalMesh(std::string name) {
     if (m_meshesPaths.contains(name)) m_meshesPaths.erase(name);
     m_lastDeletedSkeletalMesh = name;
     refreshPointers();
+}
+
+void LE3AssetManager::reloadMeshes() {
+    for (auto& [name, path] : m_meshesPaths) {
+        try {
+            if (m_pStaticMeshes.contains(name)) reloadStaticMesh(name, path, false);
+            if (m_pSkeletalMeshes.contains(name)) reloadSkeletalMesh(name, path);
+        } catch (std::runtime_error& e) {
+            fmt::print("Error reloading mesh [{}]: {}\n", name, e.what());
+        }
+    }
 }
 
 std::string LE3AssetManager::readFile(std::string filename) {
