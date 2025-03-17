@@ -116,7 +116,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt cpr::cpr SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp ${LUA_LIBRARIES} ${ZLIB_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt cpr::cpr SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp ${LUA_LIBRARIES} ${ZLIB_LIBRARIES} ${BULLET_LIBRARIES})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 # Auto generate lua bindings

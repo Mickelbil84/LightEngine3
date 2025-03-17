@@ -1,4 +1,5 @@
 #include "le3_scene_manager.h"
+#include "le3_engine_systems.h"
 using namespace le3;
 
 void LE3SceneManager::reset() {
@@ -19,6 +20,9 @@ void LE3SceneManager::createInspectedScene(std::string name, LE3EngineState& eng
 }
 
 void LE3SceneManager::updateScenes(float deltaTime) {
+    // Before even updating any of the scenes, step the physics simulator
+    LE3GetPhysicsManager().update(deltaTime);
+
     for (auto [name, scene] : m_scenes) {
         if (!scene->isInspected()) scene->preUpdate();
     }
