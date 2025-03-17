@@ -54,7 +54,9 @@ namespace le3{
 
     class LE3DirectionalLight : public LE3Light, public LE3HasShadows {
     public:
-        LE3DirectionalLight(glm::vec3 color = glm::vec3(1.f), float intensity=0.8f) : LE3Light(color, intensity) {}
+        LE3DirectionalLight(glm::vec3 color = glm::vec3(1.f), float intensity=0.8f) : LE3Light(color, intensity) {
+            m_transform.setRotation(glm::quat(0.89f, 0.211f, 0.393f, -0.093f));
+        }
         LE3_TYPE_RETURN(LE3DirectionalLight)
 
         glm::vec3 getDirection() const { return getWorldMatrix() * glm::vec4(DEFAULT_LIGHT_DIRECTION, 0.f); }
