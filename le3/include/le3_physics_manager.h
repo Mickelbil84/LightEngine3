@@ -17,6 +17,8 @@ namespace le3 {
         inline void setPhysicsEnabled(bool enabled) { m_bPhysicsEnabled = enabled; }
         inline bool isPhysicsEnabled() const { return m_bPhysicsEnabled; }
 
+        void registerComponent(LE3PhysicsComponent& component);
+
     private:
         std::unique_ptr<btDefaultCollisionConfiguration> m_collisionConfiguration;
         std::unique_ptr<btCollisionDispatcher> m_dispatcher;

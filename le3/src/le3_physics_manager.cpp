@@ -15,3 +15,17 @@ void LE3PhysicsManager::update(float deltaTime) {
     if (!m_bPhysicsEnabled) return;
     m_dynamicsWorld->stepSimulation(deltaTime);
 }
+
+void LE3PhysicsManager::registerComponent(LE3PhysicsComponent& component) {
+    // TODO: Unique pointers
+    // TODO: Deregister component
+    if (component.isRigidBody()) {
+        btRigidBody* body = new btRigidBody(0, nullptr, component.getCollider().lock().get());
+        m_dynamicsWorld->addRigidBody(body);
+    }
+    else {
+        btCollisionObject* object = new btCollisionObject();
+        object->setCollisionShape(component.getCollider().lock().get());
+        m_dynamicsWorld->addCollisionObject(object);
+    }
+}
