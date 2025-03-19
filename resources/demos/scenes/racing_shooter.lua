@@ -50,7 +50,7 @@ Scene.Textures = {
 Scene.Materials = {
     {
         Name = "M_wheel",
-        ShaderName = "S_default",
+        ShaderName = "__ENGINE__S_default",
         DiffuseTexture = "T_carWheel_DIFF",
         SpecularTexture = "T_carWheel_REFL",
         Shininess = 128,
@@ -59,7 +59,7 @@ Scene.Materials = {
     },
     {
         Name = "M_carBody",
-        ShaderName = "S_default",
+        ShaderName = "__ENGINE__S_default",
         DiffuseTexture = "T_carBody_DIFF",
         Shininess = 128,
         Cubemap = "T_basilica",
@@ -67,7 +67,7 @@ Scene.Materials = {
     },
     {
         Name = "M_soldier",
-        ShaderName = "S_default",
+        ShaderName = "__ENGINE__S_default",
         DiffuseTexture = "T_DIF_soldier",
         NormalTexture = "T_NRM_soldier",
         SpecularTexture = "T_SPC_soldier",
@@ -76,7 +76,7 @@ Scene.Materials = {
     },
     {
         Name = "M_mannequin",
-        ShaderName = "S_default",
+        ShaderName = "__ENGINE__S_default",
         DiffuseTexture = "T_DIF_mannequin",
         NormalTexture = "T_NRM_mannequin",
         SpecularTexture = "T_SPC_mannequin",
@@ -85,7 +85,7 @@ Scene.Materials = {
     },
     {
         Name = "M_cylinder",
-        ShaderName = "S_default",
+        ShaderName = "__ENGINE__S_default",
         DiffuseTexture = "T_cylinder",
         SpecularIntensity = 2.0,
         Shininess = 32,
@@ -141,31 +141,7 @@ Scene.Objects = {
         Type = "DirectionalLight",
         Name = "sunLight",
         Intensity = 0.5,
-        Rotation = {-0.9961947, 0, -0.08715574, 0},
         HasShadowMap = true,
-    },
-    {
-        Type = "PointLight",
-        Name = "pointLight01",
-        -- Position = {-2, 1.1, 0},
-        Position = {-1, 1.1, 0},
-        Color = {0, 0.9, 0.3},
-        Intensity = 0.3,
-    },
-    {
-        Type = "SpotLight",
-        Name = "spotLight01",
-        Position = {-2.3, 1.1, 0},
-        Color = {0.9, 0.9, 0.9},
-        -- Rotation = {-0.9961947, 0, 0.08715574, 0},
-        -- Rotation = {0, 0, 0, 1},
-        Intensity = 0.8,
-        HasShadowMap = true,
-    },
-    {
-        Type = "Empty",
-        Name = "player",
-        Position = {0.0, 0.0, 0.0}
     },
     {
         Type = "Box",
@@ -176,89 +152,18 @@ Scene.Objects = {
         CastShadow = false
     },
     {
-        Type = "Torus",
-        Name = "torus",
-        MaterialName = "M_default",
-        Position = {0.0, 1.5, 0.0},
-        MajorRadius = 0.2,
-        MinorRadius = 0.05,
-        Resolution = 32
-    },
-    {
-        Type = "Sprite",
-        Name = "sprite",
-        TextureName = "icon_addempty",
-        Position = {0.0, 0.75, 0.0},
-    },
-    {
         Type = "FreeCamera",
         Name = "cameraFree",
         Position = {0.0, 0.5, 3.0}
     },
     {
         Type = "OrbitCamera",
-        Name = "cameraOrbit",
-        Offset = 3.0
-    },
-    {
-        Type = "OrbitCamera",
         Name = "inspector",
         Offset = 5.0
-    },
-    {
-        Type = "ScriptObject",
-        Classname = "Car",
-        Name = "car",
-        Scale = {2.5 * 0.75, 2.5 * 0.75, 2.75 * 0.5},
-        Position = {0.3, 0.0, -1}
-    },
-    -- {
-    --     Type = "ScriptObject",
-    --     Classname = "Car",
-    --     Name = "car2",
-    --     Scale = {2.5 * 0.75, 2.5 * 0.75, 2.75 * 0.5},
-    --     Position = {-2, 0.05, 2}
-    -- },
-    {
-        Type = "SkeletalModel",
-        Name = "soldier",
-        MeshName = "SK_soldier",
-        MaterialName = "M_soldier",
-        Position = {0.8, 0, 0},
-        Scale = {0.005, 0.005, 0.005}
-    },
-    {
-        Type = "ScriptObject",
-        Classname = "PointCloudDemo",
-        Name = "_pcdemo",
-    },
-    {
-        Type = "Cylinder",
-        Name = "cyl1",
-        MaterialName = "M_cylinder",
-        Position = {1,1,1},
-        Radius = 0.25,
-        Height = 1.0,
-        Resolution = 32,
-        WithCaps = true
-    },
-
-    {
-        Type = "Cone",
-        Name = "con1",
-        MaterialName = "M_cylinder",
-        Position = {1.6,1,1},
-        Radius = 0.25,
-        Height = 1.0,
-        Resolution = 32,
-        WithCaps = true
-    },
+    }
 }
 
 Scene.ObjectRelations = {
-    {"cameraFree", "player"},
-    -- {"cameraOrbit", "car"},
-    {"pointLight01", "car"},
 }
 
 -- Scene settings

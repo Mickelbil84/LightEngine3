@@ -1,31 +1,37 @@
 #include "le3_physics_manager.h"
 using namespace le3;
 
+#include <bullet/btBulletDynamicsCommon.h>
+
+struct LE3PhysicsManager::_LE3PhysicsManager_Internal {
+    _LE3PhysicsManager_Internal() {}
+    std::unique_ptr<btDefaultCollisionConfiguration> m_collisionConfiguration;
+    std::unique_ptr<btCollisionDispatcher> m_dispatcher;
+    std::unique_ptr<btBroadphaseInterface> m_overlappingPairCache;
+    std::unique_ptr<btSequentialImpulseConstraintSolver> m_solver;
+    std::unique_ptr<btDiscreteDynamicsWorld> m_dynamicsWorld;
+};
+
+LE3PhysicsManager::LE3PhysicsManager() : m_pInternal(std::make_shared<_LE3PhysicsManager_Internal>()) {
+    reset();
+}
+
 void LE3PhysicsManager::reset() {
-    m_collisionConfiguration = std::make_unique<btDefaultCollisionConfiguration>();
-    m_dispatcher = std::make_unique<btCollisionDispatcher>(m_collisionConfiguration.get());
-    m_overlappingPairCache = std::make_unique<btDbvtBroadphase>();
-    m_solver = std::make_unique<btSequentialImpulseConstraintSolver>();
+    m_pInternal->m_collisionConfiguration = std::make_unique<btDefaultCollisionConfiguration>();
+    m_pInternal->m_dispatcher = std::make_unique<btCollisionDispatcher>(m_pInternal->m_collisionConfiguration.get());
+    m_pInternal->m_overlappingPairCache = std::make_unique<btDbvtBroadphase>();
+    m_pInternal->m_solver = std::make_unique<btSequentialImpulseConstraintSolver>();
     
-    m_dynamicsWorld = std::make_unique<btDiscreteDynamicsWorld>(m_dispatcher.get(), m_overlappingPairCache.get(), m_solver.get(), m_collisionConfiguration.get());
-    m_dynamicsWorld->setGravity(btVector3(0, -10, 0));
+    m_pInternal->m_dynamicsWorld = std::make_unique<btDiscreteDynamicsWorld>(
+        m_pInternal->m_dispatcher.get(), m_pInternal->m_overlappingPairCache.get(), m_pInternal->m_solver.get(), m_pInternal->m_collisionConfiguration.get());
+    m_pInternal->m_dynamicsWorld->setGravity(btVector3(0, -10, 0));
 }
 
 void LE3PhysicsManager::update(float deltaTime) {
     if (!m_bPhysicsEnabled) return;
-    m_dynamicsWorld->stepSimulation(deltaTime);
+    m_pInternal->m_dynamicsWorld->stepSimulation(deltaTime);
 }
 
 void LE3PhysicsManager::registerComponent(LE3PhysicsComponent& component) {
-    // TODO: Unique pointers
-    // TODO: Deregister component
-    if (component.isRigidBody()) {
-        btRigidBody* body = new btRigidBody(0, nullptr, component.getCollider().lock().get());
-        m_dynamicsWorld->addRigidBody(body);
-    }
-    else {
-        btCollisionObject* object = new btCollisionObject();
-        object->setCollisionShape(component.getCollider().lock().get());
-        m_dynamicsWorld->addCollisionObject(object);
-    }
+    m_pInternal->m_dynamicsWorld->addRigidBody((btRigidBody*)component.getRigidBody());
 }

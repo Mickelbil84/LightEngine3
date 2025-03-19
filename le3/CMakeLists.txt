@@ -18,7 +18,7 @@ if(MSVC)
     string(APPEND CMAKE_CXX_FLAGS " /MP$ENV{MSVC_PARALLEL}")
 endif()
 
-include_directories(${LUA_INCLUDE_DIR})
+include_directories(${LUA_INCLUDE_DIR} ${BULLET_INCLUDE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/../third-party/stb)
 include_directories(${PROJECT_SOURCE_DIR}/../third-party/imgui)
 include_directories(${PROJECT_SOURCE_DIR}/../third-party/gzip-hpp/include)

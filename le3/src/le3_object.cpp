@@ -2,6 +2,11 @@
 using namespace le3;
 
 void LE3Object::update(float deltaTime) {
+    // If physics component overrides transform, do that
+    if (m_physicsComponent.update()) {
+        m_worldMatrix = m_transform.getTransformMatrix();
+        return;
+    } 
     glm::mat4 parentWorld = glm::mat4(1.f);
     if (m_pParent) parentWorld = m_pParent->getWorldMatrix();
     m_worldMatrix = parentWorld * m_transform.getTransformMatrix();

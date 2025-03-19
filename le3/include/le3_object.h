@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #include "le3_transform.h"
+#include "le3_physics.h"
 
 #define LE3_TYPE_RETURN(cls) virtual std::string getObjectType() const { return #cls; }
 
@@ -14,7 +15,10 @@ namespace le3 {
     public:
         LE3_TYPE_RETURN(LE3Object)
 
+        LE3Object() : m_physicsComponent(m_transform) {}
+
         inline LE3Transform& getTransform() { return m_transform; }
+        inline LE3PhysicsComponent& getPhysicsComponent() { return m_physicsComponent; }
 
         inline glm::mat4 getWorldMatrix() const { return m_worldMatrix; }
         inline glm::vec3 getWorldPosition() const { return glm::vec3(m_worldMatrix[3]); }
@@ -42,6 +46,7 @@ namespace le3 {
 
     protected:
         LE3Transform m_transform;
+        LE3PhysicsComponent m_physicsComponent;
 
     private:
         // Graph structure

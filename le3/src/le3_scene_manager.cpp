@@ -10,8 +10,8 @@ void LE3SceneManager::reset() {
 void LE3SceneManager::createScene(std::string name, LE3EngineState& engineState, std::string scenePath) {
     m_scenes[name] = std::make_shared<LE3Scene>(name);
     m_scenes[name]->init(engineState.getWindowWidth(), engineState.getWindowHeight());
-    if (scenePath != "") m_scenes[name]->load(scenePath);
     if (m_activeSceneName == "") m_activeSceneName = name;
+    if (scenePath != "") m_scenes[name]->load(scenePath);
 }
 
 void LE3SceneManager::createInspectedScene(std::string name, LE3EngineState& engineState, std::string inspected) {

@@ -3,28 +3,43 @@
 #include <memory>
 
 #include <glm/glm.hpp>
-#include <bullet/btBulletDynamicsCommon.h>
+
+#include "le3_transform.h"
 
 namespace le3 {
+
+    ///////////////////////////
+    // Forward declarations
+    ///////////////////////////
+    struct LE3PhysicsCollider;
+    struct LE3PhysicsRigidBody;
+    ///////////////////////////
+
     class LE3PhysicsComponent {
     public:
+        LE3PhysicsComponent(LE3Transform& transform);
+        
         void enable();
         bool isEnabled() const { return m_bEnabled; }
 
-        void setIsRigidBody(bool isRigidBody) { m_bIsRigidBody = isRigidBody; }
-        bool isRigidBody() const { return m_bIsRigidBody; }
+        bool update();
 
         void setIsTrigger(bool isTrigger) { m_bIsTrigger = isTrigger; }
         bool isTrigger() const { return m_bIsTrigger; }
 
         void addBoxCollider(glm::vec3 size);
 
-        std::weak_ptr<btCollisionShape> getCollider() { return m_collider; }
+        std::weak_ptr<LE3PhysicsCollider> getCollider() { return m_collider; }
+        void setupRigidBody(float mass);
+
+        void* getRigidBody();
 
 
     private:
-        std::shared_ptr<btCollisionShape> m_collider;
-        bool m_bEnabled, m_bIsRigidBody, m_bIsTrigger;
+        LE3Transform& m_transform;
+        std::shared_ptr<LE3PhysicsCollider> m_collider;
+        std::shared_ptr<LE3PhysicsRigidBody> m_rigidBody;
+        bool m_bEnabled, m_bIsTrigger;
     };
 }
 

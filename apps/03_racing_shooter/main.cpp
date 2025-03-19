@@ -50,27 +50,53 @@ public:
         LE3GetEditorManager().registerGizmo(gizmo);
         gizmo->setHidden(true);
 
-        // Setup initial animation demo
-        LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(LE3GetSceneManager().getScene("scene")->getObject("soldier"));
-        soldier->setCurrentAnimation("ANIM_idle");
+        // // Setup initial animation demo
+        // LE3SkeletalModelPtr soldier = std::dynamic_pointer_cast<LE3SkeletalModel>(LE3GetSceneManager().getScene("scene")->getObject("soldier"));
+        // soldier->setCurrentAnimation("ANIM_idle");
 
         ///////////////
         // BSP DEMO
         ///////////////
-        LE3GetSceneManager().getScene("scene")->addBSPBrush("bsp_c1");
-        LE3GetSceneManager().getScene("scene")->getObject("bsp_c1")->getTransform().setPosition(glm::vec3(1.28, 0.64, 0.04));
-        LE3GetSceneManager().getScene("scene")->getObject("bsp_c1")->getTransform().setScale(glm::vec3(2.56, 1.28, 0.08));
-        LE3GetSceneManager().getScene("scene")->getObject("bsp_c1")->update(0.f);
-        LE3GetSceneManager().getScene("scene")->addBSPBrush("bsp_c2", LE3_BRUSH_SUBTRACTIVE);
-        LE3GetSceneManager().getScene("scene")->getObject("bsp_c2")->getTransform().setPosition(glm::vec3(0.72 + 0.32 + 0.32 + 1.04 / 2, 0.96 / 2 + 0.16, 0.04));
-        LE3GetSceneManager().getScene("scene")->getObject("bsp_c2")->getTransform().setScale(glm::vec3(1.04, 0.8, 0.08));
-        LE3GetSceneManager().getScene("scene")->getObject("bsp_c2")->update(0.f);
-        LE3GetSceneManager().getScene("scene")->addBSPBrush("bsp_c3", LE3_BRUSH_SUBTRACTIVE);
-        LE3GetSceneManager().getScene("scene")->getObject("bsp_c3")->getTransform().setPosition(glm::vec3(0.72, 0.96 / 2, 0.04));
-        LE3GetSceneManager().getScene("scene")->getObject("bsp_c3")->getTransform().setScale(glm::vec3(0.64, 0.96, 0.08));
-        LE3GetSceneManager().getScene("scene")->getObject("bsp_c3")->update(0.f);
+        // LE3GetSceneManager().getScene("scene")->addBSPBrush("bsp_c1");
+        // LE3GetSceneManager().getScene("scene")->getObject("bsp_c1")->getTransform().setPosition(glm::vec3(1.28, 0.64, 0.04));
+        // LE3GetSceneManager().getScene("scene")->getObject("bsp_c1")->getTransform().setScale(glm::vec3(2.56, 1.28, 0.08));
+        // LE3GetSceneManager().getScene("scene")->getObject("bsp_c1")->update(0.f);
+        // LE3GetSceneManager().getScene("scene")->addBSPBrush("bsp_c2", LE3_BRUSH_SUBTRACTIVE);
+        // LE3GetSceneManager().getScene("scene")->getObject("bsp_c2")->getTransform().setPosition(glm::vec3(0.72 + 0.32 + 0.32 + 1.04 / 2, 0.96 / 2 + 0.16, 0.04));
+        // LE3GetSceneManager().getScene("scene")->getObject("bsp_c2")->getTransform().setScale(glm::vec3(1.04, 0.8, 0.08));
+        // LE3GetSceneManager().getScene("scene")->getObject("bsp_c2")->update(0.f);
+        // LE3GetSceneManager().getScene("scene")->addBSPBrush("bsp_c3", LE3_BRUSH_SUBTRACTIVE);
+        // LE3GetSceneManager().getScene("scene")->getObject("bsp_c3")->getTransform().setPosition(glm::vec3(0.72, 0.96 / 2, 0.04));
+        // LE3GetSceneManager().getScene("scene")->getObject("bsp_c3")->getTransform().setScale(glm::vec3(0.64, 0.96, 0.08));
+        // LE3GetSceneManager().getScene("scene")->getObject("bsp_c3")->update(0.f);
 
-        LE3GetSceneManager().getScene("scene")->getBSPManager().setShowBrushes(false);
+        // LE3GetSceneManager().getScene("scene")->getBSPManager().setShowBrushes(false);
+
+        ////////////////////////
+        // Physics Demo
+        ////////////////////////
+
+
+        for (int i = 0; i < 5; i++)
+        for (int j = 0; j < 5; j++)
+        for (int k = 0; k < 5; k++) {
+            LE3ObjectPtr box = std::make_shared<LE3Object>();
+            box->getTransform().setPosition(glm::vec3(0.22f * i, 10.f + 0.22f * k, 0.22f * j));
+            box->getPhysicsComponent().addBoxCollider(glm::vec3(0.2f, 0.2f, 0.2f) * 0.5f);
+            box->getPhysicsComponent().setupRigidBody(1.0f);
+            box->getPhysicsComponent().enable();
+            LE3GetActiveScene()->addCustomObject(fmt::format("box_{}_{}_{}", i, j, k), box);
+            LE3GetActiveScene()->addBox(fmt::format("boxvisual_{}_{}_{}", i, j, k), DEFAULT_MATERIAL, glm::vec3(0.f), glm::vec3(0.2f, 0.2f, 0.2f), fmt::format("box_{}_{}_{}", i, j, k));
+        }
+
+
+        LE3ObjectPtr floorCollider = std::make_shared<LE3Object>();
+        floorCollider->getTransform().setPosition(glm::vec3(0, -0.1, 0));
+        floorCollider->getPhysicsComponent().addBoxCollider(glm::vec3(100.f, 0.1f, 100.f));
+        floorCollider->getPhysicsComponent().setupRigidBody(0.0f);
+        floorCollider->getPhysicsComponent().enable();
+        LE3GetActiveScene()->addCustomObject("floorCollider", floorCollider);
+
 
     }
     void update(float deltaTime) {
@@ -84,10 +110,10 @@ public:
         LE3GetSceneManager().getScene(scene)->getMainCamera()->moveRight(deltaTime * walkSpeed * cameraVelocity.x);
         LE3GetSceneManager().getScene(scene)->getMainCamera()->moveUp(deltaTime * walkSpeed * cameraVelocity.z);
 
-        std::dynamic_pointer_cast<LE3OrbitCamera>(LE3GetSceneManager().getScene("scene")->getObject("cameraOrbit"))->setOffset(orbitOffset);
+        // std::dynamic_pointer_cast<LE3OrbitCamera>(LE3GetSceneManager().getScene("scene")->getObject("cameraOrbit"))->setOffset(orbitOffset);
 
         // Setup sunlight
-        LE3GetSceneManager().getScene(scene)->getObject("sunLight")->getTransform().setRotationRPY(sun_RPY[0], sun_RPY[1], sun_RPY[2]);
+        // LE3GetSceneManager().getScene(scene)->getObject("sunLight")->getTransform().setRotationRPY(sun_RPY[0], sun_RPY[1], sun_RPY[2]);
 
         // Move car forward
         // glm::vec3 carPos = m_scene.getObject("car")->getTransform().getPosition();
@@ -232,7 +258,7 @@ public:
     }
 
     void renderDebug() {
-        LE3GetVisualDebug().drawDebugCone(glm::vec3(0.f), 1.f, 2.f, glm::vec3(1.f, 1.f, 0.f));
+        // LE3GetVisualDebug().drawDebugCone(glm::vec3(0.f), 1.f, 2.f, glm::vec3(1.f, 1.f, 0.f));
     }
 
     void handleInput(LE3Input input) {

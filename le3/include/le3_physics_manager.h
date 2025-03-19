@@ -4,13 +4,12 @@
 #include <vector>
 #include <string>
 
-#include <bullet/btBulletDynamicsCommon.h>
-
 #include "le3_physics.h"
 
 namespace le3 {
     class LE3PhysicsManager {
     public:
+        LE3PhysicsManager();
         void reset();
         void update(float deltaTime);
 
@@ -20,11 +19,8 @@ namespace le3 {
         void registerComponent(LE3PhysicsComponent& component);
 
     private:
-        std::unique_ptr<btDefaultCollisionConfiguration> m_collisionConfiguration;
-        std::unique_ptr<btCollisionDispatcher> m_dispatcher;
-        std::unique_ptr<btBroadphaseInterface> m_overlappingPairCache;
-        std::unique_ptr<btSequentialImpulseConstraintSolver> m_solver;
-        std::unique_ptr<btDiscreteDynamicsWorld> m_dynamicsWorld;
+        struct _LE3PhysicsManager_Internal;
+        std::shared_ptr<_LE3PhysicsManager_Internal> m_pInternal;
 
         bool m_bPhysicsEnabled = true;
     };
