@@ -32,6 +32,10 @@ void LE3PhysicsComponent::addBoxCollider(glm::vec3 size) {
     m_collider = std::make_shared<LE3PhysicsCollider>();
     m_collider->m_collisionShape = std::make_shared<btBoxShape>(btVector3(size.x, size.y, size.z));
 }
+void LE3PhysicsComponent::addSphereCollider(float radius) {
+    m_collider = std::make_shared<LE3PhysicsCollider>();
+    m_collider->m_collisionShape = std::make_shared<btSphereShape>(radius);
+}
 
 void LE3PhysicsComponent::setupRigidBody(float mass) {
     m_rigidBody = std::make_shared<LE3PhysicsRigidBody>();

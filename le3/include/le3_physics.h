@@ -28,6 +28,7 @@ namespace le3 {
         bool isTrigger() const { return m_bIsTrigger; }
 
         void addBoxCollider(glm::vec3 size);
+        void addSphereCollider(float radius);
 
         std::weak_ptr<LE3PhysicsCollider> getCollider() { return m_collider; }
         void setupRigidBody(float mass);
