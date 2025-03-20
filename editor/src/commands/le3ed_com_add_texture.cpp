@@ -1,5 +1,5 @@
 #include "commands/le3ed_com_add_texture.h"
-#include "le3_engine_systems.h"
+#include "core/le3_engine_systems.h"
 using namespace le3;
 
 LE3EditorComAddTexture::LE3EditorComAddTexture(std::string name, std::string path, bool interpolate) :

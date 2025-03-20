@@ -1,6 +1,6 @@
 #pragma once
 
-#include "le3_engine_systems.h"
+#include "core/le3_engine_systems.h"
 
 namespace le3 {
     class LE3EditorComDeleteTexture : public LE3EditorCommand { 
