@@ -71,6 +71,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/networking/le3_network_spinner.cpp
     src/networking/le3_networking.cpp
 
+    src/physics/le3_collider_info.cpp
     src/physics/le3_physics_manager.cpp
     src/physics/le3_physics.cpp
 

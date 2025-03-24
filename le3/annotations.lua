@@ -150,6 +150,11 @@ function ImGui.InputInt(label, prev) end
 ---@return string
 function ImGui.InputText(label, prev) end
 
+---@param labels stringarray
+---@param prev string
+---@return string
+function ImGui.RadioButtons(labels, prev) end
+
 function ImGui.SameLine() end
 
 ---@param text string
@@ -776,6 +781,9 @@ function LE3Shader.set_name(shaderName, name) end
 function LE3Shader.set_shader_paths(shaderName, vertexShaderPath, fragmentShaderPath) end
 
 ---@param meshName string
+function LE3SkeletalMesh.get_collider_type(meshName) end
+
+---@param meshName string
 ---@return string
 function LE3SkeletalMesh.get_mesh_path(meshName) end
 
@@ -785,6 +793,10 @@ function LE3SkeletalMesh.get_name(meshName) end
 ---@param meshName string
 ---@param path string
 function LE3SkeletalMesh.reload_mesh(meshName, path) end
+
+---@param meshName string
+---@param type string
+function LE3SkeletalMesh.set_collider_type(meshName, type) end
 
 ---@param meshName string
 ---@param path string
@@ -867,6 +879,9 @@ function LE3SpotLight.set_cutoff(self, cutoff) end
 function LE3SpotLight.set_outer_cutoff(self, outer_cutoff) end
 
 ---@param meshName string
+function LE3StaticMesh.get_collider_type(meshName) end
+
+---@param meshName string
 ---@return string
 function LE3StaticMesh.get_mesh_path(meshName) end
 
@@ -877,6 +892,10 @@ function LE3StaticMesh.get_name(meshName) end
 ---@param path string
 ---@param keepData boolean
 function LE3StaticMesh.reload_mesh(meshName, path, keepData) end
+
+---@param meshName string
+---@param type string
+function LE3StaticMesh.set_collider_type(meshName, type) end
 
 ---@param meshName string
 ---@param path string

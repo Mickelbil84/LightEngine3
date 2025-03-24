@@ -7,6 +7,7 @@
 
 #include "graphics/le3_skeleton.h"
 #include "graphics/le3_animation.h"
+#include "physics/le3_collider_info.h"
 
 namespace le3 {
     constexpr int MAX_BONES_PER_VERTEX = 8;
@@ -88,6 +89,9 @@ namespace le3 {
         void setName(std::string name) { m_name = name; }
 
         void loadMeshData(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices);
+
+        LE3ColliderType getColliderType() { return m_colliderInfo.colliderType; }
+        void setColliderType(LE3ColliderType type) { m_colliderInfo.colliderType = type; }
         
     protected:
         uint32_t m_vao = -1, m_vbo = -1, m_ibo = -1, m_count;
@@ -103,6 +107,9 @@ namespace le3 {
         // In case of a skeletal mesh
         LE3Skeleton m_skeleton;
         std::map<std::string, LE3AnimationTrack> m_animationTracks;
+
+        // Store physics collider info
+        LE3ColliderInfo m_colliderInfo;
 
     };
     template<typename LE3VertexType>

@@ -82,6 +82,16 @@ void LE3ScriptSystem::getRawi(int index) {
     lua_rawgeti(L, -1, index);
 }
 
+std::vector<std::string> LE3ScriptSystem::getStringArray(int index) {
+    std::vector<std::string> arr;
+    lua_pushnil(L);
+    while (lua_next(L, index) != 0) {
+        arr.push_back(lua_tostring(L, -1));
+        lua_pop(L, 1);
+    }
+    return arr;
+}
+
 void LE3ScriptSystem::callFunction(int numArgs, int numResults) {
     if (lua_pcall(L, numArgs, numResults, 0) != 0) {
         try { lua_error(L);}

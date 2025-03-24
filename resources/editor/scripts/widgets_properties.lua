@@ -203,6 +203,11 @@ function show_property(property, tbl, obj)
     if property.type == "asset" then
         show_asset_property(property, tbl, obj)
     end
+    if property.type == "radio" then
+        ImGui.Text(property.name)
+        local value = tbl[property.name]
+        tbl[property.name] = ImGui.RadioButtons(property.labels, value)
+    end
 end
 
 function show_asset_property(property, tbl, obj)

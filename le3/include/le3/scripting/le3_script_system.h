@@ -48,6 +48,7 @@ namespace le3 {
         bool getBool(int index);
         double getNumber(int index);
         std::string getString(int index);
+        std::vector<std::string> getStringArray(int index);
         template<typename T> T* getUserType(int index) {
             void* udata = lua_touserdata(L, index);
             if (!udata) return nullptr;

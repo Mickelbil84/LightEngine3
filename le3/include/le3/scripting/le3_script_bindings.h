@@ -51,6 +51,7 @@ namespace le3 {
     #define GET_NUMBER(varname) double varname = LE3GetScriptSystem().getNumber(idx++);
     #define GET_INT(varname) int varname = (int)LE3GetScriptSystem().getNumber(idx++);
     #define GET_STRING(varname) std::string varname = LE3GetScriptSystem().getString(idx++);
+    #define GET_STRING_ARRAY(varname) std::vector<std::string> varname = LE3GetScriptSystem().getStringArray(idx++);
     #define GET_UDATA(varname, type) type* varname = (type*)(LE3GetScriptSystem().getUserType<type>(idx++));
     #define GET_UDATA_OBJECT(varname, type) std::shared_ptr<type> varname = le3::getUserType_LE3Object<type>(idx++);
     #define GET_UDATA_ASSET(varname, type) std::weak_ptr<type> varname = le3::getUserType_Asset<type>(idx++);

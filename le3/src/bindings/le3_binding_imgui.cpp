@@ -76,6 +76,23 @@ FBIND(ImGui, Checkbox)
     PUSH_BOOL(val)
 FEND()
 
+FBIND(ImGui, RadioButtons)
+    GET_STRING_ARRAY(labels)
+    GET_STRING(prev)
+
+    int val = -1;
+    for (int i = 0; i < labels.size(); i++)
+        if (labels[i] == prev) {
+            val = i; break;
+        }
+    if (val == -1) val = 0;
+    for (int i = 0; i < labels.size(); i++) {
+        ImGui::RadioButton(labels[i].c_str(), &val, i);
+        if (i < labels.size() - 1) ImGui::SameLine();
+    }
+    PUSH_STRING(labels[val])
+FEND()
+
 FBIND(ImGui, InputInt)
     GET_STRING(label)
     GET_INT(prev)
@@ -142,7 +159,7 @@ FEND()
 
 LIB(ImGui,
     CollapsingHeader, TreeNode, TreePop, Text, TextColored, TextWrapped, Button, SameLine,
-    InputText, Checkbox, ColorEdit3, ColorEdit4,
+    InputText, Checkbox, RadioButtons, ColorEdit3, ColorEdit4,
     InputInt, InputFloat, InputFloat2, InputFloat3, InputFloat4,
     Combo_Animation,
 )
