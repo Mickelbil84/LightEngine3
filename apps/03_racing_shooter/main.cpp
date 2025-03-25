@@ -26,6 +26,28 @@ public:
 
     float walkSpeed = 2.2f, sensitivity = 0.005f;
 
+    void resetPhysics() {
+        for (int i = 0; i < 10; i++)
+        for (int j = 0; j < 10; j++)
+        for (int k = 0; k < 10; k++) {
+            if (!LE3GetActiveScene()->getObject(fmt::format("box_{}_{}_{}", i, j, k))) {
+                LE3ObjectPtr box = std::make_shared<LE3Object>();
+                box->getTransform().setPosition(glm::vec3(0.11f * i, 2.5f + 0.11f * k, 0.11f * j));
+                // box->getPhysicsComponent().addBoxCollider(glm::vec3(0.2f, 0.2f, 0.2f) * 0.5f);
+                box->getPhysicsComponent().addSphereCollider(0.05f);
+                box->getPhysicsComponent().setupRigidBody(1.0f);
+                box->getPhysicsComponent().enable();
+                LE3GetActiveScene()->addCustomObject(fmt::format("box_{}_{}_{}", i, j, k), box);
+                // LE3GetActiveScene()->addBox(fmt::format("boxvisual_{}_{}_{}", i, j, k), DEFAULT_MATERIAL, glm::vec3(0.f), glm::vec3(0.2f, 0.2f, 0.2f), fmt::format("box_{}_{}_{}", i, j, k));
+                LE3GetActiveScene()->addSphere(fmt::format("boxvisual_{}_{}_{}", i, j, k), DEFAULT_MATERIAL, glm::vec3(0.f), 0.05f, 16, fmt::format("box_{}_{}_{}", i, j, k));
+            }
+            else {
+                LE3ObjectPtr box = LE3GetActiveScene()->getObject(fmt::format("box_{}_{}_{}", i, j, k));
+                box->getPhysicsComponent().warp(glm::vec3(0.22f * i, 2.5f + 0.22f * k, 0.22f * j), glm::quat(glm::vec3(0.f)));
+            }
+        }
+    }
+
     void init() {
         LE3GetDatFileSystem().addArchive("demos", "demos.dat");
 
@@ -77,19 +99,7 @@ public:
         ////////////////////////
 
 
-        for (int i = 0; i < 5; i++)
-        for (int j = 0; j < 5; j++)
-        for (int k = 0; k < 5; k++) {
-            LE3ObjectPtr box = std::make_shared<LE3Object>();
-            box->getTransform().setPosition(glm::vec3(0.22f * i, 10.f + 0.22f * k, 0.22f * j));
-            // box->getPhysicsComponent().addBoxCollider(glm::vec3(0.2f, 0.2f, 0.2f) * 0.5f);
-            box->getPhysicsComponent().addSphereCollider(0.1f);
-            box->getPhysicsComponent().setupRigidBody(1.0f);
-            box->getPhysicsComponent().enable();
-            LE3GetActiveScene()->addCustomObject(fmt::format("box_{}_{}_{}", i, j, k), box);
-            // LE3GetActiveScene()->addBox(fmt::format("boxvisual_{}_{}_{}", i, j, k), DEFAULT_MATERIAL, glm::vec3(0.f), glm::vec3(0.2f, 0.2f, 0.2f), fmt::format("box_{}_{}_{}", i, j, k));
-            LE3GetActiveScene()->addSphere(fmt::format("boxvisual_{}_{}_{}", i, j, k), DEFAULT_MATERIAL, glm::vec3(0.f), 0.1f, 64, fmt::format("box_{}_{}_{}", i, j, k));
-        }
+        resetPhysics();
 
 
         LE3ObjectPtr floorCollider = std::make_shared<LE3Object>();
@@ -185,6 +195,10 @@ public:
         // LE3GetImGuiUtils().addDepthFramebufferViewport("Viewport2", sunlight->getShadowMap());
 
         ImGui::Begin("Demo 03: Racing Shooter", nullptr, ImGuiWindowFlags_NoMove);
+        if (ImGui::CollapsingHeader("Physics", ImGuiTreeNodeFlags_DefaultOpen)) {
+            if (ImGui::Button("Reset Physics")) resetPhysics();
+        }
+
         if (ImGui::CollapsingHeader("Camera Control", ImGuiTreeNodeFlags_DefaultOpen)) {
             if (ImGui::Button("Set FPS (Free) Camera")) {
                 LE3GetSceneManager().getScene("scene")->setMainCamera("cameraFree");
@@ -198,7 +212,7 @@ public:
             ImGui::Text("Press F to toggle relative mouse.");
 
         }
-        if (ImGui::CollapsingHeader("Camera Control", ImGuiTreeNodeFlags_DefaultOpen)) {
+        if (ImGui::CollapsingHeader("Car Control", ImGuiTreeNodeFlags_DefaultOpen)) {
             ImGui::Text("Car Speed:");
             ImGui::SliderFloat("##carSpeed", &carSpeed, 0.f, 3.f);
         }

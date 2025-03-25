@@ -68,3 +68,14 @@ bool LE3PhysicsComponent::update() {
 
     return true;
 }
+
+void LE3PhysicsComponent::warp(glm::vec3 position, glm::quat rotation) {
+    m_rigidBody->m_rigidBody->setLinearVelocity(btVector3(0, 0, 0));
+    m_rigidBody->m_rigidBody->setAngularVelocity(btVector3(0, 0, 0));
+    m_rigidBody->m_motionState->setWorldTransform(btTransform(
+        btQuaternion(rotation.x, rotation.y, rotation.z, rotation.w),
+        btVector3(position.x, position.y, position.z)
+    ));
+    m_rigidBody->m_rigidBody->setMotionState(m_rigidBody->m_motionState.get());
+    // m_rigidBody->m_rigidBody->setGravity(btVector3(0, -10, 0));
+}

@@ -35,6 +35,8 @@ namespace le3 {
 
         void* getRigidBody();
 
+        void warp(glm::vec3 position, glm::quat rotation);
+
 
     private:
         LE3Transform& m_transform;
