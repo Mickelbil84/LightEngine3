@@ -58,6 +58,7 @@ namespace le3 {
         inline LE3EditorManager& getEditorManager() { return g_editorManager; }
         inline LE3EventManager& getEventManager() { return g_eventManager; }
         inline LE3PhysicsManager& getPhysicsManager() { return g_physicsManager; }
+        inline LE3EngineDebug& getEngineDebug() { return g_engineDebug; }
         inline bool isHeadless() { return g_headlessEngine; }
 
         inline bool isRequestingReset() { return g_requestReset; }
@@ -76,6 +77,7 @@ namespace le3 {
         LE3EditorManager g_editorManager;
         LE3EventManager g_eventManager;
         LE3PhysicsManager g_physicsManager;
+        LE3EngineDebug g_engineDebug;
 
         bool g_headlessEngine;
         bool g_requestReset = false;

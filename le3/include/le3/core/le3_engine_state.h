@@ -1,5 +1,7 @@
 #pragma once
 
+#include "le3_engine_debug.h"
+
 namespace le3 {
     // Engine state is updated within the LE3Application
     // Members are specifically private (for LE3GameLogic) as they are read-only.
@@ -39,6 +41,7 @@ namespace le3 {
         bool m_bReltaiveMouse = false;
         bool m_bFocused = true, m_bFocusedOverride = false;
         std::string m_focusOverrider = "";
+
 
     public:
         friend class LE3Application;
