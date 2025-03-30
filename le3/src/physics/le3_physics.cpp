@@ -37,7 +37,19 @@ void LE3PhysicsComponent::addSphereCollider(float radius) {
     m_collider->m_collisionShape = std::make_shared<btSphereShape>(radius);
 }
 
-void LE3PhysicsComponent::setupRigidBody(float mass) {
+void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo, float mass) {
+    // Setup colliders
+    m_colliderInfo = colliderInfo;
+    switch (m_colliderInfo.colliderType) {
+        case LE3ColliderType::LE3ColliderType_Box:
+            addBoxCollider(m_colliderInfo.extent); break;
+        case LE3ColliderType::LE3ColliderType_Sphere:
+            addSphereCollider(m_colliderInfo.radius); break;
+        default:
+            break;
+    }
+    if (!m_collider) return;
+
     m_rigidBody = std::make_shared<LE3PhysicsRigidBody>();
     m_rigidBody->m_mass = mass;
     m_rigidBody->m_transform = btTransform(

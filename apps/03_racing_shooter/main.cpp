@@ -27,15 +27,17 @@ public:
     float walkSpeed = 2.2f, sensitivity = 0.005f;
 
     void resetPhysics() {
-        for (int i = 0; i < 10; i++)
-        for (int j = 0; j < 10; j++)
-        for (int k = 0; k < 10; k++) {
+        LE3ColliderInfo sphereCollider;
+        sphereCollider.colliderType = LE3ColliderType::LE3ColliderType_Sphere;
+        sphereCollider.radius = 0.05f;
+
+        for (int i = 0; i < 7; i++)
+        for (int j = 0; j < 7; j++)
+        for (int k = 0; k < 7; k++) {
             if (!LE3GetActiveScene()->getObject(fmt::format("box_{}_{}_{}", i, j, k))) {
                 LE3ObjectPtr box = std::make_shared<LE3Object>();
                 box->getTransform().setPosition(glm::vec3(0.11f * i, 2.5f + 0.11f * k, 0.11f * j));
-                // box->getPhysicsComponent().addBoxCollider(glm::vec3(0.2f, 0.2f, 0.2f) * 0.5f);
-                box->getPhysicsComponent().addSphereCollider(0.05f);
-                box->getPhysicsComponent().setupRigidBody(1.0f);
+                box->getPhysicsComponent().setupRigidBody(sphereCollider, 1.0f);
                 box->getPhysicsComponent().enable();
                 LE3GetActiveScene()->addCustomObject(fmt::format("box_{}_{}_{}", i, j, k), box);
                 // LE3GetActiveScene()->addBox(fmt::format("boxvisual_{}_{}_{}", i, j, k), DEFAULT_MATERIAL, glm::vec3(0.f), glm::vec3(0.2f, 0.2f, 0.2f), fmt::format("box_{}_{}_{}", i, j, k));
@@ -101,11 +103,12 @@ public:
 
         resetPhysics();
 
-
+        LE3ColliderInfo floorColliderInfo;
+        floorColliderInfo.colliderType = LE3ColliderType::LE3ColliderType_Box;
+        floorColliderInfo.extent = glm::vec3(100.f, 0.1f, 100.f);
         LE3ObjectPtr floorCollider = std::make_shared<LE3Object>();
         floorCollider->getTransform().setPosition(glm::vec3(0, -0.1, 0));
-        floorCollider->getPhysicsComponent().addBoxCollider(glm::vec3(100.f, 0.1f, 100.f));
-        floorCollider->getPhysicsComponent().setupRigidBody(0.0f);
+        floorCollider->getPhysicsComponent().setupRigidBody(floorColliderInfo, 0.0f);
         floorCollider->getPhysicsComponent().enable();
         LE3GetActiveScene()->addCustomObject("floorCollider", floorCollider);
 

@@ -4,6 +4,7 @@
 
 #include <glm/glm.hpp>
 
+#include "le3_collider_info.h"
 #include "core/le3_transform.h"
 
 namespace le3 {
@@ -27,21 +28,22 @@ namespace le3 {
         void setIsTrigger(bool isTrigger) { m_bIsTrigger = isTrigger; }
         bool isTrigger() const { return m_bIsTrigger; }
 
+        std::weak_ptr<LE3PhysicsCollider> getCollider() { return m_collider; }
+        void setupRigidBody(LE3ColliderInfo colliderInfo, float mass);
+        
+        void* getRigidBody();
+        
+        void warp(glm::vec3 position, glm::quat rotation);
+        
+        
+    private:
         void addBoxCollider(glm::vec3 size);
         void addSphereCollider(float radius);
 
-        std::weak_ptr<LE3PhysicsCollider> getCollider() { return m_collider; }
-        void setupRigidBody(float mass);
-
-        void* getRigidBody();
-
-        void warp(glm::vec3 position, glm::quat rotation);
-
-
-    private:
         LE3Transform& m_transform;
         std::shared_ptr<LE3PhysicsCollider> m_collider;
         std::shared_ptr<LE3PhysicsRigidBody> m_rigidBody;
+        LE3ColliderInfo m_colliderInfo;
         bool m_bEnabled, m_bIsTrigger;
     };
 }
