@@ -25,10 +25,11 @@ void LE3VisualDebug::drawDebugBox(glm::vec3 position, glm::quat rotation, glm::v
     transform.setScale(scale);
     drawDebugBox(transform.getTransformMatrix(), color);
 }
-void LE3VisualDebug::drawDebugBox(glm::mat4 modelMatrix, glm::vec3 color) {
+void LE3VisualDebug::drawDebugBox(glm::mat4 modelMatrix, glm::vec3 color, bool drawDiagonal) {
     if (!m_activeCamera) return;
     setupDebugShader(modelMatrix, color);
-    LE3GetAssetManager().getDebugBox().lock()->drawLines();
+    if (drawDiagonal) LE3GetAssetManager().getDebugBoxDiagonals().lock()->drawLines();
+    else LE3GetAssetManager().getDebugBox().lock()->drawLines();
 }
 
 void LE3VisualDebug::drawDebugCylinder(glm::vec3 position, float radius, float height, glm::vec3 color) {

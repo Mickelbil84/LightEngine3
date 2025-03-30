@@ -13,7 +13,7 @@ namespace le3 {
         void drawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 color);
 
         void drawDebugBox(glm::vec3 position, glm::quat rotation, glm::vec3 scale, glm::vec3 color);
-        void drawDebugBox(glm::mat4 modelMatrix, glm::vec3 color);
+        void drawDebugBox(glm::mat4 modelMatrix, glm::vec3 color, bool drawDiagonal = false);
 
         void drawDebugSphere(glm::mat4 modelMatrix, glm::vec3 color);
 

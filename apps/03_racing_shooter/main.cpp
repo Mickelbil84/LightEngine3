@@ -103,6 +103,8 @@ public:
 
         resetPhysics();
 
+        LE3GetEngineDebug().g_bShowColliders = true;
+
         LE3ColliderInfo floorColliderInfo;
         floorColliderInfo.colliderType = LE3ColliderType::LE3ColliderType_Box;
         floorColliderInfo.extent = glm::vec3(50.f, 0.1f, 50.f);

@@ -33,6 +33,29 @@ std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugBox() {
     return std::make_shared<LE3Mesh<LE3Vertex3p>>(buffer);
 }
 
+std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugBoxDiagonals() {
+    std::vector<LE3Vertex3p> buffer;
+    std::vector<glm::vec3> verts;
+    verts.push_back(glm::vec3(-.5f, .5f, .5f));
+    verts.push_back(glm::vec3(-.5f, .5f, -.5f));
+    verts.push_back(glm::vec3(.5f, .5f, -.5f));
+    verts.push_back(glm::vec3(.5f, .5f, .5f));
+    verts.push_back(glm::vec3(-.5f, -.5f, .5f));
+    verts.push_back(glm::vec3(-.5f, -.5f, -.5f));
+    verts.push_back(glm::vec3(.5f, -.5f, -.5f));
+    verts.push_back(glm::vec3(.5f, -.5f, .5f));
+    char indices[] = {
+        1,2 ,2,3, 3,4, 4,1,
+        5,6, 6,7, 7,8, 8,5,
+        1,5, 2,6, 3,7, 4,8,
+        4,7, 6,8, 2,5, 1,3, 
+    };
+    for (int i = 0; i < 32; i++)
+        buffer.push_back(vertexFromGLM(verts[indices[i]-1]));
+    return std::make_shared<LE3Mesh<LE3Vertex3p>>(buffer);
+}
+
+
 std::shared_ptr<LE3Mesh<LE3Vertex3p3c>> le3::createHelloOpenGLTriangle() {
     std::vector<LE3Vertex3p3c> vertices(3);
     vertices[0].position[0] = .5f * -1.f; vertices[0].position[1] = .5f * -1.f; vertices[0].position[2] = .5f * 0.f;

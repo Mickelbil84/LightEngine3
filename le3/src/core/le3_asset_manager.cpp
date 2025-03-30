@@ -16,6 +16,7 @@ void LE3AssetManager::init() {
     
     m_debugLine = createDebugLine();
     m_debugBox = createDebugBox();
+    m_debugBox = createDebugBoxDiagonals();
     m_debugCylinder = createDebugCylinder();
     m_debugCone = createDebugCone();
     m_debugSphere = createDebugSphere();
@@ -66,6 +67,7 @@ void LE3AssetManager::reset() {
     m_screenRect = nullptr;
     m_debugLine = nullptr;
     m_debugBox = nullptr;
+    m_debugBoxDiagonals = nullptr;
     m_debugCylinder = nullptr;
     m_debugCone = nullptr;
     m_debugSphere = nullptr;

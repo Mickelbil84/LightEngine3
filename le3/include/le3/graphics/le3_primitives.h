@@ -26,6 +26,7 @@ namespace le3 {
 
     std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugLine();
     std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugBox();
+    std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugBoxDiagonals();
     std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugCylinder();
     std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugCone();
     std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugSphere();
