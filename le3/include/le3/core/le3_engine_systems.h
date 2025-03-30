@@ -92,6 +92,7 @@ namespace le3 {
     #define LE3GetEditorManager LE3EngineSystems::instance().getEditorManager
     #define LE3GetEventManager LE3EngineSystems::instance().getEventManager
     #define LE3GetPhysicsManager LE3EngineSystems::instance().getPhysicsManager
+    #define LE3GetEngineDebug LE3EngineSystems::instance().getEngineDebug
 
     #define LE3GetActiveScene LE3GetSceneManager().getActiveScene
 }
