@@ -380,6 +380,18 @@ std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugCone() {
     return std::make_shared<LE3Mesh<LE3Vertex3p>>(buffer);
 }
 
+std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugSphere() {
+    std::vector<LE3Vertex> tmpBuffer = le3::_createSphereBuffer(0.f, 0.f, 0.f, 1.f, 8);
+    std::vector<LE3Vertex3p> buffer;
+    for (int i = 0; i < tmpBuffer.size(); i += 3) {
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i].position[0], tmpBuffer[i].position[1], tmpBuffer[i].position[2])));
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i+1].position[0], tmpBuffer[i+1].position[1], tmpBuffer[i+1].position[2])));
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i+2].position[0], tmpBuffer[i+2].position[1], tmpBuffer[i+2].position[2])));
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i].position[0], tmpBuffer[i].position[1], tmpBuffer[i].position[2])));
+    }
+    return std::make_shared<LE3Mesh<LE3Vertex3p>>(buffer);
+}
+
 std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createGizmoArrow() {
     // TODO: Make constants in engine config
     std::vector<LE3Vertex> buffer = le3::_createCylinderBuffer(0.f, 0.f, 0.f, 0.015f, 0.5f, 8, true);

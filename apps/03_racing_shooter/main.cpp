@@ -105,7 +105,7 @@ public:
 
         LE3ColliderInfo floorColliderInfo;
         floorColliderInfo.colliderType = LE3ColliderType::LE3ColliderType_Box;
-        floorColliderInfo.extent = glm::vec3(100.f, 0.1f, 100.f);
+        floorColliderInfo.extent = glm::vec3(50.f, 0.1f, 50.f);
         LE3ObjectPtr floorCollider = std::make_shared<LE3Object>();
         floorCollider->getTransform().setPosition(glm::vec3(0, -0.1, 0));
         floorCollider->getPhysicsComponent().setupRigidBody(floorColliderInfo, 0.0f);

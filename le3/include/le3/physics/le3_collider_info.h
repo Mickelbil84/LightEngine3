@@ -22,9 +22,9 @@ namespace le3 {
     struct LE3ColliderInfo {
         LE3ColliderType colliderType;
 
-        glm::vec3 centroid; // Bounding box, sphere, ellipsoid
-        glm::vec3 extent; // Bounding box, ellipsoid
-        float radius; // Bounding sphere
+        glm::vec3 centroid = glm::vec3(0.f); // Bounding box, sphere, ellipsoid
+        glm::vec3 extent = glm::vec3(1.f); // Bounding box, ellipsoid
+        float radius = 1.f; // Bounding sphere
         // TODO: Implement convex hull collisions
     };
 

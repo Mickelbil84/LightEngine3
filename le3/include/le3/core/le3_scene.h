@@ -67,6 +67,7 @@ namespace le3 {
         void drawObjectIDs();
         void drawSelected();
         void drawPostProcess();
+        void drawColliders();
         void setPostProcessShader(LE3ShaderPtr shader) { m_postProcessShader = shader; }
 
         void rebuild(); // Call whenever major structural changes happen to scene graph (like shader change/deletion)

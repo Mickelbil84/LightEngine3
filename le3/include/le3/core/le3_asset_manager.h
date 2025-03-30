@@ -138,6 +138,7 @@ namespace le3 {
         inline LE3MeshPtr<LE3Vertex3p> getDebugBox() { return m_debugBox; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugCylinder() { return m_debugCylinder; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugCone() { return m_debugCone; }
+        inline LE3MeshPtr<LE3Vertex3p> getDebugSphere() { return m_debugSphere; }
 
         inline LE3StaticMeshPtr getGizmoArrowMesh() { return m_gizmoArrow; }
         inline LE3StaticMeshPtr getGizmoScaleArrowMesh() { return m_gizmoScaleArrow; }
@@ -169,7 +170,7 @@ namespace le3 {
         std::shared_ptr<LE3ScreenRect> m_screenRect = nullptr; // Create this crucial geometry only once
 
         // Debug meshes
-        std::shared_ptr<LE3Mesh<LE3Vertex3p>> m_debugLine, m_debugBox, m_debugCylinder, m_debugCone;
+        std::shared_ptr<LE3Mesh<LE3Vertex3p>> m_debugLine, m_debugBox, m_debugCylinder, m_debugCone, m_debugSphere;
         std::shared_ptr<LE3StaticMesh> m_gizmoArrow, m_gizmoScaleArrow, m_gizmoCircle, m_gizmoPlane, m_gizmoCenter;
 
         // Error (missing) assets

@@ -102,6 +102,7 @@ void LE3Scene::draw() {
     // Also, one of the objects might try to do visual debug, so set the active camera
     LE3GetVisualDebug().setActiveCamera(m_pMainCamera);
     drawObjects();
+    drawColliders();
     if (drawDebug) drawDebug();
     LE3GetVisualDebug().setActiveCamera(nullptr);
 
@@ -220,6 +221,25 @@ void LE3Scene::drawPostProcess() {
     if (postProcessUniforms) postProcessUniforms(m_postProcessShader.lock());
 
     LE3GetAssetManager().getScreenRect()->draw();
+}
+
+void LE3Scene::drawColliders() {
+    glDisable(GL_DEPTH_TEST);
+    for (auto kv : m_sceneGraph->m_pObjects) {
+        LE3ObjectPtr obj = kv.second; if (!obj) continue;
+        if (!obj->getPhysicsComponent().isEnabled()) continue;
+        LE3ColliderInfo colliderInfo = obj->getPhysicsComponent().getColliderInfo();
+
+        if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_Box) {
+            glm::mat4 localMatrix = glm::translate(colliderInfo.centroid) * glm::scale(colliderInfo.extent);
+            LE3GetVisualDebug().drawDebugBox(obj->getWorldMatrix() * localMatrix, glm::vec3(0.f, 1.f, 0.f));
+        }
+        else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_Sphere) {
+            glm::mat4 localMatrix = glm::scale(glm::vec3(colliderInfo.radius));
+            LE3GetVisualDebug().drawDebugSphere(obj->getWorldMatrix() * localMatrix, glm::vec3(0.f, 1.f, 0.f));
+        }
+    }
+    glEnable(GL_DEPTH_TEST);
 }
 
 // -----------

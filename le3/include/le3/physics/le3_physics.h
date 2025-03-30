@@ -30,6 +30,7 @@ namespace le3 {
 
         std::weak_ptr<LE3PhysicsCollider> getCollider() { return m_collider; }
         void setupRigidBody(LE3ColliderInfo colliderInfo, float mass);
+        LE3ColliderInfo getColliderInfo() const { return m_colliderInfo; }
         
         void* getRigidBody();
         
