@@ -22,7 +22,10 @@ namespace le3 {
         virtual void draw(LE3ShaderPtr shaderOverride = LE3ShaderPtr());
 
         LE3MeshPtr<LE3VertexType> getMesh() { return m_pMesh; }
-        void setMesh(LE3MeshPtr<LE3VertexType> pMesh) { m_pMesh = pMesh; }
+        void setMesh(LE3MeshPtr<LE3VertexType> pMesh) { m_pMesh = pMesh; if (!m_pMesh.lock()) return;
+            getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo(), 0.f); // TODO: Don't setup a rigid body if not needed
+            getPhysicsComponent().enable();
+        }
 
         void setCurrentAnimation(std::string animationName) { m_currentAnimation = animationName;  resetAnimation(); }
         std::string getCurrentAnimation() const { return m_currentAnimation; }

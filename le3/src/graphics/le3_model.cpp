@@ -17,6 +17,11 @@ template<typename LE3VertexType>
 LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority) :
     LE3DrawableObject(pMaterial), m_pMesh(pMesh) {
         m_drawPriority = priority;
+        
+        if (!m_pMesh.lock()) return;
+        getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo(), 0.f); // TODO: Don't setup a rigid body if not needed
+        getPhysicsComponent().enable();
+
 }
 
 template<typename LE3VertexType>

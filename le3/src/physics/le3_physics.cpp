@@ -38,13 +38,17 @@ void LE3PhysicsComponent::addSphereCollider(float radius) {
 }
 
 void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo, float mass) {
+    if (m_collider) return;
     // Setup colliders
     m_colliderInfo = colliderInfo;
+    glm::vec3 extent = m_colliderInfo.extent;
+    glm::vec3 scale = m_transform.getScale();
     switch (m_colliderInfo.colliderType) {
         case LE3ColliderType::LE3ColliderType_Box:
-            addBoxCollider(m_colliderInfo.extent); break;
+            addBoxCollider(glm::vec3(extent.x * scale.x, extent.y * scale.y, extent.z * scale.z));
+            break;
         case LE3ColliderType::LE3ColliderType_Sphere:
-            addSphereCollider(m_colliderInfo.radius); break;
+            addSphereCollider(m_colliderInfo.radius * m_transform.getScale().x); break;
         default:
             break;
     }

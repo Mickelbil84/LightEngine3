@@ -35,6 +35,7 @@ LE3Mesh<LE3VertexType>::~LE3Mesh() {
 
 template<typename LE3VertexType>
 void LE3Mesh<LE3VertexType>::loadMeshData(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices) {
+    buildColliderInfo(data);
     if (LE3EngineSystems::instance().isHeadless()) return; // Allow loading meshes also in headless mode
     m_bIndexed = indices.size() != 0;
 
@@ -57,6 +58,37 @@ void LE3Mesh<LE3VertexType>::loadMeshData(std::vector<LE3VertexType>& data, std:
     if (m_bIndexed) glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     m_count = m_bIndexed ? indices.size() : data.size();
+}
+
+template<typename LE3VertexType>
+void LE3Mesh<LE3VertexType>::buildColliderInfo(std::vector<LE3VertexType>& data) {
+    // Temporarily convert to glm vec3
+    std::vector<glm::vec3> positions;
+    positions.reserve(data.size());
+    for (const auto& vertex : data)
+        positions.push_back(glm::vec3(vertex.position[0], vertex.position[1], vertex.position[2]));
+
+    // Find center of mass and extent
+    glm::vec3 vmin = positions[0], vmax = positions[0];
+    for (const auto& position : positions) {
+        if (position.x < vmin.x) vmin.x = position.x;
+        if (position.y < vmin.y) vmin.y = position.y;
+        if (position.z < vmin.z) vmin.z = position.z;
+        if (position.x > vmax.x) vmax.x = position.x;
+        if (position.y > vmax.y) vmax.y = position.y;
+        if (position.z > vmax.z) vmax.z = position.z;
+    }
+    m_colliderInfo.centroid = (vmin + vmax) * 0.5f;
+    m_colliderInfo.extent = (vmax - vmin) * 0.5f;
+
+    // Find radius
+    m_colliderInfo.radius = -1.f;
+    for (const auto& position : positions) {
+        glm::vec3 diff = position - m_colliderInfo.centroid;
+        float dist = glm::dot(diff, diff);
+        if (m_colliderInfo.radius < 0 || dist > m_colliderInfo.radius) m_colliderInfo.radius = dist;
+    }
+    m_colliderInfo.radius = sqrtf(m_colliderInfo.radius);
 }
 
 template<typename LE3VertexType>
