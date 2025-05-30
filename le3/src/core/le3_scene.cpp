@@ -235,7 +235,7 @@ void LE3Scene::drawColliders() {
             LE3GetVisualDebug().drawDebugBox(obj->getWorldMatrix() * localMatrix, glm::vec3(0.f, 1.f, 0.f));
         }
         else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_Sphere) {
-            glm::mat4 localMatrix = glm::scale(glm::vec3(colliderInfo.radius));
+            glm::mat4 localMatrix = glm::translate(colliderInfo.centroid) * glm::scale(glm::vec3(colliderInfo.radius));
             LE3GetVisualDebug().drawDebugSphere(obj->getWorldMatrix() * localMatrix, glm::vec3(0.f, 1.f, 0.f));
         }
     }

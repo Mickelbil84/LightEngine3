@@ -79,7 +79,7 @@ void LE3Mesh<LE3VertexType>::buildColliderInfo(std::vector<LE3VertexType>& data)
         if (position.z > vmax.z) vmax.z = position.z;
     }
     m_colliderInfo.centroid = (vmin + vmax) * 0.5f;
-    m_colliderInfo.extent = (vmax - vmin) * 0.5f;
+    m_colliderInfo.extent = (vmax - vmin);
 
     // Find radius
     m_colliderInfo.radius = -1.f;
