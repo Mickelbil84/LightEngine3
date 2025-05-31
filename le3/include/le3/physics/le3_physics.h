@@ -20,6 +20,7 @@ namespace le3 {
     public:
         LE3PhysicsComponent(LE3Transform& transform);
         
+        void disable();
         void enable();
         bool isEnabled() const { return m_bEnabled; }
 
@@ -46,6 +47,8 @@ namespace le3 {
         std::shared_ptr<LE3PhysicsRigidBody> m_rigidBody;
         LE3ColliderInfo m_colliderInfo;
         bool m_bEnabled, m_bIsTrigger;
+
+        std::string m_componentName; // This would be some random unique id, but not the object name so we don't have to track changes
     };
 }
 

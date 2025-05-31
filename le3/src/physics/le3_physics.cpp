@@ -5,6 +5,9 @@ using namespace le3;
 
 #include <bullet/btBulletDynamicsCommon.h>
 
+#define UUID_SYSTEM_GENERATOR
+#include <uuid.h>
+
 struct le3::LE3PhysicsCollider {
     std::shared_ptr<btCollisionShape> m_collisionShape;
 };
@@ -19,13 +22,19 @@ struct le3::LE3PhysicsRigidBody {
 
 LE3PhysicsComponent::LE3PhysicsComponent(LE3Transform& transform) : m_transform(transform), m_bEnabled(false), m_bIsTrigger(false) 
 {
+    m_componentName = uuids::to_string(uuids::uuid_system_generator{}());
+}
+
+void LE3PhysicsComponent::disable() {
+    m_bEnabled = false;
+    LE3GetPhysicsManager().clearComponent(m_componentName);
 }
 
 void LE3PhysicsComponent::enable() {
     if (!m_collider) return;
     if (!m_rigidBody) return;
     m_bEnabled = true;
-    LE3GetPhysicsManager().registerComponent(*this);
+    LE3GetPhysicsManager().registerComponent(m_componentName, *this);
 }
 
 void LE3PhysicsComponent::addBoxCollider(glm::vec3 size) {
@@ -38,7 +47,7 @@ void LE3PhysicsComponent::addSphereCollider(float radius) {
 }
 
 void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo, float mass) {
-    if (m_collider) return;
+    if (m_collider) m_collider = nullptr;
     // Setup colliders
     m_colliderInfo = colliderInfo;
     glm::vec3 extent = m_colliderInfo.extent;

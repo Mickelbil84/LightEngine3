@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <memory>
 #include <vector>
 #include <string>
@@ -16,12 +17,12 @@ namespace le3 {
         inline void setPhysicsEnabled(bool enabled) { m_bPhysicsEnabled = enabled; }
         inline bool isPhysicsEnabled() const { return m_bPhysicsEnabled; }
 
-        void registerComponent(LE3PhysicsComponent& component);
+        void registerComponent(std::string name, LE3PhysicsComponent& component);
+        void clearComponent(std::string name);
 
     private:
         struct _LE3PhysicsManager_Internal;
         std::shared_ptr<_LE3PhysicsManager_Internal> m_pInternal;
-
         bool m_bPhysicsEnabled = true;
     };
 }

@@ -16,11 +16,18 @@ if(MSVC)
     set(BUILD_SHARED_LIBS TRUE)
     string(APPEND CMAKE_C_FLAGS " /MP$ENV{MSVC_PARALLEL}")
     string(APPEND CMAKE_CXX_FLAGS " /MP$ENV{MSVC_PARALLEL}")
+    set(LE3_PLATFROM_SPECIFIC_LIBS "")
+elseif(APPLE)
+    find_library(COREFOUNDATION_FRAMEWORK CoreFoundation)
+    set(LE3_PLATFROM_SPECIFIC_LIBS ${COREFOUNDATION_FRAMEWORK})
+else()
+    set(LE3_PLATFROM_SPECIFIC_LIBS "")
 endif()
 
 include_directories(${LUA_INCLUDE_DIR} ${BULLET_INCLUDE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/../third-party/stb)
 include_directories(${PROJECT_SOURCE_DIR}/../third-party/imgui)
+include_directories(${PROJECT_SOURCE_DIR}/../third-party/stduuid/include)
 include_directories(${PROJECT_SOURCE_DIR}/../third-party/gzip-hpp/include)
 
 
@@ -125,7 +132,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/le3>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt cpr::cpr SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp ${LUA_LIBRARIES} ${ZLIB_LIBRARIES} ${BULLET_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+    fmt::fmt cpr::cpr SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp 
+    ${LUA_LIBRARIES} ${ZLIB_LIBRARIES} ${BULLET_LIBRARIES} ${LE3_PLATFROM_SPECIFIC_LIBS})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 # Auto generate lua bindings

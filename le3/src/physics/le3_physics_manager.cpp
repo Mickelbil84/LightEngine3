@@ -10,6 +10,8 @@ struct LE3PhysicsManager::_LE3PhysicsManager_Internal {
     std::unique_ptr<btBroadphaseInterface> m_overlappingPairCache;
     std::unique_ptr<btSequentialImpulseConstraintSolver> m_solver;
     std::unique_ptr<btDiscreteDynamicsWorld> m_dynamicsWorld;
+
+    std::map<std::string, btRigidBody*> m_rigidBodies;  // Each object/component should only have one rigid body
 };
 
 LE3PhysicsManager::LE3PhysicsManager() : m_pInternal(std::make_shared<_LE3PhysicsManager_Internal>()) {
@@ -32,6 +34,16 @@ void LE3PhysicsManager::update(float deltaTime) {
     m_pInternal->m_dynamicsWorld->stepSimulation(deltaTime);
 }
 
-void LE3PhysicsManager::registerComponent(LE3PhysicsComponent& component) {
-    m_pInternal->m_dynamicsWorld->addRigidBody((btRigidBody*)component.getRigidBody());
+void LE3PhysicsManager::registerComponent(std::string name, LE3PhysicsComponent& component) {
+    clearComponent(name);
+    btRigidBody* rb = (btRigidBody*)component.getRigidBody();
+    m_pInternal->m_dynamicsWorld->addRigidBody(rb);
+    m_pInternal->m_rigidBodies[name] = rb;
+}
+
+void LE3PhysicsManager::clearComponent(std::string name) {
+    if (m_pInternal->m_rigidBodies.find(name) != m_pInternal->m_rigidBodies.end()) {
+        m_pInternal->m_dynamicsWorld->removeRigidBody(m_pInternal->m_rigidBodies[name]);
+        m_pInternal->m_rigidBodies.erase(name);
+    }
 }

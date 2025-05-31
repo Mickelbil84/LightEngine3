@@ -21,13 +21,23 @@ LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPt
         if (!m_pMesh.lock()) return;
         getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo(), 0.f); // TODO: Don't setup a rigid body if not needed
         getPhysicsComponent().enable();
-
 }
 
 template<typename LE3VertexType>
 void LE3Model<LE3VertexType>::update(float deltaTime) {
     LE3DrawableObject::update(deltaTime);
     if (m_pMesh.expired()) return;
+
+    auto pMesh = m_pMesh.lock();
+
+    // Update collider if collider changed
+    // TODO: Test also for geometry changes
+    if (getPhysicsComponent().getColliderInfo().colliderType != m_pMesh.lock()->getColliderType()) {
+        getPhysicsComponent().disable();
+        getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo(), 0.f);
+        getPhysicsComponent().enable();
+    }
+
     if (m_animationPlaying) m_animationTime += deltaTime;
     if (m_currentAnimation.size() && (m_currentAnimation != DEFAULT_EMPTY_ANIMATION_NAME) &&
         !m_pMesh.expired() && (m_pMesh.lock()->getAnimationTracks().contains(m_currentAnimation)))
