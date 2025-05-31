@@ -26,6 +26,16 @@ namespace le3 {
         glm::vec3 extent = glm::vec3(1.f); // Bounding box, ellipsoid
         float radius = 1.f; // Bounding sphere
         // TODO: Implement convex hull collisions
+
+        inline bool operator==(const LE3ColliderInfo& other) const {
+            return colliderType == other.colliderType &&
+                centroid == other.centroid &&
+                extent == other.extent &&
+                radius == other.radius;
+        }
+        inline bool operator!=(const LE3ColliderInfo& other) const {
+            return !(*this == other);
+        }
     };
 
 }
