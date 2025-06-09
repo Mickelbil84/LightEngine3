@@ -27,6 +27,7 @@ void LE3EditorToolbar::init() {
     m_popups[LE3ED_POP_LOAD_SCENE] = LE3EditorSystems::instance().getScenesComponent()->getLoadScenePopup();
 
     m_buttons.push_back(LE3EditorToolbarButton("Save", "icon_save", []() {
+        if (!LE3EngineSystems::instance().isEditModeEngine()) return;
         std::string sceneName = LE3GetConfig<std::string>("LE3ProjectConfig.LastOpenedScene", "");
         if (sceneName.size() == 0) {
             LE3EditorSystems::instance().getScenesComponent()->openSaveScenePopup();
@@ -37,6 +38,7 @@ void LE3EditorToolbar::init() {
     m_buttons.back().setupHotkey({"KEY_S", KEY_LE3_CTRL});
 
     m_buttons.push_back(LE3EditorToolbarButton("SaveAs", "icon_saveas", []() {
+        if (!LE3EngineSystems::instance().isEditModeEngine()) return;
         LE3EditorSystems::instance().getScenesComponent()->openSaveScenePopup();
     }));
     m_buttons.back().setupHotkey({"KEY_S", KEY_LE3_CTRL, "KEY_LSHIFT"});
@@ -87,10 +89,18 @@ void LE3EditorToolbar::init() {
     // -------
 
     m_buttons.push_back(LE3EditorToolbarButton("Play", "icon_play", []() {
-        
+        if (!LE3EngineSystems::instance().isEditModeEngine()) return;
+        std::string sceneName = LE3GetConfig<std::string>("LE3ProjectConfig.LastOpenedScene", "");
+        LE3EngineSystems::instance().setEditModeEngine(false);
+        LE3EditorSystems::instance().getScenesComponent()->loadScene(sceneName);
     }));
+    m_buttons.back().isToggled = []() { return !LE3EngineSystems::instance().isEditModeEngine(); };
+
     m_buttons.push_back(LE3EditorToolbarButton("Stop", "icon_stop", []() {
-        
+        if (LE3EngineSystems::instance().isEditModeEngine()) return;
+        std::string sceneName = LE3GetConfig<std::string>("LE3ProjectConfig.LastOpenedScene", "");
+        LE3EngineSystems::instance().setEditModeEngine(true);
+        LE3EditorSystems::instance().getScenesComponent()->loadScene(sceneName);
     }));
 
     m_buttons.push_back(LE3EditorToolbarButton());
