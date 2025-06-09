@@ -61,8 +61,11 @@ namespace le3 {
         inline LE3EngineDebug& getEngineDebug() { return g_engineDebug; }
         inline bool isHeadless() { return g_headlessEngine; }
 
-        inline bool isRequestingReset() { return g_requestReset; }
+        inline bool isRequestingReset() const { return g_requestReset; }
         inline void requestReset() { g_requestReset = true; }
+
+        inline bool isEditModeEngine() const { return g_editModeEngine; }
+        inline void setEditModeEngine(bool editMode) { g_editModeEngine = editMode; }
         
     private:
         LE3EngineSystems() {
@@ -80,6 +83,7 @@ namespace le3 {
         LE3EngineDebug g_engineDebug;
 
         bool g_headlessEngine;
+        bool g_editModeEngine = false; // If true, then no scripts or physics run
         bool g_requestReset = false;
     };
 
