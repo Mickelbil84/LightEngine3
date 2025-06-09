@@ -13,7 +13,7 @@ struct le3::LE3PhysicsCollider {
 };
 struct le3::LE3PhysicsRigidBody {
     btTransform m_transform;
-    btScalar m_mass = 0;
+    btScalar m_mass = 1;
 
     std::shared_ptr<btDefaultMotionState> m_motionState;
     std::shared_ptr<btRigidBody> m_rigidBody;

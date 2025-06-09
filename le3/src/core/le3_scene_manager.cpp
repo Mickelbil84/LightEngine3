@@ -20,8 +20,9 @@ void LE3SceneManager::createInspectedScene(std::string name, LE3EngineState& eng
 }
 
 void LE3SceneManager::updateScenes(float deltaTime) {
-    // Before even updating any of the scenes, step the physics simulator
-    LE3GetPhysicsManager().update(deltaTime);
+    // Before even updating any of the scenes, step the physics simulator (if not in editor mode)
+    if (!LE3EngineSystems::instance().isEditModeEngine())
+        LE3GetPhysicsManager().update(deltaTime);
 
     for (auto [name, scene] : m_scenes) {
         if (!scene->isInspected()) scene->preUpdate();
