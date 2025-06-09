@@ -86,6 +86,17 @@ void LE3EditorToolbar::init() {
     m_buttons.push_back(LE3EditorToolbarButton());
     // -------
 
+    m_buttons.push_back(LE3EditorToolbarButton("Play", "icon_play", []() {
+        
+    }));
+    m_buttons.push_back(LE3EditorToolbarButton("Stop", "icon_stop", []() {
+        
+    }));
+
+    m_buttons.push_back(LE3EditorToolbarButton());
+
+    // -------
+
     m_buttons.push_back(LE3EditorToolbarButton("Skeleton", "icon_skeleton", []() {
         LE3GetVisualDebug().setDrawDebugSkeletons(!LE3GetVisualDebug().getDrawDebugSkeletons());
     }));
