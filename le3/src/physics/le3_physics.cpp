@@ -86,6 +86,7 @@ void* LE3PhysicsComponent::getRigidBody() {
 }
 
 bool LE3PhysicsComponent::update() {
+    if (LE3EngineSystems::instance().isEditModeEngine()) return false;
     if (!m_bRigidBody) return false;
     if (!m_bEnabled) return false;
     if (!m_rigidBody) return false;
