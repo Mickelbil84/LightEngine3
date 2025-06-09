@@ -14,13 +14,15 @@ using namespace le3;
 
 
 template<typename LE3VertexType>
-LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority) :
+LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority, bool rigidBody) :
     LE3DrawableObject(pMaterial), m_pMesh(pMesh) {
         m_drawPriority = priority;
-        
+        getPhysicsComponent().setIsRigidBody(rigidBody);
         if (!m_pMesh.lock()) return;
-        getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo(), 0.f); // TODO: Don't setup a rigid body if not needed
-        getPhysicsComponent().enable();
+        if (getPhysicsComponent().isRigidBody()) {
+            getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
+            getPhysicsComponent().enable();
+        }
 }
 
 template<typename LE3VertexType>
@@ -31,9 +33,9 @@ void LE3Model<LE3VertexType>::update(float deltaTime) {
     auto pMesh = m_pMesh.lock();
 
     // Update collider in physics component if mesh collider changed
-    if (getPhysicsComponent().getColliderInfo() != m_pMesh.lock()->getColliderInfo()) {
+    if (getPhysicsComponent().isRigidBody() && getPhysicsComponent().getColliderInfo() != m_pMesh.lock()->getColliderInfo()) {
         getPhysicsComponent().disable();
-        getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo(), 0.f);
+        getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
         getPhysicsComponent().enable();
     }
 

@@ -13,40 +13,46 @@ struct le3::LE3PhysicsCollider {
 };
 struct le3::LE3PhysicsRigidBody {
     btTransform m_transform;
-    btScalar m_mass;
+    btScalar m_mass = 0;
 
     std::shared_ptr<btDefaultMotionState> m_motionState;
     std::shared_ptr<btRigidBody> m_rigidBody;
 
 };
 
-LE3PhysicsComponent::LE3PhysicsComponent(LE3Transform& transform) : m_transform(transform), m_bEnabled(false), m_bIsTrigger(false) 
+LE3PhysicsComponent::LE3PhysicsComponent(LE3Transform& transform, bool isRigidBody) : m_transform(transform), m_bEnabled(false), m_bIsTrigger(false) , m_bRigidBody(isRigidBody)
 {
     m_componentName = uuids::to_string(uuids::uuid_system_generator{}());
+    m_rigidBody = std::make_shared<LE3PhysicsRigidBody>();
 }
 
 void LE3PhysicsComponent::disable() {
+    if (!m_bRigidBody) return;
     m_bEnabled = false;
     LE3GetPhysicsManager().clearComponent(m_componentName);
 }
 
 void LE3PhysicsComponent::enable() {
+    if (!m_bRigidBody) return;
     if (!m_collider) return;
-    if (!m_rigidBody) return;
+    if (!m_rigidBody->m_rigidBody) return;
     m_bEnabled = true;
     LE3GetPhysicsManager().registerComponent(m_componentName, *this);
 }
 
 void LE3PhysicsComponent::addBoxCollider(glm::vec3 size) {
+    if (!m_bRigidBody) return;
     m_collider = std::make_shared<LE3PhysicsCollider>();
     m_collider->m_collisionShape = std::make_shared<btBoxShape>(btVector3(size.x, size.y, size.z));
 }
 void LE3PhysicsComponent::addSphereCollider(float radius) {
+    if (!m_bRigidBody) return;
     m_collider = std::make_shared<LE3PhysicsCollider>();
     m_collider->m_collisionShape = std::make_shared<btSphereShape>(radius);
 }
 
-void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo, float mass) {
+void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
+    if (!m_bRigidBody) return;
     if (m_collider) m_collider = nullptr;
     // Setup colliders
     m_colliderInfo = colliderInfo;
@@ -63,23 +69,24 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo, float mas
     }
     if (!m_collider) return;
 
-    m_rigidBody = std::make_shared<LE3PhysicsRigidBody>();
-    m_rigidBody->m_mass = mass;
     m_rigidBody->m_transform = btTransform(
         btQuaternion(m_transform.getRotation().x, m_transform.getRotation().y, m_transform.getRotation().z, m_transform.getRotation().w),
         btVector3(m_transform.getPosition().x, m_transform.getPosition().y, m_transform.getPosition().z)
     );
 
     m_rigidBody->m_motionState = std::make_shared<btDefaultMotionState>(m_rigidBody->m_transform);
-    btRigidBody::btRigidBodyConstructionInfo rbInfo = btRigidBody::btRigidBodyConstructionInfo(mass, m_rigidBody->m_motionState.get(), m_collider->m_collisionShape.get());
+    btRigidBody::btRigidBodyConstructionInfo rbInfo = btRigidBody::btRigidBodyConstructionInfo(
+        m_rigidBody->m_mass, m_rigidBody->m_motionState.get(), m_collider->m_collisionShape.get());
     m_rigidBody->m_rigidBody = std::make_shared<btRigidBody>(rbInfo);
 }
 
 void* LE3PhysicsComponent::getRigidBody() {
+    if (!m_bRigidBody) return nullptr;
     return m_rigidBody->m_rigidBody.get();
 }
 
 bool LE3PhysicsComponent::update() {
+    if (!m_bRigidBody) return false;
     if (!m_bEnabled) return false;
     if (!m_rigidBody) return false;
     if (m_rigidBody->m_mass <= 0) return false;
@@ -95,6 +102,7 @@ bool LE3PhysicsComponent::update() {
 }
 
 void LE3PhysicsComponent::warp(glm::vec3 position, glm::quat rotation) {
+    if (!m_bRigidBody) return;
     m_rigidBody->m_rigidBody->setLinearVelocity(btVector3(0, 0, 0));
     m_rigidBody->m_rigidBody->setAngularVelocity(btVector3(0, 0, 0));
     m_rigidBody->m_motionState->setWorldTransform(btTransform(
@@ -103,4 +111,15 @@ void LE3PhysicsComponent::warp(glm::vec3 position, glm::quat rotation) {
     ));
     m_rigidBody->m_rigidBody->setMotionState(m_rigidBody->m_motionState.get());
     // m_rigidBody->m_rigidBody->setGravity(btVector3(0, -10, 0));
+}
+
+void LE3PhysicsComponent::setMass(float mass) {
+    if (!m_bRigidBody) return;
+    m_rigidBody->m_mass = mass;
+    if (m_rigidBody->m_rigidBody)
+        m_rigidBody->m_rigidBody->setMassProps(mass, btVector3());
+}
+
+float LE3PhysicsComponent::getMass() {
+    return m_rigidBody->m_mass;
 }

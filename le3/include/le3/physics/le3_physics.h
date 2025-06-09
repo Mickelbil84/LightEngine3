@@ -18,7 +18,7 @@ namespace le3 {
 
     class LE3PhysicsComponent {
     public:
-        LE3PhysicsComponent(LE3Transform& transform);
+        LE3PhysicsComponent(LE3Transform& transform, bool isRigidBody = false);
         
         void disable();
         void enable();
@@ -30,13 +30,18 @@ namespace le3 {
         bool isTrigger() const { return m_bIsTrigger; }
 
         std::weak_ptr<LE3PhysicsCollider> getCollider() { return m_collider; }
-        void setupRigidBody(LE3ColliderInfo colliderInfo, float mass);
+        void setupRigidBody(LE3ColliderInfo colliderInfo);
         LE3ColliderInfo getColliderInfo() const { return m_colliderInfo; }
         
         void* getRigidBody();
         
         void warp(glm::vec3 position, glm::quat rotation);
+
+        void setMass(float mass);
+        float getMass();
         
+        inline bool isRigidBody() const { return m_bRigidBody; }
+        inline void setIsRigidBody(bool isRigidBody) { if (!isRigidBody) disable(); m_bRigidBody = isRigidBody; }
         
     private:
         void addBoxCollider(glm::vec3 size);
@@ -47,6 +52,7 @@ namespace le3 {
         std::shared_ptr<LE3PhysicsRigidBody> m_rigidBody;
         LE3ColliderInfo m_colliderInfo;
         bool m_bEnabled, m_bIsTrigger;
+        bool m_bRigidBody; // The most important variable: if false - then this entire component is disabled (stronger then m_bEnabled)
 
         std::string m_componentName; // This would be some random unique id, but not the object name so we don't have to track changes
     };

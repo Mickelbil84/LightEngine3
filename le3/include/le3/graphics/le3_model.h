@@ -15,7 +15,7 @@ namespace le3 {
     template<typename LE3VertexType>
     class LE3Model : public LE3DrawableObject {
     public:
-        LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority = DRAW_PRIORITY_LOW);
+        LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority = DRAW_PRIORITY_LOW, bool rigidBody = true);
         LE3_TYPE_RETURN(LE3Model)
 
         virtual void update(float deltaTime);
@@ -24,9 +24,9 @@ namespace le3 {
         LE3MeshPtr<LE3VertexType> getMesh() { return m_pMesh; }
         void setMesh(LE3MeshPtr<LE3VertexType> pMesh) { 
             m_pMesh = pMesh; if (!m_pMesh.lock()) return;
-            if (getPhysicsComponent().getColliderInfo() != m_pMesh.lock()->getColliderInfo()) {
+            if (getPhysicsComponent().isRigidBody() && getPhysicsComponent().getColliderInfo() != m_pMesh.lock()->getColliderInfo()) {
                 getPhysicsComponent().disable();
-                getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo(), 0.f); // TODO: Don't setup a rigid body if not needed
+                getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
                 getPhysicsComponent().enable();
             }
         }
@@ -50,7 +50,7 @@ namespace le3 {
 
     class LE3StaticModel : public LE3Model<LE3Vertex> {
     public:
-        LE3StaticModel(LE3MeshPtr<LE3Vertex> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority = DRAW_PRIORITY_LOW) :
+        LE3StaticModel(LE3MeshPtr<LE3Vertex> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority = DRAW_PRIORITY_LOW, bool rigidBody = true) :
             LE3Model<LE3Vertex>(pMesh, pMaterial, priority) {}
         LE3_TYPE_RETURN(LE3StaticModel);
     };
@@ -58,7 +58,7 @@ namespace le3 {
 
     class LE3SkeletalModel : public LE3Model<LE3VertexSkeletal> {
     public:
-        LE3SkeletalModel(LE3MeshPtr<LE3VertexSkeletal> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority = DRAW_PRIORITY_LOW) :
+        LE3SkeletalModel(LE3MeshPtr<LE3VertexSkeletal> pMesh, LE3MaterialPtr pMaterial, LE3DrawPriority priority = DRAW_PRIORITY_LOW, bool rigidBody = true) :
             LE3Model<LE3VertexSkeletal>(pMesh, pMaterial, priority) {}
         LE3_TYPE_RETURN(LE3SkeletalModel);
     };
