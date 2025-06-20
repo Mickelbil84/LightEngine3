@@ -113,7 +113,7 @@ void LE3Application::handleInput() {
 
         if (e.type == SDL_WINDOWEVENT) {
             if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
-                SDL_GetWindowSize(m_pInternal->m_pWindow.get(),
+                SDL_GetWindowSizeInPixels(m_pInternal->m_pWindow.get(),
                     &m_pGameLogic->m_engineState.m_windowWidth,
                     &m_pGameLogic->m_engineState.m_windowHeight);
             
