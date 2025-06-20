@@ -67,7 +67,7 @@ namespace le3{
             glm::mat4 lightProjection = glm::ortho(
                 pos.x - delta_plane, pos.x + delta_plane, 
                 pos.y - delta_plane, pos.y + delta_plane, 
-                pos.z - 50.f, pos.z + 150.f);
+                pos.z + 0.01f, pos.z + 150.f);
             // To combat linearly dependant columns in look-at matrix, we add a very small noise to the up vector
             // glm::mat4 lightView = glm::lookAt(pos, pos + getDirection(), glm::vec3(0.f, .999f, 0.04471017781f));
             // glm::mat4 lightView = glm::lookAt(-delta_plane * getDirection(), glm::vec3(0.f), glm::vec3(0.f, .999f, 0.04471017781f));
