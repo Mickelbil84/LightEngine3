@@ -104,6 +104,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_geometry.cpp
     src/bindings/le3_binding_object.cpp
     src/bindings/le3_binding_transform.cpp
+    src/bindings/le3_binding_physics_component.cpp
     src/bindings/le3_binding_scene_root.cpp
     src/bindings/le3_binding_model.cpp
     src/bindings/le3_binding_input.cpp

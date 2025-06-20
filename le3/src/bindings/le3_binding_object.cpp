@@ -7,6 +7,11 @@ FBIND(LE3Object, get_transform)
     LE3Transform& transform = obj->getTransform();
     PUSH_UDATA(&transform, LE3Transform)
 FEND()
+FBIND(LE3Object, get_physics_component)
+    GET_UDATA_OBJECT(obj, LE3Object)
+    LE3PhysicsComponent& component = obj->getPhysicsComponent();
+    PUSH_UDATA(&component, LE3PhysicsComponent)
+FEND()
 FBIND(LE3Object, get_name)
     GET_UDATA_OBJECT(obj, LE3Object)
     PUSH_STRING(obj->getName())
@@ -35,5 +40,5 @@ FBIND(LE3Object, get_children_names)
 FEND()
 
 LIB(LE3Object,
-    get_transform, get_name, get_object_type, get_parent_name, get_children_names
+    get_transform, get_physics_component, get_name, get_object_type, get_parent_name, get_children_names
 )

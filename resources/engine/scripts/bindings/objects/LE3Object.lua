@@ -5,6 +5,7 @@ LE3Object.load = function (scene, tbl, res)
         res = LE3Scene.get_object(scene, tbl.Name)
     end
     LE3Transform.load(LE3Object.get_transform(res), tbl)
+    LE3PhysicsComponent.load(LE3Object.get_physics_component(res), tbl)
     return {ptr = res, name = tbl.Name}
 end
 
@@ -16,6 +17,7 @@ LE3Object.rebuild = function(object, tbl)
         object = LE3Scene.get_object_global(tbl.Name)
     end
     LE3Transform.rebuild(LE3Object.get_transform(object), tbl)
+    LE3PhysicsComponent.rebuild(LE3Object.get_physics_component(object), tbl)
     return object
 end
 LE3Object.save = function (object)
@@ -24,10 +26,13 @@ LE3Object.save = function (object)
     tbl.Name = LE3Object.get_name(object)
     local transformTbl = LE3Transform.save(LE3Object.get_transform(object))
     for k, v in pairs(transformTbl) do tbl[k] = v end
+    local physicsTbl = LE3PhysicsComponent.save(LE3Object.get_physics_component(object))
+    for k, v in pairs(physicsTbl) do tbl[k] = v end
     return tbl
 end
 LE3Object.title = "LE3Object"
 LE3Object.properties = {
     {name = "Name", type = "string"},
-    {name = "Transform", type = "transform"}
+    {name = "Transform", type = "subtable", subtable = LE3Transform},
+    {name = "RigidBody", type = "subtable", subtable = LE3PhysicsComponent},
 }

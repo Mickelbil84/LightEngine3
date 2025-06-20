@@ -32,6 +32,8 @@ LE3Material = {}
 LE3Object = {}
 ---@class LE3OrbitCamera
 LE3OrbitCamera = {}
+---@class LE3PhysicsComponent
+LE3PhysicsComponent = {}
 ---@class LE3PointCloud
 LE3PointCloud = {}
 ---@class LE3PointLight
@@ -520,6 +522,10 @@ function LE3Object.get_object_type(obj) end
 function LE3Object.get_parent_name(obj) end
 
 ---@param obj LE3Object
+---@return LE3PhysicsComponent
+function LE3Object.get_physics_component(obj) end
+
+---@param obj LE3Object
 ---@return LE3Transform
 function LE3Object.get_transform(obj) end
 
@@ -542,6 +548,30 @@ function LE3OrbitCamera.set_offset(self, offset) end
 ---@param origin_y number
 ---@param origin_z number
 function LE3OrbitCamera.set_origin(self, origin_x, origin_y, origin_z) end
+
+---@param self LE3PhysicsComponent
+---@return number
+function LE3PhysicsComponent.get_mass(self) end
+
+---@param self LE3PhysicsComponent
+---@return boolean
+function LE3PhysicsComponent.is_rigidbody(self) end
+
+---@param self LE3PhysicsComponent
+---@return boolean
+function LE3PhysicsComponent.is_trigger(self) end
+
+---@param self LE3PhysicsComponent
+---@param is_rigidbody boolean
+function LE3PhysicsComponent.set_is_rigidbody(self, is_rigidbody) end
+
+---@param self LE3PhysicsComponent
+---@param is_trigger boolean
+function LE3PhysicsComponent.set_is_trigger(self, is_trigger) end
+
+---@param self LE3PhysicsComponent
+---@param mass number
+function LE3PhysicsComponent.set_mass(self, mass) end
 
 ---@param obj LE3PointCloud
 ---@param position_x number
