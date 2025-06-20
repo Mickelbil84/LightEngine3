@@ -99,7 +99,7 @@ bool LE3PhysicsComponent::update() {
 
     btTransform trans;
     m_rigidBody->m_rigidBody->getMotionState()->getWorldTransform(trans);
-    glm::quat rot = glm::quat(trans.getRotation().getX(), trans.getRotation().getY(), trans.getRotation().getZ(), trans.getRotation().getW());
+    glm::quat rot = glm::quat(trans.getRotation().getW(), trans.getRotation().getX(), trans.getRotation().getY(), trans.getRotation().getZ());
     glm::vec3 pos = glm::vec3(float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
     m_transform.setRotation(rot);
     m_transform.setPosition(pos);
