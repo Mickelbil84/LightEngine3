@@ -99,7 +99,7 @@ void LE3EditorGUI::update(float deltaTime) {
         LE3EditorSystems::instance().getHotkeysComponent()->solveHotkeys();
     ImGui::End();
 
-    ImGui::Begin("Content", nullptr, ImGuiWindowFlags_NoMove);
+    ImGui::Begin("Content", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoFocusOnAppearing);
         m_tabContent.update();
     ImGui::End();
 
