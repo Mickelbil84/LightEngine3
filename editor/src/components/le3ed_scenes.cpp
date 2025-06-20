@@ -99,6 +99,7 @@ void LE3EditorScenes::initCameras() {
 }
 void LE3EditorScenes::initScenes(std::string name) {    
     LE3GetAssetManager().resetNonEditor();
+    LE3GetPhysicsManager().reset(); // Reset also physics
     LE3GetEditorManager().getSelection().reset();
     LE3GetEditorManager().getCommandStack().reset();
 

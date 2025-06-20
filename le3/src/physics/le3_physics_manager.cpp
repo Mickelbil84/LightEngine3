@@ -19,6 +19,13 @@ LE3PhysicsManager::LE3PhysicsManager() : m_pInternal(std::make_shared<_LE3Physic
 }
 
 void LE3PhysicsManager::reset() {
+    // Delete previous references in a safe order
+    m_pInternal->m_dynamicsWorld = nullptr;
+    m_pInternal->m_dispatcher = nullptr;
+    m_pInternal->m_collisionConfiguration = nullptr;
+    m_pInternal->m_overlappingPairCache = nullptr;
+    m_pInternal->m_solver = nullptr;
+
     m_pInternal->m_collisionConfiguration = std::make_unique<btDefaultCollisionConfiguration>();
     m_pInternal->m_dispatcher = std::make_unique<btCollisionDispatcher>(m_pInternal->m_collisionConfiguration.get());
     m_pInternal->m_overlappingPairCache = std::make_unique<btDbvtBroadphase>();
