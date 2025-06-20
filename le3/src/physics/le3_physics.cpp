@@ -75,9 +75,14 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
     );
 
     m_rigidBody->m_motionState = std::make_shared<btDefaultMotionState>(m_rigidBody->m_transform);
+    btVector3 inertia(0,0,0);
+    m_collider->m_collisionShape->calculateLocalInertia(m_rigidBody->m_mass, inertia);
     btRigidBody::btRigidBodyConstructionInfo rbInfo = btRigidBody::btRigidBodyConstructionInfo(
-        m_rigidBody->m_mass, m_rigidBody->m_motionState.get(), m_collider->m_collisionShape.get());
+        m_rigidBody->m_mass, m_rigidBody->m_motionState.get(), m_collider->m_collisionShape.get(), inertia);
     m_rigidBody->m_rigidBody = std::make_shared<btRigidBody>(rbInfo);
+    m_rigidBody->m_rigidBody->setLinearVelocity(btVector3(0,0,0));
+    m_rigidBody->m_rigidBody->setAngularVelocity(btVector3(0,0,0));
+    m_rigidBody->m_rigidBody->clearForces();
 }
 
 void* LE3PhysicsComponent::getRigidBody() {
