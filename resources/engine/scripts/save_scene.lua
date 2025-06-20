@@ -56,7 +56,10 @@ end
 ---@param scene LE3Scene
 ---@return table
 local function save_LE3Scene_settings(scene)
-    return {}
+    return {
+        BackgroundColor = {LE3Scene.get_background_color(scene)},
+        -- Culling = LE3Scene.get_culling(scene)
+    }
 end
 
 ---@param scene LE3Scene
@@ -66,6 +69,5 @@ function save_LE3Scene(scene)
     for key, value in pairs(save_LE3Scene_assets()) do Scene[key] = value end
     for key, value in pairs(save_LE3Scene_objects(scene)) do Scene[key] = value end
     Scene.Settings = save_LE3Scene_settings(scene)
-    print(serialize(Scene))
     return Scene
 end
