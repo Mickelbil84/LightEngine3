@@ -111,7 +111,10 @@ void LE3EditorToolbar::init() {
         LE3GetVisualDebug().setDrawDebugSkeletons(!LE3GetVisualDebug().getDrawDebugSkeletons());
     }));
     m_buttons.back().isToggled = []() { return LE3GetVisualDebug().getDrawDebugSkeletons(); };
-    m_buttons.push_back(LE3EditorToolbarButton("Collision", "icon_collision"));
+    m_buttons.push_back(LE3EditorToolbarButton("Collision", "icon_collision", []() {
+        LE3GetEngineDebug().g_bShowColliders = !LE3GetEngineDebug().g_bShowColliders;
+    }));
+    m_buttons.back().isToggled = []() { return LE3GetEngineDebug().g_bShowColliders; };
     m_buttons.push_back(LE3EditorToolbarButton("BulletCollision", "icon_bulletcollision"));
     m_buttons.push_back(LE3EditorToolbarButton());
 
