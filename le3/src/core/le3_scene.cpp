@@ -228,7 +228,7 @@ void LE3Scene::drawColliders() {
     for (auto kv : m_sceneGraph->m_pObjects) {
         LE3ObjectPtr obj = kv.second; if (!obj) continue;
         if (!obj->getPhysicsComponent().isEnabled()) continue;
-        LE3ColliderInfo colliderInfo = obj->getPhysicsComponent().getColliderInfo();
+        LE3ColliderInfo* colliderInfo = obj->getPhysicsComponent().getColliderInfo();
 
         glm::vec3 color(0.f, 1.f, 0.f);
 

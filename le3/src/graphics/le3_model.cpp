@@ -33,7 +33,9 @@ void LE3Model<LE3VertexType>::update(float deltaTime) {
     auto pMesh = m_pMesh.lock();
 
     // Update collider in physics component if mesh collider changed
-    if (getPhysicsComponent().isRigidBody() && getPhysicsComponent().getColliderInfo() != m_pMesh.lock()->getColliderInfo()) {
+    if (getPhysicsComponent().isRigidBody() && (
+        !getPhysicsComponent().getColliderInfo() || (
+            *(m_pMesh.lock()->getColliderInfo()) != getPhysicsComponent().getPreviousColliderInfo()))) {
         getPhysicsComponent().disable();
         getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
         getPhysicsComponent().enable();
