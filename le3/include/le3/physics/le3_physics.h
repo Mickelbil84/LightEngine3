@@ -46,7 +46,7 @@ namespace le3 {
         
     private:
         void addBoxCollider(glm::vec3 size);
-        void addSphereCollider(float radius);
+        void addSphereCollider(float radius, glm::vec3 scaling);
 
         LE3Transform& m_transform;
         std::shared_ptr<LE3PhysicsCollider> m_collider;

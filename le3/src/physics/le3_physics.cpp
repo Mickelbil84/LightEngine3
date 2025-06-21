@@ -10,6 +10,13 @@ using namespace le3;
 
 struct le3::LE3PhysicsCollider {
     std::shared_ptr<btCollisionShape> m_collisionShape;
+    
+    // For btCompoundShape
+    std::vector<std::shared_ptr<btCollisionShape>> m_compoundSubshapes; // Also store smart pointers to subshapes
+
+    // For btMultiSphereShape
+    std::vector<btVector3> m_multiSpherePositions;
+    std::vector<float> m_multiSphereRadii;
 };
 struct le3::LE3PhysicsRigidBody {
     btTransform m_transform;
@@ -45,10 +52,25 @@ void LE3PhysicsComponent::addBoxCollider(glm::vec3 size) {
     m_collider = std::make_shared<LE3PhysicsCollider>();
     m_collider->m_collisionShape = std::make_shared<btBoxShape>(0.5f * btVector3(size.x, size.y, size.z));
 }
-void LE3PhysicsComponent::addSphereCollider(float radius) {
+void LE3PhysicsComponent::addSphereCollider(float radius, glm::vec3 scaling) {
+    // TODO: if uniform, then just do a sphere without compound shapes
     if (!m_bRigidBody) return;
     m_collider = std::make_shared<LE3PhysicsCollider>();
-    m_collider->m_collisionShape = std::make_shared<btSphereShape>(radius);
+
+    bool isUniform = glm::all(glm::epsilonEqual(scaling, glm::vec3(scaling.x), 1e-6f));
+    if (isUniform) {
+        m_collider->m_collisionShape = std::make_shared<btSphereShape>(radius * scaling.x);
+    }
+    else {
+        // Scaled sphere
+        m_collider->m_multiSpherePositions.push_back(btVector3());
+        m_collider->m_multiSphereRadii.push_back(radius);
+        m_collider->m_collisionShape = std::make_shared<btMultiSphereShape>(
+            &m_collider->m_multiSpherePositions[0],
+            &m_collider->m_multiSphereRadii[0], 1
+        );
+        m_collider->m_collisionShape->setLocalScaling(btVector3(scaling.x, scaling.y, scaling.z));
+    }
 }
 
 void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
@@ -63,7 +85,7 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
             addBoxCollider(glm::vec3(extent.x * scale.x, extent.y * scale.y, extent.z * scale.z));
             break;
         case LE3ColliderType::LE3ColliderType_Sphere:
-            addSphereCollider(m_colliderInfo.radius * m_transform.getScale().x); break;
+            addSphereCollider(m_colliderInfo.radius, m_transform.getScale()); break;
         default:
             break;
     }
