@@ -241,10 +241,11 @@ void LE3Scene::drawColliders() {
             LE3GetVisualDebug().drawDebugSphere(obj->getWorldMatrix() * localMatrix, color);
         }
         else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_ConvexHull) {
-            glm::mat4 localMatrix = obj->getWorldMatrix() * glm::scale(1.0f / obj->getTransform().getScale());
+            glm::mat4 localMatrix = obj->getTransform().getTransformMatrixNoScale();
+            glm::vec3 centroid = colliderInfo.centroid * obj->getTransform().getScale();
             for (auto e : colliderInfo.hullEdges) {
-                glm::vec3 v1 = glm::vec3(localMatrix * glm::vec4(e.first + colliderInfo.centroid, 1.f));
-                glm::vec3 v2 = glm::vec3(localMatrix * glm::vec4(e.second + colliderInfo.centroid, 1.f));
+                glm::vec3 v1 = glm::vec3(localMatrix * glm::vec4(e.first + centroid, 1.f));
+                glm::vec3 v2 = glm::vec3(localMatrix * glm::vec4(e.second + centroid, 1.f));
                 LE3GetVisualDebug().drawDebugLine(v1, v2, color);
             }
         }

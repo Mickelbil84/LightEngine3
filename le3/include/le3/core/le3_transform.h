@@ -13,6 +13,7 @@ namespace le3 {
         LE3Transform();
 
         glm::mat4 getTransformMatrix() const;
+        glm::mat4 getTransformMatrixNoScale() const;
         void fromTransformMatrix(glm::mat4 transformMatrix);
 
         glm::vec3 getPosition() const;

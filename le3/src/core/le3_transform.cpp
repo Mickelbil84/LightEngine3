@@ -24,6 +24,13 @@ glm::mat4 LE3Transform::getTransformMatrix() const {
     return res;
 }
 
+glm::mat4 LE3Transform::getTransformMatrixNoScale() const {
+    glm::mat4 res(1.f);
+    res = glm::toMat4(m_rotation) * res;
+    res = glm::translate(glm::mat4(1.f), m_position) * res;
+    return res;
+}
+
 void LE3Transform::fromTransformMatrix(glm::mat4 transformMatrix) {
     m_position = posFromMatrix(transformMatrix);
     m_scale = scaleFromMatrix(transformMatrix);
