@@ -69,9 +69,11 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
     }
     if (!m_collider) return;
 
+    glm::vec3 offset = m_colliderInfo.centroid;
+    offset = glm::vec3(m_transform.getTransformMatrix() * glm::vec4(offset, 1.f));
     m_rigidBody->m_transform = btTransform(
         btQuaternion(m_transform.getRotation().x, m_transform.getRotation().y, m_transform.getRotation().z, m_transform.getRotation().w),
-        btVector3(m_transform.getPosition().x, m_transform.getPosition().y, m_transform.getPosition().z)
+        btVector3(offset.x, offset.y, offset.z)
     );
 
     m_rigidBody->m_motionState = std::make_shared<btDefaultMotionState>(m_rigidBody->m_transform);
@@ -103,6 +105,7 @@ bool LE3PhysicsComponent::update() {
     glm::vec3 pos = glm::vec3(float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
     m_transform.setRotation(rot);
     m_transform.setPosition(pos);
+    m_transform.setPosition(glm::vec3(m_transform.getTransformMatrix() * glm::vec4(-m_colliderInfo.centroid, 1.f)));
 
     return true;
 }
