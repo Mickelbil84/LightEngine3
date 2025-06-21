@@ -11,7 +11,7 @@ namespace le3 {
         LE3ColliderType_Box,
         LE3ColliderType_Sphere,
         LE3ColliderType_Cylinder,
-        LE3ColliderType_Capsule,
+        LE3ColliderType_Capsule, // DOES NOT SUPPORT NON-UNIFORM SCALING
         LE3ColliderType_ConvexHull,
     };
     std::string LE3ColliderType_toString(LE3ColliderType type);

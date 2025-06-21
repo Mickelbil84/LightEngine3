@@ -49,7 +49,11 @@ void LE3VisualDebug::drawDebugCylinder(glm::vec3 position, float radius, float h
     LE3Transform transform;
     transform.setPosition(position);
     transform.setScale(glm::vec3(radius, height, radius));
-    setupDebugShader(transform.getTransformMatrix(), color);
+    drawDebugCylinder(transform.getTransformMatrix(), color);
+}
+void LE3VisualDebug::drawDebugCylinder(glm::mat4 modelMatrix, glm::vec3 color) {
+    if (!m_activeCamera) return;
+    setupDebugShader(modelMatrix, color);
     LE3GetAssetManager().getDebugCylinder().lock()->drawLines();
 }
 

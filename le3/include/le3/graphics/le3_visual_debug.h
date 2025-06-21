@@ -18,6 +18,8 @@ namespace le3 {
         void drawDebugSphere(glm::mat4 modelMatrix, glm::vec3 color);
 
         void drawDebugCylinder(glm::vec3 position, float radius, float height, glm::vec3 color);
+        void drawDebugCylinder(glm::mat4 modelMatrix, glm::vec3 color);
+        
         void drawDebugCone(glm::vec3 position, float radius, float height, glm::vec3 color);
 
         void setDrawDebugSkeletons(bool draw) { m_bDrawDebugSkeletons = draw; }

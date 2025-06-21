@@ -89,7 +89,7 @@ namespace le3 {
 
         void rebuild(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
             this->x0 = x0; this->y0 = y0; this->z0 = z0;
-            this->radius = radius; this->height = height; this->resolution = resolution;
+            this->radius = radius; this->height = height; this->resolution = resolution; this->withCaps = withCaps;
             m_pMeshData = createCylinder(x0, y0, z0, radius, height, resolution, withCaps);
             m_pMesh = m_pMeshData;
         }
@@ -121,7 +121,7 @@ namespace le3 {
 
         void rebuild(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
             this->x0 = x0; this->y0 = y0; this->z0 = z0;
-            this->radius = radius; this->height = height; this->resolution = resolution;
+            this->radius = radius; this->height = height; this->resolution = resolution; this->withCaps = withCaps;
             m_pMeshData = createCone(x0, y0, z0, radius, height, resolution, withCaps);
             m_pMesh = m_pMeshData;
         }

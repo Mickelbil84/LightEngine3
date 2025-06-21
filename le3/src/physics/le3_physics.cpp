@@ -67,6 +67,12 @@ void LE3PhysicsComponent::addSphereCollider(float radius, glm::vec3 scaling) {
         m_collider->m_collisionShape->setLocalScaling(btVector3(scaling.x, scaling.y, scaling.z));
     }
 }
+void LE3PhysicsComponent::addCylinderCollider(glm::vec3 size) {
+    // float diameter = size.x > size.z ? size.x : size.z;
+    // float height = size.y;
+    // m_collider->m_collisionShape = std::make_shared<btCylinderShape>(0.5f * btVector3(diameter, 0, height));
+    m_collider->m_collisionShape = std::make_shared<btCylinderShape>(0.5f * btVector3(size.x, size.y, size.z));
+}
 void LE3PhysicsComponent::addConvexHullCollider(std::vector<glm::vec3> vertices, glm::vec3 centroid, glm::vec3 scaling) {
     std::shared_ptr<btConvexHullShape> shape = std::make_shared<btConvexHullShape>();
     m_collider->m_collisionShape = std::dynamic_pointer_cast<btCollisionShape>(shape);
@@ -130,6 +136,8 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
             addBoxCollider(glm::vec3(extent.x * scale.x, extent.y * scale.y, extent.z * scale.z)); break;
         case LE3ColliderType::LE3ColliderType_Sphere:
             addSphereCollider(m_colliderInfo.radius, m_transform.getScale()); break;
+        case LE3ColliderType::LE3ColliderType_Cylinder:
+            addCylinderCollider(scale * extent); break;
         case LE3ColliderType::LE3ColliderType_ConvexHull:
             addConvexHullCollider(m_colliderInfo.decimatedVertices, m_colliderInfo.centroid, m_transform.getScale()); break;
         default:

@@ -235,7 +235,9 @@ std::vector<LE3Vertex> le3::_createCylinderBuffer(float x0, float y0, float z0, 
 
 std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createCylinder(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
     std::vector<LE3Vertex> buffer = le3::_createCylinderBuffer(x0, y0, z0, radius, height, resolution, withCaps);
-    return std::make_shared<LE3StaticMesh>(buffer);
+    auto pMesh = std::make_shared<LE3StaticMesh>(buffer);
+    pMesh->setColliderType(LE3ColliderType::LE3ColliderType_Cylinder);
+    return pMesh;
 }
 
 std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugCylinder() {

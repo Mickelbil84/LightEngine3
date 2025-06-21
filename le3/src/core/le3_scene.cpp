@@ -240,14 +240,14 @@ void LE3Scene::drawColliders() {
             glm::mat4 localMatrix = glm::translate(colliderInfo.centroid) * glm::scale(glm::vec3(colliderInfo.radius));
             LE3GetVisualDebug().drawDebugSphere(obj->getWorldMatrix() * localMatrix, color);
         }
+        else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_Cylinder) {
+            // glm::mat4 localMatrix = glm::translate(colliderInfo.centroid) * glm::scale(colliderInfo.extent);
+            glm::mat4 localMatrix = glm::scale(colliderInfo.extent * glm::vec3(0.5f, 1.f, 0.5f));
+            LE3GetVisualDebug().drawDebugCylinder(obj->getWorldMatrix() * localMatrix, color);
+        }
         else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_ConvexHull) {
             glm::vec3 centroid = colliderInfo.centroid * obj->getTransform().getScale();
             glm::mat4 model = obj->getTransform().getTransformMatrixNoScale() * glm::translate(centroid);
-            // for (auto e : colliderInfo.hullEdges) {
-            //     glm::vec3 v1 = glm::vec3(localMatrix * glm::vec4(e.first + centroid, 1.f));
-            //     glm::vec3 v2 = glm::vec3(localMatrix * glm::vec4(e.second + centroid, 1.f));
-            //     LE3GetVisualDebug().drawDebugLine(v1, v2, color);
-            // }
             LE3GetVisualDebug().drawDebugMesh(obj->getPhysicsComponent().getHullDebugMesh(), model, color);
         }
     }
