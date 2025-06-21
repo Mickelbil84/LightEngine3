@@ -1,0 +1,13 @@
+# Blender 3.6.20 MTL File: 'None'
+# www.blender.org
+
+newmtl Ch36_Body
+Ka 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd Users/michaelbilevich/Projects/Freetime/LightEngine3/resources/demos/textures/animations/mannequin/T_DIF_mannequin.png
+map_Ks Users/michaelbilevich/Projects/Freetime/LightEngine3/resources/demos/textures/animations/mannequin/T_SPC_mannequin.png
+map_Ns Users/michaelbilevich/Projects/Freetime/LightEngine3/resources/home/app/mixamo-mini/tmp/skins_1aab2587-ea57-426a-a558-4d7b93f61082.fbm/Ch36_1001_Glossiness.png
+map_Bump -bm 1.000000 Users/michaelbilevich/Projects/Freetime/LightEngine3/resources/demos/textures/animations/mannequin/T_NRM_mannequin.png
