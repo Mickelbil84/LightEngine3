@@ -22,7 +22,7 @@ namespace le3 {
     struct LE3ColliderInfo {
         // Controllable settings
         LE3ColliderType colliderType;
-        int decimationResolution = 5; // TODO: control this as a property of the mesh
+        int decimationResolution = 7; // TODO: control this as a property of the mesh
 
         // Computed values
         glm::vec3 centroid = glm::vec3(0.f); // Bounding box, sphere
