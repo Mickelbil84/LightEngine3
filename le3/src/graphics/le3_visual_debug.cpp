@@ -10,6 +10,18 @@ void LE3VisualDebug::reset() {
     m_bDrawDebugSkeletons = false;
 }
 
+void LE3VisualDebug::drawDebugMesh(std::weak_ptr<LE3DebugMesh> pMesh, glm::mat4 model, glm::vec3 color) {
+    // TODO: Use this method for other visual debug methods
+    if (!m_activeCamera) return;
+    setupDebugShader(model, color);
+
+    GLint polygonMode;
+    glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    pMesh.lock()->draw();
+    glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
+}
+
 void LE3VisualDebug::drawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 color) {
     if (!m_activeCamera) return;
     glm::mat4 model = glm::translate(glm::mat4(1.f), start) * glm::scale(glm::mat4(1.f), end - start);

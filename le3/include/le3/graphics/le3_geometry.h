@@ -123,6 +123,7 @@ namespace le3 {
     using LE3VertexSkeletal = LE3Vertex3p2t3n3tn3b4b4w;
 
     using LE3ScreenRect = LE3Mesh<LE3Vertex3p>;
+    using LE3DebugMesh = LE3Mesh<LE3Vertex3p>;
     using LE3StaticMesh = LE3Mesh<LE3Vertex>;
     using LE3SkeletalMesh = LE3Mesh<LE3VertexSkeletal>;
 

@@ -90,36 +90,31 @@ void LE3PhysicsComponent::addConvexHullCollider(std::vector<glm::vec3> vertices,
     // }
     btShapeHull* shapeHull = new btShapeHull(shape.get());
     shapeHull->buildHull(0, 1);
-    std::vector<glm::vec3> hullVertices;
+    std::vector<LE3Vertex3p> hullVertices;
+    std::vector<uint32_t> hullIndices;
     int idx = 0;
     auto vertexPtr = shapeHull->getVertexPointer();
     int n = shapeHull->numVertices();
     while (idx < n) {
-        hullVertices.push_back(glm::vec3(vertexPtr->x(), vertexPtr->y(), vertexPtr->z()));
+        LE3Vertex3p v;
+        v.position[0] = vertexPtr->x();
+        v.position[1] = vertexPtr->y();
+        v.position[2] = vertexPtr->z();
+        hullVertices.push_back(v);
         vertexPtr++;
         idx++;
     }
     idx = 0;
-    glm::vec3 a, b, c;
     auto indexPtr = shapeHull->getIndexPointer();
     n = shapeHull->numIndices();
     while (idx < n) {
-        unsigned int i = *indexPtr;
-        if (idx % 3 == 0) {
-            if (idx > 0) {
-                m_colliderInfo.hullEdges.push_back(std::make_pair(a, b));
-                m_colliderInfo.hullEdges.push_back(std::make_pair(b, c));
-                m_colliderInfo.hullEdges.push_back(std::make_pair(c, a));
-            }
-            a = hullVertices[i];
-        }
-        if (idx % 3 == 1) b = hullVertices[i];
-        if (idx % 3 == 2) c = hullVertices[i];
+        hullIndices.push_back(*indexPtr);
         indexPtr++;
         idx++;
     }
-
     delete shapeHull;
+
+    m_hullMesh = std::make_shared<LE3DebugMesh>(hullVertices, hullIndices);
 }
 
 void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {

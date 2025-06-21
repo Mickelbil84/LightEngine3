@@ -6,6 +6,7 @@
 
 #include "le3_collider_info.h"
 #include "core/le3_transform.h"
+#include "graphics/le3_geometry.h"
 
 namespace le3 {
 
@@ -42,6 +43,8 @@ namespace le3 {
         
         void warp(glm::vec3 position, glm::quat rotation);
 
+        std::weak_ptr<LE3DebugMesh> getHullDebugMesh() { return m_hullMesh; }
+
         
         
     private:
@@ -55,6 +58,8 @@ namespace le3 {
         LE3ColliderInfo m_colliderInfo;
         bool m_bEnabled, m_bIsTrigger; // Enabled == do not override! this means whether the physics is active (it may become true at some point)
         bool m_bRigidBody; // The most important variable: if false - then this entire component is disabled (stronger then m_bEnabled)
+        
+        std::shared_ptr<LE3DebugMesh> m_hullMesh = nullptr; // For convex hull - store the hull mesh
 
         std::string m_componentName; // This would be some random unique id, but not the object name so we don't have to track changes
     };

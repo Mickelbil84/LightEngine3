@@ -23,6 +23,8 @@ namespace le3 {
         void setDrawDebugSkeletons(bool draw) { m_bDrawDebugSkeletons = draw; }
         bool getDrawDebugSkeletons() const { return m_bDrawDebugSkeletons; }
 
+        void drawDebugMesh(std::weak_ptr<LE3DebugMesh> pMesh, glm::mat4 model, glm::vec3 color);
+
 
     private:
         LE3CameraPtr m_activeCamera = nullptr;
