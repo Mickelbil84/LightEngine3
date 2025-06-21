@@ -283,7 +283,9 @@ std::vector<LE3Vertex> le3::_createConeBuffer(float x0, float y0, float z0, floa
 
 std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createCone(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps) {
     std::vector<LE3Vertex> buffer = le3::_createConeBuffer(x0, y0, z0, radius, height, resolution, withCaps);
-    return std::make_shared<LE3StaticMesh>(buffer);
+    auto pMesh = std::make_shared<LE3StaticMesh>(buffer);
+    pMesh->setColliderType(LE3ColliderType::LE3ColliderType_Cone);
+    return pMesh;
 }
 
 std::vector<LE3Vertex> le3::_createTorusBuffer(float x0, float y0, float z0, float majorRadius, float minorRadius, int resolution) {

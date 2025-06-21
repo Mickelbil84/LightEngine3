@@ -240,9 +240,14 @@ void LE3Scene::drawColliders() {
             glm::mat4 localMatrix = glm::translate(colliderInfo.centroid) * glm::scale(glm::vec3(colliderInfo.radius));
             LE3GetVisualDebug().drawDebugSphere(obj->getWorldMatrix() * localMatrix, color);
         }
+        else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_Cone) {
+            float radius = 0.5f * (colliderInfo.extent.x > colliderInfo.extent.z ? colliderInfo.extent.x : colliderInfo.extent.z);
+            glm::mat4 localMatrix = glm::scale(glm::vec3(radius, colliderInfo.extent.y, radius));
+            LE3GetVisualDebug().drawDebugCone(obj->getWorldMatrix() * localMatrix, color);
+        }
         else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_Cylinder) {
-            // glm::mat4 localMatrix = glm::translate(colliderInfo.centroid) * glm::scale(colliderInfo.extent);
-            glm::mat4 localMatrix = glm::scale(colliderInfo.extent * glm::vec3(0.5f, 1.f, 0.5f));
+            float radius = 0.5f * (colliderInfo.extent.x > colliderInfo.extent.z ? colliderInfo.extent.x : colliderInfo.extent.z);
+            glm::mat4 localMatrix = glm::scale(glm::vec3(radius, colliderInfo.extent.y, radius));
             LE3GetVisualDebug().drawDebugCylinder(obj->getWorldMatrix() * localMatrix, color);
         }
         else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_ConvexHull) {

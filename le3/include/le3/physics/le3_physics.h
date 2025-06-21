@@ -50,6 +50,7 @@ namespace le3 {
     private:
         void addBoxCollider(glm::vec3 size);
         void addSphereCollider(float radius, glm::vec3 scaling);
+        void addConeCollider(glm::vec3 size);
         void addCylinderCollider(glm::vec3 size);
         void addConvexHullCollider(std::vector<glm::vec3> vertices, glm::vec3 centroid, glm::vec3 scaling);
 

@@ -68,10 +68,12 @@ void LE3PhysicsComponent::addSphereCollider(float radius, glm::vec3 scaling) {
     }
 }
 void LE3PhysicsComponent::addCylinderCollider(glm::vec3 size) {
-    // float diameter = size.x > size.z ? size.x : size.z;
-    // float height = size.y;
-    // m_collider->m_collisionShape = std::make_shared<btCylinderShape>(0.5f * btVector3(diameter, 0, height));
     m_collider->m_collisionShape = std::make_shared<btCylinderShape>(0.5f * btVector3(size.x, size.y, size.z));
+}
+void LE3PhysicsComponent::addConeCollider(glm::vec3 size) {
+    float radius = 0.5f * (size.x > size.z ? size.x : size.z);
+    float height = size.y;
+    m_collider->m_collisionShape = std::make_shared<btConeShape>(radius, height);
 }
 void LE3PhysicsComponent::addConvexHullCollider(std::vector<glm::vec3> vertices, glm::vec3 centroid, glm::vec3 scaling) {
     std::shared_ptr<btConvexHullShape> shape = std::make_shared<btConvexHullShape>();
@@ -83,17 +85,6 @@ void LE3PhysicsComponent::addConvexHullCollider(std::vector<glm::vec3> vertices,
         shape->addPoint(v_);
     }
     shape->optimizeConvexHull();
-
-    // Populate edges in hull
-    // m_colliderInfo.hullEdges.clear();
-    // for (int i = 0; i < shape->getNumEdges(); i++) {
-    //     btVector3 a, b;
-    //     shape->getEdge(i, a, b);
-    //     m_colliderInfo.hullEdges.push_back(std::make_pair<glm::vec3, glm::vec3>(
-    //         glm::vec3(a.x(), a.y(), a.z()),
-    //         glm::vec3(b.x(), b.y(), b.z())
-    //     ));
-    // }
     btShapeHull* shapeHull = new btShapeHull(shape.get());
     shapeHull->buildHull(0, 1);
     std::vector<LE3Vertex3p> hullVertices;
@@ -136,8 +127,10 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
             addBoxCollider(glm::vec3(extent.x * scale.x, extent.y * scale.y, extent.z * scale.z)); break;
         case LE3ColliderType::LE3ColliderType_Sphere:
             addSphereCollider(m_colliderInfo.radius, m_transform.getScale()); break;
+        case LE3ColliderType::LE3ColliderType_Cone:
+            addConeCollider(scale * extent); break; // Does not support non-uniform xz scaling 
         case LE3ColliderType::LE3ColliderType_Cylinder:
-            addCylinderCollider(scale * extent); break;
+            addCylinderCollider(scale * extent); break; // Does not support non-uniform xz scaling
         case LE3ColliderType::LE3ColliderType_ConvexHull:
             addConvexHullCollider(m_colliderInfo.decimatedVertices, m_colliderInfo.centroid, m_transform.getScale()); break;
         default:

@@ -62,7 +62,12 @@ void LE3VisualDebug::drawDebugCone(glm::vec3 position, float radius, float heigh
     LE3Transform transform;
     transform.setPosition(position);
     transform.setScale(glm::vec3(radius, height, radius));
-    setupDebugShader(transform.getTransformMatrix(), color);
+    drawDebugCone(transform.getTransformMatrix(), color);
+    
+}
+void LE3VisualDebug::drawDebugCone(glm::mat4 modelMatrix, glm::vec3 color) {
+    if (!m_activeCamera) return;
+    setupDebugShader(modelMatrix, color);
     LE3GetAssetManager().getDebugCone().lock()->drawLines();
 }
 
