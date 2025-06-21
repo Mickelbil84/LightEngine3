@@ -88,7 +88,7 @@ FBIND(ImGui, RadioButtons)
     if (val == -1) val = 0;
     for (int i = 0; i < labels.size(); i++) {
         ImGui::RadioButton(labels[i].c_str(), &val, i);
-        if (i < labels.size() - 1 && (i == 0 || i % 2 != 0)) ImGui::SameLine();
+        if (i < labels.size() - 1 && (i == 0 || i % 3 != 2)) ImGui::SameLine();
     }
     PUSH_STRING(labels[val])
 FEND()

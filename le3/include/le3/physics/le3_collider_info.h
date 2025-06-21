@@ -10,6 +10,7 @@ namespace le3 {
     enum class LE3ColliderType {
         LE3ColliderType_Box,
         LE3ColliderType_Sphere,
+        LE3ColliderType_Cone,
         LE3ColliderType_Cylinder,
         LE3ColliderType_Capsule, // DOES NOT SUPPORT NON-UNIFORM SCALING
         LE3ColliderType_ConvexHull,
