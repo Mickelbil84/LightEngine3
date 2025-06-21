@@ -24,11 +24,11 @@ namespace le3 {
         LE3MeshPtr<LE3VertexType> getMesh() { return m_pMesh; }
         void setMesh(LE3MeshPtr<LE3VertexType> pMesh) { 
             m_pMesh = pMesh; if (!m_pMesh.lock()) return;
-            if (getPhysicsComponent().isRigidBody() && getPhysicsComponent().getColliderInfo() != m_pMesh.lock()->getColliderInfo()) {
-                getPhysicsComponent().disable();
-                getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
-                getPhysicsComponent().enable();
-            }
+            // if (getPhysicsComponent().isRigidBody() && getPhysicsComponent().getColliderInfo() != m_pMesh.lock()->getColliderInfo()) {
+            //     getPhysicsComponent().disable();
+            //     getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
+            //     getPhysicsComponent().enable();
+            // }
         }
 
         void setCurrentAnimation(std::string animationName) { m_currentAnimation = animationName;  resetAnimation(); }

@@ -94,7 +94,7 @@ bool LE3PhysicsComponent::update() {
     if (LE3EngineSystems::instance().isEditModeEngine()) return false;
     if (!m_bRigidBody) return false;
     if (!m_bEnabled) return false;
-    if (!m_rigidBody) return false;
+    if (!m_rigidBody->m_rigidBody) return false;
     if (m_rigidBody->m_mass <= 0) return false;
 
     btTransform trans;

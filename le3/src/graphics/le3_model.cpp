@@ -19,10 +19,10 @@ LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPt
         m_drawPriority = priority;
         getPhysicsComponent().setIsRigidBody(rigidBody);
         if (!m_pMesh.lock()) return;
-        if (getPhysicsComponent().isRigidBody()) {
-            getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
-            getPhysicsComponent().enable();
-        }
+        // if (getPhysicsComponent().isRigidBody()) {
+        //     getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
+        //     getPhysicsComponent().enable();
+        // }
 }
 
 template<typename LE3VertexType>

@@ -62,6 +62,11 @@ public:
             glm::vec3 cameraPos = LE3GetActiveScene()->getObject("camera")->getTransform().getPosition();
             ImGui::Text("Camera pos: %f,%f,%f", cameraPos.x, cameraPos.y, cameraPos.z);
 
+            glm::vec3 wheelPos = LE3GetActiveScene()->getObject("CarWheel_1")->getTransform().getPosition();
+            glm::quat wheelRot = LE3GetActiveScene()->getObject("CarWheel_1")->getTransform().getRotation();
+            ImGui::Text("Wheel pos: %f,%f,%f", wheelPos.x, wheelPos.y, wheelPos.z);
+            ImGui::Text("Wheel rot: %f,%f,%f, %f", wheelRot.x, wheelRot.y, wheelRot.z, wheelRot.w);
+
 
 
         ImGui::End();
