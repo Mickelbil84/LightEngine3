@@ -228,14 +228,14 @@ void LE3Scene::drawColliders() {
     for (auto kv : m_sceneGraph->m_pObjects) {
         LE3ObjectPtr obj = kv.second; if (!obj) continue;
         if (!obj->getPhysicsComponent().isEnabled()) continue;
-        LE3ColliderInfo colliderInfo = obj->getPhysicsComponent().getColliderInfo();
+        LE3ColliderInfo* colliderInfo = obj->getPhysicsComponent().getColliderInfo();
 
-        if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_Box) {
-            glm::mat4 localMatrix = glm::translate(colliderInfo.centroid) * glm::scale(colliderInfo.extent);
+        if (colliderInfo->colliderType == LE3ColliderType::LE3ColliderType_Box) {
+            glm::mat4 localMatrix = glm::translate(colliderInfo->centroid) * glm::scale(colliderInfo->extent);
             LE3GetVisualDebug().drawDebugBox(obj->getWorldMatrix() * localMatrix, glm::vec3(0.f, 1.f, 0.f));
         }
-        else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_Sphere) {
-            glm::mat4 localMatrix = glm::translate(colliderInfo.centroid) * glm::scale(glm::vec3(colliderInfo.radius));
+        else if (colliderInfo->colliderType == LE3ColliderType::LE3ColliderType_Sphere) {
+            glm::mat4 localMatrix = glm::translate(colliderInfo->centroid) * glm::scale(glm::vec3(colliderInfo->radius));
             LE3GetVisualDebug().drawDebugSphere(obj->getWorldMatrix() * localMatrix, glm::vec3(0.f, 1.f, 0.f));
         }
     }

@@ -29,6 +29,7 @@ namespace le3 {
         glm::vec3 extent = glm::vec3(1.f); // Bounding box
         float radius = 1.f; // Bounding sphere
         std::vector<glm::vec3> decimatedVertices; // Convex hull
+        std::vector<std::pair<glm::vec3, glm::vec3>> hullEdges;
 
         inline bool operator==(const LE3ColliderInfo& other) const {
             return colliderType == other.colliderType &&
