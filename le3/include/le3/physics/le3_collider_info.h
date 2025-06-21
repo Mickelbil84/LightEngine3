@@ -9,7 +9,6 @@ namespace le3 {
     enum class LE3ColliderType {
         LE3ColliderType_Box,
         LE3ColliderType_Sphere,
-        LE3ColliderType_Ellipsoid,
         LE3ColliderType_ConvexHull,
     };
     std::string LE3ColliderType_toString(LE3ColliderType type);
@@ -22,8 +21,8 @@ namespace le3 {
     struct LE3ColliderInfo {
         LE3ColliderType colliderType;
 
-        glm::vec3 centroid = glm::vec3(0.f); // Bounding box, sphere, ellipsoid
-        glm::vec3 extent = glm::vec3(1.f); // Bounding box, ellipsoid
+        glm::vec3 centroid = glm::vec3(0.f); // Bounding box, sphere
+        glm::vec3 extent = glm::vec3(1.f); // Bounding box
         float radius = 1.f; // Bounding sphere
         // TODO: Implement convex hull collisions
 

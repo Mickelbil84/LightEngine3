@@ -42,5 +42,5 @@ LE3SkeletalMesh.title = "LE3SkeletalMesh"
 LE3SkeletalMesh.properties = {
     {name = "Name", type = "string"},
     {name = "Path", type = "string"},
-    {name = "ColliderType", type = "radio", labels = {"Box", "Sphere", "Ellipsoid", "ConvexHull"}},
+    {name = "ColliderType", type = "radio", labels = {"Box", "Sphere", "ConvexHull"}},
 }
