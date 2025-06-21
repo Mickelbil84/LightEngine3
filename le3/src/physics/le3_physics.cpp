@@ -48,15 +48,9 @@ void LE3PhysicsComponent::enable() {
 }
 
 void LE3PhysicsComponent::addBoxCollider(glm::vec3 size) {
-    if (!m_bRigidBody) return;
-    m_collider = std::make_shared<LE3PhysicsCollider>();
     m_collider->m_collisionShape = std::make_shared<btBoxShape>(0.5f * btVector3(size.x, size.y, size.z));
 }
 void LE3PhysicsComponent::addSphereCollider(float radius, glm::vec3 scaling) {
-    // TODO: if uniform, then just do a sphere without compound shapes
-    if (!m_bRigidBody) return;
-    m_collider = std::make_shared<LE3PhysicsCollider>();
-
     bool isUniform = glm::all(glm::epsilonEqual(scaling, glm::vec3(scaling.x), 1e-6f));
     if (isUniform) {
         m_collider->m_collisionShape = std::make_shared<btSphereShape>(radius * scaling.x);
@@ -72,6 +66,28 @@ void LE3PhysicsComponent::addSphereCollider(float radius, glm::vec3 scaling) {
         m_collider->m_collisionShape->setLocalScaling(btVector3(scaling.x, scaling.y, scaling.z));
     }
 }
+void LE3PhysicsComponent::addConvexHullCollider(std::vector<glm::vec3> vertices, glm::vec3 centroid, glm::vec3 scaling) {
+    std::shared_ptr<btConvexHullShape> shape = std::make_shared<btConvexHullShape>();
+    m_collider->m_collisionShape = std::dynamic_pointer_cast<btCollisionShape>(shape);
+    for (glm::vec3 v : vertices) {
+        v -= centroid;
+        v *= scaling;
+        btVector3 v_(v.x, v.y, v.z);
+        shape->addPoint(v_);
+    }
+    shape->optimizeConvexHull();
+
+    // Populate edges in hull
+    m_colliderInfo.hullEdges.clear();
+    for (int i = 0; i < shape->getNumEdges(); i++) {
+        btVector3 a, b;
+        shape->getEdge(i, a, b);
+        m_colliderInfo.hullEdges.push_back(std::make_pair<glm::vec3, glm::vec3>(
+            glm::vec3(a.x(), a.y(), a.z()),
+            glm::vec3(b.x(), b.y(), b.z())
+        ));
+    }
+}
 
 void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
     if (!m_bRigidBody) return;
@@ -80,12 +96,14 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
     m_colliderInfo = colliderInfo;
     glm::vec3 extent = m_colliderInfo.extent;
     glm::vec3 scale = m_transform.getScale();
+    m_collider = std::make_shared<LE3PhysicsCollider>();
     switch (m_colliderInfo.colliderType) {
         case LE3ColliderType::LE3ColliderType_Box:
-            addBoxCollider(glm::vec3(extent.x * scale.x, extent.y * scale.y, extent.z * scale.z));
-            break;
+            addBoxCollider(glm::vec3(extent.x * scale.x, extent.y * scale.y, extent.z * scale.z)); break;
         case LE3ColliderType::LE3ColliderType_Sphere:
             addSphereCollider(m_colliderInfo.radius, m_transform.getScale()); break;
+        case LE3ColliderType::LE3ColliderType_ConvexHull:
+            addConvexHullCollider(m_colliderInfo.decimatedVertices, m_colliderInfo.centroid, m_transform.getScale()); break;
         default:
             break;
     }
@@ -107,6 +125,7 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
     m_rigidBody->m_rigidBody->setLinearVelocity(btVector3(0,0,0));
     m_rigidBody->m_rigidBody->setAngularVelocity(btVector3(0,0,0));
     m_rigidBody->m_rigidBody->clearForces();
+    m_rigidBody->m_rigidBody->setActivationState(DISABLE_DEACTIVATION);
 }
 
 void* LE3PhysicsComponent::getRigidBody() {

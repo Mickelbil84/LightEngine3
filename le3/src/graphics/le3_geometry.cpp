@@ -114,6 +114,7 @@ void LE3Mesh<LE3VertexType>::buildColliderInfo_DecimatedVertices(std::vector<LE3
         counts[idx]++;
     }
 
+    m_colliderInfo.decimatedVertices.clear();
     for (int idx = 0; idx < (n+1) * (n+1) * (n+1); ++idx) {
         if (counts[idx] == 0) continue;
         m_colliderInfo.decimatedVertices.push_back(

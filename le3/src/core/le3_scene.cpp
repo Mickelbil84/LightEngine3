@@ -230,13 +230,23 @@ void LE3Scene::drawColliders() {
         if (!obj->getPhysicsComponent().isEnabled()) continue;
         LE3ColliderInfo colliderInfo = obj->getPhysicsComponent().getColliderInfo();
 
+        glm::vec3 color(0.f, 1.f, 0.f);
+
         if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_Box) {
             glm::mat4 localMatrix = glm::translate(colliderInfo.centroid) * glm::scale(colliderInfo.extent);
-            LE3GetVisualDebug().drawDebugBox(obj->getWorldMatrix() * localMatrix, glm::vec3(0.f, 1.f, 0.f));
+            LE3GetVisualDebug().drawDebugBox(obj->getWorldMatrix() * localMatrix, color);
         }
         else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_Sphere) {
             glm::mat4 localMatrix = glm::translate(colliderInfo.centroid) * glm::scale(glm::vec3(colliderInfo.radius));
-            LE3GetVisualDebug().drawDebugSphere(obj->getWorldMatrix() * localMatrix, glm::vec3(0.f, 1.f, 0.f));
+            LE3GetVisualDebug().drawDebugSphere(obj->getWorldMatrix() * localMatrix, color);
+        }
+        else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_ConvexHull) {
+            glm::mat4 localMatrix = obj->getWorldMatrix() * glm::scale(1.0f / obj->getTransform().getScale());
+            for (auto e : colliderInfo.hullEdges) {
+                glm::vec3 v1 = glm::vec3(localMatrix * glm::vec4(e.first + colliderInfo.centroid, 1.f));
+                glm::vec3 v2 = glm::vec3(localMatrix * glm::vec4(e.second + colliderInfo.centroid, 1.f));
+                LE3GetVisualDebug().drawDebugLine(v1, v2, color);
+            }
         }
     }
     glEnable(GL_DEPTH_TEST);
