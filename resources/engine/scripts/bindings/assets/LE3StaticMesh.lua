@@ -35,6 +35,6 @@ LE3StaticMesh.title = "LE3StaticMesh"
 LE3StaticMesh.properties = {
     {name = "Name", type = "string"},
     {name = "Path", type = "string"},
-    {name = "ColliderType", type = "radio", labels = {"Box", "Sphere", "ConvexHull"}},
+    {name = "ColliderType", type = "radio", labels = {"Box", "Sphere", "Cylinder", "Capsule", "ConvexHull"}},
     --{name = "KeepData", type = "boolean"}
 }
