@@ -4,6 +4,7 @@
 using namespace le3;
 
 #include <bullet/btBulletDynamicsCommon.h>
+#include <bullet/BulletCollision/CollisionShapes/btShapeHull.h>
 
 #define UUID_SYSTEM_GENERATOR
 #include <uuid.h>
@@ -78,15 +79,47 @@ void LE3PhysicsComponent::addConvexHullCollider(std::vector<glm::vec3> vertices,
     shape->optimizeConvexHull();
 
     // Populate edges in hull
-    m_colliderInfo.hullEdges.clear();
-    for (int i = 0; i < shape->getNumEdges(); i++) {
-        btVector3 a, b;
-        shape->getEdge(i, a, b);
-        m_colliderInfo.hullEdges.push_back(std::make_pair<glm::vec3, glm::vec3>(
-            glm::vec3(a.x(), a.y(), a.z()),
-            glm::vec3(b.x(), b.y(), b.z())
-        ));
+    // m_colliderInfo.hullEdges.clear();
+    // for (int i = 0; i < shape->getNumEdges(); i++) {
+    //     btVector3 a, b;
+    //     shape->getEdge(i, a, b);
+    //     m_colliderInfo.hullEdges.push_back(std::make_pair<glm::vec3, glm::vec3>(
+    //         glm::vec3(a.x(), a.y(), a.z()),
+    //         glm::vec3(b.x(), b.y(), b.z())
+    //     ));
+    // }
+    btShapeHull* shapeHull = new btShapeHull(shape.get());
+    shapeHull->buildHull(0, 1);
+    std::vector<glm::vec3> hullVertices;
+    int idx = 0;
+    auto vertexPtr = shapeHull->getVertexPointer();
+    int n = shapeHull->numVertices();
+    while (idx < n) {
+        hullVertices.push_back(glm::vec3(vertexPtr->x(), vertexPtr->y(), vertexPtr->z()));
+        vertexPtr++;
+        idx++;
     }
+    idx = 0;
+    glm::vec3 a, b, c;
+    auto indexPtr = shapeHull->getIndexPointer();
+    n = shapeHull->numIndices();
+    while (idx < n) {
+        unsigned int i = *indexPtr;
+        if (idx % 3 == 0) {
+            if (idx > 0) {
+                m_colliderInfo.hullEdges.push_back(std::make_pair(a, b));
+                m_colliderInfo.hullEdges.push_back(std::make_pair(b, c));
+                m_colliderInfo.hullEdges.push_back(std::make_pair(c, a));
+            }
+            a = hullVertices[i];
+        }
+        if (idx % 3 == 1) b = hullVertices[i];
+        if (idx % 3 == 2) c = hullVertices[i];
+        indexPtr++;
+        idx++;
+    }
+
+    delete shapeHull;
 }
 
 void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {

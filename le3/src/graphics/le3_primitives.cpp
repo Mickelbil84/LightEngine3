@@ -334,7 +334,9 @@ std::vector<LE3Vertex> le3::_createTorusBuffer(float x0, float y0, float z0, flo
 
 std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createTorus(float x0, float y0, float z0, float majorRadius, float minorRadius, int resolution) {
     std::vector<LE3Vertex> buffer = le3::_createTorusBuffer(x0, y0, z0, majorRadius, minorRadius, resolution);
-    return std::make_shared<LE3StaticMesh>(buffer);
+    auto pMesh = std::make_shared<LE3StaticMesh>(buffer);
+    pMesh->setColliderType(LE3ColliderType::LE3ColliderType_ConvexHull);
+    return pMesh;
 }
 
 std::vector<LE3Vertex> le3::_createSphereBuffer(float x0, float y0, float z0, float radius, int resolution) {
