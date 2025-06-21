@@ -38,7 +38,7 @@ public:
                 LE3ObjectPtr box = std::make_shared<LE3Object>();
                 box->getTransform().setPosition(glm::vec3(0.11f * i, 2.5f + 0.11f * k, 0.11f * j));
                 box->getPhysicsComponent().setMass(1.0f);
-                box->getPhysicsComponent().setupRigidBody(&sphereCollider);
+                box->getPhysicsComponent().setupRigidBody(sphereCollider);
                 box->getPhysicsComponent().enable();
                 LE3GetActiveScene()->addCustomObject(fmt::format("box_{}_{}_{}", i, j, k), box);
                 // LE3GetActiveScene()->addBox(fmt::format("boxvisual_{}_{}_{}", i, j, k), DEFAULT_MATERIAL, glm::vec3(0.f), glm::vec3(0.2f, 0.2f, 0.2f), fmt::format("box_{}_{}_{}", i, j, k));
@@ -111,7 +111,7 @@ public:
         floorColliderInfo.extent = glm::vec3(50.f, 0.1f, 50.f);
         LE3ObjectPtr floorCollider = std::make_shared<LE3Object>();
         floorCollider->getTransform().setPosition(glm::vec3(0, -0.1, 0));
-        floorCollider->getPhysicsComponent().setupRigidBody(&floorColliderInfo);
+        floorCollider->getPhysicsComponent().setupRigidBody(floorColliderInfo);
         floorCollider->getPhysicsComponent().enable();
         LE3GetActiveScene()->addCustomObject("floorCollider", floorCollider);
 

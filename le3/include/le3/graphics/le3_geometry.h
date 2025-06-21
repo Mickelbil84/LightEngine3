@@ -90,7 +90,7 @@ namespace le3 {
 
         void loadMeshData(std::vector<LE3VertexType>& data, std::vector<uint32_t>& indices);
 
-        LE3ColliderInfo* getColliderInfo() { return &m_colliderInfo; }
+        LE3ColliderInfo getColliderInfo() { return m_colliderInfo; }
         LE3ColliderType getColliderType() { return m_colliderInfo.colliderType; }
         void setColliderType(LE3ColliderType type) { m_colliderInfo.colliderType = type; }
         

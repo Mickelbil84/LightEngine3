@@ -89,13 +89,12 @@ void LE3PhysicsComponent::addConvexHullCollider(std::vector<glm::vec3> vertices,
     }
 }
 
-void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo* colliderInfo) {
+void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
     if (!m_bRigidBody) return;
     if (m_collider) m_collider = nullptr;
     // Setup colliders
     m_colliderInfo = colliderInfo;
-    m_previousInfo = *colliderInfo;
-    glm::vec3 extent = m_colliderInfo->extent;
+    glm::vec3 extent = m_colliderInfo.extent;
     glm::vec3 scale = m_transform.getScale();
     m_collider = std::make_shared<LE3PhysicsCollider>();
     switch (m_colliderInfo.colliderType) {
@@ -110,7 +109,7 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo* colliderInfo) {
     }
     if (!m_collider) return;
 
-    glm::vec3 offset = m_colliderInfo->centroid;
+    glm::vec3 offset = m_colliderInfo.centroid;
     offset = glm::vec3(m_transform.getTransformMatrix() * glm::vec4(offset, 1.f));
     m_rigidBody->m_transform = btTransform(
         btQuaternion(m_transform.getRotation().x, m_transform.getRotation().y, m_transform.getRotation().z, m_transform.getRotation().w),
@@ -126,6 +125,7 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo* colliderInfo) {
     m_rigidBody->m_rigidBody->setLinearVelocity(btVector3(0,0,0));
     m_rigidBody->m_rigidBody->setAngularVelocity(btVector3(0,0,0));
     m_rigidBody->m_rigidBody->clearForces();
+    m_rigidBody->m_rigidBody->setDamping(0.25f, 0.25f); // TODO: set this as controllable properties
     m_rigidBody->m_rigidBody->setActivationState(DISABLE_DEACTIVATION);
 }
 
@@ -147,7 +147,7 @@ bool LE3PhysicsComponent::update() {
     glm::vec3 pos = glm::vec3(float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
     m_transform.setRotation(rot);
     m_transform.setPosition(pos);
-    m_transform.setPosition(glm::vec3(m_transform.getTransformMatrix() * glm::vec4(-m_colliderInfo->centroid, 1.f)));
+    m_transform.setPosition(glm::vec3(m_transform.getTransformMatrix() * glm::vec4(-m_colliderInfo.centroid, 1.f)));
 
     return true;
 }

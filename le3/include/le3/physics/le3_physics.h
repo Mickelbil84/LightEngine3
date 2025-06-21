@@ -35,9 +35,8 @@ namespace le3 {
         float getMass();
         
         std::weak_ptr<LE3PhysicsCollider> getCollider() { return m_collider; }
-        void setupRigidBody(LE3ColliderInfo* colliderInfo);
-        LE3ColliderInfo* getColliderInfo() const { return m_colliderInfo; }
-        LE3ColliderInfo getPreviousColliderInfo() const { return m_previousInfo; }
+        void setupRigidBody(LE3ColliderInfo colliderInfo);
+        LE3ColliderInfo getColliderInfo() const { return m_colliderInfo; }
         
         void* getRigidBody();
         
@@ -53,8 +52,7 @@ namespace le3 {
         LE3Transform& m_transform;
         std::shared_ptr<LE3PhysicsCollider> m_collider;
         std::shared_ptr<LE3PhysicsRigidBody> m_rigidBody;
-        LE3ColliderInfo* m_colliderInfo = nullptr;
-        LE3ColliderInfo m_previousInfo;
+        LE3ColliderInfo m_colliderInfo;
         bool m_bEnabled, m_bIsTrigger; // Enabled == do not override! this means whether the physics is active (it may become true at some point)
         bool m_bRigidBody; // The most important variable: if false - then this entire component is disabled (stronger then m_bEnabled)
 
