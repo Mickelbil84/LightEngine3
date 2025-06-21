@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include <glm/glm.hpp>
 
@@ -19,12 +20,15 @@ namespace le3 {
     * We also store the colldier type, so that it can be adjusted in editor.
     */
     struct LE3ColliderInfo {
+        // Controllable settings
         LE3ColliderType colliderType;
+        int decimationResolution = 10; // TODO: control this as a property of the mesh
 
+        // Computed values
         glm::vec3 centroid = glm::vec3(0.f); // Bounding box, sphere
         glm::vec3 extent = glm::vec3(1.f); // Bounding box
         float radius = 1.f; // Bounding sphere
-        // TODO: Implement convex hull collisions
+        std::vector<glm::vec3> decimatedVertices; // Convex hull
 
         inline bool operator==(const LE3ColliderInfo& other) const {
             return colliderType == other.colliderType &&

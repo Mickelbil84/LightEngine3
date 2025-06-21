@@ -111,6 +111,7 @@ namespace le3 {
 
         // Store physics collider info
         LE3ColliderInfo m_colliderInfo;
+        void buildColliderInfo_DecimatedVertices(std::vector<LE3VertexType>& data);
         void buildColliderInfo(std::vector<LE3VertexType>& data);
 
     };

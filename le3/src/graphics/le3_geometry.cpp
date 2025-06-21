@@ -89,6 +89,37 @@ void LE3Mesh<LE3VertexType>::buildColliderInfo(std::vector<LE3VertexType>& data)
         if (m_colliderInfo.radius < 0 || dist > m_colliderInfo.radius) m_colliderInfo.radius = dist;
     }
     m_colliderInfo.radius = sqrtf(m_colliderInfo.radius);
+
+    buildColliderInfo_DecimatedVertices(data);
+}
+
+template<typename LE3VertexType>
+void LE3Mesh<LE3VertexType>::buildColliderInfo_DecimatedVertices(std::vector<LE3VertexType>& data) {
+    int n = m_colliderInfo.decimationResolution;
+    std::vector<glm::vec3> buckets;
+    std::vector<int> counts;
+    for (int idx = 0; idx < (n+1) * (n+1) * (n+1); ++idx) {
+        buckets.push_back(glm::vec3());
+        counts.push_back(0);
+    }
+
+    glm::vec3 bl = m_colliderInfo.centroid - 0.5f * m_colliderInfo.extent;
+    glm::vec3 tr = m_colliderInfo.centroid + 0.5f * m_colliderInfo.extent;
+    for (auto v : data) {
+        int i = n * (v.position[0] - bl.x) / (tr.x - bl.x);
+        int j = n * (v.position[1] - bl.y) / (tr.y - bl.y);
+        int k = n * (v.position[2] - bl.z) / (tr.z - bl.z);
+        int idx = i + j * (n+1) + k * (n+1) * (n+1);
+        buckets[idx] += glm::vec3(v.position[0], v.position[1], v.position[2]);
+        counts[idx]++;
+    }
+
+    for (int idx = 0; idx < (n+1) * (n+1) * (n+1); ++idx) {
+        if (counts[idx] == 0) continue;
+        m_colliderInfo.decimatedVertices.push_back(
+            (1.0f / (float)counts[idx]) * buckets[idx]
+        );
+    }
 }
 
 template<typename LE3VertexType>
