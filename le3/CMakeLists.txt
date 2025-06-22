@@ -91,6 +91,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/scripting/le3_script_system.cpp
     src/scripting/le3_serialization.cpp
 
+    src/gameplay/le3_playerstart.cpp
+
     src/tools/le3_tool_pkg.cpp
 
     src/ui/le3_imgui_utils.cpp
