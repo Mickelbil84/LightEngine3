@@ -1,6 +1,6 @@
 #include "widgets/popups/le3ed_pop_add_texture.h"
 #include "commands/le3ed_com_add_texture.h"
-#include "le3_engine_systems.h"
+#include "core/le3_engine_systems.h"
 using namespace le3;
 
 #include <imgui.h>

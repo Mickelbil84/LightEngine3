@@ -16,11 +16,22 @@ if(MSVC)
     set(BUILD_SHARED_LIBS TRUE)
     string(APPEND CMAKE_C_FLAGS " /MP$ENV{MSVC_PARALLEL}")
     string(APPEND CMAKE_CXX_FLAGS " /MP$ENV{MSVC_PARALLEL}")
+    set(LE3_PLATFROM_SPECIFIC_LIBS "")
+elseif(APPLE)
+    find_library(COREFOUNDATION_FRAMEWORK CoreFoundation)
+    set(LE3_PLATFROM_SPECIFIC_LIBS ${COREFOUNDATION_FRAMEWORK})
+elseif(UNIX AND NOT APPLE)
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(UUID REQUIRED uuid)
+    set(LE3_PLATFROM_SPECIFIC_LIBS ${UUID_LIBRARIES})
+else()
+    set(LE3_PLATFROM_SPECIFIC_LIBS "")
 endif()
 
-include_directories(${LUA_INCLUDE_DIR})
+include_directories(${LUA_INCLUDE_DIR} ${BULLET_INCLUDE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/../third-party/stb)
 include_directories(${PROJECT_SOURCE_DIR}/../third-party/imgui)
+include_directories(${PROJECT_SOURCE_DIR}/../third-party/stduuid/include)
 include_directories(${PROJECT_SOURCE_DIR}/../third-party/gzip-hpp/include)
 
 
@@ -34,52 +45,61 @@ set(public_headers
 )
 
 target_sources(${PROJECT_NAME} PRIVATE
-    src/le3_application.cpp
-    src/le3_shader.cpp
-    src/le3_scene.cpp
-    src/le3_geometry.cpp
-    src/le3_material.cpp
-    src/le3_model.cpp
-    src/le3_transform.cpp
-    src/le3_primitives.cpp
-    src/le3_camera.cpp
-    src/le3_config.cpp
-    src/le3_object.cpp
-    src/le3_light.cpp
-    src/le3_scene_root.cpp
-    src/le3_draw_queue.cpp
-    src/le3_assimp.cpp
-    src/le3_texture.cpp
-    src/le3_dat_archive.cpp
-    src/le3_dat_filesystem.cpp
-    src/le3_light_manager.cpp
-    src/le3_framebuffer.cpp
-    src/le3_imgui_utils.cpp
-    src/le3_asset_manager.cpp
-    src/le3_visual_debug.cpp
-    src/le3_skeleton.cpp
-    src/le3_animation.cpp
-    src/le3_script_object.cpp
-    src/le3_engine_systems.cpp
-    src/le3_point_cloud.cpp
-    src/le3_bsp.cpp
-    src/le3_simple_demo.cpp
-    src/le3_gizmo.cpp
-    src/le3_scene_manager.cpp
-    src/le3_math_utils.cpp
-    src/le3_editor_manager.cpp
-    src/le3_sprite.cpp
-    src/le3_networking.cpp
-    src/le3_network_spinner.cpp
-    src/le3_event_manager.cpp
-    src/le3_serialization.cpp
-    src/le3_physics.cpp
-    src/le3_physics_manager.cpp
+    src/algorithms/le3_bsp.cpp
+
+    src/core/le3_application.cpp
+    src/core/le3_asset_manager.cpp
+    src/core/le3_config.cpp
+    src/core/le3_dat_archive.cpp
+    src/core/le3_dat_filesystem.cpp
+    src/core/le3_editor_manager.cpp
+    src/core/le3_engine_systems.cpp
+    src/core/le3_event_manager.cpp
+    src/core/le3_object.cpp
+    src/core/le3_scene_manager.cpp
+    src/core/le3_scene_root.cpp
+    src/core/le3_scene.cpp
+    src/core/le3_simple_demo.cpp
+    src/core/le3_transform.cpp
+
+    src/graphics/le3_animation.cpp
+    src/graphics/le3_camera.cpp
+    src/graphics/le3_draw_queue.cpp
+    src/graphics/le3_framebuffer.cpp
+    src/graphics/le3_geometry.cpp
+    src/graphics/le3_light_manager.cpp
+    src/graphics/le3_light.cpp
+    src/graphics/le3_material.cpp
+    src/graphics/le3_model.cpp
+    src/graphics/le3_point_cloud.cpp
+    src/graphics/le3_primitives.cpp
+    src/graphics/le3_shader.cpp
+    src/graphics/le3_skeleton.cpp
+    src/graphics/le3_sprite.cpp
+    src/graphics/le3_texture.cpp
+    src/graphics/le3_visual_debug.cpp
+
+    src/networking/le3_network_spinner.cpp
+    src/networking/le3_networking.cpp
+
+    src/physics/le3_collider_info.cpp
+    src/physics/le3_physics_manager.cpp
+    src/physics/le3_physics.cpp
+
+    src/scripting/le3_script_bindings.cpp
+    src/scripting/le3_script_object.cpp
+    src/scripting/le3_script_system.cpp
+    src/scripting/le3_serialization.cpp
 
     src/tools/le3_tool_pkg.cpp
 
-    src/le3_script_system.cpp
-    src/le3_script_bindings.cpp
+    src/ui/le3_imgui_utils.cpp
+
+    src/utils/le3_assimp.cpp
+    src/utils/le3_gizmo.cpp
+    src/utils/le3_math_utils.cpp
+
+
     src/bindings/le3_binding_imgui.cpp
     src/bindings/le3_binding_scene.cpp
     src/bindings/le3_binding_shader.cpp
@@ -88,6 +108,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_geometry.cpp
     src/bindings/le3_binding_object.cpp
     src/bindings/le3_binding_transform.cpp
+    src/bindings/le3_binding_physics_component.cpp
     src/bindings/le3_binding_scene_root.cpp
     src/bindings/le3_binding_model.cpp
     src/bindings/le3_binding_input.cpp
@@ -113,10 +134,12 @@ target_sources(${PROJECT_NAME} PRIVATE
 )
 target_include_directories(${PROJECT_NAME} PUBLIC 
     # ${PROJECT_SOURCE_DIR}/include
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/le3>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt cpr::cpr SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp ${LUA_LIBRARIES} ${ZLIB_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+    fmt::fmt cpr::cpr SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp 
+    ${LUA_LIBRARIES} ${ZLIB_LIBRARIES} ${BULLET_LIBRARIES} ${LE3_PLATFROM_SPECIFIC_LIBS})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 # Auto generate lua bindings

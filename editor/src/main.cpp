@@ -14,6 +14,7 @@ int main(int argc, char** argv) {
 
         // Run the project browser
         LE3EngineSystems::instance().reset();
+        LE3EngineSystems::instance().setEditModeEngine(true);
         LE3Application app(std::make_unique<LE3EditorLogic>());
         app.run();
     } while(LE3EngineSystems::instance().isRequestingReset());

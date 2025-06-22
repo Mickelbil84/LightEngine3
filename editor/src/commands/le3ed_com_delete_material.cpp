@@ -1,5 +1,5 @@
 #include "commands/le3ed_com_delete_material.h"
-#include "le3_engine_systems.h"
+#include "core/le3_engine_systems.h"
 using namespace le3;
 
 LE3EditorComDeleteMaterial::LE3EditorComDeleteMaterial(std::string name, std::string shaderName) :

@@ -1,5 +1,5 @@
-#include "le3_script_bindings.h"
-#include "le3_engine_systems.h"
+#include "scripting/le3_script_bindings.h"
+#include "core/le3_engine_systems.h"
 using namespace le3;
 
 FBIND_OBJECT_GETTER_NUMBER(LE3Camera, get_fov, getFov)

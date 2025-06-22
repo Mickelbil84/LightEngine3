@@ -99,6 +99,7 @@ void LE3EditorScenes::initCameras() {
 }
 void LE3EditorScenes::initScenes(std::string name) {    
     LE3GetAssetManager().resetNonEditor();
+    LE3GetPhysicsManager().reset(); // Reset also physics
     LE3GetEditorManager().getSelection().reset();
     LE3GetEditorManager().getCommandStack().reset();
 
@@ -106,7 +107,8 @@ void LE3EditorScenes::initScenes(std::string name) {
     LE3GetSceneManager().getScene("scene")->setRenderDirectly(false);
     LE3GetSceneManager().getScene("scene")->resize(10, 10);
     LE3GetSceneManager().getScene("scene")->drawDebug = [this]() { this->renderDebug(); };
-    LE3GetSceneManager().getScene("scene")->setBackgroundColor(glm::vec3(LE3GetConfig<float>("LE3EditorConfig.DefaultColors.DefaultNewScene")));
+    if (name == "")
+        LE3GetSceneManager().getScene("scene")->setBackgroundColor(glm::vec3(LE3GetConfig<float>("LE3EditorConfig.DefaultColors.DefaultNewScene")));
     
     // Add four inspector scenes
     for (int i = 0; i < 4; i++) {

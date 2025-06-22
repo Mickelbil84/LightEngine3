@@ -32,6 +32,8 @@ LE3Material = {}
 LE3Object = {}
 ---@class LE3OrbitCamera
 LE3OrbitCamera = {}
+---@class LE3PhysicsComponent
+LE3PhysicsComponent = {}
 ---@class LE3PointCloud
 LE3PointCloud = {}
 ---@class LE3PointLight
@@ -149,6 +151,11 @@ function ImGui.InputInt(label, prev) end
 ---@param prev string
 ---@return string
 function ImGui.InputText(label, prev) end
+
+---@param labels stringarray
+---@param prev string
+---@return string
+function ImGui.RadioButtons(labels, prev) end
 
 function ImGui.SameLine() end
 
@@ -515,6 +522,10 @@ function LE3Object.get_object_type(obj) end
 function LE3Object.get_parent_name(obj) end
 
 ---@param obj LE3Object
+---@return LE3PhysicsComponent
+function LE3Object.get_physics_component(obj) end
+
+---@param obj LE3Object
 ---@return LE3Transform
 function LE3Object.get_transform(obj) end
 
@@ -537,6 +548,30 @@ function LE3OrbitCamera.set_offset(self, offset) end
 ---@param origin_y number
 ---@param origin_z number
 function LE3OrbitCamera.set_origin(self, origin_x, origin_y, origin_z) end
+
+---@param self LE3PhysicsComponent
+---@return number
+function LE3PhysicsComponent.get_mass(self) end
+
+---@param self LE3PhysicsComponent
+---@return boolean
+function LE3PhysicsComponent.is_rigidbody(self) end
+
+---@param self LE3PhysicsComponent
+---@return boolean
+function LE3PhysicsComponent.is_trigger(self) end
+
+---@param self LE3PhysicsComponent
+---@param is_rigidbody boolean
+function LE3PhysicsComponent.set_is_rigidbody(self, is_rigidbody) end
+
+---@param self LE3PhysicsComponent
+---@param is_trigger boolean
+function LE3PhysicsComponent.set_is_trigger(self, is_trigger) end
+
+---@param self LE3PhysicsComponent
+---@param mass number
+function LE3PhysicsComponent.set_mass(self, mass) end
 
 ---@param obj LE3PointCloud
 ---@param position_x number
@@ -776,6 +811,9 @@ function LE3Shader.set_name(shaderName, name) end
 function LE3Shader.set_shader_paths(shaderName, vertexShaderPath, fragmentShaderPath) end
 
 ---@param meshName string
+function LE3SkeletalMesh.get_collider_type(meshName) end
+
+---@param meshName string
 ---@return string
 function LE3SkeletalMesh.get_mesh_path(meshName) end
 
@@ -785,6 +823,10 @@ function LE3SkeletalMesh.get_name(meshName) end
 ---@param meshName string
 ---@param path string
 function LE3SkeletalMesh.reload_mesh(meshName, path) end
+
+---@param meshName string
+---@param type string
+function LE3SkeletalMesh.set_collider_type(meshName, type) end
 
 ---@param meshName string
 ---@param path string
@@ -867,6 +909,9 @@ function LE3SpotLight.set_cutoff(self, cutoff) end
 function LE3SpotLight.set_outer_cutoff(self, outer_cutoff) end
 
 ---@param meshName string
+function LE3StaticMesh.get_collider_type(meshName) end
+
+---@param meshName string
 ---@return string
 function LE3StaticMesh.get_mesh_path(meshName) end
 
@@ -877,6 +922,10 @@ function LE3StaticMesh.get_name(meshName) end
 ---@param path string
 ---@param keepData boolean
 function LE3StaticMesh.reload_mesh(meshName, path, keepData) end
+
+---@param meshName string
+---@param type string
+function LE3StaticMesh.set_collider_type(meshName, type) end
 
 ---@param meshName string
 ---@param path string

@@ -1,5 +1,5 @@
 #include "tools/le3_tool_pkg.h"
-#include "le3_dat_filesystem.h"
+#include "core/le3_dat_filesystem.h"
 using namespace le3;
 
 #include <fmt/core.h>

@@ -184,9 +184,9 @@ function show_property(property, tbl, obj)
         local value = tbl[property.name]
         tbl[property.name]  = table.pack(ImGui.ColorEdit4(property.name, table.unpack(value)))
     end
-    if property.type == "transform" then
+    if property.type == "subtable" then
         if (ImGui.TreeNode(property.name)) then
-            for _, property_ in ipairs(LE3Transform.properties) do
+            for _, property_ in ipairs(property.subtable.properties) do
                 show_property(property_, tbl)
             end
             ImGui.TreePop()
@@ -202,6 +202,11 @@ function show_property(property, tbl, obj)
     end
     if property.type == "asset" then
         show_asset_property(property, tbl, obj)
+    end
+    if property.type == "radio" then
+        ImGui.Text(property.name)
+        local value = tbl[property.name]
+        tbl[property.name] = ImGui.RadioButtons(property.labels, value)
     end
 end
 

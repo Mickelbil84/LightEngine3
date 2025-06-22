@@ -1,7 +1,7 @@
 #pragma once
 
-#include "le3_engine_systems.h"
-#include "le3_script_bindings.h"
+#include "core/le3_engine_systems.h"
+#include "scripting/le3_script_bindings.h"
 
 namespace le3 {
     class LE3EditorComPropertyChange : public LE3EditorCommand {

@@ -1,5 +1,5 @@
 #include "commands/le3ed_com_add_mesh.h"
-#include "le3_engine_systems.h"
+#include "core/le3_engine_systems.h"
 using namespace le3;
 
 LE3EditorComAddMesh::LE3EditorComAddMesh(std::string name, std::string path, bool isSkeletal) :
