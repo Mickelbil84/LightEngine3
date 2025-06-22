@@ -18,6 +18,10 @@ if (NOT DEFINED LE3_WITH_EDITOR)
     set (LE3_WITH_EDITOR true)
 endif()
 
+if (NOT DEFINED LE3_WITH_GAME)
+    set (LE3_WITH_GAME true)
+endif()
+
 ##########################
 
 
@@ -49,6 +53,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 add_subdirectory(le3)
+add_subdirectory(le3game)
 add_subdirectory(apps)
 add_subdirectory(editor)
 add_subdirectory(tools)
