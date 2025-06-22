@@ -16,6 +16,8 @@ namespace le3 {
 
     protected:
         std::string classname, ref;
+
+        bool shouldSkip();
     };
     using LE3ScriptObjectPtr = std::shared_ptr<LE3ScriptObject>;
 }
