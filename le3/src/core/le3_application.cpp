@@ -72,6 +72,7 @@ void LE3Application::init() {
     _initOpenGL();
     _initImGui();
     LE3EngineSystems::instance().init();
+    LE3EngineSystems::instance().setEngineState(&m_pGameLogic->m_engineState);
     m_pGameLogic->init();
 }
 
@@ -139,6 +140,7 @@ void LE3Application::handleInput() {
 
     if (m_pGameLogic->m_engineState.isFocused() || m_pGameLogic->m_engineState.getFocusedOverride())
         m_pGameLogic->handleInput(input);
+    LE3EngineSystems::instance().setRecentInput(input);
 
     m_lastInput = input;
 }

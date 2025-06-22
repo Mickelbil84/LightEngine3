@@ -20,6 +20,8 @@ LE3DirectionalLight = {}
 LE3DrawableObject = {}
 ---@class LE3EngineConfig
 LE3EngineConfig = {}
+---@class LE3EngineState
+LE3EngineState = {}
 ---@class LE3FreeCamera
 LE3FreeCamera = {}
 ---@class LE3Input
@@ -256,9 +258,26 @@ function LE3Box.get_box_extent(self) end
 ---@return number
 function LE3Box.get_box_position(self) end
 
+---@param camera LE3Camera
+---@param pitch number
+---@param yaw number
+function LE3Camera.add_pitch_yaw(camera, pitch, yaw) end
+
 ---@param self LE3Camera
 ---@return number
 function LE3Camera.get_fov(self) end
+
+---@param camera LE3Camera
+---@param amount number
+function LE3Camera.move_forward(camera, amount) end
+
+---@param camera LE3Camera
+---@param amount number
+function LE3Camera.move_right(camera, amount) end
+
+---@param camera LE3Camera
+---@param amount number
+function LE3Camera.move_up(camera, amount) end
 
 ---@param self LE3Camera
 ---@param fov number
@@ -373,6 +392,44 @@ function LE3DrawableObject.set_material(self, name) end
 ---@param color_z number
 ---@param color_w number
 function LE3EngineConfig.set_imgui_style(tmp, color_x, color_y, color_z, color_w) end
+
+---@return boolean
+function LE3EngineState.is_relative_mouse() end
+
+function LE3EngineState.notify_wants_quit() end
+
+---@param relativeMouse boolean
+function LE3EngineState.notify_wants_relative_mouse(relativeMouse) end
+
+---@param key string
+---@return boolean
+function LE3Input.get_key(key) end
+
+---@return number
+function LE3Input.get_mouse_x() end
+
+---@return number
+function LE3Input.get_mouse_y() end
+
+---@return number
+function LE3Input.get_xrel() end
+
+---@return number
+function LE3Input.get_yrel() end
+
+---@param key string
+---@return boolean
+function LE3Input.is_key_down_event(key) end
+
+---@param key string
+---@return boolean
+function LE3Input.is_key_up_event(key) end
+
+---@return boolean
+function LE3Input.is_left_mouse_down() end
+
+---@return boolean
+function LE3Input.is_right_mouse_down() end
 
 ---@param self LE3Light
 ---@return number

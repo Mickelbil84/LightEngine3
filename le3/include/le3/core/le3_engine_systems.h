@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "core/le3_input.h"
 #include "core/le3_dat_filesystem.h"
 #include "core/le3_scene_manager.h"
 #include "core/le3_editor_manager.h"
@@ -74,6 +75,12 @@ namespace le3 {
 
         inline bool isEditModeEngine() const { return g_editModeEngine; }
         inline void setEditModeEngine(bool editMode) { g_editModeEngine = editMode; }
+
+        inline LE3Input getRecentInput() const { return g_input; }
+        inline void setRecentInput(LE3Input input) { g_input = input; }
+
+        inline LE3EngineState* getEngineState() { return g_engineState; }
+        inline void setEngineState(LE3EngineState* engineState) { g_engineState = engineState; }
         
     private:
         LE3EngineSystems() {
@@ -93,6 +100,8 @@ namespace le3 {
         bool g_headlessEngine;
         bool g_editModeEngine = false; // If true, then no scripts or physics run
         bool g_requestReset = false;
+        LE3Input g_input; // Store the most recent input, mostly for script bindings
+        LE3EngineState* g_engineState = nullptr;
     };
 
     #define LE3GetDatFileSystem LE3EngineSystems::instance().getDatFileSystem
@@ -107,4 +116,6 @@ namespace le3 {
     #define LE3GetEngineDebug LE3EngineSystems::instance().getEngineDebug
 
     #define LE3GetActiveScene LE3GetSceneManager().getActiveScene
+    #define LE3GetInput LE3EngineSystems::instance().getRecentInput
+    #define LE3GetEngineState LE3EngineSystems::instance().getEngineState
 }
