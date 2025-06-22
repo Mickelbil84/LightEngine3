@@ -34,6 +34,8 @@ namespace le3 {
         
         void setMass(float mass);
         float getMass();
+
+        void setLinearVelocity(glm::vec3 velocity);
         
         std::weak_ptr<LE3PhysicsCollider> getCollider() { return m_collider; }
         void setupRigidBody(LE3ColliderInfo colliderInfo);

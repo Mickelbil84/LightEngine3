@@ -8,6 +8,7 @@ function TPSCamPlayer:init()
         Offset = 3,
         -- Origin = {10, 0, 0}
     })
+    self.playerMeshPhysics = LE3Object.get_physics_component(LE3Scene.get_object(self.scene, "SK_mannequin_1"))
     self.offset = LE3Object.load(self.scene, {
         Name = cameraName .. "__offset",
         Position = {0, 150, 0},
@@ -29,6 +30,11 @@ function TPSCamPlayer:update(deltaTime)
     self:handleInput()
 
     LE3Camera.add_pitch_yaw(self.camera.ptr, self.cameraRotation[2] * self.sensitivity, -self.cameraRotation[1] * self.sensitivity)
+    LE3PhysicsComponent.set_linear_velocity(self.playerMeshPhysics,
+        self.cameraVelocity[1] * self.walkSpeed,
+        self.cameraVelocity[3] * self.walkSpeed,
+        -self.cameraVelocity[2] * self.walkSpeed
+    )
     -- LE3Camera.move_forward(self.camera.ptr, deltaTime * self.walkSpeed * self.cameraVelocity[2])
     -- LE3Camera.move_right(self.camera.ptr, deltaTime * self.walkSpeed * self.cameraVelocity[1])
     -- LE3Camera.move_up(self.camera.ptr, deltaTime * self.walkSpeed * self.cameraVelocity[3])

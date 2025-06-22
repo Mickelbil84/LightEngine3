@@ -629,6 +629,12 @@ function LE3PhysicsComponent.set_is_rigidbody(self, is_rigidbody) end
 function LE3PhysicsComponent.set_is_trigger(self, is_trigger) end
 
 ---@param self LE3PhysicsComponent
+---@param linear_velocity_x number
+---@param linear_velocity_y number
+---@param linear_velocity_z number
+function LE3PhysicsComponent.set_linear_velocity(self, linear_velocity_x, linear_velocity_y, linear_velocity_z) end
+
+---@param self LE3PhysicsComponent
 ---@param mass number
 function LE3PhysicsComponent.set_mass(self, mass) end
 

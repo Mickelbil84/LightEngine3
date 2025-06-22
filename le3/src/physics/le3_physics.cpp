@@ -210,3 +210,7 @@ void LE3PhysicsComponent::setMass(float mass) {
 float LE3PhysicsComponent::getMass() {
     return m_rigidBody->m_mass;
 }
+
+void LE3PhysicsComponent::setLinearVelocity(glm::vec3 velocity) {
+    m_rigidBody->m_rigidBody->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
+}
