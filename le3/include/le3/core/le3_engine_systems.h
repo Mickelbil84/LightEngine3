@@ -28,12 +28,20 @@ namespace le3 {
             std::string dirs[] = {
                 "/engine/config", "/engine/scripts"
             };
+            std::vector<std::string> gameplayScripts;
             for (int i = 0; i < sizeof(dirs) / sizeof(std::string); i++) {
                 for (auto filename : g_datFilesystem.getFilesFromDir(dirs[i])) {
+                    if (filename.find("/gameplay/") != std::string::npos) {
+                        gameplayScripts.push_back(filename);
+                        continue;
+                    }
                     std::string content = g_datFilesystem.getFileContent(filename).toString();
                     g_scriptSystem.doString(content);
                 }
             }
+            // Special case: the gameplay scripts should always run last
+            for (auto filename : gameplayScripts)
+                g_scriptSystem.doString(g_datFilesystem.getFileContent(filename).toString());
 
             g_headlessEngine = headless;
         }
