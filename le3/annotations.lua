@@ -621,6 +621,18 @@ function LE3PhysicsComponent.is_rigidbody(self) end
 function LE3PhysicsComponent.is_trigger(self) end
 
 ---@param self LE3PhysicsComponent
+---@param angular_factor_x number
+---@param angular_factor_y number
+---@param angular_factor_z number
+function LE3PhysicsComponent.set_angular_factor(self, angular_factor_x, angular_factor_y, angular_factor_z) end
+
+---@param self LE3PhysicsComponent
+---@param angular_velocity_x number
+---@param angular_velocity_y number
+---@param angular_velocity_z number
+function LE3PhysicsComponent.set_angular_velocity(self, angular_velocity_x, angular_velocity_y, angular_velocity_z) end
+
+---@param self LE3PhysicsComponent
 ---@param is_rigidbody boolean
 function LE3PhysicsComponent.set_is_rigidbody(self, is_rigidbody) end
 

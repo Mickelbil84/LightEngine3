@@ -9,6 +9,7 @@ function TPSCamPlayer:init()
         -- Origin = {10, 0, 0}
     })
     self.playerMeshPhysics = LE3Object.get_physics_component(LE3Scene.get_object(self.scene, "SK_mannequin_1"))
+
     self.offset = LE3Object.load(self.scene, {
         Name = cameraName .. "__offset",
         Position = {0, 150, 0},
@@ -35,9 +36,8 @@ function TPSCamPlayer:update(deltaTime)
         self.cameraVelocity[3] * self.walkSpeed,
         -self.cameraVelocity[2] * self.walkSpeed
     )
-    -- LE3Camera.move_forward(self.camera.ptr, deltaTime * self.walkSpeed * self.cameraVelocity[2])
-    -- LE3Camera.move_right(self.camera.ptr, deltaTime * self.walkSpeed * self.cameraVelocity[1])
-    -- LE3Camera.move_up(self.camera.ptr, deltaTime * self.walkSpeed * self.cameraVelocity[3])
+    LE3PhysicsComponent.set_angular_factor(self.playerMeshPhysics, 0, 0, 0) -- Disable rotation
+    LE3PhysicsComponent.set_angular_velocity(self.playerMeshPhysics, 0, 0, 0)
 end
 
 function TPSCamPlayer:handleInput()

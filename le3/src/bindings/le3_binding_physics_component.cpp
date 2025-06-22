@@ -13,10 +13,12 @@ FBIND_GETTER_NUMBER(LE3PhysicsComponent, get_mass, getMass)
 FBIND_SETTER_NUMBER(LE3PhysicsComponent, set_mass, setMass)
 
 FBIND_SETTER_VEC3(LE3PhysicsComponent, set_linear_velocity, setLinearVelocity)
+FBIND_SETTER_VEC3(LE3PhysicsComponent, set_angular_velocity, setAngularVelocity)
+FBIND_SETTER_VEC3(LE3PhysicsComponent, set_angular_factor, setAngularFactor)
 
 LIB(LE3PhysicsComponent,
     is_trigger, set_is_trigger,
     is_rigidbody, set_is_rigidbody,
     get_mass, set_mass,
-    set_linear_velocity
+    set_linear_velocity, set_angular_velocity, set_angular_factor
 )

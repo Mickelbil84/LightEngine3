@@ -214,3 +214,10 @@ float LE3PhysicsComponent::getMass() {
 void LE3PhysicsComponent::setLinearVelocity(glm::vec3 velocity) {
     m_rigidBody->m_rigidBody->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
 }
+
+void LE3PhysicsComponent::setAngularVelocity(glm::vec3 velocity) {
+    m_rigidBody->m_rigidBody->setAngularVelocity(btVector3(velocity.x, velocity.y, velocity.z));
+}
+void LE3PhysicsComponent::setAngularFactor(glm::vec3 factor) {
+    m_rigidBody->m_rigidBody->setAngularFactor(btVector3(factor.x, factor.y, factor.z));
+}
