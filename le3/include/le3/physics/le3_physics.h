@@ -52,6 +52,7 @@ namespace le3 {
         void addSphereCollider(float radius, glm::vec3 scaling);
         void addConeCollider(glm::vec3 size);
         void addCylinderCollider(glm::vec3 size);
+        void addCapsuleCollider(glm::vec3 size);
         void addConvexHullCollider(std::vector<glm::vec3> vertices, glm::vec3 centroid, glm::vec3 scaling);
 
         LE3Transform& m_transform;

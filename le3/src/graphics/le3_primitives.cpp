@@ -343,14 +343,18 @@ std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createTorus(float x0, float y0, float z
     return pMesh;
 }
 
-std::vector<LE3Vertex> le3::_createSphereBuffer(float x0, float y0, float z0, float radius, int resolution) {
+std::vector<LE3Vertex> le3::_createSphereBuffer(float x0, float y0, float z0, float radius, int resolution, int hemisphere) {
     std::vector<LE3Vertex> buffer;
     std::vector<LE3Vertex> firstLayer, secondLayer;
+    int factor = 1;
+    // if (hemisphere != 0) factor = 2;
     resolution += 1;
 
-    for (int i = 0; i <= resolution; i++)
+    for (int i = 0; i <= resolution / factor; i++)
     {
         float theta = (float) (i % resolution) / (float)(resolution - 1) * 3.14159265f - 3.14159265f / 2.f;
+        if (hemisphere > 0) theta = 0.5f * (theta + 3.14159265f / 2.f);
+        else if (hemisphere < 0) theta = 0.5f * (theta - 3.14159265f / 2.f);
         secondLayer.clear();
         for (int j = 0; j <= resolution; j++)
         {
@@ -401,6 +405,25 @@ std::shared_ptr<LE3Mesh<LE3Vertex>> le3::createSphere(float x0, float y0, float 
 
 std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugCone() {
     std::vector<LE3Vertex> tmpBuffer = le3::_createConeBuffer(0.f, 0.f, 0.f, 1.f, 1.f, 8, true);
+    std::vector<LE3Vertex3p> buffer;
+    for (int i = 0; i < tmpBuffer.size(); i += 3) {
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i].position[0], tmpBuffer[i].position[1], tmpBuffer[i].position[2])));
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i+1].position[0], tmpBuffer[i+1].position[1], tmpBuffer[i+1].position[2])));
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i+2].position[0], tmpBuffer[i+2].position[1], tmpBuffer[i+2].position[2])));
+        buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i].position[0], tmpBuffer[i].position[1], tmpBuffer[i].position[2])));
+    }
+    return std::make_shared<LE3Mesh<LE3Vertex3p>>(buffer);
+}
+
+std::shared_ptr<LE3Mesh<LE3Vertex3p>> le3::createDebugCapsule() {
+    std::vector<LE3Vertex> tmpBuffer;
+    std::vector<LE3Vertex> topSphere = le3::_createSphereBuffer(0.f, 0.75f, 0.f, 0.25f, 8, 1);
+    std::vector<LE3Vertex> middle = le3::_createCylinderBuffer(0.f, 0.25f, 0.f, 0.25f, 0.5f, 8, false);
+    std::vector<LE3Vertex> bottomSphere = le3::_createSphereBuffer(0.f, 0.25f, 0.f, 0.25f, 8, -1);
+    std::copy(topSphere.begin(), topSphere.end(), std::back_inserter(tmpBuffer));
+    std::copy(middle.begin(), middle.end(), std::back_inserter(tmpBuffer));
+    std::copy(bottomSphere.begin(), bottomSphere.end(), std::back_inserter(tmpBuffer));
+
     std::vector<LE3Vertex3p> buffer;
     for (int i = 0; i < tmpBuffer.size(); i += 3) {
         buffer.push_back(vertexFromGLM(glm::vec3(tmpBuffer[i].position[0], tmpBuffer[i].position[1], tmpBuffer[i].position[2])));

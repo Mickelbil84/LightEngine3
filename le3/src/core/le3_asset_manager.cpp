@@ -20,6 +20,7 @@ void LE3AssetManager::init() {
     m_debugCylinder = createDebugCylinder();
     m_debugCone = createDebugCone();
     m_debugSphere = createDebugSphere();
+    m_debugCapsule = createDebugCapsule();
 
     m_gizmoArrow = createGizmoArrow();
     m_gizmoScaleArrow = createGizmoScaleArrow();
@@ -71,6 +72,7 @@ void LE3AssetManager::reset() {
     m_debugCylinder = nullptr;
     m_debugCone = nullptr;
     m_debugSphere = nullptr;
+    m_debugCapsule = nullptr;
     m_gizmoArrow = nullptr;
     m_gizmoScaleArrow = nullptr;
     m_gizmoCircle = nullptr;

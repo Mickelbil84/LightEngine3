@@ -30,13 +30,14 @@ namespace le3 {
     std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugCylinder();
     std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugCone();
     std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugSphere();
+    std::shared_ptr<LE3Mesh<LE3Vertex3p>> createDebugCapsule();
 
     std::vector<LE3Vertex> _createPlaneBuffer(float x0, float y0, float z0, float width, float height);
     std::vector<LE3Vertex> _createBoxBuffer(float x0, float y0, float z0, float width, float height, float depth);
     std::vector<LE3Vertex> _createCylinderBuffer(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps);
     std::vector<LE3Vertex> _createConeBuffer(float x0, float y0, float z0, float radius, float height, int resolution, bool withCaps);
     std::vector<LE3Vertex> _createTorusBuffer(float x0, float y0, float z0, float majorRadius, float minorRadius, int resolution);
-    std::vector<LE3Vertex> _createSphereBuffer(float x0, float y0, float z0, float radius, int resolution);
+    std::vector<LE3Vertex> _createSphereBuffer(float x0, float y0, float z0, float radius, int resolution, int hemisphere=0);
 
 
     class LE3Box : public LE3StaticModel {

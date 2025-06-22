@@ -250,6 +250,11 @@ void LE3Scene::drawColliders() {
             glm::mat4 localMatrix = glm::scale(glm::vec3(radius, colliderInfo.extent.y, radius));
             LE3GetVisualDebug().drawDebugCylinder(obj->getWorldMatrix() * localMatrix, color);
         }
+        else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_Capsule) {
+            float radius = 2.f * (colliderInfo.extent.x > colliderInfo.extent.z ? colliderInfo.extent.x : colliderInfo.extent.z);
+            glm::mat4 localMatrix = glm::scale(glm::vec3(radius, colliderInfo.extent.y, radius));
+            LE3GetVisualDebug().drawDebugCapsule(obj->getWorldMatrix() * localMatrix, color);
+        }
         else if (colliderInfo.colliderType == LE3ColliderType::LE3ColliderType_ConvexHull) {
             glm::vec3 centroid = colliderInfo.centroid * obj->getTransform().getScale();
             glm::mat4 model = obj->getTransform().getTransformMatrixNoScale() * glm::translate(centroid);

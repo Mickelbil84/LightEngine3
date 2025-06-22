@@ -22,6 +22,8 @@ namespace le3 {
         
         void drawDebugCone(glm::vec3 position, float radius, float height, glm::vec3 color);
         void drawDebugCone(glm::mat4 modelMatrix, glm::vec3 color);
+        
+        void drawDebugCapsule(glm::mat4 modelMatrix, glm::vec3 color);
 
         void setDrawDebugSkeletons(bool draw) { m_bDrawDebugSkeletons = draw; }
         bool getDrawDebugSkeletons() const { return m_bDrawDebugSkeletons; }

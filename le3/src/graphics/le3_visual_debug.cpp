@@ -77,6 +77,12 @@ void LE3VisualDebug::drawDebugSphere(glm::mat4 modelMatrix, glm::vec3 color) {
     LE3GetAssetManager().getDebugSphere().lock()->drawLines();
 }
 
+void LE3VisualDebug::drawDebugCapsule(glm::mat4 modelMatrix, glm::vec3 color) {
+    if (!m_activeCamera) return;
+    setupDebugShader(modelMatrix, color);
+    LE3GetAssetManager().getDebugCapsule().lock()->drawLines();
+}
+
 
 // -------------------------------
 

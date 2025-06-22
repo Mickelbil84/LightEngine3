@@ -75,6 +75,11 @@ void LE3PhysicsComponent::addConeCollider(glm::vec3 size) {
     float height = size.y;
     m_collider->m_collisionShape = std::make_shared<btConeShape>(radius, height);
 }
+void LE3PhysicsComponent::addCapsuleCollider(glm::vec3 size) {
+    float radius = 0.5f * (size.x > size.z ? size.x : size.z);
+    float height = 0.5f * size.y;
+    m_collider->m_collisionShape = std::make_shared<btCapsuleShape>(radius, height);
+}
 void LE3PhysicsComponent::addConvexHullCollider(std::vector<glm::vec3> vertices, glm::vec3 centroid, glm::vec3 scaling) {
     std::shared_ptr<btConvexHullShape> shape = std::make_shared<btConvexHullShape>();
     m_collider->m_collisionShape = std::dynamic_pointer_cast<btCollisionShape>(shape);
@@ -131,6 +136,8 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
             addConeCollider(scale * extent); break; // Does not support non-uniform xz scaling 
         case LE3ColliderType::LE3ColliderType_Cylinder:
             addCylinderCollider(scale * extent); break; // Does not support non-uniform xz scaling
+        case LE3ColliderType::LE3ColliderType_Capsule:
+            addCapsuleCollider(scale * extent); break; // Does not support non-uniform xz scaling
         case LE3ColliderType::LE3ColliderType_ConvexHull:
             addConvexHullCollider(m_colliderInfo.decimatedVertices, m_colliderInfo.centroid, m_transform.getScale()); break;
         default:
