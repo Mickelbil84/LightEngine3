@@ -194,5 +194,7 @@ namespace le3 {
 
     LOPEN_DECLARE(ImGui);
 
+    LOPEN_DECLARE(LE3PlayerStart);
+
     void bindLE3Types(lua_State* L); // Is called when initializing the script system
 }

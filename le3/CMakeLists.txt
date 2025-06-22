@@ -124,6 +124,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_visual_debug.cpp
     src/bindings/le3_binding_point_cloud.cpp
     src/bindings/le3_binding_sprite.cpp
+    src/bindings/le3_binding_playerstart.cpp
 
     ${PROJECT_SOURCE_DIR}/../third-party/imgui/imgui.cpp
     ${PROJECT_SOURCE_DIR}/../third-party/imgui/imgui_demo.cpp

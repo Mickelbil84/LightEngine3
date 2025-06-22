@@ -34,6 +34,8 @@ LE3Object = {}
 LE3OrbitCamera = {}
 ---@class LE3PhysicsComponent
 LE3PhysicsComponent = {}
+---@class LE3PlayerStart
+LE3PlayerStart = {}
 ---@class LE3PointCloud
 LE3PointCloud = {}
 ---@class LE3PointLight
@@ -669,6 +671,10 @@ function LE3Scene.add_free_camera(scene, name) end
 function LE3Scene.add_orbit_camera(scene, name) end
 
 ---@param scene LE3Scene
+---@param classname string
+function LE3Scene.add_playerstart(scene, classname) end
+
+---@param scene LE3Scene
 ---@param name string
 ---@param materialName string
 function LE3Scene.add_point_cloud(scene, name, materialName) end
@@ -783,6 +789,15 @@ function LE3Scene.set_culling(self, culling) end
 ---@param scene LE3Scene
 ---@param camera string
 function LE3Scene.set_main_camera(scene, camera) end
+
+---@param self LE3ScriptObject
+---@return string
+function LE3ScriptObject.get_classname(self) end
+
+---@param obj LE3ScriptObject
+---@param classname string
+---@param ref string
+function LE3ScriptObject.update_internals(obj, classname, ref) end
 
 ---@param shaderName string
 ---@return string

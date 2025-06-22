@@ -1,8 +1,8 @@
 LE3ScriptObject.__base = LE3DrawableObject
 LE3ScriptObject._refs = {}
 LE3ScriptObject.load = function (scene, tbl, res)
-    assert(res == nil) -- cannot be inherited
-    LE3Scene.add_script_object(scene, tbl.Name, tbl.Classname)
+    -- assert(res == nil) -- cannot be inherited
+    if (res == nil) then LE3Scene.add_script_object(scene, tbl.Name, tbl.Classname) end
     res = LE3Scene.get_object(scene, tbl.Name)
     LE3ScriptObject.__base.load(scene, tbl, res)
     
@@ -16,14 +16,19 @@ LE3ScriptObject.load = function (scene, tbl, res)
     return {ptr = res, name = tbl.Name}
 end
 LE3ScriptObject.rebuild = function (object, tbl)
-    return LE3ScriptObject.__base.rebuild(object, tbl)
+    object = LE3ScriptObject.__base.rebuild(object, tbl)
+    LE3ScriptObject.update_internals(object, tbl.Classname, tbl.Name)
+    return object
 end
 LE3ScriptObject.save = function (object)
     local tbl = LE3ScriptObject.__base.save(object)
-    -- tbl.Classname = _G[tbl.]
+    tbl.Classname = LE3ScriptObject.get_classname(object)
     return tbl
 end
 LE3ScriptObject.title = "LE3ScriptObject"
+LE3ScriptObject.properties = {
+    {name = "Classname", type = "string"},
+}
 
 function LE3ScriptObject:new()
     obj = {}

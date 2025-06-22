@@ -68,7 +68,16 @@ private:
         LE3GetPhysicsManager().reset();
         LE3GetSceneManager().createScene("__main__", m_engineState, fmt::format("/le3proj/scenes/{}", initialSceneName));
 
-        LE3GetActiveScene()->addFreeCamera("camera");
+        // LE3GetActiveScene()->addFreeCamera("camera");
+        if (!LE3GetActiveScene()->getObject(LE3_PLAYERSTART_OBJECT_NAME)) {
+            LE3GetScriptSystem().pushUserType<LE3Scene>(LE3GetActiveScene().get());
+            LE3GetScriptSystem().setGlobal("_activeScene");
+            LE3GetScriptSystem().doString(
+                fmt::format("LE3PlayerStart.load(_activeScene, {{Name = \"{}\", Classname = \"{}\"}})",
+                    LE3_PLAYERSTART_OBJECT_NAME,
+                    LE3_PLAYERSTART_DEFAULT_CLASS
+                ));
+        }
     }
 };
 

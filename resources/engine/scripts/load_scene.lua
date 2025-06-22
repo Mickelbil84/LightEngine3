@@ -21,6 +21,7 @@ function load_LE3Scene_objects(scene, scene_data_table)
         StaticModel = LE3StaticModel, SkeletalModel = LE3SkeletalModel,
         Box = LE3Box, Cylinder = LE3Cylinder, Cone = LE3Cone, Torus = LE3Torus, Sphere = LE3Sphere,
         Sprite = LE3Sprite,
+        PlayerStart = LE3PlayerStart,
     }
     for _, object in ipairs(scene_data_table.Objects) do
         assert(object.Type ~= nil)
