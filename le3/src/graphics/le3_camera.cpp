@@ -10,7 +10,13 @@ LE3Camera::LE3Camera() :
 
 void LE3Camera::update(float deltaTime) {
     updateCameraDirections();
-    LE3Object::update(deltaTime);
+    // LE3Object::update(deltaTime); // - A bit of code duplication, but required hotfix
+    // Always ignore scaling of parent, just use translation and rotation
+    glm::mat4 parentWorld = glm::mat4(1.f);
+    if (getParent()) parentWorld = getParent()->getWorldMatrix();
+    LE3Transform tmp;
+    tmp.fromTransformMatrix(parentWorld);
+    m_worldMatrix = tmp.getTransformMatrixNoScale() * m_transform.getTransformMatrix();
 }
 
 glm::mat4 LE3Camera::getViewMatrix() {

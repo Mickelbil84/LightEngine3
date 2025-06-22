@@ -75,7 +75,7 @@ private:
             LE3GetScriptSystem().doString(
                 fmt::format("LE3PlayerStart.load(_activeScene, {{Name = \"{}\", Classname = \"{}\"}})",
                     LE3_PLAYERSTART_OBJECT_NAME,
-                    LE3_PLAYERSTART_DEFAULT_CLASS
+                    "TPSCamPlayer" // LE3_PLAYERSTART_DEFAULT_CLASS
                 ));
         }
     }
