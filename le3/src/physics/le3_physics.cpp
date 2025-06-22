@@ -221,3 +221,10 @@ void LE3PhysicsComponent::setAngularVelocity(glm::vec3 velocity) {
 void LE3PhysicsComponent::setAngularFactor(glm::vec3 factor) {
     m_rigidBody->m_rigidBody->setAngularFactor(btVector3(factor.x, factor.y, factor.z));
 }
+
+void LE3PhysicsComponent::setRotation(glm::quat rotation) {
+    btTransform t = m_rigidBody->m_rigidBody->getWorldTransform();
+    t.setRotation(btQuaternion(rotation.x, rotation.y, rotation.z, rotation.w));
+    m_rigidBody->m_rigidBody->setWorldTransform(t);
+    m_rigidBody->m_rigidBody->setInterpolationWorldTransform(t);
+}

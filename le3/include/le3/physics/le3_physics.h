@@ -46,6 +46,7 @@ namespace le3 {
         void* getRigidBody();
         
         void warp(glm::vec3 position, glm::quat rotation);
+        void setRotation(glm::quat rotation);
 
         std::weak_ptr<LE3DebugMesh> getHullDebugMesh() { return m_hullMesh; }
 

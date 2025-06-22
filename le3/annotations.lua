@@ -267,6 +267,13 @@ function LE3Camera.add_pitch_yaw(camera, pitch, yaw) end
 ---@return number
 function LE3Camera.get_fov(self) end
 
+---@param self LE3Camera
+---@return number
+---@return number
+---@return number
+---@return number
+function LE3Camera.get_xy_rotation(self) end
+
 ---@param camera LE3Camera
 ---@param amount number
 function LE3Camera.move_forward(camera, amount) end
@@ -649,6 +656,13 @@ function LE3PhysicsComponent.set_linear_velocity(self, linear_velocity_x, linear
 ---@param self LE3PhysicsComponent
 ---@param mass number
 function LE3PhysicsComponent.set_mass(self, mass) end
+
+---@param self LE3PhysicsComponent
+---@param rotation_w number
+---@param rotation_x number
+---@param rotation_y number
+---@param rotation_z number
+function LE3PhysicsComponent.set_rotation(self, rotation_w, rotation_x, rotation_y, rotation_z) end
 
 ---@param obj LE3PointCloud
 ---@param position_x number

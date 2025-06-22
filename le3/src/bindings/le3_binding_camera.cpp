@@ -27,9 +27,12 @@ FBIND(LE3Camera, add_pitch_yaw)
     camera->addPitchYaw(pitch, yaw);
 FEND()
 
+FBIND_OBJECT_GETTER_QUAT(LE3Camera, get_xy_rotation, getXYRotation)
+
 LIB(LE3Camera, 
     get_fov, set_fov,
-    move_forward, move_right, move_up, add_pitch_yaw
+    move_forward, move_right, move_up, add_pitch_yaw,
+    get_xy_rotation
 )
 
 //---------------------------------------------------
