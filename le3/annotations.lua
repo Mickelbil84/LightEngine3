@@ -265,14 +265,32 @@ function LE3Camera.add_pitch_yaw(camera, pitch, yaw) end
 
 ---@param self LE3Camera
 ---@return number
+---@return number
+---@return number
+function LE3Camera.get_forward(self) end
+
+---@param self LE3Camera
+---@return number
 function LE3Camera.get_fov(self) end
 
 ---@param self LE3Camera
 ---@return number
 ---@return number
 ---@return number
+function LE3Camera.get_right(self) end
+
+---@param self LE3Camera
 ---@return number
-function LE3Camera.get_xy_rotation(self) end
+---@return number
+---@return number
+function LE3Camera.get_up(self) end
+
+---@param self LE3Camera
+---@return number
+---@return number
+---@return number
+---@return number
+function LE3Camera.get_xz_rotation(self) end
 
 ---@param camera LE3Camera
 ---@param amount number

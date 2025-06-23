@@ -28,9 +28,9 @@ glm::mat4 LE3Camera::getProjectionMatrix(float aspectRatio) {
     return glm::perspective(m_fov, aspectRatio, .1f, 100.f);
 }
 
-glm::quat LE3Camera::getXYRotation() const {
-    glm::vec3 forward = getForward();
-    return glm::angleAxis(std::atan2(forward.x, forward.z), glm::vec3(0, 1, 0));
+glm::quat LE3Camera::getXZRotation() const {
+    return glm::angleAxis(m_yaw , glm::vec3(0, 1, 0));
+
 }
 
 LE3OrbitCamera::LE3OrbitCamera() : LE3Camera(), m_origin(glm::vec3(0.f)), m_offset(0.f) {
@@ -43,13 +43,13 @@ void LE3OrbitCamera::update(float deltaTime) {
 
 void LE3OrbitCamera::updateCameraDirections() {
     // m_forwawrd = m_origin - m_offset; //- glm::vec3(getWorldMatrix()[3]);
-    m_forwawrd = glm::normalize(m_origin - m_transform.getPosition());
-    m_right = glm::cross(m_forwawrd, glm::vec3(0.f, 1.f, 0.f));
-    m_up = glm::cross(m_right, m_forwawrd);
-    // glm::quat rotation = m_transform.getRotation();
-    // m_forwawrd = rotation * glm::vec3(0.f, 0.f, -1.f);
-    // m_right = rotation * glm::vec3(1.f, 0.f, 0.f);
-    // m_up = rotation * glm::vec3(0.f, 1.f, 0.f);
+    // m_forwawrd = glm::normalize(m_origin - m_transform.getPosition());
+    // m_right = glm::cross(m_forwawrd, glm::vec3(0.f, 1.f, 0.f));
+    // m_up = glm::cross(m_right, m_forwawrd);
+
+    m_forwawrd = glm::vec3(sinf(-m_yaw), 0.0f, -cosf(-m_yaw));
+    m_right = glm::vec3(cosf(-m_yaw), 0.0f, sinf(-m_yaw));
+    m_up = glm::vec3(0.0f, 1.0f, 0.0f);
 }
 
 LE3FreeCamera::LE3FreeCamera() : LE3Camera() {

@@ -14,11 +14,11 @@ namespace le3 {
         glm::mat4 getProjectionMatrix(float aspectRatio=-1.f);
 
         glm::vec3 getPosition() const { return glm::vec3(getWorldMatrix()[3]); }
-        glm::vec3 getForward() const { return glm::vec3(getWorldMatrix() * glm::vec4(m_forwawrd, 0.f)); }
-        glm::vec3 getRight() const { return glm::vec3(getWorldMatrix() * glm::vec4(m_right, 0.f)); }
+        glm::vec3 getForward() const { return m_forwawrd; } //return glm::vec3(getWorldMatrix() * glm::vec4(m_forwawrd, 0.f)); }
+        glm::vec3 getRight() const { return m_right; } //return glm::vec3(getWorldMatrix() * glm::vec4(m_right, 0.f)); }
         glm::vec3 getUp() const { return glm::vec3(getWorldMatrix() * glm::vec4(m_up, 0.f)); }
 
-        glm::quat getXYRotation() const; // Useful for setting the rotation of a capsule collider
+        glm::quat getXZRotation() const; // Useful for setting the rotation of a capsule collider
 
         void moveForward(float amount) { m_transform.addPosition(amount * m_forwawrd); }
         void moveRight(float amount) { m_transform.addPosition(amount * m_right); }

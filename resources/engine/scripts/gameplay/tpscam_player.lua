@@ -12,7 +12,7 @@ function TPSCamPlayer:init()
 
     self.offset = LE3Object.load(self.scene, {
         Name = cameraName .. "__offset",
-        Position = {0, 0, 0},
+        Position = {0, 150, 0},
         Rotation = {0, 0, 0},
         Scale = {1, 1, 1}
     })
@@ -31,16 +31,16 @@ function TPSCamPlayer:update(deltaTime)
     self:handleInput()
 
     LE3Camera.add_pitch_yaw(self.camera.ptr, self.cameraRotation[2] * self.sensitivity, -self.cameraRotation[1] * self.sensitivity)
+    local forward = table.pack(LE3Camera.get_forward(self.camera.ptr))
+    local right = table.pack(LE3Camera.get_right(self.camera.ptr))
     LE3PhysicsComponent.set_linear_velocity(self.playerMeshPhysics,
-        self.cameraVelocity[1] * self.walkSpeed,
-        self.cameraVelocity[3] * self.walkSpeed,
-        -self.cameraVelocity[2] * self.walkSpeed
+        self.walkSpeed * (self.cameraVelocity[2] * forward[1] + self.cameraVelocity[1] * right[1]),
+        0 * self.walkSpeed * (self.cameraVelocity[2] * forward[2] + self.cameraVelocity[1] * right[2]),
+        self.walkSpeed * (self.cameraVelocity[2] * forward[3] + self.cameraVelocity[1] * right[3])
     )
     LE3PhysicsComponent.set_angular_factor(self.playerMeshPhysics, 0, 0, 0) -- Disable rotation
     LE3PhysicsComponent.set_angular_velocity(self.playerMeshPhysics, 0, 0, 0)
-    LE3PhysicsComponent.set_rotation(self.playerMeshPhysics, LE3Camera.get_xy_rotation(self.camera.ptr))
-
-    print(LE3Transform.get_position(LE3Object.get_transform(self.camera.ptr)))
+    LE3PhysicsComponent.set_rotation(self.playerMeshPhysics, LE3Camera.get_xz_rotation(self.camera.ptr))
 end
 
 function TPSCamPlayer:handleInput()
