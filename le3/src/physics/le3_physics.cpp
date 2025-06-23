@@ -248,3 +248,8 @@ void LE3PhysicsComponent::applyImpulse(glm::vec3 impulse) {
     btVector3 relPos;
     m_rigidBody->m_rigidBody->applyImpulse(impulseVec, relPos);
 }
+
+glm::vec3 LE3PhysicsComponent::getTotalForce() const {
+    btVector3 force = m_rigidBody->m_rigidBody->getTotalForce();
+    return glm::vec3(force.x(), force.y(), force.z());
+}

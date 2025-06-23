@@ -676,6 +676,12 @@ function LE3PhysicsComponent.get_manual_radius(self) end
 function LE3PhysicsComponent.get_mass(self) end
 
 ---@param self LE3PhysicsComponent
+---@return number
+---@return number
+---@return number
+function LE3PhysicsComponent.get_total_force(self) end
+
+---@param self LE3PhysicsComponent
 ---@return boolean
 function LE3PhysicsComponent.is_manual_collider_override(self) end
 
