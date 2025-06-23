@@ -63,7 +63,7 @@ namespace le3{
 
         glm::mat4 getViewMatrix(glm::vec3 pos) const {
             // TODO: decouple this to engine settings
-            float delta_plane = 50.f;
+            float delta_plane = 25.f;
             glm::mat4 lightProjection = glm::ortho(
                 pos.x - delta_plane, pos.x + delta_plane, 
                 pos.y - delta_plane, pos.y + delta_plane, 
