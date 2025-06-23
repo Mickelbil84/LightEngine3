@@ -390,6 +390,8 @@ void _DBG_aiScenePrint(const aiScene* scene)
 
 void LE3AssetManager::addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName) {
     LE3SkeletalMeshPtr mesh = getSkeletalMesh(meshName);
+    if (!m_animPaths.contains(meshName)) m_animPaths[meshName] = std::map<std::string, std::string>();
+    m_animPaths[meshName][name] = animationPath;
 
     Assimp::Importer importer;
     LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(animationPath);

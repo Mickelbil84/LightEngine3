@@ -32,9 +32,15 @@ LE3SkeletalMesh.save = function(mesh)
     local name = LE3SkeletalMesh.get_name(mesh)
     local path = LE3SkeletalMesh.get_mesh_path(mesh)
     local collider_type = LE3SkeletalMesh.get_collider_type(mesh)
+    local animations = {}
+    for i = 1, LE3SkeletalMesh.get_num_animations(mesh) do
+        local animName, animPath = LE3SkeletalMesh.get_animation_at_idx(mesh, i-1)
+        animations[#animations+1] = {Name = animName, Path = animPath}
+    end
     return {
         Name = name,
         Path = path,
+        Animations = animations,
         ColliderType = collider_type
     }
 end

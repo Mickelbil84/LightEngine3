@@ -993,6 +993,12 @@ function LE3Shader.set_name(shaderName, name) end
 function LE3Shader.set_shader_paths(shaderName, vertexShaderPath, fragmentShaderPath) end
 
 ---@param meshName string
+---@param animIdx number
+---@return string
+---@return string
+function LE3SkeletalMesh.get_animation_at_idx(meshName, animIdx) end
+
+---@param meshName string
 function LE3SkeletalMesh.get_collider_type(meshName) end
 
 ---@param meshName string
@@ -1001,6 +1007,9 @@ function LE3SkeletalMesh.get_mesh_path(meshName) end
 
 ---@param meshName string
 function LE3SkeletalMesh.get_name(meshName) end
+
+---@param meshName string
+function LE3SkeletalMesh.get_num_animations(meshName) end
 
 ---@param meshName string
 ---@param path string

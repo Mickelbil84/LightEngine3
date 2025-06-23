@@ -111,6 +111,7 @@ namespace le3 {
         void addSkeletalMesh(std::string name, std::string filename);
         inline LE3SkeletalMeshPtr getSkeletalMesh(std::string name) { return m_pSkeletalMeshes[name]; }
         void addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName); // Implemented in `le3_assimp.cpp`
+        std::string getSkeletalAnimationPath(std::string name, std::string meshName) { return m_animPaths[meshName][name]; }
         bool isSkeletalMesh(std::string name);
         bool hasSkeletalMesh(std::string name) { return m_pSkeletalMeshes.contains(name); }
         void reloadSkeletalMesh(std::string name, std::string filename);
@@ -168,6 +169,7 @@ namespace le3 {
         std::map<std::string, std::pair<std::string, std::string>> m_shadersPaths;
         std::map<std::string, std::string> m_texturesPaths;
         std::map<std::string, std::string> m_meshesPaths;
+        std::map<std::string, std::map<std::string, std::string>> m_animPaths;
 
         std::shared_ptr<LE3ScreenRect> m_screenRect = nullptr; // Create this crucial geometry only once
 
