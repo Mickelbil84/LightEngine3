@@ -344,7 +344,6 @@ aiNode* assimpGetBoneParent(aiNode* bone) {
     aiNode* parent = bone->mParent;
     while (parent && std::string(parent->mName.C_Str()).find("_$AssimpFbx$_") != std::string::npos) {
         parent = parent->mParent;
-        fmt::print("\t\t[{}]\n", std::string(parent->mName.C_Str()));
     }
     return parent;
 }
@@ -359,13 +358,9 @@ void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes)
         {
             if ((std::string(node->mName.C_Str()) == bone->name))
             {
-                fmt::print("Bone: {}\n", bone->name);
                 aiNode* parent = assimpGetBoneParent(node);
                 if (parent) {
                     bone->parent = skeleton.getBone(std::string(parent->mName.C_Str()));
-                    fmt::print("\tParent: {}\n", std::string(parent->mName.C_Str()));
-                } else {
-                    fmt::print("\tParent: None\n");
                 }
                 break;
             }

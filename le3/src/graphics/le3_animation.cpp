@@ -1,8 +1,6 @@
 #include "graphics/le3_animation.h"
 using namespace le3;
 
-#include <fmt/core.h>
-
 LE3AnimationTrack::LE3AnimationTrack() {
 }
 
@@ -17,10 +15,8 @@ void LE3AnimationTrack::loadAnimationTrack(const aiScene* scene, unsigned int tr
     {
         aiNodeAnim* nodeAnim = animation->mChannels[i];
         std::string boneName = std::string(nodeAnim->mNodeName.C_Str());
-        fmt::print("{}", boneName);
         std::shared_ptr<LE3Bone> bone = this->skeleton->getBone(boneName);
-        if (!bone) { fmt::print("\n"); continue;}
-        fmt::print(" (FOUND)\n");
+        if (!bone) continue;
 
         for (int j = 0; j < nodeAnim->mNumPositionKeys; ++j)
         {
