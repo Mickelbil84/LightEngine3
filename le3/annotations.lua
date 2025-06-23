@@ -634,6 +634,12 @@ function LE3OrbitCamera.set_offset(self, offset) end
 function LE3OrbitCamera.set_origin(self, origin_x, origin_y, origin_z) end
 
 ---@param self LE3PhysicsComponent
+---@param apply_impulse_x number
+---@param apply_impulse_y number
+---@param apply_impulse_z number
+function LE3PhysicsComponent.apply_impulse(self, apply_impulse_x, apply_impulse_y, apply_impulse_z) end
+
+---@param self LE3PhysicsComponent
 ---@return number
 ---@return number
 ---@return number

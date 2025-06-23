@@ -86,6 +86,10 @@ function TPSCamPlayer:handleInput()
         LE3EngineState.notify_wants_relative_mouse(not isRelative)
     end
 
+    if LE3Input.is_key_down_event("KEY_SPACE") then
+        LE3PhysicsComponent.apply_impulse(self.playerMeshPhysics, 0, 70, 0)
+    end
+
     -- Adjsut camera speed
     if LE3Input.get_key("KEY_P") then
         self.walkSpeed = self.walkSpeed * 1.1

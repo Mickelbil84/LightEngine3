@@ -51,6 +51,8 @@ namespace le3 {
         void warp(glm::vec3 position, glm::quat rotation);
         void setRotation(glm::quat rotation); // Set rotation will always apply the given rotation on top of the initial rotation
 
+        void applyImpulse(glm::vec3 impulse);
+
         std::weak_ptr<LE3DebugMesh> getHullDebugMesh() { return m_hullMesh; }
 
         void setManualColliderOverride(bool colliderOverride) { m_bColliderOverride = colliderOverride; }

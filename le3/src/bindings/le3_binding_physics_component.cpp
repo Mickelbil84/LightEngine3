@@ -41,12 +41,15 @@ FBIND(LE3PhysicsComponent, get_manual_collider_type)
     PUSH_STRING(LE3ColliderType_toString(component->getManualColliderType()))
 FEND()
 
+FBIND_SETTER_VEC3(LE3PhysicsComponent, apply_impulse, applyImpulse)
+
 LIB(LE3PhysicsComponent,
     is_trigger, set_is_trigger,
     is_rigidbody, set_is_rigidbody,
     get_mass, set_mass,
     get_linear_velocity, set_linear_velocity, get_angular_velocity, set_angular_velocity, set_angular_factor,
     set_rotation,
+    apply_impulse,
 
     set_manual_collider_override, is_manual_collider_override,
     set_manual_collider_type, get_manual_collider_type,

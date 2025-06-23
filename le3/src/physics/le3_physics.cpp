@@ -242,3 +242,9 @@ void LE3PhysicsComponent::setRotation(glm::quat rotation) {
     m_rigidBody->m_rigidBody->setWorldTransform(t);
     m_rigidBody->m_rigidBody->setInterpolationWorldTransform(t);
 }
+
+void LE3PhysicsComponent::applyImpulse(glm::vec3 impulse) {
+    btVector3 impulseVec(impulse.x, impulse.y, impulse.z);
+    btVector3 relPos;
+    m_rigidBody->m_rigidBody->applyImpulse(impulseVec, relPos);
+}
