@@ -44,13 +44,20 @@ FEND()
 FBIND_GETTER_VEC3(LE3PhysicsComponent, get_total_force, getTotalForce)
 FBIND_SETTER_VEC3(LE3PhysicsComponent, apply_impulse, applyImpulse)
 
+FBIND(LE3PhysicsComponent, probe_collision)
+    GET_UDATA(component, LE3PhysicsComponent)
+    GET_VEC3(probe)
+    bool result = component->probeCollision(probe);
+    PUSH_BOOL(result);
+FEND()
+
 LIB(LE3PhysicsComponent,
     is_trigger, set_is_trigger,
     is_rigidbody, set_is_rigidbody,
     get_mass, set_mass,
     get_linear_velocity, set_linear_velocity, get_angular_velocity, set_angular_velocity, set_angular_factor,
     set_rotation,
-    get_total_force, apply_impulse,
+    get_total_force, apply_impulse, probe_collision,
 
     set_manual_collider_override, is_manual_collider_override,
     set_manual_collider_type, get_manual_collider_type,

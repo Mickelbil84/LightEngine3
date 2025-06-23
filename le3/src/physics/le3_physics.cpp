@@ -253,3 +253,8 @@ glm::vec3 LE3PhysicsComponent::getTotalForce() const {
     btVector3 force = m_rigidBody->m_rigidBody->getTotalForce();
     return glm::vec3(force.x(), force.y(), force.z());
 }
+
+bool LE3PhysicsComponent::probeCollision(glm::vec3 probe) {
+    btVector3 from = m_rigidBody->m_rigidBody->getWorldTransform().getOrigin();
+    return LE3GetPhysicsManager().rayTest(glm::vec3(from.x(), from.y(), from.z()), glm::vec3(from.x(), from.y(), from.z()) + probe);
+}

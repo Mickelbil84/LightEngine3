@@ -53,6 +53,7 @@ namespace le3 {
         
         glm::vec3 getTotalForce() const;
         void applyImpulse(glm::vec3 impulse);
+        bool probeCollision(glm::vec3 probe); // Test if a given probe intersects with any collider in the world
 
         std::weak_ptr<LE3DebugMesh> getHullDebugMesh() { return m_hullMesh; }
 

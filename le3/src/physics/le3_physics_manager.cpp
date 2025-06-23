@@ -54,3 +54,14 @@ void LE3PhysicsManager::clearComponent(std::string name) {
         m_pInternal->m_rigidBodies.erase(name);
     }
 }
+
+bool LE3PhysicsManager::rayTest(glm::vec3 from, glm::vec3 to) {
+    if (!m_bPhysicsEnabled) return false;
+
+    btVector3 btFrom(from.x, from.y, from.z);
+    btVector3 btTo(to.x, to.y, to.z);
+    btCollisionWorld::ClosestRayResultCallback rayCallback(btFrom, btTo);
+    m_pInternal->m_dynamicsWorld->rayTest(btFrom, btTo, rayCallback);
+
+    return rayCallback.hasHit();
+}

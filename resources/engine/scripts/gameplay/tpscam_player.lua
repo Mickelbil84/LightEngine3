@@ -27,8 +27,9 @@ function TPSCamPlayer:init()
     self.walkSpeed = 2.2
     self.sensitivity = 0.005
 
-    LE3EngineState.notify_wants_relative_mouse(true)
+    self.inAir = false
 
+    LE3EngineState.notify_wants_relative_mouse(true)
 
     -- Animation state
     self.animType = 0 -- 0 idle 1 walk 2 jump 3 fall
@@ -54,6 +55,8 @@ function TPSCamPlayer:update(deltaTime)
         LE3PhysicsComponent.set_rotation(self.playerMeshPhysics, LE3Camera.get_xz_rotation(self.camera.ptr))
     end
 
+    self.inAir = self:isInAir()
+
     self:decideAnimation(v)
 end
 
@@ -62,34 +65,32 @@ function TPSCamPlayer:isMoving(v)
     return false
 end
 
+function TPSCamPlayer:isInAir()
+    local probe = {0, -0.9 - 0.2, 0}
+    return not LE3PhysicsComponent.probe_collision(self.playerMeshPhysics, table.unpack(probe))
+end
+
 function TPSCamPlayer:decideAnimation(v)
     local isMoving = self:isMoving(v)
-    -- local fx, fy, fz = LE3PhysicsComponent.get_total_force(self.playerMeshPhysics)
-    -- print("Force: ", fx, fy, fz)
-    -- local isJumping = math.abs(fy) > 0.001 -- If the force in Y
-    -- local isFalling = v[2] < -0.0001
+    
+    local isFalling = self.inAir
+    
+    if isFalling and self.animType ~= 3 then
+        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_fall", self.animBlendTime * 2)
+        self.animType = 3
+        return
+    end
+    if isFalling and self.animType == 3 then return end
 
-    -- print(v[2], isJumping, self.animType)
-
-    -- if isJumping and self.animType ~= 2 then
-    --     LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_jump", self.animBlendTime)
-    --     self.animType = 2
-    --     return
-    -- end
-    -- if isJumping and self.animType == 3 then return end
-    -- if isJumping and self.animType ~= 3 then 
-    --     LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_fall", self.animBlendTime)
-    --     self.animType = 3
-    --     return
-    -- end
-
+    local blendTime = self.animBlendTime
+    if self.animType == 3 then blendTime = 0.1 end
     if isMoving and self.animType ~= 1 then
-        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_walk", self.animBlendTime)
+        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_walk", blendTime)
         self.animType = 1
         return
     end
     if not isMoving and self.animType ~= 0 then
-        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_idle", self.animBlendTime)
+        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_idle", blendTime)
         self.animType = 0
         return
     end

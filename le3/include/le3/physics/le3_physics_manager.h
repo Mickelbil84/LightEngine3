@@ -20,6 +20,8 @@ namespace le3 {
         void registerComponent(std::string name, LE3PhysicsComponent& component);
         void clearComponent(std::string name);
 
+        bool rayTest(glm::vec3 from, glm::vec3 to);
+
     private:
         struct _LE3PhysicsManager_Internal;
         std::shared_ptr<_LE3PhysicsManager_Internal> m_pInternal;

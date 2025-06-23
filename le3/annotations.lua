@@ -693,6 +693,13 @@ function LE3PhysicsComponent.is_rigidbody(self) end
 ---@return boolean
 function LE3PhysicsComponent.is_trigger(self) end
 
+---@param component LE3PhysicsComponent
+---@param probe_x number
+---@param probe_y number
+---@param probe_z number
+---@return boolean
+function LE3PhysicsComponent.probe_collision(component, probe_x, probe_y, probe_z) end
+
 ---@param self LE3PhysicsComponent
 ---@param angular_factor_x number
 ---@param angular_factor_y number
