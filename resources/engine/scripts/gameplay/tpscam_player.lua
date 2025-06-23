@@ -33,9 +33,10 @@ function TPSCamPlayer:update(deltaTime)
     LE3Camera.add_pitch_yaw(self.camera.ptr, self.cameraRotation[2] * self.sensitivity, -self.cameraRotation[1] * self.sensitivity)
     local forward = table.pack(LE3Camera.get_forward(self.camera.ptr))
     local right = table.pack(LE3Camera.get_right(self.camera.ptr))
+    _, vy, _ = LE3PhysicsComponent.get_linear_velocity(self.playerMeshPhysics)
     LE3PhysicsComponent.set_linear_velocity(self.playerMeshPhysics,
         self.walkSpeed * (self.cameraVelocity[2] * forward[1] + self.cameraVelocity[1] * right[1]),
-        0 * self.walkSpeed * (self.cameraVelocity[2] * forward[2] + self.cameraVelocity[1] * right[2]),
+        vy,
         self.walkSpeed * (self.cameraVelocity[2] * forward[3] + self.cameraVelocity[1] * right[3])
     )
     LE3PhysicsComponent.set_angular_factor(self.playerMeshPhysics, 0, 0, 0) -- Disable rotation

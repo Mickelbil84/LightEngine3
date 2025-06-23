@@ -35,7 +35,10 @@ namespace le3 {
         void setMass(float mass);
         float getMass();
 
+        glm::vec3 getLinearVelocity() const;
         void setLinearVelocity(glm::vec3 velocity);
+
+        glm::vec3 getAngularVelocity() const;
         void setAngularVelocity(glm::vec3 velocity);
         void setAngularFactor(glm::vec3 factor);
         

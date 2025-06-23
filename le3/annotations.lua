@@ -637,6 +637,18 @@ function LE3OrbitCamera.set_origin(self, origin_x, origin_y, origin_z) end
 ---@return number
 ---@return number
 ---@return number
+function LE3PhysicsComponent.get_angular_velocity(self) end
+
+---@param self LE3PhysicsComponent
+---@return number
+---@return number
+---@return number
+function LE3PhysicsComponent.get_linear_velocity(self) end
+
+---@param self LE3PhysicsComponent
+---@return number
+---@return number
+---@return number
 function LE3PhysicsComponent.get_manual_centroid(self) end
 
 ---@param component LE3PhysicsComponent
