@@ -124,6 +124,7 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
     if (m_collider) m_collider = nullptr;
     // Setup colliders
     m_colliderInfo = colliderInfo;
+    if (m_bColliderOverride) m_colliderInfo = m_colliderOverride;
     glm::vec3 extent = m_colliderInfo.extent;
     glm::vec3 scale = m_transform.getScale();
     m_collider = std::make_shared<LE3PhysicsCollider>();
@@ -184,7 +185,10 @@ bool LE3PhysicsComponent::update() {
     glm::vec3 pos = glm::vec3(float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
     m_transform.setRotation(rot);
     m_transform.setPosition(pos);
-    m_transform.setPosition(glm::vec3(m_transform.getTransformMatrix() * glm::vec4(-m_colliderInfo.centroid, 1.f)));
+    if (m_colliderInfo.colliderType != LE3ColliderType::LE3ColliderType_Capsule)
+        m_transform.setPosition(glm::vec3(m_transform.getTransformMatrix() * glm::vec4(-m_colliderInfo.centroid, 1.f)));
+    else 
+        m_transform.setPosition(glm::vec3(m_transform.getTransformMatrix() * glm::vec4(0.f, 0.f, 0.f, 1.f)));
 
     return true;
 }

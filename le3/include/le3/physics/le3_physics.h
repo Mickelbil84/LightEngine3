@@ -50,6 +50,20 @@ namespace le3 {
 
         std::weak_ptr<LE3DebugMesh> getHullDebugMesh() { return m_hullMesh; }
 
+        void setManualColliderOverride(bool colliderOverride) { m_bColliderOverride = colliderOverride; }
+        bool isManualColliderOverride() const { return m_bColliderOverride; }
+        
+        void setManualColliderType(LE3ColliderType colliderType) { m_colliderOverride.colliderType = colliderType;}
+        LE3ColliderType getManualColliderType() const { return m_colliderOverride.colliderType; }
+        LE3ColliderInfo getOverrideColliderInfo() const { return m_colliderOverride; }
+        
+        void setManualCentroid(glm::vec3 centroid) { m_colliderOverride.centroid = centroid; }
+        glm::vec3 getManualCentroid() const { return m_colliderOverride.centroid; }
+        void setManualExtent(glm::vec3 extent) { m_colliderOverride.extent = extent; }
+        glm::vec3 getManualExtent() const { return m_colliderOverride.extent; }
+        void setManualRadius(float radius) { m_colliderOverride.radius = radius; }
+        float getManualRadius() const { return m_colliderOverride.radius; }
+
         
         
     private:
@@ -63,9 +77,10 @@ namespace le3 {
         LE3Transform& m_transform;
         std::shared_ptr<LE3PhysicsCollider> m_collider;
         std::shared_ptr<LE3PhysicsRigidBody> m_rigidBody;
-        LE3ColliderInfo m_colliderInfo;
+        LE3ColliderInfo m_colliderInfo, m_colliderOverride;
         bool m_bEnabled, m_bIsTrigger; // Enabled == do not override! this means whether the physics is active (it may become true at some point)
         bool m_bRigidBody; // The most important variable: if false - then this entire component is disabled (stronger then m_bEnabled)
+        bool m_bColliderOverride = false;
         
         std::shared_ptr<LE3DebugMesh> m_hullMesh = nullptr; // For convex hull - store the hull mesh
 

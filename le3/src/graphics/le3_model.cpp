@@ -19,10 +19,6 @@ LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPt
         m_drawPriority = priority;
         getPhysicsComponent().setIsRigidBody(rigidBody);
         if (!m_pMesh.lock()) return;
-        // if (getPhysicsComponent().isRigidBody()) {
-        //     getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
-        //     getPhysicsComponent().enable();
-        // }
 }
 
 template<typename LE3VertexType>
@@ -33,7 +29,9 @@ void LE3Model<LE3VertexType>::update(float deltaTime) {
     auto pMesh = m_pMesh.lock();
 
     // Update collider in physics component if mesh collider changed
-    if (getPhysicsComponent().isRigidBody() && m_pMesh.lock()->getColliderInfo() != getPhysicsComponent().getColliderInfo()) {
+    if (getPhysicsComponent().isRigidBody() && (m_pMesh.lock()->getColliderInfo() != getPhysicsComponent().getColliderInfo() && !getPhysicsComponent().isManualColliderOverride() ||
+        (getPhysicsComponent().isManualColliderOverride() && getPhysicsComponent().getColliderInfo() != getPhysicsComponent().getOverrideColliderInfo())
+    )) {
         getPhysicsComponent().disable();
         getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
         getPhysicsComponent().enable();

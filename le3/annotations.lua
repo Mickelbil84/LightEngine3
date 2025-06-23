@@ -635,7 +635,31 @@ function LE3OrbitCamera.set_origin(self, origin_x, origin_y, origin_z) end
 
 ---@param self LE3PhysicsComponent
 ---@return number
+---@return number
+---@return number
+function LE3PhysicsComponent.get_manual_centroid(self) end
+
+---@param component LE3PhysicsComponent
+---@return string
+function LE3PhysicsComponent.get_manual_collider_type(component) end
+
+---@param self LE3PhysicsComponent
+---@return number
+---@return number
+---@return number
+function LE3PhysicsComponent.get_manual_extent(self) end
+
+---@param self LE3PhysicsComponent
+---@return number
+function LE3PhysicsComponent.get_manual_radius(self) end
+
+---@param self LE3PhysicsComponent
+---@return number
 function LE3PhysicsComponent.get_mass(self) end
+
+---@param self LE3PhysicsComponent
+---@return boolean
+function LE3PhysicsComponent.is_manual_collider_override(self) end
 
 ---@param self LE3PhysicsComponent
 ---@return boolean
@@ -670,6 +694,30 @@ function LE3PhysicsComponent.set_is_trigger(self, is_trigger) end
 ---@param linear_velocity_y number
 ---@param linear_velocity_z number
 function LE3PhysicsComponent.set_linear_velocity(self, linear_velocity_x, linear_velocity_y, linear_velocity_z) end
+
+---@param self LE3PhysicsComponent
+---@param manual_centroid_x number
+---@param manual_centroid_y number
+---@param manual_centroid_z number
+function LE3PhysicsComponent.set_manual_centroid(self, manual_centroid_x, manual_centroid_y, manual_centroid_z) end
+
+---@param self LE3PhysicsComponent
+---@param manual_collider_override boolean
+function LE3PhysicsComponent.set_manual_collider_override(self, manual_collider_override) end
+
+---@param component LE3PhysicsComponent
+---@param type string
+function LE3PhysicsComponent.set_manual_collider_type(component, type) end
+
+---@param self LE3PhysicsComponent
+---@param manual_extent_x number
+---@param manual_extent_y number
+---@param manual_extent_z number
+function LE3PhysicsComponent.set_manual_extent(self, manual_extent_x, manual_extent_y, manual_extent_z) end
+
+---@param self LE3PhysicsComponent
+---@param manual_radius number
+function LE3PhysicsComponent.set_manual_radius(self, manual_radius) end
 
 ---@param self LE3PhysicsComponent
 ---@param mass number
