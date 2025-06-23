@@ -25,8 +25,10 @@ function TPSCamPlayer:init()
     self.cameraVelocity = {0, 0, 0}
     self.cameraRotation = {0, 0}
     self.walkSpeed = 2.2
+    self.runSpeed = 4.0
+    self.isRunning = false
     self.sensitivity = 0.005
-
+    
     self.inAir = false
 
     LE3EngineState.notify_wants_relative_mouse(true)
@@ -34,6 +36,7 @@ function TPSCamPlayer:init()
     -- Animation state
     self.animType = 0 -- 0 idle 1 walk 2 jump 3 fall
     self.animBlendTime = 0.1
+    self.currentAnimation = "ANIM_soldier_idle"
 end
 
 function TPSCamPlayer:update(deltaTime)
@@ -43,10 +46,12 @@ function TPSCamPlayer:update(deltaTime)
     local forward = table.pack(LE3Camera.get_forward(self.camera.ptr))
     local right = table.pack(LE3Camera.get_right(self.camera.ptr))
     _, vy, _ = LE3PhysicsComponent.get_linear_velocity(self.playerMeshPhysics)
+    local speed = self.walkSpeed
+    if self.isRunning then speed = self.runSpeed end
     local v = {
-        self.walkSpeed * (self.cameraVelocity[2] * forward[1] + self.cameraVelocity[1] * right[1]),
+        speed * (self.cameraVelocity[2] * forward[1] + self.cameraVelocity[1] * right[1]),
         vy,
-        self.walkSpeed * (self.cameraVelocity[2] * forward[3] + self.cameraVelocity[1] * right[3])
+        speed * (self.cameraVelocity[2] * forward[3] + self.cameraVelocity[1] * right[3])
     }
     LE3PhysicsComponent.set_linear_velocity(self.playerMeshPhysics, table.unpack(v))
     LE3PhysicsComponent.set_angular_factor(self.playerMeshPhysics, 0, 0, 0) -- Disable rotation
@@ -78,15 +83,22 @@ function TPSCamPlayer:decideAnimation(v)
     if isFalling and self.animType ~= 3 then
         LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_fall", self.animBlendTime * 2)
         self.animType = 3
+        self.currentAnimation = "ANIM_soldier_fall"
         return
     end
     if isFalling and self.animType == 3 then return end
 
     local blendTime = self.animBlendTime
     if self.animType == 3 then blendTime = 0.1 end
-    if isMoving and self.animType ~= 1 then
-        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_walk", blendTime)
+    if isMoving and (
+        self.animType ~= 1 or
+        (self.isRunning and self.currentAnimation ~= "ANIM_soldier_run") or
+        (not self.isRunning and self.currentAnimation ~= "ANIM_soldier_walk"))  then
+        local anim = "ANIM_soldier_walk"
+        if self.isRunning then anim = "ANIM_soldier_run" end
+        LE3SkeletalModel.set_current_animation(self.playerMesh, anim, blendTime)
         self.animType = 1
+        self.currentAnimation = anim
         return
     end
     if not isMoving and self.animType ~= 0 then
@@ -119,6 +131,8 @@ function TPSCamPlayer:handleInput()
     if LE3Input.get_key("KEY_O") then
         self.walkSpeed = self.walkSpeed / 1.1
     end
+
+    self.isRunning = LE3Input.get_key("KEY_LSHIFT") or LE3Input.get_key("KEY_RSHIFT")
 
     -- Camera movement
     self.cameraVelocity = {0, 0, 0}
