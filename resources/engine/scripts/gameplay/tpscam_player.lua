@@ -31,6 +31,7 @@ function TPSCamPlayer:init()
 
     -- Animation state
     self.animType = 0 -- 0 idle 1 walk
+    self.animBlendTime = 0.1
 end
 
 function TPSCamPlayer:update(deltaTime)
@@ -64,11 +65,11 @@ function TPSCamPlayer:decideAnimation(v)
     local isMoving = self:isMoving(v)
 
     if isMoving and self.animType == 0 then
-        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_rifle_walk")
+        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_rifle_walk", self.animBlendTime)
         self.animType = 1
     end
     if not isMoving and self.animType == 1 then
-        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_rifle_idle")
+        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_rifle_idle", self.animBlendTime)
         self.animType = 0
     end
 end

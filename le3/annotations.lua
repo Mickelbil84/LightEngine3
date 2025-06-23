@@ -1048,8 +1048,9 @@ function LE3SkeletalModel.reset_animation(self) end
 function LE3SkeletalModel.set_animation_playing(self, animation_playing) end
 
 ---@param self LE3SkeletalModel
----@param current_animation string
-function LE3SkeletalModel.set_current_animation(self, current_animation) end
+---@param animationName string
+---@param blendTime number
+function LE3SkeletalModel.set_current_animation(self, animationName, blendTime) end
 
 ---@param self LE3SkeletalModel
 ---@param name string

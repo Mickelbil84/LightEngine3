@@ -31,7 +31,7 @@ namespace le3 {
             // }
         }
 
-        void setCurrentAnimation(std::string animationName) { m_currentAnimation = animationName;  resetAnimation(); }
+        void setCurrentAnimation(std::string animationName, float blendTime = 0.1f);
         std::string getCurrentAnimation() const { return m_currentAnimation; }
         void setAnimationPlaying(bool playing) { m_animationPlaying = playing; }
         bool isAnimationPlaying() const { return m_animationPlaying; }
@@ -44,6 +44,8 @@ namespace le3 {
         // If skeletal
         void drawDebugSkeleton(std::vector<glm::mat4> boneMatrices);
         std::string m_currentAnimation = DEFAULT_EMPTY_ANIMATION_NAME; 
+        std::string m_blendAnimation = DEFAULT_EMPTY_ANIMATION_NAME;
+        float m_blendTotalTime = 0.f, m_blendTimeLeft = 0.f;
         float m_animationTime = 0.f;
         bool m_animationPlaying = false;
     };
