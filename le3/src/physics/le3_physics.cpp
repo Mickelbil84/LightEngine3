@@ -151,6 +151,7 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
         btQuaternion(m_transform.getRotation().x, m_transform.getRotation().y, m_transform.getRotation().z, m_transform.getRotation().w),
         btVector3(offset.x, offset.y, offset.z)
     );
+    m_initialRotation = m_transform.getRotation();
 
     m_rigidBody->m_motionState = std::make_shared<btDefaultMotionState>(m_rigidBody->m_transform);
     btVector3 inertia(0,0,0);
@@ -224,6 +225,7 @@ void LE3PhysicsComponent::setAngularFactor(glm::vec3 factor) {
 
 void LE3PhysicsComponent::setRotation(glm::quat rotation) {
     btTransform t = m_rigidBody->m_rigidBody->getWorldTransform();
+    rotation = rotation * m_initialRotation; // Apply new rotation on top of the initial rotation
     t.setRotation(btQuaternion(rotation.x, rotation.y, rotation.z, rotation.w));
     m_rigidBody->m_rigidBody->setWorldTransform(t);
     m_rigidBody->m_rigidBody->setInterpolationWorldTransform(t);

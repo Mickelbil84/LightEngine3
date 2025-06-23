@@ -46,7 +46,7 @@ namespace le3 {
         void* getRigidBody();
         
         void warp(glm::vec3 position, glm::quat rotation);
-        void setRotation(glm::quat rotation);
+        void setRotation(glm::quat rotation); // Set rotation will always apply the given rotation on top of the initial rotation
 
         std::weak_ptr<LE3DebugMesh> getHullDebugMesh() { return m_hullMesh; }
 
@@ -68,6 +68,9 @@ namespace le3 {
         bool m_bRigidBody; // The most important variable: if false - then this entire component is disabled (stronger then m_bEnabled)
         
         std::shared_ptr<LE3DebugMesh> m_hullMesh = nullptr; // For convex hull - store the hull mesh
+
+        // For local offsets/warping/setting rotation trickery
+        glm::quat m_initialRotation = glm::quat(1.f, 0.f, 0.f, 0.f);
 
         std::string m_componentName; // This would be some random unique id, but not the object name so we don't have to track changes
     };
