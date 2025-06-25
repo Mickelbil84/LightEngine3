@@ -2,6 +2,7 @@
 #include "core/le3_engine_systems.h"
 #include "le3ed_project.h"
 #include "le3ed_editor_systems.h"
+#include "components/le3ed_scenes.h"
 using namespace le3;
 
 #include <algorithm>
@@ -16,6 +17,7 @@ void LE3EdPopLoadScene::init() {
     }
     m_availableScenes.clear();
     for (auto& file : LE3GetDatFileSystem().getFilesFromDir(LE3ED_PROJECT_SCENES_ROOT.substr(0, LE3ED_PROJECT_SCENES_ROOT.size() - 1))) {
+        if (file == LE3ED_SHARED_SCENE_PATH) continue; // Skip shared scene
         m_availableScenes.push_back(file.substr(LE3ED_PROJECT_SCENES_ROOT.size()));
     }
     std::sort(m_availableScenes.begin(), m_availableScenes.end());
