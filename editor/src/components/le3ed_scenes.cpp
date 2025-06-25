@@ -103,7 +103,11 @@ void LE3EditorScenes::initScenes(std::string name) {
     LE3GetEditorManager().getSelection().reset();
     LE3GetEditorManager().getCommandStack().reset();
 
-    LE3GetSceneManager().createScene("scene", m_engineState, name);
+    initSharedScene();
+    LE3GetSceneManager().createScene("scene", m_engineState, "");
+    LE3GetSceneManager().getScene("scene")->load(LE3ED_SHARED_SCENE_PATH);
+    if (name != "") 
+        LE3GetSceneManager().getScene("scene")->load(name);
     LE3GetSceneManager().getScene("scene")->setRenderDirectly(false);
     LE3GetSceneManager().getScene("scene")->resize(10, 10);
     LE3GetSceneManager().getScene("scene")->drawDebug = [this]() { this->renderDebug(); };
@@ -173,4 +177,12 @@ void LE3EditorScenes::openLoadScenePopup() {
 void LE3EditorScenes::openSaveScenePopup() {
     m_saveScenePop.init();
     ImGui::OpenPopup((LE3ED_POP_SAVE_SCENE).c_str());
+}
+
+void LE3EditorScenes::initSharedScene() {
+    if (!LE3GetDatFileSystem().fileExists(LE3ED_SHARED_SCENE_PATH)) {
+        LE3DatBuffer buffer;
+        buffer.fromString("Scene = {}");
+        LE3GetDatFileSystem().appendFile(LE3ED_PROJECT_ARCHIVE, LE3ED_SHARED_SCENE_PATH, buffer, true);
+    }
 }
