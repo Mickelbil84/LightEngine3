@@ -5,8 +5,10 @@ local function load_LE3Scene_assets(scene, scene_data_table)
     }
     for _, class_dict in pairs(asset_classes) do
         for key, class in pairs(class_dict) do
-            for _, tbl in ipairs(scene_data_table[key]) do
-                class.load(tbl)
+            if scene_data_table[key] ~= nil then
+                for _, tbl in ipairs(scene_data_table[key]) do
+                        class.load(tbl)
+                end
             end
         end
     end
@@ -23,19 +25,23 @@ function load_LE3Scene_objects(scene, scene_data_table)
         Sprite = LE3Sprite,
         PlayerStart = LE3PlayerStart,
     }
-    for _, object in ipairs(scene_data_table.Objects) do
-        assert(object.Type ~= nil)
-        assert(object.Name ~= nil)
-        if string.find(object.Type, "LE3") == 1 then -- Hotfix: if type starts with LE3, remove that
-            object.Type = string.sub(object.Type, 4)
-        end
-        if object_classes[object.Type] ~= nil then
-            object_classes[object.Type].load(scene, object, nil)
+    if scene_data_table.Objects ~= nil then
+        for _, object in ipairs(scene_data_table.Objects) do
+            assert(object.Type ~= nil)
+            assert(object.Name ~= nil)
+            if string.find(object.Type, "LE3") == 1 then -- Hotfix: if type starts with LE3, remove that
+                object.Type = string.sub(object.Type, 4)
+            end
+            if object_classes[object.Type] ~= nil then
+                object_classes[object.Type].load(scene, object, nil)
+            end
         end
     end
-    for _, edge in ipairs(scene_data_table.ObjectRelations) do
-        local child = edge[1]; local parent = edge[2]
-        LE3Scene.reparent(scene, child, parent)
+    if scene_data_table.ObjectRelations ~= nil then
+        for _, edge in ipairs(scene_data_table.ObjectRelations) do
+            local child = edge[1]; local parent = edge[2]
+            LE3Scene.reparent(scene, child, parent)
+        end
     end
 end
 
@@ -47,5 +53,7 @@ end
 function load_LE3Scene(scene, scene_data_table)
     load_LE3Scene_assets(scene, scene_data_table)
     load_LE3Scene_objects(scene, scene_data_table)
-    load_LE3Scene_settings(scene, scene_data_table.Settings)
+    if scene_data_table.Settings ~= nil then
+        load_LE3Scene_settings(scene, scene_data_table.Settings)
+    end
 end
