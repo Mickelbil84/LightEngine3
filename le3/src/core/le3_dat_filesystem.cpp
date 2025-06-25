@@ -22,10 +22,15 @@ void LE3DatFileSystem::reset() {
 }
 
 void LE3DatFileSystem::closeArchives(std::function<bool(std::string)> shouldCloseArchive) {
-    for (auto archiveName : m_archiveNames) {
+    auto it = m_archiveNames.begin();
+    while (it != m_archiveNames.end()) {
+        const std::string& archiveName = *it;
         if (shouldCloseArchive == nullptr || shouldCloseArchive(archiveName)) {
             m_archives.erase(archiveName);
-            m_archiveNames.erase(std::remove(m_archiveNames.begin(), m_archiveNames.end(), archiveName), m_archiveNames.end());
+            it = m_archiveNames.erase(it);
+        }
+        else {
+            ++it;
         }
     }
 }
