@@ -20,6 +20,8 @@ LE3DirectionalLight = {}
 LE3DrawableObject = {}
 ---@class LE3EngineConfig
 LE3EngineConfig = {}
+---@class LE3EngineState
+LE3EngineState = {}
 ---@class LE3FreeCamera
 LE3FreeCamera = {}
 ---@class LE3Input
@@ -34,6 +36,8 @@ LE3Object = {}
 LE3OrbitCamera = {}
 ---@class LE3PhysicsComponent
 LE3PhysicsComponent = {}
+---@class LE3PlayerStart
+LE3PlayerStart = {}
 ---@class LE3PointCloud
 LE3PointCloud = {}
 ---@class LE3PointLight
@@ -254,9 +258,51 @@ function LE3Box.get_box_extent(self) end
 ---@return number
 function LE3Box.get_box_position(self) end
 
+---@param camera LE3Camera
+---@param pitch number
+---@param yaw number
+function LE3Camera.add_pitch_yaw(camera, pitch, yaw) end
+
+---@param self LE3Camera
+---@return number
+---@return number
+---@return number
+function LE3Camera.get_forward(self) end
+
 ---@param self LE3Camera
 ---@return number
 function LE3Camera.get_fov(self) end
+
+---@param self LE3Camera
+---@return number
+---@return number
+---@return number
+function LE3Camera.get_right(self) end
+
+---@param self LE3Camera
+---@return number
+---@return number
+---@return number
+function LE3Camera.get_up(self) end
+
+---@param self LE3Camera
+---@return number
+---@return number
+---@return number
+---@return number
+function LE3Camera.get_xz_rotation(self) end
+
+---@param camera LE3Camera
+---@param amount number
+function LE3Camera.move_forward(camera, amount) end
+
+---@param camera LE3Camera
+---@param amount number
+function LE3Camera.move_right(camera, amount) end
+
+---@param camera LE3Camera
+---@param amount number
+function LE3Camera.move_up(camera, amount) end
 
 ---@param self LE3Camera
 ---@param fov number
@@ -371,6 +417,44 @@ function LE3DrawableObject.set_material(self, name) end
 ---@param color_z number
 ---@param color_w number
 function LE3EngineConfig.set_imgui_style(tmp, color_x, color_y, color_z, color_w) end
+
+---@return boolean
+function LE3EngineState.is_relative_mouse() end
+
+function LE3EngineState.notify_wants_quit() end
+
+---@param relativeMouse boolean
+function LE3EngineState.notify_wants_relative_mouse(relativeMouse) end
+
+---@param key string
+---@return boolean
+function LE3Input.get_key(key) end
+
+---@return number
+function LE3Input.get_mouse_x() end
+
+---@return number
+function LE3Input.get_mouse_y() end
+
+---@return number
+function LE3Input.get_xrel() end
+
+---@return number
+function LE3Input.get_yrel() end
+
+---@param key string
+---@return boolean
+function LE3Input.is_key_down_event(key) end
+
+---@param key string
+---@return boolean
+function LE3Input.is_key_up_event(key) end
+
+---@return boolean
+function LE3Input.is_left_mouse_down() end
+
+---@return boolean
+function LE3Input.is_right_mouse_down() end
 
 ---@param self LE3Light
 ---@return number
@@ -550,8 +634,56 @@ function LE3OrbitCamera.set_offset(self, offset) end
 function LE3OrbitCamera.set_origin(self, origin_x, origin_y, origin_z) end
 
 ---@param self LE3PhysicsComponent
+---@param apply_impulse_x number
+---@param apply_impulse_y number
+---@param apply_impulse_z number
+function LE3PhysicsComponent.apply_impulse(self, apply_impulse_x, apply_impulse_y, apply_impulse_z) end
+
+---@param self LE3PhysicsComponent
+---@return number
+---@return number
+---@return number
+function LE3PhysicsComponent.get_angular_velocity(self) end
+
+---@param self LE3PhysicsComponent
+---@return number
+---@return number
+---@return number
+function LE3PhysicsComponent.get_linear_velocity(self) end
+
+---@param self LE3PhysicsComponent
+---@return number
+---@return number
+---@return number
+function LE3PhysicsComponent.get_manual_centroid(self) end
+
+---@param component LE3PhysicsComponent
+---@return string
+function LE3PhysicsComponent.get_manual_collider_type(component) end
+
+---@param self LE3PhysicsComponent
+---@return number
+---@return number
+---@return number
+function LE3PhysicsComponent.get_manual_extent(self) end
+
+---@param self LE3PhysicsComponent
+---@return number
+function LE3PhysicsComponent.get_manual_radius(self) end
+
+---@param self LE3PhysicsComponent
 ---@return number
 function LE3PhysicsComponent.get_mass(self) end
+
+---@param self LE3PhysicsComponent
+---@return number
+---@return number
+---@return number
+function LE3PhysicsComponent.get_total_force(self) end
+
+---@param self LE3PhysicsComponent
+---@return boolean
+function LE3PhysicsComponent.is_manual_collider_override(self) end
 
 ---@param self LE3PhysicsComponent
 ---@return boolean
@@ -560,6 +692,25 @@ function LE3PhysicsComponent.is_rigidbody(self) end
 ---@param self LE3PhysicsComponent
 ---@return boolean
 function LE3PhysicsComponent.is_trigger(self) end
+
+---@param component LE3PhysicsComponent
+---@param probe_x number
+---@param probe_y number
+---@param probe_z number
+---@return boolean
+function LE3PhysicsComponent.probe_collision(component, probe_x, probe_y, probe_z) end
+
+---@param self LE3PhysicsComponent
+---@param angular_factor_x number
+---@param angular_factor_y number
+---@param angular_factor_z number
+function LE3PhysicsComponent.set_angular_factor(self, angular_factor_x, angular_factor_y, angular_factor_z) end
+
+---@param self LE3PhysicsComponent
+---@param angular_velocity_x number
+---@param angular_velocity_y number
+---@param angular_velocity_z number
+function LE3PhysicsComponent.set_angular_velocity(self, angular_velocity_x, angular_velocity_y, angular_velocity_z) end
 
 ---@param self LE3PhysicsComponent
 ---@param is_rigidbody boolean
@@ -570,8 +721,45 @@ function LE3PhysicsComponent.set_is_rigidbody(self, is_rigidbody) end
 function LE3PhysicsComponent.set_is_trigger(self, is_trigger) end
 
 ---@param self LE3PhysicsComponent
+---@param linear_velocity_x number
+---@param linear_velocity_y number
+---@param linear_velocity_z number
+function LE3PhysicsComponent.set_linear_velocity(self, linear_velocity_x, linear_velocity_y, linear_velocity_z) end
+
+---@param self LE3PhysicsComponent
+---@param manual_centroid_x number
+---@param manual_centroid_y number
+---@param manual_centroid_z number
+function LE3PhysicsComponent.set_manual_centroid(self, manual_centroid_x, manual_centroid_y, manual_centroid_z) end
+
+---@param self LE3PhysicsComponent
+---@param manual_collider_override boolean
+function LE3PhysicsComponent.set_manual_collider_override(self, manual_collider_override) end
+
+---@param component LE3PhysicsComponent
+---@param type string
+function LE3PhysicsComponent.set_manual_collider_type(component, type) end
+
+---@param self LE3PhysicsComponent
+---@param manual_extent_x number
+---@param manual_extent_y number
+---@param manual_extent_z number
+function LE3PhysicsComponent.set_manual_extent(self, manual_extent_x, manual_extent_y, manual_extent_z) end
+
+---@param self LE3PhysicsComponent
+---@param manual_radius number
+function LE3PhysicsComponent.set_manual_radius(self, manual_radius) end
+
+---@param self LE3PhysicsComponent
 ---@param mass number
 function LE3PhysicsComponent.set_mass(self, mass) end
+
+---@param self LE3PhysicsComponent
+---@param rotation_w number
+---@param rotation_x number
+---@param rotation_y number
+---@param rotation_z number
+function LE3PhysicsComponent.set_rotation(self, rotation_w, rotation_x, rotation_y, rotation_z) end
 
 ---@param obj LE3PointCloud
 ---@param position_x number
@@ -667,6 +855,10 @@ function LE3Scene.add_free_camera(scene, name) end
 ---@param scene LE3Scene
 ---@param name string
 function LE3Scene.add_orbit_camera(scene, name) end
+
+---@param scene LE3Scene
+---@param classname string
+function LE3Scene.add_playerstart(scene, classname) end
 
 ---@param scene LE3Scene
 ---@param name string
@@ -784,6 +976,15 @@ function LE3Scene.set_culling(self, culling) end
 ---@param camera string
 function LE3Scene.set_main_camera(scene, camera) end
 
+---@param self LE3ScriptObject
+---@return string
+function LE3ScriptObject.get_classname(self) end
+
+---@param obj LE3ScriptObject
+---@param classname string
+---@param ref string
+function LE3ScriptObject.update_internals(obj, classname, ref) end
+
 ---@param shaderName string
 ---@return string
 ---@return string
@@ -811,6 +1012,12 @@ function LE3Shader.set_name(shaderName, name) end
 function LE3Shader.set_shader_paths(shaderName, vertexShaderPath, fragmentShaderPath) end
 
 ---@param meshName string
+---@param animIdx number
+---@return string
+---@return string
+function LE3SkeletalMesh.get_animation_at_idx(meshName, animIdx) end
+
+---@param meshName string
 function LE3SkeletalMesh.get_collider_type(meshName) end
 
 ---@param meshName string
@@ -819,6 +1026,9 @@ function LE3SkeletalMesh.get_mesh_path(meshName) end
 
 ---@param meshName string
 function LE3SkeletalMesh.get_name(meshName) end
+
+---@param meshName string
+function LE3SkeletalMesh.get_num_animations(meshName) end
 
 ---@param meshName string
 ---@param path string
@@ -857,8 +1067,9 @@ function LE3SkeletalModel.reset_animation(self) end
 function LE3SkeletalModel.set_animation_playing(self, animation_playing) end
 
 ---@param self LE3SkeletalModel
----@param current_animation string
-function LE3SkeletalModel.set_current_animation(self, current_animation) end
+---@param animationName string
+---@param blendTime number
+function LE3SkeletalModel.set_current_animation(self, animationName, blendTime) end
 
 ---@param self LE3SkeletalModel
 ---@param name string

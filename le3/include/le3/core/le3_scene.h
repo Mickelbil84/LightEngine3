@@ -23,6 +23,7 @@
 #include "graphics/le3_point_cloud.h"
 
 #include "utils/le3_gizmo.h"
+#include "gameplay/le3_playerstart.h"
 #include "scripting/le3_script_object.h"
 #include "networking/le3_network_spinner.h"
 
@@ -93,6 +94,7 @@ namespace le3 {
         void addBSPBrush(std::string name, LE3BSPBrushType brushType = LE3_BRUSH_ADDITIVE);
         void buildBSP();
 
+        void addPlayerStart(std::string classname = LE3_PLAYERSTART_DEFAULT_CLASS);
         void addFreeCamera(std::string name, std::string parent = "");
         void addOrbitCamera(std::string name, std::string parent = "");
 

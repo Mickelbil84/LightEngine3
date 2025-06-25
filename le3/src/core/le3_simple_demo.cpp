@@ -39,7 +39,7 @@ void LE3SimpleDemo::renderDebug() {}
 void LE3SimpleDemo::handleInput(LE3Input input) {
     if (input.keys["KEY_ESCAPE"]) m_engineState.notifyWantsQuit();
 
-    if (input.isKeyDownEvent("KEY_F")) m_engineState.notifyWantsRelativeMOuse(!m_engineState.isRelativeMouse());
+    if (input.isKeyDownEvent("KEY_F")) m_engineState.notifyWantsRelativeMouse(!m_engineState.isRelativeMouse());
 
     ////////////////////////
     // Camera Movement

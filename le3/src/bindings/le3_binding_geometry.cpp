@@ -103,9 +103,36 @@ FBIND(LE3SkeletalMesh, set_collider_type)
     if (mesh) {mesh->setColliderType(colliderType);}
 FEND()
 
+FBIND(LE3SkeletalMesh, get_num_animations)
+    GET_STRING(meshName)
+    std::shared_ptr<LE3SkeletalMesh> mesh = LE3GetAssetManager().getSkeletalMesh(meshName).lock();
+    if (!mesh) {PUSH_NUMBER(0)}
+    else {PUSH_NUMBER(mesh->getAnimationTracks().size())}
+FEND()
+FBIND(LE3SkeletalMesh, get_animation_at_idx)
+    GET_STRING(meshName)
+    GET_NUMBER(animIdx)
+    std::shared_ptr<LE3SkeletalMesh> mesh = LE3GetAssetManager().getSkeletalMesh(meshName).lock();
+    if (!mesh) {PUSH_NIL()}
+    else {
+        std::string animName;
+        int i = 0;
+        for (auto const & [name, track] : mesh->getAnimationTracks()) {
+            if (i++ == (int)animIdx) {
+                animName = name;
+                break;
+            }
+        }
+        std::string animPath = LE3GetAssetManager().getSkeletalAnimationPath(animName, meshName);
+        PUSH_STRING(animName)
+        PUSH_STRING(animPath)
+    }
+FEND()
+
 LIB(LE3SkeletalMesh, 
     get_name, set_name,
     get_mesh_path, set_mesh_path,
     reload_mesh,
-    get_collider_type, set_collider_type
+    get_collider_type, set_collider_type,
+    get_num_animations, get_animation_at_idx
 )

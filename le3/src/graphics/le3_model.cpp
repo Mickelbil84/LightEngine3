@@ -19,10 +19,6 @@ LE3Model<LE3VertexType>::LE3Model(LE3MeshPtr<LE3VertexType> pMesh, LE3MaterialPt
         m_drawPriority = priority;
         getPhysicsComponent().setIsRigidBody(rigidBody);
         if (!m_pMesh.lock()) return;
-        // if (getPhysicsComponent().isRigidBody()) {
-        //     getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
-        //     getPhysicsComponent().enable();
-        // }
 }
 
 template<typename LE3VertexType>
@@ -33,7 +29,9 @@ void LE3Model<LE3VertexType>::update(float deltaTime) {
     auto pMesh = m_pMesh.lock();
 
     // Update collider in physics component if mesh collider changed
-    if (getPhysicsComponent().isRigidBody() && m_pMesh.lock()->getColliderInfo() != getPhysicsComponent().getColliderInfo()) {
+    if (getPhysicsComponent().isRigidBody() && (m_pMesh.lock()->getColliderInfo() != getPhysicsComponent().getColliderInfo() && !getPhysicsComponent().isManualColliderOverride() ||
+        (getPhysicsComponent().isManualColliderOverride() && getPhysicsComponent().getColliderInfo() != getPhysicsComponent().getOverrideColliderInfo())
+    )) {
         getPhysicsComponent().disable();
         getPhysicsComponent().setupRigidBody(m_pMesh.lock()->getColliderInfo());
         getPhysicsComponent().enable();
@@ -50,6 +48,23 @@ void LE3Model<LE3VertexType>::update(float deltaTime) {
         float adjustedAnimationTime = fmodf(m_animationTime * ticksPerSecond, m_pMesh.lock()->getAnimationTracks()[m_currentAnimation].duration);
         m_pMesh.lock()->getAnimationTracks()[m_currentAnimation].updateBoneMatrices(adjustedAnimationTime);
     }
+    if (m_blendAnimation.size() && (m_blendAnimation != DEFAULT_EMPTY_ANIMATION_NAME) && m_blendTimeLeft > 0.f &&
+        !m_pMesh.expired() && (m_pMesh.lock()->getAnimationTracks().contains(m_blendAnimation)))
+    {
+        m_blendTimeLeft -= deltaTime;
+        if (m_blendTimeLeft <= 0.f) {
+            m_blendAnimation = DEFAULT_EMPTY_ANIMATION_NAME;
+            m_blendTotalTime = 0.f;
+            m_blendTimeLeft = 0.f;
+        }
+        else {
+            float ticksPerSecond = 25.f;
+            if (m_pMesh.lock()->getAnimationTracks()[m_blendAnimation].ticksPerSecond)
+                ticksPerSecond = (float)m_pMesh.lock()->getAnimationTracks()[m_blendAnimation].ticksPerSecond;
+            float adjustedAnimationTime = fmodf(m_animationTime * ticksPerSecond, m_pMesh.lock()->getAnimationTracks()[m_blendAnimation].duration);
+            m_pMesh.lock()->getAnimationTracks()[m_blendAnimation].updateBoneMatrices(adjustedAnimationTime);
+        }
+    }
 }
 
 template<typename LE3VertexType>
@@ -65,14 +80,22 @@ void LE3Model<LE3VertexType>::draw(LE3ShaderPtr shaderOverride) {
     }
 
     // Update animation, if applicable
-    std::vector<glm::mat4> boneMatrices;
+    std::vector<glm::mat4> boneMatrices, blendBoneMatrices;
     bool shouldAnimate = (m_currentAnimation.size() > 0) && (m_currentAnimation != DEFAULT_EMPTY_ANIMATION_NAME);
     if (!m_pMesh.lock()->getAnimationTracks().contains(m_currentAnimation)) {
         shouldAnimate = false;
         m_currentAnimation = DEFAULT_EMPTY_ANIMATION_NAME;
     }
-    if (shouldAnimate)
+    if (shouldAnimate) {
         boneMatrices = m_pMesh.lock()->getAnimationTracks()[m_currentAnimation].getBoneMatrices();
+        if (m_blendTimeLeft > 0.f) {
+            blendBoneMatrices = m_pMesh.lock()->getAnimationTracks()[m_blendAnimation].getBoneMatrices();
+            float alpha = m_blendTimeLeft / m_blendTotalTime;
+            for (int idx = 0; idx < boneMatrices.size(); idx++) {
+                boneMatrices[idx] = boneMatrices[idx] * (1.f - alpha) + blendBoneMatrices[idx] * alpha;
+            }
+        }
+    }
     else for (int idx = 0; idx < m_pMesh.lock()->getSkeleton().m_bones.size(); idx++)
         boneMatrices.push_back(glm::mat4(1.f));
     for (int idx = 0; idx < boneMatrices.size(); idx++)
@@ -83,6 +106,20 @@ void LE3Model<LE3VertexType>::draw(LE3ShaderPtr shaderOverride) {
     shaderOverride.lock()->uniform("bIsSkeletal", (uint32_t)false);
 
     if (LE3GetVisualDebug().getDrawDebugSkeletons()) drawDebugSkeleton(boneMatrices);
+}
+
+template<typename LE3VertexType>
+void LE3Model<LE3VertexType>::setCurrentAnimation(std::string animationName, float blendTime) { 
+    m_blendAnimation = m_currentAnimation;
+    m_currentAnimation = animationName;  
+    resetAnimation();
+    if (m_blendAnimation == DEFAULT_EMPTY_ANIMATION_NAME || m_blendAnimation == m_currentAnimation) {
+        m_blendTotalTime = 0.f;
+        m_blendTimeLeft = 0.f;
+    } else {
+        m_blendTotalTime = blendTime;
+        m_blendTimeLeft = blendTime;
+    }
 }
 
 template<typename LE3VertexType>

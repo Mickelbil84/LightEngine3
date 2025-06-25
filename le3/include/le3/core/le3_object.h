@@ -47,6 +47,7 @@ namespace le3 {
     protected:
         LE3Transform m_transform;
         LE3PhysicsComponent m_physicsComponent;
+        glm::mat4 m_worldMatrix = glm::mat4(1.f); // Shouldn't be updated manually! But is protected for classes where there is no choice
 
     private:
         // Graph structure
@@ -54,7 +55,6 @@ namespace le3 {
         std::vector<std::shared_ptr<LE3Object>> m_pChildren;
 
         std::string m_name = "";
-        glm::mat4 m_worldMatrix = glm::mat4(1.f);
         bool m_bIsDelegate = false;
     };
     using LE3ObjectPtr = std::shared_ptr<LE3Object>;

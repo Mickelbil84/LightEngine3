@@ -239,8 +239,8 @@ void LE3EditorTabAssets::updateMeshes() {
 
             ImGui::TableNextColumn();
             if (isSkeletal) {
-                ImGui::Image(
-                        LE3GetAssetManager().getTexture("icon_tick").lock()->getTextureID(), ImVec2(16, 16));
+                // ImGui::Image(
+                //         LE3GetAssetManager().getTexture("icon_tick").lock()->getTextureID(), ImVec2(16, 16));
             }
             else {
                 ImGui::Text("");
@@ -271,17 +271,29 @@ void LE3EditorTabAssets::updateAnimations() {
 
     static int selectedSkeletalMesh = 0;
     ImGui::Combo("Skeletal Mesh", &selectedSkeletalMesh, skeletalMeshesLabels.data(), skeletalMeshesLabels.size());
+    LE3SkeletalMeshPtr pSkeletalMesh = LE3GetAssetManager().getSkeletalMesh(skeletalMeshes[selectedSkeletalMesh]);
 
     if (ImGui::Button("Add")) {
-        // ...
+        // TODO: Bind this to an undoable action
+        std::string filePath = LE3GetEditorManager().getSelectedFile();
+        std::string fileName = filePath;
+        std::string meshName = pSkeletalMesh.lock()->getName();
+        size_t lastSlash = fileName.find_last_of("/\\");
+        if (lastSlash != std::string::npos) {
+            fileName = fileName.substr(lastSlash + 1);
+        }
+        size_t lastDot = fileName.find_last_of(".");
+        if (lastDot != std::string::npos) {
+            fileName = fileName.substr(0, lastDot);
+        }
+        LE3GetAssetManager().addSkeletalAnimation(fileName, filePath, meshName);
     }
     LE3EditorSystems::instance().updatePopups();
     ImGui::SameLine();
     if (ImGui::Button("Delete")) {
-        // ...
+        // TODO: allow deleting animations
     }
 
-    LE3SkeletalMeshPtr pSkeletalMesh = LE3GetAssetManager().getSkeletalMesh(skeletalMeshes[selectedSkeletalMesh]);
     if (ImGui::BeginTable("##AnimationsTable", 1, flags)) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
         ImGui::TableHeadersRow();

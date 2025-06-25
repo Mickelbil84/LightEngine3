@@ -97,6 +97,7 @@ void LE3AssetManager::loadPointCloud(std::vector<glm::vec3>& points, std::vector
 std::shared_ptr<LE3SkeletalMesh> LE3AssetManager::loadSkeletalMesh(std::string meshPath)
 {
     Assimp::Importer importer;
+    importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
     std::string pHint = meshPath.substr(meshPath.find_last_of(".") + 1);
     LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(meshPath);
     const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 
@@ -129,6 +130,7 @@ std::shared_ptr<LE3SkeletalMesh> LE3AssetManager::loadSkeletalMesh(std::string m
 
 void LE3AssetManager::reloadSkeletalMesh(std::shared_ptr<LE3SkeletalMesh> mesh, std::string meshPath) {
     Assimp::Importer importer;
+    importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
     std::string pHint = meshPath.substr(meshPath.find_last_of(".") + 1);
     LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(meshPath);
     const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 
@@ -337,6 +339,15 @@ void AssimpGetNodeVector(aiNode* node, std::vector<aiNode*>& nodes)
         AssimpGetNodeVector(node->mChildren[i], nodes);
 }
 
+aiNode* assimpGetBoneParent(aiNode* bone) {
+    if (!bone) return nullptr;
+    aiNode* parent = bone->mParent;
+    while (parent && std::string(parent->mName.C_Str()).find("_$AssimpFbx$_") != std::string::npos) {
+        parent = parent->mParent;
+    }
+    return parent;
+}
+
 void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes)
 {
     // skeleton.AddBone("_root");
@@ -345,9 +356,12 @@ void AssimpSkeletonHierarchy(LE3Skeleton& skeleton, std::vector<aiNode*> nodes)
         // Find the corresponding aiNode
         for (auto node : nodes)
         {
-            if ((std::string(node->mName.C_Str()) == bone->name) && node->mParent)
+            if ((std::string(node->mName.C_Str()) == bone->name))
             {
-                bone->parent = skeleton.getBone(std::string(node->mParent->mName.C_Str()));
+                aiNode* parent = assimpGetBoneParent(node);
+                if (parent) {
+                    bone->parent = skeleton.getBone(std::string(parent->mName.C_Str()));
+                }
                 break;
             }
         }
@@ -390,8 +404,11 @@ void _DBG_aiScenePrint(const aiScene* scene)
 
 void LE3AssetManager::addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName) {
     LE3SkeletalMeshPtr mesh = getSkeletalMesh(meshName);
+    if (!m_animPaths.contains(meshName)) m_animPaths[meshName] = std::map<std::string, std::string>();
+    m_animPaths[meshName][name] = animationPath;
 
     Assimp::Importer importer;
+    importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
     LE3DatBuffer data = LE3GetDatFileSystem().getFileContent(animationPath);
     std::string pHint = animationPath.substr(animationPath.find_last_of(".") + 1);
     const aiScene* scene = importer.ReadFileFromMemory(&data.data[0], data.data.size(), 

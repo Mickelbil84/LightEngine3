@@ -34,6 +34,13 @@ namespace le3 {
         
         void setMass(float mass);
         float getMass();
+
+        glm::vec3 getLinearVelocity() const;
+        void setLinearVelocity(glm::vec3 velocity);
+
+        glm::vec3 getAngularVelocity() const;
+        void setAngularVelocity(glm::vec3 velocity);
+        void setAngularFactor(glm::vec3 factor);
         
         std::weak_ptr<LE3PhysicsCollider> getCollider() { return m_collider; }
         void setupRigidBody(LE3ColliderInfo colliderInfo);
@@ -42,8 +49,27 @@ namespace le3 {
         void* getRigidBody();
         
         void warp(glm::vec3 position, glm::quat rotation);
+        void setRotation(glm::quat rotation); // Set rotation will always apply the given rotation on top of the initial rotation
+        
+        glm::vec3 getTotalForce() const;
+        void applyImpulse(glm::vec3 impulse);
+        bool probeCollision(glm::vec3 probe); // Test if a given probe intersects with any collider in the world
 
         std::weak_ptr<LE3DebugMesh> getHullDebugMesh() { return m_hullMesh; }
+
+        void setManualColliderOverride(bool colliderOverride) { m_bColliderOverride = colliderOverride; }
+        bool isManualColliderOverride() const { return m_bColliderOverride; }
+        
+        void setManualColliderType(LE3ColliderType colliderType) { m_colliderOverride.colliderType = colliderType;}
+        LE3ColliderType getManualColliderType() const { return m_colliderOverride.colliderType; }
+        LE3ColliderInfo getOverrideColliderInfo() const { return m_colliderOverride; }
+        
+        void setManualCentroid(glm::vec3 centroid) { m_colliderOverride.centroid = centroid; }
+        glm::vec3 getManualCentroid() const { return m_colliderOverride.centroid; }
+        void setManualExtent(glm::vec3 extent) { m_colliderOverride.extent = extent; }
+        glm::vec3 getManualExtent() const { return m_colliderOverride.extent; }
+        void setManualRadius(float radius) { m_colliderOverride.radius = radius; }
+        float getManualRadius() const { return m_colliderOverride.radius; }
 
         
         
@@ -58,11 +84,15 @@ namespace le3 {
         LE3Transform& m_transform;
         std::shared_ptr<LE3PhysicsCollider> m_collider;
         std::shared_ptr<LE3PhysicsRigidBody> m_rigidBody;
-        LE3ColliderInfo m_colliderInfo;
+        LE3ColliderInfo m_colliderInfo, m_colliderOverride;
         bool m_bEnabled, m_bIsTrigger; // Enabled == do not override! this means whether the physics is active (it may become true at some point)
         bool m_bRigidBody; // The most important variable: if false - then this entire component is disabled (stronger then m_bEnabled)
+        bool m_bColliderOverride = false;
         
         std::shared_ptr<LE3DebugMesh> m_hullMesh = nullptr; // For convex hull - store the hull mesh
+
+        // For local offsets/warping/setting rotation trickery
+        glm::quat m_initialRotation = glm::quat(1.f, 0.f, 0.f, 0.f);
 
         std::string m_componentName; // This would be some random unique id, but not the object name so we don't have to track changes
     };

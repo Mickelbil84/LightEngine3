@@ -5,6 +5,7 @@
 namespace le3 {
     // Engine state is updated within the LE3Application
     // Members are specifically private (for LE3GameLogic) as they are read-only.
+    // These are also accesible by the scripting engine
     struct LE3EngineState {
     public:
         inline float getElapsedTime() const { return m_elapsedTime; }
@@ -21,7 +22,7 @@ namespace le3 {
 
 
         inline void notifyWantsQuit() { m_bWantsQuit = true; }
-        inline void notifyWantsRelativeMOuse(bool relativeMouse) { m_bWantsRelativeMouse = relativeMouse; }
+        inline void notifyWantsRelativeMouse(bool relativeMouse) { m_bWantsRelativeMouse = relativeMouse; }
         inline bool isRelativeMouse() const { return m_bReltaiveMouse; }
 
         inline bool isFocused() const { return m_bFocused; } // True only if window is focused (and not on GUI)

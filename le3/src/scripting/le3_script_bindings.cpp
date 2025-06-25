@@ -3,6 +3,7 @@ using namespace le3;
 
 void le3::bindLE3Types(lua_State* L) {
     REGISTER(LE3EngineConfig);
+    REGISTER(LE3EngineState);
     REGISTER(LE3AssetManager);
     REGISTER(LE3VisualDebug);
 
@@ -40,6 +41,8 @@ void le3::bindLE3Types(lua_State* L) {
     REGISTER(LE3SpotLight);
 
     REGISTER(ImGui);
+
+    REGISTER(LE3PlayerStart);
 
     // Bind enums
     // TODO: simpler code for that also

@@ -13,9 +13,17 @@ namespace le3 {
 
         virtual void update(float deltaTime);
         virtual void draw(LE3ShaderPtr shaderOverride);
+        
+        // Warning! These should be called only by the editor
+        void updateInternals(std::string classname, std::string ref) {
+            this->classname = classname; this->ref = ref;
+        }
+        std::string getClassname() const { return classname; }
 
     protected:
         std::string classname, ref;
+
+        bool shouldSkip();
     };
     using LE3ScriptObjectPtr = std::shared_ptr<LE3ScriptObject>;
 }

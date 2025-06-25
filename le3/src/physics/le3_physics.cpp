@@ -124,6 +124,7 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
     if (m_collider) m_collider = nullptr;
     // Setup colliders
     m_colliderInfo = colliderInfo;
+    if (m_bColliderOverride) m_colliderInfo = m_colliderOverride;
     glm::vec3 extent = m_colliderInfo.extent;
     glm::vec3 scale = m_transform.getScale();
     m_collider = std::make_shared<LE3PhysicsCollider>();
@@ -151,6 +152,7 @@ void LE3PhysicsComponent::setupRigidBody(LE3ColliderInfo colliderInfo) {
         btQuaternion(m_transform.getRotation().x, m_transform.getRotation().y, m_transform.getRotation().z, m_transform.getRotation().w),
         btVector3(offset.x, offset.y, offset.z)
     );
+    m_initialRotation = m_transform.getRotation();
 
     m_rigidBody->m_motionState = std::make_shared<btDefaultMotionState>(m_rigidBody->m_transform);
     btVector3 inertia(0,0,0);
@@ -183,7 +185,10 @@ bool LE3PhysicsComponent::update() {
     glm::vec3 pos = glm::vec3(float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
     m_transform.setRotation(rot);
     m_transform.setPosition(pos);
-    m_transform.setPosition(glm::vec3(m_transform.getTransformMatrix() * glm::vec4(-m_colliderInfo.centroid, 1.f)));
+    if (m_colliderInfo.colliderType != LE3ColliderType::LE3ColliderType_Capsule)
+        m_transform.setPosition(glm::vec3(m_transform.getTransformMatrix() * glm::vec4(-m_colliderInfo.centroid, 1.f)));
+    else 
+        m_transform.setPosition(glm::vec3(m_transform.getTransformMatrix() * glm::vec4(0.f, 0.f, 0.f, 1.f)));
 
     return true;
 }
@@ -209,4 +214,47 @@ void LE3PhysicsComponent::setMass(float mass) {
 
 float LE3PhysicsComponent::getMass() {
     return m_rigidBody->m_mass;
+}
+
+glm::vec3 LE3PhysicsComponent::getLinearVelocity() const {
+    btVector3 v = m_rigidBody->m_rigidBody->getLinearVelocity();
+    return glm::vec3(v.x(), v.y(), v.z());
+}
+void LE3PhysicsComponent::setLinearVelocity(glm::vec3 velocity) {
+    m_rigidBody->m_rigidBody->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
+}
+
+glm::vec3 LE3PhysicsComponent::getAngularVelocity() const {
+    btVector3 v = m_rigidBody->m_rigidBody->getAngularVelocity();
+    return glm::vec3(v.x(), v.y(), v.z());
+}
+void LE3PhysicsComponent::setAngularVelocity(glm::vec3 velocity) {
+    m_rigidBody->m_rigidBody->setAngularVelocity(btVector3(velocity.x, velocity.y, velocity.z));
+}
+void LE3PhysicsComponent::setAngularFactor(glm::vec3 factor) {
+    m_rigidBody->m_rigidBody->setAngularFactor(btVector3(factor.x, factor.y, factor.z));
+}
+
+void LE3PhysicsComponent::setRotation(glm::quat rotation) {
+    btTransform t = m_rigidBody->m_rigidBody->getWorldTransform();
+    rotation = rotation * m_initialRotation; // Apply new rotation on top of the initial rotation
+    t.setRotation(btQuaternion(rotation.x, rotation.y, rotation.z, rotation.w));
+    m_rigidBody->m_rigidBody->setWorldTransform(t);
+    m_rigidBody->m_rigidBody->setInterpolationWorldTransform(t);
+}
+
+void LE3PhysicsComponent::applyImpulse(glm::vec3 impulse) {
+    btVector3 impulseVec(impulse.x, impulse.y, impulse.z);
+    btVector3 relPos;
+    m_rigidBody->m_rigidBody->applyImpulse(impulseVec, relPos);
+}
+
+glm::vec3 LE3PhysicsComponent::getTotalForce() const {
+    btVector3 force = m_rigidBody->m_rigidBody->getTotalForce();
+    return glm::vec3(force.x(), force.y(), force.z());
+}
+
+bool LE3PhysicsComponent::probeCollision(glm::vec3 probe) {
+    btVector3 from = m_rigidBody->m_rigidBody->getWorldTransform().getOrigin();
+    return LE3GetPhysicsManager().rayTest(glm::vec3(from.x(), from.y(), from.z()), glm::vec3(from.x(), from.y(), from.z()) + probe);
 }

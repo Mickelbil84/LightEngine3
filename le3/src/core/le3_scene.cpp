@@ -342,6 +342,12 @@ void LE3Scene::addCustomObject(std::string name, std::shared_ptr<LE3Object> obj,
     obj->init();
 }
 
+void LE3Scene::addPlayerStart(std::string classname) {
+    std::string name = LE3_PLAYERSTART_OBJECT_NAME;
+    LE3PlayerStartPtr obj = std::make_shared<LE3PlayerStart>(classname);
+    addCustomObject(name, obj, "");
+}
+
 void LE3Scene::addFreeCamera(std::string name, std::string parent) {
     LE3CameraPtr obj = std::make_shared<LE3FreeCamera>();
     addCustomObject(name, obj, parent);

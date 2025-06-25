@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "core/le3_input.h"
 #include "core/le3_dat_filesystem.h"
 #include "core/le3_scene_manager.h"
 #include "core/le3_editor_manager.h"
@@ -28,12 +29,20 @@ namespace le3 {
             std::string dirs[] = {
                 "/engine/config", "/engine/scripts"
             };
+            std::vector<std::string> gameplayScripts;
             for (int i = 0; i < sizeof(dirs) / sizeof(std::string); i++) {
                 for (auto filename : g_datFilesystem.getFilesFromDir(dirs[i])) {
+                    if (filename.find("/gameplay/") != std::string::npos) {
+                        gameplayScripts.push_back(filename);
+                        continue;
+                    }
                     std::string content = g_datFilesystem.getFileContent(filename).toString();
                     g_scriptSystem.doString(content);
                 }
             }
+            // Special case: the gameplay scripts should always run last
+            for (auto filename : gameplayScripts)
+                g_scriptSystem.doString(g_datFilesystem.getFileContent(filename).toString());
 
             g_headlessEngine = headless;
         }
@@ -66,6 +75,12 @@ namespace le3 {
 
         inline bool isEditModeEngine() const { return g_editModeEngine; }
         inline void setEditModeEngine(bool editMode) { g_editModeEngine = editMode; }
+
+        inline LE3Input getRecentInput() const { return g_input; }
+        inline void setRecentInput(LE3Input input) { g_input = input; }
+
+        inline LE3EngineState* getEngineState() { return g_engineState; }
+        inline void setEngineState(LE3EngineState* engineState) { g_engineState = engineState; }
         
     private:
         LE3EngineSystems() {
@@ -85,6 +100,8 @@ namespace le3 {
         bool g_headlessEngine;
         bool g_editModeEngine = false; // If true, then no scripts or physics run
         bool g_requestReset = false;
+        LE3Input g_input; // Store the most recent input, mostly for script bindings
+        LE3EngineState* g_engineState = nullptr;
     };
 
     #define LE3GetDatFileSystem LE3EngineSystems::instance().getDatFileSystem
@@ -99,4 +116,6 @@ namespace le3 {
     #define LE3GetEngineDebug LE3EngineSystems::instance().getEngineDebug
 
     #define LE3GetActiveScene LE3GetSceneManager().getActiveScene
+    #define LE3GetInput LE3EngineSystems::instance().getRecentInput
+    #define LE3GetEngineState LE3EngineSystems::instance().getEngineState
 }

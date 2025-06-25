@@ -64,6 +64,7 @@ void LE3AssetManager::reset() {
     m_shadersPaths.clear();
     m_texturesPaths.clear();
     m_meshesPaths.clear();
+    m_animPaths.clear();
 
     m_screenRect = nullptr;
     m_debugLine = nullptr;
@@ -341,6 +342,7 @@ void LE3AssetManager::renameSkeletalMesh(std::string oldName, std::string newNam
 void LE3AssetManager::deleteSkeletalMesh(std::string name) {
     if (m_pSkeletalMeshes.contains(name)) m_pSkeletalMeshes.erase(name);
     if (m_meshesPaths.contains(name)) m_meshesPaths.erase(name);
+    if (m_animPaths.contains(name)) m_animPaths.erase(name);
     m_lastDeletedSkeletalMesh = name;
     refreshPointers();
 }

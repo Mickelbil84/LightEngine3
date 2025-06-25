@@ -47,7 +47,7 @@ LE3AmbientLight.title = "LE3AmbientLight"
 
 LE3DirectionalLight.__base = LE3Light
 LE3DirectionalLight.load = function (scene, tbl, res)
-    if (res == nil) then 
+    if (res == nil) then
         LE3Scene.add_directional_light(scene, tbl.Name)
         res = LE3Scene.get_object(scene, tbl.Name)
     end

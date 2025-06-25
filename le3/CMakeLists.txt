@@ -91,6 +91,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/scripting/le3_script_system.cpp
     src/scripting/le3_serialization.cpp
 
+    src/gameplay/le3_playerstart.cpp
+
     src/tools/le3_tool_pkg.cpp
 
     src/ui/le3_imgui_utils.cpp
@@ -117,11 +119,13 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_primitives.cpp
     src/bindings/le3_binding_light.cpp
     src/bindings/le3_binding_engine_config.cpp
+    src/bindings/le3_binding_engine_state.cpp
     src/bindings/le3_binding_asset_manager.cpp
     src/bindings/le3_binding_script_object.cpp
     src/bindings/le3_binding_visual_debug.cpp
     src/bindings/le3_binding_point_cloud.cpp
     src/bindings/le3_binding_sprite.cpp
+    src/bindings/le3_binding_playerstart.cpp
 
     ${PROJECT_SOURCE_DIR}/../third-party/imgui/imgui.cpp
     ${PROJECT_SOURCE_DIR}/../third-party/imgui/imgui_demo.cpp
