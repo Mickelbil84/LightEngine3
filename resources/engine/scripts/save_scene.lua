@@ -63,11 +63,17 @@ local function save_LE3Scene_settings(scene)
 end
 
 ---@param scene LE3Scene
+---@param shared boolean
 ---@return table
-function save_LE3Scene(scene)
+function save_LE3Scene(scene, shared)
     Scene = {} -- notice that this is a global variable!
-    for key, value in pairs(save_LE3Scene_assets()) do Scene[key] = value end
-    for key, value in pairs(save_LE3Scene_objects(scene)) do Scene[key] = value end
-    Scene.Settings = save_LE3Scene_settings(scene)
+    if shared then
+        for key, value in pairs(save_LE3Scene_assets()) do Scene[key] = value end
+    end
+    -- TODO: if shared, export only objects under __shared__, and vice versa
+    if not shared then
+        for key, value in pairs(save_LE3Scene_objects(scene)) do Scene[key] = value end
+        Scene.Settings = save_LE3Scene_settings(scene)
+    end
     return Scene
 end

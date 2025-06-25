@@ -48,10 +48,11 @@ void LE3Scene::load(std::string path) {
     LE3GetScriptSystem().callFunction(2, 0);
 }
 
-void LE3Scene::save(std::string path) {
+void LE3Scene::save(std::string path, bool shared) {
     LE3GetScriptSystem().getGlobal("save_LE3Scene");
     LE3GetScriptSystem().pushUserType<LE3Scene>(this);
-    LE3GetScriptSystem().callFunction(1, 1);
+    LE3GetScriptSystem().pushBool(shared);
+    LE3GetScriptSystem().callFunction(2, 1);
     LE3GetScriptSystem().pop(1); // Anyway there is a global variable "Scene"
     LE3Serialization::dump("Scene", path);
 }

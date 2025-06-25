@@ -18,7 +18,8 @@ void LE3EditorScenes::loadScene(std::string name) {
 }
 void LE3EditorScenes::saveScene(std::string name) {
     LE3EngineConfig::set<std::string>("LE3ProjectConfig.LastOpenedScene", name);
-    LE3GetActiveScene()->save(name);
+    LE3GetActiveScene()->save(LE3ED_SHARED_SCENE_PATH, true); // Save shared assets & prefabs
+    LE3GetActiveScene()->save(name, false); // Save scene specific objects
     LE3GetEventManager().notify(LE3ED_EVENT_ON_SCENE_SAVE, nullptr);
 }
 
@@ -102,6 +103,8 @@ void LE3EditorScenes::initScenes(std::string name) {
     LE3GetPhysicsManager().reset(); // Reset also physics
     LE3GetEditorManager().getSelection().reset();
     LE3GetEditorManager().getCommandStack().reset();
+
+    LE3EditorProject::reloadAssets();
 
     initSharedScene();
     LE3GetSceneManager().createScene("scene", m_engineState, "");
