@@ -5,7 +5,7 @@ function TPSCamPlayer:init()
     self.camera = LE3OrbitCamera.load(self.scene, {
         FOV = 50 * 3.14159265 / 180,
         Name = cameraName,
-        Offset = 3,
+        Offset = 1.5,
         -- Origin = {10, 0, 0}
     })
     self.playerMesh = LE3Scene.get_object(self.scene, "SK_ybot_1")
