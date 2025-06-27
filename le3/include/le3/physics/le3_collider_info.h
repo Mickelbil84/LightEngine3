@@ -24,7 +24,7 @@ namespace le3 {
     */
     struct LE3ColliderInfo {
         // Controllable settings
-        LE3ColliderType colliderType;
+        LE3ColliderType colliderType = LE3ColliderType::LE3ColliderType_Box; // Default is box
         int decimationResolution = 7; // TODO: control this as a property of the mesh
 
         // Computed values
