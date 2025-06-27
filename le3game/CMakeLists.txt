@@ -5,7 +5,7 @@ if (LE3_WITH_GAME)
     # Setup bootstrap macros and files
     ########################################
     set(LE3_GAME_DEFAULT_PROJECT "examples/platformer")
-    set(LE3_GAME_DEFAULT_PROJECT_INITIAL_SCENE "bowling.lua")
+    set(LE3_GAME_DEFAULT_PROJECT_INITIAL_SCENE "main.lua")
     set(LE3_GAME_DEFAULT_PROJECT_ABSOLUTE "${CMAKE_SOURCE_DIR}/${LE3_GAME_DEFAULT_PROJECT}")
 
     set(LE3_GAME_BOOTSTRAP_FILE "bootstrap.lua")

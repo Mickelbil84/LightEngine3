@@ -57,7 +57,7 @@ namespace le3 {
 
         // Path to Lua file that creates a (global) table "Scene"
         void load(std::string path);
-        void save(std::string path);
+        void save(std::string path, bool shared); // Shared scene saves only assets and objects under __shared__ object, regular scene only save objects!
         
         void update(float deltaTime);
         void preUpdate();

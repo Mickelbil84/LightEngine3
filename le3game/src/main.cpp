@@ -66,7 +66,9 @@ private:
     void loadInitialScene() {
         std::string initialSceneName = LE3GetConfig<std::string>("LE3GameConfig.InitialScene");
         LE3GetPhysicsManager().reset();
-        LE3GetSceneManager().createScene("__main__", m_engineState, fmt::format("/le3proj/scenes/{}", initialSceneName));
+        LE3GetSceneManager().createScene("__main__", m_engineState, "");
+        LE3GetSceneManager().getScene("__main__")->load("/le3proj/scenes/__shared__.lua");
+        LE3GetSceneManager().getScene("__main__")->load(fmt::format("/le3proj/scenes/{}", initialSceneName));
 
         // LE3GetActiveScene()->addFreeCamera("camera");
         if (!LE3GetActiveScene()->getObject(LE3_PLAYERSTART_OBJECT_NAME)) {

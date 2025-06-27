@@ -5,13 +5,13 @@ function TPSCamPlayer:init()
     self.camera = LE3OrbitCamera.load(self.scene, {
         FOV = 50 * 3.14159265 / 180,
         Name = cameraName,
-        Offset = 3,
+        Offset = 1.5,
         -- Origin = {10, 0, 0}
     })
-    self.playerMesh = LE3Scene.get_object(self.scene, "SK_soldier_1")
+    self.playerMesh = LE3Scene.get_object(self.scene, "SK_ybot_1")
     self.playerMeshPhysics = LE3Object.get_physics_component(self.playerMesh)
     LE3SkeletalModel.set_animation_playing(self.playerMesh, true)
-    LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_idle", 0)
+    LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_ybot_idle", 0)
 
     self.offset = LE3Object.load(self.scene, {
         Name = cameraName .. "__offset",
@@ -19,7 +19,7 @@ function TPSCamPlayer:init()
         Rotation = {0, 0, 0},
         Scale = {1, 1, 1}
     })
-    LE3Scene.reparent(self.scene, self.offset.name, "SK_soldier_1")
+    LE3Scene.reparent(self.scene, self.offset.name, "SK_ybot_1")
     LE3Scene.reparent(self.scene, cameraName, self.offset.name)
 
     self.cameraVelocity = {0, 0, 0}
@@ -36,7 +36,7 @@ function TPSCamPlayer:init()
     -- Animation state
     self.animType = 0 -- 0 idle 1 walk 2 jump 3 fall
     self.animBlendTime = 0.1
-    self.currentAnimation = "ANIM_soldier_idle"
+    self.currentAnimation = "ANIM_ybot_idle"
 end
 
 function TPSCamPlayer:update(deltaTime)
@@ -81,9 +81,9 @@ function TPSCamPlayer:decideAnimation(v)
     local isFalling = self.inAir
     
     if isFalling and self.animType ~= 3 then
-        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_fall", self.animBlendTime * 2)
+        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_ybot_fall", self.animBlendTime * 2)
         self.animType = 3
-        self.currentAnimation = "ANIM_soldier_fall"
+        self.currentAnimation = "ANIM_ybot_fall"
         return
     end
     if isFalling and self.animType == 3 then return end
@@ -92,17 +92,17 @@ function TPSCamPlayer:decideAnimation(v)
     if self.animType == 3 then blendTime = 0.1 end
     if isMoving and (
         self.animType ~= 1 or
-        (self.isRunning and self.currentAnimation ~= "ANIM_soldier_run") or
-        (not self.isRunning and self.currentAnimation ~= "ANIM_soldier_walk"))  then
-        local anim = "ANIM_soldier_walk"
-        if self.isRunning then anim = "ANIM_soldier_run" end
+        (self.isRunning and self.currentAnimation ~= "ANIM_ybot_run") or
+        (not self.isRunning and self.currentAnimation ~= "ANIM_ybot_walk"))  then
+        local anim = "ANIM_ybot_walk"
+        if self.isRunning then anim = "ANIM_ybot_run" end
         LE3SkeletalModel.set_current_animation(self.playerMesh, anim, blendTime)
         self.animType = 1
         self.currentAnimation = anim
         return
     end
     if not isMoving and self.animType ~= 0 then
-        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_soldier_idle", blendTime)
+        LE3SkeletalModel.set_current_animation(self.playerMesh, "ANIM_ybot_idle", blendTime)
         self.animType = 0
         return
     end

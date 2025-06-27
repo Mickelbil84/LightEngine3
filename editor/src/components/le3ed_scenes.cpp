@@ -18,7 +18,8 @@ void LE3EditorScenes::loadScene(std::string name) {
 }
 void LE3EditorScenes::saveScene(std::string name) {
     LE3EngineConfig::set<std::string>("LE3ProjectConfig.LastOpenedScene", name);
-    LE3GetActiveScene()->save(name);
+    LE3GetActiveScene()->save(LE3ED_SHARED_SCENE_PATH, true); // Save shared assets & prefabs
+    LE3GetActiveScene()->save(name, false); // Save scene specific objects
     LE3GetEventManager().notify(LE3ED_EVENT_ON_SCENE_SAVE, nullptr);
 }
 
@@ -103,7 +104,13 @@ void LE3EditorScenes::initScenes(std::string name) {
     LE3GetEditorManager().getSelection().reset();
     LE3GetEditorManager().getCommandStack().reset();
 
-    LE3GetSceneManager().createScene("scene", m_engineState, name);
+    LE3EditorProject::reloadAssets();
+
+    initSharedScene();
+    LE3GetSceneManager().createScene("scene", m_engineState, "");
+    LE3GetSceneManager().getScene("scene")->load(LE3ED_SHARED_SCENE_PATH);
+    if (name != "") 
+        LE3GetSceneManager().getScene("scene")->load(name);
     LE3GetSceneManager().getScene("scene")->setRenderDirectly(false);
     LE3GetSceneManager().getScene("scene")->resize(10, 10);
     LE3GetSceneManager().getScene("scene")->drawDebug = [this]() { this->renderDebug(); };
@@ -173,4 +180,12 @@ void LE3EditorScenes::openLoadScenePopup() {
 void LE3EditorScenes::openSaveScenePopup() {
     m_saveScenePop.init();
     ImGui::OpenPopup((LE3ED_POP_SAVE_SCENE).c_str());
+}
+
+void LE3EditorScenes::initSharedScene() {
+    if (!LE3GetDatFileSystem().fileExists(LE3ED_SHARED_SCENE_PATH)) {
+        LE3DatBuffer buffer;
+        buffer.fromString("Scene = {}");
+        LE3GetDatFileSystem().appendFile(LE3ED_PROJECT_ARCHIVE, LE3ED_SHARED_SCENE_PATH, buffer, true);
+    }
 }
