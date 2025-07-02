@@ -26,6 +26,8 @@ uniform mat4 boneMatrices[MAX_NUM_BONES];
 
 uniform int isBillboard;
 
+out float depth;
+
 void main()
 {
 
@@ -46,6 +48,7 @@ void main()
         inv_view[3][2] = 0.0;
         inv_view = inverse(inv_view);
         gl_Position = projection * view  * model_norot * inv_view * position;
+        depth = gl_Position.z;
         return;
     }
 
@@ -83,4 +86,5 @@ void main()
     }
 
     gl_Position = projection * view * model * position;
+    depth = gl_Position.z;
 }
