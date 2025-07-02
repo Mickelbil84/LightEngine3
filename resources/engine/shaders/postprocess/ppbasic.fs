@@ -4,6 +4,7 @@ out vec4 fColor;
 in vec2 uv;
 
 uniform sampler2D screenTexture;
+uniform sampler2D ssaoTexture;
 
 const float offset = 1.0 / 800.0;
 vec2 offsets[9] = vec2[](
@@ -39,6 +40,7 @@ void main()
     
     // Original color
     vec3 orgColor = vec3(texture(screenTexture, uv));
+    // vec3 orgColor = vec3(texture(ssaoTexture, uv));
     fColor = vec4(orgColor, 1.0);
 
     // vec3 ps3brown = vec3(144.0, 120.0, 90.0) / 255.0 + 0.2;

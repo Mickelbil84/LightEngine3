@@ -32,6 +32,7 @@ out vec4 dirLightPosCoord[MAX_DIRECTIONAL_LIGHTS];
 out vec4 spotLightPosCoord[MAX_SPOT_LIGHTS];
 out vec3 normalCoord;
 out mat3 tbn;
+out vec2 screenSpaceTexCoord;
 
 void main()
 {
@@ -70,6 +71,7 @@ void main()
 
     gl_Position = projection * view * model * position;
     texCoord = vTexCoord;
+    screenSpaceTexCoord = 0.5 * (gl_Position.xy / gl_Position.w + 1);
     posCoord = vec3(model * vec4(position.xyz, 1.0));
     
     for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)

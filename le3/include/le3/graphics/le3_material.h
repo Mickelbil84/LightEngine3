@@ -14,6 +14,7 @@ namespace le3 {
         SPECULAR_TEXTURE_INDEX = 2,
         NORMAL_TEXTURE_INDEX = 3,
         CUBEMAP_TEXTURE_INDEX = 4,
+        SSAO_TEXTURE_INDEX = 5,
         SHADOW_MAP_INDEX = 6
     };
 

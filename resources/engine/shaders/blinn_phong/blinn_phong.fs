@@ -71,6 +71,8 @@ uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 uniform vec3 cameraPos;
 
+uniform sampler2D ssaoTexture;
+
 out vec4 fColor;
 
 in vec2 texCoord;
@@ -79,6 +81,7 @@ in vec4 dirLightPosCoord[MAX_DIRECTIONAL_LIGHTS];
 in vec4 spotLightPosCoord[MAX_SPOT_LIGHTS];
 in vec3 normalCoord;
 in mat3 tbn;
+in vec2 screenSpaceTexCoord;
 
 float rand(vec2 co){
     return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
@@ -135,7 +138,8 @@ vec3 calc_reflection(vec3 normal)
 
 vec3 calc_ambient_light(AmbientLight ambientLight)
 {
-    return ambientLight.intensity * ambientLight.color;
+    float ssao = 1.0 - texture(ssaoTexture, screenSpaceTexCoord).r;
+    return 3 * ssao * ambientLight.intensity * ambientLight.color;
 }
 
 vec3 calc_directional_light(DirectionalLight directionalLight, vec3 normal, vec3 pos, vec4 posLightSpace, Material material, vec3 diffuseColor, vec3 specularColor)

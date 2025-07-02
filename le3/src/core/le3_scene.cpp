@@ -62,6 +62,7 @@ void LE3Scene::resize(int width, int height)
 {
     m_width = width; m_height = height;
     m_rawBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
+    m_ssaoBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_objectIdsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_selectedObjectsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_postProcessBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
@@ -99,6 +100,9 @@ void LE3Scene::draw() {
     updateHoveredObject();
     drawSelected();
 
+    // Draw SSAO texture
+    drawSSAO();
+
     // Draw the scene as is
     // Also, one of the objects might try to do visual debug, so set the active camera
     LE3GetVisualDebug().setActiveCamera(m_pMainCamera);
@@ -112,6 +116,21 @@ void LE3Scene::draw() {
 
     // Revert back to normal drawing
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void LE3Scene::drawSSAO() {
+    m_ssaoBuffer->bind();
+    glClearColor(0.f, 0.f, 0.f, 0.f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glDisable(GL_DEPTH_TEST);
+    glViewport(0, 0, m_postProcessBuffer->getWidth(), m_postProcessBuffer->getHeight());
+
+    std::shared_ptr<LE3Shader> ssaoShader = LE3GetAssetManager().getShader(DEFAULT_SSAO_SHADER).lock();
+    ssaoShader->use();
+
+    m_objectIdsBuffer->useDepthTexture(0);
+    ssaoShader->uniform("depthTexture", (unsigned int)0);
+    LE3GetAssetManager().getScreenRect()->draw();
 }
 
 void LE3Scene::drawLights() {
@@ -161,6 +180,16 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
         applyMainCamera(shaderOverride);
         m_sceneGraph->m_lightManager.renderLights(shaderOverride, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
     }
+
+    // Bind more helper textures
+    m_ssaoBuffer->useColorTexture(SSAO_TEXTURE_INDEX);
+    if (!shaderOverride.lock()) for (auto kv : LE3GetAssetManager().getShaders()) {
+        kv.second->uniform("ssaoTexture", (unsigned int)SSAO_TEXTURE_INDEX);
+    }
+    else {
+        shaderOverride.lock()->uniform("ssaoTexture", (unsigned int)SSAO_TEXTURE_INDEX);
+    }
+
     m_sceneGraph->m_drawQueue.draw(shaderOverride, shadowPhase);
 }
 
@@ -218,6 +247,10 @@ void LE3Scene::drawPostProcess() {
     m_postProcessShader.lock()->uniform("objectIdTexture", (unsigned int)1);
     m_selectedObjectsBuffer->useColorTexture(2);
     m_postProcessShader.lock()->uniform("selectedTexture", (unsigned int)2);
+    m_ssaoBuffer->useColorTexture(3);
+    m_postProcessShader.lock()->uniform("ssaoTexture", (unsigned int)3);
+
+    // TODO: enum to visual debug show a specific texture
 
     if (postProcessUniforms) postProcessUniforms(m_postProcessShader.lock());
 
