@@ -1,6 +1,8 @@
 #include "graphics/le3_texture.h"
 using namespace le3;
 
+#include <fmt/core.h>
+
 #ifdef __linux__
 #include <GL/glew.h>
 #else
@@ -44,4 +46,5 @@ void LE3Texture::load(std::vector<unsigned char> data, int width, int height, in
 void LE3Texture::use(uint32_t activeTexture) {
     glActiveTexture(GL_TEXTURE0 + activeTexture);
     glBindTexture(GL_TEXTURE_2D, m_texture);
+    fmt::print("Using texture {} on active texture {}\n", m_texture, activeTexture);
 }

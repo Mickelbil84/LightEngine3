@@ -40,7 +40,12 @@ void main()
     
     // Original color
     vec3 orgColor = vec3(texture(screenTexture, uv));
-    // vec3 orgColor = vec3(texture(ssaoTexture, uv));
+    vec3 ssaoColor = vec3(texture(ssaoTexture, uv));
+    if (uv.x < 0.5)
+        fColor = vec4(orgColor, 1.0);
+    else
+        fColor = vec4(ssaoColor * 0.5, 1.0);
+
     fColor = vec4(orgColor, 1.0);
 
     // vec3 ps3brown = vec3(144.0, 120.0, 90.0) / 255.0 + 0.2;

@@ -93,6 +93,7 @@ void LE3Scene::postUpdate() {
 void LE3Scene::draw() {
     LE3GetSceneManager().setActiveScene(m_name);
 
+    
     // Draw the scene once for each shadowmap
     drawLights();
     // Draw the scene, but only rendering object IDs
@@ -102,6 +103,7 @@ void LE3Scene::draw() {
 
     // Draw SSAO texture
     drawSSAO();
+
 
     // Draw the scene as is
     // Also, one of the objects might try to do visual debug, so set the active camera
@@ -182,12 +184,11 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
     }
 
     // Bind more helper textures
-    m_ssaoBuffer->useColorTexture(SSAO_TEXTURE_INDEX);
-    if (!shaderOverride.lock()) for (auto kv : LE3GetAssetManager().getShaders()) {
-        kv.second->uniform("ssaoTexture", (unsigned int)SSAO_TEXTURE_INDEX);
-    }
-    else {
-        shaderOverride.lock()->uniform("ssaoTexture", (unsigned int)SSAO_TEXTURE_INDEX);
+    if (!shaderOverride.lock()) {
+        for (auto kv : LE3GetAssetManager().getShaders()) {
+            kv.second->uniform("ssaoTexture", (uint32_t)10);
+            m_ssaoBuffer->useColorTexture(0);
+        }
     }
 
     m_sceneGraph->m_drawQueue.draw(shaderOverride, shadowPhase);

@@ -71,7 +71,8 @@ void main()
 
     gl_Position = projection * view * model * position;
     texCoord = vTexCoord;
-    screenSpaceTexCoord = 0.5 * (gl_Position.xy / gl_Position.w + 1);
+    // screenSpaceTexCoord = 0.5 * (gl_Position.xy / gl_Position.w + 1);
+    screenSpaceTexCoord = 0.5 * gl_Position.xy + 0.5;
     posCoord = vec3(model * vec4(position.xyz, 1.0));
     
     for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)

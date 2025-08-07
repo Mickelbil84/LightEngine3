@@ -18,8 +18,8 @@ namespace le3 {
 
         void bind();
 
-        void useColorTexture(int i = 0);
-        void useDepthTexture(int i = 0);
+        void useColorTexture(uint32_t i = 0);
+        void useDepthTexture(uint32_t i = 0);
 
         // This is a helper, useful for shadowmaps
         // The bindnig index of the buffer textures is done manually anyway
