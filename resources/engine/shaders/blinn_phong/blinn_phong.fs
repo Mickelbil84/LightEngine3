@@ -138,11 +138,9 @@ vec3 calc_reflection(vec3 normal)
 
 vec3 calc_ambient_light(AmbientLight ambientLight)
 {
-    float ssao = texture(ssaoTexture, screenSpaceTexCoord).r;
-    // return 1 * ssao * ambientLight.intensity * ambientLight.color;
-    // if (ssao < 1)
-    //     return vec3(1.0, 0.0, 0.0) * 10.0;
-    return vec3(0.0, 0.0, 0.0) * 0.0;
+    vec2 ssaoUV = gl_FragCoord.xy / vec2(textureSize(ssaoTexture, 0));
+    float ssao = texture(ssaoTexture, ssaoUV).r;
+    return 4 * ssao * ambientLight.intensity * ambientLight.color;
 }
 
 vec3 calc_directional_light(DirectionalLight directionalLight, vec3 normal, vec3 pos, vec4 posLightSpace, Material material, vec3 diffuseColor, vec3 specularColor)
@@ -200,19 +198,15 @@ void main()
         diffuseColor = texture(
             material.diffuseTexture, vec2(texCoord.x * material.tilingX, texCoord.y * material.tilingY));
 
-    // if (material.bUseDiffuseTexture)
-    diffuseColor = texture(
-        ssaoTexture, vec2(texCoord.x * material.tilingX, texCoord.y * material.tilingY));
-    
     // Specular color
     vec4 specularColor = vec4(material.specularColor, 1.0);
-    if (material.bUseSpecularTexture && false)
+    if (material.bUseSpecularTexture)
         specularColor *= texture(
             material.specularTexture, vec2(texCoord.x * material.tilingX, texCoord.y * material.tilingY)).r;
 
     // Normal color
     vec3 normal = normalCoord;
-    if (material.bUseNormalTexture && false)
+    if (material.bUseNormalTexture)
     {
         normal = texture(
             material.normalTexture, vec2(texCoord.x * material.tilingX, texCoord.y * material.tilingY)).rgb;
@@ -221,7 +215,7 @@ void main()
     }
         
     // Reflections
-    if (material.reflectionIntensity > 0.0 && false)
+    if (material.reflectionIntensity > 0.0)
     {
         float specReflection = 0.333 * (specularColor.r + specularColor.g + specularColor.b);
         float alpha = clamp(material.reflectionIntensity * specReflection, 0.0, 1.0);
@@ -240,7 +234,6 @@ void main()
     fColor = vec4(light, diffuseColor.a);
 
     // fColor = diffuseColor;
-
     
     // vec3 lightPos = vec3(0, 0, 3);
     // vec3 lightDir = normalize(lightPos - posCoord);

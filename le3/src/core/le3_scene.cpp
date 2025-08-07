@@ -186,9 +186,10 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
     // Bind more helper textures
     if (!shaderOverride.lock()) {
         for (auto kv : LE3GetAssetManager().getShaders()) {
-            kv.second->uniform("ssaoTexture", (uint32_t)10);
-            m_ssaoBuffer->useColorTexture(0);
+            kv.second->use();
+            kv.second->uniform("ssaoTexture", (uint32_t)SSAO_TEXTURE_INDEX);
         }
+        m_ssaoBuffer->useColorTexture(SSAO_TEXTURE_INDEX);
     }
 
     m_sceneGraph->m_drawQueue.draw(shaderOverride, shadowPhase);
