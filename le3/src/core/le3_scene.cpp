@@ -62,6 +62,8 @@ void LE3Scene::resize(int width, int height)
 {
     m_width = width; m_height = height;
     m_rawBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
+    m_ssaoBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
+    m_positionsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL_SIGNED, true);
     m_objectIdsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_selectedObjectsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_postProcessBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
@@ -92,12 +94,18 @@ void LE3Scene::postUpdate() {
 void LE3Scene::draw() {
     LE3GetSceneManager().setActiveScene(m_name);
 
+    
     // Draw the scene once for each shadowmap
     drawLights();
     // Draw the scene, but only rendering object IDs
     drawObjectIDs();
+    drawObjectPositions();
     updateHoveredObject();
     drawSelected();
+
+    // Draw SSAO texture
+    drawSSAO();
+
 
     // Draw the scene as is
     // Also, one of the objects might try to do visual debug, so set the active camera
@@ -112,6 +120,21 @@ void LE3Scene::draw() {
 
     // Revert back to normal drawing
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void LE3Scene::drawSSAO() {
+    m_ssaoBuffer->bind();
+    glClearColor(0.f, 0.f, 0.f, 0.f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glDisable(GL_DEPTH_TEST);
+    glViewport(0, 0, m_postProcessBuffer->getWidth(), m_postProcessBuffer->getHeight());
+
+    std::shared_ptr<LE3Shader> ssaoShader = LE3GetAssetManager().getShader(DEFAULT_SSAO_SHADER).lock();
+    ssaoShader->use();
+
+    m_positionsBuffer->useColorTexture(0);
+    ssaoShader->uniform("positionTexture", (unsigned int)0);
+    LE3GetAssetManager().getScreenRect()->draw();
 }
 
 void LE3Scene::drawLights() {
@@ -161,6 +184,16 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
         applyMainCamera(shaderOverride);
         m_sceneGraph->m_lightManager.renderLights(shaderOverride, glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
     }
+
+    // Bind more helper textures
+    if (!shaderOverride.lock()) {
+        for (auto kv : LE3GetAssetManager().getShaders()) {
+            kv.second->use();
+            kv.second->uniform("ssaoTexture", (uint32_t)SSAO_TEXTURE_INDEX);
+        }
+        m_ssaoBuffer->useColorTexture(SSAO_TEXTURE_INDEX);
+    }
+
     m_sceneGraph->m_drawQueue.draw(shaderOverride, shadowPhase);
 }
 
@@ -174,6 +207,12 @@ void LE3Scene::drawObjectIDs() {
     glm::vec3 bacgroundColor = getBackgroundColor();
     setBackgroundColor(glm::vec3(0.f));
     drawObjects(LE3GetAssetManager().getShader(DEFAULT_OBJECTID_SHADER), m_objectIdsBuffer, true, false);
+    setBackgroundColor(bacgroundColor);
+}
+
+void LE3Scene::drawObjectPositions() {
+    glm::vec3 bacgroundColor = getBackgroundColor();
+    drawObjects(LE3GetAssetManager().getShader(DEFAULT_OBJECTPOSITIONS_SHADER), m_positionsBuffer, true, false);
     setBackgroundColor(bacgroundColor);
 }
 
@@ -218,6 +257,10 @@ void LE3Scene::drawPostProcess() {
     m_postProcessShader.lock()->uniform("objectIdTexture", (unsigned int)1);
     m_selectedObjectsBuffer->useColorTexture(2);
     m_postProcessShader.lock()->uniform("selectedTexture", (unsigned int)2);
+    m_ssaoBuffer->useColorTexture(3);
+    m_postProcessShader.lock()->uniform("ssaoTexture", (unsigned int)3);
+
+    // TODO: enum to visual debug show a specific texture
 
     if (postProcessUniforms) postProcessUniforms(m_postProcessShader.lock());
 
@@ -425,7 +468,8 @@ void LE3Scene::applyMainCamera(LE3ShaderPtr shaderWeak) {
     std::shared_ptr<LE3Shader> shader = shaderWeak.lock();
     if (!shader) return;
     shader->use();
-    shader->uniform("view", m_pMainCamera->getViewMatrix());
+    glm::mat4 view = m_pMainCamera->getViewMatrix();
+    shader->uniform("view", view);
     shader->uniform("projection", m_pMainCamera->getProjectionMatrix());
     shader->uniform("cameraPos", glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
 }

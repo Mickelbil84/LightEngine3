@@ -8,6 +8,7 @@ namespace le3 {
     
     enum LE3FramebufferType {
         LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL,
+        LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL_SIGNED,
         LE3_FRAMEBUFFER_DEPTH_STENCIL,
     };
 
@@ -18,8 +19,8 @@ namespace le3 {
 
         void bind();
 
-        void useColorTexture(int i = 0);
-        void useDepthTexture(int i = 0);
+        void useColorTexture(uint32_t i = 0);
+        void useDepthTexture(uint32_t i = 0);
 
         // This is a helper, useful for shadowmaps
         // The bindnig index of the buffer textures is done manually anyway

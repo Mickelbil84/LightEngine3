@@ -3,6 +3,8 @@ using namespace le3;
 
 #include <stdexcept>
 
+#include <fmt/core.h>
+
 #ifdef __linux__
 #include <GL/glew.h>
 #else
@@ -16,12 +18,16 @@ LE3Framebuffer::LE3Framebuffer(int width, int height, LE3FramebufferType type, b
 
     GLint flag = interpolate ? GL_LINEAR : GL_NEAREST;
     // Attach color texture (if applicable)
-    if (type == LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL) {
+    if (type == LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL || type == LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL_SIGNED) {
+        GLint internalFormat = type == LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL ? GL_RGB : GL_RGB16F;
+        GLenum format = type == LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL ? GL_UNSIGNED_BYTE : GL_FLOAT;
         glGenTextures(1, &m_color);
         glBindTexture(GL_TEXTURE_2D, m_color);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_width, m_height, 0, GL_RGB, format, NULL);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, flag);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, flag);  
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_color, 0);
     }
 
@@ -54,13 +60,14 @@ void LE3Framebuffer::bind()
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 }
 
-void LE3Framebuffer::useColorTexture(int i)
+void LE3Framebuffer::useColorTexture(uint32_t i)
 {
     glActiveTexture(GL_TEXTURE0 + i);
     glBindTexture(GL_TEXTURE_2D, m_color);
+    fmt::print("Using texture {} on active texture {}\n", m_color, i);
 }
 
-void LE3Framebuffer::useDepthTexture(int i)
+void LE3Framebuffer::useDepthTexture(uint32_t i)
 {
     glActiveTexture(GL_TEXTURE0 + i);
     glBindTexture(GL_TEXTURE_2D, m_depthStencil);
