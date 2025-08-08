@@ -14,6 +14,8 @@ public:
             "/engine/shaders/blinn_phong/blinn_phong.vs",
             "/engine/shaders/blinn_phong/blinn_phong.fs");
         LE3GetAssetManager().addMaterial("M_Flappy", "S_Flappy");
+        LE3GetAssetManager().addMaterial("M_FlappyPipe", "S_Flappy");
+        LE3GetAssetManager().getMaterial("M_FlappyPipe")->diffuseColor = glm::vec4(0.f, 1.f, 0.f, 1.f);
 
         // Expose the scene to Lua
         LE3GetScriptSystem().pushUserType<LE3Scene>(scene.get());
