@@ -63,7 +63,7 @@ void LE3Scene::resize(int width, int height)
     m_width = width; m_height = height;
     m_rawBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_ssaoBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
-    m_positionsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
+    m_positionsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL_SIGNED, true);
     m_objectIdsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_selectedObjectsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_postProcessBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
@@ -468,7 +468,8 @@ void LE3Scene::applyMainCamera(LE3ShaderPtr shaderWeak) {
     std::shared_ptr<LE3Shader> shader = shaderWeak.lock();
     if (!shader) return;
     shader->use();
-    shader->uniform("view", m_pMainCamera->getViewMatrix());
+    glm::mat4 view = m_pMainCamera->getViewMatrix();
+    shader->uniform("view", view);
     shader->uniform("projection", m_pMainCamera->getProjectionMatrix());
     shader->uniform("cameraPos", glm::vec3(m_pMainCamera->getWorldMatrix()[3]));
 }

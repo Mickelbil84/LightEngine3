@@ -85,7 +85,7 @@ void main()
         position.w = 1.0;
     }
 
-    vec4 tmp = model * position;
-    gl_Position = projection * view * tmp;
-    fragPosition = tmp.xyz;
+    vec4 tmp = view * model * position;
+    gl_Position = projection * tmp;
+    fragPosition = vec3(tmp);
 }
