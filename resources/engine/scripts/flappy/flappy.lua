@@ -4,18 +4,6 @@ math.randomseed(os.time())
 
 local scene = _scene
 
--- Load default shader and material
-LE3Shader.load{
-    Name = "S_Flappy",
-    VertexSource = "/engine/shaders/blinn_phong/blinn_phong.vs",
-    FragmentSource = "/engine/shaders/blinn_phong/blinn_phong.fs"
-}
-LE3Material.load{
-    Name = "M_Flappy",
-    ShaderName = "S_Flappy",
-    DiffuseColor = {1.0, 1.0, 1.0, 1.0}
-}
-
 -- Game objects
 local player
 local velocity = 0.0

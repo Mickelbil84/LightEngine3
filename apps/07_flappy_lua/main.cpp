@@ -8,6 +8,14 @@ public:
         LE3GetSceneManager().createScene("flappy", m_engineState, "");
         auto scene = LE3GetActiveScene();
 
+        // Prepare assets used by the Lua script
+        LE3GetAssetManager().addShaderFromFile(
+            "S_Flappy",
+            "/engine/shaders/blinn_phong/blinn_phong.vs",
+            "/engine/shaders/blinn_phong/blinn_phong.fs");
+        LE3GetAssetManager().addMaterial("M_Flappy", "S_Flappy");
+
+        // Expose the scene to Lua
         LE3GetScriptSystem().pushUserType<LE3Scene>(scene.get());
         LE3GetScriptSystem().setGlobal("_scene");
 
