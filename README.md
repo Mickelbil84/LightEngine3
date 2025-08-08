@@ -23,7 +23,7 @@ LightEngine is a long dream of mine, and I have tackled it many times in the las
 Every iteration, after looking at the last attempt from previous years in disgust, I decided to begin from scratch and rewrite 
 the entire framework. During my MSc degree I decided to once again tackle this project, this time with more robust building process
 via CMake, and developing a library (and not just an executable) from the outset, so that the framework could also be used in external projects.
-Also the first game engine I have seriously learned was the Unreal Engine 3 hence the name "LightEngine3" has a nice, familiar sound (at least for me).
+Also the first game engine I have seriously learned was the Unreal Engine 3 hence the name "LightEngine3" has a nice, familiar sound (at least for me). Of course, it is unrelated nor is it affiliated with that engine in any way, shape, or form.
 
 Even this new version, V2, is a (once again) re-write of LightEngine, made during my PhD. With even better CMake integration, Lua bindings and better framework, utilizing smart pointers and RAII. 
 
