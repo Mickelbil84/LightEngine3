@@ -46,8 +46,6 @@ void main()
     else
         fColor = vec4(ssaoColor * 0.5, 1.0);
 
-    fColor = vec4(orgColor, 1.0);
-
     // vec3 ps3brown = vec3(144.0, 120.0, 90.0) / 255.0 + 0.2;
     // fColor = vec4(orgColor * ps3brown, 1.0);
 }

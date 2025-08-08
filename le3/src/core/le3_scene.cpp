@@ -63,6 +63,7 @@ void LE3Scene::resize(int width, int height)
     m_width = width; m_height = height;
     m_rawBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_ssaoBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
+    m_positionsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_objectIdsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_selectedObjectsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_postProcessBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
@@ -98,6 +99,7 @@ void LE3Scene::draw() {
     drawLights();
     // Draw the scene, but only rendering object IDs
     drawObjectIDs();
+    drawObjectPositions();
     updateHoveredObject();
     drawSelected();
 
@@ -130,8 +132,8 @@ void LE3Scene::drawSSAO() {
     std::shared_ptr<LE3Shader> ssaoShader = LE3GetAssetManager().getShader(DEFAULT_SSAO_SHADER).lock();
     ssaoShader->use();
 
-    m_objectIdsBuffer->useDepthTexture(0);
-    ssaoShader->uniform("depthTexture", (unsigned int)0);
+    m_positionsBuffer->useColorTexture(0);
+    ssaoShader->uniform("positionTexture", (unsigned int)0);
     LE3GetAssetManager().getScreenRect()->draw();
 }
 
@@ -205,6 +207,12 @@ void LE3Scene::drawObjectIDs() {
     glm::vec3 bacgroundColor = getBackgroundColor();
     setBackgroundColor(glm::vec3(0.f));
     drawObjects(LE3GetAssetManager().getShader(DEFAULT_OBJECTID_SHADER), m_objectIdsBuffer, true, false);
+    setBackgroundColor(bacgroundColor);
+}
+
+void LE3Scene::drawObjectPositions() {
+    glm::vec3 bacgroundColor = getBackgroundColor();
+    drawObjects(LE3GetAssetManager().getShader(DEFAULT_OBJECTPOSITIONS_SHADER), m_positionsBuffer, true, false);
     setBackgroundColor(bacgroundColor);
 }
 

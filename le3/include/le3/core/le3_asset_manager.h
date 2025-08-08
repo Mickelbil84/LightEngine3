@@ -21,6 +21,7 @@ namespace le3 {
 
     const std::string DEFAULT_SHADER = DEFAULT_ENGINE_PREFIX + "S_default";
     const std::string DEFAULT_OBJECTID_SHADER = DEFAULT_ENGINE_PREFIX + "S_objectid";
+    const std::string DEFAULT_OBJECTPOSITIONS_SHADER = DEFAULT_ENGINE_PREFIX + "S_objectpositions";
     const std::string DEFAULT_POSTPROCESS_SHADER = DEFAULT_ENGINE_PREFIX + "S_defaultPostProcess";
     const std::string DEFAULT_SHADOWMAP_SHADER = DEFAULT_ENGINE_PREFIX + "S_shadowmap";
     const std::string DEFAULT_SSAO_SHADER = DEFAULT_ENGINE_PREFIX + "S_ssao";
