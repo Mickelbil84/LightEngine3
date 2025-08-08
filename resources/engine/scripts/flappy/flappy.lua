@@ -15,7 +15,7 @@ function init_flappy()
     LE3Scene.add_free_camera(scene, "camera")
     LE3Scene.set_main_camera(scene, "camera")
     local cam = LE3Scene.get_object(scene, "camera")
-    LE3Transform.set_position(LE3Object.get_transform(cam), 0.0, 0.0, 5.0)
+    LE3Transform.set_position(LE3Object.get_transform(cam), 0.0, 0.0, 7.0)
     LE3Scene.set_background_color(scene, 0.5, 0.8, 1.0)
 
     -- Player box
@@ -24,16 +24,16 @@ function init_flappy()
 end
 
 function spawn_pipe(offset)
-    local gap = 1.5
+    local gap = 2.5
     local idx = #pipes + 1
     local y = offset or 0.0
 
     local top_name = "pipe_top_" .. idx
-    LE3Scene.add_box(scene, top_name, "M_Flappy", 5.0, y + gap, 0.0, 1.0, 5.0, 1.0)
+    LE3Scene.add_box(scene, top_name, "M_Flappy", 5.0, y + gap, 0.0, 1.0, 3.0, 1.0)
     local top_obj = LE3Scene.get_object(scene, top_name)
 
     local bottom_name = "pipe_bottom_" .. idx
-    LE3Scene.add_box(scene, bottom_name, "M_Flappy", 5.0, y - gap, 0.0, 1.0, 5.0, 1.0)
+    LE3Scene.add_box(scene, bottom_name, "M_Flappy", 5.0, y - gap, 0.0, 1.0, 3.0, 1.0)
     local bottom_obj = LE3Scene.get_object(scene, bottom_name)
 
     table.insert(pipes, {top = top_obj, bottom = bottom_obj})
