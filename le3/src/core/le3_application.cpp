@@ -202,9 +202,15 @@ void LE3Application::startNetworking() {
 }
 
 void LE3Application::_initSDL() {
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    // if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
         throw std::runtime_error(fmt::format("Could not initialize SDL: {}\n", SDL_GetError()));
     
+    SDL_InitSubSystem(SDL_INIT_TIMER);
+    SDL_InitSubSystem(SDL_INIT_AUDIO);
+    SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER);
+    SDL_InitSubSystem(SDL_INIT_HAPTIC);
+
     // TODO: Enumerate largest version of OpenGL and GLSL on device
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
