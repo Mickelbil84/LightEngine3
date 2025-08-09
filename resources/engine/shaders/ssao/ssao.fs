@@ -73,7 +73,7 @@ const vec3 samples[64] = vec3[](
     vec3(-0.2591, -0.1267,  0.3259)
 );
 const float bias = 0.025;
-const float radius = 0.1;
+const float radius = 0.075;
 const float factor = 0.65;
 
 void main()
