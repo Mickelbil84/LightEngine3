@@ -48,6 +48,14 @@ namespace le3{
     public:
         LE3AmbientLight(glm::vec3 color = glm::vec3(1.f), float intensity=0.1f) : LE3Light(color, intensity) {}
         LE3_TYPE_RETURN(LE3AmbientLight)
+
+        void setSSAORadius(float radius) { ssaoRadius = radius; }
+        void setSSAOBias(float bias) { ssaoBias = bias; }
+        float getSSAORadius() const { return ssaoRadius; }
+        float getSSAOBias() const { return ssaoBias; }
+
+    protected: 
+        float ssaoRadius = 0.1f, ssaoBias = 0.025f;
     };
     using LE3AmbientLightPtr = std::shared_ptr<LE3AmbientLight>;
     using LE3AmbientLightWeakPtr = std::weak_ptr<LE3AmbientLight>;

@@ -182,6 +182,22 @@ function ImGui.TreeNode(label) end
 
 function ImGui.TreePop() end
 
+---@param self LE3AmbientLight
+---@return number
+function LE3AmbientLight.get_ssao_bias(self) end
+
+---@param self LE3AmbientLight
+---@return number
+function LE3AmbientLight.get_ssao_radius(self) end
+
+---@param self LE3AmbientLight
+---@param ssao_bias number
+function LE3AmbientLight.set_ssao_bias(self, ssao_bias) end
+
+---@param self LE3AmbientLight
+---@param ssao_radius number
+function LE3AmbientLight.set_ssao_radius(self, ssao_radius) end
+
 ---@param name string
 ---@param shaderName string
 function LE3AssetManager.add_material(name, shaderName) end

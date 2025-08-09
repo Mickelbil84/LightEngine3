@@ -33,16 +33,27 @@ LE3AmbientLight.load = function (scene, tbl, res)
         res = LE3Scene.get_object(scene, tbl.Name)
     end
     LE3AmbientLight.__base.load(scene, tbl, res)
+
+    if (tbl.SSAORadius ~= nil) then LE3AmbientLight.set_ssao_radius(res, tbl.SSAORadius) end
+    if (tbl.SSAOBias ~= nil) then LE3AmbientLight.set_ssao_bias(res, tbl.SSAOBias) end
     return {ptr = res, name = tbl.Name}
 end
 LE3AmbientLight.rebuild = function (object, tbl)
     LE3AmbientLight.__base.rebuild(object, tbl)
+    if (tbl.SSAORadius ~= nil) then LE3AmbientLight.set_ssao_radius(object, tbl.SSAORadius) end
+    if (tbl.SSAOBias ~= nil) then LE3AmbientLight.set_ssao_bias(object, tbl.SSAOBias) end
 end
 LE3AmbientLight.save = function (object)
     local tbl = LE3AmbientLight.__base.save(object)
+    tbl.SSAORadius = LE3AmbientLight.get_ssao_radius(object)
+    tbl.SSAOBias = LE3AmbientLight.get_ssao_bias(object)
     return tbl
 end
 LE3AmbientLight.title = "LE3AmbientLight"
+LE3AmbientLight.properties = {
+    {name = "SSAORadius", type = "float"},
+    {name = "SSAOBias", type = "float"}
+}
 
 
 LE3DirectionalLight.__base = LE3Light

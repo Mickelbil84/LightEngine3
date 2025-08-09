@@ -131,6 +131,7 @@ void LE3Scene::drawSSAO() {
 
     std::shared_ptr<LE3Shader> ssaoShader = LE3GetAssetManager().getShader(DEFAULT_SSAO_SHADER).lock();
     ssaoShader->use();
+    m_sceneGraph->m_lightManager.renderAmbientLight(ssaoShader);
 
     m_positionsBuffer->useColorTexture(0);
     ssaoShader->uniform("positionTexture", (unsigned int)0);

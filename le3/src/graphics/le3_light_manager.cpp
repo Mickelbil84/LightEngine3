@@ -26,6 +26,8 @@ void LE3LightManager::renderAmbientLight(LE3ShaderPtr pShaderWeak) {
     }
     pShader->uniform("ambientLight.color", pAmbientLight->getColor());
     pShader->uniform("ambientLight.intensity", pAmbientLight->getIntensity());
+    pShader->uniform("ambientLight.ssaoRadius", pAmbientLight->getSSAORadius());
+    pShader->uniform("ambientLight.ssaoBias", pAmbientLight->getSSAOBias());
 }
 void LE3LightManager::renderDirectionalLights(LE3ShaderPtr pShaderWeak, glm::vec3 cameraPos) {
     auto pShader = pShaderWeak.lock();
