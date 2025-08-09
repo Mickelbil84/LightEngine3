@@ -134,6 +134,10 @@ void LE3Scene::drawSSAO() {
 
     m_positionsBuffer->useColorTexture(0);
     ssaoShader->uniform("positionTexture", (unsigned int)0);
+
+    ssaoShader->uniform("noiseTexture", (unsigned int)1);
+    LE3GetAssetManager().getTexture(DEFAULT_NOISE_TEXTURE).lock()->use(1);
+
     LE3GetAssetManager().getScreenRect()->draw();
 }
 

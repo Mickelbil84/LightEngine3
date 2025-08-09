@@ -30,6 +30,8 @@ namespace le3 {
 
     const std::string DEFAULT_MATERIAL = "M_default";
 
+    const std::string DEFAULT_NOISE_TEXTURE = DEFAULT_ENGINE_PREFIX + "T_noise";
+
     const std::string DEFAULT_PCD_SHADER = DEFAULT_ENGINE_PREFIX + "S_pcd";
     const std::string DEFAULT_PCD_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_pcd";
 
