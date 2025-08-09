@@ -3,8 +3,6 @@ using namespace le3;
 
 #include <stdexcept>
 
-#include <fmt/core.h>
-
 #ifdef __linux__
 #include <GL/glew.h>
 #else
@@ -64,7 +62,6 @@ void LE3Framebuffer::useColorTexture(uint32_t i)
 {
     glActiveTexture(GL_TEXTURE0 + i);
     glBindTexture(GL_TEXTURE_2D, m_color);
-    fmt::print("Using texture {} on active texture {}\n", m_color, i);
 }
 
 void LE3Framebuffer::useDepthTexture(uint32_t i)
