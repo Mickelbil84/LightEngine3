@@ -4,6 +4,7 @@ out vec4 fColor;
 in vec2 uv;
 
 uniform sampler2D positionTexture;
+uniform sampler2D noiseTexture;
 uniform mat4 projection, view;
 
 const vec3 samples[64] = vec3[](
@@ -75,6 +76,7 @@ const vec3 samples[64] = vec3[](
 const float bias = 0.025;
 const float radius = 0.1;
 const float factor = 0.65;
+const int numSamples = 32;
 
 void main()
 { 
@@ -82,9 +84,10 @@ void main()
 
     float occlusion = 0.0;
     float wsum = 0.0;
-    for (int i = 0; i < 64; ++i) {
+    for (int i = 0; i < numSamples; ++i) {
         vec3 sampleVec = samples[i];
-        vec3 samplePos = position + sampleVec * radius;
+        float norm = length(sampleVec); norm *= norm;
+        vec3 samplePos = position + normalize(sampleVec) * norm * radius;
 
         vec4 sampleProj = projection * vec4(samplePos, 1.0);
         sampleProj.xy /= sampleProj.w;
@@ -95,7 +98,8 @@ void main()
         occlusion += (sampleDepth >= (samplePos.z + bias) ? 1.0 : 0.0);
         // wsum += w;
     }
-    occlusion = 1.0 - (occlusion / 64.0);
+    occlusion = 1.0 - (occlusion / numSamples);
 
     fColor = vec4(vec3(occlusion), 1.0);
+    // fColor = vec4(noise, 1.0);
 }

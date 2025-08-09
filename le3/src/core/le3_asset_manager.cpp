@@ -46,6 +46,8 @@ void LE3AssetManager::init() {
     addShaderFromFile(DEFAULT_SPRITE_SHADER, "/engine/shaders/sprite/sprite.vs", "/engine/shaders/sprite/sprite.fs");
     addShaderFromFile(DEFAULT_PCD_SHADER, "/engine/shaders/pcd/pcd.vs", "/engine/shaders/pcd/pcd.fs");
 
+    addTexture(DEFAULT_NOISE_TEXTURE, "/engine/textures/noise.png");
+
     addMaterial(DEFAULT_MATERIAL, DEFAULT_SHADER);
     addMaterial(DEFAULT_GIZMO_MATERIAL, DEFAULT_GIZMO_SHADER);
     addMaterial(DEFAULT_SPRITE_MATERIAL, DEFAULT_SPRITE_SHADER);
