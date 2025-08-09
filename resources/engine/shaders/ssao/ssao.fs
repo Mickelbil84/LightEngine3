@@ -73,10 +73,14 @@ const vec3 samples[64] = vec3[](
     vec3( 0.1182,  0.3567, -0.8431),
     vec3(-0.2591, -0.1267,  0.3259)
 );
-const float bias = 0.025;
-const float radius = 0.1;
-const float factor = 0.65;
 const int numSamples = 32;
+
+struct AmbientLight
+{
+    float ssaoBias;
+    float ssaoRadius;
+};
+uniform AmbientLight ambientLight;
 
 void main()
 { 
@@ -87,19 +91,16 @@ void main()
     for (int i = 0; i < numSamples; ++i) {
         vec3 sampleVec = samples[i];
         float norm = length(sampleVec); norm *= norm;
-        vec3 samplePos = position + normalize(sampleVec) * norm * radius;
+        vec3 samplePos = position + normalize(sampleVec) * norm * ambientLight.ssaoRadius;
 
         vec4 sampleProj = projection * vec4(samplePos, 1.0);
         sampleProj.xy /= sampleProj.w;
         vec2 sampleUV = sampleProj.xy * 0.5 + 0.5;
         float sampleDepth = (vec4(texture(positionTexture, sampleUV).xyz, 1.0)).z;
 
-        // float w = 1.0 - smoothstep(0.0, radius, abs(samplePos.z - position.z));
-        occlusion += (sampleDepth >= (samplePos.z + bias) ? 1.0 : 0.0);
-        // wsum += w;
+        occlusion += (sampleDepth >= (samplePos.z + ambientLight.ssaoBias) ? 1.0 : 0.0);
     }
     occlusion = 1.0 - (occlusion / numSamples);
 
     fColor = vec4(vec3(occlusion), 1.0);
-    // fColor = vec4(noise, 1.0);
 }

@@ -31,7 +31,9 @@ namespace le3 {
         std::vector<LE3SpotLightWeakPtr> m_pSpotLights;
 
 
-        void renderAmbientLight(LE3ShaderPtr pShader);
+    public:
+        void renderAmbientLight(LE3ShaderPtr pShader); // Public since ssao phase would like to render that separately
+    private:
         void renderDirectionalLights(LE3ShaderPtr pShader, glm::vec3 cameraPos);
         void renderPointLights(LE3ShaderPtr pShader);
         void renderSpotLights(LE3ShaderPtr pShader);

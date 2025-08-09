@@ -12,7 +12,12 @@ LIB(LE3Light, get_color, set_color, get_intensity, set_intensity)
 
 // ----------------------------------------------------------------
 
-LIB(LE3AmbientLight)
+FBIND_OBJECT_GETTER_NUMBER(LE3AmbientLight, get_ssao_radius, getSSAORadius)
+FBIND_OBJECT_SETTER_NUMBER(LE3AmbientLight, set_ssao_radius, setSSAORadius)
+FBIND_OBJECT_GETTER_NUMBER(LE3AmbientLight, get_ssao_bias, getSSAOBias)
+FBIND_OBJECT_SETTER_NUMBER(LE3AmbientLight, set_ssao_bias, setSSAOBias)
+
+LIB(LE3AmbientLight, get_ssao_radius, set_ssao_radius, get_ssao_bias, set_ssao_bias)
 
 // ----------------------------------------------------------------
 
