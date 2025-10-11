@@ -9,6 +9,14 @@ void LE3EditorScenes::loadScene(std::string name) {
     cameraRotation = glm::vec3();
 
     LE3EngineConfig::set<std::string>("LE3ProjectConfig.LastOpenedScene", name);
+
+    // Load all project scripts
+    if (LE3GetDatFileSystem().archiveExists("scripts")) {
+        for (std::string script : LE3GetDatFileSystem().getFilesFromDir("/scripts")) {
+            if (!script.ends_with(".lua")) continue;
+            LE3GetScriptSystem().doFile(script);
+        }
+    }
     
     initScenes(name);
     initCameras();

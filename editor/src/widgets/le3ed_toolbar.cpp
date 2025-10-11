@@ -91,6 +91,7 @@ void LE3EditorToolbar::init() {
     m_buttons.push_back(LE3EditorToolbarButton("Play", "icon_play", []() {
         if (!LE3EngineSystems::instance().isEditModeEngine()) return;
         std::string sceneName = LE3GetConfig<std::string>("LE3ProjectConfig.LastOpenedScene", "");
+        LE3EditorProject::reloadAssets();
         LE3EngineSystems::instance().setEditModeEngine(false);
         LE3EditorSystems::instance().getScenesComponent()->loadScene(sceneName);
     }));
