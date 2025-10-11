@@ -368,6 +368,8 @@ std::string LE3AssetManager::readFile(std::string filename) {
 
 void LE3AssetManager::refreshPointers() {
     for (auto& [name, material] : m_pMaterials) {
+        if (name == "") continue;
+
         // The second condition seems weird, but since Lua binding sometimes also temporarily holds
         // a shared reference, the pointer is not immideatly deleted, hence this trick
         if (m_pMaterials[name]->shader.expired() || m_pMaterials[name]->shader.lock()->getName() == m_lastDeletedShader) {

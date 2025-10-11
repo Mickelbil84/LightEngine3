@@ -59,6 +59,15 @@ private:
                     LE3GetDatFileSystem().addArchive(entry.path().stem().string(), fmt::format("{}/{}", projectPath, entry.path().filename().string()));
             }
         }
+
+        // Run all game scripts (load all class types)
+        if (LE3GetDatFileSystem().archiveExists("scripts")) {
+            for (std::string script : LE3GetDatFileSystem().getFilesFromDir("/scripts")) {
+                if (!script.ends_with(".lua")) continue;
+                LE3GetScriptSystem().doFile(script);
+            }
+        }
+
         LE3GetAssetManager().reloadAssets();
     }
 
