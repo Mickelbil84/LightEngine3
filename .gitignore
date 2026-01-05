@@ -2,6 +2,7 @@ bin/
 build/
 lib/
 tmp/
+docs/html
 .vscode/
 .DS_Store
 .VSCodeCounter/
