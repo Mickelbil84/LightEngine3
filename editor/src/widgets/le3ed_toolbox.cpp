@@ -48,9 +48,14 @@ void LE3EditorToolbox::init() {
         LE3GetActiveScene()->addEmptyObject(name);
         LE3GetEditorManager().getSelection().selectObject(LE3GetActiveScene()->getObject(name));
     }));
-    m_buttons.push_back(LE3EditorToolbarButton("ScriptObject", "icon_newempty", [this]() {
+    m_buttons.push_back(LE3EditorToolbarButton("ScriptObject", "icon_scriptobject", [this]() {
         std::string name = LE3GetActiveScene()->getNextAvailableName("scriptObject_0");
         LE3GetActiveScene()->addScriptObject(name, "");
+        LE3GetEditorManager().getSelection().selectObject(LE3GetActiveScene()->getObject(name));
+    }));
+    m_buttons.push_back(LE3EditorToolbarButton("PlayerStart", "icon_playerstart", [this]() {
+        std::string name = LE3_PLAYERSTART_OBJECT_NAME;
+        LE3GetActiveScene()->addPlayerStart();
         LE3GetEditorManager().getSelection().selectObject(LE3GetActiveScene()->getObject(name));
     }));
     m_buttons.push_back(LE3EditorToolbarButton());
