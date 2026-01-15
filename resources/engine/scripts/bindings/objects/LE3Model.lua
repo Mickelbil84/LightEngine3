@@ -9,6 +9,7 @@ LE3StaticModel.load = function (scene, tbl, res)
 end
 LE3StaticModel.rebuild = function (object, tbl)
     object = LE3StaticModel.__base.rebuild(object, tbl)
+    ---@diagnostic disable-next-line: param-type-mismatch -- Dark magin happens on casting from and to objects... Just surpass the Lua type warning
     if tbl.MeshName ~= nil and LE3AssetManager.has_static_mesh(tbl.MeshName) then LE3StaticModel.set_mesh(object, tbl.MeshName) end
     return object
 end
@@ -39,7 +40,7 @@ LE3SkeletalModel.rebuild = function (object, tbl)
     end
 
     if tbl.CurrentAnimation == nil then tbl.CurrentAnimation = "[None]" end
-    LE3SkeletalModel.set_current_animation(object, tbl.CurrentAnimation)
+    LE3SkeletalModel.set_current_animation(object, tbl.CurrentAnimation, 0) -- TODO: maybe this is broken!!
 end
 LE3SkeletalModel.save = function (object)
     local tbl = LE3SkeletalModel.__base.save(object)

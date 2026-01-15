@@ -14,7 +14,8 @@ def init_method(klass, func_name):
 
 def add_params_or_returns(d, func_name, varname, ttype):
     lookups = {
-        'bool': 'boolean', 'enum': 'number', 'int': 'number'
+        'bool': 'boolean', 'enum': 'number', 'int': 'number',
+        'stringarray': 'string[]', 'boolarray': 'boolean[]',
     }
     ttype = ttype.replace('_', '')
     if ttype not in ['VEC2', 'VEC3', 'VEC4', 'QUAT']:

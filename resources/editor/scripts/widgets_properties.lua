@@ -41,6 +41,7 @@ local function _publish_command(cmd)
         _engine_property_change_history_index = _engine_property_change_history_index + 1
         local ticket = _engine_property_change_history_index
         _engine_property_change_history[ticket] = cmd
+        ---@diagnostic disable-next-line: undefined-global -- Defined in C++
         LE3EditorComPropertyChange.addNew(ticket)
     end
 end

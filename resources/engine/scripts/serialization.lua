@@ -3,7 +3,7 @@
 -- The format is {Objects = {object1, object2, ...}, ObjectRelations = {{child1, parent1}, {child2, parent2}, ...}}
 ---@param scene LE3Scene
 ---@param object string
----@return table
+---@return table?
 function dump_object(scene, object)
     if string.find(object, "__ENGINE__") == 1 then return nil end
     
@@ -61,7 +61,7 @@ local function _serialize_table(t, indent)
 end
 
 ---@param o any
----@param indent number
+---@param indent? number
 ---@return string
 function serialize(o, indent)
     if indent == nil then indent = 0 end

@@ -156,7 +156,7 @@ function ImGui.InputInt(label, prev) end
 ---@return string
 function ImGui.InputText(label, prev) end
 
----@param labels stringarray
+---@param labels string[]
 ---@param prev string
 ---@return string
 function ImGui.RadioButtons(labels, prev) end
@@ -226,11 +226,11 @@ function LE3AssetManager.add_static_mesh(name, filename, keepData) end
 ---@param interpolate boolean
 function LE3AssetManager.add_texture(name, filename, interpolate) end
 
----@return stringarray
+---@return string[]
 function LE3AssetManager.get_materials() end
 
----@return stringarray
----@return boolarray
+---@return string[]
+---@return boolean[]
 function LE3AssetManager.get_meshes() end
 
 ---@param shaderName string
@@ -240,10 +240,10 @@ function LE3AssetManager.get_meshes() end
 ---@return string
 function LE3AssetManager.get_shader_paths(shaderName) end
 
----@return stringarray
+---@return string[]
 function LE3AssetManager.get_shaders() end
 
----@return stringarray
+---@return string[]
 function LE3AssetManager.get_textures() end
 
 ---@param name string
