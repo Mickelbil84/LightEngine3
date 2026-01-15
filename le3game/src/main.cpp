@@ -52,7 +52,7 @@ private:
         LE3GetDatFileSystem().addArchive("le3proj", fmt::format("{}/{}", projectPath, projectFilename));
         LE3GetDatFileSystem().addArchive("demos", "demos.dat");
 
-        // Add the rest archives available
+        // Add the rest of the archives that are available
         for (const auto& entry : std::filesystem::directory_iterator(projectPath)) {
             if (entry.path().extension() == ".dat") {
                 if (entry.path().filename().string() != projectFilename)
@@ -79,14 +79,13 @@ private:
         LE3GetSceneManager().getScene("__main__")->load("/le3proj/scenes/__shared__.lua");
         LE3GetSceneManager().getScene("__main__")->load(fmt::format("/le3proj/scenes/{}", initialSceneName));
 
-        // LE3GetActiveScene()->addFreeCamera("camera");
         if (!LE3GetActiveScene()->getObject(LE3_PLAYERSTART_OBJECT_NAME)) {
             LE3GetScriptSystem().pushUserType<LE3Scene>(LE3GetActiveScene().get());
             LE3GetScriptSystem().setGlobal("_activeScene");
             LE3GetScriptSystem().doString(
                 fmt::format("LE3PlayerStart.load(_activeScene, {{Name = \"{}\", Classname = \"{}\"}})",
                     LE3_PLAYERSTART_OBJECT_NAME,
-                    "TPSCamPlayer" // LE3_PLAYERSTART_DEFAULT_CLASS
+                    LE3_PLAYERSTART_DEFAULT_CLASS
                 ));
         }
     }
