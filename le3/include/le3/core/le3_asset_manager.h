@@ -42,6 +42,8 @@ namespace le3 {
     const std::string SPRITE_DIRECTIONAL_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_directional";
     const std::string SPRITE_POINT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_point";
     const std::string SPRITE_SPOT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_spot";
+    const std::string SPRITE_SCRIPT_OBJECT = DEFAULT_ENGINE_PREFIX + "T_sprite_script_object";
+    const std::string SPRITE_PLAYERSTART = DEFAULT_ENGINE_PREFIX + "T_sprite_playerstart";
 
     const std::string DEFAULT_GIZMO_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_gizmo";
 

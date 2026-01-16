@@ -58,6 +58,9 @@ void LE3AssetManager::init() {
     addTexture(SPRITE_DIRECTIONAL_LIGHT, "/engine/sprites/sprite_directional.png");
     addTexture(SPRITE_POINT_LIGHT, "/engine/sprites/sprite_point.png");
     addTexture(SPRITE_SPOT_LIGHT, "/engine/sprites/sprite_spot.png");
+    addTexture(SPRITE_SCRIPT_OBJECT, "/engine/sprites/sprite_scriptobject.png");
+    addTexture(SPRITE_PLAYERSTART, "/engine/sprites/sprite_playerstart.png");
+
 }
 void LE3AssetManager::reset() {
     m_pShaders.clear();

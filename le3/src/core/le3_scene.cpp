@@ -380,6 +380,12 @@ void LE3Scene::addBSPBrush(std::string name, LE3BSPBrushType brushType) {
 void LE3Scene::addScriptObject(std::string name, std::string classname, std::string parent) {
     LE3ScriptObjectPtr obj = std::make_shared<LE3ScriptObject>(classname, name);
     addCustomObject(name, obj, parent);
+    if (LE3EngineSystems::instance().isEditModeEngine()) {
+        std::string spriteName = fmt::format("{}_sprite_{}_{}", DEFAULT_ENGINE_PREFIX, name, ++m_ticket);
+        addSprite(spriteName, SPRITE_SCRIPT_OBJECT, name);
+        getObject<LE3DrawableObject>(spriteName)->setHidden(false);
+        getObject(spriteName)->setIsDelegate(true);
+    }
 }
 
 void LE3Scene::addCustomObject(std::string name, std::shared_ptr<LE3Object> obj, std::string parent) {
@@ -395,6 +401,12 @@ void LE3Scene::addPlayerStart(std::string classname) {
     std::string name = LE3_PLAYERSTART_OBJECT_NAME;
     LE3PlayerStartPtr obj = std::make_shared<LE3PlayerStart>(classname);
     addCustomObject(name, obj, "");
+    if (LE3EngineSystems::instance().isEditModeEngine()) {
+        std::string spriteName = fmt::format("{}_sprite_{}_{}", DEFAULT_ENGINE_PREFIX, name, ++m_ticket);
+        addSprite(spriteName, SPRITE_PLAYERSTART, name);
+        getObject<LE3DrawableObject>(spriteName)->setHidden(false);
+        getObject(spriteName)->setIsDelegate(true);
+    }
 }
 
 void LE3Scene::addFreeCamera(std::string name, std::string parent) {
