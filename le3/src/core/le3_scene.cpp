@@ -64,6 +64,7 @@ void LE3Scene::resize(int width, int height)
     m_rawBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_ssaoBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_positionsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL_SIGNED, true);
+    m_normalsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL_SIGNED, true);
     m_objectIdsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_selectedObjectsBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
     m_postProcessBuffer = std::make_shared<LE3Framebuffer>(m_width, m_height, LE3FramebufferType::LE3_FRAMEBUFFER_COLOR_DEPTH_STENCIL, true);
@@ -136,8 +137,11 @@ void LE3Scene::drawSSAO() {
     m_positionsBuffer->useColorTexture(0);
     ssaoShader->uniform("positionTexture", (unsigned int)0);
 
-    ssaoShader->uniform("noiseTexture", (unsigned int)1);
-    LE3GetAssetManager().getTexture(DEFAULT_NOISE_TEXTURE).lock()->use(1);
+    m_normalsBuffer->useColorTexture(1);
+    ssaoShader->uniform("normalTexture", (unsigned int)1);
+
+    ssaoShader->uniform("noiseTexture", (unsigned int)2);
+    LE3GetAssetManager().getTexture(DEFAULT_NOISE_TEXTURE).lock()->use(2);
 
     LE3GetAssetManager().getScreenRect()->draw();
 }
@@ -218,6 +222,7 @@ void LE3Scene::drawObjectIDs() {
 void LE3Scene::drawObjectPositions() {
     glm::vec3 bacgroundColor = getBackgroundColor();
     drawObjects(LE3GetAssetManager().getShader(DEFAULT_OBJECTPOSITIONS_SHADER), m_positionsBuffer, true, false);
+    drawObjects(LE3GetAssetManager().getShader(DEFAULT_OBJECTNORMALS_SHADER), m_normalsBuffer, true, false);
     setBackgroundColor(bacgroundColor);
 }
 
