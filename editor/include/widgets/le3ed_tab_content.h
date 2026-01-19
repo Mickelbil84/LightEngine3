@@ -20,7 +20,7 @@ namespace le3 {
         std::vector<std::string> m_archives;
         std::map<std::string, bool> m_openStatus;
 
-        bool m_bShowEngineContent = false;
-        bool m_bShowDemoContent = false;
+        bool m_bShowEngineContent = true;
+        bool m_bShowDemoContent = true;
     };
 }
