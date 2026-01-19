@@ -58,7 +58,10 @@ namespace le3 {
         // Shaders
         void addShaderFromFile(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
         void addShaderFromSource(std::string name, std::string vertexShaderSource, std::string fragmentShaderSource);
-        inline LE3ShaderPtr getShader(std::string name) { return m_pShaders[name]; }
+        inline LE3ShaderPtr getShader(std::string name) { 
+            if (!hasShader(name)) return LE3ShaderPtr();
+            return m_pShaders[name]; 
+        }
         inline std::map<std::string, std::shared_ptr<LE3Shader>> getShaders() { return m_pShaders; }
         void setShaderPaths(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath) {
             if (name != "" && m_shadersPaths.contains(name))
@@ -76,7 +79,10 @@ namespace le3 {
 
         // Materials
         void addMaterial(std::string name, std::string shaderName);
-        inline LE3MaterialPtr getMaterial(std::string name) { return m_pMaterials[name]; }
+        inline LE3MaterialPtr getMaterial(std::string name) { 
+            if (!hasMaterial(name)) return LE3MaterialPtr();
+            return m_pMaterials[name];
+        }
         inline std::map<std::string, std::shared_ptr<LE3Material>> getMaterials() { return m_pMaterials; }
         bool hasMaterial(std::string name) { return m_pMaterials.contains(name); }
         void renameMaterial(std::string oldName, std::string newName);
@@ -107,7 +113,10 @@ namespace le3 {
 
         // Meshes
         void addStaticMesh(std::string name, std::string filename, bool keepData = false);
-        inline LE3StaticMeshPtr getStaticMesh(std::string name) { return m_pStaticMeshes[name]; }
+        inline LE3StaticMeshPtr getStaticMesh(std::string name) { 
+            if (!hasStaticMesh(name)) return LE3StaticMeshPtr();
+            return m_pStaticMeshes[name]; 
+        }
         void searchStaticMeshes(std::string prefix, std::vector<std::string>& out);
         bool hasStaticMesh(std::string name) { return m_pStaticMeshes.contains(name); }
         void reloadStaticMesh(std::string name, std::string filename, bool keepData = false);
@@ -115,7 +124,10 @@ namespace le3 {
         void deleteStaticMesh(std::string name);
 
         void addSkeletalMesh(std::string name, std::string filename);
-        inline LE3SkeletalMeshPtr getSkeletalMesh(std::string name) { return m_pSkeletalMeshes[name]; }
+        inline LE3SkeletalMeshPtr getSkeletalMesh(std::string name) { 
+            if (!hasSkeletalMesh(name)) return LE3SkeletalMeshPtr();
+            return m_pSkeletalMeshes[name]; 
+        }
         void addSkeletalAnimation(std::string name, std::string animationPath, std::string meshName); // Implemented in `le3_assimp.cpp`
         std::string getSkeletalAnimationPath(std::string name, std::string meshName) { return m_animPaths[meshName][name]; }
         bool isSkeletalMesh(std::string name);
