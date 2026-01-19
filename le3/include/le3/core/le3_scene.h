@@ -164,7 +164,7 @@ namespace le3 {
         glm::vec3 m_backgroundColor = glm::vec3(1.f);
         bool m_bCulling = false;
 
-        LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer, m_ssaoBuffer, m_positionsBuffer, m_objectIdsBuffer, m_selectedObjectsBuffer;
+        LE3FramebufferPtr m_rawBuffer, m_postProcessBuffer, m_ssaoBuffer, m_positionsBuffer, m_normalsBuffer, m_objectIdsBuffer, m_selectedObjectsBuffer;
         LE3ShaderPtr m_postProcessShader;
         int m_width, m_height;
         int m_offsetX = 0, m_offsetY = 0;
