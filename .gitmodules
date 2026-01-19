@@ -17,3 +17,6 @@
 [submodule "third-party/stduuid"]
 	path = third-party/stduuid
 	url = git@github.com:mariusbancila/stduuid.git
+[submodule "third-party/miniz"]
+	path = third-party/miniz
+	url = git@github.com:richgel999/miniz.git
