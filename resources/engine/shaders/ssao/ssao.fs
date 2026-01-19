@@ -114,7 +114,7 @@ void main()
     float occlusion = 0.0;
     float wsum = 0.0;
     for (int i = 0; i < numSamples; ++i) {
-        vec3 sampleVec = TBN * normalize(vec3(samples[i].x, (samples[i].y), abs(samples[i].z)));
+        vec3 sampleVec = TBN * normalize(samples[i]);
         vec3 samplePos = position + sampleVec * ambientLight.ssaoRadius;
 
 
