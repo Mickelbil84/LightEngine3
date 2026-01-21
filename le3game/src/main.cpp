@@ -17,6 +17,13 @@ public:
     }
     void update(float deltaTime) {
         LE3GetSceneManager().updateScenes(deltaTime);
+
+        // Print FPS once per second
+        m_fpsPrintTimer += deltaTime;
+        if (m_fpsPrintTimer >= 1.0f) {
+            fmt::print("FPS: {:.1f}\n", m_engineState.getFPS());
+            m_fpsPrintTimer = 0.0f;
+        }
     }
 
     void render() {
@@ -30,6 +37,8 @@ public:
     }
 
 private:
+    float m_fpsPrintTimer = 0.0f;
+
     // Load the game bootstrap config file (which is in *.lua format)
     void loadBoostrapConfig() {
         std::string bootstrapContent;

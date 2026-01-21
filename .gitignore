@@ -6,3 +6,4 @@ docs/html
 .vscode/
 .DS_Store
 .VSCodeCounter/
+.cache/

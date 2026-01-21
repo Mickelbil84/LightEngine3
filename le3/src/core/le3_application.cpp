@@ -59,8 +59,16 @@ void LE3Application::run() {
         m_deltaTime = (double)((m_currTime - m_prevTime) * 1000 / (double)SDL_GetPerformanceFrequency());
         m_deltaTime *= 0.001;
         m_pGameLogic->m_engineState.m_elapsedTime += m_deltaTime;
-        if (m_deltaTime < 1.0 / (double)120) // TODO: move into settings file!
-            SDL_Delay(Uint32((1.0 / (double)120 - m_deltaTime) * 1000));
+
+        // Compute FPS using exponential moving average for stability
+        if (m_deltaTime > 0) {
+            float instantFps = 1.0f / m_deltaTime;
+            float& fps = m_pGameLogic->m_engineState.m_fps;
+            constexpr float smoothing = 0.9f;
+            fps = (fps > 0) ? (smoothing * instantFps + (1.0f - smoothing) * fps) : instantFps;
+        }
+        // if (m_deltaTime < 1.0 / (double)120) // TODO: move into settings file!
+        //     SDL_Delay(Uint32((1.0 / (double)120 - m_deltaTime) * 1000));
     }
     shutdown();
 }

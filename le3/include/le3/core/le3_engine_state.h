@@ -9,6 +9,7 @@ namespace le3 {
     struct LE3EngineState {
     public:
         inline float getElapsedTime() const { return m_elapsedTime; }
+        inline float getFPS() const { return m_fps; }
 
         inline int getWindowWidth() const { return m_windowWidth; }
         inline int getWindowHeight() const { return m_windowHeight; }
@@ -33,6 +34,7 @@ namespace le3 {
 
     private:
         float m_elapsedTime = 0.f;
+        float m_fps = 0.f;
         int m_windowWidth, m_windowHeight;
         std::string m_windowTitle;
         bool m_bWantsRenameTitle = false;
