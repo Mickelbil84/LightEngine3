@@ -11,7 +11,7 @@ endif()
 ##########################
 
 if (NOT DEFINED LE3_WITH_DEMOS) 
-    set (LE3_WITH_DEMOS true) 
+    set (LE3_WITH_DEMOS false) 
 endif()
 
 if (NOT DEFINED LE3_WITH_EDITOR)

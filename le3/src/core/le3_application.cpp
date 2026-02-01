@@ -229,7 +229,7 @@ void LE3Application::_initSDL() {
     flags |= SDL_WINDOW_RESIZABLE; // TODO: Propagate resizability (and fullscreen) into engine config
     flags |= SDL_WINDOW_MAXIMIZED;
     // flags |= SDL_WINDOW_HIDDEN;
-    flags |= SDL_WINDOW_ALLOW_HIGHDPI;
+    // flags |= SDL_WINDOW_ALLOW_HIGHDPI;
 
     // TODO: Propagate window title and size into game config
     m_pInternal->m_pWindow = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
