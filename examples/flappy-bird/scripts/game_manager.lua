@@ -1,13 +1,27 @@
-FlappyGameManager = LE3ScriptObject:new()
-function FlappyGameManager:init()
-    print("Hello World! <<from FlappyGameManager:init()>>")
+print("RUNNING SCRIPT! -- TESTING THAT BUILD ACTUALLY DOES SOMETHING")
+
+FlappyBirdGame = LE3ScriptObject:new()
+function FlappyBirdGame:init()
+    print("Hello World! <<from FlappyBirdGame:init()>>")
+
+    local cameraName = "camera"
+    self.camera = LE3FreeCamera.load(self.scene, {
+        FOV = 50 * 3.14159265 / 180,
+        Name = cameraName
+    })
+    LE3Scene.reparent(self.scene, cameraName, self.name)
 end
 
-function FlappyGameManager:update(deltaTime)
+function FlappyBirdGame:update(deltaTime)
+    self:handleInput()
 end
 
-function FlappyGameManager:handleInput()
+function FlappyBirdGame:handleInput()
+    -- Use escape to quit the game
+    if LE3Input.get_key("KEY_ESCAPE") then
+        LE3EngineState.notify_wants_quit()
+    end
 end
 
-function FlappyGameManager:draw()
+function FlappyBirdGame:draw()
 end
