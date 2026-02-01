@@ -21,7 +21,7 @@ public:
         // Print FPS once per second
         m_fpsPrintTimer += deltaTime;
         if (m_fpsPrintTimer >= 1.0f) {
-            fmt::print("FPS: {:.1f}\n", m_engineState.getFPS());
+            // fmt::print("FPS: {:.1f}\n", m_engineState.getFPS()); // TODO: HUD
             m_fpsPrintTimer = 0.0f;
         }
     }
@@ -73,6 +73,7 @@ private:
         if (LE3GetDatFileSystem().archiveExists("scripts")) {
             for (std::string script : LE3GetDatFileSystem().getFilesFromDir("/scripts")) {
                 if (!script.ends_with(".lua")) continue;
+                fmt::print("\tSCRIPT:{}\n", script);
                 LE3GetScriptSystem().doFile(script);
             }
         }
