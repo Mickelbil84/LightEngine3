@@ -11,12 +11,26 @@ function FlappyBirdGame:init()
     })
     LE3Scene.reparent(self.scene, cameraName, self.name)
 
-    self.bird = LE3Scene.get_object(self.scene, "bird")
+    self.wasInit = false
+end
+
+function FlappyBirdGame:onInitDone()
+    self.bird = LE3Scene.get_object_global("bird")
+    self.birdPhysics = LE3Object.get_physics_component(self.bird)
+    print(LE3Object.get_name(self.bird))
     self.isSpaceDown = false
 end
 
 function FlappyBirdGame:update(deltaTime)
+    if not self.wasInit then
+        self:onInitDone()
+        self.wasInit = true
+    end
+
     self:handleInput()
+
+    local transform = LE3Object.get_transform(self.bird)
+    print(LE3Transform.get_position(transform))
 end
 
 function FlappyBirdGame:handleInput()
@@ -39,4 +53,5 @@ end
 
 function FlappyBirdGame:onSpace()
     print("onSpace")
+    LE3PhysicsComponent.apply_impulse(self.birdPhysics, 0, 3, 0)
 end

@@ -246,7 +246,8 @@ void LE3PhysicsComponent::setRotation(glm::quat rotation) {
 void LE3PhysicsComponent::applyImpulse(glm::vec3 impulse) {
     btVector3 impulseVec(impulse.x, impulse.y, impulse.z);
     btVector3 relPos;
-    m_rigidBody->m_rigidBody->applyImpulse(impulseVec, relPos);
+    // m_rigidBody->m_rigidBody->applyImpulse(impulseVec, relPos);
+    m_rigidBody->m_rigidBody->applyCentralImpulse(impulseVec);
 }
 
 glm::vec3 LE3PhysicsComponent::getTotalForce() const {
