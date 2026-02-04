@@ -22,6 +22,8 @@ LE3DrawableObject = {}
 LE3EngineConfig = {}
 ---@class LE3EngineState
 LE3EngineState = {}
+---@class LE3EventManager
+LE3EventManager = {}
 ---@class LE3FreeCamera
 LE3FreeCamera = {}
 ---@class LE3Input
@@ -441,6 +443,13 @@ function LE3EngineState.notify_wants_quit() end
 
 ---@param relativeMouse boolean
 function LE3EngineState.notify_wants_relative_mouse(relativeMouse) end
+
+---@param event string
+function LE3EventManager.notify(event) end
+
+---@param event string
+---@param subscriberName string
+function LE3EventManager.subscribe(event, subscriberName) end
 
 ---@param key string
 ---@return boolean

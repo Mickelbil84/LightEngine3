@@ -1,7 +1,7 @@
 FlappyBird = LE3ScriptObject:new()
 
 function FlappyBird:init()
-    EventManager:subscribe("EVT_JUMP", self.name, function(data)
+    LE3EventManager.subscribe("EVT_JUMP", self.name, function(data)
         self:jump()
     end)
     self.shouldInit = true

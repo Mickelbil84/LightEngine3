@@ -22,7 +22,7 @@ function FlappyBirdGame:handleInput()
 
     if LE3Input.get_key("KEY_SPACE") then
         if not self.isSpaceDown then
-            EventManager:notify("EVT_JUMP")
+            LE3EventManager.notify("EVT_JUMP")
         end
         self.isSpaceDown = true
     else

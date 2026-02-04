@@ -44,6 +44,8 @@ void le3::bindLE3Types(lua_State* L) {
 
     REGISTER(LE3PlayerStart);
 
+    REGISTER(LE3EventManager);
+
     // Bind enums
     // TODO: simpler code for that also
     SET_GLOBAL_NUMBER(L, "DRAW_PRIORITY_LOW", 0);
