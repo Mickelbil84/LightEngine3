@@ -36,7 +36,7 @@ namespace le3 {
         void reparent(std::shared_ptr<LE3Object> newParent);
         void appendChild(std::shared_ptr<LE3Object> pChild);
 
-        void setName(const std::string& name) { m_name = name; } // Use with causion, renaming should be done via scene
+        void setName(const std::string& name) { m_name = name; m_physicsComponent.setOwnerName(name); } // Use with causion, renaming should be done via scene
         std::string getName() const { return m_name; }
 
         // A delegate object is an object whose sole purpose is to represent (usually visually) another object,

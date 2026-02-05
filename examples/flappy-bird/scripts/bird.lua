@@ -4,6 +4,9 @@ function FlappyBird:init()
     LE3EventManager.subscribe("EVT_JUMP", self.name, function(data)
         self:jump()
     end)
+    LE3EventManager.subscribe("EVT_ON_COLLISION__SM_bird", self.name, function(data)
+        self:onCollision(data)
+    end)
     self.shouldInit = true
 end
 
@@ -24,4 +27,8 @@ end
 
 function FlappyBird:jump()
     LE3PhysicsComponent.apply_impulse(self.birdPhysics, 0, 3, 0)
+end
+
+function FlappyBird:onCollision(data)
+    -- print("Collision: " .. data.objectA .. " <-> " .. data.objectB)
 end

@@ -71,8 +71,9 @@ namespace le3 {
         void setManualRadius(float radius) { m_colliderOverride.radius = radius; }
         float getManualRadius() const { return m_colliderOverride.radius; }
 
-        
-        
+        void setOwnerName(const std::string& name) { m_ownerName = name; }
+        std::string getOwnerName() const { return m_ownerName; }
+
     private:
         void addBoxCollider(glm::vec3 size);
         void addSphereCollider(float radius, glm::vec3 scaling);
@@ -95,6 +96,7 @@ namespace le3 {
         glm::quat m_initialRotation = glm::quat(1.f, 0.f, 0.f, 0.f);
 
         std::string m_componentName; // This would be some random unique id, but not the object name so we don't have to track changes
+        std::string m_ownerName;
     };
 }
 
