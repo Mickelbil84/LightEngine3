@@ -24,11 +24,17 @@ function FlappyPipes:initAfterLoad()
         local _, yUpBase, _ = LE3Transform.get_position(tUp)
         local _, yDownBase, _ = LE3Transform.get_position(tDown)
 
+        local physUp = LE3Object.get_physics_component(up)
+        local physDown = LE3Object.get_physics_component(down)
+        LE3PhysicsComponent.set_kinematic(physUp, true)
+        LE3PhysicsComponent.set_kinematic(physDown, true)
+
         local x = self.xMax + (i - 1) * self.spacing
         local y = self.yMin + math.random() * (self.yMax - self.yMin)
 
         self.pipes[i] = {
             up = up, down = down,
+            physUp = physUp, physDown = physDown,
             x = x, y = y,
             yUpBase = yUpBase, yDownBase = yDownBase
         }
@@ -38,10 +44,9 @@ end
 
 function FlappyPipes:applyPipePosition(i)
     local pipe = self.pipes[i]
-    local tUp = LE3Object.get_transform(pipe.up)
-    local tDown = LE3Object.get_transform(pipe.down)
-    LE3Transform.set_position(tUp, pipe.x, pipe.yUpBase + pipe.y, self.zPos)
-    LE3Transform.set_position(tDown, pipe.x, pipe.yDownBase + pipe.y, self.zPos)
+    -- warp(physics_component, x, y, z, qw, qx, qy, qz)
+    LE3PhysicsComponent.warp(pipe.physUp, pipe.x, pipe.yUpBase + pipe.y, self.zPos, 1, 0, 0, 0)
+    LE3PhysicsComponent.warp(pipe.physDown, pipe.x, pipe.yDownBase + pipe.y, self.zPos, 1, 0, 0, 0)
 end
 
 function FlappyPipes:update(deltaTime)

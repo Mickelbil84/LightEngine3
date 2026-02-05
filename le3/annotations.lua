@@ -708,6 +708,10 @@ function LE3PhysicsComponent.get_total_force(self) end
 
 ---@param self LE3PhysicsComponent
 ---@return boolean
+function LE3PhysicsComponent.is_kinematic(self) end
+
+---@param self LE3PhysicsComponent
+---@return boolean
 function LE3PhysicsComponent.is_manual_collider_override(self) end
 
 ---@param self LE3PhysicsComponent
@@ -744,6 +748,10 @@ function LE3PhysicsComponent.set_is_rigidbody(self, is_rigidbody) end
 ---@param self LE3PhysicsComponent
 ---@param is_trigger boolean
 function LE3PhysicsComponent.set_is_trigger(self, is_trigger) end
+
+---@param self LE3PhysicsComponent
+---@param kinematic boolean
+function LE3PhysicsComponent.set_kinematic(self, kinematic) end
 
 ---@param self LE3PhysicsComponent
 ---@param linear_velocity_x number
@@ -785,6 +793,16 @@ function LE3PhysicsComponent.set_mass(self, mass) end
 ---@param rotation_y number
 ---@param rotation_z number
 function LE3PhysicsComponent.set_rotation(self, rotation_w, rotation_x, rotation_y, rotation_z) end
+
+---@param component LE3PhysicsComponent
+---@param position_x number
+---@param position_y number
+---@param position_z number
+---@param rotation_w number
+---@param rotation_x number
+---@param rotation_y number
+---@param rotation_z number
+function LE3PhysicsComponent.warp(component, position_x, position_y, position_z, rotation_w, rotation_x, rotation_y, rotation_z) end
 
 ---@param obj LE3PointCloud
 ---@param position_x number
@@ -1294,4 +1312,10 @@ function LE3VisualDebug.draw_debug_box(position_x, position_y, position_z, rotat
 ---@param color_y number
 ---@param color_z number
 function LE3VisualDebug.draw_debug_line(start_x, start_y, start_z, end_x, end_y, end_z, color_x, color_y, color_z) end
+
+---@return boolean
+function LE3VisualDebug.get_show_colliders() end
+
+---@param show boolean
+function LE3VisualDebug.set_show_colliders(show) end
 

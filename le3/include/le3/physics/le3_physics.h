@@ -29,6 +29,9 @@ namespace le3 {
 
         void setIsTrigger(bool isTrigger) { m_bIsTrigger = isTrigger; }
         bool isTrigger() const { return m_bIsTrigger; }
+
+        void setKinematic(bool kinematic);
+        bool isKinematic() const;
         inline bool isRigidBody() const { return m_bRigidBody; }
         inline void setIsRigidBody(bool isRigidBody) { if (!isRigidBody) disable(); m_bRigidBody = isRigidBody; }
         

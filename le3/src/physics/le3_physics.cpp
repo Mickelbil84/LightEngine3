@@ -34,6 +34,20 @@ LE3PhysicsComponent::LE3PhysicsComponent(LE3Transform& transform, bool isRigidBo
     m_rigidBody = std::make_shared<LE3PhysicsRigidBody>();
 }
 
+void LE3PhysicsComponent::setKinematic(bool kinematic) {
+    if (!m_rigidBody->m_rigidBody) return;
+    int flags = m_rigidBody->m_rigidBody->getCollisionFlags();
+    if (kinematic)
+        flags |= btCollisionObject::CF_KINEMATIC_OBJECT;
+    else
+        flags &= ~btCollisionObject::CF_KINEMATIC_OBJECT;
+    m_rigidBody->m_rigidBody->setCollisionFlags(flags);
+}
+bool LE3PhysicsComponent::isKinematic() const {
+    if (!m_rigidBody->m_rigidBody) return false;
+    return (m_rigidBody->m_rigidBody->getCollisionFlags() & btCollisionObject::CF_KINEMATIC_OBJECT) != 0;
+}
+
 void LE3PhysicsComponent::disable() {
     if (!m_bRigidBody) return;
     m_bEnabled = false;
@@ -197,9 +211,14 @@ void LE3PhysicsComponent::warp(glm::vec3 position, glm::quat rotation) {
     if (!m_bRigidBody) return;
     m_rigidBody->m_rigidBody->setLinearVelocity(btVector3(0, 0, 0));
     m_rigidBody->m_rigidBody->setAngularVelocity(btVector3(0, 0, 0));
+    // Visual transform gets the position directly
+    m_transform.setPosition(position);
+    m_transform.setRotation(rotation);
+    // Bullet body needs the centroid offset applied
+    glm::vec3 bulletPos = glm::vec3(m_transform.getTransformMatrix() * glm::vec4(m_colliderInfo.centroid, 1.f));
     m_rigidBody->m_motionState->setWorldTransform(btTransform(
         btQuaternion(rotation.x, rotation.y, rotation.z, rotation.w),
-        btVector3(position.x, position.y, position.z)
+        btVector3(bulletPos.x, bulletPos.y, bulletPos.z)
     ));
     m_rigidBody->m_rigidBody->setMotionState(m_rigidBody->m_motionState.get());
     // m_rigidBody->m_rigidBody->setGravity(btVector3(0, -10, 0));

@@ -9,6 +9,8 @@ function FlappyBirdGame:init()
     LE3Scene.reparent(self.scene, cameraName, self.name)
 
     self.isSpaceDown = false
+
+    -- LE3VisualDebug.set_show_colliders(true)
 end
 
 function FlappyBirdGame:update(deltaTime)

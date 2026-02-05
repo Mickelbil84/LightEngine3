@@ -6,6 +6,9 @@ using namespace le3;
 FBIND_GETTER_BOOL(LE3PhysicsComponent, is_trigger, isTrigger)
 FBIND_SETTER_BOOL(LE3PhysicsComponent, set_is_trigger, setIsTrigger)
 
+FBIND_GETTER_BOOL(LE3PhysicsComponent, is_kinematic, isKinematic)
+FBIND_SETTER_BOOL(LE3PhysicsComponent, set_kinematic, setKinematic)
+
 FBIND_GETTER_BOOL(LE3PhysicsComponent, is_rigidbody, isRigidBody)
 FBIND_SETTER_BOOL(LE3PhysicsComponent, set_is_rigidbody, setIsRigidBody)
 
@@ -41,6 +44,13 @@ FBIND(LE3PhysicsComponent, get_manual_collider_type)
     PUSH_STRING(LE3ColliderType_toString(component->getManualColliderType()))
 FEND()
 
+FBIND(LE3PhysicsComponent, warp)
+    GET_UDATA(component, LE3PhysicsComponent)
+    GET_VEC3_(position)
+    GET_QUAT(rotation)
+    component->warp(position, rotation);
+FEND()
+
 FBIND_GETTER_VEC3(LE3PhysicsComponent, get_total_force, getTotalForce)
 FBIND_SETTER_VEC3(LE3PhysicsComponent, apply_impulse, applyImpulse)
 
@@ -53,10 +63,12 @@ FEND()
 
 LIB(LE3PhysicsComponent,
     is_trigger, set_is_trigger,
+    is_kinematic, set_kinematic,
     is_rigidbody, set_is_rigidbody,
     get_mass, set_mass,
     get_linear_velocity, set_linear_velocity, get_angular_velocity, set_angular_velocity, set_angular_factor,
     set_rotation,
+    warp,
     get_total_force, apply_impulse, probe_collision,
 
     set_manual_collider_override, is_manual_collider_override,
