@@ -64,6 +64,7 @@ void LE3AssetManager::init() {
     addTexture(SPRITE_SCRIPT_OBJECT, "/engine/sprites/sprite_scriptobject.png");
     addTexture(SPRITE_PLAYERSTART, "/engine/sprites/sprite_playerstart.png");
 
+    m_uiMesh = createPlane(0.f, 0.f, 0.f, 1.f, 1.f);
 }
 void LE3AssetManager::reset() {
     m_pShaders.clear();

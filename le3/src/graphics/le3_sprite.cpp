@@ -13,6 +13,8 @@ LE3Sprite::LE3Sprite(LE3TexturePtr pTexture) :
 }
 
 void LE3Sprite::draw(LE3ShaderPtr shaderOverride) {
+    if (shaderOverride.lock()) return;
+
     m_pMaterial.lock()->diffuseTexture = m_pTexture;
     m_pMaterial.lock()->bUseDiffuseTexture = true;
 
