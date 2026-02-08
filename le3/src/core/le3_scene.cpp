@@ -209,6 +209,9 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
 
 void LE3Scene::drawUI() {
     glEnable(GL_DEPTH_TEST);
+    std::shared_ptr<LE3Shader> uiShader = LE3GetAssetManager().getShader(DEFAULT_UI_SHADER).lock();
+    uiShader->use();
+    uiShader->uniform("aspectRatio", (float)LE3GetEngineState()->getAspectRatio());
     m_sceneGraph->m_drawQueue.draw(LE3ShaderPtr(), false, true);
 }
 
