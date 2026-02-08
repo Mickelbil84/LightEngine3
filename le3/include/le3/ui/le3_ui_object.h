@@ -11,4 +11,5 @@ namespace le3 {
 
         virtual void draw(LE3ShaderPtr shaderOverride = LE3ShaderPtr());
     };
+    using LE3UIObjectPtr = std::shared_ptr<LE3UIObject>;
 }

@@ -14,6 +14,9 @@ public:
         loadBoostrapConfig();
         loadProjectArchives();
         loadInitialScene();
+
+        // TEST::
+        LE3GetActiveScene()->addUIObject("testUI");
     }
     void update(float deltaTime) {
         LE3GetSceneManager().updateScenes(deltaTime);

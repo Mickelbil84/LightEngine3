@@ -21,6 +21,7 @@
 #include "graphics/le3_framebuffer.h"
 #include "graphics/le3_light_manager.h"
 #include "graphics/le3_point_cloud.h"
+#include "ui/le3_ui_object.h"
 
 #include "utils/le3_gizmo.h"
 #include "gameplay/le3_playerstart.h"
@@ -65,12 +66,13 @@ namespace le3 {
         void draw();
         void drawSSAO();
         void drawLights();
-        void drawObjects(LE3ShaderPtr shaderOverride = LE3ShaderPtr(), LE3FramebufferPtr buffer = nullptr, bool depth = true, bool shadowPhase = false);
+        void drawObjects(LE3ShaderPtr shaderOverride = LE3ShaderPtr(), LE3FramebufferPtr buffer = nullptr, bool depth = true, bool shadowPhase = false, bool uiPhase = false);
         void drawObjectIDs();
         void drawSelected();
         void drawPostProcess();
         void drawColliders();
         void drawObjectPositions();
+        void drawUI();
         void setPostProcessShader(LE3ShaderPtr shader) { m_postProcessShader = shader; }
 
         void rebuild(); // Call whenever major structural changes happen to scene graph (like shader change/deletion)
@@ -107,6 +109,8 @@ namespace le3 {
 
         void addScriptObject(std::string name, std::string classname, std::string parent = "");
         void addCustomObject(std::string name, std::shared_ptr<LE3Object> obj, std::string parent = ""); // DANGER! Use with caution
+
+        void addUIObject(std::string, std::string parent = "");
 
         void deleteObject(std::string name);
         void renameObject(std::string oldName, std::string newName);
