@@ -96,6 +96,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/tools/le3_tool_pkg.cpp
 
     src/ui/le3_imgui_utils.cpp
+    src/ui/le3_ui_object.cpp
 
     src/utils/le3_assimp.cpp
     src/utils/le3_gizmo.cpp

@@ -46,12 +46,14 @@ void LE3AssetManager::init() {
     addShaderFromFile(DEFAULT_OBJECTNORMALS_SHADER, "/engine/shaders/objectpositions/objectnormals.vs", "/engine/shaders/objectpositions/objectnormals.fs");
     addShaderFromFile(DEFAULT_SPRITE_SHADER, "/engine/shaders/sprite/sprite.vs", "/engine/shaders/sprite/sprite.fs");
     addShaderFromFile(DEFAULT_PCD_SHADER, "/engine/shaders/pcd/pcd.vs", "/engine/shaders/pcd/pcd.fs");
+    addShaderFromFile(DEFAULT_UI_SHADER, "/engine/shaders/ui/ui.vs", "/engine/shaders/ui/ui.fs");
 
     addTexture(DEFAULT_NOISE_TEXTURE, "/engine/textures/noise.png");
 
     addMaterial(DEFAULT_MATERIAL, DEFAULT_SHADER);
     addMaterial(DEFAULT_GIZMO_MATERIAL, DEFAULT_GIZMO_SHADER);
     addMaterial(DEFAULT_SPRITE_MATERIAL, DEFAULT_SPRITE_SHADER);
+    addMaterial(DEFAULT_UI_MATERIAL, DEFAULT_UI_SHADER);
     addMaterial(DEFAULT_PCD_MATERIAL, DEFAULT_PCD_SHADER);
     getMaterial(DEFAULT_PCD_MATERIAL).lock()->specularIntensity = 0.0f;
 

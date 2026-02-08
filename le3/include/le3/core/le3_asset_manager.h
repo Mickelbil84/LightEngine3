@@ -27,25 +27,28 @@ namespace le3 {
     const std::string DEFAULT_SHADOWMAP_SHADER = DEFAULT_ENGINE_PREFIX + "S_shadowmap";
     const std::string DEFAULT_SSAO_SHADER = DEFAULT_ENGINE_PREFIX + "S_ssao";
     const std::string DEFAULT_DEBUG_SHADER = DEFAULT_ENGINE_PREFIX + "S_debug";
-    const std::string DEFAULT_GIZMO_SHADER = DEFAULT_ENGINE_PREFIX + "S_gizmo";
-
+    
     const std::string DEFAULT_MATERIAL = "M_default";
-
+    
     const std::string DEFAULT_NOISE_TEXTURE = DEFAULT_ENGINE_PREFIX + "T_noise";
-
+    
     const std::string DEFAULT_PCD_SHADER = DEFAULT_ENGINE_PREFIX + "S_pcd";
     const std::string DEFAULT_PCD_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_pcd";
-
+    
     const std::string DEFAULT_SPRITE_SHADER = DEFAULT_ENGINE_PREFIX + "S_sprite";
     const std::string DEFAULT_SPRITE_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_sprite";
-
+    
+    const std::string DEFAULT_UI_SHADER = DEFAULT_ENGINE_PREFIX + "S_ui";
+    const std::string DEFAULT_UI_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_ui";
+    
     const std::string SPRITE_AMBIENT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_ambient";
     const std::string SPRITE_DIRECTIONAL_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_directional";
     const std::string SPRITE_POINT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_point";
     const std::string SPRITE_SPOT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_spot";
     const std::string SPRITE_SCRIPT_OBJECT = DEFAULT_ENGINE_PREFIX + "T_sprite_script_object";
     const std::string SPRITE_PLAYERSTART = DEFAULT_ENGINE_PREFIX + "T_sprite_playerstart";
-
+    
+    const std::string DEFAULT_GIZMO_SHADER = DEFAULT_ENGINE_PREFIX + "S_gizmo";
     const std::string DEFAULT_GIZMO_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_gizmo";
 
     class LE3AssetManager {
