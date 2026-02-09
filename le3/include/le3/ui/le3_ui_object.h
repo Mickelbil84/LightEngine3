@@ -16,6 +16,7 @@ namespace le3 {
         LE3_TYPE_RETURN(LE3UIObject)
 
         virtual void draw(LE3ShaderPtr shaderOverride = LE3ShaderPtr());
+        virtual void update(float deltaTime);
 
         inline void setBaseColor(glm::vec4 color) { m_baseColor = color; }
         inline void setHoveredColor(glm::vec4 color) { m_hoveredColor = color; }

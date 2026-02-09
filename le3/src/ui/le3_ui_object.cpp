@@ -34,3 +34,7 @@ void LE3UIObject::draw(LE3ShaderPtr shaderOverride) {
     LE3StaticModel::draw(shaderOverride);
 
 }
+
+void LE3UIObject::update(float deltaTime) {
+    
+}
