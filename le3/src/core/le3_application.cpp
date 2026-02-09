@@ -135,8 +135,13 @@ void LE3Application::handleInput() {
 
         ImGui_ImplSDL2_ProcessEvent(&e);
     }
+
+    // Add all mouse registers (including also position in screen space coords)
     SDL_GetRelativeMouseState(&input.xrel, &input.yrel);
     SDL_GetMouseState(&input.mouseX, &input.mouseY);
+    input.mouseScreenX = ((float)input.mouseX / (float)m_pGameLogic->m_engineState.m_windowWidth) * 2.f - 1.f;
+    input.mouseScreenY = 1.f - ((float)input.mouseY / (float)m_pGameLogic->m_engineState.m_windowHeight) * 2.f;
+
     getKeyboardInput(input);
     // Editor manager should know about mouse state
     LE3GetEditorManager().setMouseDown(isLeftClick || input.bLeftMouseDown);

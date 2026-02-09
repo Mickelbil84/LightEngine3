@@ -36,5 +36,6 @@ void LE3UIObject::draw(LE3ShaderPtr shaderOverride) {
 }
 
 void LE3UIObject::update(float deltaTime) {
-    
+    LE3Input input = LE3GetInput();
+    fmt::print("{} {}\n", input.mouseScreenX, input.mouseScreenY);
 }
