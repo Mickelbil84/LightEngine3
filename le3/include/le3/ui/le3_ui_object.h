@@ -25,6 +25,14 @@ namespace le3 {
         inline glm::vec4 getHoveredColor() const { return m_hoveredColor; }
         inline glm::vec4 getSelectedColor() const { return m_selectedColor; }
 
+        inline float getBoundRight() const;
+        inline float getBoundLeft() const;
+        inline float getBoundTop() const;
+        inline float getBoundBottom() const;
+
+        virtual bool isHovered();
+        virtual bool isSelected();
+
     protected:
         glm::vec4 m_baseColor, m_hoveredColor, m_selectedColor;
         LE3UIObjectState m_uiState;

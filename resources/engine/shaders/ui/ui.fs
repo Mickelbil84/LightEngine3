@@ -2,18 +2,18 @@
 
 out vec4 outColor;
 
-#define UI_OBJECT_BASE 0u
-#define UI_OBJECT_HOVERED 1u
-#define UI_OBJECT_SELECTED 2u
+#define UI_OBJECT_BASE 0
+#define UI_OBJECT_HOVERED 1
+#define UI_OBJECT_SELECTED 2
 
 uniform vec4 baseColor, hoveredColor, selectedColor;
-uniform uint state;
+uniform int state;
 
 void main() {
     vec4 colorOverride = 
-        (1u - min(1u, state ^ UI_OBJECT_BASE)) * baseColor +
-        (1u - min(1u, state ^ UI_OBJECT_HOVERED)) * hoveredColor +
-        (1u - min(1u, state ^ UI_OBJECT_SELECTED)) * selectedColor
+        (1 - min(1, state ^ UI_OBJECT_BASE)) * baseColor +
+        (1 - min(1, state ^ UI_OBJECT_HOVERED)) * hoveredColor * 0.8 +
+        (1 - min(1, state ^ UI_OBJECT_SELECTED)) * selectedColor * 0.6
     ;
     outColor = colorOverride;
 }

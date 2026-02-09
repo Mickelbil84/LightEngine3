@@ -4,7 +4,7 @@ using namespace le3;
 
 LE3UIObject::LE3UIObject() : 
     LE3StaticModel(LE3StaticMeshPtr(), LE3MaterialPtr()),
-    m_baseColor(glm::vec4(1.f)), m_hoveredColor(glm::vec4(1.f)), m_selectedColor(glm::vec4(1.)),
+    m_baseColor(glm::vec4(1.f)), m_hoveredColor(glm::vec4(1.f)), m_selectedColor(glm::vec4(1.f)),
     m_uiState(LE3UIObjectState::UI_OBJECT_BASE)
     {
     setMaterial(LE3GetAssetManager().getMaterial(DEFAULT_UI_MATERIAL));
@@ -36,6 +36,36 @@ void LE3UIObject::draw(LE3ShaderPtr shaderOverride) {
 }
 
 void LE3UIObject::update(float deltaTime) {
+    if (isSelected())
+        m_uiState = UI_OBJECT_SELECTED;
+    else if (isHovered())
+        m_uiState = UI_OBJECT_HOVERED;
+    else
+        m_uiState = UI_OBJECT_BASE;
+}
+
+inline float LE3UIObject::getBoundRight() const {
+    return m_transform.getPosition().x + 0.5f * m_transform.getScale().x;
+}
+inline float LE3UIObject::getBoundLeft() const {
+    return m_transform.getPosition().x - 0.5f * m_transform.getScale().x;
+}
+inline float LE3UIObject::getBoundTop() const {
+    return m_transform.getPosition().y + 0.5f * m_transform.getScale().y;
+}
+inline float LE3UIObject::getBoundBottom() const {
+    return m_transform.getPosition().y - 0.5f * m_transform.getScale().y;
+}
+
+bool LE3UIObject::isHovered() {
     LE3Input input = LE3GetInput();
-    fmt::print("{} {}\n", input.mouseScreenX, input.mouseScreenY);
+    float x = input.mouseScreenX, y = input.mouseScreenY;
+
+    // fmt::print("x:{}, [{},{}] --> {}\n", x, getBoundLeft(), getBoundRight(), (getBoundLeft() <= x) && (x <= getBoundRight()));
+
+    return getBoundLeft() <= x && x <= getBoundRight() &&
+        getBoundBottom() <= y && y <= getBoundTop();
+}
+bool LE3UIObject::isSelected() {
+    return isHovered() && LE3GetInput().bLeftMouseDown;
 }
