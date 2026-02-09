@@ -15,13 +15,11 @@ void LE3UIObject::draw(LE3ShaderPtr shaderOverride) {
     if (shaderOverride.lock()) return;
     m_pMaterial.lock()->bUseDiffuseTexture = false;
 
-    shaderOverride = m_pMaterial.lock()->shader;
+    std::shared_ptr<LE3Shader> shader = m_pMaterial.lock()->shader.lock();
+    shader->use();
+    shader->uniform("position", m_transform.getPosition());
+    shader->uniform("scale", glm::vec2(m_transform.getScale()));
 
-    if (shaderOverride.lock()) {
-        shaderOverride.lock()->use();
-    }
     LE3StaticModel::draw(shaderOverride);
-    if (shaderOverride.lock()) {
-        shaderOverride.lock()->use();
-    }
+
 }

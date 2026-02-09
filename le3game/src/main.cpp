@@ -17,6 +17,8 @@ public:
 
         // TEST::
         LE3GetActiveScene()->addUIObject("testUI");
+        LE3GetActiveScene()->getObject("testUI")->getTransform().setPosition(glm::vec3(0.5, 0.5, 0));
+        LE3GetActiveScene()->getObject("testUI")->getTransform().setScale(glm::vec3(0.5, 0.25, 1));
     }
     void update(float deltaTime) {
         LE3GetSceneManager().updateScenes(deltaTime);
