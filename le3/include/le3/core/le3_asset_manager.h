@@ -27,25 +27,28 @@ namespace le3 {
     const std::string DEFAULT_SHADOWMAP_SHADER = DEFAULT_ENGINE_PREFIX + "S_shadowmap";
     const std::string DEFAULT_SSAO_SHADER = DEFAULT_ENGINE_PREFIX + "S_ssao";
     const std::string DEFAULT_DEBUG_SHADER = DEFAULT_ENGINE_PREFIX + "S_debug";
-    const std::string DEFAULT_GIZMO_SHADER = DEFAULT_ENGINE_PREFIX + "S_gizmo";
-
+    
     const std::string DEFAULT_MATERIAL = "M_default";
-
+    
     const std::string DEFAULT_NOISE_TEXTURE = DEFAULT_ENGINE_PREFIX + "T_noise";
-
+    
     const std::string DEFAULT_PCD_SHADER = DEFAULT_ENGINE_PREFIX + "S_pcd";
     const std::string DEFAULT_PCD_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_pcd";
-
+    
     const std::string DEFAULT_SPRITE_SHADER = DEFAULT_ENGINE_PREFIX + "S_sprite";
     const std::string DEFAULT_SPRITE_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_sprite";
-
+    
+    const std::string DEFAULT_UI_SHADER = DEFAULT_ENGINE_PREFIX + "S_ui";
+    const std::string DEFAULT_UI_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_ui";
+    
     const std::string SPRITE_AMBIENT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_ambient";
     const std::string SPRITE_DIRECTIONAL_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_directional";
     const std::string SPRITE_POINT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_point";
     const std::string SPRITE_SPOT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_spot";
     const std::string SPRITE_SCRIPT_OBJECT = DEFAULT_ENGINE_PREFIX + "T_sprite_script_object";
     const std::string SPRITE_PLAYERSTART = DEFAULT_ENGINE_PREFIX + "T_sprite_playerstart";
-
+    
+    const std::string DEFAULT_GIZMO_SHADER = DEFAULT_ENGINE_PREFIX + "S_gizmo";
     const std::string DEFAULT_GIZMO_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_gizmo";
 
     class LE3AssetManager {
@@ -162,6 +165,8 @@ namespace le3 {
         inline LE3MeshPtr<LE3Vertex3p> getDebugSphere() { return m_debugSphere; }
         inline LE3MeshPtr<LE3Vertex3p> getDebugCapsule() { return m_debugCapsule; }
 
+        inline LE3MeshPtr<LE3Vertex> getUIMesh() { return m_uiMesh; }
+
         inline LE3StaticMeshPtr getGizmoArrowMesh() { return m_gizmoArrow; }
         inline LE3StaticMeshPtr getGizmoScaleArrowMesh() { return m_gizmoScaleArrow; }
         inline LE3StaticMeshPtr getGizmoCircleMesh() { return m_gizmoCircle; }
@@ -195,6 +200,7 @@ namespace le3 {
         // Debug meshes
         std::shared_ptr<LE3Mesh<LE3Vertex3p>> m_debugLine, m_debugBox, m_debugBoxDiagonals, m_debugCylinder, m_debugCone, m_debugSphere, m_debugCapsule;
         std::shared_ptr<LE3StaticMesh> m_gizmoArrow, m_gizmoScaleArrow, m_gizmoCircle, m_gizmoPlane, m_gizmoCenter;
+        std::shared_ptr<LE3Mesh<LE3Vertex>> m_uiMesh;
 
         // Error (missing) assets
         std::shared_ptr<LE3Shader> m_gErrorShader;

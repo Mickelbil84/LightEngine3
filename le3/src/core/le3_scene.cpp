@@ -118,6 +118,7 @@ void LE3Scene::draw() {
 
     // Draw once again to the post process buffer
     drawPostProcess();
+    drawUI();
 
     // Revert back to normal drawing
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -174,7 +175,7 @@ void LE3Scene::drawLights() {
     glDisable(GL_CULL_FACE);
 }
 
-void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer, bool depth, bool shadowPhase) {
+void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer, bool depth, bool shadowPhase, bool uiPhase) {
     if (buffer == nullptr) buffer = m_rawBuffer;
     
     if (m_bCulling) glEnable(GL_CULL_FACE); else glDisable(GL_CULL_FACE);
@@ -203,7 +204,15 @@ void LE3Scene::drawObjects(LE3ShaderPtr shaderOverride, LE3FramebufferPtr buffer
         m_ssaoBuffer->useColorTexture(SSAO_TEXTURE_INDEX);
     }
 
-    m_sceneGraph->m_drawQueue.draw(shaderOverride, shadowPhase);
+    m_sceneGraph->m_drawQueue.draw(shaderOverride, shadowPhase, uiPhase);
+}
+
+void LE3Scene::drawUI() {
+    glEnable(GL_DEPTH_TEST);
+    std::shared_ptr<LE3Shader> uiShader = LE3GetAssetManager().getShader(DEFAULT_UI_SHADER).lock();
+    uiShader->use();
+    uiShader->uniform("aspectRatio", (float)LE3GetEngineState()->getAspectRatio());
+    m_sceneGraph->m_drawQueue.draw(LE3ShaderPtr(), false, true);
 }
 
 void LE3Scene::drawObjectIDs() {
@@ -400,6 +409,11 @@ void LE3Scene::addCustomObject(std::string name, std::shared_ptr<LE3Object> obj,
     LE3DrawableObjectPtr drawableObj = std::dynamic_pointer_cast<LE3DrawableObject>(obj);
     if (drawableObj) m_sceneGraph->m_drawQueue.addObject(drawableObj);
     obj->init();
+}
+
+void LE3Scene::addUIObject(std::string name, std::string parent) {
+    LE3UIObjectPtr obj = std::make_shared<LE3UIObject>();
+    addCustomObject(name, obj, parent);
 }
 
 void LE3Scene::addPlayerStart(std::string classname) {

@@ -21,12 +21,16 @@ void LE3DrawQueue::clear() {
     }
 }
 
-void LE3DrawQueue::draw(LE3ShaderPtr shaderOverrideWeak, bool shadowPhase) {
+void LE3DrawQueue::draw(LE3ShaderPtr shaderOverrideWeak, bool shadowPhase, bool uiPhase) {
     auto shaderOverride = shaderOverrideWeak.lock();
     if (shaderOverride != nullptr) shaderOverride->use();
     for (
         int priority = LE3DrawPriority::DRAW_PRIORITY_LOW; 
         priority <= LE3DrawPriority::DRAW_PRIORITY_END; ++priority) {
+
+        // The last priority has unique treatment as UI should be drawn in a different phase
+        if (uiPhase && priority != LE3DrawPriority::DRAW_PRIORITY_UI) continue;
+        if (!uiPhase && priority == LE3DrawPriority::DRAW_PRIORITY_UI) continue;
         
         if (priority == LE3DrawPriority::DRAW_PRIORITY_END) glDepthMask(GL_FALSE);
         for (auto kv : m_drawQueue[(LE3DrawPriority)priority]) {

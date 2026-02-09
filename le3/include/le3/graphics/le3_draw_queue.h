@@ -12,7 +12,7 @@ namespace le3 {
     public:
         LE3DrawQueue();
 
-        void draw(LE3ShaderPtr shaderOverride = LE3ShaderPtr(), bool shadowPhase = false);
+        void draw(LE3ShaderPtr shaderOverride = LE3ShaderPtr(), bool shadowPhase = false, bool uiPhase = false);
         void addObject(std::weak_ptr<LE3DrawableObject> object);
         void clear();
 

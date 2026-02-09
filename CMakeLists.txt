@@ -102,4 +102,22 @@ else()
 
         DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources 
     )
+
+
+    # Also package all example dirs
+    file(GLOB EXAMPLE_DIRS RELATIVE
+        "${CMAKE_CURRENT_SOURCE_DIR}/examples"
+        "${CMAKE_CURRENT_SOURCE_DIR}/examples/*")
+
+    foreach(EXAMPLE_DIR ${EXAMPLE_DIRS})
+        if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/examples/${EXAMPLE_DIR}")
+            add_custom_target(
+                pkg-resources-tgt-examples-${EXAMPLE_DIR} ALL
+                COMMAND 
+                    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources ${CMAKE_CURRENT_SOURCE_DIR}/examples/${EXAMPLE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/examples/${EXAMPLE_DIR}
+
+                DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources 
+            )
+        endif()
+    endforeach()
 endif()

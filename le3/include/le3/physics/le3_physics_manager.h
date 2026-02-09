@@ -23,6 +23,7 @@ namespace le3 {
         bool rayTest(glm::vec3 from, glm::vec3 to);
 
     private:
+        void checkCollisions();
         struct _LE3PhysicsManager_Internal;
         std::shared_ptr<_LE3PhysicsManager_Internal> m_pInternal;
         bool m_bPhysicsEnabled = true;
