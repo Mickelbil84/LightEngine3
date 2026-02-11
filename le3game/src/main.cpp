@@ -16,9 +16,11 @@ public:
         loadInitialScene();
 
         // TEST::
-        LE3GetActiveScene()->addUIObject("testUI");
+        LE3GetAssetManager().addTexture("T_UI", "/engine/textures/noise.png");
+        LE3GetActiveScene()->addUIObject("testUI", "T_UI");
         LE3GetActiveScene()->getObject("testUI")->getTransform().setPosition(glm::vec3(0.5, 0.5, 0));
         LE3GetActiveScene()->getObject("testUI")->getTransform().setScale(glm::vec3(0.5, 0.25, 1));
+        LE3GetActiveScene()->getObject<LE3UIObject>("testUI")->setTextureCropTopRight(glm::vec2(0.05, 0.0725));
     }
     void update(float deltaTime) {
         LE3GetSceneManager().updateScenes(deltaTime);

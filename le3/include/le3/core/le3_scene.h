@@ -110,7 +110,7 @@ namespace le3 {
         void addScriptObject(std::string name, std::string classname, std::string parent = "");
         void addCustomObject(std::string name, std::shared_ptr<LE3Object> obj, std::string parent = ""); // DANGER! Use with caution
 
-        void addUIObject(std::string, std::string parent = "");
+        void addUIObject(std::string name, std::string textureName = "", std::string parent = "");
 
         void deleteObject(std::string name);
         void renameObject(std::string oldName, std::string newName);

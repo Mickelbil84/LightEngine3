@@ -2,9 +2,10 @@
 #include "core/le3_engine_systems.h"
 using namespace le3;
 
-LE3UIObject::LE3UIObject() : 
+LE3UIObject::LE3UIObject(LE3TexturePtr pTexture) : 
     LE3StaticModel(LE3StaticMeshPtr(), LE3MaterialPtr()),
     m_baseColor(glm::vec4(1.f)), m_hoveredColor(glm::vec4(1.f)), m_selectedColor(glm::vec4(1.f)),
+    m_pTexture(pTexture), m_textureCropBottomLeft(glm::vec2(0.f)), m_textureCropTopRight(glm::vec2(1.f)),
     m_uiState(LE3UIObjectState::UI_OBJECT_BASE)
     {
     setMaterial(LE3GetAssetManager().getMaterial(DEFAULT_UI_MATERIAL));
@@ -16,7 +17,9 @@ LE3UIObject::LE3UIObject() :
 
 void LE3UIObject::draw(LE3ShaderPtr shaderOverride) {
     if (shaderOverride.lock()) return;
-    m_pMaterial.lock()->bUseDiffuseTexture = false;
+    m_pMaterial.lock()->bUseDiffuseTexture = !m_pTexture.expired();
+    if (m_pMaterial.lock()->bUseDiffuseTexture)
+        m_pMaterial.lock()->diffuseTexture = m_pTexture;
 
     std::shared_ptr<LE3Shader> shader = m_pMaterial.lock()->shader.lock();
     shader->use();
@@ -30,6 +33,8 @@ void LE3UIObject::draw(LE3ShaderPtr shaderOverride) {
     shader->uniform("hoveredColor", getHoveredColor());
     shader->uniform("selectedColor", getSelectedColor());
     shader->uniform("state", (unsigned int)m_uiState);
+    shader->uniform("cropBottomLeft", m_textureCropBottomLeft);
+    shader->uniform("cropTopRight", m_textureCropTopRight);
 
     LE3StaticModel::draw(shaderOverride);
 
