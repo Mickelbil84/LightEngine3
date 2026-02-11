@@ -19,8 +19,9 @@ public:
         LE3GetAssetManager().addFont("F_default", "/engine/fonts/Tahoma.ttf", 32.0f);
         LE3GetActiveScene()->addUITextObject("fpsText", "F_default");
         LE3GetActiveScene()->getObject("fpsText")->getTransform().setPosition(glm::vec3(-0.98f, 0.92f, 0.f));
-        LE3GetActiveScene()->getObject("fpsText")->getTransform().setScale(glm::vec3(0.08f, 0.08f, 1.f));
+        LE3GetActiveScene()->getObject("fpsText")->getTransform().setScale(glm::vec3(0.06f, 0.06f, 1.f));
         LE3GetActiveScene()->getObject<LE3UITextObject>("fpsText")->setText("FPS: 0");
+        LE3GetActiveScene()->getObject<LE3UITextObject>("fpsText")->setTextColor(glm::vec4(0.f, 0.9f, 0.1f, 1.0f));
     }
     void update(float deltaTime) {
         LE3GetSceneManager().updateScenes(deltaTime);
