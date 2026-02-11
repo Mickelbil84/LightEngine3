@@ -420,6 +420,12 @@ void LE3Scene::addUIObject(std::string name, std::string textureName, std::strin
     addCustomObject(name, obj, parent);
 }
 
+void LE3Scene::addUITextObject(std::string name, std::string fontName, std::string parent) {
+    LE3FontPtr pFont = LE3GetAssetManager().getFont(fontName);
+    LE3UITextObjectPtr obj = std::make_shared<LE3UITextObject>(pFont);
+    addCustomObject(name, obj, parent);
+}
+
 void LE3Scene::addPlayerStart(std::string classname) {
     std::string name = LE3_PLAYERSTART_OBJECT_NAME;
     LE3PlayerStartPtr obj = std::make_shared<LE3PlayerStart>(classname);

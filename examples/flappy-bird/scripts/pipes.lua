@@ -2,7 +2,7 @@ FlappyPipes = LE3ScriptObject:new()
 
 function FlappyPipes:init()
     self.shouldInit = true
-    self.speed = 1.0 * 0
+    self.speed = 1.0
     self.numPipes = 5
     self.xMin = -5
     self.xMax = 5

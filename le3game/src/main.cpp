@@ -15,21 +15,22 @@ public:
         loadProjectArchives();
         loadInitialScene();
 
-        // TEST::
-        LE3GetAssetManager().addTexture("T_UI", "/engine/textures/noise.png");
-        LE3GetActiveScene()->addUIObject("testUI", "T_UI");
-        LE3GetActiveScene()->getObject("testUI")->getTransform().setPosition(glm::vec3(0.5, 0.5, 0));
-        LE3GetActiveScene()->getObject("testUI")->getTransform().setScale(glm::vec3(0.5, 0.25, 1));
-        LE3GetActiveScene()->getObject<LE3UIObject>("testUI")->setTextureCropTopRight(glm::vec2(0.05, 0.0725));
+        // FPS display
+        LE3GetAssetManager().addFont("F_default", "/engine/fonts/Tahoma.ttf", 32.0f);
+        LE3GetActiveScene()->addUITextObject("fpsText", "F_default");
+        LE3GetActiveScene()->getObject("fpsText")->getTransform().setPosition(glm::vec3(-0.98f, 0.92f, 0.f));
+        LE3GetActiveScene()->getObject("fpsText")->getTransform().setScale(glm::vec3(0.08f, 0.08f, 1.f));
+        LE3GetActiveScene()->getObject<LE3UITextObject>("fpsText")->setText("FPS: 0");
     }
     void update(float deltaTime) {
         LE3GetSceneManager().updateScenes(deltaTime);
 
-        // Print FPS once per second
+        // Update FPS text
         m_fpsPrintTimer += deltaTime;
-        if (m_fpsPrintTimer >= 1.0f) {
-            // fmt::print("FPS: {:.1f}\n", m_engineState.getFPS()); // TODO: HUD
+        if (m_fpsPrintTimer >= 0.25f) {
             m_fpsPrintTimer = 0.0f;
+            auto fpsText = LE3GetActiveScene()->getObject<LE3UITextObject>("fpsText");
+            if (fpsText) fpsText->setText(fmt::format("FPS: {:.0f}", m_engineState.getFPS()));
         }
     }
 

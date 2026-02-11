@@ -47,6 +47,7 @@ void LE3AssetManager::init() {
     addShaderFromFile(DEFAULT_SPRITE_SHADER, "/engine/shaders/sprite/sprite.vs", "/engine/shaders/sprite/sprite.fs");
     addShaderFromFile(DEFAULT_PCD_SHADER, "/engine/shaders/pcd/pcd.vs", "/engine/shaders/pcd/pcd.fs");
     addShaderFromFile(DEFAULT_UI_SHADER, "/engine/shaders/ui/ui.vs", "/engine/shaders/ui/ui.fs");
+    addShaderFromFile(DEFAULT_UI_TEXT_SHADER, "/engine/shaders/ui/ui_text.vs", "/engine/shaders/ui/ui_text.fs");
 
     addTexture(DEFAULT_NOISE_TEXTURE, "/engine/textures/noise.png");
 
@@ -54,6 +55,7 @@ void LE3AssetManager::init() {
     addMaterial(DEFAULT_GIZMO_MATERIAL, DEFAULT_GIZMO_SHADER);
     addMaterial(DEFAULT_SPRITE_MATERIAL, DEFAULT_SPRITE_SHADER);
     addMaterial(DEFAULT_UI_MATERIAL, DEFAULT_UI_SHADER);
+    addMaterial(DEFAULT_UI_TEXT_MATERIAL, DEFAULT_UI_TEXT_SHADER);
     addMaterial(DEFAULT_PCD_MATERIAL, DEFAULT_PCD_SHADER);
     getMaterial(DEFAULT_PCD_MATERIAL).lock()->specularIntensity = 0.0f;
 
@@ -72,9 +74,11 @@ void LE3AssetManager::reset() {
     m_pTextures.clear();
     m_pStaticMeshes.clear();
     m_pSkeletalMeshes.clear();
+    m_pFonts.clear();
     m_shadersPaths.clear();
     m_texturesPaths.clear();
     m_meshesPaths.clear();
+    m_fontsPaths.clear();
     m_animPaths.clear();
 
     m_screenRect = nullptr;
@@ -131,6 +135,14 @@ void LE3AssetManager::resetNonEditor() {
     std::map<std::string, std::string> meshesPaths;
     for (auto& [name, v] : m_meshesPaths) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) meshesPaths[name] = v;
     m_meshesPaths = meshesPaths;
+
+    std::map<std::string, std::shared_ptr<LE3Font>> pFonts;
+    for (auto& [name, v] : m_pFonts) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) pFonts[name] = v;
+    m_pFonts = pFonts;
+
+    std::map<std::string, std::string> fontsPaths;
+    for (auto& [name, v] : m_fontsPaths) if (name.starts_with(DEFAULT_ENGINE_PREFIX)) fontsPaths[name] = v;
+    m_fontsPaths = fontsPaths;
 
     m_lastDeletedShader = "";
     m_lastDeletedTexture = ""; 
@@ -367,6 +379,20 @@ void LE3AssetManager::reloadMeshes() {
             fmt::print("Error reloading mesh [{}]: {}\n", name, e.what());
         }
     }
+}
+
+void LE3AssetManager::addFont(std::string name, std::string filename, float fontSize) {
+    if (m_pFonts.contains(name)) deleteFont(name);
+    LE3DatBuffer buffer = LE3GetDatFileSystem().getFileContent(filename);
+    std::vector<unsigned char> fontData(buffer.data.begin(), buffer.data.end());
+    m_pFonts[name] = std::make_shared<LE3Font>(fontData, fontSize);
+    m_pFonts[name]->setName(name);
+    m_fontsPaths[name] = filename;
+}
+
+void LE3AssetManager::deleteFont(std::string name) {
+    if (m_pFonts.contains(name)) m_pFonts.erase(name);
+    if (m_fontsPaths.contains(name)) m_fontsPaths.erase(name);
 }
 
 std::string LE3AssetManager::readFile(std::string filename) {

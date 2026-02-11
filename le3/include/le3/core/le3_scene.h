@@ -22,6 +22,7 @@
 #include "graphics/le3_light_manager.h"
 #include "graphics/le3_point_cloud.h"
 #include "ui/le3_ui_object.h"
+#include "ui/le3_ui_text_object.h"
 
 #include "utils/le3_gizmo.h"
 #include "gameplay/le3_playerstart.h"
@@ -111,6 +112,7 @@ namespace le3 {
         void addCustomObject(std::string name, std::shared_ptr<LE3Object> obj, std::string parent = ""); // DANGER! Use with caution
 
         void addUIObject(std::string name, std::string textureName = "", std::string parent = "");
+        void addUITextObject(std::string name, std::string fontName, std::string parent = "");
 
         void deleteObject(std::string name);
         void renameObject(std::string oldName, std::string newName);
