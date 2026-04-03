@@ -17,12 +17,12 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 
 if (WIN32)
-    add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
-        COMMAND 
-            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${PROJECT_SOURCE_DIR}/../../resources ${CMAKE_SOURCE_DIR}/bin/$<CONFIG>
-    )
+    # add_custom_command(
+    #     TARGET ${PROJECT_NAME}
+    #     POST_BUILD
+    #     COMMAND 
+    #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${PROJECT_SOURCE_DIR}/../../resources ${CMAKE_SOURCE_DIR}/bin/$<CONFIG>
+    # )
 else()
     # add_custom_command(
     #     TARGET ${PROJECT_NAME}
