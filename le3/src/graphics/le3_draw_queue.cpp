@@ -66,3 +66,30 @@ void LE3DrawQueue::addObject(std::weak_ptr<LE3DrawableObject> object) {
     if (!m_drawQueue[priority].contains(key)) m_drawQueue[priority][key] = std::vector<std::weak_ptr<LE3DrawableObject>>();
     m_drawQueue[priority][key].push_back(object);
 }
+
+void LE3DrawQueue::reorderByCameraDist(LE3DrawPriority priority, glm::vec3 cameraPos) {
+    auto priorityIt = m_drawQueue.find(priority);
+    if (priorityIt == m_drawQueue.end()) {
+        return; 
+    }
+
+    for (auto& [id, drawVector] : priorityIt->second) {
+        std::sort(drawVector.begin(), drawVector.end(),
+            [&cameraPos](const std::weak_ptr<LE3DrawableObject>& weakA, 
+                         const std::weak_ptr<LE3DrawableObject>& weakB) {
+                
+                auto a = weakA.lock();
+                auto b = weakB.lock();
+
+                if (!a && !b) return false;
+                if (!a) return false;
+                if (!b) return true;
+
+                float distSqA = glm::distance2(a->getTransform().getPosition(), cameraPos);
+                float distSqB = glm::distance2(b->getTransform().getPosition(), cameraPos);
+
+                return distSqA > distSqB; 
+            }
+        );
+    }
+}

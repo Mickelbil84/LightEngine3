@@ -16,6 +16,8 @@ namespace le3 {
         void addObject(std::weak_ptr<LE3DrawableObject> object);
         void clear();
 
+        void reorderByCameraDist(LE3DrawPriority priority, glm::vec3 cameraPos);
+
     private:
         // For each priority:
         //      We have a mapping of shdaer key -> list of objects that use the shader

@@ -95,6 +95,10 @@ void LE3Scene::postUpdate() {
 void LE3Scene::draw() {
     LE3GetSceneManager().setActiveScene(m_name);
 
+    // Reorder all transparent objects (do this once)
+    m_sceneGraph->m_drawQueue.reorderByCameraDist(LE3DrawPriority::DRAW_PRIORITY_HIGH, 
+        getMainCamera()->getTransform().getPosition()
+    );
     
     // Draw the scene once for each shadowmap
     drawLights();
