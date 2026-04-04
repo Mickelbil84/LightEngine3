@@ -214,14 +214,6 @@ void main()
         normal = normalize(tbn * normal);
     }
         
-    // Reflections
-    if (material.reflectionIntensity > 0.0)
-    {
-        float specReflection = 0.333 * (specularColor.r + specularColor.g + specularColor.b);
-        float alpha = clamp(material.reflectionIntensity * specReflection, 0.0, 1.0);
-        diffuseColor = alpha * vec4(calc_reflection(normal), 1.0) + (1.0 - alpha) * diffuseColor; 
-    }
-
     vec3 light = vec3(0.0);
     light += calc_ambient_light(ambientLight) * vec3(diffuseColor);
     for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
@@ -230,6 +222,18 @@ void main()
         light += calc_point_light(pointLights[i], normal, posCoord, material, vec3(diffuseColor), vec3(specularColor));
     for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
         light += calc_spot_light(spotLights[i], normal, posCoord, spotLightPosCoord[i], material, vec3(diffuseColor), vec3(specularColor));
+
+    // Reflections
+    if (material.reflectionIntensity > 0.0)
+    {
+        float specReflection = 0.333 * (specularColor.r + specularColor.g + specularColor.b);
+        float alpha = clamp(material.reflectionIntensity * specReflection, 0.0, 1.0);
+        // diffuseColor = alpha * vec4(calc_reflection(normal), 1.0) + (1.0 - alpha) * diffuseColor; 
+        // specularColor = alpha * vec4(calc_reflection(normal), 1.0) + (1.0 - alpha) * specularColor; 
+
+        light += calc_reflection(normal) * alpha;
+
+    }
 
     fColor = vec4(light, diffuseColor.a);
 
