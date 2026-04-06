@@ -87,6 +87,10 @@ glm::mat4 LE3AnimationTrack::positionKeyframeInterpolation(std::shared_ptr<LE3Bo
     for (; keyframeIdx < positionKeyframes[bone].size() - 1; keyframeIdx++)
         if (animationTime < positionKeyframes[bone][keyframeIdx+1].timestamp) break; 
 
+    // Special case: Only one keyframe for that bone
+    if (positionKeyframes[bone].size() == 1)
+        return glm::translate(positionKeyframes[bone][keyframeIdx].position);
+
     float alpha =  (positionKeyframes[bone][keyframeIdx+1].timestamp - animationTime) / 
         (positionKeyframes[bone][keyframeIdx+1].timestamp - positionKeyframes[bone][keyframeIdx].timestamp);
 
