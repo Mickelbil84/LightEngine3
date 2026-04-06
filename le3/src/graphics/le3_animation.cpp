@@ -107,6 +107,10 @@ glm::mat4 LE3AnimationTrack::rotationKeyframeInterpolation(std::shared_ptr<LE3Bo
     for (; keyframeIdx < rotationKeyframes[bone].size() - 1; keyframeIdx++)
         if (animationTime < rotationKeyframes[bone][keyframeIdx+1].timestamp) break; 
 
+    // Special case: Only one keyframe for that bone
+    if (rotationKeyframes[bone].size() == 1)
+        return glm::toMat4(rotationKeyframes[bone][keyframeIdx].rotation);
+
     float alpha =  (scaleKeyframes[bone][keyframeIdx+1].timestamp - animationTime) / 
         (scaleKeyframes[bone][keyframeIdx+1].timestamp - scaleKeyframes[bone][keyframeIdx].timestamp);
 
@@ -125,6 +129,9 @@ glm::mat4 LE3AnimationTrack::scaleKeyframeInterpolation(std::shared_ptr<LE3Bone>
     for (; keyframeIdx < scaleKeyframes[bone].size() - 1; keyframeIdx++)
         if (animationTime < scaleKeyframes[bone][keyframeIdx+1].timestamp) break; 
 
+    // Special case: Only one keyframe for that bone
+    if (scaleKeyframes[bone].size() == 1)
+        return glm::scale(scaleKeyframes[bone][keyframeIdx].scale);
 
     float alpha =  (scaleKeyframes[bone][keyframeIdx+1].timestamp - animationTime) / 
         (scaleKeyframes[bone][keyframeIdx+1].timestamp - scaleKeyframes[bone][keyframeIdx].timestamp);
