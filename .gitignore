@@ -6,4 +6,4 @@ docs/html
 .vscode/
 .DS_Store
 .VSCodeCounter/
-.cache/
+.cache/examples/platformer/textures.dat
