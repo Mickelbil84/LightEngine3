@@ -415,8 +415,18 @@ void LE3Scene::addCustomObject(std::string name, std::shared_ptr<LE3Object> obj,
     obj->init();
 }
 
-void LE3Scene::addUIObject(std::string name, std::string parent) {
-    LE3UIObjectPtr obj = std::make_shared<LE3UIObject>();
+void LE3Scene::addUIObject(std::string name, std::string textureName, std::string parent) {
+    LE3TexturePtr pTexture = LE3TexturePtr();
+    if (textureName != "") {
+        pTexture = LE3GetAssetManager().getTexture(textureName);
+    }
+    LE3UIObjectPtr obj = std::make_shared<LE3UIObject>(pTexture);
+    addCustomObject(name, obj, parent);
+}
+
+void LE3Scene::addUITextObject(std::string name, std::string fontName, std::string parent) {
+    LE3FontPtr pFont = LE3GetAssetManager().getFont(fontName);
+    LE3UITextObjectPtr obj = std::make_shared<LE3UITextObject>(pFont);
     addCustomObject(name, obj, parent);
 }
 

@@ -22,6 +22,7 @@ namespace le3 {
         bool bLeftMouseDown = false, bRightMouseDown = false;
         int32_t xrel, yrel;
         int32_t mouseX, mouseY;
+        float mouseScreenX, mouseScreenY;
 
         bool isKeyDownEvent(std::string key) { return std::find(keyDownEvt.begin(), keyDownEvt.end(), key) != keyDownEvt.end(); }
         bool isKeyUpEvent(std::string key) { return std::find(keyUpEvt.begin(), keyUpEvt.end(), key) != keyUpEvt.end(); }

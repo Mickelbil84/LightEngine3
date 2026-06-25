@@ -73,6 +73,9 @@ void LE3Shader::use() const{
     glUseProgram(m_program);
 }
 
+void LE3Shader::uniform(std::string uniformName, glm::vec2 v) {
+    glUniform2f(getUniformLocation(uniformName), v.x, v.y);
+}
 void LE3Shader::uniform(std::string uniformName, glm::vec3 v) {
     glUniform3f(getUniformLocation(uniformName), v.x, v.y, v.z);
 }

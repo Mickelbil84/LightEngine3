@@ -95,8 +95,10 @@ target_sources(${PROJECT_NAME} PRIVATE
 
     src/tools/le3_tool_pkg.cpp
 
+    src/ui/le3_font.cpp
     src/ui/le3_imgui_utils.cpp
     src/ui/le3_ui_object.cpp
+    src/ui/le3_ui_text_object.cpp
 
     src/utils/le3_assimp.cpp
     src/utils/le3_gizmo.cpp
@@ -138,15 +140,17 @@ target_sources(${PROJECT_NAME} PRIVATE
     ${PROJECT_SOURCE_DIR}/../third-party/imgui/backends/imgui_impl_sdl2.cpp
     ${PROJECT_SOURCE_DIR}/../third-party/imgui/backends/imgui_impl_opengl3.cpp
 )
-target_include_directories(${PROJECT_NAME} PUBLIC 
+target_include_directories(${PROJECT_NAME} PUBLIC
     # ${PROJECT_SOURCE_DIR}/include
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/le3>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../third-party/stb>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     fmt::fmt cpr::cpr SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp 
     ${LUA_LIBRARIES} ${ZLIB_LIBRARIES} ${BULLET_LIBRARIES} ${LE3_PLATFROM_SPECIFIC_LIBS})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wno-inconsistent-missing-override)
 
 # Auto generate lua bindings
 add_custom_target(

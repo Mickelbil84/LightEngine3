@@ -7,6 +7,7 @@
 #include "graphics/le3_shader.h"
 #include "graphics/le3_texture.h"
 #include "graphics/le3_geometry.h"
+#include "ui/le3_font.h"
 
 namespace le3 {
 
@@ -40,6 +41,9 @@ namespace le3 {
     
     const std::string DEFAULT_UI_SHADER = DEFAULT_ENGINE_PREFIX + "S_ui";
     const std::string DEFAULT_UI_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_ui";
+
+    const std::string DEFAULT_UI_TEXT_SHADER = DEFAULT_ENGINE_PREFIX + "S_ui_text";
+    const std::string DEFAULT_UI_TEXT_MATERIAL = DEFAULT_ENGINE_PREFIX + "M_ui_text";
     
     const std::string SPRITE_AMBIENT_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_ambient";
     const std::string SPRITE_DIRECTIONAL_LIGHT = DEFAULT_ENGINE_PREFIX + "T_sprite_directional";
@@ -150,6 +154,19 @@ namespace le3 {
         }
         void reloadMeshes();
 
+        // Fonts
+        void addFont(std::string name, std::string filename, float fontSize);
+        inline LE3FontPtr getFont(std::string name) {
+            if (!hasFont(name)) return LE3FontPtr();
+            return m_pFonts[name];
+        }
+        inline std::string getFontPath(std::string name) {
+            if (!m_fontsPaths.contains(name)) return "";
+            return m_fontsPaths[name];
+        }
+        bool hasFont(std::string name) { return m_pFonts.contains(name); }
+        void deleteFont(std::string name);
+
         ////
         /// Point clouds
         void loadPointCloud(std::vector<glm::vec3>& points, std::vector<glm::vec3>& normals, std::vector<glm::vec3>& colors, std::string filename);
@@ -189,10 +206,13 @@ namespace le3 {
         std::map<std::string, std::shared_ptr<LE3StaticMesh>> m_pStaticMeshes;
         std::map<std::string, std::shared_ptr<LE3SkeletalMesh>> m_pSkeletalMeshes;
 
+        std::map<std::string, std::shared_ptr<LE3Font>> m_pFonts;
+
         // Asset paths
         std::map<std::string, std::pair<std::string, std::string>> m_shadersPaths;
         std::map<std::string, std::string> m_texturesPaths;
         std::map<std::string, std::string> m_meshesPaths;
+        std::map<std::string, std::string> m_fontsPaths;
         std::map<std::string, std::map<std::string, std::string>> m_animPaths;
 
         std::shared_ptr<LE3ScreenRect> m_screenRect = nullptr; // Create this crucial geometry only once

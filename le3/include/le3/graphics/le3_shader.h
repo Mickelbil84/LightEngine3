@@ -15,6 +15,7 @@ namespace le3 {
 
         void use() const;
 
+        void uniform(std::string uniformName, glm::vec2 v);
         void uniform(std::string uniformName, glm::vec3 v);
         void uniform(std::string uniformName, glm::vec4 v);
         void uniform(std::string uniformName, glm::mat4 m);

@@ -6,8 +6,6 @@ layout(location = 1) in vec2 vTexCoord;
 uniform vec3 position;
 uniform vec2 scale;
 
-uniform float aspectRatio; // Ignored for now
-
 out vec2 texCoord;
 
 void main()
