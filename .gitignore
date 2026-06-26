@@ -6,4 +6,9 @@ docs/html
 .vscode/
 .DS_Store
 .VSCodeCounter/
-*.dat # After long consideration, it is best to skip *.dat files from git
+
+
+# After long consideration, it would be best to not track *.dat files as they can be easily reproduced from resources
+# The only exception is the le3proj.dat file, which is the only backup for scenes and project metadata
+*.dat
+!le3proj.dat
