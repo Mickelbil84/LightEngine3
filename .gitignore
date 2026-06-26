@@ -6,4 +6,4 @@ docs/html
 .vscode/
 .DS_Store
 .VSCodeCounter/
-.cache/examples/platformer/textures.dat
+*.dat # After long consideration, it is best to skip *.dat files from git

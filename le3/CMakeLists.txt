@@ -127,7 +127,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_script_object.cpp
     src/bindings/le3_binding_visual_debug.cpp
     src/bindings/le3_binding_point_cloud.cpp
-    src/bindings/le3_binding_sprite.cpp
+        src/bindings/le3_binding_sprite.cpp
     src/bindings/le3_binding_playerstart.cpp
     src/bindings/le3_binding_event_manager.cpp
 
@@ -150,7 +150,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     fmt::fmt cpr::cpr SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp 
     ${LUA_LIBRARIES} ${ZLIB_LIBRARIES} ${BULLET_LIBRARIES} ${LE3_PLATFROM_SPECIFIC_LIBS})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
-target_compile_options(${PROJECT_NAME} PRIVATE -Wno-inconsistent-missing-override)
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wno-inconsistent-missing-override)
+endif()
 
 # Auto generate lua bindings
 add_custom_target(

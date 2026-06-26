@@ -15,19 +15,5 @@ add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE le3 fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
-
-if (WIN32)
-    # add_custom_command(
-    #     TARGET ${PROJECT_NAME}
-    #     POST_BUILD
-    #     COMMAND 
-    #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${PROJECT_SOURCE_DIR}/../../resources ${CMAKE_SOURCE_DIR}/bin/$<CONFIG>
-    # )
-else()
-    # add_custom_command(
-    #     TARGET ${PROJECT_NAME}
-    #     POST_BUILD
-    #     COMMAND 
-    #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pkg-resources ${CMAKE_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-    # )
-endif()
+# NOTE: resource packaging is driven from the top-level CMakeLists.txt
+# via the pkg-resources-tgt custom target, which runs this tool after it builds.

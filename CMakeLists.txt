@@ -58,42 +58,33 @@ add_subdirectory(apps)
 add_subdirectory(editor)
 add_subdirectory(tools)
 
-# Copy the resources directory to the build 
-# (NOTE: since we package all resources at build time, this is now obsolete)
-# if (WIN32)
-# add_custom_target(
-#     copy_resources ALL
-#     COMMAND ${CMAKE_COMMAND} -E copy_directory
-#         ${CMAKE_CURRENT_SOURCE_DIR}/resources
-#         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/resources
-# )
-# else()
-# add_custom_target(
-#     copy_resources ALL
-#     COMMAND ${CMAKE_COMMAND} -E copy_directory
-#         ${CMAKE_CURRENT_SOURCE_DIR}/resources
-#         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources
-# )
-# endif()
-
-
-
 if (WIN32)
-#     # add_custom_target(
-#     #     pkg-resources-tgt ALL
-#     #     COMMAND 
-#     #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>
+    # MSVC is a multi-config generator, so the actual binaries land in a
+    # per-configuration subdirectory (e.g. bin/Release/pkg-resources.exe)
+    add_custom_target(
+        pkg-resources-tgt ALL
+        COMMAND
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>
 
-#     #     DEPENDS 
-#     #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}\\$<CONFIG>\\pkg-resources.exe
-#     #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}\\$<CONFIG>\\le3.dll
-#     # )
-#     # add_custom_command(
-#     #     TARGET pkg_resources
-#     #     POST_BUILD
-#     #     COMMAND 
-#     #         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>
-#     # )
+        DEPENDS pkg-resources le3
+    )
+
+    # Also package all example dirs
+    file(GLOB EXAMPLE_DIRS RELATIVE
+        "${CMAKE_CURRENT_SOURCE_DIR}/examples"
+        "${CMAKE_CURRENT_SOURCE_DIR}/examples/*")
+
+    foreach(EXAMPLE_DIR ${EXAMPLE_DIRS})
+        if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/examples/${EXAMPLE_DIR}")
+            add_custom_target(
+                pkg-resources-tgt-examples-${EXAMPLE_DIR} ALL
+                COMMAND
+                    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/pkg-resources.exe ${CMAKE_CURRENT_SOURCE_DIR}/examples/${EXAMPLE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/examples/${EXAMPLE_DIR}
+
+                DEPENDS pkg-resources le3
+            )
+        endif()
+    endforeach()
 else()
     add_custom_target(
         pkg-resources-tgt ALL
