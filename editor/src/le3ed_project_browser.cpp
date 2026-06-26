@@ -1,11 +1,11 @@
 #include "le3ed_project_browser.h"
 #include "le3ed_cache.h"
+#include <ui/_NMB.h>
 using namespace le3;
 
 #include <filesystem>
 
 #include <fmt/core.h>
-#include <NMB/NMB.h>
 
 
 void LE3EditorProjectBrowser::init() {
