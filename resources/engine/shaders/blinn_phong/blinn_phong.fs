@@ -201,9 +201,13 @@ void main()
 {
     // Diffuse color
     vec4 diffuseColor = material.diffuseColor;
-    if (material.bUseDiffuseTexture)
-        diffuseColor = texture(
+    float gamma = 2.2;
+    if (material.bUseDiffuseTexture) {
+        vec4 textureColor = texture(
             material.diffuseTexture, vec2(texCoord.x * material.tilingX, texCoord.y * material.tilingY));
+        textureColor.rgb = pow(textureColor.rgb, vec3(gamma));
+        diffuseColor *= textureColor;
+    }
 
     // Specular color
     vec4 specularColor = vec4(material.specularColor, 1.0);
