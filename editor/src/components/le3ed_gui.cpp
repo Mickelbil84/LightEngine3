@@ -129,8 +129,13 @@ void LE3EditorGUI::setupLayout() {
 
         ImGuiID dock_toolbar, dock_toolbox, dock_mainView, dock_sidepanelTop, dock_properties;
 
-        dock_toolbox = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.95f, nullptr, &dock_toolbar);
-        dock_mainView = ImGui::DockBuilderSplitNode(dock_toolbox, ImGuiDir_Right, 0.9f, nullptr, &dock_toolbox);
+        // Split order matters: DockBuilderSplitNode() hands the "central node" flag to the node on the
+        // *opposite* side of the split direction. On host resize ImGui gives the central node all the
+        // leftover space and keeps the other side at its SizeRef, so the main view must be the one
+        // that ends up central. Splitting Down from the dockspace would make the toolbar central and it
+        // would grow on every window resize.
+        dock_toolbar = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Up, (float)LE3ED_TOOLBAR_HEIGHT / viewport->Size.y, nullptr, &dock_mainView);
+        dock_toolbox = ImGui::DockBuilderSplitNode(dock_mainView, ImGuiDir_Left, (float)LE3ED_TOOLBAR_HEIGHT / viewport->Size.x, nullptr, &dock_mainView);
         dock_sidepanelTop = ImGui::DockBuilderSplitNode(dock_mainView, ImGuiDir_Right, 0.2f, nullptr, &dock_mainView);
         dock_properties = ImGui::DockBuilderSplitNode(dock_sidepanelTop, ImGuiDir_Down, 0.5f, nullptr, &dock_sidepanelTop);
 
@@ -147,14 +152,14 @@ void LE3EditorGUI::setupLayout() {
         ImGui::DockBuilderGetNode(dock_toolbox)->LocalFlags |= ImGuiDockNodeFlags_NoTabBar | ImGuiDockNodeFlags_NoResize;
         ImGui::DockBuilderGetNode(dock_sidepanelTop)->LocalFlags |= ImGuiDockNodeFlags_NoTabBar;
 
+        // Pin the toolbar/toolbox to an exact size (sets the node SizeRef); the central main view
+        // absorbs whatever remains, now and after any window resize.
         ImVec2 toolbarSize = ImGui::DockBuilderGetNode(dock_toolbar)->Size;
-        int orgToolbarY = toolbarSize.y;
         toolbarSize.y = LE3ED_TOOLBAR_HEIGHT;
         ImGui::DockBuilderSetNodeSize(dock_toolbar, toolbarSize);
 
         ImVec2 toolboxSize = ImGui::DockBuilderGetNode(dock_toolbox)->Size;
         toolboxSize.x = LE3ED_TOOLBAR_HEIGHT;
-        toolboxSize.y = toolboxSize.y + orgToolbarY - toolbarSize.y;
         ImGui::DockBuilderSetNodeSize(dock_toolbox, toolboxSize);
 
         ImGui::DockBuilderFinish(dockspace_id);
