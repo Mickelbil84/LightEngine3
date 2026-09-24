@@ -53,7 +53,7 @@ private:
     void loadBoostrapConfig() {
         std::string bootstrapContent;
         try {
-            bootstrapContent = LE3DatBuffer::loadFromSystem(LE3_GAME_BOOTSTRAP_FILE).toString(); // The bootstrap file #define is defined in CMake!
+            bootstrapContent = LE3DatBuffer::loadFromSystem(LE3GetDataFilePath(LE3_GAME_BOOTSTRAP_FILE)).toString(); // The bootstrap file #define is defined in CMake!
         } catch (std::runtime_error e) {
             NMB::show("ERROR", "Could not read boostrap file! Closing...", NMB::Icon::ICON_ERROR);
             exit(-1);
@@ -69,7 +69,7 @@ private:
         // Preload also project & demos archives
         std::string projectFilename = "le3proj.dat";
         LE3GetDatFileSystem().addArchive("le3proj", fmt::format("{}/{}", projectPath, projectFilename));
-        LE3GetDatFileSystem().addArchive("demos", "demos.dat");
+        LE3GetDatFileSystem().addArchive("demos", LE3GetDataFilePath("demos.dat"));
 
         // Add the rest of the archives that are available
         for (const auto& entry : std::filesystem::directory_iterator(projectPath)) {

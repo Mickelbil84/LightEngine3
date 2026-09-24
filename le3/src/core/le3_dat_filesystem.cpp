@@ -8,6 +8,16 @@ using namespace le3;
 
 #include <queue>
 
+std::string le3::LE3GetDataFilePath(std::string filename) {
+#ifdef LE3_DATA_DIR
+    if (!std::filesystem::exists(filename)) {
+        std::string installed = std::string(LE3_DATA_DIR) + "/" + filename;
+        if (std::filesystem::exists(installed)) return installed;
+    }
+#endif
+    return filename;
+}
+
 LE3DatFileSystem::LE3DatFileSystem() {
     reset();
 }

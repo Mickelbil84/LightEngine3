@@ -52,6 +52,12 @@ project(
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
+# `make install`: standard GNU layout (bin/, lib/, include/, share/), and let the installed
+# executables find the installed lible3 (plus any non-system library it was linked against)
+include(GNUInstallDirs)
+set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_FULL_LIBDIR})
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 add_subdirectory(le3)
 add_subdirectory(le3game)
 add_subdirectory(apps)
@@ -112,3 +118,16 @@ else()
         endif()
     endforeach()
 endif()
+
+# Install the packaged engine data where LE3GetDataFilePath() looks for it (see le3/CMakeLists.txt)
+if (WIN32)
+    set(LE3_DAT_OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>)
+else()
+    set(LE3_DAT_OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+endif()
+install(FILES
+    ${LE3_DAT_OUTPUT_DIR}/engine.dat
+    ${LE3_DAT_OUTPUT_DIR}/editor.dat
+    ${LE3_DAT_OUTPUT_DIR}/demos.dat
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/le3
+)

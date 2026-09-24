@@ -25,7 +25,7 @@ namespace le3 {
         // Called before initializing any other system (so that we can call bare-bones code)
         void preload(bool headless = false) {
             // Load engine data, config and scripts
-            g_datFilesystem.addArchive("engine", "engine.dat");
+            g_datFilesystem.addArchive("engine", LE3GetDataFilePath("engine.dat"));
             std::string dirs[] = {
                 "/engine/config", "/engine/scripts"
             };

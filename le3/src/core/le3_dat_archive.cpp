@@ -91,6 +91,8 @@ void LE3DatArchive::loadArchive() {
 }
 void LE3DatArchive::openArchive() {
     m_archiveFile = std::fstream(m_archivePath, std::ios::binary | std::ios::in | std::ios::out);
+    // Installed engine data (e.g. under /usr/local/share) is usually not writable: fall back to read-only
+    if (!m_archiveFile) m_archiveFile = std::fstream(m_archivePath, std::ios::binary | std::ios::in);
     if (!m_archiveFile) throw std::runtime_error(fmt::format("Could not open *.dat file '{}'", m_archivePath));
 }
 void LE3DatArchive::closeArchive() {

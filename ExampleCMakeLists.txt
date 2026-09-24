@@ -1,0 +1,19 @@
+# Example CMakeLists.txt for an external project that uses an installed LightEngine3.
+#
+# Install the engine first (from the LightEngine3 repository):
+#   cmake -B build            # optionally: -DCMAKE_INSTALL_PREFIX=/some/prefix
+#   cmake --build build
+#   cmake --install build     # or: make -C build install
+#
+# Then, for this project, `find_package(le3)` is all that is needed: the le3::le3 target carries the
+# include paths, C++20 and the dependencies used by the engine headers (fmt, glm, assimp, Lua).
+# If the engine was installed to a non-default prefix, tell CMake where it is:
+#   cmake -B build -DCMAKE_PREFIX_PATH=/some/prefix
+
+cmake_minimum_required(VERSION 3.16)
+project(MyGame LANGUAGES CXX)
+
+find_package(le3 REQUIRED)
+
+add_executable(mygame main.cpp)
+target_link_libraries(mygame PRIVATE le3::le3)

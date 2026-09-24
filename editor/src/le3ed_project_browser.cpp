@@ -10,7 +10,7 @@ using namespace le3;
 
 
 void LE3EditorProjectBrowser::init() {
-    LE3GetDatFileSystem().addArchive("editor", "editor.dat");
+    LE3GetDatFileSystem().addArchive("editor", LE3GetDataFilePath("editor.dat"));
     LE3EditorCache::load();
     LE3EditorCache::setMostRecentProject("");
 

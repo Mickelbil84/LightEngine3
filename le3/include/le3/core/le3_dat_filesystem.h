@@ -5,6 +5,10 @@
 #include "core/le3_dat_archive.h"
 
 namespace le3 {
+    // Locate an engine data file (e.g. "engine.dat"): the working directory takes precedence,
+    // otherwise fall back to the directory where `make install` put the data files
+    std::string LE3GetDataFilePath(std::string filename);
+
     struct LE3DatFileNode {
         std::string path, archiveName;
         bool isDirectory;

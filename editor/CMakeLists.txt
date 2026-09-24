@@ -85,4 +85,6 @@ if (LE3_WITH_EDITOR)
     if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         target_compile_options(${PROJECT_NAME} PRIVATE -Wno-inconsistent-missing-override)
     endif()
+
+    install(TARGETS ${PROJECT_NAME})
 endif()

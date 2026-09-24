@@ -1,5 +1,6 @@
 project(le3 VERSION ${LE3_VERSION})
 set(namespace le3)
+include(GNUInstallDirs)
 
 find_package(fmt REQUIRED)
 find_package(Lua REQUIRED)
@@ -40,9 +41,6 @@ add_library(${PROJECT_NAME} SHARED)
 if (NOT DEFINED LUA_LIBRARIES)
     set(LUA_LIBRARIES lua::lua)
 endif()
-
-set(public_headers
-)
 
 target_sources(${PROJECT_NAME} PRIVATE
     src/algorithms/le3_bsp.cpp
@@ -144,12 +142,17 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     # ${PROJECT_SOURCE_DIR}/include
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/le3>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../third-party/stb>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}>
+    ${LUA_INCLUDE_DIR}
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE 
-    fmt::fmt cpr::cpr SDL2::SDL2 GLEW::GLEW glm::glm assimp::assimp 
-    ${LUA_LIBRARIES} ${ZLIB_LIBRARIES} ${BULLET_LIBRARIES} ${LE3_PLATFROM_SPECIFIC_LIBS})
+# Dependencies used by the public headers are PUBLIC, so that an external project only needs
+# find_package(le3) to get them; everything else is an implementation detail of the shared library
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES}
+    PRIVATE cpr::cpr SDL2::SDL2 GLEW::GLEW ${ZLIB_LIBRARIES} ${BULLET_LIBRARIES} ${LE3_PLATFROM_SPECIFIC_LIBS})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+# Where `make install` puts engine.dat & co.; used as a fallback by LE3GetDataFilePath()
+target_compile_definitions(${PROJECT_NAME} PRIVATE LE3_DATA_DIR="${CMAKE_INSTALL_FULL_DATADIR}/${PROJECT_NAME}")
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     target_compile_options(${PROJECT_NAME} PRIVATE -Wno-inconsistent-missing-override)
 endif()
@@ -168,18 +171,23 @@ add_dependencies(${PROJECT_NAME} gen_annotations)
 # Installer
 #############
 
-include(GNUInstallDirs)
-install(TARGETS ${PROJECT_NAME}
-    EXPORT "${PROJECT_NAME}Targets"
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+set(LE3_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}) # Where find_package(le3) looks
+
+install(TARGETS ${PROJECT_NAME} EXPORT "${PROJECT_NAME}Targets")
+
+# Public headers, plus the stb headers they include
+install(DIRECTORY include/${PROJECT_NAME}/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
+install(FILES
+    ${PROJECT_SOURCE_DIR}/../third-party/stb/stb_rect_pack.h
+    ${PROJECT_SOURCE_DIR}/../third-party/stb/stb_truetype.h
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
 )
 
 # generate and install export file
 install(EXPORT "${PROJECT_NAME}Targets"
     FILE "${PROJECT_NAME}Targets.cmake"
     NAMESPACE ${namespace}::
-    DESTINATION cmake
+    DESTINATION ${LE3_INSTALL_CMAKEDIR}
 )
 
 include(CMakePackageConfigHelpers)
@@ -187,17 +195,17 @@ include(CMakePackageConfigHelpers)
 # generate the version file for the config file
 write_basic_package_version_file(
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-    VERSION "${version}"
+    VERSION "${PROJECT_VERSION}"
     COMPATIBILITY AnyNewerVersion
 )
 # create config file
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-    INSTALL_DESTINATION cmake
+    INSTALL_DESTINATION ${LE3_INSTALL_CMAKEDIR}
 )
 # install config files
 install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-    DESTINATION cmake
+    DESTINATION ${LE3_INSTALL_CMAKEDIR}
 )

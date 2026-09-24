@@ -70,4 +70,7 @@ if (LE3_WITH_GAME)
     if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         target_compile_options(${PROJECT_NAME} PRIVATE -Wno-inconsistent-missing-override)
     endif()
+
+    install(TARGETS ${PROJECT_NAME})
+    install(FILES ${LE3_GAME_BOOTSTRAP_OUTPATH} DESTINATION ${CMAKE_INSTALL_DATADIR}/le3)
 endif()
