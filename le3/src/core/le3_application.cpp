@@ -4,6 +4,7 @@ using namespace le3;
 #include <stdexcept>
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 #ifdef __linux__
 #include <GL/glew.h>

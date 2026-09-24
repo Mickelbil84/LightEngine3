@@ -8,6 +8,7 @@ using namespace le3;
 #include <gl/glew.h>
 #endif
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 
 void LE3LightManager::renderLights(LE3ShaderPtr pShader, glm::vec3 cameraPos) {

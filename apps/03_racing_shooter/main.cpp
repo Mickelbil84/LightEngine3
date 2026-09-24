@@ -6,6 +6,7 @@ using namespace le3;
 #include <random>
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 #include <glm/gtx/string_cast.hpp>
 

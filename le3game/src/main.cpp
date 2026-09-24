@@ -5,6 +5,7 @@ using namespace le3;
 #include <filesystem>
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 #include "le3game_constants.h"
 

@@ -3,6 +3,7 @@
 using namespace le3;
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 void LE3ToolPkg::recurseDirectory(std::filesystem::directory_entry entry, std::vector<std::string>& res) {
     if (!entry.is_directory()) {

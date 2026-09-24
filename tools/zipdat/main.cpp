@@ -3,6 +3,7 @@
 
 #include <cxxopts.hpp>
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 #include <core/le3_dat_archive.h>
 

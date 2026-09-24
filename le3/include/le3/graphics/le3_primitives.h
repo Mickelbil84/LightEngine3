@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 namespace le3 {
     std::shared_ptr<LE3Mesh<LE3Vertex3p3c>> createHelloOpenGLTriangle();

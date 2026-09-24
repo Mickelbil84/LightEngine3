@@ -2,6 +2,7 @@
 using namespace le3;
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 void LE3EditorComPropertyChange::execute() {
     LE3GetScriptSystem().getGlobal("property_change_execute_ticket");

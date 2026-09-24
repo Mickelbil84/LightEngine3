@@ -2,6 +2,7 @@
 using namespace le3;
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 #include <glm/gtx/string_cast.hpp>
 

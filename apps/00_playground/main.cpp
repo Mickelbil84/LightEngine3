@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 #if __has_include("lua.hpp")
     #include <lua.hpp>

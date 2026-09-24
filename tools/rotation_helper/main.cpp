@@ -7,6 +7,7 @@
 
 #include <cxxopts.hpp>
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 #define CXXOPTS_VECTOR_DELIMITER ','
 

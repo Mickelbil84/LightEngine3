@@ -6,6 +6,7 @@
 using namespace le3;
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 LE3EditorLogic::LE3EditorLogic() :
         m_gui(m_engineState), 

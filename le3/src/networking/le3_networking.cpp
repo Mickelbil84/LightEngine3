@@ -5,6 +5,7 @@ using namespace le3;
 #include <SDL2/SDL_thread.h>
 #include <cpr/cpr.h>
 #include <fmt/core.h>
+#include <fmt/format.h>
 using fmt::print;
 
 struct LE3Networking::_NetworkInternal {

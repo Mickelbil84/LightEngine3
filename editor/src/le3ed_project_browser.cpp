@@ -6,6 +6,7 @@ using namespace le3;
 #include <filesystem>
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 
 void LE3EditorProjectBrowser::init() {

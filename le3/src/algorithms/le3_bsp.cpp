@@ -3,6 +3,7 @@
 using namespace le3;
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 namespace le3 {
     constexpr double LE3_BSP_EPS = 1e-5;

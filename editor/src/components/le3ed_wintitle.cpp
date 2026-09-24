@@ -7,6 +7,7 @@ using namespace le3;
 
 #include <algorithm>
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 void LE3EditorWindowTitle::init() {
     m_pDummyObject = std::make_shared<LE3Object>();

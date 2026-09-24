@@ -16,6 +16,7 @@ using namespace le3;
 #include "core/le3_engine_systems.h"
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 void AssimpSceneToVertexBuffer(std::vector<LE3Vertex>& buffer, std::vector<GLuint>& indices, aiNode* node, const aiScene* scene);
 void AssimpSceneToPointCloud(std::vector<glm::vec3>& points, std::vector<glm::vec3>& normals, std::vector<glm::vec3>& colors, aiNode* node, const aiScene* scene);

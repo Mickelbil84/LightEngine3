@@ -3,6 +3,7 @@
 using namespace le3;
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 
 // TODO: Outsource this to a seperate render engine

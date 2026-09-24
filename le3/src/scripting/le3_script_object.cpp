@@ -3,6 +3,7 @@
 using namespace le3;
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 
 LE3ScriptObject::LE3ScriptObject(std::string classname, std::string ref) :

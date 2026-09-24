@@ -4,6 +4,7 @@ using namespace le3;
 #include <stdexcept>
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"

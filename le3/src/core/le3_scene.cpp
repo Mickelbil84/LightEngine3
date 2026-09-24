@@ -12,6 +12,7 @@ using namespace le3;
 #endif
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 #include "core/le3_engine_systems.h"
 #include "scripting/le3_serialization.h"

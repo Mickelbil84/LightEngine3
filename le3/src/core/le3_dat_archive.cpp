@@ -4,6 +4,7 @@ using namespace le3;
 #include <stdexcept>
 
 #include <fmt/core.h>
+#include <fmt/format.h>
 
 #include <gzip/compress.hpp>
 #include <gzip/decompress.hpp>
