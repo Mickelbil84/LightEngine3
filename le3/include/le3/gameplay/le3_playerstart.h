@@ -4,7 +4,7 @@
 
 namespace le3 {
     const std::string LE3_PLAYERSTART_OBJECT_NAME = "__playerStart";
-    const std::string LE3_PLAYERSTART_DEFAULT_CLASS = "FreeCamPlayer";
+    const std::string LE3_PLAYERSTART_DEFAULT_CLASS = "EditorPlayer";
 
     class LE3PlayerStart : public LE3ScriptObject {
     public:
