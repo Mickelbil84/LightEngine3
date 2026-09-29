@@ -43,6 +43,9 @@ void LE3PhysicsComponent::setKinematic(bool kinematic) {
         flags &= ~btCollisionObject::CF_KINEMATIC_OBJECT;
     m_rigidBody->m_rigidBody->setCollisionFlags(flags);
 }
+void LE3PhysicsComponent::setMargin(float margin) {
+    if (m_collider && m_collider->m_collisionShape) m_collider->m_collisionShape->setMargin(margin);
+}
 bool LE3PhysicsComponent::isKinematic() const {
     if (!m_rigidBody->m_rigidBody) return false;
     return (m_rigidBody->m_rigidBody->getCollisionFlags() & btCollisionObject::CF_KINEMATIC_OBJECT) != 0;

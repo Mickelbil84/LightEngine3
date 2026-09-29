@@ -32,6 +32,7 @@ namespace le3 {
 
         void setKinematic(bool kinematic);
         bool isKinematic() const;
+        void setMargin(float margin); // Bullet inflates convex colliders by this margin (default 0.04), so contacts start before the meshes touch
         inline bool isRigidBody() const { return m_bRigidBody; }
         inline void setIsRigidBody(bool isRigidBody) { if (!isRigidBody) disable(); m_bRigidBody = isRigidBody; }
         

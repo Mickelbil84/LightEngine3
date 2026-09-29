@@ -4,6 +4,8 @@ using namespace le3;
 
 #include <bullet/btBulletDynamicsCommon.h>
 #include <bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h>
+#include <fcl/fcl.h>
+#include <set>
 
 struct LE3PhysicsManager::_LE3PhysicsManager_Internal {
     _LE3PhysicsManager_Internal() {}
@@ -15,6 +17,12 @@ struct LE3PhysicsManager::_LE3PhysicsManager_Internal {
 
     std::map<std::string, btRigidBody*> m_rigidBodies;  // Each object/component should only have one rigid body
     std::map<btRigidBody*, std::string> m_ownerNames;    // Reverse map: rigid body -> object name
+
+    struct CollisionMesh { std::vector<fcl::Vector3d> v; std::vector<fcl::Triangle> t; fcl::Transform3d tf = fcl::Transform3d::Identity(); std::unique_ptr<fcl::BVHModel<fcl::OBBRSSd>> bvh; };
+    std::map<std::string, CollisionMesh> m_collisionMeshes;
+    std::set<std::pair<std::string, std::string>> m_ignoredMeshPairs;
+    std::vector<std::string> m_collidingMeshPairs;
+    bool m_bCollisionMeshesDirty = true;
 };
 
 LE3PhysicsManager::LE3PhysicsManager() : m_pInternal(std::make_shared<_LE3PhysicsManager_Internal>()) {
@@ -40,6 +48,11 @@ void LE3PhysicsManager::reset() {
 
     m_pInternal->m_rigidBodies.clear();
     m_pInternal->m_ownerNames.clear();
+
+    m_pInternal->m_collisionMeshes.clear();
+    m_pInternal->m_ignoredMeshPairs.clear();
+    m_pInternal->m_collidingMeshPairs.clear();
+    m_pInternal->m_bCollisionMeshesDirty = true;
 }
 
 void LE3PhysicsManager::update(float deltaTime) {
@@ -131,4 +144,48 @@ bool LE3PhysicsManager::rayTest(glm::vec3 from, glm::vec3 to) {
     m_pInternal->m_dynamicsWorld->rayTest(btFrom, btTo, rayCallback);
 
     return rayCallback.hasHit();
+}
+
+void LE3PhysicsManager::addCollisionMesh(std::string name, const std::vector<glm::vec3>& triangles) {
+    auto& mesh = m_pInternal->m_collisionMeshes[name];
+    for (size_t i = 0; i + 2 < triangles.size(); i += 3) {
+        mesh.t.emplace_back(mesh.v.size(), mesh.v.size() + 1, mesh.v.size() + 2);
+        for (size_t k = i; k < i + 3; k++) mesh.v.emplace_back(triangles[k].x, triangles[k].y, triangles[k].z);
+    }
+    mesh.bvh.reset(); // Rebuilt lazily by the next query
+    m_pInternal->m_bCollisionMeshesDirty = true;
+}
+
+void LE3PhysicsManager::setCollisionMeshPose(std::string name, glm::dvec3 position, glm::dquat rotation) {
+    fcl::Transform3d tf(Eigen::Translation3d(position.x, position.y, position.z) * fcl::Quaterniond(rotation.w, rotation.x, rotation.y, rotation.z).normalized());
+    auto& mesh = m_pInternal->m_collisionMeshes[name];
+    if (tf.matrix() == mesh.tf.matrix()) return;
+    mesh.tf = tf;
+    m_pInternal->m_bCollisionMeshesDirty = true;
+}
+
+void LE3PhysicsManager::ignoreCollisionMeshPair(std::string nameA, std::string nameB) {
+    m_pInternal->m_ignoredMeshPairs.insert(std::minmax(nameA, nameB));
+    m_pInternal->m_bCollisionMeshesDirty = true;
+}
+
+std::vector<std::string> LE3PhysicsManager::getCollidingMeshPairs() {
+    auto& meshes = m_pInternal->m_collisionMeshes;
+    if (!m_pInternal->m_bCollisionMeshesDirty) return m_pInternal->m_collidingMeshPairs;
+    m_pInternal->m_bCollisionMeshesDirty = false;
+    m_pInternal->m_collidingMeshPairs.clear();
+    for (auto& [_, mesh] : meshes) if (!mesh.bvh && !mesh.t.empty()) {
+        mesh.bvh = std::make_unique<fcl::BVHModel<fcl::OBBRSSd>>();
+        mesh.bvh->beginModel(); mesh.bvh->addSubModel(mesh.v, mesh.t); mesh.bvh->endModel();
+    }
+    fcl::CollisionRequestd request; // num_max_contacts = 1: stop at the first touching triangle pair
+    for (auto a = meshes.begin(); a != meshes.end(); ++a) for (auto b = std::next(a); b != meshes.end(); ++b) {
+        if (!a->second.bvh || !b->second.bvh || m_pInternal->m_ignoredMeshPairs.count({a->first, b->first})) continue;
+        fcl::CollisionResultd result;
+        if (fcl::collide(a->second.bvh.get(), a->second.tf, b->second.bvh.get(), b->second.tf, request, result)) {
+            m_pInternal->m_collidingMeshPairs.push_back(a->first);
+            m_pInternal->m_collidingMeshPairs.push_back(b->first);
+        }
+    }
+    return m_pInternal->m_collidingMeshPairs;
 }

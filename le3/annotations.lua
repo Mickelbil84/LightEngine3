@@ -32,6 +32,8 @@ LE3Input = {}
 LE3Light = {}
 ---@class LE3Material
 LE3Material = {}
+---@class LE3MeshCollision
+LE3MeshCollision = {}
 ---@class LE3Object
 LE3Object = {}
 ---@class LE3OrbitCamera
@@ -77,6 +79,10 @@ LE3VisualDebug = {}
 
 --------------------------------------
 
+---@param name string
+---@return boolean
+function ImGui.Begin(name) end
+
 ---@param label string
 ---@return boolean
 function ImGui.Button(label) end
@@ -115,6 +121,8 @@ function ImGui.ColorEdit4(label, prev_x, prev_y, prev_z, prev_w) end
 ---@param prev string
 ---@return string
 function ImGui.Combo_Animation(label, meshName, prev) end
+
+function ImGui.End() end
 
 ---@param label string
 ---@param prev number
@@ -158,12 +166,30 @@ function ImGui.InputInt(label, prev) end
 ---@return string
 function ImGui.InputText(label, prev) end
 
+---@return boolean
+function ImGui.IsItemDeactivatedAfterEdit() end
+
 ---@param labels string[]
 ---@param prev string
 ---@return string
 function ImGui.RadioButtons(labels, prev) end
 
 function ImGui.SameLine() end
+
+function ImGui.Separator() end
+
+---@param width number
+---@param height number
+function ImGui.SetNextWindowSize(width, height) end
+
+---@param label string
+---@param prev number
+---@param minValue number
+---@param maxValue number
+---@param format string
+---@return number
+---@return boolean
+function ImGui.SliderFloat(label, prev, minValue, maxValue, format) end
 
 ---@param text string
 function ImGui.Text(text) end
@@ -612,6 +638,28 @@ function LE3Material.set_specular_texture(materialName, textureName) end
 ---@param y number
 function LE3Material.set_tiling(materialName, x, y) end
 
+---@param name string
+---@param path string
+---@return number
+function LE3MeshCollision.add(name, path) end
+
+---@param nameA string
+---@param nameB string
+function LE3MeshCollision.ignore(nameA, nameB) end
+
+---@return string[]
+function LE3MeshCollision.pairs() end
+
+---@param name string
+---@param px number
+---@param py number
+---@param pz number
+---@param qw number
+---@param qx number
+---@param qy number
+---@param qz number
+function LE3MeshCollision.set_pose(name, px, py, pz, qw, qx, qy, qz) end
+
 ---@param obj LE3Object
 ---@return nil
 ---@return string
@@ -782,6 +830,10 @@ function LE3PhysicsComponent.set_manual_extent(self, manual_extent_x, manual_ext
 ---@param self LE3PhysicsComponent
 ---@param manual_radius number
 function LE3PhysicsComponent.set_manual_radius(self, manual_radius) end
+
+---@param self LE3PhysicsComponent
+---@param margin number
+function LE3PhysicsComponent.set_margin(self, margin) end
 
 ---@param self LE3PhysicsComponent
 ---@param mass number

@@ -8,6 +8,7 @@ FBIND_SETTER_BOOL(LE3PhysicsComponent, set_is_trigger, setIsTrigger)
 
 FBIND_GETTER_BOOL(LE3PhysicsComponent, is_kinematic, isKinematic)
 FBIND_SETTER_BOOL(LE3PhysicsComponent, set_kinematic, setKinematic)
+FBIND_SETTER_NUMBER(LE3PhysicsComponent, set_margin, setMargin)
 
 FBIND_GETTER_BOOL(LE3PhysicsComponent, is_rigidbody, isRigidBody)
 FBIND_SETTER_BOOL(LE3PhysicsComponent, set_is_rigidbody, setIsRigidBody)
@@ -63,7 +64,7 @@ FEND()
 
 LIB(LE3PhysicsComponent,
     is_trigger, set_is_trigger,
-    is_kinematic, set_kinematic,
+    is_kinematic, set_kinematic, set_margin,
     is_rigidbody, set_is_rigidbody,
     get_mass, set_mass,
     get_linear_velocity, set_linear_velocity, get_angular_velocity, set_angular_velocity, set_angular_factor,

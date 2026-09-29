@@ -4,6 +4,24 @@ using namespace le3;
 
 #include <imgui_internal.h>
 
+// Scripts may open their own windows during update()
+FBIND(ImGui, Begin)
+    GET_STRING(name)
+    PUSH_BOOL(ImGui::Begin(name.c_str()))
+FEND()
+FBIND(ImGui, End)
+    ImGui::End();
+FEND()
+// Initial size only; ImGui remembers user resizing in imgui.ini
+FBIND(ImGui, SetNextWindowSize)
+    GET_NUMBER(width)
+    GET_NUMBER(height)
+    ImGui::SetNextWindowSize(ImVec2((float)width, (float)height), ImGuiCond_FirstUseEver);
+FEND()
+FBIND(ImGui, Separator)
+    ImGui::Separator();
+FEND()
+
 FBIND(ImGui, CollapsingHeader)
     GET_STRING(label)
     PUSH_BOOL(ImGui::CollapsingHeader(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
@@ -137,6 +155,25 @@ FBIND(ImGui, InputFloat4)
 FEND()
 
 
+// (label, value, min, max, format) -> value, changed
+FBIND(ImGui, SliderFloat)
+    GET_STRING(label)
+    GET_NUMBER(prev)
+    GET_NUMBER(minValue)
+    GET_NUMBER(maxValue)
+    GET_STRING(format)
+    float val = prev;
+    bool changed = ImGui::SliderFloat(label.c_str(), &val, minValue, maxValue, format.c_str());
+    PUSH_NUMBER(val)
+    PUSH_BOOL(changed)
+FEND()
+
+// True once, when the user releases the last widget after changing it
+FBIND(ImGui, IsItemDeactivatedAfterEdit)
+    PUSH_BOOL(ImGui::IsItemDeactivatedAfterEdit())
+FEND()
+
+
 FBIND(ImGui, Combo_Animation) 
     GET_STRING(label)
     GET_STRING(meshName)
@@ -158,6 +195,7 @@ FEND()
 
 
 LIB(ImGui,
+    Begin, End, SetNextWindowSize, Separator, SliderFloat, IsItemDeactivatedAfterEdit,
     CollapsingHeader, TreeNode, TreePop, Text, TextColored, TextWrapped, Button, SameLine,
     InputText, Checkbox, RadioButtons, ColorEdit3, ColorEdit4,
     InputInt, InputFloat, InputFloat2, InputFloat3, InputFloat4,

@@ -4,6 +4,7 @@ glew/2.2.0
 glm/cci.20230113
 assimp/5.2.2
 bullet3/3.25
+fcl/0.7.0
 fmt/10.2.1
 cxxopts/3.2.0
 lua/5.4.6

@@ -169,6 +169,7 @@ namespace le3 {
 
     LOPEN_DECLARE(LE3Transform);
     LOPEN_DECLARE(LE3PhysicsComponent);
+    LOPEN_DECLARE(LE3MeshCollision);
     LOPEN_DECLARE(LE3Object);
     LOPEN_DECLARE(LE3ScriptObject);
     LOPEN_DECLARE(LE3SceneRoot);

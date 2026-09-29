@@ -66,6 +66,7 @@ To compile faster from Visual Studio Code, you may set the `MSVC_PARALLEL` envir
 10. Run: `brew install bullet` [No longer required]
 11. Run: `brew install fmt`
 12. Run: `brew install cxxopts`
+13. Run: `brew install fcl`
 
 NOTE: To ignore glm's CMake warning, you need to edit glmConfig.cmake in glm installation to increase CMake version to 3.6.
 (This is also a recent [as of January 2024] commit on glm's repository from July 2023).

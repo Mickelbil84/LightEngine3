@@ -8,6 +8,7 @@ find_package(GLEW REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(assimp REQUIRED)
 find_package(Bullet REQUIRED)
+find_package(fcl REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(cpr REQUIRED)
@@ -113,6 +114,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/bindings/le3_binding_object.cpp
     src/bindings/le3_binding_transform.cpp
     src/bindings/le3_binding_physics_component.cpp
+    src/bindings/le3_binding_mesh_collision.cpp
     src/bindings/le3_binding_scene_root.cpp
     src/bindings/le3_binding_model.cpp
     src/bindings/le3_binding_input.cpp
@@ -150,7 +152,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 # find_package(le3) to get them; everything else is an implementation detail of the shared library
 target_link_libraries(${PROJECT_NAME}
     PUBLIC fmt::fmt glm::glm assimp::assimp ${LUA_LIBRARIES}
-    PRIVATE cpr::cpr SDL2::SDL2 GLEW::GLEW ${ZLIB_LIBRARIES} ${BULLET_LIBRARIES} ${LE3_PLATFROM_SPECIFIC_LIBS})
+    PRIVATE cpr::cpr SDL2::SDL2 GLEW::GLEW ${ZLIB_LIBRARIES} ${BULLET_LIBRARIES} fcl ${LE3_PLATFROM_SPECIFIC_LIBS})
+# FCL's mesh tree building is instantiated here and is very slow unoptimised
+set_source_files_properties(src/physics/le3_physics_manager.cpp PROPERTIES COMPILE_OPTIONS "-O2")
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 # Where `make install` puts engine.dat & co.; used as a fallback by LE3GetDataFilePath()
 target_compile_definitions(${PROJECT_NAME} PRIVATE LE3_DATA_DIR="${CMAKE_INSTALL_FULL_DATADIR}/${PROJECT_NAME}")
