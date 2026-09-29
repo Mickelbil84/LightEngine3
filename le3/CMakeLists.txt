@@ -53,6 +53,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     src/core/le3_editor_manager.cpp
     src/core/le3_engine_systems.cpp
     src/core/le3_event_manager.cpp
+    src/core/le3_game_base.cpp
     src/core/le3_object.cpp
     src/core/le3_scene_manager.cpp
     src/core/le3_scene_root.cpp

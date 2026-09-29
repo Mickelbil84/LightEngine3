@@ -9,6 +9,7 @@
 #include "core/le3_dat_filesystem.h"
 #include "core/le3_engine_systems.h"
 #include "core/le3_simple_demo.h"
+#include "core/le3_game_base.h"
 
 #include "ui/_imgui.h"
 
